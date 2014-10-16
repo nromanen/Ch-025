@@ -1,49 +1,61 @@
 package com.softserve.entity;
 
-import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "USER")
-public class User implements Serializable {
-	
-	private static final long serialVersionUID = 1857927619608768882L;
+@Table(name = "user")
+public class User {
 	
 	@Id
-	@Column(name = "ID")
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int idUser;
-	@Column(name = "EMAIL", nullable = false)
+	private int id;
+	
+	@Column(name = "email", nullable = false)
 	private String email;
-	@Column(name = "PASSWORD", nullable = false)
+	
+	@Column(name = "password", nullable = false)
 	private String password;
-	@Column(name = "FIRSTNAME", nullable = false)
+	
+	@Column(name = "firstName", nullable = false)
 	private String firstName;
-	@Column(name = "LASTNAME", nullable = false)
+	
+	@Column(name = "lastName", nullable = false)
 	private String lastName;
-	@Column(name = "REGISTRATION", nullable = false)
+	
+	@Column(name = "registration", nullable = false)
 	private Date registration;
-	@Column(name = "EXPIRED", nullable = false)
+	
+	@Column(name = "expired", nullable = false)
 	private Date expired;
-	@Column(name = "BLOCKED", nullable = false)
+	
+	@Column(name = "blocked", nullable = false)
 	private boolean blocked;
+	
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@JoinColumn(name = "role")
+	private Role role;
 	
 	public User() {
 	}
 
-	public int getIdUser() {
-		return idUser;
+	public int getId() {
+		return id;
 	}
 
-	public void setIdUser(int idUser) {
-		this.idUser = idUser;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getEmail() {

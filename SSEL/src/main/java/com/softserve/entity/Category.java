@@ -13,23 +13,23 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "role")
-public class Role  {
+@Table(name = "category")
+public class Category {
 
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(name = "role", nullable = false)
-	private String role;
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy="role")
-	private Set<User> users = new HashSet<>();
+	@Column(name = "name", nullable = false)
+	private  String name;
 	
-	public Role() {
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="category")
+	private Set<Subject> subjects = new HashSet<>();
+	
+	public Category() {
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -38,20 +38,20 @@ public class Role  {
 		this.id = id;
 	}
 
-	public String getRole() {
-		return role;
+	public String getName() {
+		return name;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public Set<User> getUsers() {
-		return users;
+	public Set<Subject> getSubjects() {
+		return subjects;
 	}
 
-	public void setUsers(Set<User> users) {
-		this.users = users;
+	public void setSubjects(Set<Subject> subjects) {
+		this.subjects = subjects;
 	}
 	
 }
