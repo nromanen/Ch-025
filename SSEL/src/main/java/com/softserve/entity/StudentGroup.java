@@ -34,10 +34,8 @@ public class StudentGroup {
 	private User user;
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinColumn(name = "coursescheduler")
+	@JoinColumn(name = "course_scheduler")
 	private CourseScheduler courseScheduler;
-	
-	// add courseschedule
 	
 	public StudentGroup() {
 	}
@@ -89,5 +87,7 @@ public class StudentGroup {
 	public void setCourseScheduler(CourseScheduler courseScheduler) {
 		this.courseScheduler = courseScheduler;
 	}
+	
+	
 	
 }

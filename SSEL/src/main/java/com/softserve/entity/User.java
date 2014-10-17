@@ -19,40 +19,40 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "user")
 public class User {
-	
+
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@Column(name = "email", nullable = false)
 	private String email;
-	
+
 	@Column(name = "password", nullable = false)
 	private String password;
-	
+
 	@Column(name = "firstName", nullable = false)
 	private String firstName;
-	
+
 	@Column(name = "lastName", nullable = false)
 	private String lastName;
-	
+
 	@Column(name = "registration", nullable = false)
 	private Date registration;
-	
+
 	@Column(name = "expired", nullable = false)
 	private Date expired;
-	
+
 	@Column(name = "blocked", nullable = false)
 	private boolean blocked;
-	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "role")
 	private Role role;
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy="user")
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<StudentGroup> groups = new HashSet<>();
-	
+
 	public User() {
 	}
 
@@ -135,5 +135,5 @@ public class User {
 	public void setGroups(Set<StudentGroup> groups) {
 		this.groups = groups;
 	}
-	
+
 }

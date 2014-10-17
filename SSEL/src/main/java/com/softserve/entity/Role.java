@@ -1,15 +1,10 @@
 package com.softserve.entity;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -23,9 +18,6 @@ public class Role  {
 	
 	@Column(name = "role", nullable = false)
 	private String role;
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy="role")
-	private Set<User> users = new HashSet<>();
 	
 	public Role() {
 	}
@@ -46,12 +38,35 @@ public class Role  {
 		this.role = role;
 	}
 
-	public Set<User> getUsers() {
-		return users;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		result = prime * result + ((role == null) ? 0 : role.hashCode());
+		return result;
 	}
 
-	public void setUsers(Set<User> users) {
-		this.users = users;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Role))
+			return false;
+		Role other = (Role) obj;
+		if (role == null) {
+			if (other.role != null)
+				return false;
+		} else if (!role.equals(other.role))
+			return false;
+		return true;
+	}
+	
+	@Override
+	public String toString() {
+		return role;
 	}
 	
 }
