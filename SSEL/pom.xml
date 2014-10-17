@@ -10,10 +10,12 @@
 	<properties>
 		<java-version>1.8</java-version>
 		<org.springframework-version>4.0.2.RELEASE</org.springframework-version>
+		<org.hibernate.version>4.3.6.Final</org.hibernate.version>
 		<org.aspectj-version>1.6.10</org.aspectj-version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 	</properties>
 	<dependencies>
+	
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -27,11 +29,30 @@
 				 </exclusion>
 			</exclusions>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
+		
+		<dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${org.springframework-version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${org.springframework-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${org.springframework-version}</version>
+        </dependency>
 				
 		<!-- AspectJ -->
 		<dependency>
@@ -123,6 +144,19 @@
 			<artifactId>hibernate-jpa-2.1-api</artifactId>
 			<version>1.0.0.Final</version>
 		</dependency> 
+		
+		<!-- Hibernate -->
+		<dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${org.hibernate.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${org.hibernate.version}</version>
+        </dependency>
 		
 		<!-- MySQL -->
 		<dependency>

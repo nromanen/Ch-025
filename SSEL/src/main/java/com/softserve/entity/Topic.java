@@ -26,7 +26,7 @@ public class Topic {
 	@Column(name = "content")
 	private String content;
 	
-	@Column(name = "topicorder")
+	@Column(name = "topic_order")
 	private int order;
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)

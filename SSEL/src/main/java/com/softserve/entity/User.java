@@ -1,6 +1,8 @@
 package com.softserve.entity;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -46,6 +49,9 @@ public class User {
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "role")
 	private Role role;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="user")
+	private Set<StudentGroup> groups = new HashSet<>();
 	
 	public User() {
 	}
@@ -113,6 +119,21 @@ public class User {
 	public void setBlocked(boolean blocked) {
 		this.blocked = blocked;
 	}
-	
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	public Set<StudentGroup> getGroups() {
+		return groups;
+	}
+
+	public void setGroups(Set<StudentGroup> groups) {
+		this.groups = groups;
+	}
 	
 }
