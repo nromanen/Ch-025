@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.softserve.entity.Role;
 import com.softserve.entity.User;
@@ -60,6 +61,12 @@ public class HomeController {
 		//userService.addUser(user);
 
 		return "home";
+	}
+	
+	@RequestMapping(value = "/login",method = RequestMethod.GET)
+	public String test(Model model){
+
+	return "login";
 	}
 
 }

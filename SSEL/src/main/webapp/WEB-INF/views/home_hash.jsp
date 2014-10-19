@@ -1,22 +1,17 @@
-<%@page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
-<%@ page session="false"%>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
-<tiles:insertDefinition name="defaultTemplate">
 
-	<tiles:putAttribute name="main-content">
-		
-		
+
+<body>
+
+  
 
 
 
      
 
-         <div id="page-wrapper">
+        <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">Teacher</h1>
@@ -476,8 +471,5 @@
     });
     </script>
 </body>
-		
-		
-	</tiles:putAttribute>
-</tiles:insertDefinition>
+
 </html>
