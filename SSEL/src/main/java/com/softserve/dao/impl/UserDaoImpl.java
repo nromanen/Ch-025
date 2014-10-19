@@ -25,7 +25,7 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public void addUser(User user) {
-		entityManager.persist(user);
+		entityManager.merge(user);
 		LOG.debug("Add user (user email = {})", user.getEmail());
 	}
 
@@ -50,7 +50,7 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public User getUserByEmail(String email) {
 		Query query = entityManager.createQuery(
-				"SELECT FROM USER WHERE email= :email").setParameter("email",
+				"FROM User WHERE email= :email").setParameter("email",
 				email);
 		try {
 			User user = (User) query.getSingleResult();

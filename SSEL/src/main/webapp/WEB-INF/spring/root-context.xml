@@ -14,4 +14,7 @@
 	<!-- Configuration file resources for data (Data Access Resources) -->
 	<import resource="data.xml" />
 
+	<!-- Mail sender configurations -->
+	<import resource="mail.xml" />
+
 </beans>
