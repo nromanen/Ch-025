@@ -53,7 +53,7 @@ public class SubjectDaoImpl implements SubjectDao {
 	public Set<Subject> getAllSubjects() {
 		LOG.debug("Get all subjects");
 		Set<Subject> subjects = new HashSet<>();
-		subjects.addAll(entityManager.createQuery("FROM subject")
+		subjects.addAll(entityManager.createQuery("FROM Subject")
 				.getResultList());
 		return subjects;
 	}
