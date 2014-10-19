@@ -46,8 +46,8 @@ public class User {
 	@Column(name = "blocked", nullable = false)
 	private boolean blocked;
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "role")
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@JoinColumn(name = "role", nullable = false)
 	private Role role;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")

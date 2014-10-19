@@ -51,7 +51,7 @@ public class RoleDaoImpl implements RoleDao {
 	public Set<Role> getAllRoles() {
 		LOG.debug("Get all roles");
 		Set<Role> roles = new HashSet<>();
-		roles.addAll(entityManager.createQuery("from Role").getResultList());
+		roles.addAll(entityManager.createQuery("FROM Role").getResultList());
 		return roles;
 	}
 
