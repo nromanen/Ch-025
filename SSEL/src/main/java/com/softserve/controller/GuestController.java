@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.softserve.entity.Subject;
+import com.softserve.entity.Topic;
 import com.softserve.service.SubjectService;
+import com.softserve.service.TopicService;
 
 @Controller
 public class GuestController {
@@ -21,18 +23,17 @@ public class GuestController {
 
 	@Autowired
 	private SubjectService subjectSevice;
+	@Autowired
+	private TopicService topicService;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String index(Model model) {
+	public String index(Model model) {	
+		Set<Subject> subject = subjectSevice.getAllSubjects();
 		
-//		Subject subject1 = new Subject();
-//		subject1.setName("Java");
-//		Subject subject2 = new Subject();
-//		subject2.setName("C++");
-//		subjectSevice.addSubject(subject1);
-//		subjectSevice.addSubject(subject2);
-		Set<Subject> subjects = subjectSevice.getAllSubjects();
-		model.addAttribute("subjects", subjects);
+		Topic topic = topicService.getTopicById(4);
+		topicService.deleteTopic(topic);
+		
+		model.addAttribute("subjects", subject);
 		LOG.debug("Visit index page as guest");
 		return "index";
 	}

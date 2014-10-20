@@ -44,19 +44,6 @@ public class HomeController {
 
 		model.addAttribute("serverTime", formattedDate);
 
-		Role role = roleService.getRoleById(2);
-		User user = new User();
-		user.setBlocked(false);
-		user.setEmail("roma");
-		user.setExpired(new Date());
-		user.setFirstName("Roma");
-		user.setLastName("Roma");
-		user.setPassword("123456");
-		user.setRegistration(new Date());
-		user.setRole(role);
-
-		//userService.addUser(user);
-
 		return "home";
 	}
 	

@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,8 +43,14 @@ public class RoleDaoImpl implements RoleDao {
 
 	@Override
 	public void deleteRole(Role role) {
-		entityManager.remove(role);
-		LOG.debug("Deleted role = {}", role);
+		Query query = entityManager
+				.createQuery("DELETE FROM Role r WHERE r.id = :id");
+		query.setParameter("id", role.getId());
+		if (query.executeUpdate() != 0) {
+			LOG.debug("Deleted role(id = {})", role.getId());
+		} else {
+			LOG.warn("Tried to delete role(id = {})", role.getId());
+		}
 	}
 
 	@SuppressWarnings("unchecked")

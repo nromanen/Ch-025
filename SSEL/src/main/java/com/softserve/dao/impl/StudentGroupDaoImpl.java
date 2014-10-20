@@ -38,8 +38,15 @@ public class StudentGroupDaoImpl implements StudentGroupDao {
 
 	@Override
 	public void deleteStudentGroup(StudentGroup studentGroup) {
-		entityManager.remove(studentGroup);
-		LOG.debug("Deleted studentGroup");
+		Query query = entityManager
+				.createQuery("DELETE FROM StudentGroup s WHERE s.id = :id");
+		query.setParameter("id", studentGroup.getId());
+		if (query.executeUpdate() != 0) {
+			LOG.debug("Deleted studentGroup(id = {})", studentGroup.getId());
+		} else {
+			LOG.warn("Tried to delete studentGroup(id = {})",
+					studentGroup.getId());
+		}
 	}
 
 	@Override
