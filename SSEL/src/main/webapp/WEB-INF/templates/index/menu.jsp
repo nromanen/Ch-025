@@ -1,4 +1,4 @@
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <div id="wrapper">
 
 	<!-- Navigation -->
@@ -33,35 +33,28 @@
 			<!-- /.dropdown -->
 		</ul>
 		<!-- /.navbar-top-links -->
-
 		<div class="navbar-default sidebar" role="navigation">
 			<div class="sidebar-nav navbar-collapse">
-				<ul class="nav" id="side-menu">
-					<li class="sidebar-search">
-						<div class="input-group custom-search-form">
-							<input type="text" class="form-control" placeholder="Search...">
-							<span class="input-group-btn">
-								<button class="btn btn-default" type="button">
-									<i class="fa fa-search"></i>
-								</button>
-							</span>
-						</div> <!-- /input-group -->
-					</li>
+				<form method="GET" action="/entity/course">
+					<ul class="nav" id="side-menu">
+						<li><a href="#"><i class="fa fa-sitemap fa-fw"></i> All
+								Courses<span class="fa arrow"></span></a>
 
-					<li><a href="#"><i class="fa fa-sitemap fa-fw"></i> All
-							Courses<span class="fa arrow"></span></a>
-						<ul class="nav nav-second-level">
-							<li><a href="#">Second Level Item</a></li>
-							<li><a href="#">Second Level Item</a></li>
-							<li><a href="#">Third Level <span class="fa arrow"></span></a>
-								<ul class="nav nav-third-level">
-									<li><a href="#">Third Level Item</a></li>
-									<li><a href="#">Third Level Item</a></li>
-									<li><a href="#">Third Level Item</a></li>
-									<li><a href="#">Third Level Item</a></li>
-								</ul> <!-- /.nav-third-level --></li>
-						</ul> <!-- /.nav-second-level --></li>
-				</ul>
+							<ul class="nav nav-second-level">
+								<c:forEach items="${catList}" var="cat">
+									<li><a href="#"> ${cat.name} <span class="fa arrow"></span>
+									</a>
+										<ul class="nav nav-third-level">
+											<c:forEach items="${cat.subjects}" var="subj">
+												<li class="link"><button value="${subj.id}" name="courseId" 
+													class="btn-link" style="color:#428bca;">
+														${subj.name}</button></li>
+											</c:forEach>
+										</ul>
+								</c:forEach>
+							</ul></li>
+					</ul>
+				</form>
 			</div>
 		</div>
 	</nav>

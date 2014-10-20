@@ -9,8 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.softserve.entity.Category;
 import com.softserve.entity.Subject;
+import com.softserve.service.CategoryService;
 import com.softserve.service.SubjectService;
 
 @Controller
@@ -20,21 +23,31 @@ public class GuestController {
 			.getLogger(GuestController.class);
 
 	@Autowired
-	private SubjectService subjectSevice;
+	private CategoryService categoryService;
+	
+	@Autowired
+	private SubjectService subjectService;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index(Model model) {
 		
-//		Subject subject1 = new Subject();
-//		subject1.setName("Java");
-//		Subject subject2 = new Subject();
-//		subject2.setName("C++");
-//		subjectSevice.addSubject(subject1);
-//		subjectSevice.addSubject(subject2);
-		Set<Subject> subjects = subjectSevice.getAllSubjects();
-		model.addAttribute("subjects", subjects);
+		Set<Subject> subjects = subjectService.getAllSubjects();
+		Set<Category> categories = categoryService.getAllCategories();
+		model.addAttribute("subList", subjects);
+		model.addAttribute("catList", categories);
 		LOG.debug("Visit index page as guest");
 		return "index";
+	}
+	
+	@RequestMapping(value = "/course", method = RequestMethod.GET)
+	public String course(@RequestParam Integer courseId, Model model) {
+		Set<Subject> subjects = subjectService.getAllSubjects();
+		Set<Category> categories = categoryService.getAllCategories();
+		model.addAttribute("subList", subjects);
+		model.addAttribute("catList", categories);
+		Subject subject = subjectService.getSubjectById(courseId);
+		model.addAttribute("subject", subject);
+		return "course";
 	}
 	
 }

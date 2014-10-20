@@ -20,6 +20,8 @@
 <!-- Custom CSS -->
 <link href="resources/css/sb-admin-2.css" rel="stylesheet">
 
+<link href="resources/styles/styles.css" rel="stylesheet">
+
 
 <!-- Custom Fonts -->
 <link href="resources/font-awesome-4.1.0/css/font-awesome.min.css"

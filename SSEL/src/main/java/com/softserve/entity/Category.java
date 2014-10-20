@@ -24,7 +24,7 @@ public class Category {
 	@Column(name = "name", nullable = false)
 	private  String name;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy="category")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="category")
 	private Set<Subject> subjects = new HashSet<>();
 	
 	public Category() {
