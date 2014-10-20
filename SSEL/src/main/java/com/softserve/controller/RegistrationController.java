@@ -1,6 +1,7 @@
 package com.softserve.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,13 +30,13 @@ public class RegistrationController {
 		return "registration";
 	}
 
-//	@RequestMapping(value = "/registration", method = RequestMethod.POST)
-//	public String processRegistration(@Valid final Registration registration,
-//			BindingResult result, HttpServletRequest request) {
-//		registrationValidation.validate(registration, result);
-//		if (result.hasErrors()) {
-//			return "registration";
-//		}
-//		return "redirect:/";
-//	}
+	@RequestMapping(value = "/registration", method = RequestMethod.POST)
+	public String processRegistration(@Valid final Registration registration,
+			BindingResult result, HttpServletRequest request) {
+		registrationValidation.validate(registration, result);
+		if (result.hasErrors()) {
+			return "registration";
+		}
+		return "redirect:/";
+	}
 }
