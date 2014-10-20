@@ -9,10 +9,11 @@
         <put-attribute name="menu" value="/WEB-INF/templates/default/menu.jsp" />
         <put-attribute name="footer" value="/WEB-INF/templates/default/footer.jsp" />
     </definition>
-    
-    <definition name="template_index" template="/WEB-INF/templates/index/template.jsp">
-        <put-attribute name="header_index" value="/WEB-INF/templates/index/header.jsp" />
-        <put-attribute name="footer_index" value="/WEB-INF/templates/index/footer.jsp" />
+    <definition name="indexTemplate" template="/WEB-INF/templates/index/template.jsp">
+    	<put-attribute name="info-page" value="/WEB-INF/templates/index/info-page.jsp" />
+        <put-attribute name="header" value="/WEB-INF/templates/index/header.jsp" />
+        <put-attribute name="menu" value="/WEB-INF/templates/index/menu.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/templates/index/footer.jsp" />
     </definition>
   
 </tiles-definitions>
