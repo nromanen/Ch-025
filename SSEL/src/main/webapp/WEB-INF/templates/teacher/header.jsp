@@ -1,6 +1,6 @@
 <%@page contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-<div class="header">
+ <!--  <div class="header">  -->  
 <head>
 
     <meta charset="utf-8">
@@ -36,4 +36,4 @@
     <![endif]-->
 
 </head>
-</div>
+<!-- </div> -->
