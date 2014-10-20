@@ -36,10 +36,6 @@ public class Subject {
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "category", nullable = false)
 	private Category category;
-	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinColumn(name = "course_scheduler", nullable = false)
-	private CourseScheduler courseScheduler; 
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy="subject")
 	private Set<Block> blocks = new HashSet<>();
@@ -96,14 +92,6 @@ public class Subject {
 
 	public void setBlocks(Set<Block> blocks) {
 		this.blocks = blocks;
-	}
-	
-	public CourseScheduler getCourseScheduler() {
-		return courseScheduler;
-	}
-
-	public void setCourseScheduler(CourseScheduler courseScheduler) {
-		this.courseScheduler = courseScheduler;
 	}
 	
 }
