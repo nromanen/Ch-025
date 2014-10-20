@@ -1,10 +1,13 @@
 package com.softserve.form;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+
 
 public class Registration {
 
-//	@NotEmpty(message = "email not empty")
-//	@Email(message = "wrong mail")
+	@NotEmpty(message = "email not empty")
+	@Email(message = "wrong mail")
 	private String email;
 	private String password;
 	private String confirmPassword;
