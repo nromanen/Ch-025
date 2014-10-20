@@ -16,7 +16,7 @@ import com.softserve.service.SubjectService;
 @Controller
 public class GuestController {
 	
-	private static final Logger logger = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(GuestController.class);
 
 	@Autowired
@@ -33,6 +33,7 @@ public class GuestController {
 //		subjectSevice.addSubject(subject2);
 		Set<Subject> subjects = subjectSevice.getAllSubjects();
 		model.addAttribute("subjects", subjects);
+		LOG.debug("Visit index page as guest");
 		return "index";
 	}
 	
