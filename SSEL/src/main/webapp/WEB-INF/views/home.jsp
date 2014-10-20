@@ -9,13 +9,6 @@
 <tiles:insertDefinition name="defaultTemplate">
 
 	<tiles:putAttribute name="main-content">
-		
-		
-
-
-
-     
-
          <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
@@ -450,8 +443,6 @@
                 </div>
         </div>
         <!-- /#page-wrapper -->
-
-    </div>
     <!-- /#wrapper -->
 
     <!-- jQuery Version 1.11.0 -->
