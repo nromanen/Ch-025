@@ -11,7 +11,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="home.jsp">SSEL SoftServe Academy</a>
+                <a class="navbar-brand" href="/entity">SSEL SoftServe Academy</a>
             </div>
             <!-- /.navbar-header -->
 
@@ -129,3 +129,4 @@
             </div>
             <!-- /.navbar-static-side -->
         </nav>
+        </div>
