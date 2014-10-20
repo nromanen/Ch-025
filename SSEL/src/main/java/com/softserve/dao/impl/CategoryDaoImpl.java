@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,8 +37,14 @@ public class CategoryDaoImpl implements CategoryDao {
 
 	@Override
 	public void deleteCategory(Category category) {
-		entityManager.remove(category);
-		LOG.debug("Deleted category = {}", category.getName());
+		Query query = entityManager
+				.createQuery("DELETE FROM Category c WHERE c.id = :id");
+		query.setParameter("id", category.getId());
+		if (query.executeUpdate() != 0) {
+			LOG.debug("Deleted category(id = {})", category.getId());
+		} else {
+			LOG.warn("Tried to delete category(id = {})", category.getId());
+		}
 	}
 
 	@SuppressWarnings("unchecked")

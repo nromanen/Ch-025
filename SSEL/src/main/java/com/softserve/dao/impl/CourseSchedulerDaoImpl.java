@@ -30,8 +30,16 @@ public class CourseSchedulerDaoImpl implements CourseSchedulerDao {
 
 	@Override
 	public void deleteCourseScheduler(CourseScheduler courseScheduler) {
-		entityManager.remove(courseScheduler);
-		LOG.debug("Deleted CourseScheduler");
+		Query query = entityManager
+				.createQuery("DELETE FROM CourseScheduler c WHERE c.id = :id");
+		query.setParameter("id", courseScheduler.getId());
+		if (query.executeUpdate() != 0) {
+			LOG.debug("Deleted courseScheduler(id = {})",
+					courseScheduler.getId());
+		} else {
+			LOG.warn("Tried to delete courseScheduler(id = {})",
+					courseScheduler.getId());
+		}
 	}
 
 	@Override
