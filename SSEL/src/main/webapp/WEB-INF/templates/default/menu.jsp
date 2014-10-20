@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 <body>
+=======
+>>>>>>> 4a5652b35fbb6abbd9967cda2ad52768cebeef81
 
     <div id="wrapper">
 
@@ -11,7 +14,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="home.jsp">SSEL SoftServe Academy</a>
+                <a class="navbar-brand" href="/entity">SSEL SoftServe Academy</a>
             </div>
             <!-- /.navbar-header -->
 
@@ -128,4 +131,9 @@
                 <!-- /.sidebar-collapse -->
             </div>
             <!-- /.navbar-static-side -->
+<<<<<<< HEAD
         </nav>
+=======
+        </nav>
+        </div>
+>>>>>>> 4a5652b35fbb6abbd9967cda2ad52768cebeef81
