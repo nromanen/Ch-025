@@ -7,12 +7,12 @@
 <html>
 <tiles:insertDefinition name="indexTemplate">
 	<tiles:putAttribute name="main-content">
-			 <div id="page-wrapper">
-            <div class="row">
-                    <h1 class="page-header">Description</h1>
-                </div>
-                </div>
-		</tiles:putAttribute>
+		<div id="page-wrapper">
+			<div class="row">
+				<h1 class="page-header">Description</h1>
+			</div>
+		</div>
+	</tiles:putAttribute>
 </tiles:insertDefinition>
 </body>
 </html>

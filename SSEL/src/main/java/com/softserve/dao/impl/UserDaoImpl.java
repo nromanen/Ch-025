@@ -35,9 +35,9 @@ public class UserDaoImpl implements UserDao {
 				.createQuery("DELETE FROM User u WHERE u.id = :id");
 		query.setParameter("id", user.getId());
 		if (query.executeUpdate() != 0) {
-			LOG.debug("Deleted user(email = {})", user.getEmail());
+			LOG.debug("Deleted user (email = {})", user.getEmail());
 		} else {
-			LOG.warn("Tried to delete user(email = {})", user.getEmail());
+			LOG.warn("Tried to delete user (email = {})", user.getEmail());
 		}
 	}
 
