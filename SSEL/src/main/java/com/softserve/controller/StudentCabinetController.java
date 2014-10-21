@@ -34,7 +34,7 @@ public class StudentCabinetController {
 	 */
 	private String generateHtmlTable(List<CourseScheduler> courses) {
 		String table = "";
-		table += "<thead><tr><td>Start time</td><td>Subject name</td></tr></thead>";
+		table += "<thead><tr><td>Subject name</td><td>Start time</td></tr></thead>";
 		table += "<tbody>";
 		for (CourseScheduler item: courses) {
 			table += "<tr><td>"+item.getSubject().getName()+"</td><td>"+item.getStart()+"</td></tr>";
