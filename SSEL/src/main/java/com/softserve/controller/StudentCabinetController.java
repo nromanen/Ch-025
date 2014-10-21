@@ -16,9 +16,14 @@ import com.softserve.service.StudentCabinetSevice;
 public class StudentCabinetController {
 	@Autowired
 	private StudentCabinetSevice studCabinetService;
-	
+	@RequestMapping("/subscribe")
+	public String performSubscribe(@RequestParam("course_id") String courseScheduler) {
+		StudentGroup studGroup = new StudentGroup();
+		
+		return courseScheduler;
+	}
 	@RequestMapping("/student")
-	String printStudentCourses(@RequestParam("table") String table,Model model) {
+	public String printStudentCourses(@RequestParam("table") String table,Model model) {
 		studCabinetService.initSubscribedList(1);
 		if (table == null || table.equals("future")) {
 			model.addAttribute("table", generateHtmlTable(studCabinetService.getFutureCourses()));
