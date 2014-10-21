@@ -73,4 +73,14 @@ public class StudentGroupDaoImpl implements StudentGroupDao {
 		return entityManager.createQuery("FROM StudentGroup").getResultList();
 	}
 
+	@Override
+	public StudentGroup getStudentGroupByUserAndCourseId(int userId, int courseScheduler) {
+		LOG.debug("Get StudentGroup by user");
+		Query query = entityManager.createQuery("select sg from StudentGroup sg "
+				+ "where sg.user.id=:user and sg.courseScheduler.id=:course");
+		query.setParameter("user", userId);
+		query.setParameter("course", courseScheduler);
+		return (StudentGroup) query.getSingleResult();
+	}
+
 }

@@ -1,6 +1,7 @@
 package com.softserve.service.impl;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,8 +29,8 @@ public class TopicServiceImpl implements TopicService {
 		topicDao.addTopic(topic);
 	}
 
-	@Override
-	@Transactional
+	@Override 
+	@Transactional 
 	public void updateTopic(Topic topic) {
 		topicDao.updateTopic(topic);
 	}
@@ -37,7 +38,7 @@ public class TopicServiceImpl implements TopicService {
 	@Override
 	@Transactional
 	public void deleteTopic(Topic topic) {
-		topicDao.deleteTopic(topic);
+		topicDao.deleteTopic(topic); 
 	}
 
 	@Override
@@ -49,6 +50,11 @@ public class TopicServiceImpl implements TopicService {
 	@Override
 	@Transactional
 	public List<Topic> getTopicsByBlockId(int id) {
+		return topicDao.getTopicsByBlockId(id);
+	}
+
+	@Override
+	public List<Topic> getTopicsBySubjectId(int id) {
 		return topicDao.getTopicsByBlockId(id);
 	}
 

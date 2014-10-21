@@ -1,6 +1,7 @@
 package com.softserve.service;
 
 import java.util.List;
+import java.util.Set;
 
 import com.softserve.entity.Topic;
 
@@ -17,4 +18,6 @@ public interface TopicService {
 	public List<Topic> getAllTopics();
 
 	public List<Topic> getTopicsByBlockId(int id);
+	
+	public List<Topic> getTopicsBySubjectId(int id);
 }
