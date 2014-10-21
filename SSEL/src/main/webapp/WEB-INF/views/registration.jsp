@@ -21,7 +21,7 @@
 					<div class="controls">
 						<form:input path="password" type="password" id="inputPasswordReg"
 							placeholder="Password" required="true" /><br>
-						<form:errors path="password" cssClass="error"></form:errors>
+						<form:errors path="password"></form:errors>
 					</div>
 				</div>
 
@@ -44,7 +44,7 @@
 				</div>
 				
 				<div class="control-group">
-					<label class="control-label" for="confirmPasswordReg">Confirm password</label>
+					<label class="control-label" for="confirmPasswordReg">Last name</label>
 					<div class="controls">
 						<form:input path="lastName" type="text"
 							id="lastNameReg" placeholder="Last Name" required="true"/><br>

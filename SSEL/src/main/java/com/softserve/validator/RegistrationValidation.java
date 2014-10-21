@@ -1,13 +1,14 @@
 package com.softserve.validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.softserve.form.Registration;
 import com.softserve.service.UserService;
-
+@Component
 public class RegistrationValidation implements Validator {
 
 	@Autowired
@@ -21,18 +22,22 @@ public class RegistrationValidation implements Validator {
 	@Override
 	public void validate(Object target, Errors errors) {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password",
-				"required.password", "Field password is required.");
+				"", "Field password is required.");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword",
-				"required.confirmPassword", "Field password is required.");
+				"", "Field password is required.");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName",
+				"", "Field first name is required.");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastName",
+				"", "Field last name is required.");
 		Registration registration = (Registration) target;
 
 		if (userService.isExist(registration.getEmail())) {
-
+			errors.rejectValue("email", "", "email is exests");
 		}
 
 		if (!(registration.getPassword().equals(registration
 				.getConfirmPassword()))) {
-			errors.rejectValue("password", "notmatch.password");
+			errors.rejectValue("password", "", "Password doesn't match");
 		}
 	}
 

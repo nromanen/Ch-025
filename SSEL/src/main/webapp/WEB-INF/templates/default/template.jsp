@@ -4,7 +4,7 @@
         <tiles:insertAttribute name="header" />
         <div class="content">
             <tiles:insertAttribute name="menu" />
-            <tiles:insertAttribute name="content" />
+            <tiles:insertAttribute name="main-content" />
         </div>
         <tiles:insertAttribute name="footer" />
     </div>

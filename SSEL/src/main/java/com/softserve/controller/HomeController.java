@@ -46,11 +46,11 @@ public class HomeController {
 
 		return "home";
 	}
-	
-	@RequestMapping(value = "/login",method = RequestMethod.GET)
-	public String test(Model model){
 
-	return "login";
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String test(Model model) {
+
+		return "login";
 	}
 
 }

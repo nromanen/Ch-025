@@ -1,14 +1,16 @@
 package com.softserve.form;
 
+import javax.validation.constraints.Size;
+
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
-
 
 public class Registration {
 
 	@NotEmpty(message = "email not empty")
 	@Email(message = "wrong mail")
 	private String email;
+	@Size(min = 4, max = 20, message = "Password size from 4 to 20 chars")
 	private String password;
 	private String confirmPassword;
 	private String firstName;
