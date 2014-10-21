@@ -15,34 +15,31 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-@Entity 
+@Entity
 @Table(name = "subject")
 public class Subject {
-	
+
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@Column(name = "name", nullable = false)
 	private String name;
-	
+
 	@Column(name = "description")
 	private String description;
-	
-	@Column(name = "duration")
-	private int duration;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinColumn(name = "category", nullable = false)
+	@JoinColumn(name = "id_category", nullable = false)
 	private Category category;
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "subject")
 	private Set<Block> blocks = new HashSet<>();
-	
+
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "subject")
 	private Set<CourseScheduler> schedulers = new HashSet<>();
-	
+
 	public Subject() {
 	}
 
@@ -70,14 +67,6 @@ public class Subject {
 		this.description = description;
 	}
 
-	public int getDuration() {
-		return duration;
-	}
-
-	public void setDuration(int duration) {
-		this.duration = duration;
-	}
-
 	public Category getCategory() {
 		return category;
 	}
@@ -93,5 +82,5 @@ public class Subject {
 	public void setBlocks(Set<Block> blocks) {
 		this.blocks = blocks;
 	}
-	
+
 }
