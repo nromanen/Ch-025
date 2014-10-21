@@ -51,5 +51,4 @@ public class CourseSchedulerServiceImpl implements CourseSchedulerService {
 	public List<CourseScheduler> getCourseScheduleresBySubjectId(int id) {
 		return courseSchedulerDao.getCourseScheduleresBySubjectId(id);
 	}
-
 }
