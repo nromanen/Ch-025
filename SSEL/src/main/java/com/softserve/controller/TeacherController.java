@@ -22,10 +22,10 @@ import com.softserve.service.UserService;
  * Handles requests for the application home page.
  */
 @Controller
-public class HomeController {
+public class TeacherController {
 
 	private static final Logger logger = LoggerFactory
-			.getLogger(HomeController.class);
+			.getLogger(TeacherController.class);
 
 	@Autowired
 	private RoleService roleService;
@@ -33,7 +33,7 @@ public class HomeController {
 	private UserService userService;
 
 	@RequestMapping(value = "/teacher", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
+	public String teacher(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
 
 		Date date = new Date();
@@ -57,11 +57,11 @@ public class HomeController {
 
 		//userService.addUser(user);
 
-		return "home";
+		return "teacher";
 	}
 	
 	@RequestMapping(value = "/login",method = RequestMethod.GET)
-	public String test(Model model){
+	public String loginForm(Model model){
 
 	return "login";
 	}
