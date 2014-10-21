@@ -3,8 +3,6 @@
        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
-  	<!--   --> 
-<<<<<<< HEAD
     <definition name="teacherTemplate" template="/WEB-INF/templates/teacher/template.jsp">
         <put-attribute name="header" value="/WEB-INF/templates/teacher/header.jsp" />
         <put-attribute name="menu" value="/WEB-INF/templates/teacher/menu.jsp" />
@@ -19,7 +17,7 @@
     	<put-attribute name="info-page" value="/WEB-INF/templates/index/info-page.jsp" />
         <put-attribute name="menu" value="/WEB-INF/templates/index/menu.jsp" />
         <put-attribute name="footer" value="/WEB-INF/templates/index/footer.jsp" />
-=======
+    </definition>
     <definition name="defaultTemplate" template="/WEB-INF/templates/default/template.jsp">
         <put-attribute name="header" value="/WEB-INF/templates/default/header.jsp" />
         <put-attribute name="menu" value="/WEB-INF/templates/default/menu.jsp" />
@@ -29,7 +27,5 @@
     
     <definition name="registration" extends="defaultTemplate">
     	<put-attribute name="main-content" value="/WEB-INF/views/registration.jsp"/>
->>>>>>> 43adb0790b125c7b3893adecc6e6bf88b241421f
     </definition>
-  
-</tiles-definitions>
+    </tiles-definitions>
