@@ -30,11 +30,11 @@ public class StudentGroup {
 	private int groupNumber;
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinColumn(name = "user")
+	@JoinColumn(name = "id_user")
 	private User user;
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinColumn(name = "course_scheduler")
+	@JoinColumn(name = "id_course_scheduler")
 	private CourseScheduler courseScheduler;
 	
 	public StudentGroup() {

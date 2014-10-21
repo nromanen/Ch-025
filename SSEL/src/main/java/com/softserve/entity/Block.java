@@ -1,5 +1,6 @@
 package com.softserve.entity;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,11 +28,17 @@ public class Block {
 	@Column(name = "block_order", nullable = false)
 	private int order;
 	
-	@Column(name = "duration", nullable = false)
-	private int duration;
+	@Column(name = "start_time", nullable = false)
+	private Date startTime;
+	
+	@Column(name = "end_time", nullable = false)
+	private Date endTime;
+	
+	@Column(name = "name", nullable = false)
+	private String name;
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinColumn(name = "subject", nullable = false)
+	@JoinColumn(name = "id_subject", nullable = false)
 	private Subject subject;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy="block")
@@ -56,14 +63,6 @@ public class Block {
 		this.order = order;
 	}
 
-	public int getDuration() {
-		return duration;
-	}
-
-	public void setDuration(int duration) {
-		this.duration = duration;
-	}
-
 	public Subject getSubject() {
 		return subject;
 	}
@@ -78,6 +77,30 @@ public class Block {
 
 	public void setTopics(Set<Topic> topics) {
 		this.topics = topics;
+	}
+
+	public Date getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+
+	public Date getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}	
 	
 }

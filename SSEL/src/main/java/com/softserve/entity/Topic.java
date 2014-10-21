@@ -19,18 +19,21 @@ public class Topic {
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@Column(name = "name")
 	private String name;
-	
+
 	@Column(name = "content")
 	private String content;
-	
+
 	@Column(name = "topic_order")
 	private int order;
-	
+
+	@Column(name = "alive")
+	private boolean alive;
+
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinColumn(name = "block", nullable = false)
+	@JoinColumn(name = "id_block", nullable = false)
 	private Block block;
 
 	public int getId() {
@@ -72,6 +75,12 @@ public class Topic {
 	public void setBlock(Block block) {
 		this.block = block;
 	}
-	
-	
+
+	public boolean isAlive() {
+		return alive;
+	}
+
+	public void setAlive(boolean alive) {
+		this.alive = alive;
+	}
 }

@@ -19,22 +19,25 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "course_scheduler")
 public class CourseScheduler {
-	
+
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column(name = "start")
+	@Column(name = "start", nullable = false)
 	private Date start;
-	
+
+	@Column(name = "end", nullable = false)
+	private Date end;
+
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinColumn(name = "subject")
+	@JoinColumn(name = "id_subject")
 	private Subject subject;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy="courseScheduler")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "courseScheduler")
 	private Set<StudentGroup> groups = new HashSet<>();
-	
+
 	public int getId() {
 		return id;
 	}
@@ -59,6 +62,14 @@ public class CourseScheduler {
 		this.subject = subject;
 	}
 
+	public Date getEnd() {
+		return end;
+	}
+
+	public void setEnd(Date end) {
+		this.end = end;
+	}
+
 	public Set<StudentGroup> getGroups() {
 		return groups;
 	}
@@ -66,5 +77,5 @@ public class CourseScheduler {
 	public void setGroups(Set<StudentGroup> groups) {
 		this.groups = groups;
 	}
-	
+
 }
