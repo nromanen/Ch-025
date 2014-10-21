@@ -2,7 +2,6 @@
 <tiles:insertAttribute name="info-page"/>
 <body>
     <div class="page">
-        <tiles:insertAttribute name="header" />
         <div class="content">
             <tiles:insertAttribute name="menu" />
             <tiles:insertAttribute name="main-content" />

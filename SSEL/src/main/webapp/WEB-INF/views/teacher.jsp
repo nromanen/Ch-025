@@ -9,7 +9,10 @@
 <tiles:insertDefinition name="teacherTemplate">
 
 	<tiles:putAttribute name="main-content">
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0e912669b17b792cb21f08f86e2fe69cd3b76b28
          <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
@@ -53,8 +56,6 @@
                 </div>
         </div>
         <!-- /#page-wrapper -->
-
-    </div>
     <!-- /#wrapper -->
 
     <!-- jQuery Version 1.11.0 -->

@@ -17,7 +17,6 @@ body {
 }
 
 .content {
-	padding: 10px;
 	padding-bottom: 20px; /* Height of the footer element */
 	overflow: hidden;
 }
@@ -43,4 +42,27 @@ body {
 
 .center {
 	text-align: center;
+}
+
+.inline {
+	display: inline-block;
+	width: 30%;
+	height: 100px;
+	margin-left: 30px;
+	margin-bottom : 10px;
+}
+.inline:first-child{
+	margin-left: 0;
+}
+
+.title {
+	border-bottom: 2px solid black;
+	font-weight: bold;
+	padding: 4px 0;
+	margin: 4px 0;
+}
+
+.link {
+	padding-left:35px;
+	padding-bottom: 5px;
 }
