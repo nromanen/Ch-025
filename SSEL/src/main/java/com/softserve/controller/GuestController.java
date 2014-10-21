@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 package com.softserve.controller;
 
 import java.util.Set;
@@ -13,8 +17,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.softserve.entity.Category;
 import com.softserve.entity.Subject;
+<<<<<<< HEAD
 import com.softserve.entity.Topic;
 import com.softserve.service.CategoryService;
+=======
+
+import com.softserve.entity.Topic;
+
+import com.softserve.service.CategoryService;
+
+>>>>>>> master
 import com.softserve.service.SubjectService;
 import com.softserve.service.TopicService;
 
@@ -25,13 +37,25 @@ public class GuestController {
 			.getLogger(GuestController.class);
 
 	@Autowired
+<<<<<<< HEAD
 	private SubjectService subjectSevice;
 	@Autowired
 	private TopicService topicService;
+=======
+
+	private SubjectService subjectSevice;
+	@Autowired
+	private TopicService topicService;
+
+>>>>>>> master
 	private CategoryService categoryService;
 	
 	@Autowired
 	private SubjectService subjectService;
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index(Model model) {	
@@ -39,11 +63,22 @@ public class GuestController {
 		
 		Topic topic = topicService.getTopicById(4);
 		topicService.deleteTopic(topic);
+<<<<<<< HEAD
 		model.addAttribute("subjects", subject);
+=======
+		
+
+		model.addAttribute("subjects", subject);
+
+>>>>>>> master
 		Set<Subject> subjects = subjectService.getAllSubjects();
 		Set<Category> categories = categoryService.getAllCategories();
 		model.addAttribute("subList", subjects);
 		model.addAttribute("catList", categories);
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 		LOG.debug("Visit index page as guest");
 		return "index";
 	}
@@ -59,4 +94,8 @@ public class GuestController {
 		return "course";
 	}
 	
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> master
