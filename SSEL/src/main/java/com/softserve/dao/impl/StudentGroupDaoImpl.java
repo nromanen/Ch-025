@@ -38,8 +38,15 @@ public class StudentGroupDaoImpl implements StudentGroupDao {
 
 	@Override
 	public void deleteStudentGroup(StudentGroup studentGroup) {
-		entityManager.remove(studentGroup);
-		LOG.debug("Deleted studentGroup");
+		Query query = entityManager
+				.createQuery("DELETE FROM StudentGroup s WHERE s.id = :id");
+		query.setParameter("id", studentGroup.getId());
+		if (query.executeUpdate() != 0) {
+			LOG.debug("Deleted studentGroup(id = {})", studentGroup.getId());
+		} else {
+			LOG.warn("Tried to delete studentGroup(id = {})",
+					studentGroup.getId());
+		}
 	}
 
 	@Override
@@ -64,6 +71,16 @@ public class StudentGroupDaoImpl implements StudentGroupDao {
 	public List<StudentGroup> getAllStudentGroups() {
 		LOG.debug("Get all studentGroups");
 		return entityManager.createQuery("FROM StudentGroup").getResultList();
+	}
+
+	@Override
+	public StudentGroup getStudentGroupByUserAndCourseId(int userId, int courseScheduler) {
+		LOG.debug("Get StudentGroup by user");
+		Query query = entityManager.createQuery("select sg from StudentGroup sg "
+				+ "where sg.user.id=:user and sg.courseScheduler.id=:course");
+		query.setParameter("user", userId);
+		query.setParameter("course", courseScheduler);
+		return (StudentGroup) query.getSingleResult();
 	}
 
 }

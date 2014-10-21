@@ -3,6 +3,7 @@ package com.softserve.service;
 import java.util.List;
 
 import com.softserve.entity.User;
+import com.softserve.form.Registration;
 
 public interface UserService {
 
@@ -19,5 +20,7 @@ public interface UserService {
 	public boolean isExist(String email);
 
 	public List<User> getAllUsers();
+	
+	public void registrate(Registration registration);
 	
 }

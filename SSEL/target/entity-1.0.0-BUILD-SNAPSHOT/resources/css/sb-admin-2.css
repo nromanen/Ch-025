@@ -14,7 +14,11 @@ body {
 
 #page-wrapper {
     padding: 0 15px;
+<<<<<<< HEAD
     min-height: 400px;
+=======
+    min-height: 568px;
+>>>>>>> c7fc324fe2db3c6fd5d9c9fd97b6622fad8ffd78
     background-color: #fff;
 }
 

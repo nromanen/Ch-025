@@ -44,8 +44,14 @@ public class SubjectDaoImpl implements SubjectDao {
 
 	@Override
 	public void deleteSubject(Subject subject) {
-		entityManager.remove(subject);
-		LOG.debug("Deleted subject = {}", subject);
+		Query query = entityManager
+				.createQuery("DELETE FROM Subject s WHERE s.id = :id");
+		query.setParameter("id", subject.getId());
+		if (query.executeUpdate() != 0) {
+			LOG.debug("Deleted subject(id = {})", subject.getId());
+		} else {
+			LOG.warn("Tried to delete subject(id = {})", subject.getId());
+		}
 	}
 
 	@SuppressWarnings("unchecked")

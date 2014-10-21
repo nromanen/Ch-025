@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <div id="wrapper">
 
@@ -58,4 +59,13 @@
 			</div>
 		</div>
 	</nav>
+=======
+<div class="navbar-default sidebar" role="navigation" style="margin-top: 0 !important;">
+	<div class="sidebar-nav navbar-collapse">
+		<ul class="nav" id="side-menu">
+			<li><a href="#"><i class="fa fa-sitemap fa-fw"></i> All
+					Courses</a> </li>
+		</ul>
+	</div>
+>>>>>>> c7fc324fe2db3c6fd5d9c9fd97b6622fad8ffd78
 </div>

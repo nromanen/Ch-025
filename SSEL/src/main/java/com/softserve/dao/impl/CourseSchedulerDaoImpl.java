@@ -30,8 +30,16 @@ public class CourseSchedulerDaoImpl implements CourseSchedulerDao {
 
 	@Override
 	public void deleteCourseScheduler(CourseScheduler courseScheduler) {
-		entityManager.remove(courseScheduler);
-		LOG.debug("Deleted CourseScheduler");
+		Query query = entityManager
+				.createQuery("DELETE FROM CourseScheduler c WHERE c.id = :id");
+		query.setParameter("id", courseScheduler.getId());
+		if (query.executeUpdate() != 0) {
+			LOG.debug("Deleted courseScheduler(id = {})",
+					courseScheduler.getId());
+		} else {
+			LOG.warn("Tried to delete courseScheduler(id = {})",
+					courseScheduler.getId());
+		}
 	}
 
 	@Override
@@ -62,6 +70,15 @@ public class CourseSchedulerDaoImpl implements CourseSchedulerDao {
 		query.setParameter("id", id);
 
 		LOG.debug("Get all topics by block id = {}", id);
+		return query.getResultList();
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<CourseScheduler> getSubscribedCoursesByUserId(int id) {
+		Query query = entityManager.createQuery("select distinct sg.courseScheduler from StudentGroup sg "
+				+ "inner join sg.courseScheduler where sg.user.id = :id");
+		query.setParameter("id", id);
+		LOG.debug("Get all course schedulers by user id = {}", id);
 		return query.getResultList();
 	}
 

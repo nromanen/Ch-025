@@ -17,6 +17,10 @@ body {
 }
 
 .content {
+<<<<<<< HEAD
+=======
+	padding: 10px;
+>>>>>>> c7fc324fe2db3c6fd5d9c9fd97b6622fad8ffd78
 	padding-bottom: 20px; /* Height of the footer element */
 	overflow: hidden;
 }
@@ -42,6 +46,7 @@ body {
 
 .center {
 	text-align: center;
+<<<<<<< HEAD
 }
 
 .inline {
@@ -65,4 +70,6 @@ body {
 .link {
 	padding-left:35px;
 	padding-bottom: 5px;
+=======
+>>>>>>> c7fc324fe2db3c6fd5d9c9fd97b6622fad8ffd78
 }

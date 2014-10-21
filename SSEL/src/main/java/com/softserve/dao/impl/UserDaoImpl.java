@@ -31,8 +31,14 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public void deleteUser(User user) {
-		entityManager.remove(user);
-		LOG.debug("Deleted user(email = {})", user.getEmail());
+		Query query = entityManager
+				.createQuery("DELETE FROM User u WHERE u.id = :id");
+		query.setParameter("id", user.getId());
+		if (query.executeUpdate() != 0) {
+			LOG.debug("Deleted user (email = {})", user.getEmail());
+		} else {
+			LOG.warn("Tried to delete user (email = {})", user.getEmail());
+		}
 	}
 
 	@Override
@@ -49,9 +55,9 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public User getUserByEmail(String email) {
-		Query query = entityManager.createQuery(
-				"FROM User WHERE email= :email").setParameter("email",
-				email);
+		Query query = entityManager
+				.createQuery("FROM User WHERE email= :email").setParameter(
+						"email", email);
 		try {
 			User user = (User) query.getSingleResult();
 			LOG.debug("Get user(email = {})", email);
@@ -67,8 +73,8 @@ public class UserDaoImpl implements UserDao {
 	public boolean isExist(String email) {
 		List<User> result = entityManager
 				.createQuery("FROM User WHERE email = :email")
-				.setParameter("username", email).getResultList();
-		LOG.debug("User(username = {}) {} exist", email,
+				.setParameter("email", email).getResultList();
+		LOG.debug("User(email = {}) {} exist", email,
 				(result.size() > 0 ? "" : "does not"));
 		return result.size() > 0;
 	}

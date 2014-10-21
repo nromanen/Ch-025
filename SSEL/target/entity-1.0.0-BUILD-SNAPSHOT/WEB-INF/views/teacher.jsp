@@ -6,9 +6,16 @@
 <%@ page session="false"%>
 <html>
 
+<<<<<<< HEAD
 <tiles:insertDefinition name="defaultTemplate">
 
 	<tiles:putAttribute name="main-content">
+=======
+<tiles:insertDefinition name="teacherTemplate">
+
+	<tiles:putAttribute name="main-content">
+
+>>>>>>> c7fc324fe2db3c6fd5d9c9fd97b6622fad8ffd78
          <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
@@ -24,14 +31,22 @@
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
+<<<<<<< HEAD
                                             <th>Topic name</th>
                                             <th>Something1</th>
                                             <th>Something2</th>
                                             <th>Something3</th>
+=======
+                                        	<th>Id</th>
+                                            <th>Topic name</th>
+                                            <th>Block</th>
+                                            <th>Order</th>
+>>>>>>> c7fc324fe2db3c6fd5d9c9fd97b6622fad8ffd78
                                             <th>Date</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+<<<<<<< HEAD
                                         <tr class="odd gradeX">
                                             <td>Trident</td>
                                             <td>Internet Explorer 4.0</td>
@@ -432,6 +447,17 @@
                                             <td class="center">-</td>
                                             <td class="center">U</td>
                                         </tr>
+=======
+										<c:forEach items="${topicList}" var="topic">
+                                        <tr class="odd gradeA">
+                                        	<td>${topic.id}</td>
+                                            <td><a href="editTopic?topicId=${topic.id}">${topic.name}</a></td>
+                                            <td class="center">${topic.block.order}</td>
+                                            <td class="center">${topic.order}</td>
+                                            <td class="center">A</td>
+                                        </tr>
+                                        </c:forEach>
+>>>>>>> c7fc324fe2db3c6fd5d9c9fd97b6622fad8ffd78
                                     </tbody>
                                 </table>
                             </div>
@@ -443,6 +469,11 @@
                 </div>
         </div>
         <!-- /#page-wrapper -->
+<<<<<<< HEAD
+=======
+
+    </div>
+>>>>>>> c7fc324fe2db3c6fd5d9c9fd97b6622fad8ffd78
     <!-- /#wrapper -->
 
     <!-- jQuery Version 1.11.0 -->

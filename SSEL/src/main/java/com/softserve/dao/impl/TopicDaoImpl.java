@@ -42,8 +42,14 @@ public class TopicDaoImpl implements TopicDao {
 
 	@Override
 	public void deleteTopic(Topic topic) {
-		entityManager.remove(topic);
-		LOG.debug("Deleted topic (topic = {})", topic.getName());
+		Query query = entityManager
+				.createQuery("DELETE FROM Topic t WHERE t.id = :id");
+		query.setParameter("id", topic.getId());
+		if (query.executeUpdate() != 0) {
+			LOG.debug("Deleted topic(name = {})", topic.getName());
+		} else {
+			LOG.warn("Tried to delete topic(name = {})", topic.getName());
+		}
 	}
 
 	@SuppressWarnings("unchecked")

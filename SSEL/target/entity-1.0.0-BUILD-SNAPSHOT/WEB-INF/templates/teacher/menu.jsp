@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+>>>>>>> c7fc324fe2db3c6fd5d9c9fd97b6622fad8ffd78
 <body>
     <div id="wrapper">
         <!-- Navigation -->
@@ -36,6 +40,7 @@
 
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
+<<<<<<< HEAD
                     <ul class="nav" id="side-menu">
                         <li class="sidebar-search">
                             <div class="input-group custom-search-form">
@@ -78,6 +83,27 @@
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
+=======
+                <form method="GET" action="teacher">
+                    <ul class="nav" id="side-menu">
+                        
+						<li>
+                            <a href="#"><i class="fa fa-sitemap fa-fw"></i> All Courses<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+								<c:forEach items="${catList}" var="cat">
+									<li><a href="#"> ${cat.name} <span class="fa arrow"></span>
+									</a>
+										<ul class="nav nav-third-level">
+											<c:forEach items="${cat.subjects}" var="subj">
+												<li class="link"><button value="${subj.id}" name="courseId" 
+													class="btn-link" style="color:#428bca;">
+														${subj.name}</button></li>
+											</c:forEach>
+										</ul>
+								</c:forEach>
+							</ul>
+                            
+>>>>>>> c7fc324fe2db3c6fd5d9c9fd97b6622fad8ffd78
                         </li>
 						
 						

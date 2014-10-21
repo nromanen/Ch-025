@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 <%@page contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
+=======
+<%@page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+>>>>>>> c7fc324fe2db3c6fd5d9c9fd97b6622fad8ffd78
  <!--  <div class="header">  -->  
 <head>
 
