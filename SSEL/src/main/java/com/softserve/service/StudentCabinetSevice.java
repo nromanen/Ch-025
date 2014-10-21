@@ -6,9 +6,11 @@ import com.softserve.entity.CourseScheduler;
 import com.softserve.entity.StudentGroup;
 
 
+
+
 /**
  * Specify Student cabinet functionality
- * @author Анатолій
+ * 
  *
  */
 public interface StudentCabinetSevice {

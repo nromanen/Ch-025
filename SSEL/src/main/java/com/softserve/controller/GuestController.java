@@ -1,6 +1,7 @@
 
 package com.softserve.controller;
 
+import java.util.List;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -13,14 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.softserve.entity.Category;
+import com.softserve.entity.CourseScheduler;
 import com.softserve.entity.Subject;
-
-import com.softserve.entity.Topic;
-
 import com.softserve.service.CategoryService;
-
+import com.softserve.service.CourseSchedulerService;
 import com.softserve.service.SubjectService;
-import com.softserve.service.TopicService;
 
 @Controller
 public class GuestController {
@@ -29,27 +27,16 @@ public class GuestController {
 			.getLogger(GuestController.class);
 
 	@Autowired
-
-	private SubjectService subjectSevice;
+	private SubjectService subjectService;
+	
 	@Autowired
-	private TopicService topicService;
-
 	private CategoryService categoryService;
 	
 	@Autowired
-	private SubjectService subjectService;
-
+	private CourseSchedulerService cSchedulerService;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index(Model model) {	
-		Set<Subject> subject = subjectSevice.getAllSubjects();
-		
-		Topic topic = topicService.getTopicById(4);
-		topicService.deleteTopic(topic);
-		
-
-		model.addAttribute("subjects", subject);
-
 		Set<Subject> subjects = subjectService.getAllSubjects();
 		Set<Category> categories = categoryService.getAllCategories();
 		model.addAttribute("subList", subjects);
@@ -66,6 +53,8 @@ public class GuestController {
 		model.addAttribute("subList", subjects);
 		model.addAttribute("catList", categories);
 		Subject subject = subjectService.getSubjectById(courseId);
+//		List<CourseScheduler> schedule = cSchedulerService.getCourseScheduleresBySubjectId(subject.getId());
+//		model.addAttribute("schList", schedule);
 		model.addAttribute("subject", subject);
 		return "course";
 	}
