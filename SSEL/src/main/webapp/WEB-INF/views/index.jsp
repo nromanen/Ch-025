@@ -11,7 +11,6 @@
 	<tiles:putAttribute name="main-content">
 		<div id="page-wrapper">
 			<div class="row">
-<<<<<<< HEAD
 				<div class="col-lg-12">
 					<h1 class="page-header">SoftServe SSEL Academy</h1>
 				</div>
