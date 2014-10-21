@@ -48,10 +48,15 @@ public class TeacherController {
 			@RequestParam(value = "courseId", required = false) Integer courseId, Model model) {
 		Set<Subject> subjects = subjectService.getAllSubjects();
 		Set<Category> categories = categoryService.getAllCategories();
-		List<Topic> topics = topicService.getTopicsBySubjectId(courseId);
+		
 		model.addAttribute("subList", subjects);
 		model.addAttribute("catList", categories);
+		try {
+		List<Topic> topics = topicService.getTopicsBySubjectId(courseId);
 		model.addAttribute("topicList", topics);
+		} catch(NullPointerException e) {
+			return "teacher";
+		}
 		return "teacher";
 	}
 

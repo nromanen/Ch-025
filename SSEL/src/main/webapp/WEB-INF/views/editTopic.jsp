@@ -13,7 +13,11 @@
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">Edit topic ${topic.name}</h1>
+					<h1 class="page-header">Edit topic</h1>
+					<h3>Topic name:</h3>
+					<input class="form-control" value="${topic.name}">
+					<br>
+					
 				</div>
 				<!-- /.col-lg-12 -->
 			</div>
@@ -21,17 +25,19 @@
 				<div class="panel-body">
 					<!-- ololololololololololo -->
 
-					 <form>
+					 <form action="saveTopic">
             <textarea name="editor1" id="editor1" rows="10" cols="80">
-                This is my textarea to be replaced with CKEditor.<br>
                 ${topic.content}
-                
+             
             </textarea>
             <script>
                 // Replace the <textarea id="editor1"> with a CKEditor
                 // instance, using default configuration.
                 CKEDITOR.replace( 'editor1' );
             </script>
+            <br>
+            <input type="submit" class="btn btn-primary btn-lg"  align="right" value="Save">
+            
         </form>
 
 
