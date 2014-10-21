@@ -73,8 +73,8 @@ public class UserDaoImpl implements UserDao {
 	public boolean isExist(String email) {
 		List<User> result = entityManager
 				.createQuery("FROM User WHERE email = :email")
-				.setParameter("username", email).getResultList();
-		LOG.debug("User(username = {}) {} exist", email,
+				.setParameter("email", email).getResultList();
+		LOG.debug("User(email = {}) {} exist", email,
 				(result.size() > 0 ? "" : "does not"));
 		return result.size() > 0;
 	}
