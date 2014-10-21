@@ -17,4 +17,5 @@ public interface CourseSchedulerService {
 	public List<CourseScheduler> getAllCourseScheduleres();
 
 	public List<CourseScheduler> getCourseScheduleresBySubjectId(int id);
+	
 }
