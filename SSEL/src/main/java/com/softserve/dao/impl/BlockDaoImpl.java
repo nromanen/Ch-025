@@ -36,8 +36,14 @@ public class BlockDaoImpl implements BlockDao {
 
 	@Override
 	public void deleteBlock(Block block) {
-		entityManager.remove(block);
-		LOG.debug("Delete block (id = {})", block.getId());
+		Query query = entityManager
+				.createQuery("DELETE FROM Block b WHERE b.id = :id");
+		query.setParameter("id", block.getId());
+		if (query.executeUpdate() != 0) {
+			LOG.debug("Deleted block(id = {})", block.getId());
+		} else {
+			LOG.warn("Tried to delete block(id = {})", block.getId());
+		}
 	}
 
 	@Override
