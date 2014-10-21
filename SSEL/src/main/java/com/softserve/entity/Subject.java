@@ -37,10 +37,10 @@ public class Subject {
 	@JoinColumn(name = "category", nullable = false)
 	private Category category;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy="subject")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "subject")
 	private Set<Block> blocks = new HashSet<>();
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy="subject")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "subject")
 	private Set<CourseScheduler> schedulers = new HashSet<>();
 	
 	public Subject() {
