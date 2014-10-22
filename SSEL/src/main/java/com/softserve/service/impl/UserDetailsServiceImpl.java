@@ -37,13 +37,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			throw new UsernameNotFoundException(msg);
 		}
 
-		boolean enabled = user.isBlocked();
+		boolean enabled = !user.isBlocked();
 		boolean accountNonExpired = true;
 		boolean credentialsNonExpired = true;
 		boolean accountNonLocked = true;
 
 		List<GrantedAuthority> roles = new ArrayList<>();
 		roles.add(new SimpleGrantedAuthority(user.getRole().getRole()));
+		
+		System.out.println("User: " + user.getEmail() + " exists= " + userDao.isExist(login));
 
 		return new User(user.getEmail(), user.getPassword(), enabled,
 				accountNonExpired, credentialsNonExpired, accountNonLocked,

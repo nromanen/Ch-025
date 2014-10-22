@@ -19,7 +19,7 @@
 				<i class="fa fa-caret-down"></i>
 		</a>
 			<ul class="dropdown-menu dropdown-user">
-				<li><a href="#"><i class="fa fa-user fa-fw"></i> User
+				<li><a href="student"><i class="fa fa-user fa-fw"></i> User
 						Profile</a></li>
 				<li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a></li>
 				<li class="divider"></li>
@@ -33,7 +33,7 @@
 	<!-- /.navbar-top-links -->
 	<div class="navbar-default sidebar" role="navigation">
 		<div class="sidebar-nav navbar-collapse">
-			<form method="GET" action="/entity/course">
+			<form method="GET" action="course">
 				<ul class="nav" id="side-menu">
 					<li><a href="#"><i class="fa fa-sitemap fa-fw"></i> All
 							Courses<span class="fa arrow"></span></a>
@@ -45,7 +45,7 @@
 									<ul class="nav nav-third-level">
 										<c:forEach items="${cat.subjects}" var="subj">
 											<li class="link"><button value="${subj.id}"
-													name="courseId" class="btn-link" style="color: #428bca;">
+													name="subjectId" class="btn-link" style="color: #428bca;">
 													${subj.name}</button></li>
 										</c:forEach>
 									</ul>
