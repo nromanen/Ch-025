@@ -11,4 +11,11 @@
 		<put-attribute name="title" value="SSEL SoftServeAcademy"/>
         <put-attribute name="content" value="/WEB-INF/views/pages/index.jsp"/>
 	</definition>
+	
+	<!-- Registration -->
+	<definition name="registration" extends="base-template">
+		<put-attribute name="title" value="SSEL SoftServeAcademy Registration"/>
+        <put-attribute name="content" value="/WEB-INF/views/pages/registration.jsp"/>
+        <put-attribute name="menu" value=""></put-attribute>
+	</definition>
 </tiles-definitions>
