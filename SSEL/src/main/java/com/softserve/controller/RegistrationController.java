@@ -25,7 +25,6 @@ public class RegistrationController {
 	
 	@RequestMapping(value = "/registration", method = RequestMethod.GET)
 	public String regForm(Model model) {
-		System.out.println("method get");
 		model.addAttribute("registration", new Registration());
 		return "registration";
 	}
