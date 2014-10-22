@@ -18,14 +18,18 @@
 					<h3 class="title">
 						About course
 					</h3>
-				<form method="GET" action="/entity/subscribe">	
 				<div>
 					<div class="title"> ${subject.name}</div>
 					<div style="padding-top:8px;"> Description: ${subject.description}</div>
-					<button value="${subject.id}" name="courseId" class="btn-success"
+					<form method="GET" action="subscribe">	
+					<button value="${subject.id}" name="subjectId" class="btn-success"
 					style="border-radius:5px; margin-top:8px;">Subscribe to course </button>
+					</form>
+					<form method="GET" action="courseInformation">	
+					<button value="${subject.id}" name="subjectId" class="btn-info"
+					style="border-radius:5px; margin-top:8px;"> Details </button>
+					</form>
 				</div>
-				</form>
 				</div>
 			</div>
 			</div>
