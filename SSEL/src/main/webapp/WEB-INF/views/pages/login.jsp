@@ -6,7 +6,8 @@
                 	<h3 class="panel-title">Please Login</h3>
                 </div>
                 <div class="panel-body">
-                	<form role="form">
+                	<form role="form" action="j_spring_security_check" 
+                		method="POST" accept-charset="UTF-8">
                     	<fieldset>
                         	<div class="form-group">
                             	<input class="form-control" placeholder="E-mail" name="email" 
@@ -20,7 +21,12 @@
                             		<input name="remember" type="checkbox" value="Remember Me">Remember Me
                                 </label>
                             </div>
-                            <a href="" class="btn btn-lg btn-success btn-block">Login</a>
+                            <button type="submit" class="btn btn-block btn-success">
+								Login
+							</button>
+							<a href="registration" class="btn btn-block btn-primary">
+								Registration
+							</a>
                     	</fieldset>
                 	</form>
             	</div>
