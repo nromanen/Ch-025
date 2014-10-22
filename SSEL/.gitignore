@@ -1,10 +1,7 @@
-/target/
-<<<<<<< HEAD
-<<<<<<< HEAD
-/bin/
-=======
-
->>>>>>> origin/master
-=======
-/bin/
->>>>>>> master
+./target/
+./.settings/
+./.checkstyle
+./.classpath
+./.project
+./.springBeans
+./.app_log
