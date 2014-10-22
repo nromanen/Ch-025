@@ -46,9 +46,14 @@ public class StudentCabinetController {
 		StudentGroup row = studCabinetService.getStudentGroupByUserAndCourseId(userId, cs.getId());
 		if (row == null) { //check if student hasn't subscribed
 			if (cs.getStart().after(new Date())) { // check if course hasn't started
-				int groupNumber = studGroupService.getGroupNumberByCourse(cs.getId());
-				if (groupNumber == -1) { // if user is first subscriber, create new group
-					groupNumber = studGroupService.getNextGroupNumber();
+				int groupNumber;
+				if (studGroupService.getAllStudentGroups().size() == 0) { // if no one group in db
+					groupNumber = 100;
+				} else {
+					groupNumber = studGroupService.getGroupNumberByCourse(cs.getId()); 
+					if (groupNumber == -1) { // if user is first subscriber, create new group
+						groupNumber = studGroupService.getNextGroupNumber();
+					}
 				}
 				row = new StudentGroup();
 				row.setCourseScheduler(cs);
@@ -57,7 +62,7 @@ public class StudentCabinetController {
 				row.setRating(0.0);
 				row.setUser(userService.getUserById(userId));
 				studGroupService.addStudentGroup(row);
-				return "redirect:student?table=future";
+				return "redirect:course?subjectId="+subjectId;
 			} else {//redirect user to error page
 				return "redirect:subscribe_error";
 			}
@@ -76,7 +81,7 @@ public class StudentCabinetController {
 		StudentGroup row = studCabinetService.getStudentGroupByUserAndCourseId(userId, cs.getId());
 		if (row != null) {
 			studGroupService.deleteStudentGroup(row);
-			return "redirect:student?table=active";
+			return "redirect:course?subjectId="+subjectId;
 		} else {
 			return "redirect:subscribe_error";
 		}
