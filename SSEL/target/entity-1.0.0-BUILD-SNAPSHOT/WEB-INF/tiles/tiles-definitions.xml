@@ -26,6 +26,12 @@
         <put-attribute name="main-content" value=""/>
     </definition>
     
+    <definition name="studentTemplate" template="/WEB-INF/templates/student/template.jsp">
+        <put-attribute name="header" value="/WEB-INF/templates/student/header.jsp" />
+        <put-attribute name="menu" value="/WEB-INF/templates/student/menu.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/templates/student/footer.jsp" />
+    </definition>
+    
     <definition name="registration" extends="defaultTemplate">
     	<put-attribute name="main-content" value="/WEB-INF/views/registration.jsp"/>
     </definition>

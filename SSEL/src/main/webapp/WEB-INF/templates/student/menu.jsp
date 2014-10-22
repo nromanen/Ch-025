@@ -47,7 +47,9 @@
                                 <li>
                                     <a href="student?table=active">Active courses</a>
                                 </li>
-                                
+                                <li>
+                                    <a href="student?table=finished">Finished courses</a>
+                                </li>
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>

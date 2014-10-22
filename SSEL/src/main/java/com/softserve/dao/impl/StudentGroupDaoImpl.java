@@ -80,7 +80,25 @@ public class StudentGroupDaoImpl implements StudentGroupDao {
 				+ "where sg.user.id=:user and sg.courseScheduler.id=:course");
 		query.setParameter("user", userId);
 		query.setParameter("course", courseScheduler);
-		return (StudentGroup) query.getSingleResult();
+		List<StudentGroup> results = query.getResultList();
+		return (results.size() == 0) ? null : results.get(0);
+	}
+
+	@Override
+	public int getStudentGroupNumberByCourse(int courseScheduler) {
+		LOG.debug("Get StudentGroup by course");
+		Query query = entityManager.createQuery("select distinct sg from StudentGroup sg where sg.courseScheduler.id = :id");
+		query.setParameter("id", courseScheduler);
+		List<StudentGroup> results = query.getResultList();
+		return (results.size() == 0) ? -1 : results.get(0).getGroupNumber();
+	}
+
+	@Override
+	public int getNextGroupNumber() {
+		LOG.debug("Get StudentGroup by course");
+		Query query = entityManager.createQuery("select max(sg.groupNumber) from StudentGroup sg");
+		Integer res = (Integer) query.getSingleResult();
+		return (res != null) ? res+1 : -1;
 	}
 
 }
