@@ -1,19 +1,5 @@
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> anatoliy
 Manifest-Version: 1.0
-Built-By: Анатолій
-Build-Jdk: 1.8.0_20
-Created-By: Maven Integration for Eclipse
-
-<<<<<<< HEAD
-=======
-=======
-Manifest-Version: 1.0
-Built-By: hash
+Built-By: andry
 Build-Jdk: 1.8.0_25
 Created-By: Maven Integration for Eclipse
 
->>>>>>> 69562ee06cec55c384cde5758a11481fae292a18
->>>>>>> anatoliy
