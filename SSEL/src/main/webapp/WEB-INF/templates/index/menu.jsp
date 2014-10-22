@@ -22,13 +22,15 @@
 					<i class="fa fa-caret-down"></i>
 			</a>
 				<ul class="dropdown-menu dropdown-user">
-					<li><a href="#"><i class="fa fa-user fa-fw"></i> User
+					<li><a href="student"><i class="fa fa-user fa-fw"></i> User
 							Profile</a></li>
 					<li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
 					</li>
 					<li class="divider"></li>
-					<li><a href="login"><i class="fa fa-sign-out fa-fw"></i>
-							Login</a></li>
+					<li><a href="login"><i class="fa fa-sign-in fa-fw"></i>
+							Sign in</a></li>
+					<li><a href="registration"><i class="fa fa-sign-in fa-fw"></i>
+							Sign up</a></li>
 				</ul> <!-- /.dropdown-user --></li>
 			<!-- /.dropdown -->
 		</ul>
