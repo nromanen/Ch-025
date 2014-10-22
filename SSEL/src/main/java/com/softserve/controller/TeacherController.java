@@ -138,6 +138,19 @@ public class TeacherController {
 		return "editBlock";
 	}
 	
+	@RequestMapping(value = "/editCategory", method = RequestMethod.GET)
+	public String editCategory(
+			@RequestParam(value = "categoryId", required = false) Integer categoryId,
+			Model model) {
+		if (categoryId != null) {
+			Category category = categoryService.getCategoryById(categoryId);
+			model.addAttribute("category", category);
+		}
+
+		
+		return "editCategory";
+	}
+	
 	@RequestMapping(value = "/saveTopic", method = RequestMethod.GET)
 	public String saveTopic(
 			@RequestParam(value = "topicId", required = false) Integer topicId,
