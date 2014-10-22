@@ -69,5 +69,9 @@
     	<put-attribute name="main-content" value="/WEB-INF/views/registration.jsp"/>
     </definition>
   
+<<<<<<< HEAD
 >>>>>>> 9a5e1cfab97e60d7096ed59cc61c78600f5bf6b6
+=======
+>>>>>>> 69562ee06cec55c384cde5758a11481fae292a18
+>>>>>>> anatoliy
 </tiles-definitions>
