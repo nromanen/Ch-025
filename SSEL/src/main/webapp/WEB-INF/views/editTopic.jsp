@@ -14,10 +14,8 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<h1 class="page-header">Edit topic</h1>
-					<h3>Topic name:</h3>
-					<input class="form-control" value="${topic.name}">
-					<br>
-					
+
+
 				</div>
 				<!-- /.col-lg-12 -->
 			</div>
@@ -25,20 +23,60 @@
 				<div class="panel-body">
 					<!-- ololololololololololo -->
 
-					 <form action="saveTopic">
-            <textarea name="editor1" id="editor1" rows="10" cols="80">
+					<form action="saveTopic">
+					<input type = "hidden" name = "topicId" value = "${topic.id}">
+						<div class="form-group">
+							<label>Topic name</label> <input class="form-control" name="topicName" value="${topic.name}">
+							<p class="help-block">Input or edit topic name</p>
+						</div>
+						
+						<div class="form-group">
+							<label>Topic order</label> <input class="form-control" size=10 name="topicOrder" value="${topic.order}">
+							<p class="help-block">Input or edit topic order</p>
+						</div>
+						
+						                <div class="form-group">
+                                            <label>Topic enable</label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="topicAlive" id="optionsRadiosInline1" value="1" checked>Enable
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="topicAlive" id="optionsRadiosInline2" value="0">Disable
+                                            </label>
+                                        </div>
+						
+
+						<textarea name="topicContent" id="topicContent" rows="15"
+							cols="80">
                 ${topic.content}
              
             </textarea>
-            <script>
-                // Replace the <textarea id="editor1"> with a CKEditor
-                // instance, using default configuration.
-                CKEDITOR.replace( 'editor1' );
-            </script>
-            <br>
-            <input type="submit" class="btn btn-primary btn-lg"  align="right" value="Save">
-            
-        </form>
+						<script>
+							// Replace the <textarea id="editor1"> with a CKEditor
+							// instance, using default configuration.
+							CKEDITOR.replace('topicContent');
+						</script>
+						<br>
+						<div class="form-group">
+							<label>Select module</label> <select class="form-control"
+								name="blockId">
+								<c:forEach items="${blockList}" var="block">
+									<c:choose>
+										<c:when test="${topic.block.id == block.id}">
+											<option selected value="${block.id}">Module	${block.order}. ${block.name}</option>
+										</c:when>
+										<c:otherwise>
+											<option value="${block.id}">Module ${block.order}.${block.name}</option>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+							</select>
+						</div>
+
+						<br> <input type="submit" class="btn btn-primary btn-lg"
+							value="Save">
+
+					</form>
 
 
 					<!-- /ololololololololololo -->
@@ -51,7 +89,7 @@
 		<!-- /#wrapper -->
 
 
-		
+
 		<script src="resources/ckeditor/ckeditor.js"></script>
 
 		<!-- jQuery Version 1.11.0 -->
@@ -67,7 +105,7 @@
 		<!-- Custom Theme JavaScript -->
 		<script src="resources/js/sb-admin-2.js"></script>
 
-		
+
 
 		</body>
 
