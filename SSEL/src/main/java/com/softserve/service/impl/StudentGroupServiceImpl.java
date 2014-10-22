@@ -52,4 +52,14 @@ public class StudentGroupServiceImpl implements StudentGroupService {
 		return studentGroupDao.getAllStudentGroups();
 	}
 
+	@Override
+	public int getGroupNumberByCourse(int courseId) {
+		return studentGroupDao.getStudentGroupNumberByCourse(courseId);
+	}
+
+	@Override
+	public int getNextGroupNumber() {
+		return studentGroupDao.getNextGroupNumber();
+	}
+
 }

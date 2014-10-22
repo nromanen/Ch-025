@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 eclipse.preferences.version=1
 encoding//src/main/webapp/WEB-INF/templates/default/footer.jsp=UTF-8
 separateDerivedEncodings=true
+=======
+eclipse.preferences.version=1
+encoding//src/main/webapp/WEB-INF/templates/default/footer.jsp=UTF-8
+separateDerivedEncodings=true
+>>>>>>> 6c8cf602d611bb91828a64b8c6533357db8484a0
