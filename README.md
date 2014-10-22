@@ -1,4 +1,7 @@
+SoftServe Academy
+
 Ch-025
+
 ======
 
-SSEL
+SSEL project
