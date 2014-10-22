@@ -17,5 +17,7 @@
 
 	<!-- Mail sender configurations -->
 	<import resource="mail.xml" />
+	
+	<import resource="security.xml" />
 
 </beans>
