@@ -52,7 +52,6 @@
 		<!-- DataTables JavaScript -->
 		<script src="resources/js/plugins/dataTables/jquery.dataTables.js"></script>
 		<script src="resources/js/plugins/dataTables/dataTables.bootstrap.js"></script>
-		<h1 class="page-header">Description</h1>
 	</tiles:putAttribute>
 </tiles:insertDefinition>
 </html>
