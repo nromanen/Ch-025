@@ -1,6 +1,4 @@
-SoftServe Academy
-
-Ch-025
+SoftServe Academy Ch-025
 
 ======
 
