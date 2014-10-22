@@ -11,7 +11,6 @@
 	<tiles:putAttribute name="main-content">
 		<div id="page-wrapper">
 			<div class="row">
-<<<<<<< HEAD
 				<div class="col-lg-12">
 					<h1 class="page-header">SoftServe SSEL Academy</h1>
 				</div>
@@ -50,11 +49,9 @@
 		<script src="resources/js/plugins/dataTables/dataTables.bootstrap.js"></script>
 
 
-=======
 				<h1 class="page-header">Description</h1>
 			</div>
 		</div>
->>>>>>> 43adb0790b125c7b3893adecc6e6bf88b241421f
 	</tiles:putAttribute>
 </tiles:insertDefinition>
 </html>

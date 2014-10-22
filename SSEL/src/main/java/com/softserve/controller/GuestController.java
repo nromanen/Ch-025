@@ -14,11 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.softserve.entity.Category;
 import com.softserve.entity.Subject;
-
 import com.softserve.entity.Topic;
-
 import com.softserve.service.CategoryService;
-
 import com.softserve.service.SubjectService;
 import com.softserve.service.TopicService;
 
@@ -29,7 +26,6 @@ public class GuestController {
 			.getLogger(GuestController.class);
 
 	@Autowired
-
 	private SubjectService subjectSevice;
 	@Autowired
 	private TopicService topicService;
