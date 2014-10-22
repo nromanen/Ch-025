@@ -1,3 +1,13 @@
+<<<<<<< HEAD
 /target/
 /bin/
 
+=======
+./target/
+./.settings/
+./.checkstyle
+./.classpath
+./.project
+./.springBeans
+./.app_log
+>>>>>>> anatoliy
