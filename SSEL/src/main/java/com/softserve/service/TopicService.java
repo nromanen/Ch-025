@@ -1,7 +1,6 @@
 package com.softserve.service;
 
 import java.util.List;
-import java.util.Set;
 
 import com.softserve.entity.Topic;
 

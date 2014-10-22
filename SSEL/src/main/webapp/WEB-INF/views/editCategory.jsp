@@ -5,36 +5,51 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ page session="false"%>
 <html>
-
-<tiles:insertDefinition name="indexTemplate">
+<script src="resources/ckeditor/ckeditor.js"></script>
+<tiles:insertDefinition name="teacherTemplate">
 
 	<tiles:putAttribute name="main-content">
+
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">SoftServe SSEL Academy</h1>
+					<h1 class="page-header">Edit category</h1>
+
+
 				</div>
-				<div class="col-lg-12">
-					<p>SoftServe SSEL Academy is better way for self-education. We
-						choose the best courses for you!</p>
+				<!-- /.col-lg-12 -->
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<!-- ololololololololololo -->
+
+					<form action="saveCategory">
+					<input type = "hidden" name = "categoryId" value = "${category.id}">
+						<div class="form-group">
+							<label>Category name</label> <input class="form-control" name="categoryName" value="${category.name}">
+							<p class="help-block">Input or edit category name</p>
+						</div>
+						
+						
+
+						<br> <input type="submit" class="btn btn-primary btn-lg"
+							value="Save">
+
+					</form>
+
+
+					<!-- /ololololololololololo -->
 				</div>
-				<form method="GET" action="course">
-					<div class="blocks">
-						<c:forEach items="${subList}" var="subj">
-							<div class="inline">
-								<div class="title">
-									<button value="${subj.id}" name="subjectId" class="btn-link"
-										style="color: #428bca;">${subj.name}</button>
-								</div>
-								<div>${subj.description}</div>
-							</div>
-						</c:forEach>
-					</div>
-				</form>
 			</div>
 		</div>
-		</body>
+		<!-- /#page-wrapper -->
 
+		</div>
+		<!-- /#wrapper -->
+
+
+
+		<script src="resources/ckeditor/ckeditor.js"></script>
 
 		<!-- jQuery Version 1.11.0 -->
 		<script src="resources/js/jquery-1.11.0.js"></script>
@@ -49,9 +64,11 @@
 		<!-- Custom Theme JavaScript -->
 		<script src="resources/js/sb-admin-2.js"></script>
 
-		<!-- DataTables JavaScript -->
-		<script src="resources/js/plugins/dataTables/jquery.dataTables.js"></script>
-		<script src="resources/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+
+
+		</body>
+
+
 	</tiles:putAttribute>
 </tiles:insertDefinition>
 </html>
