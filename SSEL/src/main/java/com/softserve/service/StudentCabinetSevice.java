@@ -24,4 +24,6 @@ public interface StudentCabinetSevice {
 	public List<CourseScheduler> getFinishedCourses();
 	
 	public StudentGroup getStudentGroupByUserAndCourseId(int userId, int courseId);
+	
+	
 }
