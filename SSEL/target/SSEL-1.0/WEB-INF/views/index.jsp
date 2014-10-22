@@ -11,6 +11,7 @@
 	<tiles:putAttribute name="main-content">
 		<div id="page-wrapper">
 			<div class="row">
+<<<<<<< HEAD:SSEL/target/SSEL-1.0/WEB-INF/views/index.jsp
 <<<<<<< HEAD
 <<<<<<< HEAD:SSEL/target/entity-1.0.0-BUILD-SNAPSHOT/WEB-INF/views/index.jsp
 <<<<<<< HEAD
@@ -18,6 +19,8 @@
 >>>>>>> f189848190fe3855ca1b5ea8493246b0f6197e34
 =======
 >>>>>>> 9a5e1cfab97e60d7096ed59cc61c78600f5bf6b6:SSEL/target/SSEL-1.0/WEB-INF/views/index.jsp
+=======
+>>>>>>> anatoliy:SSEL/target/entity-1.0.0-BUILD-SNAPSHOT/WEB-INF/views/index.jsp
 				<div class="col-lg-12">
 					<h1 class="page-header">SoftServe SSEL Academy</h1>
 				</div>
@@ -25,6 +28,7 @@
 					<p>SoftServe SSEL Academy is better way for self-education. We
 						choose the best courses for you!</p>
 				</div>
+<<<<<<< HEAD:SSEL/target/SSEL-1.0/WEB-INF/views/index.jsp
 <<<<<<< HEAD:SSEL/target/entity-1.0.0-BUILD-SNAPSHOT/WEB-INF/views/index.jsp
 <<<<<<< HEAD
 =======
@@ -39,6 +43,8 @@
 				</div>
 <<<<<<< HEAD:SSEL/target/entity-1.0.0-BUILD-SNAPSHOT/WEB-INF/views/index.jsp
 =======
+=======
+>>>>>>> anatoliy:SSEL/target/entity-1.0.0-BUILD-SNAPSHOT/WEB-INF/views/index.jsp
 				<form method="GET" action="/entity/course">
 					<div class="blocks">
 						<c:forEach items="${subList}" var="subj">
@@ -52,9 +58,12 @@
 						</c:forEach>
 					</div>
 				</form>
+<<<<<<< HEAD:SSEL/target/SSEL-1.0/WEB-INF/views/index.jsp
 >>>>>>> f189848190fe3855ca1b5ea8493246b0f6197e34
 =======
 >>>>>>> 9a5e1cfab97e60d7096ed59cc61c78600f5bf6b6:SSEL/target/SSEL-1.0/WEB-INF/views/index.jsp
+=======
+>>>>>>> anatoliy:SSEL/target/entity-1.0.0-BUILD-SNAPSHOT/WEB-INF/views/index.jsp
 			</div>
 		</div>
 		</body>
@@ -76,6 +85,7 @@
 		<!-- DataTables JavaScript -->
 		<script src="resources/js/plugins/dataTables/jquery.dataTables.js"></script>
 		<script src="resources/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+<<<<<<< HEAD:SSEL/target/SSEL-1.0/WEB-INF/views/index.jsp
 <<<<<<< HEAD:SSEL/target/entity-1.0.0-BUILD-SNAPSHOT/WEB-INF/views/index.jsp
 <<<<<<< HEAD
 =======
@@ -93,6 +103,9 @@
 >>>>>>> f189848190fe3855ca1b5ea8493246b0f6197e34
 =======
 >>>>>>> 9a5e1cfab97e60d7096ed59cc61c78600f5bf6b6:SSEL/target/SSEL-1.0/WEB-INF/views/index.jsp
+=======
+		<h1 class="page-header">Description</h1>
+>>>>>>> anatoliy:SSEL/target/entity-1.0.0-BUILD-SNAPSHOT/WEB-INF/views/index.jsp
 	</tiles:putAttribute>
 </tiles:insertDefinition>
 </html>
