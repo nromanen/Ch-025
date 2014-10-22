@@ -1,5 +1,6 @@
 package com.softserve.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -14,10 +15,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.softserve.entity.Category;
 import com.softserve.entity.CourseScheduler;
+import com.softserve.entity.Role;
+import com.softserve.entity.StudentGroup;
 import com.softserve.entity.Subject;
+import com.softserve.entity.User;
 import com.softserve.service.CategoryService;
 import com.softserve.service.CourseSchedulerService;
+import com.softserve.service.RoleService;
+import com.softserve.service.StudentGroupService;
 import com.softserve.service.SubjectService;
+import com.softserve.service.UserService;
 
 @Controller
 public class GuestController {
@@ -34,6 +41,15 @@ public class GuestController {
 	@Autowired
 	private CourseSchedulerService cSchedulerService;
 	
+	@Autowired
+	private StudentGroupService studentGroupService;
+	
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private RoleService roleService;
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index(Model model) {	
 		Set<Subject> subjects = subjectService.getAllSubjects();
@@ -46,16 +62,38 @@ public class GuestController {
 	}
 	
 	@RequestMapping(value = "/course", method = RequestMethod.GET)
-	public String course(@RequestParam Integer courseId, Model model) {
+	public String course(@RequestParam Integer subjectId, Model model) {
 		Set<Subject> subjects = subjectService.getAllSubjects();
 		Set<Category> categories = categoryService.getAllCategories();
 		model.addAttribute("subList", subjects);
 		model.addAttribute("catList", categories);
-		Subject subject = subjectService.getSubjectById(courseId);
-//		List<CourseScheduler> schedule = cSchedulerService.getCourseScheduleresBySubjectId(subject.getId());
-//		model.addAttribute("schList", schedule);
+		Subject subject = subjectService.getSubjectById(subjectId);
+		List<CourseScheduler> schedule = 
+				cSchedulerService.getCourseScheduleresBySubjectId(subject.getId());
+		
+		model.addAttribute("schedule", schedule.get(0));
 		model.addAttribute("subject", subject);
 		return "course";
 	}
+	
+	//extractedmethod
+//	Role role = new Role();
+//	role.setRole("Student");
+//	roleService.addRole(role);
+//	User user = new User();
+//	user.setFirstName("Vasya");
+//	user.setLastName("Vasya");
+//	user.setEmail("aaa@gmail.com");
+//	user.setPassword("fsdfsd");
+//	user.setExpired(new Date(54353455454L));
+//	user.setRegistration(new Date(54354353L));
+//	user.setRole(roleService.getRoleById(1));
+//	userService.addUser(user);
+//	StudentGroup studentGroup = new StudentGroup();
+//	studentGroup.setCourseScheduler(schedule.get(0));
+//	studentGroup.setUser(userService.getUserById(1));
+//	studentGroup.setGroupNumber(101);
+//	studentGroupService.addStudentGroup(studentGroup);
+
 	
 }

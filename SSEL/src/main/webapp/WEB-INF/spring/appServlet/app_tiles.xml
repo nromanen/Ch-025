@@ -11,7 +11,7 @@
 		<beans:property name="definitions">
 			<beans:list>
 				<beans:value>/WEB-INF/tiles/templates.xml</beans:value>
-                <beans:value>/WEB-INF/tiles/pages.xml</beans:value>
+                <beans:value>/WEB-INF/tiles/tiles-definitions.xml</beans:value>
 			</beans:list>
 		</beans:property>
 		<beans:property name="preparerFactoryClass"
