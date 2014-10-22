@@ -11,7 +11,6 @@
 	<tiles:putAttribute name="main-content">
 		<div id="page-wrapper">
 			<div class="row">
-<<<<<<< HEAD
 				<div class="col-lg-12">
 					<h1 class="page-header">SoftServe SSEL Academy</h1>
 				</div>
@@ -19,14 +18,19 @@
 					<p>SoftServe SSEL Academy is better way for self-education. We
 						choose the best courses for you!</p>
 				</div>
-				<div class="blocks">
-					<c:forEach items="${subList}" var="subj">
-						<div class="inline">
-							<div class="title">${subj.name}</div>
-							<div>${subj.description }</div>
-						</div>
-					</c:forEach>
-				</div>
+				<form method="GET" action="/entity/course">
+					<div class="blocks">
+						<c:forEach items="${subList}" var="subj">
+							<div class="inline">
+								<div class="title">
+									<button value="${subj.id}" name="courseId" class="btn-link"
+										style="color: #428bca;">${subj.name}</button>
+								</div>
+								<div>${subj.description}</div>
+							</div>
+						</c:forEach>
+					</div>
+				</form>
 			</div>
 		</div>
 		</body>
@@ -48,13 +52,6 @@
 		<!-- DataTables JavaScript -->
 		<script src="resources/js/plugins/dataTables/jquery.dataTables.js"></script>
 		<script src="resources/js/plugins/dataTables/dataTables.bootstrap.js"></script>
-
-
-=======
-				<h1 class="page-header">Description</h1>
-			</div>
-		</div>
->>>>>>> 43adb0790b125c7b3893adecc6e6bf88b241421f
 	</tiles:putAttribute>
 </tiles:insertDefinition>
 </html>
