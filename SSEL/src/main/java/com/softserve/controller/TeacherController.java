@@ -256,9 +256,4 @@ public class TeacherController {
 		return "teacher";
 	}
 
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String loginForm(Model model) {
-		return "login";
-	}
-
 }
