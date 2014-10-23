@@ -50,7 +50,7 @@ public class StudentCabinetController {
 	}
 	
 	@RequestMapping("/student")
-	public String printStudentCourses(@RequestParam("table") String table,Model model) {
+	public String printStudentCourses(@RequestParam(value="table", required = false) String table,Model model) {
 		studentCabinetService.initSubscribedList(1);
 		if (table == null || table.equals("future")) {
 			model.addAttribute("table", generateHtmlTable(studentCabinetService.getFutureCourses()));
