@@ -2,7 +2,6 @@
 	pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 		<div id="page-wrapper">
 
 
@@ -34,20 +33,16 @@
 												<table class="table table-hover">
 													<thead>
 														<tr>
-															<th>Id</th>
 															<th>Topic name</th>
-															<th>Order</th>
 															<th>Alive</th>
 														</tr>
 													</thead>
 													<tbody>
-														<c:forEach items="${topicList}" var="topic">
-															<c:if test="${block.id == topic.block.id}">
+														<c:forEach items="${block.topics}" var="topic">
 																<tr class="odd gradeA">
-																	<td>${topic.id}</td>
-																	<td class="center">${topic.alive}</td>
+																	<td>${topic.name}</td>
+																	<td>${topic.alive}</td>
 																</tr>
-															</c:if>
 														</c:forEach>
 													</tbody>
 												</table>
