@@ -13,14 +13,19 @@
 			<p>SoftServe SSEL Academy is better way for self-education. We
 				choose the best courses for you!</p>
 		</div>
-		<div class="blocks">
-			<c:forEach items="${subList}" var="subj">
-				<div class="inline">
-					<div class="title">${subj.name}</div>
-					<div>${subj.description }</div>
-				</div>
-			</c:forEach>
-		</div>
+		<form method="GET" action="course">
+			<div class="blocks">
+				<c:forEach items="${subList}" var="subj">
+					<div class="inline">
+						<div class="title">
+							<button value="${subj.id}" name="subjectId" class="btn-link"
+								style="color: #428bca;">${subj.name}</button>
+						</div>
+						<div>${subj.description}</div>
+					</div>
+				</c:forEach>
+			</div>
+		</form>
 	</div>
 </div>
 

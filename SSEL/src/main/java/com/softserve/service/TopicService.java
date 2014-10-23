@@ -24,3 +24,7 @@ public interface TopicService {
 	
 	public List<Topic> getTopicsBySubjectId(int id);
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 772eb22c21f42142f1939aa0402d1e390acd3f4c

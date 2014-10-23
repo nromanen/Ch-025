@@ -8,24 +8,40 @@
 
 	<!-- Index -->
 	<definition name="index" extends="base-template">
-		<put-attribute name="title" value="SSEL SoftServeAcademy"/>
-        <put-attribute name="content" value="/WEB-INF/views/pages/index.jsp"/>
+		<put-attribute name="title" value="SSEL SoftServeAcademy" />
+		<put-attribute name="content" value="/WEB-INF/views/pages/index.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/templates/index_menu.jsp"></put-attribute>
 	</definition>
-	
+
 	<!-- Registration -->
 	<definition name="registration" extends="base-template">
-		<put-attribute name="title" value="SSEL SoftServeAcademy Registration"/>
-        <put-attribute name="content" value="/WEB-INF/views/pages/registration.jsp"/>
-        <put-attribute name="menu" value=""></put-attribute>
+		<put-attribute name="title" value="SSEL SoftServeAcademy Registration" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/pages/registration.jsp" />
+		<put-attribute name="menu" value=""></put-attribute>
 	</definition>
-	
+
 	<!-- Login -->
 	<definition name="login" extends="base-template">
-		<put-attribute name="title" value="SSEL SoftServeAcademy Registration"/>
-        <put-attribute name="content" value="/WEB-INF/views/pages/login.jsp"/>
-        <put-attribute name="menu" value=""></put-attribute>
+		<put-attribute name="title" value="SSEL SoftServeAcademy Login" />
+		<put-attribute name="content" value="/WEB-INF/views/pages/login.jsp" />
+		<put-attribute name="menu" value=""></put-attribute>
+	</definition>
+
+	<!-- Course -->
+	<definition name="course" extends="index">
+		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
+		<put-attribute name="content" value="/WEB-INF/views/pages/course.jsp" />
+	</definition>
+
+	<!-- Student -->
+	<definition name="student" extends="base-template">
+		<put-attribute name="title" value="SSEL SoftServeAcademy Student" />
+		<put-attribute name="content" value="/WEB-INF/views/pages/student.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/templates/student_menu.jsp" />
 	</definition>
 	
+<<<<<<< HEAD
 	<!-- Teacher -->
 	<definition name="teacher" extends="base-template">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Teacher cabinet"/>
@@ -61,3 +77,8 @@
     
     
 </tiles-definitions>
+=======
+	
+</tiles-definitions>
+
+>>>>>>> 772eb22c21f42142f1939aa0402d1e390acd3f4c
