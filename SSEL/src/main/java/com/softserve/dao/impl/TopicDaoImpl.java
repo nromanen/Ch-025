@@ -70,4 +70,16 @@ public class TopicDaoImpl implements TopicDao {
 		return query.getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Topic> getTopicsBySubjectId(int id) {
+		Query query = entityManager.createQuery("FROM Topic t "
+				+ "WHERE t.block.subject.id = :id " + "ORDER BY t.order");
+		query.setParameter("id", id);
+
+		LOG.debug("Get all topics by block id = {}", id);
+		return query.getResultList();
+	}
+	
+
 }

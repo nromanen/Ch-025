@@ -1,5 +1,7 @@
 package com.softserve.service.impl;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,34 +56,67 @@ public class TopicServiceImpl implements TopicService {
 
 	@Override
 	public List<Topic> getTopicsBySubjectId(int id) {
-		return topicDao.getTopicsByBlockId(id);
+		return topicDao.getTopicsBySubjectId(id);
 	}
 
 	@Override
 	public void changeOrderUp(Topic topic) {
 		List<Topic> topics = topicDao.getTopicsByBlockId(topic.getBlock().getId());
-		for (int i = 0; i < topics.size(); i++) {
-			if (topics.get(i).getOrder() == topic.getOrder()-1) {
-				topics.get(i).setOrder(topic.getOrder());
-				topic.setOrder(topic.getOrder()-1);
-				updateTopic(topic);
-				updateTopic(topics.get(i));
+		
+		for (int i = 0; i<topics.size(); i++) {
+			for (int j = topics.size()-1; j>i; j--) {
+				if (topics.get(j).getOrder()<topics.get(j-1).getOrder()) {
+					Topic temp = topics.get(j);
+					topics.set(j, topics.get(j+1));
+					topics.set(j+1, temp);
+				}
 			}
+		}
+		
+/*		Collections.sort(topics, new Comparator<Topic>() {
+			  public int compare(Topic o1, Topic o2) {
+				  return o1.getOrder() - o2.getOrder();
+			  }
+		});*/
+		
+		int tempIndex = topics.indexOf(topic);
+		if (tempIndex > 0) {
+		int tempOrder = topics.get(tempIndex-1).getOrder();
+		topics.get(tempIndex-1).setOrder(topic.getOrder());
+		topics.get(tempIndex).setOrder(tempOrder);
+		updateTopic(topics.get(tempIndex-1));
+		updateTopic(topics.get(tempIndex));
 		}
 	}
 
 	@Override
 	public void changeOrderDown(Topic topic) {
 		List<Topic> topics = topicDao.getTopicsByBlockId(topic.getBlock().getId());
-		for (int i = 0; i < topics.size(); i++) {
-			if (topics.get(i).getOrder() == topic.getOrder()+1) {
-				topics.get(i).setOrder(topic.getOrder());
-				topic.setOrder(topic.getOrder()+1);
-				updateTopic(topic);
-				updateTopic(topics.get(i));
+		
+		for (int i = 0; i<topics.size(); i++) {
+			for (int j = topics.size()-1; j>i; j--) {
+				if (topics.get(j).getOrder()<topics.get(j-1).getOrder()) {
+					Topic temp = topics.get(j);
+					topics.set(j, topics.get(j+1));
+					topics.set(j+1, temp);
+				}
 			}
 		}
 		
+/*		Collections.sort(topics, new Comparator<Topic>() {
+			  public int compare(Topic o1, Topic o2) {
+				  return o1.getOrder() - o2.getOrder();
+			  }
+		});*/
+		
+		int tempIndex = topics.indexOf(topic);
+		if (tempIndex < topics.size()-1) {
+		int tempOrder = topics.get(tempIndex+1).getOrder();
+		topics.get(tempIndex+1).setOrder(topic.getOrder());
+		topics.get(tempIndex).setOrder(tempOrder);
+		updateTopic(topics.get(tempIndex+1));
+		updateTopic(topics.get(tempIndex));
+		}
 	}
 
 }

@@ -28,7 +28,7 @@
 			
 			<div class="form-group">
 				<label>Module order</label> <input class="form-control"
-					name="blockName" style="width:5%" value="${block.order}">
+					name="blockOrder" style="width:5%" value="${block.order}">
 				<p class="help-block">Input or edit module order</p>
 			</div>
 

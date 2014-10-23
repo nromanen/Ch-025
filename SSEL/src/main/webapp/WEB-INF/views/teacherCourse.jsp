@@ -1,6 +1,7 @@
 <%@page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ page session="false"%>
@@ -34,8 +35,8 @@
 						<h4 class="panel-title">
 							<a data-toggle="collapse" data-parent="#accordion"
 								href="#s-${subject.id}-${block.order}">Module
-								${block.order}. ${block.name}</a>
-							<button type="button" class="btn btn-outline btn-primary btn-xs"
+								${block.order}. ${block.name} </a> (<fmt:formatDate pattern='dd-MM-yyyy' value='${block.startTime}' />  --  <fmt:formatDate pattern='dd-MM-yyyy' value='${block.endTime}' />)
+							<button type="button" class="btn btn-outline btn-primary btn-xs" style="float:right;"
 								onclick="location.href='editBlock?subjectId=${subject.id}&blockId=${block.id}'">Edit</button>
 
 
@@ -63,18 +64,19 @@
 													<td>${topic.id}</td>
 													<td><a
 														href="editTopic?topicId=${topic.id}&subjectId=${subject.id}">${topic.name}</a></td>
-													<td class="center">
-														<button type="button"
+													<td>
+													${topic.order}
+														<!-- button type="button"
 															class="btn btn-outline btn-primary btn-xs"
 															onclick="location.href='changeTopicOrder?updown=up&topicId=${topic.id}&subjectId=${subject.id}'">Up</button>
 														<button type="button"
 															class="btn btn-outline btn-primary btn-xs"
-															onclick="location.href='changeTopicOrder?updown=down&topicId=${topic.id}&subjectId=${subject.id}'">Down</button>
+															onclick="location.href='changeTopicOrder?updown=down&topicId=${topic.id}&subjectId=${subject.id}'">Down</button-->
 
 
 
 													</td>
-													<td class="center"><c:choose>
+													<td><c:choose>
 															<c:when test="${topic.alive == true}">
 																<button type="button"
 																	class="btn btn-outline btn-success btn-xs"
@@ -86,7 +88,7 @@
 																	onclick="location.href='enableTopic?enable=true&topicId=${topic.id}&subjectId=${subject.id}'">Disabled</button>
 															</c:otherwise>
 														</c:choose></td>
-													<td class="center">
+													<td>
 														<button type="button"
 															class="btn btn-outline btn-primary btn-xs"
 															onclick="location.href='deleteTopic?topicId=${topic.id}&subjectId=${subject.id}'">Delete</button>
