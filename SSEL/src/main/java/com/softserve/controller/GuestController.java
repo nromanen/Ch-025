@@ -52,16 +52,17 @@ public class GuestController {
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index(Model model) {	
+		LOG.debug("Visit index page as guest");
 		Set<Subject> subjects = subjectService.getAllSubjects();
 		Set<Category> categories = categoryService.getAllCategories();
 		model.addAttribute("subList", subjects);
 		model.addAttribute("catList", categories);
-		LOG.debug("Visit index page as guest");
 		return "index";
 	}
 	
 	@RequestMapping(value = "/course", method = RequestMethod.GET)
 	public String course(@RequestParam Integer subjectId, Model model) {
+		LOG.debug("Visit course page as guest");
 		Set<Subject> subjects = subjectService.getAllSubjects();
 		Set<Category> categories = categoryService.getAllCategories();
 		model.addAttribute("subList", subjects);
@@ -70,36 +71,11 @@ public class GuestController {
 		List<CourseScheduler> schedule = 
 				cSchedulerService.getCourseScheduleresBySubjectId(subject.getId());
 		StudentGroup row = studCabService.getStudentGroupByUserAndCourseId(1, schedule.get(0).getId());
-		boolean isSubscribe = row == null ? true : false; 
+		boolean isSubscribe = row == null; 
 		model.addAttribute("isSubscribe", isSubscribe);
 		model.addAttribute("schedule", schedule.get(0));
 		model.addAttribute("subject", subject);
 		return "course";
 	}
-	
-	//extractedmethod
-//	Role role = new Role();
-//	role.setRole("Student");
-//	roleService.addRole(role);
-//	User user = new User();
-//	user.setFirstName("Vasya");
-//	user.setLastName("Vasya");
-//	user.setEmail("aaa@gmail.com");
-//	user.setPassword("fsdfsd");
-//	user.setExpired(new Date(54353455454L));
-//	user.setRegistration(new Date(54354353L));
-//	user.setRole(roleService.getRoleById(1));
-//	userService.addUser(user);
-//	StudentGroup studentGroup = new StudentGroup();
-//	studentGroup.setCourseScheduler(schedule.get(0));
-//	studentGroup.setUser(userService.getUserById(1));
-//	studentGroup.setGroupNumber(101);
-//	studentGroupService.addStudentGroup(studentGroup);
-//	StudentGroup studentGroup = new StudentGroup();
-//	studentGroup.setCourseScheduler(schedule.get(0));
-//	studentGroup.setUser(userService.getUserById(1));
-//	studentGroup.setGroupNumber(101);
-//	studentGroupService.addStudentGroup(studentGroup);
-
 	
 }
