@@ -50,7 +50,8 @@ public class StudentCabinetServiceImp implements StudentCabinetSevice{
 		ArrayList<CourseScheduler> cs = new ArrayList<>();
 		for (CourseScheduler item : subscribedCourses) {
 			// TODO add end date course check
-			if ((currentDate.after(item.getStart()) || currentDate.equals(item.getStart()))) { //check if course is started
+			if ((currentDate.after(item.getStart()) || currentDate.equals(item.getStart()))
+					&& currentDate.before(item.getEnd())) { //check if course is started
 				cs.add(item);
 			}
 		}
@@ -62,8 +63,7 @@ public class StudentCabinetServiceImp implements StudentCabinetSevice{
 		Date currentDate = new Date();
 		ArrayList<CourseScheduler> cs = new ArrayList<>();
 		for (CourseScheduler item : subscribedCourses) {
-			// TODO add valid check 
-			if (currentDate.after(item.getStart())) { //check if course is finished
+			if (currentDate.after(item.getEnd())) { //check if course is finished
 				cs.add(item);
 			}
 		}
