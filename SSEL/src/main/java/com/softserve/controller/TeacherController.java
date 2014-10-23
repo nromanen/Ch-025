@@ -1,5 +1,8 @@
 package com.softserve.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Set;
 import java.util.List;
 
@@ -18,10 +21,12 @@ import com.softserve.entity.Block;
 import com.softserve.entity.Category;
 import com.softserve.entity.Subject;
 import com.softserve.entity.Topic;
+import com.softserve.entity.CourseScheduler;
 import com.softserve.service.BlockService;
 import com.softserve.service.CategoryService;
 import com.softserve.service.SubjectService;
 import com.softserve.service.TopicService;
+import com.softserve.service.CourseSchedulerService;
 
 /**
  * Handles requests for the application home page.
@@ -31,7 +36,7 @@ public class TeacherController {
 
 	@Autowired
 	private RoleService roleService;
-	
+
 	@Autowired
 	private UserService userService;
 
@@ -46,11 +51,16 @@ public class TeacherController {
 
 	@Autowired
 	private BlockService blockService;
+	
+	@Autowired
+	private CourseSchedulerService courseSchedulerService;
 
 	@RequestMapping(value = "/teacher", method = RequestMethod.GET)
 	public String teacher(Model model) {
 		Set<Subject> subjectList = subjectService.getAllSubjects();
+		List<CourseScheduler> schedulerList = courseSchedulerService.getAllCourseScheduleres(); 
 		model.addAttribute("subjectList", subjectList);
+		model.addAttribute("schedulerList", schedulerList);
 		return "teacher";
 	}
 
@@ -183,6 +193,39 @@ public class TeacherController {
 		return "teacher";
 	}
 
+	@RequestMapping(value = "/saveBlock", method = RequestMethod.GET)
+	public String saveBlock(
+			@RequestParam(value = "blockId", required = false) Integer blockId,
+			@RequestParam(value = "blockName", required = true) String blockName,
+			@RequestParam(value = "blockOrder", required = true) Integer blockOrder,
+			@RequestParam(value = "subjectId", required = true) Integer subjectId,
+			@RequestParam(value = "startDate", required = true) String startDate,
+			@RequestParam(value = "endDate", required = true) String endDate,
+			Model model) throws ParseException {
+		SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+
+		Subject subject = subjectService.getSubjectById(subjectId);
+		if (blockId != null) {
+			Block block = blockService.getBlockById(blockId);
+			block.setName(blockName);
+			block.setOrder(blockOrder);
+			block.setSubject(subject);
+			block.setStartTime(format.parse (startDate));
+			block.setEndTime(format.parse (endDate));
+			blockService.updateBlock(block);
+		} else {
+			Block block = new Block();
+			block.setName(blockName);
+			block.setSubject(subject);
+			block.setOrder(blockOrder);
+			block.setStartTime(format.parse (startDate));
+			block.setEndTime(format.parse (endDate));
+			blockService.updateBlock(block);
+		}
+		model.addAttribute("subjectId", subjectId);
+		return "teacherCourse";
+	}
+
 	@RequestMapping(value = "/saveSubject", method = RequestMethod.GET)
 	public String saveSubject(
 			@RequestParam(value = "subjectId", required = false) Integer subjectId,
@@ -224,8 +267,8 @@ public class TeacherController {
 			topic.setAlive(false);
 		}
 		topicService.updateTopic(topic);
-		//model.addAttribute("subjectId", subjectId);
-		return "teacher";
+		model.addAttribute("subjectId", subjectId);
+		return "teacherCourse";
 	}
 
 	@RequestMapping(value = "/deleteTopic", method = RequestMethod.GET)
@@ -235,9 +278,19 @@ public class TeacherController {
 			Model model) {
 		Topic topic = topicService.getTopicById(topicId);
 		topicService.deleteTopic(topic);
-		//model.addAttribute("subjectId", subjectId);
+		model.addAttribute("subjectId", subjectId);
+		return "teacherCourse";
+
+	}
+	
+	@RequestMapping(value = "/deleteSubject", method = RequestMethod.GET)
+	public String deleteSubject(
+			@RequestParam(value = "subjectId", required = true) Integer subjectId,
+			Model model) {
+		Subject subject = subjectService.getSubjectById(subjectId);
+		subjectService.deleteSubject(subject);
 		return "teacher";
-		
+
 	}
 
 	@RequestMapping(value = "/changeTopicOrder", method = RequestMethod.GET)
@@ -252,13 +305,9 @@ public class TeacherController {
 		} else if (updown == "down") {
 			topicService.changeOrderDown(topic);
 		}
-		//model.addAttribute("subjectId", subjectId);
-		return "teacher";
+		model.addAttribute("subjectId", subjectId);
+		return "teacherCourse";
 	}
 
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String loginForm(Model model) {
-		return "login";
-	}
 
 }
