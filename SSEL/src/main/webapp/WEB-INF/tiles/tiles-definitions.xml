@@ -28,4 +28,8 @@
     <definition name="registration" extends="defaultTemplate">
     	<put-attribute name="main-content" value="/WEB-INF/views/registration.jsp"/>
     </definition>
+<<<<<<< HEAD
+=======
+  
+>>>>>>> hash
 </tiles-definitions>
