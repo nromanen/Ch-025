@@ -11,8 +11,12 @@
 
 	<http auto-config="true" use-expressions="true">
 		<intercept-url pattern="/registration" access="isAnonymous()" />
+		<intercept-url pattern="/login" access="isAnonymous()" />
+		<intercept-url pattern="/teacher/**" access="hasRole('TEACHER')" />
+		<intercept-url pattern="/teacherCourse" access="hasRole('TEACHER')" />
+		<intercept-url pattern="/student/**" access="hasRole('USER')" />
 
-		<form-login login-page="/login" default-target-url="/registration"
+		<form-login login-page="/login" default-target-url="/"
 			authentication-failure-url="/login" /> <!-- .jsp?error=message.error -->
 		<logout delete-cookies="true" invalidate-session="true" />
 

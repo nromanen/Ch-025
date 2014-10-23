@@ -55,12 +55,12 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public User getUserByEmail(String email) {
+		LOG.debug("Get user(email = {})", email);
 		Query query = entityManager
 				.createQuery("FROM User WHERE email= :email").setParameter(
 						"email", email);
 		try {
 			User user = (User) query.getSingleResult();
-			LOG.debug("Get user(email = {})", email);
 			return user;
 		} catch (NoResultException exception) {
 			LOG.error("Tried to get user(email = {})", email, exception);

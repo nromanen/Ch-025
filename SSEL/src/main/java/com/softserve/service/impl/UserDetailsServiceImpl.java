@@ -32,9 +32,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			throws UsernameNotFoundException {
 		com.softserve.entity.User user = userDao.getUserByEmail(login);
 		if (user == null) {
-			String msg = String.format("User %s not found", login);
-			LOG.info(msg);
-			throw new UsernameNotFoundException(msg);
+			LOG.info("User {} not found", login);
+			throw new UsernameNotFoundException(login);
 		}
 
 		boolean enabled = !user.isBlocked();
@@ -44,9 +43,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 		List<GrantedAuthority> roles = new ArrayList<>();
 		roles.add(new SimpleGrantedAuthority(user.getRole().getRole()));
-		
-		System.out.println("User: " + user.getEmail() + " exists= " + userDao.isExist(login));
-
 		return new User(user.getEmail(), user.getPassword(), enabled,
 				accountNonExpired, credentialsNonExpired, accountNonLocked,
 				roles);
