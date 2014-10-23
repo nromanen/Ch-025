@@ -13,6 +13,10 @@ public interface TopicService {
 	public void updateTopic(Topic topic);
 
 	public void deleteTopic(Topic topic);
+	
+	public void changeOrderUp(Topic topic);
+	
+	public void changeOrderDown(Topic topic);
 
 	public List<Topic> getAllTopics();
 

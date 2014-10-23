@@ -5,7 +5,7 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ page session="false"%>
 <html>
-<script src="resources/ckeditor/ckeditor.js"></script>
+
 <tiles:insertDefinition name="teacherTemplate">
 
 	<tiles:putAttribute name="main-content">
@@ -23,16 +23,21 @@
 				<div class="panel-body">
 					<!-- ololololololololololo -->
 
-					<form action="saveSubject">
-					<input type = "hidden" name = "blockId" value = "${block.id}">
+					<form action="saveBlock">
+						<input type="hidden" name="blockId" value="${block.id}">
 						<div class="form-group">
-							<label>Module name</label> <input class="form-control" name="subjectName" value="${block.name}">
+							<label>Module name</label> <input class="form-control"
+								name="blockName" value="${block.name}">
 							<p class="help-block">Input or edit module name</p>
 						</div>
 
-						
+						<div class="form-group">
+							<label>Start date</label> <input name="date1" class="src_date"
+								type="textarea" placeholder="DD-MM-YYYY" id="date1" required>
+							<label>End date</label> <input name="date2" class="src_date"
+								type="textarea" placeholder="DD-MM-YYYY" id="date2" required>
+						</div>
 
-					
 						<br>
 						<div class="form-group">
 							<label>Select subject</label> <select class="form-control"
@@ -40,10 +45,12 @@
 								<c:forEach items="${subjectList}" var="subject">
 									<c:choose>
 										<c:when test="${block.subject.id == subject.id}">
-											<option selected value="${subject.id}">${subject.id}. ${subject.name}</option>
+											<option selected value="${subject.id}">${subject.id}.
+												${subject.name}</option>
 										</c:when>
 										<c:otherwise>
-											<option value="${subject.id}">${subject.id}. ${subject.name}</option>
+											<option value="${subject.id}">${subject.id}.
+												${subject.name}</option>
 										</c:otherwise>
 									</c:choose>
 								</c:forEach>

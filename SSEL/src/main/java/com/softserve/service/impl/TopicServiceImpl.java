@@ -57,4 +57,31 @@ public class TopicServiceImpl implements TopicService {
 		return topicDao.getTopicsByBlockId(id);
 	}
 
+	@Override
+	public void changeOrderUp(Topic topic) {
+		List<Topic> topics = topicDao.getTopicsByBlockId(topic.getBlock().getId());
+		for (int i = 0; i < topics.size(); i++) {
+			if (topics.get(i).getOrder() == topic.getOrder()-1) {
+				topics.get(i).setOrder(topic.getOrder());
+				topic.setOrder(topic.getOrder()-1);
+				updateTopic(topic);
+				updateTopic(topics.get(i));
+			}
+		}
+	}
+
+	@Override
+	public void changeOrderDown(Topic topic) {
+		List<Topic> topics = topicDao.getTopicsByBlockId(topic.getBlock().getId());
+		for (int i = 0; i < topics.size(); i++) {
+			if (topics.get(i).getOrder() == topic.getOrder()+1) {
+				topics.get(i).setOrder(topic.getOrder());
+				topic.setOrder(topic.getOrder()+1);
+				updateTopic(topic);
+				updateTopic(topics.get(i));
+			}
+		}
+		
+	}
+
 }
