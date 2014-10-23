@@ -10,8 +10,7 @@
 	<definition name="index" extends="base-template">
 		<put-attribute name="title" value="SSEL SoftServeAcademy" />
 		<put-attribute name="content" value="/WEB-INF/views/pages/index.jsp" />
-		<put-attribute name="menu"
-			value="/WEB-INF/views/templates/index_menu.jsp"></put-attribute>
+		<put-attribute name="menu" value="/WEB-INF/views/templates/index_menu.jsp"></put-attribute>
 	</definition>
 
 	<!-- Registration -->
@@ -42,4 +41,6 @@
 		<put-attribute name="menu" value="/WEB-INF/views/templates/student_menu.jsp" />
 	</definition>
 	
+	
+</tiles-definitions>
 

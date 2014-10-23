@@ -16,8 +16,8 @@
 		<intercept-url pattern="/teacherCourse" access="hasRole('TEACHER')" />
 		<intercept-url pattern="/student/**" access="hasRole('USER')" />
 
-		<form-login login-page="/login" default-target-url="/"
-			authentication-failure-url="/login" /> <!-- .jsp?error=message.error -->
+		<form-login login-page="/login" default-target-url="/enter"
+			authentication-failure-url="/login" />
 		<logout delete-cookies="true" invalidate-session="true" />
 
 		<remember-me key="userKey" token-validity-seconds="2419200" />
