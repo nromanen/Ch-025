@@ -44,9 +44,8 @@
 								</a>
 									<ul class="nav nav-third-level">
 										<c:forEach items="${cat.subjects}" var="subj">
-											<li class="link"><button value="${subj.id}"
-													name="subjectId" class="btn-link" style="color: #428bca;">
-													${subj.name}</button></li>
+											<li class="link"><a href="course?subjectId=${subj.id}" style="color: #428bca;">
+													${subj.name}</a></li>
 										</c:forEach>
 									</ul>
 							</c:forEach>
