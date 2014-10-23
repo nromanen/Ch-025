@@ -73,6 +73,7 @@ public class StudentGroupDaoImpl implements StudentGroupDao {
 		return entityManager.createQuery("FROM StudentGroup").getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public StudentGroup getStudentGroupByUserAndCourseId(int userId, int courseScheduler) {
 		LOG.debug("Get StudentGroup by user");
@@ -84,6 +85,7 @@ public class StudentGroupDaoImpl implements StudentGroupDao {
 		return (results.size() == 0) ? null : results.get(0);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public int getStudentGroupNumberByCourse(int courseScheduler) {
 		LOG.debug("Get StudentGroup by course");

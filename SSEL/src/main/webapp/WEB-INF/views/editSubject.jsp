@@ -45,7 +45,7 @@
 						<br>
 						<div class="form-group">
 							<label>Select category</label> <select class="form-control"
-								name="blockId">
+								name="SubjectCategoryId">
 								<c:forEach items="${categoryList}" var="category">
 									<c:choose>
 										<c:when test="${subject.category.id == category.id}">

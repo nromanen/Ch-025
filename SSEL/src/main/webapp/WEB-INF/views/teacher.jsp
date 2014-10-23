@@ -17,17 +17,64 @@
 
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header"><a href="teacher">Teacher</a></h1>
+					<h1 class="page-header">
+					>Teacher subjects
+					</h1>
 				</div>
 				<div class="panel panel-default">
-					Hi, Teacher.
+
+
+					<div class="table-responsive">
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th>Id</th>
+									<th>Subject name</th>
+									<th>Subject category</th>
+									<th>Start date</th>
+									<th>End date</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach items="${subjectList}" var="subject">
+
+									<tr class="odd gradeA">
+										<td>${subject.id}</td>
+										<td><a
+											href="teacherCourse?subjectId=${subject.id}">${subject.name}</a></td>
+
+										<td class="center">${subject.category.name}</td>
+										<td class="center">date1</td>
+										<td class="center">date2</td>
+										<td class="center">
+											<button type="button"
+												class="btn btn-outline btn-primary btn-xs"
+												onclick="location.href='deleteSubject&subjectId=${subject.id}'">Delete</button>
+
+
+										</td>
+									</tr>
+
+								</c:forEach>
+							</tbody>
+						</table>
+					</div>
+
+
+
+
+
+
+
+
+
+
 					<br>
-											<button type="button" class="btn btn-outline btn-primary btn-xs"
-							onclick="location.href='editCategory'">Add
-							new category</button>
-						<button type="button" class="btn btn-outline btn-primary btn-xs"
-							onclick="location.href='editSubject'">Add
-							new course</button>
+					<button type="button" class="btn btn-outline btn-primary btn-xs"
+						onclick="location.href='editCategory'">Add new category</button>
+					<button type="button" class="btn btn-outline btn-primary btn-xs"
+						onclick="location.href='editSubject'">Add new course</button>
 					<!-- .panel-body -->
 				</div>
 				<!-- /.panel -->

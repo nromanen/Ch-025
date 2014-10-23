@@ -17,11 +17,11 @@
 
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header"><a href="teacher">Teacher</a></h1>
+					<h1 class="page-header">Subject: ${subject.name}</h1>
 				</div>
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						Course: ${subject.name}
+
 						<button type="button" class="btn btn-outline btn-primary btn-xs"
 							onclick="location.href='editSubject?subjectId=${subject.id}'">Edit</button>
 						<button type="button" class="btn btn-outline btn-primary btn-xs"
@@ -61,7 +61,7 @@
 															<th>Id</th>
 															<th>Topic name</th>
 															<th>Order</th>
-															<th>Alive</th>
+															<th>Status</th>
 															<th>Action</th>
 														</tr>
 													</thead>
@@ -75,25 +75,30 @@
 																	<td class="center">
 																		<button type="button"
 																			class="btn btn-outline btn-primary btn-xs"
-																			onclick="location.href='changeTopicOrder&updown=up&topicId=${topic.id}'">Up</button>
+																			onclick="location.href='changeTopicOrder&updown=up&topicId=${topic.id}&subjectId=${subject.id}'">Up</button>
 																		<button type="button"
 																			class="btn btn-outline btn-primary btn-xs"
-																			onclick="location.href='changeTopicOrder&updown=down&topicId=${topic.id}'">Down</button>
+																			onclick="location.href='changeTopicOrder&updown=down&topicId=${topic.id}&subjectId=${subject.id}'">Down</button>
 
 
 
 																	</td>
-																	<td class="center">${topic.alive}</td>
+																	<td class="center"><c:choose>
+																			<c:when test="${topic.alive == true}">
+																				<button type="button"
+																					class="btn btn-outline btn-success btn-xs"
+																					onclick="location.href='enableTopic&enable=false&topicId=${topic.id}&subjectId=${subject.id}'">Enabled</button>
+																			</c:when>
+																			<c:otherwise>
+																				<button type="button"
+																					class="btn btn-outline btn-danger btn-xs"
+																					onclick="location.href='enableTopic&enable=true&topicId=${topic.id}&subjectId=${subject.id}'">Disabled</button>
+																			</c:otherwise>
+																		</c:choose></td>
 																	<td class="center">
 																		<button type="button"
 																			class="btn btn-outline btn-primary btn-xs"
-																			onclick="location.href='enableTopic&enable=false&topicId=${topic.id}'">Enable</button>
-																		<button type="button"
-																			class="btn btn-outline btn-primary btn-xs"
-																			onclick="location.href='enableTopic&enable=false&topicId=${topic.id}'">Disable</button>
-																		<button type="button"
-																			class="btn btn-outline btn-primary btn-xs"
-																			onclick="location.href='deleteTopic&topicId=${topic.id}'">Delete</button>
+																			onclick="location.href='deleteTopic&topicId=${topic.id}&subjectId=${subject.id}'">Delete</button>
 
 
 																	</td>
@@ -114,16 +119,13 @@
 				</div>
 				<!-- /.panel -->
 			</div>
-			<!-- /.col-lg-12 -->
+
 		</div>
 		<!--  -->
 
 
 
-		<!-- /.col-lg-12 -->
-		</div>
 
-		</div>
 		<!-- /#page-wrapper -->
 		<!-- /#wrapper -->
 

@@ -19,3 +19,13 @@
 		</div>
 	</div>
 </div>
+<<<<<<< HEAD
+=======
+
+<script>
+    $(document).ready(function() {
+        $('#dataTables-example').dataTable();
+    });
+    </script>
+
+>>>>>>> fae818a3304fe5f38fbc5b9f614f540a0a7e00df
