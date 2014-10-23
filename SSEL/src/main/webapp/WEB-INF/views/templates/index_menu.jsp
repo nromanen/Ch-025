@@ -33,7 +33,6 @@
 	<!-- /.navbar-top-links -->
 	<div class="navbar-default sidebar" role="navigation">
 		<div class="sidebar-nav navbar-collapse">
-			<form method="GET" action="course">
 				<ul class="nav" id="side-menu">
 					<li><a href="#"><i class="fa fa-sitemap fa-fw"></i> All
 							Courses<span class="fa arrow"></span></a>
@@ -51,7 +50,6 @@
 							</c:forEach>
 						</ul></li>
 				</ul>
-			</form>
 		</div>
 	</div>
 </nav>
