@@ -33,7 +33,6 @@
 	<!-- /.navbar-top-links -->
 	<div class="navbar-default sidebar" role="navigation">
 		<div class="sidebar-nav navbar-collapse">
-			<form method="GET" action="course">
 				<ul class="nav" id="side-menu">
 					<li><a href="#"><i class="fa fa-sitemap fa-fw"></i> All
 							Courses<span class="fa arrow"></span></a>
@@ -44,15 +43,13 @@
 								</a>
 									<ul class="nav nav-third-level">
 										<c:forEach items="${cat.subjects}" var="subj">
-											<li class="link"><button value="${subj.id}"
-													name="subjectId" class="btn-link" style="color: #428bca;">
-													${subj.name}</button></li>
+											<li class="link"><a href="course?subjectId=${subj.id}" style="color: #428bca;">
+													${subj.name}</a></li>
 										</c:forEach>
 									</ul>
 							</c:forEach>
 						</ul></li>
 				</ul>
-			</form>
 		</div>
 	</div>
 </nav>
