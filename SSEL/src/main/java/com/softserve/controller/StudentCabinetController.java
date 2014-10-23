@@ -96,7 +96,7 @@ public class StudentCabinetController {
 					}
 				}
 				row = new StudentGroup();
-				row.setId(1);
+				//row.setId(1);
 				row.setCourseScheduler(cs);
 				row.setGroupNumber(groupNumber);
 				row.setProgress(0.0);
