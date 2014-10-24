@@ -18,7 +18,7 @@
 			<c:forEach items="${subList}" var="subj">
 				<div class="inline">
 					<div class="title">
-						<button value="${subj.id}" name="subjectId" class="btn-link"
+						<button value="${subj.id}" name="subjectId" class="btn btn-link"
 							style="color: #428bca;">${subj.name}</button>
 					</div>
 					<div>${subj.description}</div>

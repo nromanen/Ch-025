@@ -24,18 +24,18 @@
 					<form method="GET" action="subscribe">
 					<c:if test="${sessionScope.user.role.role eq 'STUDENT'}">
 					<c:if test="${isSubscribe eq true}">
-					<button value="${subject.id}" name="subjectId" class="btn-success"
+					<button value="${subject.id}" name="subjectId" class="btn btn-success"
 					style="border-radius:5px; margin-top:8px;">Subscribe to course </button>
 					</c:if>
 					<c:if test="${isSubscribe eq false}">
-					<button value="${subject.id}" name="subjectId" class="btn-success"
+					<button value="${subject.id}" name="subjectId" class="btn btn-warning"
 					style="border-radius:5px; margin-top:8px;">Unsubscribe form course </button>
 					</c:if>
 					</c:if>
 					<input type="hidden" name="op" value="${isSubscribe}">
 					</form>
 					<form method="GET" action="courseInformation">	
-					<button value="${subject.id}" name="subjectId" class="btn-info"
+					<button value="${subject.id}" name="subjectId" class="btn btn-info"
 					style="border-radius:5px; margin-top:8px;"> Details </button>
 					</form>
 				</div>
