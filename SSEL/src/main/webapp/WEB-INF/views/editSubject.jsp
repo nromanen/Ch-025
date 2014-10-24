@@ -1,6 +1,7 @@
 <%@page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ page session="false"%>
@@ -61,11 +62,11 @@
 				<div class="form-group">
 					<label>Start date</label> <input name="startDate" class="src_date"
 						type="textarea" placeholder="DD-MM-YYYY"
-						value="<fmt:formatDate pattern='dd-MM-yyyy' value='${block.startTime}' />"
+						value="<fmt:formatDate pattern='dd-MM-yyyy' value='${scheduler.start}' />"
 						id="startDate" required> <label>End date</label> <input
 						name="endDate" class="src_date" type="textarea"
 						placeholder="DD-MM-YYYY"
-						value="<fmt:formatDate pattern='dd-MM-yyyy' value='${block.endTime}' />"
+						value="<fmt:formatDate pattern='dd-MM-yyyy' value='${scheduler.end}' />"
 						id="endDate" required>
 				</div>
 

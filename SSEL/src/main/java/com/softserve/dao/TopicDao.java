@@ -17,4 +17,7 @@ public interface TopicDao {
 	public List<Topic> getAllTopics();
 
 	public List<Topic> getTopicsByBlockId(int id);
+	
+	public List<Topic> getTopicsBySubjectId(int id);
 }
+
