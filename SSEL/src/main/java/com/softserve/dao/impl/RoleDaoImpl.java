@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package com.softserve.dao.impl;
 
 import java.util.HashSet;
