@@ -55,13 +55,13 @@ public class GuestController {
 	@Autowired
 	private StudentCabinetSevice studCabService;
 
-	private User user;
-
 	@RequestMapping(value = "/enter")
-	public String enter(Model model, Principal principal) {
+	public String enter(Model model, Principal principal,
+			HttpSession httpSession) {
 		LOG.info("User login {}", principal.getName());
-		user = userService.getUserByEmail(principal.getName());
-		return "index";
+		User user = userService.getUserByEmail(principal.getName());
+		httpSession.setAttribute("user", user);
+		return "redirect:/";
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
@@ -75,7 +75,8 @@ public class GuestController {
 	}
 
 	@RequestMapping(value = "/course", method = RequestMethod.GET)
-	public String course(@RequestParam Integer subjectId, Model model) {
+	public String course(@RequestParam Integer subjectId, Model model,
+			HttpSession httpSession) {
 		LOG.debug("Visit course page as guest");
 		Set<Subject> subjects = subjectService.getAllSubjects();
 		Set<Category> categories = categoryService.getAllCategories();
@@ -84,6 +85,7 @@ public class GuestController {
 		Subject subject = subjectService.getSubjectById(subjectId);
 		List<CourseScheduler> schedule = cSchedulerService
 				.getCourseScheduleresBySubjectId(subject.getId());
+		User user = (User) httpSession.getAttribute("user");
 		StudentGroup row = studCabService.getStudentGroupByUserAndCourseId(1,
 				schedule.get(0).getId());
 		boolean isSubscribe = row == null;
