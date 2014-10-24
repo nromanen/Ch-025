@@ -11,12 +11,17 @@
 		<beans:property name="definitions">
 			<beans:list>
 				<beans:value>/WEB-INF/tiles/templates.xml</beans:value>
+<<<<<<< HEAD
                 <beans:value>/WEB-INF/tiles/pages.xml</beans:value>
+=======
+				<beans:value>/WEB-INF/tiles/pages.xml</beans:value>
+>>>>>>> cdb409cfb5a30fe58335a64c2c69471f7d040982
 			</beans:list>
 		</beans:property>
 		<beans:property name="preparerFactoryClass"
 			value="org.springframework.web.servlet.view.tiles3.SimpleSpringPreparerFactory" />
 	</beans:bean>
+<<<<<<< HEAD
 	
 	<beans:bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">  
 		<beans:property name="viewClass">  
@@ -26,4 +31,16 @@
   		</beans:property>  
   		<beans:property name="order" value="1" />
  	</beans:bean>
+=======
+
+	<beans:bean id="viewResolver"
+		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<beans:property name="viewClass">
+			<beans:value>
+				org.springframework.web.servlet.view.tiles3.TilesView
+			</beans:value>
+		</beans:property>
+		<beans:property name="order" value="1" />
+	</beans:bean>
+>>>>>>> cdb409cfb5a30fe58335a64c2c69471f7d040982
 </beans:beans>

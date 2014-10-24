@@ -41,6 +41,7 @@
 		<put-attribute name="menu" value="/WEB-INF/views/templates/student_menu.jsp" />
 	</definition>
 	
+<<<<<<< HEAD
 	<!-- Teacher -->
 	<definition name="teacher" extends="base-template">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Teacher cabinet"/>
@@ -74,5 +75,15 @@
         <put-attribute name="content" value="/WEB-INF/views/editCategory.jsp" />
     </definition>
     
+=======
+	<!-- Modules -->
+	<definition name="modules" extends="base-template">
+		<put-attribute name="title" value="SSEL SoftServeAcademy Student" />
+		<put-attribute name="content" value="/WEB-INF/views/pages/modules.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/templates/student_menu.jsp" />
+	</definition>
+	
+	
+>>>>>>> cdb409cfb5a30fe58335a64c2c69471f7d040982
 </tiles-definitions>
 
