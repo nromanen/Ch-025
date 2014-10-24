@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import com.softserve.dao.RoleDao;
 import com.softserve.entity.Role;
+import com.softserve.entity.User;
 
 @Repository
 public class RoleDaoImpl implements RoleDao {
@@ -60,6 +62,21 @@ public class RoleDaoImpl implements RoleDao {
 		Set<Role> roles = new HashSet<>();
 		roles.addAll(entityManager.createQuery("FROM Role").getResultList());
 		return roles;
+	}
+
+	@Override
+	public Role getRoleByName(String name) {
+		LOG.debug("Get role(name = {})", name);
+		Query query = entityManager
+				.createQuery("FROM Role WHERE name= :name").setParameter(
+						"name", name);
+		try {
+			Role role = (Role) query.getSingleResult();
+			return role;
+		} catch (NoResultException exception) {
+			LOG.error("Tried to get role(name = {})", name, exception);
+			return null;
+		}
 	}
 
 }

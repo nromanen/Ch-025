@@ -13,16 +13,10 @@
 		<div class="panel-body">
 			<div class="table-responsive">
 				<table class="table table-striped table-bordered table-hover"
-					id="dataTables-example">${table}
+					id="dataTables-example">
+					${table}
 				</table>
 			</div>
 		</div>
 	</div>
 </div>
-
-<script>
-    $(document).ready(function() {
-        $('#dataTables-example').dataTable();
-    });
-    </script>
-

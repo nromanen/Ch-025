@@ -1,8 +1,8 @@
 package com.softserve.entity;
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,7 +18,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "block")
-public class Block {
+public class Block implements Comparable<Topic>{
 
 	@Id
 	@Column(name = "id")
@@ -41,8 +41,8 @@ public class Block {
 	@JoinColumn(name = "id_subject", nullable = false)
 	private Subject subject;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy="block")
-	private Set<Topic> topics = new HashSet<>();
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="block")
+	private Set<Topic> topics = new TreeSet<>();
 	
 	public Block() {
 	}
@@ -101,6 +101,12 @@ public class Block {
 
 	public void setName(String name) {
 		this.name = name;
-	}	
+	}
+
+	@Override
+	public int compareTo(Topic o) {
+			return Integer.compare(order, o.getOrder());
+	}
+
 	
 }
