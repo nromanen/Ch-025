@@ -68,8 +68,8 @@ public class RoleDaoImpl implements RoleDao {
 	public Role getRoleByName(String name) {
 		LOG.debug("Get role(name = {})", name);
 		Query query = entityManager
-				.createQuery("FROM Role WHERE name= :name").setParameter(
-						"name", name);
+				.createQuery("FROM Role WHERE role= :role").setParameter(
+						"role", name);
 		try {
 			Role role = (Role) query.getSingleResult();
 			return role;

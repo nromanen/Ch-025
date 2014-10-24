@@ -61,7 +61,11 @@ public class GuestController {
 		LOG.info("User login {}", principal.getName());
 		User user = userService.getUserByEmail(principal.getName());
 		httpSession.setAttribute("user", user);
-		return "redirect:/";
+		if (user.getRole().getRole().equals("TEACHER")){
+			return "redirect:/teacher";
+		} else {
+			return "redirect:/student";
+		}
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)

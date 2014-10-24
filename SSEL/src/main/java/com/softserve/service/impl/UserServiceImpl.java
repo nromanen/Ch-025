@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService {
 		user.setFirstName(registration.getFirstName().trim());
 		user.setLastName(registration.getLastName());
 		user.setRegistration(new Date());
-		user.setRole(roleService.getRoleByName("USER"));
+		user.setRole(roleService.getRoleByName("STUDENT"));
 		user.setExpired(new Date());
 
 		mailService.sendMail(user.getEmail(), "SSEL registration",

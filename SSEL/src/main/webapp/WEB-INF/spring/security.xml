@@ -14,8 +14,13 @@
 		<intercept-url pattern="/login" access="isAnonymous()" />
 		<intercept-url pattern="/teacher/**" access="hasRole('TEACHER')" />
 		<intercept-url pattern="/teacherCourse" access="hasRole('TEACHER')" />
-		<intercept-url pattern="/student/**" access="hasRole('USER')" />
-		<intercept-url pattern="/course/**" access="hasAnyRole('USER', 'TEACHER')" />
+		<intercept-url pattern="/student/**" access="hasRole('STUDENT')" />
+		<intercept-url pattern="/course/**" access="hasAnyRole('STUDENT', 'TEACHER')" />
+		<intercept-url pattern="/editTopic/**" access="hasRole('TEACHER')" />
+		<intercept-url pattern="/editBlock/**" access="hasRole('TEACHER')" />
+		<intercept-url pattern="/editSubject/**" access="hasRole('TEACHER')" />
+		<intercept-url pattern="/editCategory/**" access="hasRole('TEACHER')" />
+
 
 		<form-login login-page="/login" default-target-url="/enter"
 			authentication-failure-url="/login" />
