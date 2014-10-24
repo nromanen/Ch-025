@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.dao.UserDao;
 import com.softserve.entity.User;
+import com.softserve.entity.User.Roles;
 import com.softserve.form.Registration;
 import com.softserve.service.MailService;
 import com.softserve.service.RoleService;
@@ -79,7 +80,7 @@ public class UserServiceImpl implements UserService {
 		user.setFirstName(registration.getFirstName().trim());
 		user.setLastName(registration.getLastName());
 		user.setRegistration(new Date());
-		user.setRole(roleService.getRoleByName("STUDENT"));
+		user.setRole(roleService.getRoleByName(Roles.STUDENT.toString()));
 		user.setExpired(new Date());
 
 		mailService.sendMail(user.getEmail(), "SSEL registration",

@@ -20,6 +20,10 @@ import javax.persistence.Table;
 @Table(name = "user")
 public class User {
 
+	public enum Roles {
+		ADMIN, TEACHER, STUDENT
+	};
+
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

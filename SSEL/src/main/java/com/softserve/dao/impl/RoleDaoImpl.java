@@ -14,7 +14,6 @@ import org.springframework.stereotype.Repository;
 
 import com.softserve.dao.RoleDao;
 import com.softserve.entity.Role;
-import com.softserve.entity.User;
 
 @Repository
 public class RoleDaoImpl implements RoleDao {
@@ -67,9 +66,8 @@ public class RoleDaoImpl implements RoleDao {
 	@Override
 	public Role getRoleByName(String name) {
 		LOG.debug("Get role(name = {})", name);
-		Query query = entityManager
-				.createQuery("FROM Role WHERE role= :role").setParameter(
-						"role", name);
+		Query query = entityManager.createQuery("FROM Role WHERE role= :role")
+				.setParameter("role", name);
 		try {
 			Role role = (Role) query.getSingleResult();
 			return role;

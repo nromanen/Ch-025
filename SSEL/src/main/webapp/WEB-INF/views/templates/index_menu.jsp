@@ -11,52 +11,60 @@
 		<a class="navbar-brand" href="/entity/">SSEL SoftServe Academy</a>
 	</div>
 	<!-- /.navbar-header -->
-
 	<ul class="nav navbar-top-links navbar-right">
-
-		<li class="dropdown"><a class="dropdown-toggle"
-			data-toggle="dropdown" href="#"> <i class="fa fa-user fa-fw"></i>
+		<li class="dropdown">
+			<a class="dropdown-toggle" data-toggle="dropdown" href="#"> 
+				<i class="fa fa-user fa-fw"></i>
 				<i class="fa fa-caret-down"></i>
-		</a>
+			</a>
 			<ul class="dropdown-menu dropdown-user">
 				<c:if test="${sessionScope.user.role.role eq 'TEACHER'}">
-					<li><a href="teacher"><i
-						class="fa fa-user fa-fw"></i> Teacher Profile</a></li>
-						<li class="divider"></li>
+					<li>
+						<a href="teacher"><i class="fa fa-user fa-fw"></i>
+							Teacher Profile</a>
+					</li>
+					<li class="divider"></li>
 				</c:if>
-				<c:if test="${sessionScope.User.Role.role eq 'STUDENT'}">
-					<li><a href="student?table=active"><i
-						class="fa fa-user fa-fw"></i> Student Profile</a></li>
-						<li class="divider"></li>
+				<c:if test="${sessionScope.user.role.role eq 'STUDENT'}">
+					<li>
+						<a href="student?table=active">
+							<i class="fa fa-user fa-fw"></i> Student Profile</a>
+					</li>
+					<li class="divider"></li>
 				</c:if>
 				<!-- <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a></li>  -->
-				<li><a href="login"><i class="fa fa-sign-in fa-fw"></i>
-						Sign in</a></li>
-				<li><a href="registration"><i class="fa fa-sign-in fa-fw"></i>
-						Sign up</a></li>
-			</ul> <!-- /.dropdown-user --></li>
-		<!-- /.dropdown -->
+				<li>
+					<a href="login"><i class="fa fa-sign-in fa-fw"></i>Sign in</a>
+				</li>
+				<li>
+					<a href="registration"><i class="fa fa-sign-in fa-fw"></i>Sign up</a>
+				</li>
+			</ul> 
+			<!-- /.dropdown-user -->
+		</li>
+	<!-- /.dropdown -->
 	</ul>
 	<!-- /.navbar-top-links -->
 	<div class="navbar-default sidebar" role="navigation">
 		<div class="sidebar-nav navbar-collapse">
-				<ul class="nav" id="side-menu">
-					<li><a href="#"><i class="fa fa-sitemap fa-fw"></i> All
-							Courses<span class="fa arrow"></span></a>
-
-						<ul class="nav nav-second-level">
-							<c:forEach items="${catList}" var="cat">
-								<li><a href="#"> ${cat.name} <span class="fa arrow"></span>
-								</a>
-									<ul class="nav nav-third-level">
-										<c:forEach items="${cat.subjects}" var="subj">
-											<li class="link"><a href="course?subjectId=${subj.id}" style="color: #428bca;">
-													${subj.name}</a></li>
-										</c:forEach>
-									</ul>
-							</c:forEach>
-						</ul></li>
-				</ul>
+			<ul class="nav" id="side-menu">
+				<li>
+					<a href="#"><i class="fa fa-sitemap fa-fw"></i> All
+						Courses<span class="fa arrow"></span></a>
+					<ul class="nav nav-second-level">
+						<c:forEach items="${catList}" var="cat">
+							<li>
+								<a href="#"> ${cat.name} <span class="fa arrow"></span></a>
+								<ul class="nav nav-third-level">
+									<c:forEach items="${cat.subjects}" var="subj">
+										<li class="link"><a href="course?subjectId=${subj.id}"
+											style="color: #428bca;"> ${subj.name}</a></li>
+									</c:forEach>
+								</ul>
+						</c:forEach>
+					</ul>
+				</li>
+			</ul>
 		</div>
 	</div>
 </nav>

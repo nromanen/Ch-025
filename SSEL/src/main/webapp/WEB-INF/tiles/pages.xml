@@ -49,7 +49,7 @@
 			value="SSEL SoftServeAcademy Teacher cabinet" />
 		<put-attribute name="content" value="/WEB-INF/views/teacher.jsp" />
 		<put-attribute name="menu"
-			value="/WEB-INF/templates/teacher/menu.jsp" />
+			value="/WEB-INF/views/templates/teacher_menu.jsp" />
 		<put-attribute name="footer" value="" />
 	</definition>
 
