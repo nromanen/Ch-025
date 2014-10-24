@@ -80,5 +80,6 @@
 		<put-attribute name="content" value="/WEB-INF/views/pages/modules.jsp" />
 		<put-attribute name="menu" value="/WEB-INF/views/templates/student_menu.jsp" />
 	</definition>
+</tiles-definitions>
 
 
