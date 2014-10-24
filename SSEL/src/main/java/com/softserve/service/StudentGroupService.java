@@ -20,10 +20,7 @@ public interface StudentGroupService {
 	public int getGroupNumberByCourse(int courseId);
 	
 	public int getNextGroupNumber();
-<<<<<<< HEAD
+
 }
 
 
-=======
-}
->>>>>>> 772eb22c21f42142f1939aa0402d1e390acd3f4c

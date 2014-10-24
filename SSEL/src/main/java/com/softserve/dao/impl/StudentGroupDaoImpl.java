@@ -103,8 +103,7 @@ public class StudentGroupDaoImpl implements StudentGroupDao {
 		return (res != null) ? res+1 : -1;
 	}
 
-<<<<<<< HEAD
+
 }
-=======
-}
->>>>>>> 772eb22c21f42142f1939aa0402d1e390acd3f4c
+
+
