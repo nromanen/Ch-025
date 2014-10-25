@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +19,8 @@ import com.softserve.service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+	private static final int PASSWORD_STRENGTH = 10;
 
 	@Autowired
 	private UserDao userDao;
@@ -72,10 +76,12 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public void registrate(Registration registration) {
+		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(
+				PASSWORD_STRENGTH);
 		User user = new User();
 
 		user.setEmail(registration.getEmail().trim());
-		user.setPassword(registration.getPassword());
+		user.setPassword(passwordEncoder.encode(registration.getPassword()));
 		user.setBlocked(false);
 		user.setFirstName(registration.getFirstName().trim());
 		user.setLastName(registration.getLastName());
