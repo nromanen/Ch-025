@@ -15,6 +15,8 @@ public interface UserDao {
 	public User getUserById(int id);
 
 	public User getUserByEmail(String email);
+	
+	public User getUserByKey(String key);
 
 	public boolean isExist(String email);
 

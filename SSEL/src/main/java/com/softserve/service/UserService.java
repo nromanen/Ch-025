@@ -2,6 +2,8 @@ package com.softserve.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.softserve.entity.User;
 import com.softserve.form.Registration;
 
@@ -21,6 +23,7 @@ public interface UserService {
 
 	public List<User> getAllUsers();
 	
-	public void registrate(Registration registration);
+	public void registrate(Registration registration, HttpServletRequest request);
 	
+	public User getUserByKey(String key);
 }

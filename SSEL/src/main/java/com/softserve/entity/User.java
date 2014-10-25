@@ -29,7 +29,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column(name = "email", nullable = false)
+	@Column(name = "email", nullable = false, unique = true)
 	private String email;
 
 	@Column(name = "password", nullable = false)
@@ -49,6 +49,9 @@ public class User {
 
 	@Column(name = "blocked", nullable = false)
 	private boolean blocked;
+	
+	@Column(name = "verificationkey")
+	private String verificationKey;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "role", nullable = false)
@@ -138,6 +141,14 @@ public class User {
 
 	public void setGroups(Set<StudentGroup> groups) {
 		this.groups = groups;
+	}
+
+	public String getVerificationKey() {
+		return verificationKey;
+	}
+
+	public void setVerificationKey(String verificationKey) {
+		this.verificationKey = verificationKey;
 	}
 
 }
