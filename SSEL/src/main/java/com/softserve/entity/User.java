@@ -49,7 +49,7 @@ public class User {
 
 	@Column(name = "blocked", nullable = false)
 	private boolean blocked;
-	
+
 	@Column(name = "verificationkey")
 	private String verificationKey;
 
@@ -149,6 +149,11 @@ public class User {
 
 	public void setVerificationKey(String verificationKey) {
 		this.verificationKey = verificationKey;
+	}
+
+	@Override
+	public String toString() {
+		return "User id: " + id + " email: " + email;
 	}
 
 }
