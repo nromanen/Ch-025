@@ -1,7 +1,5 @@
 package com.softserve.service.impl;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +28,8 @@ public class TopicServiceImpl implements TopicService {
 		topicDao.addTopic(topic);
 	}
 
-	@Override 
-	@Transactional 
+	@Override
+	@Transactional
 	public void updateTopic(Topic topic) {
 		topicDao.updateTopic(topic);
 	}
@@ -39,7 +37,7 @@ public class TopicServiceImpl implements TopicService {
 	@Override
 	@Transactional
 	public void deleteTopic(Topic topic) {
-		topicDao.deleteTopic(topic); 
+		topicDao.deleteTopic(topic);
 	}
 
 	@Override
@@ -61,61 +59,63 @@ public class TopicServiceImpl implements TopicService {
 
 	@Override
 	public void changeOrderUp(Topic topic) {
-		List<Topic> topics = topicDao.getTopicsByBlockId(topic.getBlock().getId());
-		
-		for (int i = 0; i<topics.size(); i++) {
-			for (int j = topics.size()-1; j>i; j--) {
-				if (topics.get(j).getOrder()<topics.get(j-1).getOrder()) {
+		List<Topic> topics = topicDao.getTopicsByBlockId(topic.getBlock()
+				.getId());
+
+		for (int i = 0; i < topics.size(); i++) {
+			for (int j = topics.size() - 1; j > i; j--) {
+				if (topics.get(j).getOrder() < topics.get(j - 1).getOrder()) {
 					Topic temp = topics.get(j);
-					topics.set(j, topics.get(j+1));
-					topics.set(j+1, temp);
+					topics.set(j, topics.get(j + 1));
+					topics.set(j + 1, temp);
 				}
 			}
 		}
-		
-/*		Collections.sort(topics, new Comparator<Topic>() {
-			  public int compare(Topic o1, Topic o2) {
-				  return o1.getOrder() - o2.getOrder();
-			  }
-		});*/
-		
+
+		/*
+		 * Collections.sort(topics, new Comparator<Topic>() { public int
+		 * compare(Topic o1, Topic o2) { return o1.getOrder() - o2.getOrder(); }
+		 * });
+		 */
+
 		int tempIndex = topics.indexOf(topic);
 		if (tempIndex > 0) {
-		int tempOrder = topics.get(tempIndex-1).getOrder();
-		topics.get(tempIndex-1).setOrder(topic.getOrder());
-		topics.get(tempIndex).setOrder(tempOrder);
-		updateTopic(topics.get(tempIndex-1));
-		updateTopic(topics.get(tempIndex));
+			int tempOrder = topics.get(tempIndex - 1).getOrder();
+			topics.get(tempIndex - 1).setOrder(topic.getOrder());
+			topics.get(tempIndex).setOrder(tempOrder);
+			updateTopic(topics.get(tempIndex - 1));
+			updateTopic(topics.get(tempIndex));
 		}
 	}
 
 	@Override
 	public void changeOrderDown(Topic topic) {
-		List<Topic> topics = topicDao.getTopicsByBlockId(topic.getBlock().getId());
-		
-		for (int i = 0; i<topics.size(); i++) {
-			for (int j = topics.size()-1; j>i; j--) {
-				if (topics.get(j).getOrder()<topics.get(j-1).getOrder()) {
+		List<Topic> topics = topicDao.getTopicsByBlockId(topic.getBlock()
+				.getId());
+
+		for (int i = 0; i < topics.size(); i++) {
+			for (int j = topics.size() - 1; j > i; j--) {
+				if (topics.get(j).getOrder() < topics.get(j - 1).getOrder()) {
 					Topic temp = topics.get(j);
-					topics.set(j, topics.get(j+1));
-					topics.set(j+1, temp);
+					topics.set(j, topics.get(j + 1));
+					topics.set(j + 1, temp);
 				}
 			}
 		}
-		
-/*		Collections.sort(topics, new Comparator<Topic>() {
-			  public int compare(Topic o1, Topic o2) {
-				  return o1.getOrder() - o2.getOrder();
-			  }
-		});*/
-		
+
+		/*
+		 * Collections.sort(topics, new Comparator<Topic>() { public int
+		 * compare(Topic o1, Topic o2) { return o1.getOrder() - o2.getOrder(); }
+		 * });
+		 */
+
 		int tempIndex = topics.indexOf(topic);
-		if (tempIndex < topics.size()-1) {
-		int tempOrder = topics.get(tempIndex+1).getOrder();
-		topics.get(tempIndex+1).setOrder(topic.getOrder());
-		topics.get(tempIndex).setOrder(tempOrder);
-		updateTopic(topics.get(tempIndex+1));
-		updateTopic(topics.get(tempIndex));
+		if (tempIndex < topics.size() - 1) {
+			int tempOrder = topics.get(tempIndex + 1).getOrder();
+			topics.get(tempIndex + 1).setOrder(topic.getOrder());
+			topics.get(tempIndex).setOrder(tempOrder);
+			updateTopic(topics.get(tempIndex + 1));
+			updateTopic(topics.get(tempIndex));
 		}
 	}
 

@@ -8,7 +8,7 @@
     	<div class="panel-heading">
         	<h3 class="panel-title">Registration</h3>
         </div>
-        <div class="well span4 offset4">
+        <div class="well span4">
 			<form:form id="registration" class="form-inline" method="POST"
 				commandName="registration" role="form"
 				action="${pageContext.request.contextPath}/registration">

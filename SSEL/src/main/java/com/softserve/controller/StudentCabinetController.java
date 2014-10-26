@@ -3,6 +3,8 @@ package com.softserve.controller;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +17,7 @@ import com.softserve.entity.Block;
 import com.softserve.entity.CourseScheduler;
 import com.softserve.entity.StudentGroup;
 import com.softserve.entity.Subject;
+import com.softserve.entity.User;
 import com.softserve.service.BlockService;
 import com.softserve.service.StudentCabinetSevice;
 import com.softserve.service.StudentGroupService;
@@ -40,11 +43,12 @@ public class StudentCabinetController {
 	private BlockService blockService;
 	
 	@RequestMapping("/subscribe")
-	public String performSubscribe(@RequestParam("subjectId") Integer subjectId, @RequestParam("op") Boolean operation) {
+	public String performSubscribe(@RequestParam("subjectId") Integer subjectId, @RequestParam("op") Boolean operation, HttpSession sess) {
+		User user = (User) sess.getAttribute("user");
 		if (operation) {
-			return subscribe(subjectId);
+			return subscribe(subjectId, user.getId());
 		} else {
-			return unsubscribe(subjectId);
+			return unsubscribe(subjectId, user.getId());
 		}
 	}
 	
@@ -80,8 +84,7 @@ public class StudentCabinetController {
 	 * @param subjectId subject identifier to subscribe
 	 * @return URL page
 	 */
-	private String subscribe(int subjectId) {
-		int userId = 1;
+	private String subscribe(int subjectId, int userId) {
 		CourseScheduler cs = courseService.getCourseScheduleresBySubjectId(subjectId).get(0); //get subject course scheduler
 		StudentGroup row = studentCabinetService.getStudentGroupByUserAndCourseId(userId, cs.getId());
 		if (row == null) { //check if student hasn't subscribed
@@ -116,8 +119,7 @@ public class StudentCabinetController {
 	 * @param subjectId subject identifier to unsubscribe
 	 * @return URL page
 	 */
-	private String unsubscribe(int subjectId) {
-		int userId = 1;
+	private String unsubscribe(int subjectId, int userId) {
 		CourseScheduler cs = courseService.getCourseScheduleresBySubjectId(subjectId).get(0); //get subject course scheduler
 		StudentGroup row = studentCabinetService.getStudentGroupByUserAndCourseId(userId, cs.getId());
 		if (row != null) {
