@@ -54,8 +54,11 @@ public class User {
 	@JoinColumn(name = "role", nullable = false)
 	private Role role;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
 	private Set<StudentGroup> groups = new HashSet<>();
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="user")
+	private Set<Subject> subjects = new HashSet<>();
 
 	public User() {
 	}
