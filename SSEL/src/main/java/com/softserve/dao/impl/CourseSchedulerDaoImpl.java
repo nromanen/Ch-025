@@ -23,9 +23,10 @@ public class CourseSchedulerDaoImpl implements CourseSchedulerDao {
 	private EntityManager entityManager;
 
 	@Override
-	public void addCourseScheduler(CourseScheduler courseScheduler) {
-		entityManager.persist(courseScheduler);
+	public CourseScheduler addCourseScheduler(CourseScheduler courseScheduler) {
 		LOG.debug("Add CourseScheduler");
+		entityManager.persist(courseScheduler);
+		return courseScheduler;
 	}
 
 	@Override
@@ -43,9 +44,10 @@ public class CourseSchedulerDaoImpl implements CourseSchedulerDao {
 	}
 
 	@Override
-	public void updateCourseScheduler(CourseScheduler courseScheduler) {
-		entityManager.merge(courseScheduler);
+	public CourseScheduler updateCourseScheduler(CourseScheduler courseScheduler) {
 		LOG.debug("Update category");
+		entityManager.merge(courseScheduler);
+		return courseScheduler;
 	}
 
 	@Override
@@ -72,13 +74,15 @@ public class CourseSchedulerDaoImpl implements CourseSchedulerDao {
 		LOG.debug("Get all topics by block id = {}", id);
 		return query.getResultList();
 	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<CourseScheduler> getSubscribedCoursesByUserId(int id) {
-		Query query = entityManager.createQuery("select distinct sg.courseScheduler from StudentGroup sg "
-				+ "inner join sg.courseScheduler where sg.user.id = :id");
-		query.setParameter("id", id);
 		LOG.debug("Get all course schedulers by user id = {}", id);
+		Query query = entityManager
+				.createQuery("select distinct sg.courseScheduler from StudentGroup sg "
+						+ "inner join sg.courseScheduler where sg.user.id = :id");
+		query.setParameter("id", id);
 		return query.getResultList();
 	}
 

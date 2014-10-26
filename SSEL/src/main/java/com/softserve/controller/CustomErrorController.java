@@ -8,12 +8,12 @@ class CustomErrorController {
  
         @RequestMapping("error404")
         public String error404page() {
-                return "error404";
+                return "errorPages/error404";
         }
        
         @RequestMapping("error403")
         public String error403page() {
-                return "error403";
+                return "errorPages/error403";
         }
  
 }

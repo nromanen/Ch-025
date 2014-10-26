@@ -3,11 +3,13 @@ package com.softserve.service.impl;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import javax.mail.internet.MimeMessage;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailSender;
-import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import com.softserve.service.MailService;
@@ -19,18 +21,20 @@ public class MailServiceImpl implements MailService {
 			.getLogger(MailServiceImpl.class);
 
 	@Autowired
-	private MailSender mailSender;
+	private JavaMailSender mailSender;
 
 	private ExecutorService executorService = Executors.newFixedThreadPool(5);
 
 	@Override
 	public void sendMail(String to, String subject, String body) {
-		final SimpleMailMessage message = new SimpleMailMessage();
-		message.setFrom("email");
-		message.setTo(to);
-		message.setSubject(subject);
-		message.setText(body);
+		final MimeMessage message = mailSender.createMimeMessage();
+		MimeMessageHelper helper;
 		try {
+			helper = new MimeMessageHelper(message, true);
+			helper.setFrom("email");
+			helper.setTo(to);
+			helper.setSubject(subject);
+			helper.setText(body, true);
 			executorService.submit(new Runnable() {
 
 				@Override

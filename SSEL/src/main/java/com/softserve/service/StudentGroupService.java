@@ -5,9 +5,9 @@ import java.util.List;
 import com.softserve.entity.StudentGroup;
 
 public interface StudentGroupService {
-	public void addStudentGroup(StudentGroup studentGroup);
+	public StudentGroup addStudentGroup(StudentGroup studentGroup);
 
-	public void updateStudentGroup(StudentGroup studentGroup);
+	public StudentGroup updateStudentGroup(StudentGroup studentGroup);
 
 	public void deleteStudentGroup(StudentGroup studentGroup);
 
@@ -16,11 +16,9 @@ public interface StudentGroupService {
 	public List<StudentGroup> getStudentGroupsByGroupNumber(int number);
 
 	public List<StudentGroup> getAllStudentGroups();
-	
+
 	public int getGroupNumberByCourse(int courseId);
-	
+
 	public int getNextGroupNumber();
 
 }
-
-

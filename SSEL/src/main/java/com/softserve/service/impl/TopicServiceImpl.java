@@ -24,14 +24,14 @@ public class TopicServiceImpl implements TopicService {
 
 	@Override
 	@Transactional
-	public void addTopic(Topic topic) {
-		topicDao.addTopic(topic);
+	public Topic addTopic(Topic topic) {
+		return topicDao.addTopic(topic);
 	}
 
 	@Override
 	@Transactional
-	public void updateTopic(Topic topic) {
-		topicDao.updateTopic(topic);
+	public Topic updateTopic(Topic topic) {
+		return topicDao.updateTopic(topic);
 	}
 
 	@Override
@@ -53,11 +53,13 @@ public class TopicServiceImpl implements TopicService {
 	}
 
 	@Override
+	@Transactional
 	public List<Topic> getTopicsBySubjectId(int id) {
 		return topicDao.getTopicsBySubjectId(id);
 	}
 
 	@Override
+	@Transactional
 	public void changeOrderUp(Topic topic) {
 		List<Topic> topics = topicDao.getTopicsByBlockId(topic.getBlock()
 				.getId());
@@ -89,6 +91,7 @@ public class TopicServiceImpl implements TopicService {
 	}
 
 	@Override
+	@Transactional
 	public void changeOrderDown(Topic topic) {
 		List<Topic> topics = topicDao.getTopicsByBlockId(topic.getBlock()
 				.getId());

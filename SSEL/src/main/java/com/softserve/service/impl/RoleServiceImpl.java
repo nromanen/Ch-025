@@ -24,14 +24,14 @@ public class RoleServiceImpl implements RoleService {
 
 	@Override
 	@Transactional
-	public void addRole(Role role) {
-		roleDao.addRole(role);
+	public Role addRole(Role role) {
+		return roleDao.addRole(role);
 	}
 
 	@Override
 	@Transactional
-	public void updateRole(Role role) {
-		roleDao.updateRole(role);
+	public Role updateRole(Role role) {
+		return roleDao.updateRole(role);
 	}
 
 	@Override

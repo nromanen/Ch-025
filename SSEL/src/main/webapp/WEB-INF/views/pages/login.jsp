@@ -1,36 +1,47 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" isELIgnored="false"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <div class="container">
-	<div class="row">
-		<div class="col-md-4 col-md-offset-2">
-			<div class="login-panel panel panel-default">
-				<div class="panel-heading">
-					<h3 class="panel-title">Please Login</h3>
-				</div>
-				<div class="panel-body">
+	<div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">                    
+     	<div class="panel panel-info" >
+        	<div class="panel-heading">
+            	<div class="panel-title">Sign In</div>
+                <div style="float:right; font-size: 80%; position: relative; top:-10px">
+                	<a href="#">Forgot password?</a>
+                </div>
+         	</div>    
+			<div style="padding-top:30px" class="panel-body">
+				<div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
 					<form role="form" action="j_spring_security_check" method="POST"
 						accept-charset="UTF-8">
-						<fieldset>
-							<div class="form-group">
-								<input class="form-control" placeholder="E-mail"
-									name="j_username" type="email" autofocus>
-							</div>
-							<div class="form-group">
-								<input class="form-control" placeholder="Password"
-									name="j_password" type="password" value="">
-							</div>
+						<div style="margin-bottom: 25px" class="input-group">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+							<input class="form-control" placeholder="E-mail" 
+								name="j_username" type="email" autofocus>
+						</div>
+						<div style="margin-bottom: 10px" class="input-group">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+							<input class="form-control" placeholder="Password"
+								name="j_password" type="password" value="">
+						</div>
+						<div class="input-group">
 							<div class="checkbox">
-								<label> <input name="remember" type="checkbox"
-									value="Remember Me" name="_spring_security_remember_me">
-									Remember Me
+								<label> 
+									<input name="remember" type="checkbox" value="Remember Me" 
+										name="_spring_security_remember_me"> Remember Me
 								</label>
 							</div>
+						</div>
+						<div style="margin-top:10px" class="form-group">
 							<button type="submit" class="btn btn-block btn-success">
 								Login</button>
 							<a href="registration" class="btn btn-block btn-primary">
 								Registration </a>
-						</fieldset>
+						</div>
 					</form>
 				</div>
 			</div>
 		</div>
-	</div>
+
 </div>

@@ -48,11 +48,8 @@ body {
 	display: inline-block;
 	width: 30%;
 	height: 100px;
-	margin-left: 30px;
+	margin-left: 20px;
 	margin-bottom : 10px;
-}
-.inline:first-child{
-	margin-left: 0;
 }
 
 .title {

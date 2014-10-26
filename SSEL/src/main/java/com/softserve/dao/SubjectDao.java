@@ -7,11 +7,11 @@ import com.softserve.entity.Subject;
 
 public interface SubjectDao {
 
-	public void addSubject(Subject subject);
+	public Subject addSubject(Subject subject);
 
 	public void deleteSubject(Subject subject);
 
-	public void updateSubject(Subject subject);
+	public Subject updateSubject(Subject subject);
 
 	public Subject getSubjectById(int id);
 

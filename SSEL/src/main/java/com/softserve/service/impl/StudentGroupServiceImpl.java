@@ -18,14 +18,14 @@ public class StudentGroupServiceImpl implements StudentGroupService {
 
 	@Override
 	@Transactional
-	public void addStudentGroup(StudentGroup studentGroup) {
-		studentGroupDao.addStudentGroup(studentGroup);
+	public StudentGroup addStudentGroup(StudentGroup studentGroup) {
+		return studentGroupDao.addStudentGroup(studentGroup);
 	}
 
 	@Override
 	@Transactional
-	public void updateStudentGroup(StudentGroup studentGroup) {
-		studentGroupDao.updateStudentGroup(studentGroup);
+	public StudentGroup updateStudentGroup(StudentGroup studentGroup) {
+		return studentGroupDao.updateStudentGroup(studentGroup);
 	}
 
 	@Override
@@ -53,15 +53,15 @@ public class StudentGroupServiceImpl implements StudentGroupService {
 	}
 
 	@Override
+	@Transactional
 	public int getGroupNumberByCourse(int courseId) {
 		return studentGroupDao.getStudentGroupNumberByCourse(courseId);
 	}
 
 	@Override
+	@Transactional
 	public int getNextGroupNumber() {
 		return studentGroupDao.getNextGroupNumber();
 	}
 
-
 }
-

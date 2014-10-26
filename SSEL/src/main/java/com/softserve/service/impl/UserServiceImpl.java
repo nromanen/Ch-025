@@ -3,7 +3,11 @@ package com.softserve.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +22,8 @@ import com.softserve.service.UserService;
 @Service
 public class UserServiceImpl implements UserService {
 
+	private static final int PASSWORD_STRENGTH = 10;
+
 	@Autowired
 	private UserDao userDao;
 
@@ -29,8 +35,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public void addUser(User user) {
-		userDao.addUser(user);
+	public User addUser(User user) {
+		return userDao.addUser(user);
 	}
 
 	@Override
@@ -41,8 +47,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public void updateUser(User user) {
-		userDao.updateUser(user);
+	public User updateUser(User user) {
+		return userDao.updateUser(user);
 	}
 
 	@Override
@@ -71,22 +77,35 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public void registrate(Registration registration) {
+	public void registrate(Registration registration, HttpServletRequest request) {
+		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(
+				PASSWORD_STRENGTH);
 		User user = new User();
 
 		user.setEmail(registration.getEmail().trim());
-		user.setPassword(registration.getPassword());
-		user.setBlocked(false);
+		user.setPassword(passwordEncoder.encode(registration.getPassword()));
+		user.setBlocked(true); // false
 		user.setFirstName(registration.getFirstName().trim());
-		user.setLastName(registration.getLastName());
+		user.setLastName(registration.getLastName().trim());
 		user.setRegistration(new Date());
 		user.setRole(roleService.getRoleByName(Roles.STUDENT.toString()));
 		user.setExpired(new Date());
+		user.setVerificationKey(passwordEncoder.encode(registration.getEmail()));
+		String url = request.getRequestURL().toString();
+		String url2 = request.getServletPath();
+		url.replaceAll(url2, "/");
+		String message = "Thank you for registration.<br>Please confirm your email by clicking next link: ";
+		url = url + "/confirm?key=" + user.getVerificationKey();
+		message += "<a href=\"" + url + "\">" + url + "</a>";
 
-		mailService.sendMail(user.getEmail(), "SSEL registration",
-				"Thank you for registration");
+		mailService.sendMail(user.getEmail(), "SSEL registration", message);
 		userDao.addUser(user);
+	}
 
+	@Override
+	@Transactional
+	public User getUserByKey(String key) {
+		return userDao.getUserByKey(key);
 	}
 
 }
