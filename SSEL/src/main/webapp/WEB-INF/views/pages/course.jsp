@@ -14,22 +14,26 @@
 			<div class="title">${subject.name}</div>
 			<div style="padding-top: 8px;">Description:
 				${subject.description}</div>
-			<form method="GET" action="subscribe">
-				<c:if test="${isSubscribe eq true}">
-					<button value="${subject.id}" name="subjectId" class="btn-success"
-						style="border-radius: 5px; margin-top: 8px;">Subscribe to
-						course</button>
-				</c:if>
-				<c:if test="${isSubscribe eq false}">
-					<button value="${subject.id}" name="subjectId" class="btn-success"
-						style="border-radius: 5px; margin-top: 8px;">Unsubscribe
-						from course</button>
-				</c:if>
-				<input type="hidden" name="op" value="${isSubscribe}">
-			</form>
+			<c:if test="${sessionScope.user.role.role eq 'STUDENT'}">
+				<form method="GET" action="subscribe">
+					<c:if test="${isSubscribe eq true}">
+						<button value="${subject.id}" name="subjectId"
+							class="btn btn-success"
+							style="width:200px; margin-top: 8px;">Subscribe
+							to course</button>
+					</c:if>
+					<c:if test="${isSubscribe eq false}">
+						<button value="${subject.id}" name="subjectId"
+							class="btn btn-warning"
+							style="width:200px; margin-top: 8px;">Unsubscribe
+							from course</button>
+					</c:if>
+					<input type="hidden" name="op" value="${isSubscribe}">
+				</form>
+			</c:if>
 			<form method="GET" action="courseInformation">
-				<button value="${subject.id}" name="subjectId" class="btn-info"
-					style="border-radius: 5px; margin-top: 8px;">Details</button>
+				<button value="${subject.id}" name="subjectId" class="btn btn-info"
+					style="width:200px; margin-top: 8px;">Details</button>
 			</form>
 		</div>
 	</div>
