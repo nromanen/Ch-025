@@ -31,15 +31,17 @@ public class SubjectDaoImpl implements SubjectDao {
 	}
 
 	@Override
-	public void addSubject(Subject subject) {
-		entityManager.persist(subject);
+	public Subject addSubject(Subject subject) {
 		LOG.debug("Add subject {}", subject);
+		entityManager.persist(subject);
+		return subject;
 	}
 
 	@Override
-	public void updateSubject(Subject subject) {
-		entityManager.merge(subject);
+	public Subject updateSubject(Subject subject) {
 		LOG.debug("Update subject = {}", subject.getName());
+		entityManager.merge(subject);
+		return subject;
 	}
 
 	@Override
@@ -67,11 +69,10 @@ public class SubjectDaoImpl implements SubjectDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Subject> getSubjectsByCategoryId(int id) {
+		LOG.debug("Get all subjects by category id = {}", id);
 		Query query = entityManager.createQuery("FROM Subject s "
 				+ "WHERE s.category.id = :id");
 		query.setParameter("id", id);
-
-		LOG.debug("Get all subjects by category id = {}", id);
 		return query.getResultList();
 	}
 

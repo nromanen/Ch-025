@@ -31,15 +31,17 @@ public class RoleDaoImpl implements RoleDao {
 	}
 
 	@Override
-	public void addRole(Role role) {
-		entityManager.persist(role);
+	public Role addRole(Role role) {
 		LOG.debug("Add role {}", role);
+		entityManager.persist(role);
+		return role;
 	}
 
 	@Override
-	public void updateRole(Role role) {
-		entityManager.merge(role);
+	public Role updateRole(Role role) {
 		LOG.debug("Update role = {}", role.getRole());
+		entityManager.merge(role);
+		return role;
 	}
 
 	@Override

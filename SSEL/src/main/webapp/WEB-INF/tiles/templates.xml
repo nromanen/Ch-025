@@ -12,4 +12,13 @@
         <put-attribute name="content" value=""/>
         <put-attribute name="footer" value="/WEB-INF/views/templates/footer.jsp"/>
     </definition>
+    
+    <definition name="sign-template" template="/WEB-INF/views/templates/sign-template.jsp">
+        <put-attribute name="title" value="SSEL"/>
+        <put-attribute name="header" value="/WEB-INF/views/templates/header.jsp"/>
+        <put-attribute name="content" value=""/>
+        <put-attribute name="footer" value="/WEB-INF/views/templates/footer.jsp"/>
+    </definition>
+    
+    
 </tiles-definitions>

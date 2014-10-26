@@ -6,9 +6,9 @@ import com.softserve.entity.Block;
 
 public interface BlockService {
 
-	public void addBlock(Block block);
+	public Block addBlock(Block block);
 
-	public void updateBlock(Block block);
+	public Block updateBlock(Block block);
 
 	public void deleteBlock(Block block);
 

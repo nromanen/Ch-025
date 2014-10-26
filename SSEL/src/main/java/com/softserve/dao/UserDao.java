@@ -6,11 +6,11 @@ import com.softserve.entity.User;
 
 public interface UserDao {
 
-	public void addUser(User user);
+	public User addUser(User user);
 
 	public void deleteUser(User user);
 
-	public void updateUser(User user);
+	public User updateUser(User user);
 
 	public User getUserById(int id);
 

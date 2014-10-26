@@ -18,14 +18,14 @@ public class BlockServiceImpl implements BlockService {
 
 	@Override
 	@Transactional
-	public void addBlock(Block block) {
-		blockDao.addBlock(block);
+	public Block addBlock(Block block) {
+		return blockDao.addBlock(block);
 	}
 
 	@Override
 	@Transactional
-	public void updateBlock(Block block) {
-		blockDao.updateBlock(block);
+	public Block updateBlock(Block block) {
+		return blockDao.updateBlock(block);
 	}
 
 	@Override

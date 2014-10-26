@@ -23,17 +23,19 @@ public class StudentGroupDaoImpl implements StudentGroupDao {
 	private EntityManager entityManager;
 
 	@Override
-	public void addStudentGroup(StudentGroup studentGroup) {
-		entityManager.persist(studentGroup);
+	public StudentGroup addStudentGroup(StudentGroup studentGroup) {
 		LOG.debug("Add studentGroup (number = {})",
 				studentGroup.getGroupNumber());
+		entityManager.persist(studentGroup);
+		return studentGroup;
 	}
 
 	@Override
-	public void updateStudentGroup(StudentGroup studentGroup) {
-		entityManager.merge(studentGroup);
+	public StudentGroup updateStudentGroup(StudentGroup studentGroup) {
 		LOG.debug("Update studentGroup (number = {})",
 				studentGroup.getGroupNumber());
+		entityManager.merge(studentGroup);
+		return studentGroup;
 	}
 
 	@Override
@@ -58,11 +60,10 @@ public class StudentGroupDaoImpl implements StudentGroupDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<StudentGroup> getStudentGroupsByGroupNumber(int number) {
+		LOG.debug("Get all topics by group number = {}", number);
 		Query query = entityManager.createQuery("FROM StudentGroup s "
 				+ "WHERE s.groupNumber = :number");
 		query.setParameter("number", number);
-
-		LOG.debug("Get all topics by group number = {}", number);
 		return query.getResultList();
 	}
 
@@ -75,10 +76,12 @@ public class StudentGroupDaoImpl implements StudentGroupDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public StudentGroup getStudentGroupByUserAndCourseId(int userId, int courseScheduler) {
+	public StudentGroup getStudentGroupByUserAndCourseId(int userId,
+			int courseScheduler) {
 		LOG.debug("Get StudentGroup by user");
-		Query query = entityManager.createQuery("select sg from StudentGroup sg "
-				+ "where sg.user.id=:user and sg.courseScheduler.id=:course");
+		Query query = entityManager
+				.createQuery("select sg from StudentGroup sg "
+						+ "where sg.user.id=:user and sg.courseScheduler.id=:course");
 		query.setParameter("user", userId);
 		query.setParameter("course", courseScheduler);
 		List<StudentGroup> results = query.getResultList();
@@ -89,7 +92,8 @@ public class StudentGroupDaoImpl implements StudentGroupDao {
 	@Override
 	public int getStudentGroupNumberByCourse(int courseScheduler) {
 		LOG.debug("Get StudentGroup by course");
-		Query query = entityManager.createQuery("select distinct sg from StudentGroup sg where sg.courseScheduler.id = :id");
+		Query query = entityManager
+				.createQuery("select distinct sg from StudentGroup sg where sg.courseScheduler.id = :id");
 		query.setParameter("id", courseScheduler);
 		List<StudentGroup> results = query.getResultList();
 		return (results.size() == 0) ? -1 : results.get(0).getGroupNumber();
@@ -98,12 +102,10 @@ public class StudentGroupDaoImpl implements StudentGroupDao {
 	@Override
 	public int getNextGroupNumber() {
 		LOG.debug("Get StudentGroup by course");
-		Query query = entityManager.createQuery("select max(sg.groupNumber) from StudentGroup sg");
+		Query query = entityManager
+				.createQuery("select max(sg.groupNumber) from StudentGroup sg");
 		Integer res = (Integer) query.getSingleResult();
-		return (res != null) ? res+1 : -1;
+		return (res != null) ? res + 1 : -1;
 	}
 
-
 }
-
-

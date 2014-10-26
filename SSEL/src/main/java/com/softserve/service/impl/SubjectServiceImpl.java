@@ -17,11 +17,11 @@ public class SubjectServiceImpl implements SubjectService {
 
 	@Autowired
 	SubjectDao subjectDao;
-	
+
 	@Override
 	@Transactional
-	public void addSubject(Subject subject) {
-		subjectDao.addSubject(subject);
+	public Subject addSubject(Subject subject) {
+		return subjectDao.addSubject(subject);
 	}
 
 	@Override
@@ -32,8 +32,8 @@ public class SubjectServiceImpl implements SubjectService {
 
 	@Override
 	@Transactional
-	public void updateSubject(Subject subject) {
-		subjectDao.updateSubject(subject);
+	public Subject updateSubject(Subject subject) {
+		return subjectDao.updateSubject(subject);
 	}
 
 	@Override

@@ -15,18 +15,16 @@
 	</definition>
 
 	<!-- Registration -->
-	<definition name="registration" extends="base-template">
+	<definition name="registration" extends="sign-template">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Registration" />
 		<put-attribute name="content"
 			value="/WEB-INF/views/pages/registration.jsp" />
-		<put-attribute name="menu" value=""></put-attribute>
 	</definition>
 
 	<!-- Login -->
-	<definition name="login" extends="base-template">
+	<definition name="login" extends="sign-template">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Login" />
 		<put-attribute name="content" value="/WEB-INF/views/pages/login.jsp" />
-		<put-attribute name="menu" value=""></put-attribute>
 	</definition>
 
 	<!-- Course -->

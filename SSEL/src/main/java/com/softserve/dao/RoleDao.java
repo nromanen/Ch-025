@@ -8,9 +8,9 @@ public interface RoleDao {
 
 	public Role getRoleById(int id);
 
-	public void addRole(Role role);
+	public Role addRole(Role role);
 
-	public void updateRole(Role role);
+	public Role updateRole(Role role);
 
 	public void deleteRole(Role role);
 

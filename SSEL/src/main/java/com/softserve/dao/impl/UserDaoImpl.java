@@ -24,9 +24,10 @@ public class UserDaoImpl implements UserDao {
 	private EntityManager entityManager;
 
 	@Override
-	public void addUser(User user) {
-		entityManager.merge(user);
+	public User addUser(User user) {
 		LOG.debug("Add user (user email = {})", user.getEmail());
+		entityManager.persist(user);
+		return user;
 	}
 
 	@Override
@@ -42,9 +43,10 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void updateUser(User user) {
-		entityManager.merge(user);
+	public User updateUser(User user) {
 		LOG.debug("Update user(email = {})", user.getEmail());
+		entityManager.merge(user);
+		return user;
 	}
 
 	@Override
