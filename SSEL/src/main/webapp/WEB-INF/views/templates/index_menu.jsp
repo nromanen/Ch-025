@@ -48,28 +48,24 @@
 			<ul class="nav" id="side-menu">
 				<li class="sidebar-search">
                             <div class="input-group custom-search-form">
-                                <input type="text" class="form-control" placeholder="Search...">
-                                <!-- <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            	</span>  -->
+                                <input type="text" class="form-control" id="searchInput"
+                                placeholder="Search..." onkeyup="searchSubjects();">
                             </div>
-                            <!-- /input-group -->
                         </li>
-				<li><a href="#"><i class="fa fa-sitemap fa-fw"></i> All
+				<li><a href="#" onclick="repairMenu();"><i class="fa fa-sitemap fa-fw"></i> All
 						Courses<span class="fa arrow"></span></a>
-					<ul class="nav nav-second-level">
+					<ul class="nav nav-second-level"  id="listCat">
 						<c:forEach items="${catList}" var="cat">
 							<li><a href="#"> ${cat.name} <span class="fa arrow"></span></a>
-								<ul class="nav nav-third-level">
+								<ul class="nav nav-third-level" id="listSubj">
 									<c:forEach items="${cat.subjects}" var="subj">
 										<li class="link"><a href="course?subjectId=${subj.id}"
 											style="color: #428bca;"> ${subj.name}</a></li>
 									</c:forEach>
 								</ul>
 						</c:forEach>
-					</ul></li>
+					</ul>
+				</li>
 			</ul>
 		</div>
 	</div>

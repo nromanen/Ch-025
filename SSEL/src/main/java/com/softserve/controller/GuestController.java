@@ -113,6 +113,7 @@ public class GuestController {
 	
 	@RequestMapping(value = "/courseInformation", method = RequestMethod.GET)
 	public String courseInformation(@RequestParam Integer subjectId, Model model, HttpSession httpSession) {
+		LOG.debug("Visit courseInformation page as guest");
 		Set<Subject> subjects = subjectService.getAllSubjects();
 		Set<Category> categories = categoryService.getAllCategories();
 		model.addAttribute("subList", subjects);

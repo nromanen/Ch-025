@@ -12,7 +12,7 @@ import com.softserve.service.UserService;
 @Component
 public class RegistrationValidation implements Validator {
 
-	private static final String NAME_PATTERN = "[A-ZÀ-ß²¯ª]{1}[A-ZÀ-ß²¯ªa-zà-ÿ³¿º-]{1,30}";
+	private static final String NAME_PATTERN = "[A-Z]{1}[a-z]{1,30}";
 	private static final String EMAIL_PATTERN = "[A-Za-z0-9_\\.-]{1,30}@[A-Za-z0-9_\\.-]{1,30}";
 
 	@Autowired
