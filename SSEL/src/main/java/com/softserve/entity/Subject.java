@@ -33,6 +33,10 @@ public class Subject {
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "id_category", nullable = false)
 	private Category category;
+	
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@JoinColumn(name = "id_user", nullable = false)
+	private User user;
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "subject")
 	private Set<Block> blocks = new HashSet<>();
@@ -81,6 +85,14 @@ public class Subject {
 
 	public void setBlocks(Set<Block> blocks) {
 		this.blocks = blocks;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }
