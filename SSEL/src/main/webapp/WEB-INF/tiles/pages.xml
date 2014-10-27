@@ -87,7 +87,7 @@
 
 	<definition name="courseInformation" extends="index">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
-		<put-attribute name="content" value="/WEB-INF/views/courseInformation.jsp"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/views/pages/courseInformation.jsp"></put-attribute>
 	</definition>
 </tiles-definitions>
 
