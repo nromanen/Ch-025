@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.softserve.entity.User;
 import com.softserve.form.Registration;
+import com.softserve.form.ResetPassword;
 
 public interface UserService {
 
@@ -26,4 +27,8 @@ public interface UserService {
 	public void registrate(Registration registration, HttpServletRequest request);
 
 	public User getUserByKey(String key);
+	
+	public void remindPassword(User user, HttpServletRequest request);
+	
+	public void restorePassword(User user, ResetPassword resetPassword);
 }

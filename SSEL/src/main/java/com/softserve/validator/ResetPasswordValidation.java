@@ -1,0 +1,42 @@
+package com.softserve.validator;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
+import org.springframework.validation.Validator;
+
+import com.softserve.form.ResetPassword;
+import com.softserve.service.UserService;
+
+@Component
+public class ResetPasswordValidation implements Validator {
+
+	@Autowired
+	private UserService userService;
+	
+	@Override
+	public boolean supports(Class<?> clazz) {
+		return ResetPassword.class.isAssignableFrom(clazz);
+	}
+
+	@Override
+	public void validate(Object target, Errors errors) {
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "",
+				"Field password is required.");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword",
+				"", "Field password is required.");
+		
+		ResetPassword resetPassword = (ResetPassword) target;
+
+		if (!(resetPassword.getPassword().equals(resetPassword
+				.getConfirmPassword()))) {
+			errors.rejectValue("confirmPassword", "", "Password doesn't match");
+		}
+
+		if (userService.getUserByKey(resetPassword.getKey()) == null) {
+			errors.rejectValue("key", "", "Key is not found");
+		}
+	}
+
+}
