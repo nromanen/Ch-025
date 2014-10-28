@@ -56,7 +56,7 @@
 						Courses<span class="fa arrow"></span></a>
 					<ul class="nav nav-second-level"  id="listCat">
 						<c:forEach items="${catList}" var="cat">
-							<li><a href="#"> ${cat.name} <span class="fa arrow"></span></a>
+							<li><a href="#" onclick="repairMenu();"> ${cat.name} <span class="fa arrow"></span></a>
 								<ul class="nav nav-third-level" id="listSubj">
 									<c:forEach items="${cat.subjects}" var="subj">
 										<li class="link"><a href="course?subjectId=${subj.id}"
