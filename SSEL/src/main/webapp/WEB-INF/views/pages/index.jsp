@@ -21,7 +21,12 @@
 						<button value="${subj.id}" name="subjectId" class="btn btn-link"
 							style="color: #428bca;">${subj.name}</button>
 					</div>
-					<div>${subj.description}</div>
+					<div>Category: ${subj.category.name}</div>
+					<c:forEach items="${schedule}" var="schedule">
+						<c:if test="${schedule.subject.id eq subj.id}">
+							<div>Start time: ${schedule.start} </div>
+						</c:if>
+					</c:forEach>
 				</div>
 			</c:forEach>
 		</div>

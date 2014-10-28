@@ -12,10 +12,24 @@
 	</div>
 	<!-- /.navbar-header -->
 	<ul class="nav navbar-top-links navbar-right">
-		<li class="dropdown"><a class="dropdown-toggle"
-			data-toggle="dropdown" href="#"> <i class="fa fa-user fa-fw"></i>
+		<li>
+			<div>
+				<a  href="?lang=ua" style="padding: 0px"> 
+					<img style="width: 20px; height: 20px;" src='<c:url value="/resources/img/ua.png" />'> 
+				</a>
+				<a href="?lang=en" style="padding: 0px"> 
+					<img style="width: 20px; height: 20px;" src='<c:url value="/resources/img/en.png" />'> 
+				</a>
+				<a href="?lang=ru" style="padding: 0px"> 
+					<img style="width: 20px; height: 20px;" src='<c:url value="/resources/img/ru.png" />'> 
+				</a>
+			</div>
+		</li>
+		<li class="dropdown">
+			<a class="dropdown-toggle" data-toggle="dropdown" href="#"> 
+				<i class="fa fa-user fa-fw"></i>
 				<i class="fa fa-caret-down"></i>
-		</a>
+			</a>
 			<ul class="dropdown-menu dropdown-user">
 				<c:if test="${sessionScope.user.role.role eq 'TEACHER'}">
 					<li><a href="teacher"><i class="fa fa-user fa-fw"></i>
@@ -40,7 +54,8 @@
 				<li><a href="registration"><i class="fa fa-sign-in fa-fw"></i>Sign
 						up</a></li>
 				</c:if>
-			</ul> <!-- /.dropdown-user --></li>
+			</ul> <!-- /.dropdown-user -->
+		</li>	
 	</ul>
 	<!-- /.navbar-top-links -->
 	<div class="navbar-default sidebar" role="navigation">
@@ -48,28 +63,24 @@
 			<ul class="nav" id="side-menu">
 				<li class="sidebar-search">
                             <div class="input-group custom-search-form">
-                                <input type="text" class="form-control" placeholder="Search...">
-                                <!-- <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            	</span>  -->
+                                <input type="text" class="form-control" id="searchInput"
+                                placeholder="Search..." onkeyup="searchSubjects();">
                             </div>
-                            <!-- /input-group -->
                         </li>
-				<li><a href="#"><i class="fa fa-sitemap fa-fw"></i> All
+				<li><a href="#" onclick="repairMenu();"><i class="fa fa-sitemap fa-fw"></i> All
 						Courses<span class="fa arrow"></span></a>
-					<ul class="nav nav-second-level">
+					<ul class="nav nav-second-level"  id="listCat">
 						<c:forEach items="${catList}" var="cat">
 							<li><a href="#"> ${cat.name} <span class="fa arrow"></span></a>
-								<ul class="nav nav-third-level">
+								<ul class="nav nav-third-level" id="listSubj">
 									<c:forEach items="${cat.subjects}" var="subj">
 										<li class="link"><a href="course?subjectId=${subj.id}"
 											style="color: #428bca;"> ${subj.name}</a></li>
 									</c:forEach>
 								</ul>
 						</c:forEach>
-					</ul></li>
+					</ul>
+				</li>
 			</ul>
 		</div>
 	</div>

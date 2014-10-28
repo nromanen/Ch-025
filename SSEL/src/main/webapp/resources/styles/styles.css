@@ -80,3 +80,11 @@ body {
 	border-radius: 5px;
 	margin-top: 8px;
 } 
+
+.flag_icon {
+    
+}
+
+.language_toggle {
+    cursor: pointer;
+}
