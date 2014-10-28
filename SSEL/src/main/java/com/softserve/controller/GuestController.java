@@ -83,8 +83,10 @@ public class GuestController {
 		LOG.debug("Visit index page as guest");
 		Set<Subject> subjects = subjectService.getAllSubjects();
 		Set<Category> categories = categoryService.getAllCategories();
+		List<CourseScheduler> schedule = cSchedulerService.getAllCourseScheduleres();
 		model.addAttribute("subList", subjects);
 		model.addAttribute("catList", categories);
+		model.addAttribute("schedule", schedule);
 		return "index";
 	}
 
