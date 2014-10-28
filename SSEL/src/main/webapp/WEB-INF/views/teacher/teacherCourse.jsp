@@ -62,13 +62,11 @@
 													<td><a
 														href="editTopic?topicId=${topic.id}&subjectId=${subject.id}">${topic.name}</a></td>
 													<td>
-													${topic.order}
-														<!-- button type="button"
-															class="btn btn-outline btn-primary btn-xs"
+													<!-- ${topic.order}-->
+														 <button type="button" class="btn btn-outline btn-primary btn-xs"
 															onclick="location.href='changeTopicOrder?updown=up&topicId=${topic.id}&subjectId=${subject.id}'">Up</button>
-														<button type="button"
-															class="btn btn-outline btn-primary btn-xs"
-															onclick="location.href='changeTopicOrder?updown=down&topicId=${topic.id}&subjectId=${subject.id}'">Down</button-->
+														<button type="button" class="btn btn-outline btn-primary btn-xs"
+															onclick="location.href='changeTopicOrder?updown=down&topicId=${topic.id}&subjectId=${subject.id}'">Down</button>
 
 
 
