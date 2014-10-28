@@ -18,14 +18,14 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	@Transactional
-	public void addCategory(Category category) {
-		categoryDao.addCategory(category);
+	public Category addCategory(Category category) {
+		return categoryDao.addCategory(category);
 	}
 
 	@Override
 	@Transactional
-	public void updateCategory(Category category) {
-		categoryDao.updateCategory(category);
+	public Category updateCategory(Category category) {
+		return categoryDao.updateCategory(category);
 	}
 
 	@Override

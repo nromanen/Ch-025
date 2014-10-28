@@ -24,9 +24,10 @@ public class UserDaoImpl implements UserDao {
 	private EntityManager entityManager;
 
 	@Override
-	public void addUser(User user) {
-		entityManager.merge(user);
+	public User addUser(User user) {
 		LOG.debug("Add user (user email = {})", user.getEmail());
+		entityManager.persist(user);
+		return user;
 	}
 
 	@Override
@@ -42,9 +43,10 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void updateUser(User user) {
-		entityManager.merge(user);
+	public User updateUser(User user) {
 		LOG.debug("Update user(email = {})", user.getEmail());
+		entityManager.merge(user);
+		return user;
 	}
 
 	@Override
@@ -74,8 +76,8 @@ public class UserDaoImpl implements UserDao {
 		List<User> result = entityManager
 				.createQuery("FROM User WHERE email = :email")
 				.setParameter("email", email).getResultList();
-		LOG.debug("User(email = {}) {} exist", email,
-				(result.size() > 0 ? "" : "does not"));
+		LOG.debug("User(email = {}) {} exist", email, (result.size() > 0 ? ""
+				: "does not"));
 		return result.size() > 0;
 	}
 
@@ -84,6 +86,21 @@ public class UserDaoImpl implements UserDao {
 	public List<User> getAllUsers() {
 		LOG.debug("Get all users");
 		return entityManager.createQuery("FROM User").getResultList();
+	}
+
+	@Override
+	public User getUserByKey(String key) {
+		LOG.debug("Get user(key = {})", key);
+		Query query = entityManager
+				.createQuery("FROM User u WHERE u.verificationKey = :key");
+		query.setParameter("key", key);
+		try {
+			User user = (User) query.getSingleResult();
+			return user;
+		} catch (NoResultException exception) {
+			LOG.error("Tried to get user(key = {})", key, exception);
+			return null;
+		}
 	}
 
 }

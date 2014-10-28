@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -30,15 +31,17 @@ public class RoleDaoImpl implements RoleDao {
 	}
 
 	@Override
-	public void addRole(Role role) {
-		entityManager.persist(role);
+	public Role addRole(Role role) {
 		LOG.debug("Add role {}", role);
+		entityManager.persist(role);
+		return role;
 	}
 
 	@Override
-	public void updateRole(Role role) {
-		entityManager.merge(role);
+	public Role updateRole(Role role) {
 		LOG.debug("Update role = {}", role.getRole());
+		entityManager.merge(role);
+		return role;
 	}
 
 	@Override
@@ -60,6 +63,20 @@ public class RoleDaoImpl implements RoleDao {
 		Set<Role> roles = new HashSet<>();
 		roles.addAll(entityManager.createQuery("FROM Role").getResultList());
 		return roles;
+	}
+
+	@Override
+	public Role getRoleByName(String name) {
+		LOG.debug("Get role(name = {})", name);
+		Query query = entityManager.createQuery("FROM Role WHERE role= :role")
+				.setParameter("role", name);
+		try {
+			Role role = (Role) query.getSingleResult();
+			return role;
+		} catch (NoResultException exception) {
+			LOG.error("Tried to get role(name = {})", name, exception);
+			return null;
+		}
 	}
 
 }

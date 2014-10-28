@@ -6,9 +6,9 @@ import com.softserve.entity.StudentGroup;
 
 public interface StudentGroupDao {
 
-	public void addStudentGroup(StudentGroup studentGroup);
+	public StudentGroup addStudentGroup(StudentGroup studentGroup);
 
-	public void updateStudentGroup(StudentGroup studentGroup);
+	public StudentGroup updateStudentGroup(StudentGroup studentGroup);
 
 	public void deleteStudentGroup(StudentGroup studentGroup);
 
@@ -24,3 +24,4 @@ public interface StudentGroupDao {
 	
 	public int getNextGroupNumber();
 }
+

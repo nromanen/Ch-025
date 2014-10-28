@@ -6,11 +6,11 @@ import com.softserve.entity.CourseScheduler;
 
 public interface CourseSchedulerService {
 
-	public void addCourseScheduler(CourseScheduler courseScheduler);
+	public CourseScheduler addCourseScheduler(CourseScheduler courseScheduler);
 
 	public void deleteCourseScheduler(CourseScheduler courseScheduler);
 
-	public void updateCourseScheduler(CourseScheduler courseScheduler);
+	public CourseScheduler updateCourseScheduler(CourseScheduler courseScheduler);
 
 	public CourseScheduler getCourseSchedulerById(int id);
 

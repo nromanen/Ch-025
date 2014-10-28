@@ -18,8 +18,8 @@ public class CourseSchedulerServiceImpl implements CourseSchedulerService {
 
 	@Override
 	@Transactional
-	public void addCourseScheduler(CourseScheduler courseScheduler) {
-		courseSchedulerDao.addCourseScheduler(courseScheduler);
+	public CourseScheduler addCourseScheduler(CourseScheduler courseScheduler) {
+		return courseSchedulerDao.addCourseScheduler(courseScheduler);
 	}
 
 	@Override
@@ -30,8 +30,8 @@ public class CourseSchedulerServiceImpl implements CourseSchedulerService {
 
 	@Override
 	@Transactional
-	public void updateCourseScheduler(CourseScheduler courseScheduler) {
-		courseSchedulerDao.updateCourseScheduler(courseScheduler);
+	public CourseScheduler updateCourseScheduler(CourseScheduler courseScheduler) {
+		return courseSchedulerDao.updateCourseScheduler(courseScheduler);
 	}
 
 	@Override

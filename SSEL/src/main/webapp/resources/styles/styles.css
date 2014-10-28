@@ -48,11 +48,8 @@ body {
 	display: inline-block;
 	width: 30%;
 	height: 100px;
-	margin-left: 30px;
+	margin-left: 20px;
 	margin-bottom : 10px;
-}
-.inline:first-child{
-	margin-left: 0;
 }
 
 .title {
@@ -66,3 +63,20 @@ body {
 	padding-left:35px;
 	padding-bottom: 5px;
 }
+
+.courceInformation p{
+	padding-left: 30px;
+} 
+
+.courceInformation td{
+	padding-left: 60px;
+} 
+
+.courceInformation .topic{
+	padding-left: 90px;
+} 
+
+.courceInformation .btn-success{
+	border-radius: 5px;
+	margin-top: 8px;
+} 

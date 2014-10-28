@@ -1,0 +1,7 @@
+/bin/
+/target/
+/.settings/
+/.classpath
+/.project
+/app_log-10-24-2014.log
+/app_log.log

@@ -10,22 +10,33 @@
 	<definition name="index" extends="base-template">
 		<put-attribute name="title" value="SSEL SoftServeAcademy" />
 		<put-attribute name="content" value="/WEB-INF/views/pages/index.jsp" />
-		<put-attribute name="menu" value="/WEB-INF/views/templates/index_menu.jsp"></put-attribute>
+		<put-attribute name="menu"
+			value="/WEB-INF/views/templates/index_menu.jsp"></put-attribute>
 	</definition>
 
 	<!-- Registration -->
-	<definition name="registration" extends="base-template">
+	<definition name="registration" extends="sign-template">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Registration" />
 		<put-attribute name="content"
 			value="/WEB-INF/views/pages/registration.jsp" />
-		<put-attribute name="menu" value=""></put-attribute>
 	</definition>
 
 	<!-- Login -->
-	<definition name="login" extends="base-template">
+	<definition name="login" extends="sign-template">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Login" />
 		<put-attribute name="content" value="/WEB-INF/views/pages/login.jsp" />
-		<put-attribute name="menu" value=""></put-attribute>
+	</definition>
+	
+	<!-- Remind -->
+	<definition name="remind" extends="sign-template">
+		<put-attribute name="title" value="SSEL SoftServeAcademy Renind" />
+		<put-attribute name="content" value="/WEB-INF/views/remind.jsp" />
+	</definition>
+	
+	<!-- Restore -->
+	<definition name="restore" extends="sign-template">
+		<put-attribute name="title" value="SSEL SoftServeAcademy Reset Password" />
+		<put-attribute name="content" value="/WEB-INF/views/restore.jsp" />
 	</definition>
 
 	<!-- Course -->
@@ -38,16 +49,58 @@
 	<definition name="student" extends="base-template">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Student" />
 		<put-attribute name="content" value="/WEB-INF/views/pages/student.jsp" />
-		<put-attribute name="menu" value="/WEB-INF/views/templates/student_menu.jsp" />
+		<put-attribute name="menu"
+			value="/WEB-INF/views/templates/student_menu.jsp" />
 	</definition>
-	
+
+	<!-- Teacher -->
+	<definition name="teacher" extends="base-template">
+		<put-attribute name="title"
+			value="SSEL SoftServeAcademy Teacher cabinet" />
+		<put-attribute name="content" value="/WEB-INF/views/teacher.jsp" />
+		<put-attribute name="menu"
+			value="/WEB-INF/views/templates/teacher_menu.jsp" />
+		<put-attribute name="footer" value="" />
+	</definition>
+
+	<definition name="teacherCourse" extends="teacher">
+		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
+		<put-attribute name="content" value="/WEB-INF/views/teacherCourse.jsp" />
+	</definition>
+
+	<definition name="editTopic" extends="teacher">
+		<put-attribute name="title" value="SSEL SoftServeAcademy topic edit" />
+		<put-attribute name="content" value="/WEB-INF/views/editTopic.jsp" />
+	</definition>
+
+	<definition name="editSubject" extends="teacher">
+		<put-attribute name="title" value="SSEL SoftServeAcademy subject edit" />
+		<put-attribute name="content" value="/WEB-INF/views/editSubject.jsp" />
+	</definition>
+
+	<definition name="editBlock" extends="teacher">
+		<put-attribute name="title" value="SSEL SoftServeAcademy module edit" />
+		<put-attribute name="content" value="/WEB-INF/views/editBlock.jsp" />
+	</definition>
+
+	<definition name="editCategory" extends="teacher">
+		<put-attribute name="title"
+			value="SSEL SoftServeAcademy category edit" />
+		<put-attribute name="content" value="/WEB-INF/views/editCategory.jsp" />
+	</definition>
+
 	<!-- Modules -->
 	<definition name="modules" extends="base-template">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Student" />
 		<put-attribute name="content" value="/WEB-INF/views/pages/modules.jsp" />
-		<put-attribute name="menu" value="/WEB-INF/views/templates/student_menu.jsp" />
+		<put-attribute name="menu"
+			value="/WEB-INF/views/templates/student_menu.jsp" />
 	</definition>
-	
-	
+
+	<definition name="courseInformation" extends="index">
+		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
+		<put-attribute name="content" value="/WEB-INF/views/pages/courseInformation.jsp"></put-attribute>
+	</definition>
 </tiles-definitions>
+
 

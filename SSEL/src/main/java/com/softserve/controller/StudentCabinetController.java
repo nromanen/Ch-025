@@ -43,7 +43,7 @@ public class StudentCabinetController {
 	private BlockService blockService;
 	
 	@RequestMapping("/subscribe")
-	public String performSubscribe(@RequestParam("subjectId") Integer subjectId, @RequestParam("op") Boolean operation,
+	public String performSubscribe(@RequestParam("subjectId") Integer subjectId, @RequestParam("op") Boolean operation, 
 			HttpSession sess) {
 		User user = (User) sess.getAttribute("user");
 		if (operation) {

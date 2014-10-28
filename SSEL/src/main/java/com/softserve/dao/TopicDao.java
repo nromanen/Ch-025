@@ -8,13 +8,16 @@ public interface TopicDao {
 
 	public Topic getTopicById(int id);
 
-	public void addTopic(Topic topic);
+	public Topic addTopic(Topic topic);
 
-	public void updateTopic(Topic topic);
+	public Topic updateTopic(Topic topic);
 
 	public void deleteTopic(Topic topic);
 
 	public List<Topic> getAllTopics();
 
 	public List<Topic> getTopicsByBlockId(int id);
+	
+	public List<Topic> getTopicsBySubjectId(int id);
 }
+

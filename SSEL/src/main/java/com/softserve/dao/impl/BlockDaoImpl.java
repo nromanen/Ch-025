@@ -23,15 +23,17 @@ public class BlockDaoImpl implements BlockDao {
 	private EntityManager entityManager;
 
 	@Override
-	public void addBlock(Block block) {
-		entityManager.persist(block);
+	public Block addBlock(Block block) {
 		LOG.debug("Add block");
+		entityManager.persist(block);
+		return block;
 	}
 
 	@Override
-	public void updateBlock(Block block) {
-		entityManager.merge(block);
+	public Block updateBlock(Block block) {
 		LOG.debug("Update block (id = {})", block.getId());
+		entityManager.merge(block);
+		return block;
 	}
 
 	@Override
@@ -62,11 +64,10 @@ public class BlockDaoImpl implements BlockDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Block> getBlocksBySubjectId(int id) {
+		LOG.debug("Get all topics by block id = {}", id);
 		Query query = entityManager.createQuery("FROM Block b "
 				+ "WHERE b.subject.id = :id " + "ORDER BY b.order");
 		query.setParameter("id", id);
-
-		LOG.debug("Get all topics by block id = {}", id);
 		return query.getResultList();
 	}
 

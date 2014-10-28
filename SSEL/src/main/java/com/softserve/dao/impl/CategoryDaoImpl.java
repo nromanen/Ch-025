@@ -24,15 +24,17 @@ public class CategoryDaoImpl implements CategoryDao {
 	private EntityManager entityManager;
 
 	@Override
-	public void addCategory(Category category) {
-		entityManager.persist(category);
+	public Category addCategory(Category category) {
 		LOG.debug("Add category {}", category.getName());
+		entityManager.persist(category);
+		return category;
 	}
 
 	@Override
-	public void updateCategory(Category category) {
-		entityManager.merge(category);
+	public Category updateCategory(Category category) {
 		LOG.debug("Update category = {}", category.getName());
+		entityManager.merge(category);
+		return category;
 	}
 
 	@Override

@@ -6,9 +6,9 @@ import com.softserve.entity.Category;
 
 public interface CategoryService {
 
-	public void addCategory(Category category);
+	public Category addCategory(Category category);
 
-	public void updateCategory(Category category);
+	public Category updateCategory(Category category);
 
 	public void deleteCategory(Category category);
 

@@ -20,12 +20,16 @@ import javax.persistence.Table;
 @Table(name = "user")
 public class User {
 
+	public enum Roles {
+		ADMIN, TEACHER, STUDENT
+	};
+
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column(name = "email", nullable = false)
+	@Column(name = "email", nullable = false, unique = true)
 	private String email;
 
 	@Column(name = "password", nullable = false)
@@ -46,12 +50,19 @@ public class User {
 	@Column(name = "blocked", nullable = false)
 	private boolean blocked;
 
+	@Column(name = "verificationkey")
+	private String verificationKey;
+
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "role", nullable = false)
 	private Role role;
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="user")
+	private Set<Subject> subjects = new HashSet<>();
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<StudentGroup> groups = new HashSet<>();
+	
 
 	public User() {
 	}
@@ -134,6 +145,27 @@ public class User {
 
 	public void setGroups(Set<StudentGroup> groups) {
 		this.groups = groups;
+	}
+
+	public String getVerificationKey() {
+		return verificationKey;
+	}
+
+	public void setVerificationKey(String verificationKey) {
+		this.verificationKey = verificationKey;
+	}
+
+	public Set<Subject> getSubjects() {
+		return subjects;
+	}
+
+	public void setSubjects(Set<Subject> subjects) {
+		this.subjects = subjects;
+	}
+
+	@Override
+	public String toString() {
+		return "User id: " + id + " email: " + email;
 	}
 
 }
