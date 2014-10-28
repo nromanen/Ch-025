@@ -6,6 +6,11 @@
 
 <div class="row">
 	<div class="col-lg-12">
+	<c:if test="${sessionScope.user.role.role ne 'STUDENT'}">
+				<div class="alert alert-danger" role="alert" align="center">
+					<span>if you want to subscribe on this course, you must <a href="login" class="btn btn-primary">sign in</a></span>
+				</div>
+			</c:if>
 		<h2 align="center">${subject.name}</h2>
 		<table class="table table-bordered">
 			<tr class="warning" align="center">
@@ -53,11 +58,6 @@
 					</c:forEach>
 				</c:forEach>
 			</table>
-			<c:if test="${sessionScope.user.role.role ne 'STUDENT'}">
-				<div class="alert alert-danger col-md-4 col-md-offset-4" role="alert" align="center">
-					<span>if you want to subscribe on this course, you must <a href="login" class="alert-link">sign in</a>!</span>
-				</div>
-			</c:if>
 			<form method="GET" action="subscribe">
 				<c:if test="${sessionScope.user.role.role eq 'STUDENT'}">
 					<c:if test="${isSubscribe eq true}">
