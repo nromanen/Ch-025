@@ -19,5 +19,7 @@ public interface CourseSchedulerDao {
 	public List<CourseScheduler> getCourseScheduleresBySubjectId(int id);
 	
 	public List<CourseScheduler> getSubscribedCoursesByUserId(int id);
+
+	List<CourseScheduler> getCourseSchedulersBySubjectUserId(int id);
 	
 }

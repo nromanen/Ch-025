@@ -51,4 +51,9 @@ public class CourseSchedulerServiceImpl implements CourseSchedulerService {
 	public List<CourseScheduler> getCourseScheduleresBySubjectId(int id) {
 		return courseSchedulerDao.getCourseScheduleresBySubjectId(id);
 	}
+
+	@Override
+	public List<CourseScheduler> getCourseSchedulersBySubjectUserId(int id) {
+		return courseSchedulerDao.getCourseSchedulersBySubjectUserId(id);
+	}
 }

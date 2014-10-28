@@ -18,4 +18,6 @@ public interface CourseSchedulerService {
 
 	public List<CourseScheduler> getCourseScheduleresBySubjectId(int id);
 	
+	List<CourseScheduler> getCourseSchedulersBySubjectUserId(int id);
+	
 }

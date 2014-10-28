@@ -2,39 +2,41 @@ package com.softserve.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Set;
 import java.util.List;
+import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.mysql.fabric.xmlrpc.base.Array;
-import com.softserve.service.RoleService;
-import com.softserve.service.UserService;
 import com.softserve.entity.Block;
 import com.softserve.entity.Category;
+import com.softserve.entity.CourseScheduler;
 import com.softserve.entity.StudentGroup;
 import com.softserve.entity.Subject;
 import com.softserve.entity.Topic;
-import com.softserve.entity.CourseScheduler;
+import com.softserve.entity.User;
 import com.softserve.service.BlockService;
 import com.softserve.service.CategoryService;
+import com.softserve.service.CourseSchedulerService;
+import com.softserve.service.RoleService;
 import com.softserve.service.StudentGroupService;
 import com.softserve.service.SubjectService;
 import com.softserve.service.TopicService;
-import com.softserve.service.CourseSchedulerService;
+import com.softserve.service.UserService;
 
 /**
  * Handles requests for the application home page.
  */
 @Controller
+@Scope("session")
 public class TeacherController {
 
 	@Autowired
@@ -60,20 +62,29 @@ public class TeacherController {
 
 	@Autowired
 	private StudentGroupService studentGroupService;
-	
+
 	@RequestMapping(value = "/categories", method = RequestMethod.GET)
 	public String categories(Model model) {
 		Set<Category> categoryList = categoryService.getAllCategories();
-		model.addAttribute("categoryList", categoryList);
+		model.addAttribute("catList", categoryList);
 		return "categories";
 	}
 
 	@RequestMapping(value = "/teacher", method = RequestMethod.GET)
-	public String teacher(Model model) {
-		Set<Subject> subjectList = subjectService.getAllSubjects();
-		List<CourseScheduler> schedulerList = courseSchedulerService.getAllCourseScheduleres();
-		model.addAttribute("subjectList", subjectList);
+	public String teacher(Model model, HttpSession sess) {
+		User user = (User) sess.getAttribute("user");
+		
+		if (user != null) {
+		//if (subjectService.getSubjectsByUserId(user.getId()) != null) {
+		//List<Subject> subjectList = subjectService.getSubjectsByUserId(user.getId());
+		//Set<Subject> subjectList = subjectService.getAllSubjects();
+		List<CourseScheduler> schedulerList = courseSchedulerService.getCourseSchedulersBySubjectUserId(user.getId());
+		Set<Category> categories = categoryService.getAllCategories();
+		model.addAttribute("catList", categories);
+		//model.addAttribute("subjectList", subjectList);
 		model.addAttribute("schedulerList", schedulerList);
+		model.addAttribute("user", user);
+		}
 		return "teacher";
 	}
 
@@ -108,6 +119,8 @@ public class TeacherController {
 
 		List<Block> blocks = blockService.getBlocksBySubjectId(subjectId);
 		model.addAttribute("blockList", blocks);
+		Set<Category> categories = categoryService.getAllCategories();
+		model.addAttribute("catList", categories);
 
 		return "editTopic";
 	}
@@ -123,7 +136,7 @@ public class TeacherController {
 			model.addAttribute("scheduler", courseSchedulerList.get(0));
 		}
 		Set<Category> categoryList = categoryService.getAllCategories();
-		model.addAttribute("categoryList", categoryList);
+		model.addAttribute("catList", categoryList);
 
 		return "editSubject";
 	}
@@ -146,6 +159,9 @@ public class TeacherController {
 		if (categoryId != null) {
 			Category category = categoryService.getCategoryById(categoryId);
 			model.addAttribute("category", category);
+			Set<Category> categories = categoryService.getAllCategories();
+			model.addAttribute("catList", categories);
+
 		}
 
 		return "editCategory";
@@ -187,7 +203,7 @@ public class TeacherController {
 			categoryService.addCategory(category);
 		}
 
-		return "redirect:/teacher";
+		return "redirect:/categories";
 	}
 
 	@RequestMapping(value = "/saveBlock", method = RequestMethod.GET)
@@ -302,6 +318,21 @@ public class TeacherController {
 			}
 		}
 		return "redirect:/teacher";
+	}
+
+	@RequestMapping(value = "/deleteCategories", method = RequestMethod.GET)
+	public String deleteCategories(@RequestParam(value = "categoriesIds", required = true) String categoriesIds,
+			Model model) {
+
+		for (String idInStr : categoriesIds.split(",")) {
+			try {
+				Integer id = Integer.parseInt(idInStr);
+				Category category = categoryService.getCategoryById(id);
+				categoryService.deleteCategory(category);
+			} catch (Exception e) {
+			}
+		}
+		return "redirect:/categories";
 	}
 
 	@RequestMapping(value = "/changeTopicOrder", method = RequestMethod.GET)

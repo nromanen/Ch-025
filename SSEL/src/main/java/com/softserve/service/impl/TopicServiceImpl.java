@@ -61,50 +61,70 @@ public class TopicServiceImpl implements TopicService {
 	@Override
 	@Transactional
 	public void changeOrderUp(Topic topic) {
-		List<Topic> topics = topicDao.getTopicsByBlockId(topic.getBlock()
-				.getId());
+		List<Topic> topics = topicDao.getTopicsByBlockId(topic.getBlock().getId());
 
-		for (int i = 0; i < topics.size(); i++) {
-			for (int j = topics.size() - 1; j > i; j--) {
-				if (topics.get(j).getOrder() < topics.get(j - 1).getOrder()) {
-					Topic temp = topics.get(j);
-					topics.set(j, topics.get(j + 1));
-					topics.set(j + 1, temp);
-				}
+		/*
+		 * for(int i = topics.size()-1 ; i > 0 ; i--) { for(int j = 0 ; j < i ;
+		 * j++) { if (topics.get(j).getOrder() > topics.get(j + 1).getOrder()) {
+		 * Topic temp = topics.get(j); topics.set(j, topics.get(j + 1));
+		 * topics.set(j + 1, temp); } } }
+		 */
+		int tempOrder = 0;
+		int tempIndex = topics.indexOf(topic);
+		for (Topic t : topics) {
+			if (t.getOrder() < topic.getOrder() && t.getOrder() > tempOrder) {
+				tempOrder = t.getOrder();
+				tempIndex = topics.indexOf(t);
+
 			}
+		}
+		if (tempIndex >= 0 && tempIndex < topics.size()) {
+			Topic t1 = topics.get(tempIndex);
+			t1.setOrder(topic.getOrder());
+			topic.setOrder(tempOrder);
+			updateTopic(topic);
+			updateTopic(t1);
+
 		}
 
 		/*
-		 * Collections.sort(topics, new Comparator<Topic>() { public int
-		 * compare(Topic o1, Topic o2) { return o1.getOrder() - o2.getOrder(); }
-		 * });
+		 * int tempIndex = topics.indexOf(topic); if (tempIndex > 0) { int
+		 * tempOrder = topics.get(tempIndex - 1).getOrder();
+		 * topics.get(tempIndex - 1).setOrder(topic.getOrder());
+		 * topics.get(tempIndex).setOrder(tempOrder);
+		 * updateTopic(topics.get(tempIndex - 1));
+		 * updateTopic(topics.get(tempIndex)); }
 		 */
-
-		int tempIndex = topics.indexOf(topic);
-		if (tempIndex > 0) {
-			int tempOrder = topics.get(tempIndex - 1).getOrder();
-			topics.get(tempIndex - 1).setOrder(topic.getOrder());
-			topics.get(tempIndex).setOrder(tempOrder);
-			updateTopic(topics.get(tempIndex - 1));
-			updateTopic(topics.get(tempIndex));
-		}
 	}
 
 	@Override
 	@Transactional
 	public void changeOrderDown(Topic topic) {
-		List<Topic> topics = topicDao.getTopicsByBlockId(topic.getBlock()
-				.getId());
+		List<Topic> topics = topicDao.getTopicsByBlockId(topic.getBlock().getId());
 
-		for (int i = 0; i < topics.size(); i++) {
-			for (int j = topics.size() - 1; j > i; j--) {
-				if (topics.get(j).getOrder() < topics.get(j - 1).getOrder()) {
-					Topic temp = topics.get(j);
-					topics.set(j, topics.get(j + 1));
-					topics.set(j + 1, temp);
-				}
+		int tempOrder = 9999999;
+		int tempIndex = topics.indexOf(topic);
+		for (Topic t : topics) {
+			if (t.getOrder() > topic.getOrder() && t.getOrder() < tempOrder) {
+				tempOrder = t.getOrder();
+				tempIndex = topics.indexOf(t);
+
 			}
 		}
+
+		if (tempIndex >= 0 && tempIndex < topics.size()) {
+			Topic t1 = topics.get(tempIndex);
+			t1.setOrder(topic.getOrder());
+			topic.setOrder(tempOrder);
+			updateTopic(topic);
+			updateTopic(t1);
+		}
+		/*
+		 * for(int i = topics.size()-1 ; i > 0 ; i--) { for(int j = 0 ; j < i ;
+		 * j++) { if (topics.get(j).getOrder() > topics.get(j + 1).getOrder()) {
+		 * Topic temp = topics.get(j); topics.set(j, topics.get(j + 1));
+		 * topics.set(j + 1, temp); } } }
+		 */
 
 		/*
 		 * Collections.sort(topics, new Comparator<Topic>() { public int
@@ -112,14 +132,14 @@ public class TopicServiceImpl implements TopicService {
 		 * });
 		 */
 
-		int tempIndex = topics.indexOf(topic);
-		if (tempIndex < topics.size() - 1) {
-			int tempOrder = topics.get(tempIndex + 1).getOrder();
-			topics.get(tempIndex + 1).setOrder(topic.getOrder());
-			topics.get(tempIndex).setOrder(tempOrder);
-			updateTopic(topics.get(tempIndex + 1));
-			updateTopic(topics.get(tempIndex));
-		}
+		/*
+		 * int tempIndex = topics.indexOf(topic); if (tempIndex < topics.size()
+		 * - 1) { int tempOrder = topics.get(tempIndex + 1).getOrder();
+		 * topics.get(tempIndex + 1).setOrder(topic.getOrder());
+		 * topics.get(tempIndex).setOrder(tempOrder);
+		 * updateTopic(topics.get(tempIndex + 1));
+		 * updateTopic(topics.get(tempIndex)); }
+		 */
 	}
 
 }
