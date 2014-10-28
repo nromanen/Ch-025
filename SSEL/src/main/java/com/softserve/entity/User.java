@@ -59,6 +59,9 @@ public class User {
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "role", nullable = false)
 	private Role role;
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="user")
+	private Set<Subject> subjects = new HashSet<>();
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
 	private Set<StudentGroup> groups = new HashSet<>();
@@ -155,6 +158,14 @@ public class User {
 
 	public void setVerificationKey(String verificationKey) {
 		this.verificationKey = verificationKey;
+	}
+
+	public Set<Subject> getSubjects() {
+		return subjects;
+	}
+
+	public void setSubjects(Set<Subject> subjects) {
+		this.subjects = subjects;
 	}
 
 	@Override

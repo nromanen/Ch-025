@@ -85,8 +85,10 @@ public class GuestController {
 		LOG.debug("Visit index page as guest");
 		Set<Subject> subjects = subjectService.getAllSubjects();
 		Set<Category> categories = categoryService.getAllCategories();
+		List<CourseScheduler> schedule = cSchedulerService.getAllCourseScheduleres();
 		model.addAttribute("subList", subjects);
 		model.addAttribute("catList", categories);
+		model.addAttribute("schedule", schedule);
 		return "index";
 	}
 
@@ -115,6 +117,7 @@ public class GuestController {
 	
 	@RequestMapping(value = "/courseInformation", method = RequestMethod.GET)
 	public String courseInformation(@RequestParam Integer subjectId, Model model, HttpSession httpSession) {
+		LOG.debug("Visit courseInformation page as guest");
 		Set<Subject> subjects = subjectService.getAllSubjects();
 		Set<Category> categories = categoryService.getAllCategories();
 		model.addAttribute("subList", subjects);
