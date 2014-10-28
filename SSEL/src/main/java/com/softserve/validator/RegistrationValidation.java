@@ -48,7 +48,8 @@ public class RegistrationValidation implements Validator {
 
 		if (!(registration.getPassword().equals(registration
 				.getConfirmPassword()))) {
-			errors.rejectValue("confirmPassword", "", "Password doesn't match");
+			errors.rejectValue("confirmPassword",
+					"dataerror.passwords_do_not_match");
 		}
 
 		if (!registration.getEmail().matches(EMAIL_PATTERN)) {

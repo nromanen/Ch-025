@@ -60,8 +60,8 @@ public class RegistrationController {
 			Map<String, Object> map) {
 		if (error != null && error.equals("BadCredentialsException")) {
 			map.put("error", "BadCredentialsException");
-		} else if (error != null && error.equals("UserDisabled")) {
-			map.put("error", "UserDisabled");
+		} else if (error != null && error.equals("userDisabled")) {
+			map.put("error", "userDisabled");
 		}
 		return "login";
 	}

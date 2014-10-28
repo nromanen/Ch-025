@@ -8,7 +8,7 @@
  		<div class="panel panel-info">
     		<div class="panel-heading">
             	<div class="panel-title">
-            		<spring:message code="label.registration"/>
+            		<spring:message code="label.registration" />
             	</div>
                 <div style="float:right; font-size: 85%; position: relative; top:-10px">
                 	<a id="signinlink" href="<c:url value="/login" />">

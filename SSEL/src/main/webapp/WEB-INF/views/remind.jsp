@@ -29,7 +29,9 @@
 							name="email" type="email" required="required" autofocus>      		
         			</div>
         			<div style="margin-top:10px" class="form-group">
-						<button type="submit" class="btn btn-block btn-success">Send Instruction</button>
+						<button type="submit" class="btn btn-block btn-success">
+							<spring:message code="label.send_instruction" />
+						</button>
 					</div>
 				</form>
 			</div>

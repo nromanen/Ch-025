@@ -33,7 +33,7 @@
 						<spring:message code="label.bad_redentials_exception" />
 					</div>
 				</c:if>
-				<c:if test="${error.equals('UserDisabled')}">
+				<c:if test="${error.equals('userDisabled')}">
 					<div class="alert alert-warning">
 						<strong><spring:message code="label.warning" /></strong>
 						<spring:message code="label.user_disabled" />

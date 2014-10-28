@@ -31,11 +31,12 @@ public class ResetPasswordValidation implements Validator {
 
 		if (!(resetPassword.getPassword().equals(resetPassword
 				.getConfirmPassword()))) {
-			errors.rejectValue("confirmPassword", "", "Password doesn't match");
+			errors.rejectValue("confirmPassword",
+					"dataerror.passwords_do_not_match");
 		}
 
 		if (userService.getUserByKey(resetPassword.getKey()) == null) {
-			errors.rejectValue("key", "", "Key is not found");
+			errors.rejectValue("key", "dataerror.key_not_found");
 		}
 	}
 
