@@ -15,6 +15,7 @@ import com.softserve.dao.UserDao;
 import com.softserve.entity.User;
 import com.softserve.entity.User.Roles;
 import com.softserve.form.Registration;
+import com.softserve.form.ResetPassword;
 import com.softserve.service.MailService;
 import com.softserve.service.RoleService;
 import com.softserve.service.UserService;
@@ -84,7 +85,7 @@ public class UserServiceImpl implements UserService {
 
 		user.setEmail(registration.getEmail().trim());
 		user.setPassword(passwordEncoder.encode(registration.getPassword()));
-		user.setBlocked(true); // false
+		user.setBlocked(true);
 		user.setFirstName(registration.getFirstName().trim());
 		user.setLastName(registration.getLastName().trim());
 		user.setRegistration(new Date());
@@ -92,8 +93,7 @@ public class UserServiceImpl implements UserService {
 		user.setExpired(new Date());
 		user.setVerificationKey(passwordEncoder.encode(registration.getEmail()));
 		String url = request.getRequestURL().toString();
-		String url2 = request.getServletPath();
-		url.replaceAll(url2, "/");
+		url.replaceAll(request.getServletPath(), "/");
 		String message = "Thank you for registration.<br>Please confirm your email by clicking next link: ";
 		url = url + "/confirm?key=" + user.getVerificationKey();
 		message += "<a href=\"" + url + "\">" + url + "</a>";
@@ -106,6 +106,25 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public User getUserByKey(String key) {
 		return userDao.getUserByKey(key);
+	}
+
+	@Override
+	@Transactional
+	public void remindPassword(User user, HttpServletRequest request) {
+		String url = request.getRequestURL().toString();
+		String message = "Change your password by clicking on next link: ";
+		url = url + "/pass?key=" + user.getVerificationKey();
+		message += "<a href=\"" + url + "\">" + url + "</a>";
+		mailService.sendMail(user.getEmail(), "SSEL change password", message);
+	}
+
+	@Override
+	@Transactional
+	public void restorePassword(User user, ResetPassword resetPassword) {
+		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(
+				PASSWORD_STRENGTH);
+		user.setPassword(passwordEncoder.encode(resetPassword.getPassword()));
+		userDao.updateUser(user);
 	}
 
 }

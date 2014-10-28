@@ -9,40 +9,39 @@
         	<div class="panel-heading">
             	<div class="panel-title">Sign In</div>
                 <div style="float:right; font-size: 80%; position: relative; top:-10px">
-                	<a href="#">Forgot password?</a>
+                	<a href="remind">Forgot password?</a>
                 </div>
          	</div>    
 			<div style="padding-top:30px" class="panel-body">
 				<div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
-					<form role="form" action="j_spring_security_check" method="POST"
-						accept-charset="UTF-8">
-						<div style="margin-bottom: 25px" class="input-group">
-							<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-							<input class="form-control" placeholder="E-mail" 
-								name="j_username" type="email" autofocus>
+				<form role="form" action="j_spring_security_check" method="POST"
+					accept-charset="UTF-8">
+					<div style="margin-bottom: 25px" class="input-group">
+						<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+						<input class="form-control" placeholder="E-mail" 
+							name="j_username" type="email" autofocus>
+					</div>
+					<div style="margin-bottom: 10px" class="input-group">
+						<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+						<input class="form-control" placeholder="Password"
+							name="j_password" type="password" value="">
+					</div>
+					<div class="input-group">
+						<div class="checkbox">
+							<label> 
+								<input name="remember" type="checkbox" value="Remember Me" 
+									name="_spring_security_remember_me"> Remember Me
+							</label>
 						</div>
-						<div style="margin-bottom: 10px" class="input-group">
-							<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-							<input class="form-control" placeholder="Password"
-								name="j_password" type="password" value="">
-						</div>
-						<div class="input-group">
-							<div class="checkbox">
-								<label> 
-									<input name="remember" type="checkbox" value="Remember Me" 
-										name="_spring_security_remember_me"> Remember Me
-								</label>
-							</div>
-						</div>
-						<div style="margin-top:10px" class="form-group">
-							<button type="submit" class="btn btn-block btn-success">
-								Login</button>
-							<a href="registration" class="btn btn-block btn-primary">
-								Registration </a>
-						</div>
-					</form>
-				</div>
+					</div>
+					<div style="margin-top:10px" class="form-group">
+						<button type="submit" class="btn btn-block btn-success">
+							Login</button>
+						<a href="registration" class="btn btn-block btn-primary">
+							Registration </a>
+					</div>
+				</form>
 			</div>
 		</div>
-
+	</div>
 </div>

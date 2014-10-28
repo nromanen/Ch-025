@@ -19,6 +19,7 @@
 <script src="resources/js/plugins/metisMenu/metisMenu.min.js"></script>
 <script src="resources/js/sb-admin-2.js"></script>
 <script src="resources/js/plugins/dataTables/jquery.dataTables.js"></script>
+<script src="resources/js/searchScript.js"></script>
 <script src="resources/js/plugins/dataTables/dataTables.bootstrap.js"></script>
 
 <title><tiles:getAsString name="title" /></title>
