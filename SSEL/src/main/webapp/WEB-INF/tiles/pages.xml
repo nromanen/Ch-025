@@ -98,6 +98,24 @@
 		<put-attribute name="menu"
 			value="/WEB-INF/views/templates/administrator_menu.jsp"></put-attribute>
 	</definition>
+	<definition name="viewAllCategories" extends="administrator">
+		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
+		<put-attribute name="content" value="/WEB-INF/views/pages/viewAllCategories.jsp"></put-attribute>
+		<put-attribute name="menu"
+			value="/WEB-INF/views/templates/administrator_menu.jsp"></put-attribute>
+	</definition>
+	<definition name="viewAllUsers" extends="administrator">
+		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
+		<put-attribute name="content" value="/WEB-INF/views/pages/viewAllUsers.jsp"></put-attribute>
+		<put-attribute name="menu"
+			value="/WEB-INF/views/templates/administrator_menu.jsp"></put-attribute>
+	</definition>
+	<definition name="viewAllLogs" extends="administrator">
+		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
+		<put-attribute name="content" value="/WEB-INF/views/pages/viewAllLogs.jsp"></put-attribute>
+		<put-attribute name="menu"
+			value="/WEB-INF/views/templates/administrator_menu.jsp"></put-attribute>
+	</definition>
 </tiles-definitions>
 
 

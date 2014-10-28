@@ -237,7 +237,7 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id`),
   KEY `FK_dl7g53f7lpmorjc24kx74apx8` (`role`),
   CONSTRAINT `FK_dl7g53f7lpmorjc24kx74apx8` FOREIGN KEY (`role`) REFERENCES `role` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -246,7 +246,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'\0','student@gmail.com','2014-10-24 11:00:35','Lars','Hammet','1234','2014-10-24 11:00:35',2,NULL),(2,'\0','teacher@mail.ru','2014-10-24 11:01:18','Kirk','Ulrich','1234','2014-10-24 11:01:18',3,NULL),(6,'','ivan.khotynskyi@gmail.com','2014-10-27 19:39:20','Ivan','Khotynskyi','$2a$10$TT2FoBggqBjuEmtqaJrRgudlNTabyN8JTHYTxFifGhh0OgwhvAppu','2014-10-27 19:39:20',2,'$2a$10$J6ThawiiePRYibn7w.6a1.77l4V8WMOxQwH7FmKLaJyz0v1MF8H7u');
+INSERT INTO `user` VALUES (0,'\0','Default@def.com','2014-10-28 17:10:42','Def','Def','12345','2014-10-28 17:10:42',2,NULL),(1,'\0','student@gmail.com','2014-10-24 11:00:35','Lars','Hammet','1234','2014-10-24 11:00:35',2,NULL),(2,'\0','teacher@mail.ru','2014-10-24 11:01:18','Kirk','Ulrich','1234','2014-10-24 11:01:18',3,NULL),(7,'\0','ivan.khotynskyi@gmail.com','2014-10-28 17:10:42','Ivan','Khotynskyi','$2a$10$39KGnG6pKy3TUNX9OshL9.Z38cQbaa0SNYsNdhX4mqz1uZgAMv/ga','2014-10-28 17:10:42',2,'$2a$10$TlzKN2SRe0y0HWhbu4CfxOwY0xTSbno4LKmmw5FTxN0j2H2XeAQPy');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -259,4 +259,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-10-28 13:44:03
+-- Dump completed on 2014-10-28 17:21:35
