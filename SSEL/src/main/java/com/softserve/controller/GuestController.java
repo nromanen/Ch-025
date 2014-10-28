@@ -71,7 +71,9 @@ public class GuestController {
 		LOG.info("User login {}", principal.getName());
 		User user = userService.getUserByEmail(principal.getName());
 		httpSession.setAttribute("user", user);
-		if (user.getRole().getRole().equals("TEACHER")){
+		model.addAttribute("user", user);
+		if (user.getRole().getRole().equals("TEACHER")) {
+			
 			return "redirect:/teacher";
 		} else {
 			return "redirect:/student";

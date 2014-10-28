@@ -1,0 +1,12 @@
+/bin/
+/target/
+/.settings/
+/.classpath
+/.project
+<<<<<<< HEAD
+/target/
+/target/
+=======
+/app_log-10-24-2014.log
+/app_log.log
+>>>>>>> 3830d3666c7dac72db376fbc9f923cf1ac812b32
