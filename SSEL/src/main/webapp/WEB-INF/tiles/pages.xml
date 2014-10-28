@@ -84,10 +84,19 @@
 		<put-attribute name="menu"
 			value="/WEB-INF/views/templates/student_menu.jsp" />
 	</definition>
-
+	
+	<!-- Course information -->
 	<definition name="courseInformation" extends="index">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
 		<put-attribute name="content" value="/WEB-INF/views/pages/courseInformation.jsp"></put-attribute>
+	</definition>
+	
+	<!-- Administrator -->
+	<definition name="administrator" extends="base-template">
+		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
+		<put-attribute name="content" value="/WEB-INF/views/pages/administrator.jsp"></put-attribute>
+		<put-attribute name="menu"
+			value="/WEB-INF/views/templates/administrator_menu.jsp"></put-attribute>
 	</definition>
 </tiles-definitions>
 
