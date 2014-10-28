@@ -24,6 +24,7 @@ import com.softserve.service.UserService;
 public class UserServiceImpl implements UserService {
 
 	private static final int PASSWORD_STRENGTH = 10;
+	private static final String DEFAULT_PASSWORD = "ssel2014";
 
 	@Autowired
 	private UserDao userDao;
@@ -116,6 +117,11 @@ public class UserServiceImpl implements UserService {
 		url = url + "/pass?key=" + user.getVerificationKey();
 		message += "<a href=\"" + url + "\">" + url + "</a>";
 		mailService.sendMail(user.getEmail(), "SSEL change password", message);
+		user.setBlocked(true);
+		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(
+				PASSWORD_STRENGTH);
+		user.setPassword(passwordEncoder.encode(DEFAULT_PASSWORD));
+		userDao.updateUser(user);
 	}
 
 	@Override
@@ -124,6 +130,7 @@ public class UserServiceImpl implements UserService {
 		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(
 				PASSWORD_STRENGTH);
 		user.setPassword(passwordEncoder.encode(resetPassword.getPassword()));
+		user.setBlocked(false);
 		userDao.updateUser(user);
 	}
 
