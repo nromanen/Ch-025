@@ -1,5 +1,6 @@
 package com.softserve.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -58,12 +59,28 @@ public class StudentCabinetController {
 		User user = (User) sess.getAttribute("user");
 		int userId = user.getId();
 		studentCabinetService.initSubscribedList(userId);
+		List<CourseScheduler> scheduler;
+		List<StudentGroup> groups;
 		if (table == null || table.equals("future")) {
-			model.addAttribute("table", generateHtmlTable(studentCabinetService.getFutureCourses()));
+			scheduler = studentCabinetService.getFutureCourses();
+			groups = new ArrayList<>();
+			for (CourseScheduler item: scheduler) {
+				groups.add(studentCabinetService.getStudentGroupByUserAndCourseId(userId,item.getId()));
+			}
+			model.addAttribute("courses",scheduler);
+			model.addAttribute("groups", groups);
 		} else if (table.equals("active")){
-			model.addAttribute("table", generateHtmlTable(studentCabinetService.getActiveCourses(),userId));
+			scheduler = studentCabinetService.getActiveCourses(); 
+			groups = new ArrayList<>();
+			for (CourseScheduler item: scheduler) {
+				groups.add(studentCabinetService.getStudentGroupByUserAndCourseId(userId,item.getId()));
+			}
+			model.addAttribute("courses",scheduler);
+			model.addAttribute("groups", groups);
+			
 		} else {
-			model.addAttribute("table", generateHtmlTable(studentCabinetService.getFinishedCourses(),userId));
+			scheduler = studentCabinetService.getFinishedCourses();
+			model.addAttribute("courses", scheduler);
 		}
 		return "student";
 	}
@@ -153,6 +170,7 @@ public class StudentCabinetController {
 		table += "<thead><tr><td>Subject name</td><td>Start time</td><td>End time</td><td>Rating</td>"
 				+ "<td>Progress</td></tr></thead>";
 		table += "<tbody>";
+		
 		for (CourseScheduler item: courses) {
 			StudentGroup group = studentCabinetService.getStudentGroupByUserAndCourseId(userId, item.getId());
 			table += "<tr><td><a href=\"modules?courseId="+item.getSubject().getId()+"\">"+item.getSubject().getName()+"</a>"

@@ -11,7 +11,40 @@
 	<div class="panel-body">
 		<div class="table-responsive">
 			<table class="table table-striped table-bordered table-hover"
-				id="dataTables-example">${table}
+				id="dataTables-example">
+				<thead>
+					<tr>
+						<td>Subject name</td>
+						<td>Start time</td>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach items="${courses}" var="course">
+						<tr>
+							<td>
+								${course.subject.name}	
+							</td>
+							<td>
+								${course.start}	
+							</td>
+							<c:if test="${table eq 'future'}">
+								<c:forEach items="${groups}" var="res" >
+									<td><a href="modules?courseId=${course.subject.id}">${course.subject.name}</a>
+									</td>
+									<td>
+										${course.start}
+									</td>
+									<td>
+										${res.rating}
+									</td>
+									<td>
+										${res.progress}
+									</td>
+								</c:forEach>
+							</c:if>
+						</tr>
+					</c:forEach>
+				</tbody>
 			</table>
 		</div>
 	</div>
