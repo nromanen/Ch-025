@@ -14,7 +14,7 @@ public class ResetPasswordValidation implements Validator {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Override
 	public boolean supports(Class<?> clazz) {
 		return ResetPassword.class.isAssignableFrom(clazz);
@@ -22,11 +22,11 @@ public class ResetPasswordValidation implements Validator {
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "",
-				"Field password is required.");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password",
+				"dataerror.field_required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword",
-				"", "Field password is required.");
-		
+				"dataerror.field_required");
+
 		ResetPassword resetPassword = (ResetPassword) target;
 
 		if (!(resetPassword.getPassword().equals(resetPassword

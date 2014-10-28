@@ -7,12 +7,12 @@
 	<div id="signupbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
 		<div class="panel panel-info">
 			<div class="panel-heading">
-            	<div class="panel-title">resetPassword</div>
+            	<div class="panel-title">Reset password</div>
         	</div>
         	<div class="panel-body">
+        		<c:url value="/remind/pass" var="pass"/>
         		<form:form id="resetPassword" class="form-horizontal" method="POST"
-					commandName="resetPassword" role="form"
-					action="${pageContext.request.contextPath}/remind/pass">
+					commandName="resetPassword" role="form" action="${pass}">
 					<form:hidden path="key" />
 					<div class="form-group">
 						<label class="col-md-3 control-label" for="inputPasswordReg">Password</label>

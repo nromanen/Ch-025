@@ -1,5 +1,7 @@
 package com.softserve.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -53,7 +55,14 @@ public class RegistrationController {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login(Model model) {
+	public String loginPage(
+			@RequestParam(value = "error", required = false) String error,
+			Map<String, Object> map) {
+		if (error != null && error.equals("BadCredentialsException")) {
+			map.put("error", "BadCredentialsException");
+		} else if (error != null && error.equals("UserDisabled")) {
+			map.put("error", "UserDisabled");
+		}
 		return "login";
 	}
 }
