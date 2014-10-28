@@ -4,7 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
-<%@ page session="false"%>
 <script src="resources/ckeditor/ckeditor.js"></script>
 
 <div class="row">
@@ -44,7 +43,7 @@
 				<div class="form-group">
 					<label>Select category</label> <select class="form-control"
 						name="subjectCategoryId">
-						<c:forEach items="${categoryList}" var="category">
+						<c:forEach items="${catList}" var="category">
 							<c:choose>
 								<c:when test="${subject.category.id == category.id}">
 									<option selected value="${category.id}">${category.id}.

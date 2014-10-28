@@ -16,8 +16,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.context.annotation.Scope;
+
 @Entity
 @Table(name = "user")
+@Scope("session")
 public class User {
 
 	public enum Roles {
@@ -60,9 +63,11 @@ public class User {
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="user")
 	private Set<Subject> subjects = new HashSet<>();
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
 	private Set<StudentGroup> groups = new HashSet<>();
 	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="user")
+	private Set<Subject> subjects = new HashSet<>();
 
 	public User() {
 	}

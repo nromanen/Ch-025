@@ -54,4 +54,9 @@ public class SubjectServiceImpl implements SubjectService {
 		return subjectDao.getSubjectsByCategoryId(id);
 	}
 
+	@Override
+	public List<Subject> getSubjectsByUserId(int id) {
+		return subjectDao.getSubjectsByUserId(id);
+	}
+
 }
