@@ -26,16 +26,17 @@
 		<put-attribute name="title" value="SSEL SoftServeAcademy Login" />
 		<put-attribute name="content" value="/WEB-INF/views/pages/login.jsp" />
 	</definition>
-	
+
 	<!-- Remind -->
 	<definition name="remind" extends="sign-template">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Renind" />
 		<put-attribute name="content" value="/WEB-INF/views/remind.jsp" />
 	</definition>
-	
+
 	<!-- Restore -->
 	<definition name="restore" extends="sign-template">
-		<put-attribute name="title" value="SSEL SoftServeAcademy Reset Password" />
+		<put-attribute name="title"
+			value="SSEL SoftServeAcademy Reset Password" />
 		<put-attribute name="content" value="/WEB-INF/views/restore.jsp" />
 	</definition>
 
@@ -99,8 +100,17 @@
 
 	<definition name="courseInformation" extends="index">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
-		<put-attribute name="content" value="/WEB-INF/views/pages/courseInformation.jsp"></put-attribute>
+		<put-attribute name="content"
+			value="/WEB-INF/views/pages/courseInformation.jsp"></put-attribute>
 	</definition>
+
+	<!-- logs page -->
+	<definition name="modules" extends="base-template">
+		<put-attribute name="title" value="SSEL SoftServeAcademy Course logs" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/pages/logs.jsp"></put-attribute>
+	</definition>
+
 </tiles-definitions>
 
 
