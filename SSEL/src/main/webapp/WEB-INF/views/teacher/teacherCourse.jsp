@@ -4,7 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
-<%@ page session="false"%>
 
 <div class="row">
 <div class="col-lg-12">
@@ -50,7 +49,6 @@
 								<table class="table table-hover">
 									<thead>
 										<tr>
-											<th>Id</th>
 											<th>Topic name</th>
 											<th>Order</th>
 											<th>Status</th>
@@ -61,17 +59,14 @@
 										<c:forEach items="${topicList}" var="topic">
 											<c:if test="${block.id == topic.block.id}">
 												<tr class="odd gradeA">
-													<td>${topic.id}</td>
 													<td><a
 														href="editTopic?topicId=${topic.id}&subjectId=${subject.id}">${topic.name}</a></td>
 													<td>
-													${topic.order}
-														<!-- button type="button"
-															class="btn btn-outline btn-primary btn-xs"
+													<!-- ${topic.order}-->
+														 <button type="button" class="btn btn-outline btn-primary btn-xs"
 															onclick="location.href='changeTopicOrder?updown=up&topicId=${topic.id}&subjectId=${subject.id}'">Up</button>
-														<button type="button"
-															class="btn btn-outline btn-primary btn-xs"
-															onclick="location.href='changeTopicOrder?updown=down&topicId=${topic.id}&subjectId=${subject.id}'">Down</button-->
+														<button type="button" class="btn btn-outline btn-primary btn-xs"
+															onclick="location.href='changeTopicOrder?updown=down&topicId=${topic.id}&subjectId=${subject.id}'">Down</button>
 
 
 

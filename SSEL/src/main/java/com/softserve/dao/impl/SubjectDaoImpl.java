@@ -75,5 +75,15 @@ public class SubjectDaoImpl implements SubjectDao {
 		query.setParameter("id", id);
 		return query.getResultList();
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Subject> getSubjectsByUserId(int id) {
+		LOG.debug("Get all subjects by user id = {}", id);
+		Query query = entityManager.createQuery("FROM Subject s "
+				+ "WHERE s.user.id = :id");
+		query.setParameter("id", id);
+		return query.getResultList();
+	}
 
 }

@@ -7,8 +7,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 public class Registration {
 
-	@NotEmpty(message = "email not empty")
-	@Email(message = "wrong mail")
+	@NotEmpty(message = "dataerror.field_required")
+	@Email(message = "dataerror.email_example")
 	private String email;
 	@Size(min = 4, max = 20, message = "Password size from 4 to 20 chars")
 	private String password;
