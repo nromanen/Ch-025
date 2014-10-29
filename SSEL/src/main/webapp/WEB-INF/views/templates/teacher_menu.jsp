@@ -3,14 +3,16 @@
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-static-top" role="navigation"
 	style="margin-bottom: 0">
+	
 	<div class="navbar-header">
+	
 		<button type="button" class="navbar-toggle" data-toggle="collapse"
 			data-target=".navbar-collapse">
 			<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span>
 			<span class="icon-bar"></span> <span class="icon-bar"></span>
 		</button>
-		<a class="navbar-brand" href="${pageContext.request.contextPath}/">SSEL
-			SoftServe Academy</a>
+		
+		<a class="navbar-brand" href="teacher"><img src="resources/logo.png"></a>
 	</div>
 	<!-- /.navbar-header -->
 
@@ -39,6 +41,9 @@
 	<div class="navbar-default sidebar" role="navigation">
 		<div class="sidebar-nav navbar-collapse">
 			<ul class="nav" id="side-menu">
+			
+							<li><a href="${pageContext.request.contextPath}/"><i class="fa fa-files-o fa-fw"></i> View Site<span class="fa arrow"></span></a></li>
+			
 				<li><a href="teacher"><i class="fa fa-sitemap fa-fw"></i>
 						My Courses<span class="fa arrow"></span></a>
 					<ul class="nav nav-second-level">
