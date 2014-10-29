@@ -27,8 +27,8 @@ public class Log {
 	@Column(name = "logger")
 	private String logger;
 	
-	@Column(name = "massage")
-	private String massage;
+	@Column(name = "message")
+	private String message;
 	
 	@Column(name = "exception")
 	private String exception;
@@ -60,11 +60,11 @@ public class Log {
 	public void setLevel(String level) {
 		this.level = level;
 	}
-	public String getMassage() {
-		return massage;
+	public String getMessage() {
+		return message;
 	}
-	public void setMassage(String massage) {
-		this.massage = massage;
+	public void setMessage(String message) {
+		this.message = message;
 	}
 	public String getException() {
 		return exception;

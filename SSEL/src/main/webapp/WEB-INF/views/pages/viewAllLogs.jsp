@@ -14,7 +14,7 @@
 		%>
 		<br />
 		<%=logList.size()%><br />
-		<table border="2px">
+		<table border="2", width="65%">
 			<thead>
 				<tr>
 					<th>Date</th>
@@ -33,7 +33,7 @@
 						<td><%=logList.get(i).getEventDate()%></td>
 						<td><%=logList.get(i).getLevel()%></td>
 						<td><%=logList.get(i).getLogger()%></td>
-						<td><%=logList.get(i).getMassage()%></td>
+						<td><%=logList.get(i).getMessage()%></td>
 						<td><%=logList.get(i).getException()%></td>
 					</tr>
 					<%

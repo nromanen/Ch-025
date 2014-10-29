@@ -43,7 +43,7 @@ public class LogDaoImpl implements LogDao {
 	@Override
 	public List<Log> getAllLogs() {
 		LOG.debug("Get all Logs");
-		List<Log> logList = entityManager.createQuery("FROM logging")
+		List<Log> logList = (List<Log>) entityManager.createQuery("FROM logging")
 				.getResultList();
 		return logList;
 	}

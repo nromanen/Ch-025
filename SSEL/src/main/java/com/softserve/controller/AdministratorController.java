@@ -24,6 +24,7 @@ import com.softserve.service.CourseSchedulerService;
 import com.softserve.service.StudentGroupService;
 import com.softserve.service.SubjectService;
 import com.softserve.service.UserService;
+import com.softserve.service.impl.LogServiceImpl;
 
 @Controller
 public class AdministratorController {
@@ -73,11 +74,14 @@ public class AdministratorController {
 	public String viewAllLogs(Model model, HttpServletRequest request) {
 		LOG.debug("Visit viewAllLogs page");
 		HttpSession session = request.getSession();
+		/*
 		String jane = "Kate";
 		String sal = "Sarah";
 		model.addAttribute("jane", jane);
-		session.setAttribute("sal", sal);
+		session.setAttribute("sal", sal);*/
 		List<Log> logList = ToDelete.getFakeList();
+		/*LogServiceImpl logServ = new LogServiceImpl();
+		List<Log> logList = logServ.getAllLogs();*/
 		session.setAttribute("logs", logList);
 		return "viewAllLogs";
 	}
