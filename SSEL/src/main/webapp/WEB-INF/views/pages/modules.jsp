@@ -7,8 +7,26 @@
 <div class="row">
 	<div class="panel panel-default">
 		<div class="col-lg-12">
-	<h1 class="page-header">Course: ${subject.name}. Rating: ${rating}. Progress: ${progress}%</h1>
-	</div>
+			<h1 class="page-header">${subject.name}</h1>
+	
+			<form method="GET" action="subscribe">
+					<button value="${subject.id}" name="subjectId"
+							class="btn btn-warning" style="width: 200px; margin-top: 8px;">Unsubscribe
+							from course</button>
+					<input type="hidden" name="op" value="false">
+			</form>
+		<!--  <form method="GET" action="courseInformation">
+				<button value="${subject.id}" name="subjectId" class="btn btn-info"
+					style="width: 200px; margin-top: 8px;">Details</button>
+		</form>-->
+		<div class = "row">
+			<h2>Course material</h2>
+		</div>
+		<div class="row">
+			<div class="progress progress-striped">
+  				<div class="bar" style="width: %;"></div>
+			</div>
+		</div>
 		<!-- .panel-heading -->
 		<div class="panel-body">
 			<div class="panel-group" id="accordion">

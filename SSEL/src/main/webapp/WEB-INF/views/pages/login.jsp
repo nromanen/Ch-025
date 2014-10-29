@@ -27,9 +27,6 @@
                 </div>
          	</div>    
 			<div style="padding-top:30px" class="panel-body">
-<<<<<<< HEAD
-				<div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
-=======
 				<c:if test="${error.equals('BadCredentialsException')}">
 					<div class="alert alert-warning">
 						<strong><spring:message code="label.warning" /></strong>
@@ -42,7 +39,6 @@
 						<spring:message code="label.user_disabled" />
 					</div>
 				</c:if>
->>>>>>> master
 				<form role="form" action="<c:url value="/j_spring_security_check" />" method="POST"
 					accept-charset="UTF-8">
 					<div style="margin-bottom: 25px" class="input-group">

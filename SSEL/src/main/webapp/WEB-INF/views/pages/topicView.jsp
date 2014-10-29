@@ -7,11 +7,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
-<script type="text/javascript" src="http://malsup.github.com/chili-1.7.pack.js"></script>
-<script type="text/javascript" src="http://malsup.github.com/jquery.media.js"></script>
+<script type="text/javascript" src="http://github.com/malsup/media/raw/master/jquery.media.js?v0.92"></script> 
+<script type="text/javascript" src="jquery.metadata.js"></script> 
 <script type="text/javascript">
-    $(function() {
+ $(function() {
         $('a.media').media({width:500, height:500});
     });
 </script> 

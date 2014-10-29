@@ -18,30 +18,42 @@
 					<tr>
 						<td>Subject name</td>
 						<td>Start time</td>
+						<td>End time</td>
+						<c:if test="${table ne 'future'}">
+							<td>Current rating</td>
+							<td>Current progress</td>
+						</c:if>
 					</tr>
 				</thead>
 				<tbody>
+					<c:set var="index" value="0"/>
 					<c:forEach items="${courses}" var="course">
-						<tr>
-							<td>
-								${course.subject.name}	
-							</td>
-							<td>
-								<fmt:formatDate pattern='dd-MM-yyyy' value='${course.start}' />
-							</td>
-							<!--<c:if test="${table ne 'future'}">
-									<td><a href="modules?courseId=${course.subject.id}">${course.subject.name}</a>
+							<tr>
+									<td>
+									<c:choose>	
+										<c:when test="${table eq 'active'}">
+											<a href="modules?courseId=${course.subject.id}">${course.subject.name}</a>
+										</c:when>
+										<c:otherwise>
+											${course.subject.name}
+										</c:otherwise>
+									</c:choose>
+									</td>
+									<td>
+										<fmt:formatDate pattern='dd-MM-yyyy' value='${course.start}' />
 									</td>
 									<td>
 										<fmt:formatDate pattern='dd-MM-yyyy' value='${course.end}' />
 									</td>
+								<c:if test="${table ne 'future'}">
 									<td>
-										${res.rating}
+										${groups.get(index).rating}
 									</td>
 									<td>
-										${res.progress}
+										${groups.get(index).progress}
 									</td>
-							</c:if> -->
+								<c:set var="index" value="${index+1}"/>
+							</c:if> 
 						</tr>
 					</c:forEach>
 				</tbody>

@@ -21,6 +21,7 @@ import com.softserve.entity.Topic;
 import com.softserve.entity.User;
 import com.softserve.service.BlockService;
 import com.softserve.service.CourseSchedulerService;
+import com.softserve.service.MailService;
 import com.softserve.service.StudentCabinetSevice;
 import com.softserve.service.StudentGroupService;
 import com.softserve.service.SubjectService;
@@ -43,20 +44,23 @@ public class StudentCabinetController {
 	private TopicService topicService;
 	@Autowired
 	private BlockService blockService;
+	@Autowired
+	private MailService mailService;
 	
 	@RequestMapping("/subscribe")
 	public String performSubscribe(@RequestParam("subjectId") Integer subjectId, @RequestParam("op") Boolean operation, 
 			HttpSession sess) {
 		User user = (User) sess.getAttribute("user");
 		if (operation) {
-			return subscribe(subjectId, user.getId());
+			return subscribe(subjectId, user.getId(), user.getEmail());
 		} else {
-			return unsubscribe(subjectId, user.getId());
+			return unsubscribe(subjectId, user.getId(), user.getEmail());
 		}
 	}
 	
 	@RequestMapping(value = "/student", method = RequestMethod.GET)
-	public String printStudentCourses(@RequestParam(value="table", required = false) String table, Model model, HttpSession sess) {
+	public String printStudentCourses(@RequestParam(value="table", required = false) String table, Model model, 
+			HttpSession sess) {
 		User user = (User) sess.getAttribute("user");
 		int userId = user.getId();
 		studentCabinetService.initSubscribedList(userId);
@@ -64,12 +68,7 @@ public class StudentCabinetController {
 		List<StudentGroup> groups;
 		if (table == null || table.equals("future")) {
 			scheduler = studentCabinetService.getFutureCourses();
-			groups = new ArrayList<>();
-			for (CourseScheduler item: scheduler) {
-				groups.add(studentCabinetService.getStudentGroupByUserAndCourseId(userId,item.getId()));
-			}
 			model.addAttribute("courses",scheduler);
-			model.addAttribute("groups", groups);
 		} else if (table.equals("active")){
 			scheduler = studentCabinetService.getActiveCourses(); 
 			groups = new ArrayList<>();
@@ -83,7 +82,7 @@ public class StudentCabinetController {
 			scheduler = studentCabinetService.getFinishedCourses();
 			model.addAttribute("courses", scheduler);
 		}
-		model.addAttribute("table", table);
+			model.addAttribute("table", (table == null) ? "future" : table);
 		return "student";
 	}
 
@@ -111,7 +110,12 @@ public class StudentCabinetController {
 		}
 		return "modules";
 	}
-	
+	/**
+	 * Handle topic request and prepare topic
+	 * @param topicId topic to show
+	 * @param model data model for view page
+	 * @return view URL
+	 */
 	@RequestMapping(value="/topicView", method = RequestMethod.GET)
 	public String printTopic(@RequestParam (value = "topicId", required = true) Integer topicId, Model model) {
 		Topic topic = topicService.getTopicById(topicId);
@@ -126,7 +130,7 @@ public class StudentCabinetController {
 	 * @param subjectId subject identifier to subscribe
 	 * @return URL page
 	 */
-	private String subscribe(int subjectId, int userId) {
+	private synchronized String subscribe(int subjectId, int userId, String email) {
 		CourseScheduler cs = courseService.getCourseScheduleresBySubjectId(subjectId).get(0); //get subject course scheduler
 		StudentGroup row = studentCabinetService.getStudentGroupByUserAndCourseId(userId, cs.getId());
 		if (row == null) { //check if student hasn't subscribed
@@ -141,13 +145,14 @@ public class StudentCabinetController {
 					}
 				}
 				row = new StudentGroup();
-				//row.setId(1);
 				row.setCourseScheduler(cs);
 				row.setGroupNumber(groupNumber);
 				row.setProgress(0.0);
 				row.setRating(0.0);
 				row.setUser(userService.getUserById(userId));
 				studentGroupService.addStudentGroup(row);
+				mailService.sendMail(email, "ssel subscribe", "You've subscribed on course "+cs.getSubject().getName()+
+						".Course started: "+cs.getStart()+"Good luck");
 			} 
 		}
 		return "redirect:course?subjectId="+subjectId;
@@ -157,11 +162,13 @@ public class StudentCabinetController {
 	 * @param subjectId subject identifier to unsubscribe
 	 * @return URL page
 	 */
-	private String unsubscribe(int subjectId, int userId) {
+	private String unsubscribe(int subjectId, int userId, String email) {
 		CourseScheduler cs = courseService.getCourseScheduleresBySubjectId(subjectId).get(0); //get subject course scheduler
 		StudentGroup row = studentCabinetService.getStudentGroupByUserAndCourseId(userId, cs.getId());
 		if (row != null) {
 			studentGroupService.deleteStudentGroup(row);
+			mailService.sendMail(email, "ssel unsubscribe", "You've unsubscribed from course "+cs.getSubject().getName()+
+					".You cannot subscribe on this course till it finished and start again."+"Good luck");
 		} 
 		return "redirect:course?subjectId="+subjectId;
 	}
