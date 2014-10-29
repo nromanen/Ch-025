@@ -1,7 +1,12 @@
 package com.softserve.controller;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.softserve.entity.CourseScheduler;
+import com.softserve.entity.Log;
 import com.softserve.entity.Subject;
 import com.softserve.entity.User;
 import com.softserve.service.CourseSchedulerService;
@@ -64,9 +70,34 @@ public class AdministratorController {
 	}
 	
 	@RequestMapping(value = "/viewAllLogs", method = RequestMethod.GET)
-	public String viewAllLogs(Model model) {
+	public String viewAllLogs(Model model, HttpServletRequest request) {
 		LOG.debug("Visit viewAllLogs page");
-		
+		HttpSession session = request.getSession();
+		String jane = "Kate";
+		String sal = "Sarah";
+		model.addAttribute("jane", jane);
+		session.setAttribute("sal", sal);
+		List<Log> logList = ToDelete.getFakeList();
+		session.setAttribute("logs", logList);
 		return "viewAllLogs";
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
