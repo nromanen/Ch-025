@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.softserve.dao.CourseSchedulerDao;
 import com.softserve.entity.Block;
 import com.softserve.entity.CourseScheduler;
 import com.softserve.entity.StudentGroup;
@@ -167,41 +166,4 @@ public class StudentCabinetController {
 		return "redirect:course?subjectId="+subjectId;
 	}
 	
-	
-	/**
-	 * Generate html table code for future courses
-	 * @param courses future courses list
-	 * @return html code of table
-	 */
-	private String generateHtmlTable(List<CourseScheduler> courses) {
-		String table = "";
-		table += "<thead><tr><td>Subject name</td><td>Start time</td></tr></thead>";
-		table += "<tbody>";
-		for (CourseScheduler item: courses) {
-			table += "<tr><td>"+item.getSubject().getName()+"</td><td>"+item.getStart()+"</td></tr>";
-		}
-		table += "</tbody>";
-		return table;
-	}
-	/**
-	 * Generate html table code for active courses
-	 * @param courses list of active courses
-	 * @param userId student id
-	 * @return html code of table
-	 */
-	private String generateHtmlTable(List<CourseScheduler> courses,int userId) {
-		String table = "";
-		table += "<thead><tr><td>Subject name</td><td>Start time</td><td>End time</td><td>Rating</td>"
-				+ "<td>Progress</td></tr></thead>";
-		table += "<tbody>";
-		
-		for (CourseScheduler item: courses) {
-			StudentGroup group = studentCabinetService.getStudentGroupByUserAndCourseId(userId, item.getId());
-			table += "<tr><td><a href=\"modules?courseId="+item.getSubject().getId()+"\">"+item.getSubject().getName()+"</a>"
-					+ "</td><td>"+item.getStart()+"</td>"
-					+ "<td>"+item.getEnd()+"</td>"+"<td>"+group.getRating()+"</td><td>"+group.getProgress()+"</td></tr>";
-		}
-		table += "</tbody>";
-		return table;
-	}
 }
