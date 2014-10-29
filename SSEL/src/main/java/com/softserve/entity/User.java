@@ -65,9 +65,6 @@ public class User {
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
 	private Set<StudentGroup> groups = new HashSet<>();
-	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy="user")
-	private Set<Subject> subjects = new HashSet<>();
 
 	public User() {
 	}
