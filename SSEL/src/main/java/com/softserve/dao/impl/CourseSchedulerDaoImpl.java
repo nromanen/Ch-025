@@ -85,5 +85,15 @@ public class CourseSchedulerDaoImpl implements CourseSchedulerDao {
 		query.setParameter("id", id);
 		return query.getResultList();
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<CourseScheduler> getCourseSchedulersBySubjectUserId(int id) {
+		LOG.debug("Get all course schedulers by user id = {}", id);
+		Query query = entityManager.createQuery("FROM CourseScheduler c "
+				+ "WHERE c.subject.user.id = :id");
+		query.setParameter("id", id);
+		return query.getResultList();
+	}
 
 }

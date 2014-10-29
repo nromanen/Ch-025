@@ -12,10 +12,24 @@
 	</div>
 	<!-- /.navbar-header -->
 	<ul class="nav navbar-top-links navbar-right">
-		<li class="dropdown"><a class="dropdown-toggle"
-			data-toggle="dropdown" href="#"> <i class="fa fa-user fa-fw"></i>
+		<li>
+			<div>
+				<a  href="?lang=ua" style="padding: 0px"> 
+					<img style="width: 20px; height: 20px;" src='<c:url value="/resources/img/ua.png" />'> 
+				</a>
+				<a href="?lang=en" style="padding: 0px"> 
+					<img style="width: 20px; height: 20px;" src='<c:url value="/resources/img/en.png" />'> 
+				</a>
+				<a href="?lang=ru" style="padding: 0px"> 
+					<img style="width: 20px; height: 20px;" src='<c:url value="/resources/img/ru.png" />'> 
+				</a>
+			</div>
+		</li>
+		<li class="dropdown">
+			<a class="dropdown-toggle" data-toggle="dropdown" href="#"> 
+				<i class="fa fa-user fa-fw"></i>
 				<i class="fa fa-caret-down"></i>
-		</a>
+			</a>
 			<ul class="dropdown-menu dropdown-user">
 				<c:if test="${sessionScope.user.role.role eq 'TEACHER'}">
 					<li><a href="teacher"><i class="fa fa-user fa-fw"></i>
@@ -40,7 +54,8 @@
 				<li><a href="registration"><i class="fa fa-sign-in fa-fw"></i>Sign
 						up</a></li>
 				</c:if>
-			</ul> <!-- /.dropdown-user --></li>
+			</ul> <!-- /.dropdown-user -->
+		</li>	
 	</ul>
 	<!-- /.navbar-top-links -->
 	<div class="navbar-default sidebar" role="navigation">

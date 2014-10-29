@@ -18,4 +18,6 @@ public interface SubjectService {
 	public Set<Subject> getAllSubjects();
 
 	public List<Subject> getSubjectsByCategoryId(int id);
+	
+	public List<Subject> getSubjectsByUserId(int id);
 }
