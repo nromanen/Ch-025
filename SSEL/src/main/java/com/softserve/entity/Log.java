@@ -24,6 +24,7 @@ public class Log {
 	@Column(name = "level")
 	private String level;
 	
+
 	@Column(name = "logger")
 	private String logger;
 	
@@ -36,12 +37,14 @@ public class Log {
 	
 	
 	
+
 	public String getLogger() {
 		return logger;
 	}
 	public void setLogger(String logger) {
 		this.logger = logger;
 	}
+
 	public int getId() {
 		return id;
 	}
