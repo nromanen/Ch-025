@@ -33,14 +33,19 @@
 			<ul class="dropdown-menu dropdown-user">
 				<c:if test="${sessionScope.user.role.role eq 'TEACHER'}">
 					<li><a href="teacher"><i class="fa fa-user fa-fw"></i>
-							Teacher Profile</a></li>
+							Teacher cabinet</a></li>
+					<li><a href="#"><i class="fa fa-user fa-fw"></i>
+							Teacher profile</a></li>
 					<li class="divider"></li>
 					<li><a href="logout"><i class="fa fa-sign-out fa-fw"></i>
 							Logout</a></li>
 				</c:if>
 				<c:if test="${sessionScope.user.role.role eq 'STUDENT'}">
 					<li><a href="student?table=active"> <i
-							class="fa fa-user fa-fw"></i> Student Profile
+							class="fa fa-user fa-fw"></i> Student cabinet
+					</a></li>
+					<li><a href="#"> <i
+							class="fa fa-user fa-fw"></i> Student profile
 					</a></li>
 					<li class="divider"></li>
 					<li><a href="logout"><i class="fa fa-sign-out fa-fw"></i>
