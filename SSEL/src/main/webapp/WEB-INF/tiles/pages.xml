@@ -57,7 +57,7 @@
 	<definition name="teacher" extends="base-template">
 		<put-attribute name="title"
 			value="SSEL SoftServeAcademy Teacher cabinet" />
-		<put-attribute name="content" value="/WEB-INF/views/teacher.jsp" />
+		<put-attribute name="content" value="/WEB-INF/views/teacher/teacher.jsp" />
 		<put-attribute name="menu"
 			value="/WEB-INF/views/templates/teacher_menu.jsp" />
 		<put-attribute name="footer" value="" />
@@ -65,28 +65,39 @@
 
 	<definition name="teacherCourse" extends="teacher">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
-		<put-attribute name="content" value="/WEB-INF/views/teacherCourse.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/teacher/teacherCourse.jsp" />
 	</definition>
 
 	<definition name="editTopic" extends="teacher">
 		<put-attribute name="title" value="SSEL SoftServeAcademy topic edit" />
-		<put-attribute name="content" value="/WEB-INF/views/editTopic.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/teacher/editTopic.jsp" />
 	</definition>
 
 	<definition name="editSubject" extends="teacher">
 		<put-attribute name="title" value="SSEL SoftServeAcademy subject edit" />
-		<put-attribute name="content" value="/WEB-INF/views/editSubject.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/teacher/editSubject.jsp" />
 	</definition>
 
 	<definition name="editBlock" extends="teacher">
 		<put-attribute name="title" value="SSEL SoftServeAcademy module edit" />
-		<put-attribute name="content" value="/WEB-INF/views/editBlock.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/teacher/editBlock.jsp" />
 	</definition>
 
 	<definition name="editCategory" extends="teacher">
 		<put-attribute name="title"
 			value="SSEL SoftServeAcademy category edit" />
-		<put-attribute name="content" value="/WEB-INF/views/editCategory.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/teacher/editCategory.jsp" />
+	</definition>
+
+	<definition name="categories" extends="teacher">
+		<put-attribute name="title" value="SSEL SoftServeAcademy categories" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/teacher/categories.jsp" />
 	</definition>
 
 	<!-- Modules -->
