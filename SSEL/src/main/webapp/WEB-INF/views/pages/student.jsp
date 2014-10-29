@@ -1,7 +1,9 @@
 <%@page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <div class="row">
 	<div class="col-lg-12">
 		<h1 class="page-header">Student cabinet</h1>
@@ -25,14 +27,13 @@
 								${course.subject.name}	
 							</td>
 							<td>
-								${course.start}	
+								<fmt:formatDate pattern='dd-MM-yyyy' value='${course.start}' />
 							</td>
-							<c:if test="${table eq 'future'}">
-								<c:forEach items="${groups}" var="res" >
+							<!--<c:if test="${table ne 'future'}">
 									<td><a href="modules?courseId=${course.subject.id}">${course.subject.name}</a>
 									</td>
 									<td>
-										${course.start}
+										<fmt:formatDate pattern='dd-MM-yyyy' value='${course.end}' />
 									</td>
 									<td>
 										${res.rating}
@@ -40,8 +41,7 @@
 									<td>
 										${res.progress}
 									</td>
-								</c:forEach>
-							</c:if>
+							</c:if> -->
 						</tr>
 					</c:forEach>
 				</tbody>

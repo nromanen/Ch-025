@@ -18,8 +18,10 @@ import com.softserve.entity.Block;
 import com.softserve.entity.CourseScheduler;
 import com.softserve.entity.StudentGroup;
 import com.softserve.entity.Subject;
+import com.softserve.entity.Topic;
 import com.softserve.entity.User;
 import com.softserve.service.BlockService;
+import com.softserve.service.CourseSchedulerService;
 import com.softserve.service.StudentCabinetSevice;
 import com.softserve.service.StudentGroupService;
 import com.softserve.service.SubjectService;
@@ -31,7 +33,7 @@ public class StudentCabinetController {
 	@Autowired
 	private StudentCabinetSevice studentCabinetService;
 	@Autowired
-	private CourseSchedulerDao courseService;
+	private CourseSchedulerService courseService;
 	@Autowired 
 	private StudentGroupService studentGroupService;
 	@Autowired
@@ -54,7 +56,7 @@ public class StudentCabinetController {
 		}
 	}
 	
-	@RequestMapping("/student")
+	@RequestMapping(value = "/student", method = RequestMethod.GET)
 	public String printStudentCourses(@RequestParam(value="table", required = false) String table, Model model, HttpSession sess) {
 		User user = (User) sess.getAttribute("user");
 		int userId = user.getId();
@@ -82,15 +84,27 @@ public class StudentCabinetController {
 			scheduler = studentCabinetService.getFinishedCourses();
 			model.addAttribute("courses", scheduler);
 		}
+		model.addAttribute("table", table);
 		return "student";
 	}
 
 	@RequestMapping(value = "/modules", method = RequestMethod.GET)
 	public String printModules(
-			@RequestParam(value = "courseId", required = true) Integer courseId, Model model) {
+			@RequestParam(value = "courseId", required = true) Integer courseId, Model model, HttpSession session) {
 		try {
+		User user = (User) session.getAttribute("user");
+		int userId;
+		if (user == null) {
+			userId = 1;
+		} else {
+			userId = user.getId();
+		}
 		List<Block> blocks = blockService.getBlocksBySubjectId(courseId);
 		Subject subject = subjectService.getSubjectById(courseId);
+		int courseSchedulerId = courseService.getCourseScheduleresBySubjectId(courseId).get(0).getId();
+		StudentGroup result = studentCabinetService.getStudentGroupByUserAndCourseId(userId, courseSchedulerId);
+		model.addAttribute("rating", result.getRating());
+		model.addAttribute("progress", result.getProgress());
 		model.addAttribute("blockList", blocks);
 		model.addAttribute("subject", subject);
 		} catch(NullPointerException e) {
@@ -98,6 +112,15 @@ public class StudentCabinetController {
 		}
 		return "modules";
 	}
+	
+	@RequestMapping(value="/topicView", method = RequestMethod.GET)
+	public String printTopic(@RequestParam (value = "topicId", required = true) Integer topicId, Model model) {
+		Topic topic = topicService.getTopicById(topicId);
+		model.addAttribute("name", topic.getName());
+		model.addAttribute("content", topic.getContent());
+		return "topicView";
+	}
+	
 
 	/**
 	 * Perform subscribing student on course
@@ -143,6 +166,7 @@ public class StudentCabinetController {
 		} 
 		return "redirect:course?subjectId="+subjectId;
 	}
+	
 	
 	/**
 	 * Generate html table code for future courses
