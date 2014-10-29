@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-static-top" role="navigation"
 	style="margin-bottom: 0">
@@ -8,13 +9,13 @@
 			<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span>
 			<span class="icon-bar"></span> <span class="icon-bar"></span>
 		</button>
-		<a class="navbar-brand" href="${pageContext.request.contextPath}/">SSEL SoftServe Academy</a>
+		<a class="navbar-brand" href="<c:url value="/" />">SSEL SoftServe Academy</a>
 	</div>
 	<!-- /.navbar-header -->
 	<ul class="nav navbar-top-links navbar-right">
 		<li>
 			<div>
-				<a  href="?lang=ua" style="padding: 0px"> 
+				<a href="?lang=ua" style="padding: 0px"> 
 					<img style="width: 20px; height: 20px;" src='<c:url value="/resources/img/ua.png" />'> 
 				</a>
 				<a href="?lang=en" style="padding: 0px"> 
@@ -31,30 +32,22 @@
 				<i class="fa fa-caret-down"></i>
 			</a>
 			<ul class="dropdown-menu dropdown-user">
-				<c:if test="${sessionScope.user.role.role eq 'TEACHER'}">
-					<li><a href="teacher"><i class="fa fa-user fa-fw"></i>
-							Teacher Profile</a></li>
-					<li class="divider"></li>
-					<li><a href="logout"><i class="fa fa-sign-out fa-fw"></i>
-							Logout</a></li>
-				</c:if>
-				<c:if test="${sessionScope.user.role.role eq 'STUDENT'}">
-					<li><a href="student?table=active"> <i
-							class="fa fa-user fa-fw"></i> Student Profile
-					</a></li>
-					<li class="divider"></li>
-					<li><a href="logout"><i class="fa fa-sign-out fa-fw"></i>
-							Logout</a></li>
-				</c:if>
 				<c:if test="${sessionScope.user.role.role ne 'TEACHER'
 					 && sessionScope.user.role.role ne 'STUDENT' && sessionScope.user.role.role ne 'ADMIN'}">
-				<!-- <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a></li>  -->
-				<li><a href="login"><i class="fa fa-sign-in fa-fw"></i>Sign
-						in</a></li>
-				<li><a href="registration"><i class="fa fa-sign-in fa-fw"></i>Sign
-						up</a></li>
+					<li>
+						<a href="login">
+							<i class="fa fa-sign-in fa-fw"></i>
+							<spring:message code="label.sing_in" />	
+						</a>
+					</li>
+					<li>
+						<a href="registration">
+							<i class="fa fa-sign-in fa-fw"></i>
+							<spring:message code="label.registration"/> 
+						</a>
+					</li>
 				</c:if>
-			</ul> <!-- /.dropdown-user -->
+			</ul>
 		</li>	
 	</ul>
 </nav>
