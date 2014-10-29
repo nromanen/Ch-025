@@ -14,7 +14,7 @@
 <link href="resources/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 <link href="resources/css/plugins/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
 
-<script src="resources/js/jquery-1.11.0.js"></script>
+<script src="resources/js/jquery-1.11.1.min.js"></script>
 <script src="resources/js/bootstrap.min.js"></script>
 <script src="resources/js/plugins/metisMenu/metisMenu.min.js"></script>
 <script src="resources/js/sb-admin-2.js"></script>

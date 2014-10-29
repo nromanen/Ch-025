@@ -19,6 +19,15 @@
 	<beans:import resource="app_tiles.xml" />
 
 	<context:component-scan base-package="com.softserve.controller" />
+	<!-- Localization options -->
+	<!--Writes LocaleChangeInterceptor as interceptor for parameter "lang" -->
+	<interceptors>
+		<beans:bean
+			class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+			<beans:property name="paramName" value="lang" />
+		</beans:bean>
+	</interceptors>
+	
 
 	<beans:bean id="messageSource"
 		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">

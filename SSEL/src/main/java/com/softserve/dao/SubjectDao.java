@@ -18,4 +18,6 @@ public interface SubjectDao {
 	public Set<Subject> getAllSubjects();
 	
 	public List<Subject> getSubjectsByCategoryId(int id);
+
+	List<Subject> getSubjectsByUserId(int id);
 }

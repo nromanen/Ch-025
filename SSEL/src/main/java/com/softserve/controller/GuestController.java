@@ -71,10 +71,12 @@ public class GuestController {
 		LOG.info("User login {}", principal.getName());
 		User user = userService.getUserByEmail(principal.getName());
 		httpSession.setAttribute("user", user);
-		if (user.getRole().getRole().equals("TEACHER")){
+		if (user.getRole().getRole().equals(User.Roles.TEACHER.toString())){
 			return "redirect:/teacher";
-		} else {
+		} else if (user.getRole().getRole().equals(User.Roles.STUDENT.toString())){
 			return "redirect:/student";
+		} else {
+			return "redirect:/";
 		}
 	}
 
