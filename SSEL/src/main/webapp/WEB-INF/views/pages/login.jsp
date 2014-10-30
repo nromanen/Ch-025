@@ -27,13 +27,13 @@
                 </div>
          	</div>    
 			<div style="padding-top:30px" class="panel-body">
-				<c:if test="${error.equals('BadCredentialsException')}">
+				<c:if test="${error eq 'BadCredentialsException'}">
 					<div class="alert alert-warning">
 						<strong><spring:message code="label.warning" /></strong>
 						<spring:message code="label.bad_redentials_exception" />
 					</div>
 				</c:if>
-				<c:if test="${error.equals('userDisabled')}">
+				<c:if test="${error eq 'userDisabled'}">
 					<div class="alert alert-warning">
 						<strong><spring:message code="label.warning" /></strong>
 						<spring:message code="label.user_disabled" />
