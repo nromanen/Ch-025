@@ -11,8 +11,7 @@
 		<h1 class="page-header">SoftServe SSEL Academy</h1>
 	</div>
 	<div class="col-lg-12">
-		<p>SoftServe SSEL Academy is better way for self-education. We
-			choose the best courses for you!</p>
+		<p><spring:message code="label.quest_text" /></p>
 	</div>
 	<form method="GET" action="course">
 		<div class="blocks">
@@ -22,10 +21,10 @@
 						<button value="${subj.id}" name="subjectId" class="btn btn-link"
 							style="color: #428bca;">${subj.name}</button>
 					</div>
-					<div>Category: ${subj.category.name}</div>
+					<div><spring:message code="label.category" /> ${subj.category.name}</div>
 					<c:forEach items="${schedule}" var="schedule">
 						<c:if test="${schedule.subject.id eq subj.id}">
-							<div>Start date: 
+							<div><spring:message code="label.start_date" /> 
 							<fmt:formatDate pattern='dd-MM-yyyy' value='${schedule.start}' /> 
 							</div>
 						</c:if>

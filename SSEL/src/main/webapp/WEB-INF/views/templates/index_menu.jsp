@@ -81,8 +81,8 @@
 	<div class="navbar-default sidebar" role="navigation">
 		<div class="sidebar-nav navbar-collapse">
 			<ul class="nav" id="side-menu">
-				<li><a href="#"><i class="fa fa-sitemap fa-fw"></i> All
-						Courses<span class="fa arrow"></span></a>
+				<li><a href="#"><i class="fa fa-sitemap fa-fw"></i>
+					<spring:message code="label.all_cources" /><span class="fa arrow"></span></a>
 					<ul class="nav nav-second-level"  id="listCat">
 						<c:forEach items="${catList}" var="cat">
 							<li><a href="#"> ${cat.name} <span class="fa arrow"></span></a>
