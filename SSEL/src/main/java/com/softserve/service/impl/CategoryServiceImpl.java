@@ -1,6 +1,6 @@
 package com.softserve.service.impl;
 
-import java.util.Set;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +36,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	@Transactional
-	public Set<Category> getAllCategories() {
+	public List<Category> getAllCategories() {
 		return categoryDao.getAllCategories();
 	}
 
