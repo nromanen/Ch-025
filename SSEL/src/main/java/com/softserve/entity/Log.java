@@ -35,47 +35,53 @@ public class Log {
 	private String exception;
 	
 	
-	
-	
-
-	public String getLogger() {
-		return logger;
-	}
-	public void setLogger(String logger) {
-		this.logger = logger;
-	}
 
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
+
 	public Date getEventDate() {
 		return eventDate;
 	}
+
 	public void setEventDate(Date eventDate) {
 		this.eventDate = eventDate;
 	}
+
 	public String getLevel() {
 		return level;
 	}
+
 	public void setLevel(String level) {
 		this.level = level;
 	}
+
+	public String getLogger() {
+		return logger;
+	}
+
+	public void setLogger(String logger) {
+		this.logger = logger;
+	}
+
 	public String getMessage() {
 		return message;
 	}
+
 	public void setMessage(String message) {
 		this.message = message;
 	}
+
 	public String getException() {
 		return exception;
 	}
+
 	public void setException(String exception) {
 		this.exception = exception;
 	}
 	
-	
-
 }

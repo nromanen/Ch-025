@@ -9,10 +9,12 @@ import javax.persistence.Query;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import com.softserve.dao.LogDao;
 import com.softserve.entity.Log;
 
+@Repository
 public class LogDaoImpl implements LogDao {
 
 	private static final Logger LOG = LoggerFactory
@@ -43,7 +45,7 @@ public class LogDaoImpl implements LogDao {
 	@Override
 	public List<Log> getAllLogs() {
 		LOG.debug("Get all Logs");
-		List<Log> logList = (List<Log>) entityManager.createQuery("FROM logging")
+		List<Log> logList = (List<Log>) entityManager.createQuery("FROM Log")
 				.getResultList();
 		return logList;
 	}

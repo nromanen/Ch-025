@@ -9,40 +9,29 @@
 <div class="row">
 	<div class="col-lg-12">
 		<h1 align="center">This will add some logs!</h1>
-		<%
-			List<Log> logList = (List<Log>) session.getAttribute("logs");
-		%>
 		<br />
-		<%=logList.size()%><br />
-		<table border="2", width="65%">
-			<thead>
-				<tr>
-					<th>Date</th>
-					<th>Level</th>
-					<th>Logger</th>
-					<th>Massage</th>
-					<th>Exception</th>
-				</tr>
-			</thead>
-			<tbody>
-				<%
-					int i = 0;
-				%>
-				<c:forEach var="i" begin="1" end="<%=logList.size()%>">
-					<tr>
-						<td><%=logList.get(i).getEventDate()%></td>
-						<td><%=logList.get(i).getLevel()%></td>
-						<td><%=logList.get(i).getLogger()%></td>
-						<td><%=logList.get(i).getMessage()%></td>
-						<td><%=logList.get(i).getException()%></td>
-					</tr>
-					<%
-						i++;
-					%>
-				</c:forEach>
-
-			</tbody>
-		</table>
+		<div class="col-md-12">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>Date</th>
+							<th>Level</th>
+							<th>Logger</th>
+							<th>Message</th>
+							<th>Exception</th>
+						</tr>
+					</thead>
+					<c:forEach items="${logs}" var="log">
+						<tr>
+							<td class="col-md-1">${log.eventDate}</td>
+							<td class="col-md-0.5">${log.level}</td>
+							<td class="col-md-3"><textarea rows="4" cols="45">${log.logger}</textarea></td>
+							<td class="col-md-3"><textarea rows="4" cols="45">${log.message}</textarea></td>
+							<td class="col-md-4"><textarea rows="4" cols="65">${log.exception}</textarea></td>
+						</tr>
+					</c:forEach>
+				</table>
+		</div>
 		<br>
 	</div>
 </div>

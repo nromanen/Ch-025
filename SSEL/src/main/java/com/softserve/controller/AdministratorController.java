@@ -1,10 +1,9 @@
 package com.softserve.controller;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -21,6 +20,7 @@ import com.softserve.entity.Log;
 import com.softserve.entity.Subject;
 import com.softserve.entity.User;
 import com.softserve.service.CourseSchedulerService;
+import com.softserve.service.LogService;
 import com.softserve.service.StudentGroupService;
 import com.softserve.service.SubjectService;
 import com.softserve.service.UserService;
@@ -43,6 +43,9 @@ public class AdministratorController {
 	
 	@Autowired
 	private CourseSchedulerService courceSchedulerService;
+	
+	@Resource(name = "LogService")
+	private LogService logService;
 
 	@RequestMapping(value = "/administrator", method = RequestMethod.GET)
 	public String administrator(Model model) {
@@ -74,14 +77,8 @@ public class AdministratorController {
 	public String viewAllLogs(Model model, HttpServletRequest request) {
 		LOG.debug("Visit viewAllLogs page");
 		HttpSession session = request.getSession();
-		/*
-		String jane = "Kate";
-		String sal = "Sarah";
-		model.addAttribute("jane", jane);
-		session.setAttribute("sal", sal);*/
-		List<Log> logList = ToDelete.getFakeList();
-		/*LogServiceImpl logServ = new LogServiceImpl();
-		List<Log> logList = logServ.getAllLogs();*/
+	//	List<Log> logList = ToDelete.getFakeList();
+		List<Log> logList = logService.getAllLogs();
 		session.setAttribute("logs", logList);
 		return "viewAllLogs";
 	}
