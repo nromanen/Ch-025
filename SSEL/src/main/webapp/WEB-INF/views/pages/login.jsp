@@ -1,11 +1,11 @@
 <%@page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <script>
 	$(document).ready(function () {
-		$('#email, #password').on("change", function() {
+		$('#email, #password').on("keyup", function() {
 			if ($('#email').val() != 0 && $('#password').val() != 0) {
 				$('#submit_btn').removeAttr('disabled');
 			} else {
@@ -19,7 +19,9 @@
 	<div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">                    
      	<div class="panel panel-info" >
         	<div class="panel-heading">
-            	<div class="panel-title"><spring:message code="label.sing_in" /></div>
+            	<div class="panel-title">
+            		<spring:message code="label.sing_in" />
+            	</div>
                 <div style="float:right; font-size: 80%; position: relative; top:-10px">
                 	<a href="<c:url value="/remind" />">
                 		<spring:message code="label.forgot_password"/>
@@ -28,15 +30,19 @@
          	</div>    
 			<div style="padding-top:30px" class="panel-body">
 <<<<<<< HEAD
+<<<<<<< HEAD
 				<div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
 =======
 				<c:if test="${error.equals('BadCredentialsException')}">
+=======
+				<c:if test="${error eq 'BadCredentialsException'}">
+>>>>>>> 3b5f00ae0570a9eb6d5d38aaa9e134be91e3af91
 					<div class="alert alert-warning">
 						<strong><spring:message code="label.warning" /></strong>
 						<spring:message code="label.bad_redentials_exception" />
 					</div>
 				</c:if>
-				<c:if test="${error.equals('userDisabled')}">
+				<c:if test="${error eq 'userDisabled'}">
 					<div class="alert alert-warning">
 						<strong><spring:message code="label.warning" /></strong>
 						<spring:message code="label.user_disabled" />
@@ -64,10 +70,10 @@
 						</div>
 					</div>
 					<div style="margin-top:10px" class="form-group">
-						<button type="submit" class="btn btn-block btn-success" id="submit_btn" disabled>
+						<button type="submit" class="btn btn-success" id="submit_btn" disabled>
 							<spring:message code="label.sing_in" />
 						</button>
-						<a href="<c:url value="/registration" />" class="btn btn-block btn-primary">
+						<a href="<c:url value="/registration" />" class="btn btn-primary">
 							<spring:message code="label.registration"/> 
 						</a>
 					</div>

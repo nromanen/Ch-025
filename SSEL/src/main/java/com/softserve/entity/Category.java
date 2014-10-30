@@ -1,7 +1,7 @@
 package com.softserve.entity;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,7 +25,7 @@ public class Category {
 	private  String name;
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="category")
-	private Set<Subject> subjects = new HashSet<>();
+	private List<Subject> subjects = new ArrayList<>();
 	
 	public Category() {
 	}
@@ -46,11 +46,11 @@ public class Category {
 		this.name = name;
 	}
 
-	public Set<Subject> getSubjects() {
+	public List<Subject> getSubjects() {
 		return subjects;
 	}
 
-	public void setSubjects(Set<Subject> subjects) {
+	public void setSubjects(List<Subject> subjects) {
 		this.subjects = subjects;
 	}
 	

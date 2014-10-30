@@ -1,6 +1,6 @@
 package com.softserve.service.impl;
 
-import java.util.Set;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,7 +42,7 @@ public class RoleServiceImpl implements RoleService {
 
 	@Override
 	@Transactional
-	public Set<Role> getAllRoles() {
+	public List<Role> getAllRoles() {
 		return roleDao.getAllRoles();
 	}
 

@@ -1,7 +1,6 @@
 package com.softserve.service.impl;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -44,7 +43,7 @@ public class SubjectServiceImpl implements SubjectService {
 
 	@Override
 	@Transactional
-	public Set<Subject> getAllSubjects() {
+	public List<Subject> getAllSubjects() {
 		return subjectDao.getAllSubjects();
 	}
 
