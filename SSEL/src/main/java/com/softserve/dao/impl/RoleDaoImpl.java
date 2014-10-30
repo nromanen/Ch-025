@@ -1,7 +1,7 @@
 package com.softserve.dao.impl;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -58,9 +58,9 @@ public class RoleDaoImpl implements RoleDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Set<Role> getAllRoles() {
+	public List<Role> getAllRoles() {
 		LOG.debug("Get all roles");
-		Set<Role> roles = new HashSet<>();
+		List<Role> roles = new ArrayList<>();
 		roles.addAll(entityManager.createQuery("FROM Role").getResultList());
 		return roles;
 	}

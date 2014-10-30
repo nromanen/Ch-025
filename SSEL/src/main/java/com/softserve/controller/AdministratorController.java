@@ -1,7 +1,6 @@
 package com.softserve.controller;
 
 import java.util.List;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +39,7 @@ public class AdministratorController {
 	@RequestMapping(value = "/administrator", method = RequestMethod.GET)
 	public String administrator(Model model) {
 		LOG.debug("Visit administrator page");
-		Set<Subject> subjects = subjectService.getAllSubjects();
+		List<Subject> subjects = subjectService.getAllSubjects();
 		List<CourseScheduler> courceScheduler = courceSchedulerService.getAllCourseScheduleres();
 		List<User> users = userService.getAllUsers();
 		model.addAttribute("subjects", subjects.size());

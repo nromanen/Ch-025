@@ -9,7 +9,7 @@
 			<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span>
 			<span class="icon-bar"></span> <span class="icon-bar"></span>
 		</button>
-		<a class="navbar-brand" href="<c:url value="/" />">SSEL SoftServe Academy</a>
+		<a class="navbar-brand" href="<c:url value="/" />">SSEL SoftServe Academy</a
 	</div>
 	<!-- /.navbar-header -->
 	<ul class="nav navbar-top-links navbar-right">
@@ -34,7 +34,9 @@
 			<ul class="dropdown-menu dropdown-user">
 				<c:if test="${sessionScope.user.role.role eq 'TEACHER'}">
 					<li><a href="teacher"><i class="fa fa-user fa-fw"></i>
-							Teacher Profile</a></li>
+							Teacher cabinet</a></li>
+					<li><a href="#"><i class="fa fa-user fa-fw"></i>
+							Teacher profile</a></li>
 					<li class="divider"></li>
 					<li><a href="logout"><i class="fa fa-sign-out fa-fw"></i>
 							Logout</a></li>
@@ -42,9 +44,12 @@
 				<c:if test="${sessionScope.user.role.role eq 'STUDENT'}">
 					<li>
 						<a href="student?table=active"> <i
-							class="fa fa-user fa-fw"></i> Student Profile
+							class="fa fa-user fa-fw"></i> Student cabinet
 						</a>
 					</li>
+					<li><a href="#"> <i
+							class="fa fa-user fa-fw"></i> Student profile
+					</a></li>
 					<li class="divider"></li>
 					<li>
 						<a href="logout">
@@ -77,20 +82,9 @@
 		<div class="sidebar-nav navbar-collapse">
 			<ul class="nav" id="side-menu">
 				<li class="sidebar-search">
-                	<div class="input-group custom-search-form">
-                    	<input type="text" class="form-control" id="searchInput"
-                        	placeholder="<spring:message code="label.search"/> " onkeyup="searchSubjects();">
-                  	</div>
-           		</li>
-				<li>
-					<a href="#" onclick="repairMenu();">
-						<i class="fa fa-sitemap fa-fw"></i> 
-						All Courses<span class="fa arrow"></span>
-					</a>
 					<ul class="nav nav-second-level"  id="listCat">
 						<c:forEach items="${catList}" var="cat">
-							<li>
-								<a href="#"> ${cat.name} <span class="fa arrow"></span></a>
+							<li><a href="#"> ${cat.name} <span class="fa arrow"></span></a>
 								<ul class="nav nav-third-level" id="listSubj">
 									<c:forEach items="${cat.subjects}" var="subj">
 										<li class="link">

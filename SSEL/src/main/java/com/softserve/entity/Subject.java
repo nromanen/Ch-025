@@ -1,7 +1,7 @@
 package com.softserve.entity;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -39,10 +39,10 @@ public class Subject {
 	private User user;
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "subject")
-	private Set<Block> blocks = new HashSet<>();
+	private List<Block> blocks = new ArrayList<>();
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "subject")
-	private Set<CourseScheduler> schedulers = new HashSet<>();
+	private List<CourseScheduler> schedulers = new ArrayList<>();
 
 	public Subject() {
 	}
@@ -79,11 +79,11 @@ public class Subject {
 		this.category = category;
 	}
 
-	public Set<Block> getBlocks() {
+	public List<Block> getBlocks() {
 		return blocks;
 	}
 
-	public void setBlocks(Set<Block> blocks) {
+	public void setBlocks(List<Block> blocks) {
 		this.blocks = blocks;
 	}
 
