@@ -28,5 +28,14 @@ function repairMenu() {
 	} else {
 		$(".nav-second-level").attr('style');
 	}
-	isUsed = isUsed ? false : true;
+	isUsed = !isUsed;
+}
+
+function repairSubMenu() {
+	if (isUsed) {
+		$(".nav-third-level").removeAttr('style');
+	} else {
+		$(".nav-second-level").attr('style');
+	}
+	isUsed = !isUsed;
 }

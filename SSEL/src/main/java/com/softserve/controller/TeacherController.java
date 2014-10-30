@@ -3,9 +3,7 @@ package com.softserve.controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +63,7 @@ public class TeacherController {
 
 	@RequestMapping(value = "/categories", method = RequestMethod.GET)
 	public String categories(Model model) {
-		Set<Category> categoryList = categoryService.getAllCategories();
+		List<Category> categoryList = categoryService.getAllCategories();
 		model.addAttribute("catList", categoryList);
 		return "categories";
 	}
@@ -79,7 +77,7 @@ public class TeacherController {
 		//List<Subject> subjectList = subjectService.getSubjectsByUserId(user.getId());
 		//Set<Subject> subjectList = subjectService.getAllSubjects();
 		List<CourseScheduler> schedulerList = courseSchedulerService.getCourseSchedulersBySubjectUserId(user.getId());
-		Set<Category> categories = categoryService.getAllCategories();
+		List<Category> categories = categoryService.getAllCategories();
 		model.addAttribute("catList", categories);
 		//model.addAttribute("subjectList", subjectList);
 		model.addAttribute("schedulerList", schedulerList);
@@ -90,8 +88,8 @@ public class TeacherController {
 
 	@RequestMapping(value = "/teacherCourse", method = RequestMethod.GET)
 	public String teacherCourse(@RequestParam(value = "subjectId", required = false) Integer subjectId, Model model) {
-		Set<Subject> subjects = subjectService.getAllSubjects();
-		Set<Category> categories = categoryService.getAllCategories();
+		List<Subject> subjects = subjectService.getAllSubjects();
+		List<Category> categories = categoryService.getAllCategories();
 
 		model.addAttribute("subList", subjects);
 		model.addAttribute("catList", categories);
@@ -119,7 +117,7 @@ public class TeacherController {
 
 		List<Block> blocks = blockService.getBlocksBySubjectId(subjectId);
 		model.addAttribute("blockList", blocks);
-		Set<Category> categories = categoryService.getAllCategories();
+		List<Category> categories = categoryService.getAllCategories();
 		model.addAttribute("catList", categories);
 
 		return "editTopic";
@@ -135,7 +133,7 @@ public class TeacherController {
 					.getCourseScheduleresBySubjectId(subjectId);
 			model.addAttribute("scheduler", courseSchedulerList.get(0));
 		}
-		Set<Category> categoryList = categoryService.getAllCategories();
+		List<Category> categoryList = categoryService.getAllCategories();
 		model.addAttribute("catList", categoryList);
 
 		return "editSubject";
@@ -148,7 +146,7 @@ public class TeacherController {
 			model.addAttribute("block", block);
 		}
 
-		Set<Subject> subjectList = subjectService.getAllSubjects();
+		List<Subject> subjectList = subjectService.getAllSubjects();
 		model.addAttribute("subjectList", subjectList);
 
 		return "editBlock";
@@ -159,7 +157,7 @@ public class TeacherController {
 		if (categoryId != null) {
 			Category category = categoryService.getCategoryById(categoryId);
 			model.addAttribute("category", category);
-			Set<Category> categories = categoryService.getAllCategories();
+			List<Category> categories = categoryService.getAllCategories();
 			model.addAttribute("catList", categories);
 
 		}

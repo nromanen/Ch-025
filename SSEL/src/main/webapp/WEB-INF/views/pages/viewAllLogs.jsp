@@ -8,7 +8,7 @@
 
 <div class="row">
 	<div class="col-lg-12">
-		<h1 align="center">This will add some logs!</h1>
+		<h1 align="center">Logs, My Lord!</h1>
 		<br />
 		<div class="col-md-12">
 				<table class="table table-bordered">
@@ -25,9 +25,9 @@
 						<tr>
 							<td class="col-md-1">${log.eventDate}</td>
 							<td class="col-md-0.5">${log.level}</td>
-							<td class="col-md-3"><textarea rows="4" cols="45">${log.logger}</textarea></td>
-							<td class="col-md-3"><textarea rows="4" cols="45">${log.message}</textarea></td>
-							<td class="col-md-4"><textarea rows="4" cols="65">${log.exception}</textarea></td>
+							<td class="col-md-3"><textarea rows="3" cols="45">${log.logger}</textarea></td>
+							<td class="col-md-4"><textarea rows="3" cols="65">${log.message}</textarea></td>
+							<td class="col-md-3"><textarea rows="3" cols="45">${log.exception}</textarea></td>
 						</tr>
 					</c:forEach>
 				</table>

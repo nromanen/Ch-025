@@ -1,7 +1,6 @@
 package com.softserve.controller;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +23,6 @@ import com.softserve.service.LogService;
 import com.softserve.service.StudentGroupService;
 import com.softserve.service.SubjectService;
 import com.softserve.service.UserService;
-import com.softserve.service.impl.LogServiceImpl;
 
 @Controller
 public class AdministratorController {
@@ -50,7 +48,7 @@ public class AdministratorController {
 	@RequestMapping(value = "/administrator", method = RequestMethod.GET)
 	public String administrator(Model model) {
 		LOG.debug("Visit administrator page");
-		Set<Subject> subjects = subjectService.getAllSubjects();
+		List<Subject> subjects = subjectService.getAllSubjects();
 		List<CourseScheduler> courceScheduler = courceSchedulerService.getAllCourseScheduleres();
 		List<User> users = userService.getAllUsers();
 		model.addAttribute("subjects", subjects.size());
@@ -77,28 +75,9 @@ public class AdministratorController {
 	public String viewAllLogs(Model model, HttpServletRequest request) {
 		LOG.debug("Visit viewAllLogs page");
 		HttpSession session = request.getSession();
-	//	List<Log> logList = ToDelete.getFakeList();
 		List<Log> logList = logService.getAllLogs();
 		session.setAttribute("logs", logList);
 		return "viewAllLogs";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 }

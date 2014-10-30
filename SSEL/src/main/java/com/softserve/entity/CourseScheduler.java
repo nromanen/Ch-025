@@ -1,8 +1,8 @@
 package com.softserve.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -36,7 +36,7 @@ public class CourseScheduler {
 	private Subject subject;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "courseScheduler")
-	private Set<StudentGroup> groups = new HashSet<>();
+	private List<StudentGroup> groups = new ArrayList<>();
 
 	public int getId() {
 		return id;
@@ -70,11 +70,11 @@ public class CourseScheduler {
 		this.end = end;
 	}
 
-	public Set<StudentGroup> getGroups() {
+	public List<StudentGroup> getGroups() {
 		return groups;
 	}
 
-	public void setGroups(Set<StudentGroup> groups) {
+	public void setGroups(List<StudentGroup> groups) {
 		this.groups = groups;
 	}
 

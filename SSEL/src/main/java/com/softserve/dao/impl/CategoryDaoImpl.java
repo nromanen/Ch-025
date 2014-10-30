@@ -1,7 +1,7 @@
 package com.softserve.dao.impl;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -51,9 +51,9 @@ public class CategoryDaoImpl implements CategoryDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Set<Category> getAllCategories() {
+	public List<Category> getAllCategories() {
 		LOG.debug("Get all categories");
-		Set<Category> categories = new HashSet<>();
+		List<Category> categories = new ArrayList<>();
 		categories.addAll(entityManager.createQuery("FROM Category")
 				.getResultList());
 		return categories;

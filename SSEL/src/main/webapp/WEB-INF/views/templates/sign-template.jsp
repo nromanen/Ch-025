@@ -11,9 +11,9 @@
 <link href="<c:url value="/resources/css/sb-admin-2.css" />" rel="stylesheet" type="text/css">
 <link href="<c:url value="/resources/styles/styles.css" />" rel="stylesheet" type="text/css">
 <link href="<c:url value="/resources/font-awesome-4.1.0/css/font-awesome.min.css" />" rel="stylesheet" type="text/css">
-<link href="<c:url value="/resources/css/plugins/dataTables.bootstrap.css" />" rel="stylesheet" type="text/css">
+<link href="<c:url value="/resources/css/registration.css" />" rel="stylesheet" type="text/css">
 
-<script src="<c:url value="/resources/js/jquery-1.11.0.js" />"></script>
+<script src="<c:url value="/resources/js/jquery-1.11.1.min.js" />"></script>
 <script src="<c:url value="/resources/js/bootstrap.min.js" />"></script>
 <script src="<c:url value="/resources/js/plugins/metisMenu/metisMenu.min.js" />"></script>
 <script src="<c:url value="/resources/js/sb-admin-2.js" />"></script>
@@ -25,6 +25,8 @@
 
 	<tiles:insertAttribute name="header" />
 	
+	<tiles:insertAttribute name="menu" />
+		
 	<tiles:insertAttribute name="content" />
 
 	<tiles:insertAttribute name="footer" />
