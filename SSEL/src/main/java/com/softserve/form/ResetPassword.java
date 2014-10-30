@@ -1,11 +1,9 @@
 package com.softserve.form;
 
-import javax.validation.constraints.Size;
 
 public class ResetPassword {
 	
 	private String key;
-	@Size(min = 4, max = 20, message = "Password size from 4 to 20 chars")
 	private String password;
 	private String confirmPassword;
 	

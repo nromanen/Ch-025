@@ -81,8 +81,11 @@
 					</div>
 					<div class="form-group">
 						<div class="col-md-offset-3 col-md-9">
-							<button type="submit" class="btn btn-info">
+							<button type="submit" class="btn btn-success">
 								<spring:message code="label.registration"/>
+							</button>
+							<button type="reset" class="btn btn-primary">
+								<spring:message code="label.cancel" />
 							</button>
 						</div>
 					</div>
