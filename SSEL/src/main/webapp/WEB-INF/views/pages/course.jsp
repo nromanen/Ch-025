@@ -9,7 +9,7 @@
 		<h1 class="page-header">SoftServe SSEL Academy</h1>
 	</div>
 	<div class="col-lg-12">
-		<h3 class="title">About course</h3>
+		<h3 class="title"><spring:message code="label.about_course" /></h3>
 		<div>
 			<div class="title">${subject.name}</div>
 			<div style="padding-top: 8px;">Description:
@@ -18,20 +18,21 @@
 				<form method="GET" action="subscribe">
 					<c:if test="${isSubscribe eq true}">
 						<button value="${subject.id}" name="subjectId"
-							class="btn btn-success" style="width: 200px; margin-top: 8px;">Subscribe
-							to course</button>
+							class="btn btn-success" style="width: 200px; margin-top: 8px;">
+							<spring:message code="label.subscribe" /></button>
 					</c:if>
 					<c:if test="${isSubscribe eq false}">
 						<button value="${subject.id}" name="subjectId"
-							class="btn btn-warning" style="width: 200px; margin-top: 8px;">Unsubscribe
-							from course</button>
+							class="btn btn-warning" style="width: 200px; margin-top: 8px;">
+							<spring:message code="label.unsubscribe" /></button>
 					</c:if>
 					<input type="hidden" name="op" value="${isSubscribe}">
 				</form>
 			</c:if>
 			<form method="GET" action="courseInformation">
 				<button value="${subject.id}" name="subjectId" class="btn btn-info"
-					style="width: 200px; margin-top: 8px;">Details</button>
+					style="width: 200px; margin-top: 8px;"><spring:message code="label.details" />
+					</button>
 			</form>
 		</div>
 	</div>
