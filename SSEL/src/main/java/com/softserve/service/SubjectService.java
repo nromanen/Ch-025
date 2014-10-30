@@ -1,7 +1,6 @@
 package com.softserve.service;
 
 import java.util.List;
-import java.util.Set;
 
 import com.softserve.entity.Subject;
 
@@ -15,7 +14,7 @@ public interface SubjectService {
 
 	public Subject getSubjectById(int id);
 
-	public Set<Subject> getAllSubjects();
+	public List<Subject> getAllSubjects();
 
 	public List<Subject> getSubjectsByCategoryId(int id);
 	
