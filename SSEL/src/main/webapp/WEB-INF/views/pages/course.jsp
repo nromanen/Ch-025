@@ -12,7 +12,7 @@
 		<h3 class="title"><spring:message code="label.about_course" /></h3>
 		<div>
 			<div class="title">${subject.name}</div>
-			<div style="padding-top: 8px;">Description:
+			<div style="padding-top: 8px;"><spring:message code="label.description" />
 				${subject.description}</div>
 			<c:if test="${sessionScope.user.role.role eq 'STUDENT'}">
 				<form method="GET" action="subscribe">

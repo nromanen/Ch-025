@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-static-top" role="navigation"
 	style="margin-bottom: 0">
@@ -15,15 +16,25 @@
 	<ul class="nav navbar-top-links navbar-right">
 		<li>
 			<div>
-				<a  href="?lang=ua" style="padding: 0px"> 
+				<c:set var="params" value="${requestScope['javax.servlet.forward.query_string']}"> </c:set>
+ 				<c:set var="strlenparams" value="${fn:length(params) - 7}"> </c:set> 
+				<c:if test="${fn:endsWith(params, 'lang=en') || 
+							  fn:endsWith(params, 'lang=ru') || 
+							  fn:endsWith(params, 'lang=ua')}">
+					<c:set var="params" value="${fn:substring(params,0, strlenparams)}"></c:set>			
+				</c:if> 
+					<a  href="${requestScope['javax.servlet.forward.request_uri']}?${params}&lang=ua" 
+					style="padding: 0px"> 
 					<img style="width: 20px; height: 20px;" src='<c:url value="/resources/img/ua.png" />'> 
 				</a>
-				<a href="?lang=en" style="padding: 0px"> 
+				<a href="${requestScope['javax.servlet.forward.request_uri']}?${params}&lang=en" 
+					style="padding: 0px"> 
 					<img style="width: 20px; height: 20px;" src='<c:url value="/resources/img/en.png" />'> 
 				</a>
-				<a href="?lang=ru" style="padding: 0px"> 
+				<a href="${requestScope['javax.servlet.forward.request_uri']}?${params}&lang=ru" 
+					style="padding: 0px"> 
 					<img style="width: 20px; height: 20px;" src='<c:url value="/resources/img/ru.png" />'> 
-				</a>
+				</a>  
 			</div>
 		</li>
 		<li class="dropdown">
