@@ -35,7 +35,8 @@
 											<a href="modules?courseId=${course.subject.id}">${course.subject.name}</a>
 										</c:when>
 										<c:otherwise>
-											${course.subject.name}
+											<a href="courseInformation?subjectId=${course.subject.id}">${course.subject.name}
+											</a>
 										</c:otherwise>
 									</c:choose>
 									</td>

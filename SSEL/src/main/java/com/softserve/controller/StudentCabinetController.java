@@ -46,7 +46,13 @@ public class StudentCabinetController {
 	private BlockService blockService;
 	@Autowired
 	private MailService mailService;
-	
+	/**
+	 * Handle subscribe requests
+	 * @param subjectId subject id to subscribe/unsubscribe
+	 * @param operation true - subscribe, false - unsubscribe
+	 * @param sess session with user information in it
+	 * @return view URL
+	 */
 	@RequestMapping("/subscribe")
 	public String performSubscribe(@RequestParam("subjectId") Integer subjectId, @RequestParam("op") Boolean operation, 
 			HttpSession sess) {
@@ -57,7 +63,13 @@ public class StudentCabinetController {
 			return unsubscribe(subjectId, user.getId(), user.getEmail());
 		}
 	}
-	
+	/**
+	 * Handle student cabinet requests
+	 * @param table courses to show ( future, active, finished)
+	 * @param model data model for view
+	 * @param sess session with user information in it
+	 * @return view URL
+	 */
 	@RequestMapping(value = "/student", method = RequestMethod.GET)
 	public String printStudentCourses(@RequestParam(value="table", required = false) String table, Model model, 
 			HttpSession sess) {
@@ -66,37 +78,42 @@ public class StudentCabinetController {
 		studentCabinetService.initSubscribedList(userId);
 		List<CourseScheduler> scheduler;
 		List<StudentGroup> groups;
-		if (table == null || table.equals("future")) {
+		if (table == null || table.equals("future")) { //build data model for future courses
 			scheduler = studentCabinetService.getFutureCourses();
 			model.addAttribute("courses",scheduler);
-		} else if (table.equals("active")){
+			model.addAttribute("title", "Future courses");
+		} else if (table.equals("active")) { //build data model for active courses
 			scheduler = studentCabinetService.getActiveCourses(); 
 			groups = new ArrayList<>();
 			for (CourseScheduler item: scheduler) {
 				groups.add(studentCabinetService.getStudentGroupByUserAndCourseId(userId,item.getId()));
 			}
+			model.addAttribute("title", "Active courses");
 			model.addAttribute("courses",scheduler);
 			model.addAttribute("groups", groups);
 			
-		} else {
+		} else { //build data model for finished courses
 			scheduler = studentCabinetService.getFinishedCourses();
 			model.addAttribute("courses", scheduler);
+			model.addAttribute("title", "Finished courses");
 		}
 			model.addAttribute("table", (table == null) ? "future" : table);
 		return "student";
 	}
-
+	/**
+	 * Handle modules request
+	 * @param courseId course identifier to show information about
+	 * @param model data model for view
+	 * @param session session with user information in it
+	 * @return view URL
+	 */
 	@RequestMapping(value = "/modules", method = RequestMethod.GET)
 	public String printModules(
 			@RequestParam(value = "courseId", required = true) Integer courseId, Model model, HttpSession session) {
 		try {
 		User user = (User) session.getAttribute("user");
 		int userId;
-		if (user == null) {
-			userId = 1;
-		} else {
-			userId = user.getId();
-		}
+		userId = user.getId();
 		List<Block> blocks = blockService.getBlocksBySubjectId(courseId);
 		Subject subject = subjectService.getSubjectById(courseId);
 		int courseSchedulerId = courseService.getCourseScheduleresBySubjectId(courseId).get(0).getId();
