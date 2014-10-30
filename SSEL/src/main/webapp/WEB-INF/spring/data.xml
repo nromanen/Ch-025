@@ -42,7 +42,7 @@
 	<!-- dataSource bean settings will be stored in a separate file -->
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
-		p:location="/WEB-INF/jdbc.properties"/>
+		p:location="classpath:jdbc.properties"/>
 
 	<!-- dataSource bean -->
 	<bean id="dataSource"

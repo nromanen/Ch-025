@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.softserve.entity.User;
 import com.softserve.form.Registration;
@@ -64,5 +66,15 @@ public class RegistrationController {
 			map.put("error", "userDisabled");
 		}
 		return "login";
+	}
+
+	@RequestMapping(value = "/registration_ajax", method = RequestMethod.POST, headers = { "content-type=application/json" })
+	public @ResponseBody boolean isEmailExist(
+			@RequestBody Map<String, Object> map) {
+		String email = (String) map.get("email");
+		if (email == null) {
+			return false;
+		}
+		return userService.isExist(email);
 	}
 }
