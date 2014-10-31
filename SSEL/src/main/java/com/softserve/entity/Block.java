@@ -41,7 +41,7 @@ public class Block implements Comparable<Topic>{
 	@JoinColumn(name = "id_subject", nullable = false)
 	private Subject subject;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy="block")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "block")
 	private Set<Topic> topics = new TreeSet<>();
 	
 	public Block() {
