@@ -12,7 +12,7 @@ import com.softserve.service.UserService;
 @Component
 public class ResetPasswordValidation implements Validator {
 
-	private static final String PASSWORD_PATTERN = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[//@/./&/!#/$%/^/*/?])(?!.*\\s).{5,20}$";
+	private static final String PASSWORD_PATTERN = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[//@/./&/!#/$%/^/*/?])(?!.*\\s).{4,20}$";
 	
 	@Autowired
 	private UserService userService;

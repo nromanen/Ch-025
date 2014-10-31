@@ -1,6 +1,6 @@
 package com.softserve.dao;
 
-import java.util.Set;
+import java.util.List;
 
 import com.softserve.entity.Role;
 
@@ -14,7 +14,7 @@ public interface RoleDao {
 
 	public void deleteRole(Role role);
 
-	public Set<Role> getAllRoles();
+	public List<Role> getAllRoles();
 	
 	public Role getRoleByName(String name);
 }

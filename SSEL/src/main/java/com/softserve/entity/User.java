@@ -1,8 +1,8 @@
 package com.softserve.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -61,10 +61,10 @@ public class User {
 	private Role role;
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="user")
-	private Set<Subject> subjects = new HashSet<>();
+	private List<Subject> subjects = new ArrayList<>();
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
-	private Set<StudentGroup> groups = new HashSet<>();
+	private List<StudentGroup> groups = new ArrayList<>();
 
 	public User() {
 	}
@@ -141,11 +141,11 @@ public class User {
 		this.role = role;
 	}
 
-	public Set<StudentGroup> getGroups() {
+	public List<StudentGroup> getGroups() {
 		return groups;
 	}
 
-	public void setGroups(Set<StudentGroup> groups) {
+	public void setGroups(List<StudentGroup> groups) {
 		this.groups = groups;
 	}
 
@@ -157,11 +157,11 @@ public class User {
 		this.verificationKey = verificationKey;
 	}
 
-	public Set<Subject> getSubjects() {
+	public List<Subject> getSubjects() {
 		return subjects;
 	}
 
-	public void setSubjects(Set<Subject> subjects) {
+	public void setSubjects(List<Subject> subjects) {
 		this.subjects = subjects;
 	}
 

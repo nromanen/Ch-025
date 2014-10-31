@@ -1,8 +1,7 @@
 package com.softserve.dao.impl;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -58,9 +57,9 @@ public class SubjectDaoImpl implements SubjectDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Set<Subject> getAllSubjects() {
+	public List<Subject> getAllSubjects() {
 		LOG.debug("Get all subjects");
-		Set<Subject> subjects = new HashSet<>();
+		List<Subject> subjects = new ArrayList<>();
 		subjects.addAll(entityManager.createQuery("FROM Subject")
 				.getResultList());
 		return subjects;

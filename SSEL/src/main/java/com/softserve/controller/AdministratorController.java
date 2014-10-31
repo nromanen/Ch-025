@@ -1,7 +1,10 @@
 package com.softserve.controller;
 
 import java.util.List;
-import java.util.Set;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.softserve.entity.Category;
 import com.softserve.entity.CourseScheduler;
+import com.softserve.entity.Log;
 import com.softserve.entity.Subject;
 import com.softserve.entity.User;
 import com.softserve.service.CategoryService;
 import com.softserve.service.CourseSchedulerService;
+import com.softserve.service.LogService;
 import com.softserve.service.StudentGroupService;
 import com.softserve.service.SubjectService;
 import com.softserve.service.UserService;
@@ -43,10 +48,13 @@ public class AdministratorController {
 	@Autowired
 	private CategoryService categoryService;
 
+	@Resource(name = "LogService")
+	private LogService logService;
+
 	@RequestMapping(value = "/administrator", method = RequestMethod.GET)
 	public String administrator(Model model) {
 		LOG.debug("Visit administrator page");
-		Set<Subject> subjects = subjectService.getAllSubjects();
+		List<Subject> subjects = subjectService.getAllSubjects();
 		List<CourseScheduler> courceScheduler = courceSchedulerService
 				.getAllCourseScheduleres();
 		List<User> users = userService.getAllUsers();
@@ -61,7 +69,7 @@ public class AdministratorController {
 			@RequestParam(value = "message", required = false) String message,
 			Model model) {
 		LOG.debug("Visit viewAllCategories page");
-		Set<Category> categories = categoryService.getAllCategories();
+		List<Category> categories = categoryService.getAllCategories();
 		model.addAttribute("categories", categories);
 		if (message != null) {
 			model.addAttribute("message", message);
@@ -113,20 +121,13 @@ public class AdministratorController {
 		return "viewAllUsers";
 	}
 
-	@RequestMapping(value = "/viewAllLogs", method = RequestMethod.GET)
-	public String viewAllLogs(Model model) {
-		LOG.debug("Visit viewAllLogs page");
-
-		return "viewAllLogs";
-	}
-
 	@RequestMapping(value = "/viewAllSubjects", method = RequestMethod.GET)
 	public String viewAllSubjects(
 			@RequestParam(value = "message", required = false) String message,
 			Model model) {
 		LOG.debug("Visit viewAllLogs page");
-		Set<Subject> subjects = subjectService.getAllSubjects();
-		Set<Category> categories = categoryService.getAllCategories();
+		List<Subject> subjects = subjectService.getAllSubjects();
+		List<Category> categories = categoryService.getAllCategories();
 		if (message != null) {
 			model.addAttribute("message", message);
 		}
@@ -152,9 +153,19 @@ public class AdministratorController {
 			subject.setCategory(category);
 			subjectService.updateSubject(subject);
 		} else {
-			model.addAttribute("message", "Can't change category, input parameters is invalid!");
+			model.addAttribute("message",
+					"Can't change category, input parameters is invalid!");
 		}
 
 		return "redirect:/viewAllSubjects";
+	}
+
+	@RequestMapping(value = "/viewAllLogs", method = RequestMethod.GET)
+	public String viewAllLogs(Model model, HttpServletRequest request) {
+		LOG.debug("Visit viewAllLogs page");
+		HttpSession session = request.getSession();
+		List<Log> logList = logService.getAllLogs();
+		session.setAttribute("logs", logList);
+		return "viewAllLogs";
 	}
 }

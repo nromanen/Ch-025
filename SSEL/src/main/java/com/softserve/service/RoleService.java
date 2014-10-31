@@ -1,6 +1,6 @@
 package com.softserve.service;
 
-import java.util.Set;
+import java.util.List;
 
 import com.softserve.entity.Role;
 
@@ -14,7 +14,7 @@ public interface RoleService {
 
 	public void deleteRole(Role role);
 
-	public Set<Role> getAllRoles();
+	public List<Role> getAllRoles();
 	
 	public Role getRoleByName(String name);
 }

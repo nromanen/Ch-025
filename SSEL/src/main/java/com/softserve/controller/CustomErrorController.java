@@ -15,5 +15,10 @@ class CustomErrorController {
         public String error403page() {
                 return "errorPages/error403";
         }
+        
+        @RequestMapping("error400")
+        public String error400page() {
+                return "errorPages/error400";
+        }
  
 }
