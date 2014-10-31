@@ -75,7 +75,10 @@ public class GuestController {
 			return "redirect:/teacher";
 		} else if (user.getRole().getRole().equals(User.Roles.STUDENT.toString())){
 			return "redirect:/student";
-		} else {
+		} else if (user.getRole().getRole().equals(User.Roles.ADMIN.toString())){
+			return "redirect:/administrator";
+		} 
+		else {
 			return "redirect:/";
 		}
 	}

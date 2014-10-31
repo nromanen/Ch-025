@@ -24,14 +24,10 @@
 			<ul class="nav">
 				<li><a href="administrator">Home</a></li>
 				<li><a href="viewAllCategories">View all categories</a></li>
+				<li><a href="viewAllSubjects">View all subjects</a></li>
 				<li><a href="viewAllUsers">View all users</a></li>
 				<li><a href="viewAllLogs">View all logs</a></li>
 			</ul>
-			<!-- /.nav-second-level -->
-			</li>
-
 		</div>
-		<!-- /.sidebar-collapse -->
 	</div>
-	<!-- /.navbar-static-side -->
 </nav>

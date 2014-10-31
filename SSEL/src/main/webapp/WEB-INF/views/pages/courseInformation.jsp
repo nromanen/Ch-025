@@ -58,21 +58,21 @@
 					</c:forEach>
 				</c:forEach>
 			</table>
-			<form method="GET" action="subscribe">
-				<c:if test="${sessionScope.user.role.role eq 'STUDENT'}">
+			<c:if test="${sessionScope.user.role.role eq 'STUDENT'}">
+				<form method="GET" action="subscribe">
 					<c:if test="${isSubscribe eq true}">
-						<button value="${subject.id}" name="subjectId" class="btn-success"
-							style="border-radius: 5px; margin-top: 8px;">Subscribe
+						<button value="${subject.id}" name="subjectId"
+							class="btn btn-success" style="width: 200px; margin-top: 8px;">Subscribe
 							to course</button>
 					</c:if>
 					<c:if test="${isSubscribe eq false}">
-						<button value="${subject.id}" name="subjectId" class="btn-success"
-							style="border-radius: 5px; margin-top: 8px;">Unsubscribe
-							form course</button>
+						<button value="${subject.id}" name="subjectId"
+							class="btn btn-warning" style="width: 200px; margin-top: 8px;">Unsubscribe
+							from course</button>
 					</c:if>
-				</c:if>
-				<input type="hidden" name="op" value="${isSubscribe}">
-			</form>
+					<input type="hidden" name="op" value="${isSubscribe}">
+				</form>
+			</c:if>
 		</div>
 	</div>
 </div>

@@ -36,10 +36,10 @@ public class AdministratorController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private CourseSchedulerService courceSchedulerService;
-	
+
 	@Autowired
 	private CategoryService categoryService;
 
@@ -47,62 +47,114 @@ public class AdministratorController {
 	public String administrator(Model model) {
 		LOG.debug("Visit administrator page");
 		Set<Subject> subjects = subjectService.getAllSubjects();
-		List<CourseScheduler> courceScheduler = courceSchedulerService.getAllCourseScheduleres();
+		List<CourseScheduler> courceScheduler = courceSchedulerService
+				.getAllCourseScheduleres();
 		List<User> users = userService.getAllUsers();
 		model.addAttribute("subjects", subjects.size());
 		model.addAttribute("courceScheduler", courceScheduler.size());
 		model.addAttribute("users", users.size());
 		return "administrator";
 	}
-	
+
 	@RequestMapping(value = "/viewAllCategories", method = RequestMethod.GET)
-	public String viewAllCategories(Model model) {
+	public String viewAllCategories(
+			@RequestParam(value = "message", required = false) String message,
+			Model model) {
 		LOG.debug("Visit viewAllCategories page");
 		Set<Category> categories = categoryService.getAllCategories();
 		model.addAttribute("categories", categories);
+		if (message != null) {
+			model.addAttribute("message", message);
+		}
 		return "viewAllCategories";
 	}
-	
+
 	@RequestMapping(value = "/deleteCategory", method = RequestMethod.GET)
 	public String deleteCategory(
-			@RequestParam(value = "categoryId", required = false) Integer categoryId, Model model) {
+			@RequestParam(value = "categoryId", required = false) Integer categoryId,
+			Model model) {
 		LOG.debug("Visit viewAllCategories page");
 		if (categoryId != null) {
-		Category category = categoryService.getCategoryById(categoryId);
-		categoryService.deleteCategory(category);
+			Category category = categoryService.getCategoryById(categoryId);
+			model.addAttribute("message", "You are delete category: "
+					+ category.getName());
+			categoryService.deleteCategory(category);
 		}
-		Set<Category> categories =categoryService.getAllCategories();
-//		List<Category> list = new ArrayList<Category>(categories);
-//		Collections.sort(list,Collections.reverseOrder());
-		model.addAttribute("categories", categories);
+		// will be delete?
+		// Set<Category> categories = categoryService.getAllCategories();
+		// List<Category> list = new ArrayList<Category>(categories);
+		// Collections.sort(list,Collections.reverseOrder());
+		// model.addAttribute("categories", categories);
 		return "redirect:/viewAllCategories";
 	}
-	
+
 	@RequestMapping(value = "/addCategory", method = RequestMethod.GET)
-	public String viewAllCategories(
-			@RequestParam(value = "category", required = false) String category, Model model) {
+	public String addCategory(
+			@RequestParam(value = "category", required = false) String category,
+			Model model) {
 		LOG.debug("Visit viewAllCategories page");
-		if (category != "" && category != null ) {
-		Category newCategory = new Category();
-		newCategory.setName(category);
-		categoryService.addCategory(newCategory);
-		Set<Category> categories =categoryService.getAllCategories();
-		model.addAttribute("categories", categories);
+		if (category != "" && category != null) {
+			Category newCategory = new Category();
+			newCategory.setName(category);
+			categoryService.addCategory(newCategory);
+			// will be delete?
+			// Set<Category> categories = categoryService.getAllCategories();
+			// model.addAttribute("categories", categories);
+			// model.addAttribute("message", "You are add category: " +
+			// category);
 		}
 		return "redirect:/viewAllCategories";
 	}
-	
+
 	@RequestMapping(value = "/viewAllUsers", method = RequestMethod.GET)
 	public String viewAllUsers(Model model) {
 		LOG.debug("Visit viewAllUsers page");
-		
+
 		return "viewAllUsers";
 	}
-	
+
 	@RequestMapping(value = "/viewAllLogs", method = RequestMethod.GET)
 	public String viewAllLogs(Model model) {
 		LOG.debug("Visit viewAllLogs page");
-		
+
 		return "viewAllLogs";
+	}
+
+	@RequestMapping(value = "/viewAllSubjects", method = RequestMethod.GET)
+	public String viewAllSubjects(
+			@RequestParam(value = "message", required = false) String message,
+			Model model) {
+		LOG.debug("Visit viewAllLogs page");
+		Set<Subject> subjects = subjectService.getAllSubjects();
+		Set<Category> categories = categoryService.getAllCategories();
+		if (message != null) {
+			model.addAttribute("message", message);
+		}
+		model.addAttribute("categories", categories);
+		model.addAttribute("subjects", subjects);
+		return "viewAllSubjects";
+	}
+
+	@RequestMapping(value = "/changeSubjectCategory", method = RequestMethod.GET)
+	public String changeSubjectCategory(
+			@RequestParam(value = "subjectId", required = false) Integer subjectId,
+			@RequestParam(value = "categoryId", required = false) Integer categoryId,
+			Model model) {
+		LOG.debug("Visit changeSubjectCategory page");
+		if (subjectId != null && categoryId != null) {
+			Subject subject = subjectService.getSubjectById(subjectId);
+			Category category = categoryService.getCategoryById(categoryId);
+			model.addAttribute("message",
+					"You are change <b>" + subject.getName()
+							+ "</b> category ftom <b>"
+							+ subject.getCategory().getName() + "</b> to <b>"
+							+ category.getName() + "</b>");
+			subject.setCategory(category);
+			subjectService.updateSubject(subject);
+		} else {
+			model.addAttribute("message", "Can't change category, input parameters is invalid!");
+		}
+
+		return "redirect:/viewAllSubjects";
 	}
 }
