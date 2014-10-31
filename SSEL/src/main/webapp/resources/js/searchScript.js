@@ -1,5 +1,4 @@
 var isUsed = false; 
-
 function searchSubjects() {
 	var searchText = $("#searchInput").val();
 	var reg = new RegExp(searchText, "i");

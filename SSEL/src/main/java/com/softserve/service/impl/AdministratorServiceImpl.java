@@ -16,6 +16,10 @@ public class AdministratorServiceImpl implements AdministratorService {
 
 	}
 	
+	public AdministratorServiceImpl(List<CourseScheduler> courseSchedulers) {
+		this.subscribedCourses = courseSchedulers;
+	}
+	
 	@Override
 	public List<CourseScheduler> getActiveCourses() {
 		Date currentDate = new Date();
