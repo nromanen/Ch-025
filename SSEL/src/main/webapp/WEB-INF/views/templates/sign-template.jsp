@@ -17,6 +17,7 @@
 <script src="<c:url value="/resources/js/bootstrap.min.js" />"></script>
 <script src="<c:url value="/resources/js/plugins/metisMenu/metisMenu.min.js" />"></script>
 <script src="<c:url value="/resources/js/sb-admin-2.js" />"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/localization.js" />"></script>
 
 <title><tiles:getAsString name="title" /></title>
 </head>
