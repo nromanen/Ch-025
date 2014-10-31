@@ -27,135 +27,146 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
  */
 @Entity
 @Table(name = "files")
-/*@NamedQueries({
-    @NamedQuery(name = "files", query = "select sd from StudyDocument sd order by sd.id")
-})*/
-//@JsonIgnoreProperties({"id","newFilename","contentType","dateCreated","lastUpdated"})
+/*
+ * @NamedQueries({
+ * 
+ * @NamedQuery(name = "files", query =
+ * "select sd from StudyDocument sd order by sd.id") })
+ */
+// @JsonIgnoreProperties({"id","newFilename","contentType","dateCreated","lastUpdated"})
 public class StudyDocument implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	@Column(name = "name")
-    private String name;
-    @Column(name = "newFilename")
-    private String newFilename;
-    @Column(name = "contentType")
-    private String contentType;
-    @Column(name = "size_")
-    private Long size;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dateCreated;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date lastUpdated;
-    @Column(name = "DATA", unique = false, nullable = false, length = 100000)
-    private byte[] data;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	private String name;
+	@Column(name = "newFilename")
+	private String newFilename;
+	@Column(name = "contentType")
+	private String contentType;
+	@Column(name = "size_")
+	private Long size;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dateCreated;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date lastUpdated;
+	@Column(name = "DATA", unique = false, nullable = false, length = 100000)
+	private byte[] data;
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "id_topic", nullable = true)
 	private Topic topic;
-    
-    public StudyDocument() {}
 
-    /**
-     * @return the id
-     */
-    public Long getId() {
-        return id;
-    }
+	public StudyDocument() {
+	}
 
-    /**
-     * @param id the id to set
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
 
-    /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
+	/**
+	 * @param id
+	 *            the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    /**
-     * @param name the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
 
-    /**
-     * @return the newFilename
-     */
-    public String getNewFilename() {
-        return newFilename;
-    }
+	/**
+	 * @param name
+	 *            the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    /**
-     * @param newFilename the newFilename to set
-     */
-    public void setNewFilename(String newFilename) {
-        this.newFilename = newFilename;
-    }
+	/**
+	 * @return the newFilename
+	 */
+	public String getNewFilename() {
+		return newFilename;
+	}
 
-    /**
-     * @return the contentType
-     */
-    public String getContentType() {
-        return contentType;
-    }
+	/**
+	 * @param newFilename
+	 *            the newFilename to set
+	 */
+	public void setNewFilename(String newFilename) {
+		this.newFilename = newFilename;
+	}
 
-    /**
-     * @param contentType the contentType to set
-     */
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
-    }
+	/**
+	 * @return the contentType
+	 */
+	public String getContentType() {
+		return contentType;
+	}
 
-    /**
-     * @return the size
-     */
-    public Long getSize() {
-        return size;
-    }
+	/**
+	 * @param contentType
+	 *            the contentType to set
+	 */
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
+	}
 
-    /**
-     * @param size the size to set
-     */
-    public void setSize(Long size) {
-        this.size = size;
-    }
+	/**
+	 * @return the size
+	 */
+	public Long getSize() {
+		return size;
+	}
 
-    /**
-     * @return the dateCreated
-     */
-    public Date getDateCreated() {
-        return dateCreated;
-    }
+	/**
+	 * @param size
+	 *            the size to set
+	 */
+	public void setSize(Long size) {
+		this.size = size;
+	}
 
-    /**
-     * @param dateCreated the dateCreated to set
-     */
-    public void setDateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
-    }
+	/**
+	 * @return the dateCreated
+	 */
+	public Date getDateCreated() {
+		return dateCreated;
+	}
 
-    /**
-     * @return the lastUpdated
-     */
-    public Date getLastUpdated() {
-        return lastUpdated;
-    }
+	/**
+	 * @param dateCreated
+	 *            the dateCreated to set
+	 */
+	public void setDateCreated(Date dateCreated) {
+		this.dateCreated = dateCreated;
+	}
 
-    /**
-     * @param lastUpdated the lastUpdated to set
-     */
-    public void setLastUpdated(Date lastUpdated) {
-        this.lastUpdated = lastUpdated;
-    }
+	/**
+	 * @return the lastUpdated
+	 */
+	public Date getLastUpdated() {
+		return lastUpdated;
+	}
 
-    /**
+	/**
+	 * @param lastUpdated
+	 *            the lastUpdated to set
+	 */
+	public void setLastUpdated(Date lastUpdated) {
+		this.lastUpdated = lastUpdated;
+	}
+
+	/**
 	 * @return the data
 	 */
 	public byte[] getData() {
@@ -163,7 +174,8 @@ public class StudyDocument implements Serializable {
 	}
 
 	/**
-	 * @param data the data to set
+	 * @param data
+	 *            the data to set
 	 */
 	public void setData(byte[] data) {
 		this.data = data;
@@ -177,15 +189,16 @@ public class StudyDocument implements Serializable {
 	}
 
 	/**
-	 * @param topic the topic to set
+	 * @param topic
+	 *            the topic to set
 	 */
 	public void setTopic(Topic topic) {
 		this.topic = topic;
 	}
 
 	@Override
-    public String toString() {
-        return "Image{" + "name=" + name + ", newFilename=" + newFilename + ", contentType=" + contentType + '}';
-    }
+	public String toString() {
+		return "Image{" + "name=" + name + ", newFilename=" + newFilename + ", contentType=" + contentType + '}';
+	}
 
 }

@@ -12,6 +12,8 @@ import com.softserve.service.UserService;
 @Component
 public class ResetPasswordValidation implements Validator {
 
+	private static final String PASSWORD_PATTERN = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[//@/./&/!#/$%/^/*/?])(?!.*\\s).{4,20}$";
+	
 	@Autowired
 	private UserService userService;
 
@@ -37,6 +39,14 @@ public class ResetPasswordValidation implements Validator {
 
 		if (userService.getUserByKey(resetPassword.getKey()) == null) {
 			errors.rejectValue("key", "dataerror.key_not_found");
+		}
+		
+		if (!resetPassword.getPassword().matches(PASSWORD_PATTERN)) {
+			errors.rejectValue("password", "dataerror.password_pattern");
+		}
+		
+		if (resetPassword.getPassword().length() < 4) {
+			errors.rejectValue("password", "dataerror.minimum_4_characters");
 		}
 	}
 

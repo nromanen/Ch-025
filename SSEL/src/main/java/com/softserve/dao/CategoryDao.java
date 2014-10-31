@@ -1,6 +1,6 @@
 package com.softserve.dao;
 
-import java.util.Set;
+import java.util.List;
 
 import com.softserve.entity.Category;
 
@@ -12,7 +12,7 @@ public interface CategoryDao {
 
 	public void deleteCategory(Category category);
 
-	public Set<Category> getAllCategories();
+	public List<Category> getAllCategories();
 
 	public Category getCategoryById(int id);
 }

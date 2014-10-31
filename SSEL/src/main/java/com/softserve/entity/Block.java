@@ -1,8 +1,8 @@
 package com.softserve.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -41,8 +41,8 @@ public class Block implements Comparable<Topic>{
 	@JoinColumn(name = "id_subject", nullable = false)
 	private Subject subject;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "block")
-	private Set<Topic> topics = new TreeSet<>();
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="block")
+	private List<Topic> topics = new ArrayList<>();
 	
 	public Block() {
 	}
@@ -71,11 +71,11 @@ public class Block implements Comparable<Topic>{
 		this.subject = subject;
 	}
 
-	public Set<Topic> getTopics() {
+	public List<Topic> getTopics() {
 		return topics;
 	}
 
-	public void setTopics(Set<Topic> topics) {
+	public void setTopics(List<Topic> topics) {
 		this.topics = topics;
 	}
 

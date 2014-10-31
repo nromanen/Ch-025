@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
 <div class="row">
@@ -24,7 +25,9 @@
 					<div>Category: ${subj.category.name}</div>
 					<c:forEach items="${schedule}" var="schedule">
 						<c:if test="${schedule.subject.id eq subj.id}">
-							<div>Start time: ${schedule.start} </div>
+							<div>Start date: 
+							<fmt:formatDate pattern='dd-MM-yyyy' value='${schedule.start}' /> 
+							</div>
 						</c:if>
 					</c:forEach>
 				</div>
