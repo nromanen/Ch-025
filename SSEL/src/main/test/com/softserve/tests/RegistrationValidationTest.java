@@ -2,7 +2,8 @@ package com.softserve.tests;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -12,13 +13,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-import org.mockito.Mockito;
 import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.Errors;
+import org.springframework.validation.BindingResult;
 
 import com.softserve.form.Registration;
 import com.softserve.service.UserService;
-import com.softserve.service.impl.UserServiceImpl;
 import com.softserve.validator.RegistrationValidation;
 
 @RunWith(Parameterized.class)
@@ -26,7 +25,7 @@ public class RegistrationValidationTest {
 	
 	private RegistrationValidation registrationValidation = new RegistrationValidation();
 	private Registration registration = new Registration();
-	private UserService userService = new UserServiceImpl();
+	private UserService userService;
 	
 	public RegistrationValidationTest(String firstName, String lastName, 
 			String email, String password) {
@@ -34,6 +33,7 @@ public class RegistrationValidationTest {
 		registration.setEmail(email);
 		registration.setLastName(lastName);
 		registration.setFirstName(firstName);
+		registration.setPassword(password);
 	}
 	
     @Parameters
@@ -57,14 +57,12 @@ public class RegistrationValidationTest {
 	
 	@Before
 	public void setUp() {
-		registrationValidation = mock(RegistrationValidation.class);
-		registration = mock(Registration.class);
 		userService = mock(UserService.class);
+		registrationValidation.setUserService(userService);
 	}
 	
 	@Test
 	public void testSupports() {
-		when(registrationValidation.supports(Registration.class)).thenReturn(true);
 		assertTrue(registrationValidation.supports(Registration.class));
 	}
 	
@@ -76,10 +74,8 @@ public class RegistrationValidationTest {
 	@Test
 	public void testHasErrors() {
 		when(userService.isExist(registration.getEmail())).thenReturn(true);
-		//assertTrue(userService.isExist(registration.getEmail()));
-		Errors errors = new BeanPropertyBindingResult(registration, "registration");
-		doCallRealMethod().when(registrationValidation).validate(registration, errors);
-		//when(registrationValidation.validate(registration, errors)).thenReturn(true);
+		BindingResult errors = new BeanPropertyBindingResult(registration, "registration");
+		registrationValidation.validate(registration, errors);
         assertTrue(errors.hasErrors());
 	}
 
