@@ -78,19 +78,17 @@
 	<div class="navbar-default sidebar" role="navigation">
 		<div class="sidebar-nav navbar-collapse">
 			<ul class="nav" id="side-menu">
-				<li class="sidebar-search">
+				<li><a href="#"><i class="fa fa-sitemap fa-fw"></i>
+					<spring:message code="label.all_cources" /><span class="fa arrow"></span></a>
 					<ul class="nav nav-second-level"  id="listCat">
 						<c:forEach items="${catList}" var="cat">
 							<li><a href="#"> ${cat.name} <span class="fa arrow"></span></a>
 								<ul class="nav nav-third-level" id="listSubj">
 									<c:forEach items="${cat.subjects}" var="subj">
-										<li class="link">
-											<a href="course?subjectId=${subj.id}"
-												style="color: #428bca;"> ${subj.name}</a>
-										</li>
+										<li class="link"><a href="course?subjectId=${subj.id}"
+											style="color: #428bca;"> ${subj.name}</a></li>
 									</c:forEach>
 								</ul>
-							</li>
 						</c:forEach>
 					</ul>
 				</li>
