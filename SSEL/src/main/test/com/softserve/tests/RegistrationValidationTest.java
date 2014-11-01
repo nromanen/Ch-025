@@ -2,29 +2,58 @@ package com.softserve.tests;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+
+import java.util.Arrays;
+import java.util.Collection;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
+import org.mockito.Mockito;
 import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 
 import com.softserve.form.Registration;
 import com.softserve.service.UserService;
+import com.softserve.service.impl.UserServiceImpl;
 import com.softserve.validator.RegistrationValidation;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(Parameterized.class)
 public class RegistrationValidationTest {
 	
 	private RegistrationValidation registrationValidation = new RegistrationValidation();
 	private Registration registration = new Registration();
-	private UserService userService;
-	private BindException errors;
+	private UserService userService = new UserServiceImpl();
 	
+	public RegistrationValidationTest(String firstName, String lastName, 
+			String email, String password) {
+		registration.setConfirmPassword(password);
+		registration.setEmail(email);
+		registration.setLastName(lastName);
+		registration.setFirstName(firstName);
+	}
+	
+    @Parameters
+    public static Collection<Object[]> data() {
+    	Object[][] data = new Object[][] {
+    			{
+    				"Fsd", "Fdsfsd", "gdfgfdg@gmail.com", "fdsFd54fd"
+    			},
+    			{
+    				"fdsfs545dfsd", "fdsfsd//fsd", "fsdfds@fsdfs", "fsdfsdf54"
+    			}, 
+    			{
+    				"fdsfsdf54353sd", "fdsffdsf&**/sdfsdfsd", "fsdf45fds@fsd34fs", "fsdffsd4sdf54"
+    			},
+    			{
+    				"", "", "", ""
+    			}
+    	};
+    	return Arrays.asList(data);
+    }
 	
 	@Before
 	public void setUp() {
@@ -46,16 +75,12 @@ public class RegistrationValidationTest {
 	
 	@Test
 	public void testHasErrors() {
-		registration.setConfirmPassword("gdfgf45tfdf");
-		registration.setEmail("fdsfdssfdsfds54353fd");
-		registration.setFirstName("fsdfsdfsd");
-		registration.setLastName("fdsfsdf");
-		registration.setPassword("fsdfdsfsdfsd534543fdf");
 		when(userService.isExist(registration.getEmail())).thenReturn(true);
-		assertTrue(userService.isExist(registration.getEmail()));
+		//assertTrue(userService.isExist(registration.getEmail()));
 		Errors errors = new BeanPropertyBindingResult(registration, "registration");
-        registrationValidation.validate(registration, errors);
-        assertFalse(errors.hasErrors());
+		doCallRealMethod().when(registrationValidation).validate(registration, errors);
+		//when(registrationValidation.validate(registration, errors)).thenReturn(true);
+        assertTrue(errors.hasErrors());
 	}
 
 }
