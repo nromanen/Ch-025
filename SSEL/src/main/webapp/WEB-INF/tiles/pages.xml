@@ -14,6 +14,13 @@
 			value="/WEB-INF/views/templates/index_menu.jsp"></put-attribute>
 	</definition>
 
+	<!-- Profile -->
+	<definition name="profile" extends="sign-template">
+		<put-attribute name="title" value="SSEL SoftServeAcademy Profile" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/profile.jsp" />
+	</definition>
+
 	<!-- Registration -->
 	<definition name="registration" extends="sign-template">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Registration" />

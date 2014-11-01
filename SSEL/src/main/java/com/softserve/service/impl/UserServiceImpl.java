@@ -83,23 +83,27 @@ public class UserServiceImpl implements UserService {
 		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(
 				PASSWORD_STRENGTH);
 		User user = new User();
-
 		user.setEmail(registration.getEmail().trim());
 		user.setPassword(passwordEncoder.encode(registration.getPassword()));
 		user.setBlocked(true);
 		user.setFirstName(registration.getFirstName().trim());
 		user.setLastName(registration.getLastName().trim());
 		user.setRegistration(new Date());
-		user.setRole(roleService.getRoleByName(Roles.STUDENT.toString()));
 		user.setExpired(new Date());
 		user.setVerificationKey(passwordEncoder.encode(registration.getEmail()));
-		String url = request.getRequestURL().toString();
-		url.replaceAll(request.getServletPath(), "/");
-		String message = "Thank you for registration.<br>Please confirm your email by clicking next link: ";
-		url = url + "/confirm?key=" + user.getVerificationKey();
-		message += "<a href=\"" + url + "\">" + url + "</a>";
 
-		mailService.sendMail(user.getEmail(), "SSEL registration", message);
+		if (!registration.isTeacher()) {
+			user.setRole(roleService.getRoleByName(Roles.STUDENT.toString()));
+			String url = request.getRequestURL().toString();
+			url.replaceAll(request.getServletPath(), "/");
+			String message = "Thank you for registration.<br>Please confirm your email by clicking next link: ";
+			url = url + "/confirm?key=" + user.getVerificationKey();
+			message += "<a href=\"" + url + "\">" + url + "</a>";
+			mailService.sendMail(user.getEmail(), "SSEL registration", message);
+		} else {
+			user.setRole(roleService.getRoleByName(Roles.TEACHER.toString()));
+		}
+
 		userDao.addUser(user);
 	}
 
@@ -134,4 +138,26 @@ public class UserServiceImpl implements UserService {
 		userDao.updateUser(user);
 	}
 
+	@Override
+	@Transactional
+	public String getEncoderPassword(String password) {
+		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(
+				PASSWORD_STRENGTH);
+		return passwordEncoder.encode(password);
+	}
+	
+	@Override
+	@Transactional
+	public boolean isEqualsPasswords(String password, User user) {
+		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(
+				PASSWORD_STRENGTH);
+		return passwordEncoder.matches(password, user.getPassword());
+	}
+
+	@Override
+	@Transactional
+	public void changePasswrod(User user, String password) {
+		user.setPassword(getEncoderPassword(password));
+		userDao.updateUser(user);
+	}
 }

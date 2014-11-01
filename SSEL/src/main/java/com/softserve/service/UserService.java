@@ -31,4 +31,10 @@ public interface UserService {
 	public void remindPassword(User user, HttpServletRequest request);
 	
 	public void restorePassword(User user, ResetPassword resetPassword);
+	
+	public String getEncoderPassword(String password);
+	
+	public void changePasswrod(User user, String password);
+	
+	public boolean isEqualsPasswords(String password, User user);
 }

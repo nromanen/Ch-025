@@ -8,6 +8,7 @@ public class Registration {
 	private String confirmPassword;
 	private String firstName;
 	private String lastName;
+	private boolean teacher;
 
 	public Registration() {
 
@@ -52,5 +53,12 @@ public class Registration {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+	
+	public boolean isTeacher() {
+		return teacher;
+	}
 
+	public void setTeacher(boolean teacher) {
+		this.teacher = teacher;
+	}
 }
