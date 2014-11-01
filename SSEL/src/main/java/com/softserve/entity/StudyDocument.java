@@ -33,7 +33,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
  * @NamedQuery(name = "files", query =
  * "select sd from StudyDocument sd order by sd.id") })
  */
-@JsonIgnoreProperties({"id","newFilename","contentType","dateCreated","lastUpdated","topic"})
+@JsonIgnoreProperties({"id","newFilename","data","contentType","dateCreated","lastUpdated","topic"})
 public class StudyDocument implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -52,11 +52,15 @@ public class StudyDocument implements Serializable {
 	private Date dateCreated;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastUpdated;
-	@Column(name = "DATA", unique = false, nullable = false, length = 100000)
+	@Column(name = "DATA", unique = false, nullable = false)
 	private byte[] data;
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "id_topic", nullable = true)
 	private Topic topic;
+    @Transient
+    private String url;
+    @Transient
+    private String deleteUrl;
 
 	public StudyDocument() {
 	}
@@ -194,6 +198,34 @@ public class StudyDocument implements Serializable {
 	 */
 	public void setTopic(Topic topic) {
 		this.topic = topic;
+	}
+
+	/**
+	 * @return the url
+	 */
+	public String getUrl() {
+		return url;
+	}
+
+	/**
+	 * @param url the url to set
+	 */
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	/**
+	 * @return the deleteUrl
+	 */
+	public String getDeleteUrl() {
+		return deleteUrl;
+	}
+
+	/**
+	 * @param deleteUrl the deleteUrl to set
+	 */
+	public void setDeleteUrl(String deleteUrl) {
+		this.deleteUrl = deleteUrl;
 	}
 
 	@Override

@@ -11,9 +11,13 @@ public interface StudyDocumentDao {
     
     public List<StudyDocument> list();
     
+    public List<StudyDocument> listByTopicId(int id);
+    
     public StudyDocument create(StudyDocument sfile);
     
     public StudyDocument get(Long id);
     
     public void delete(StudyDocument sfile);
+    
+    public void delete(Long id);
 }

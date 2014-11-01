@@ -25,7 +25,23 @@
 					name="topicName" value="${topic.name}">
 				<p class="help-block">Input or edit topic name</p>
 			</div>
-
+			<div class="form-group">
+				<label>Select module</label> <select class="form-control"
+					name="blockId">
+					<c:forEach items="${blockList}" var="block">
+						<c:choose>
+							<c:when test="${topic.block.id == block.id}">
+								<option selected value="${block.id}">Module
+									${block.order}. ${block.name}</option>
+							</c:when>
+							<c:otherwise>
+								<option value="${block.id}">Module
+									${block.order}.${block.name}</option>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+				</select>
+			</div>
 			<div class="form-group">
 				<label>Topic order</label> <input class="form-control" size=10
 					name="topicOrder" value="${topic.order}">
@@ -51,28 +67,11 @@
 				// instance, using default configuration.
 				CKEDITOR.replace('topicContent');
 			</script>
-			<br>
 
 
 
 
-			<div class="form-group">
-				<label>Select module</label> <select class="form-control"
-					name="blockId">
-					<c:forEach items="${blockList}" var="block">
-						<c:choose>
-							<c:when test="${topic.block.id == block.id}">
-								<option selected value="${block.id}">Module
-									${block.order}. ${block.name}</option>
-							</c:when>
-							<c:otherwise>
-								<option value="${block.id}">Module
-									${block.order}.${block.name}</option>
-							</c:otherwise>
-						</c:choose>
-					</c:forEach>
-				</select>
-			</div>
+
 
 			<br> <input type="submit" class="btn btn-primary btn-lg"
 				value="Save">
@@ -99,17 +98,10 @@
 			<!-- The fileinput-button span is used to style the file input field as button -->
 			<span class="btn btn-success fileinput-button"> <i
 				class="glyphicon glyphicon-plus"></i> <span>Add files...</span> <input
-				type="file" name="files[]" multiple>
+				type="file" id="btnAdd" name="files[]" multiple>
 			</span>
-			<button type="submit" class="btn btn-primary start">
+			<button type="submit" class="btn btn-primary start" id="btnStart">
 				<i class="glyphicon glyphicon-upload"></i> <span>Start upload</span>
-			</button>
-			<button type="reset" class="btn btn-warning cancel">
-				<i class="glyphicon glyphicon-ban-circle"></i> <span>Cancel
-					upload</span>
-			</button>
-			<button type="button" class="btn btn-danger delete">
-				<i class="glyphicon glyphicon-trash"></i> <span>Delete</span>
 			</button>
 
 			<!-- The global file processing state -->
@@ -130,11 +122,22 @@
 	<table role="presentation" class="table table-striped">
 		<tbody class="files"></tbody>
 	</table>
+	<input type="hidden" value="${topic.id}" name="topicId">
 </form>
 <br>
+<script type="text/javascript">
+<!--
+-->
 
+$("#btnStart").hide();
+$("#btnAdd").click(function() {
+	$("#btnStart").show();
+});
+
+</script>
 <!-- The template to display files available for upload -->
 <script id="template-upload" type="text/x-tmpl">
+
 {% for (var i=0, file; file=o.files[i]; i++) { %}
     <tr class="template-upload fade">
         <td>
@@ -149,18 +152,13 @@
             <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
         </td>
         <td>
-            {% if (!i && !o.options.autoUpload) { %}
+            
                 <button class="btn btn-primary start">
                     <i class="glyphicon glyphicon-upload"></i>
                     <span>Start</span>
                 </button>
-            {% } %}
-            {% if (!i) { %}
-                <button class="btn btn-warning cancel">
-                    <i class="glyphicon glyphicon-ban-circle"></i>
-                    <span>Cancel</span>
-                </button>
-            {% } %}
+            
+           
         </td>
     </tr>
 {% } %}
@@ -186,11 +184,11 @@
         </td>
         <td>
             {% if (file.deleteUrl) { %}
-                <button class="btn btn-danger delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
+                <button class="btn btn-danger delete" data-type="DELETE" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
                     <i class="glyphicon glyphicon-trash"></i>
                     <span>Delete</span>
                 </button>
-                <input type="checkbox" name="delete" value="1" class="toggle">
+
             {% } else { %}
                 <button class="btn btn-warning cancel">
                     <i class="glyphicon glyphicon-ban-circle"></i>
@@ -226,4 +224,9 @@
 <!-- The main application script -->
 <script src="resources/js/main.js"></script>
 
+<script type="text/javascript">
 
+<!--
+
+//-->
+</script>
