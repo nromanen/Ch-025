@@ -21,13 +21,13 @@ import com.softserve.service.UserService;
 import com.softserve.validator.RegistrationValidation;
 
 @RunWith(Parameterized.class)
-public class RegistrationValidationTest {
+public class RegistrationValidationTest2 {
 	
 	private RegistrationValidation registrationValidation = new RegistrationValidation();
 	private Registration registration = new Registration();
 	private UserService userService;
 	
-	public RegistrationValidationTest(String firstName, String lastName, 
+	public RegistrationValidationTest2(String firstName, String lastName, 
 			String email, String password, String confirmPassword) {
 		registration.setFirstName(firstName);
 		registration.setLastName(lastName);
@@ -40,32 +40,28 @@ public class RegistrationValidationTest {
     public static Collection<Object[]> data() {
     	Object[][] data = new Object[][] {
     			{
-    				"Fsd", "Fdsfsd", "gdfgfdg@gmail.com", "fdsFd54fd", "fsdfsd"
+    				"Fsd", "Fdsfsd", "gdfgfdg@gmail.com", "fdsFd54fd*&", "fdsFd54fd*&"
     			},
     			{
-    				"fdsfs545dfsd", "fdsfsd//fsd", "fsdfds@fsdfs", "fsdfsdf54", "fsdfsdf54"
-    			}, 
-    			{
-    				"Fdsfsdf54353sd", "fdsffdsf&**/sdfsdfsd", "fsdf45fds@fsd34fs", 
-    				"fsdffsd4sdf54", "fsdffsd4sdf54*5%%"
+    				"Fsd", "Fdsfsd", "Fdfg43fdg@gmail23.com", "fdsFd54fd*&", "fdsFd54fd*&"
     			},
     			{
-    				"", "", "", "", ""
+    				"Fsd", "Fdsfsd", "gdfg_fdg@gmail.com", "fdsFd54fd//*&", "fdsFd54fd//*&"
     			},
     			{
-    				"fds", "fd", "fsdf45fds@fsd34fs.com", "fsd", "fsd"
+    				"Fsd", "Fdsfsd", "gdfgf.dg@gmail.com", "12fdsF//d54fd*&", "12fdsF//d54fd*&"
     			},
     			{
-    				"Fdsfsdf54353sd", "fdsffdsf&**/sdfsdfsd", "fsdf45fds@fsd34fs",
-    				"fsdffsd4sdf54", "fsdffsd4sdf54"
+    				"Вася", "Пупкін", "vasya.pupkin@mail.ru", "fdsFd54fd*&", "fdsFd54fd*&"
     			},
     			{
-    				"FdsfFd53sd", "FdsffdFfdsdfsdfsd", "fsdf45fds@fsd34fs", 
-    				"fsdffsd4sdf54dfs43fd**fds?fds", "fsdffsd4sdf54dfs43fd**fds?fds"
+    				"Іван", "Іваненко", "vanya@yahoo.com", "QweFrty34*&", "QweFrty34*&"
     			},
     			{
-    				"Fdsfsd%sd", "fdsffdsf&**/sdfsdfsd", "fsdf45fds@fsd34fs", 
-    				"Fsdffsd4sdf54", "fsdffsd4sdf54"
+    				"Fdsds", "Brbrbf", "VasYa@gmail.com", "f--dsfdFd54fd*&", "f--dsfdFd54fd*&"
+    			},
+    			{
+    				"Fsd", "Fdsfsd", "gdfg_111@gmail.com", "f&fdfdsFd54fd*&", "f&fdfdsFd54fd*&"
     			}
     	};
     	return Arrays.asList(data);
@@ -89,10 +85,10 @@ public class RegistrationValidationTest {
 	
 	@Test
 	public void testHasErrors() {
-		when(userService.isExist(registration.getEmail())).thenReturn(true);
+		when(userService.isExist(registration.getEmail())).thenReturn(false);
 		BindingResult errors = new BeanPropertyBindingResult(registration, "registration");
 		registrationValidation.validate(registration, errors);
-        assertTrue(errors.hasErrors());
+        assertFalse(errors.hasErrors());
 	}
 
 }
