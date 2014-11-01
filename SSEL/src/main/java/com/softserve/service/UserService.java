@@ -37,4 +37,6 @@ public interface UserService {
 	public void changePasswrod(User user, String password);
 	
 	public boolean isEqualsPasswords(String password, User user);
+	
+	public String getCurrentUser();
 }

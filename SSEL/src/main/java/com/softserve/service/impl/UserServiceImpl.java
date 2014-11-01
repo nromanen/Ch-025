@@ -6,6 +6,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -145,7 +147,7 @@ public class UserServiceImpl implements UserService {
 				PASSWORD_STRENGTH);
 		return passwordEncoder.encode(password);
 	}
-	
+
 	@Override
 	@Transactional
 	public boolean isEqualsPasswords(String password, User user) {
@@ -159,5 +161,13 @@ public class UserServiceImpl implements UserService {
 	public void changePasswrod(User user, String password) {
 		user.setPassword(getEncoderPassword(password));
 		userDao.updateUser(user);
+	}
+
+	@Override
+	@Transactional
+	public String getCurrentUser() {
+		Authentication authentication = SecurityContextHolder.getContext()
+				.getAuthentication();
+		return authentication.getName();
 	}
 }
