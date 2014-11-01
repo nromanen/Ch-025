@@ -33,7 +33,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
  * @NamedQuery(name = "files", query =
  * "select sd from StudyDocument sd order by sd.id") })
  */
-// @JsonIgnoreProperties({"id","newFilename","contentType","dateCreated","lastUpdated"})
+@JsonIgnoreProperties({"id","newFilename","contentType","dateCreated","lastUpdated","topic"})
 public class StudyDocument implements Serializable {
 
 	private static final long serialVersionUID = 1L;
