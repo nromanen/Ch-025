@@ -21,7 +21,7 @@
             	<div class="row">
               		<div class="col-md-3 col-lg-3 " align="center"> 
                 		<img alt="User Pic" class="img-circle"
-                			src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=100" > 
+                			src="<c:url value="/resources/img/user_photo.png" />" > 
                 		<button class="btn btn-info" style="margin-top: 10px">Load Image</button>
                 	</div>
                 	<div class=" col-md-9 col-lg-9 "> 
@@ -58,7 +58,9 @@
                         			</td>
 	                      		</tr>
 	                      		<tr>
-	                        		<td>Date of registration</td>
+	                        		<td>
+	                        			<spring:message code="label.registration_date" />:
+	                        		</td>
 	                        		<td>
 	                        			<fmt:formatDate value="${sessionScope.user.registration}" pattern="yyyy-MM-dd" />
 	                        		</td>

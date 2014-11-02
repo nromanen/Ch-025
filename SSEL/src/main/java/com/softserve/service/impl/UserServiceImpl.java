@@ -14,12 +14,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.dao.UserDao;
+import com.softserve.entity.TeacherRequest;
 import com.softserve.entity.User;
 import com.softserve.entity.User.Roles;
 import com.softserve.form.Registration;
 import com.softserve.form.ResetPassword;
 import com.softserve.service.MailService;
 import com.softserve.service.RoleService;
+import com.softserve.service.TeacherRequestService;
 import com.softserve.service.UserService;
 
 @Service
@@ -36,6 +38,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private MailService mailService;
+
+	@Autowired
+	private TeacherRequestService teacherRequestService;
 
 	@Override
 	@Transactional
@@ -102,11 +107,16 @@ public class UserServiceImpl implements UserService {
 			url = url + "/confirm?key=" + user.getVerificationKey();
 			message += "<a href=\"" + url + "\">" + url + "</a>";
 			mailService.sendMail(user.getEmail(), "SSEL registration", message);
+			userDao.addUser(user);
 		} else {
 			user.setRole(roleService.getRoleByName(Roles.TEACHER.toString()));
+			user = userDao.addUser(user);
+			TeacherRequest teacherRequest = new TeacherRequest();
+			teacherRequest.setActive(true);
+			teacherRequest.setRequestDate(new Date());
+			teacherRequest.setUser(user);
+			teacherRequestService.addTeacherRequest(teacherRequest);
 		}
-
-		userDao.addUser(user);
 	}
 
 	@Override
