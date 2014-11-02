@@ -64,9 +64,9 @@ public class GuestController {
 	@Autowired
 	private TopicService topicService;
 	
-	List<Subject> subjects;
-	List<Category> categories;
-	List<CourseScheduler> schedulers;
+	private List<Subject> subjects;
+	private List<Category> categories;
+	private List<CourseScheduler> schedulers;
 
 	@RequestMapping(value = "/enter")
 	public String enter(Model model, Principal principal,
@@ -74,9 +74,9 @@ public class GuestController {
 		LOG.info("User login {}", principal.getName());
 		User user = userService.getUserByEmail(principal.getName());
 		httpSession.setAttribute("user", user);
-		if (user.getRole().getRole().equals(User.Roles.TEACHER.toString())){
+		if (user.getRole().getRole().equals(User.Roles.TEACHER.toString())) {
 			return "redirect:/teacher";
-		} else if (user.getRole().getRole().equals(User.Roles.STUDENT.toString())){
+		} else if (user.getRole().getRole().equals(User.Roles.STUDENT.toString())) {
 			return "redirect:/student";
 		} else {
 			return "redirect:/";
@@ -138,7 +138,6 @@ public class GuestController {
 			boolean isSubscribe = row == null;
 			model.addAttribute("isSubscribe", isSubscribe);
 		}
-		
 		model.addAttribute("schedule", schedulers.get(0));
 		model.addAttribute("subject", subject);
 		model.addAttribute("category", category);
