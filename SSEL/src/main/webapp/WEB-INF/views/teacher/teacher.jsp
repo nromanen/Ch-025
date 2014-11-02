@@ -7,17 +7,15 @@
 
 <div class="row">
 	<div class="col-lg-12">
-		<h1 class="page-header">Teacher subjects, user:    ${sessionScope.user.id}  </h1>
+		<h1 class="page-header"><spring:message code="label.teacher.teacherCourses"/> </h1>
 	</div>
 </div>
 
 <div class="row">
 	<button type="button" id="delButton"
-		class="btn btn-outline btn-primary btn-xs">Delete</button>
+		class="btn btn-outline btn-primary btn-xs"><spring:message code="label.teacher.delete"/></button>
 	<button type="button" class="btn btn-outline btn-primary btn-xs"
-		onclick="location.href='editCategory'">Add new category</button>
-	<button type="button" class="btn btn-outline btn-primary btn-xs"
-		onclick="location.href='editSubject'">Add new course</button>
+		onclick="location.href='editSubject'"><spring:message code="label.teacher.addNewCourse"/></button>
 </div>
 <br>
 <div class="row">
@@ -30,10 +28,10 @@
 				<thead>
 					<tr>
 						<th><input type="checkbox" id="selectall" /></th>
-						<th>Subject name</th>
-						<th>Subject category</th>
-						<th>Start date</th>
-						<th>End date</th>
+						<th><spring:message code="label.teacher.subjectName"/></th>
+						<th><spring:message code="label.teacher.subjectCategory"/></th>
+						<th><spring:message code="label.teacher.startDate"/></th>
+						<th><spring:message code="label.teacher.endDate"/></th>
 					</tr>
 				</thead>
 				<tbody>

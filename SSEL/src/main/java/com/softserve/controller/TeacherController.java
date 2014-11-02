@@ -71,17 +71,19 @@ public class TeacherController {
 	@RequestMapping(value = "/teacher", method = RequestMethod.GET)
 	public String teacher(Model model, HttpSession sess) {
 		User user = (User) sess.getAttribute("user");
-		
+
 		if (user != null) {
-		//if (subjectService.getSubjectsByUserId(user.getId()) != null) {
-		//List<Subject> subjectList = subjectService.getSubjectsByUserId(user.getId());
-		//Set<Subject> subjectList = subjectService.getAllSubjects();
-		List<CourseScheduler> schedulerList = courseSchedulerService.getCourseSchedulersBySubjectUserId(user.getId());
-		List<Category> categories = categoryService.getAllCategories();
-		model.addAttribute("catList", categories);
-		//model.addAttribute("subjectList", subjectList);
-		model.addAttribute("schedulerList", schedulerList);
-		model.addAttribute("user", user);
+			// if (subjectService.getSubjectsByUserId(user.getId()) != null) {
+			// List<Subject> subjectList =
+			// subjectService.getSubjectsByUserId(user.getId());
+			// Set<Subject> subjectList = subjectService.getAllSubjects();
+			List<CourseScheduler> schedulerList = courseSchedulerService.getCourseSchedulersBySubjectUserId(user
+					.getId());
+			List<Category> categories = categoryService.getAllCategories();
+			model.addAttribute("catList", categories);
+			// model.addAttribute("subjectList", subjectList);
+			model.addAttribute("schedulerList", schedulerList);
+			model.addAttribute("user", user);
 		}
 		return "teacher";
 	}
@@ -170,14 +172,13 @@ public class TeacherController {
 			@RequestParam(value = "blockId", required = true) Integer blockId,
 			@RequestParam(value = "topicAlive", required = true) boolean topicAlive,
 			@RequestParam(value = "topicContent", required = true) String topicContent,
-			@RequestParam(value = "topicName", required = true) String topicName,
-			@RequestParam(value = "topicOrder", required = true) Integer topicOrder, Model model) {
+			@RequestParam(value = "topicName", required = true) String topicName, Model model) {
 		Topic topic = topicId != null ? topicService.getTopicById(topicId) : new Topic();
 		topic.setBlock(blockService.getBlockById(blockId));
 		topic.setAlive(topicAlive);
 		topic.setContent(topicContent);
 		topic.setName(topicName);
-		topic.setOrder(topicOrder);
+		// topic.setOrder(topicOrder);
 
 		if (topicId != null) {
 			topicService.updateTopic(topic);

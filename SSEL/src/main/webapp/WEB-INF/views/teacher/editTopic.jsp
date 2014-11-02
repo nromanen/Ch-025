@@ -8,26 +8,17 @@
 
 <div class="row">
 	<div class="col-lg-12">
-		<h1 class="page-header">Edit topic</h1>
-
-
+		<h1 class="page-header"><spring:message code="label.teacher.editTopic"/></h1>
 	</div>
-	<!-- /.col-lg-12 -->
 </div>
+
 <div class="panel panel-default">
 	<div class="panel-body">
-		<!-- ololololololololololo -->
-
-		<form action="saveTopic">
+		<form action="saveTopic" name="editTopicForm" id="editTopicForm">
 			<input type="hidden" name="topicId" value="${topic.id}">
+
 			<div class="form-group">
-				<label>Topic name</label> <input class="form-control"
-					name="topicName" value="${topic.name}">
-				<p class="help-block">Input or edit topic name</p>
-			</div>
-			<div class="form-group">
-				<label>Select module</label> <select class="form-control"
-					name="blockId">
+				<label><spring:message code="label.teacher.module"/></label> <select class="form-control" name="blockId" style="width: 40%">
 					<c:forEach items="${blockList}" var="block">
 						<c:choose>
 							<c:when test="${topic.block.id == block.id}">
@@ -41,99 +32,89 @@
 						</c:choose>
 					</c:forEach>
 				</select>
-			</div>
-			<div class="form-group">
-				<label>Topic order</label> <input class="form-control" size=10
-					name="topicOrder" value="${topic.order}">
-				<p class="help-block">Input or edit topic order</p>
+				<p class="help-block"><spring:message code="label.teacher.selectModule"/></p>
 			</div>
 
 			<div class="form-group">
-				<label>Topic enable</label> <label class="radio-inline"> <input
+				<label><spring:message code="label.teacher.name"/></label> <input class="form-control" name="topicName" style="width: 40%"
+					value="${topic.name}">
+				<p class="help-block"><spring:message code="label.teacher.inputOrEditTopicName"/></p>
+			</div>
+
+			<div class="form-group">
+				<label><spring:message code="label.teacher.topicEnable"/></label> <label class="radio-inline"> <input
 					type="radio" name="topicAlive" id="optionsRadiosInline1" value="1"
-					checked>Enable
+					checked><spring:message code="label.teacher.enable"/>
 				</label> <label class="radio-inline"> <input type="radio"
-					name="topicAlive" id="optionsRadiosInline2" value="0">Disable
+					name="topicAlive" id="optionsRadiosInline2" value="0"><spring:message code="label.teacher.disable"/>
 				</label>
 			</div>
 
-
+			<label><spring:message code="label.teacher.content"/></label>
 			<textarea name="topicContent" id="topicContent" rows="15" cols="80">
                 ${topic.content}
-             
             </textarea>
 			<script>
-				// Replace the <textarea id="editor1"> with a CKEditor
-				// instance, using default configuration.
 				CKEDITOR.replace('topicContent');
 			</script>
 
-
-
-
-
-
 			<br> <input type="submit" class="btn btn-primary btn-lg"
-				value="Save">
+				value=<spring:message code="label.teacher.save"/>>
 
 		</form>
 
 
-		<!-- /ololololololololololo -->
+		<!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
+		<link rel="stylesheet" href="resources/css/jquery.fileupload.css">
+		<link rel="stylesheet" href="resources/css/jquery.fileupload-ui.css">
+
+		<!-- The file upload form used as target for the file upload widget -->
+		<form id="fileupload" action='<s:url value="upload"/>' method="POST"
+			enctype="multipart/form-data">
+
+			<!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+			<div class="row fileupload-buttonbar">
+				<div class="col-lg-7">
+					<!-- The fileinput-button span is used to style the file input field as button -->
+					<span class="btn btn-success fileinput-button"> <i
+						class="glyphicon glyphicon-plus"></i> <span><spring:message code="label.teacher.addFiles"/></span> <input
+						type="file" id="btnAdd" name="files[]" multiple>
+					</span>
+					<button type="submit" class="btn btn-primary start" id="btnStart">
+						<i class="glyphicon glyphicon-upload"></i> <span><spring:message code="label.teacher.startUpload"/></span>
+					</button>
+
+					<!-- The global file processing state -->
+					<span class="fileupload-process"></span>
+				</div>
+				<!-- The global progress state -->
+				<div class="col-lg-5 fileupload-progress fade">
+					<!-- The global progress bar -->
+					<div class="progress progress-striped active" role="progressbar"
+						aria-valuemin="0" aria-valuemax="100">
+						<div class="progress-bar progress-bar-success" style="width: 0%;"></div>
+					</div>
+					<!-- The extended global progress state -->
+					<div class="progress-extended">&nbsp;</div>
+				</div>
+			</div>
+			<!-- The table listing the files available for upload/download -->
+			<table role="presentation" class="table table-striped">
+				<tbody class="files"></tbody>
+			</table>
+			<input type="hidden" value="${topic.id}" name="topicId">
+		</form>
+		<br>
 	</div>
 </div>
-
-
-<!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
-<link rel="stylesheet" href="resources/css/jquery.fileupload.css">
-<link rel="stylesheet" href="resources/css/jquery.fileupload-ui.css">
-
-<!-- The file upload form used as target for the file upload widget -->
-<form id="fileupload" action='<s:url value="upload"/>' method="POST"
-	enctype="multipart/form-data">
-
-	<!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
-	<div class="row fileupload-buttonbar">
-		<div class="col-lg-7">
-			<!-- The fileinput-button span is used to style the file input field as button -->
-			<span class="btn btn-success fileinput-button"> <i
-				class="glyphicon glyphicon-plus"></i> <span>Add files...</span> <input
-				type="file" id="btnAdd" name="files[]" multiple>
-			</span>
-			<button type="submit" class="btn btn-primary start" id="btnStart">
-				<i class="glyphicon glyphicon-upload"></i> <span>Start upload</span>
-			</button>
-
-			<!-- The global file processing state -->
-			<span class="fileupload-process"></span>
-		</div>
-		<!-- The global progress state -->
-		<div class="col-lg-5 fileupload-progress fade">
-			<!-- The global progress bar -->
-			<div class="progress progress-striped active" role="progressbar"
-				aria-valuemin="0" aria-valuemax="100">
-				<div class="progress-bar progress-bar-success" style="width: 0%;"></div>
-			</div>
-			<!-- The extended global progress state -->
-			<div class="progress-extended">&nbsp;</div>
-		</div>
-	</div>
-	<!-- The table listing the files available for upload/download -->
-	<table role="presentation" class="table table-striped">
-		<tbody class="files"></tbody>
-	</table>
-	<input type="hidden" value="${topic.id}" name="topicId">
-</form>
-<br>
 <script type="text/javascript">
 <!--
--->
+	-->
 
-$("#btnStart").hide();
-$("#btnAdd").click(function() {
-	$("#btnStart").show();
-});
-
+	$("#btnStart").hide();
+	$("#btnAdd").click(function() {
+		$("#btnStart").show();
+	});
 </script>
 <!-- The template to display files available for upload -->
 <script id="template-upload" type="text/x-tmpl">
@@ -225,8 +206,37 @@ $("#btnAdd").click(function() {
 <script src="resources/js/main.js"></script>
 
 <script type="text/javascript">
-
 <!--
-
+	
 //-->
 </script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		$.validator.addMethod('regexp', function(value, element, regexp) {
+			var re = new RegExp(regexp);
+			return this.optional(element) || re.test(value);
+		}, "Please check your input.");
+
+		$("#editTopicForm").validate({
+
+			rules : {
+
+				topicName : {
+					required : true,
+					minlength : 4,
+					maxlength : 30,
+					regexp : "^[A-ZА-ЯІЇЄa-zа-яіїє0-9.,:_ ]{4,30}$"
+				},
+			}
+
+		});
+
+	});
+</script>
+<style>
+.error {
+	color: red;
+}
+</style>
