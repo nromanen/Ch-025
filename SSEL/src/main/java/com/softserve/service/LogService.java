@@ -14,5 +14,9 @@ public interface LogService {
 	public List<Log> getAllLogs();
 
 	public void deleteLogsDueDate(Date date);
+	
+	public Log getLogById(int id);
+	
+	public Date parseDate(String dateString);
 
 }

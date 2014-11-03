@@ -16,5 +16,7 @@ public interface LogDao  {
 	public List<Log> getAllLogs();
 	
 	public void deleteLogsDueDate(Date date);
+	
+	public Log getLogById(int id);
 
 }

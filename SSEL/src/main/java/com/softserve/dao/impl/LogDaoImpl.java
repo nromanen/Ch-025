@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.softserve.dao.LogDao;
+import com.softserve.entity.CourseScheduler;
 import com.softserve.entity.Log;
 
 @Repository
@@ -58,8 +59,14 @@ public class LogDaoImpl implements LogDao {
 		if (query.executeUpdate() != 0) {
 			LOG.debug("Deleted logs older than = {} ", date);
 		} else {
-			LOG.warn("Tried to delete logs older than = {} ", date);
+			LOG.debug("Tried to delete logs older than = {} ", date);
 		}
+	}
+
+	@Override
+	public Log getLogById(int id) {
+		LOG.debug("Get Log with id = {}", id);
+		return entityManager.find(Log.class, id);
 	}
 
 	
