@@ -45,9 +45,9 @@
 			<ul class="dropdown-menu dropdown-user">
 				<c:if test="${sessionScope.user.role.role eq 'TEACHER'}">
 					<li><a href="teacher"><i class="fa fa-user fa-fw"></i>
-							Teacher cabinet</a></li>
+							<spring:message code="label.teacher_cabinet"/> </a></li>
 					<li><a href="#"><i class="fa fa-user fa-fw"></i>
-							Teacher profile</a></li>
+							<spring:message code="label.teacher_profile"/></a></li>
 					<li class="divider"></li>
 					<li><a href="logout"><i class="fa fa-sign-out fa-fw"></i>
 							Logout</a></li>
@@ -55,11 +55,11 @@
 				<c:if test="${sessionScope.user.role.role eq 'STUDENT'}">
 					<li>
 						<a href="student?table=active"> <i
-							class="fa fa-user fa-fw"></i> Student cabinet
+							class="fa fa-user fa-fw"></i> <spring:message code="label.student_cabinet"/>
 						</a>
 					</li>
 					<li><a href="#"> <i
-							class="fa fa-user fa-fw"></i> Student profile
+							class="fa fa-user fa-fw"></i> <spring:message code="label.student_profile"/>
 					</a></li>
 					<li class="divider"></li>
 					<li>
