@@ -59,28 +59,15 @@ public class UserProfileController {
 		return "success";
 	}
 
-	@RequestMapping(value = "/changeFirstName", method = RequestMethod.POST, headers = { "content-type=application/json" })
+	@RequestMapping(value = "/changeUserInformation", method = RequestMethod.POST, headers = { "content-type=application/json" })
 	public @ResponseBody String changeFirstNameAction(
 			@RequestBody Map<String, Object> map, HttpSession session) {
 		String firstName = map.get("firstName").toString();
-		if (firstName.matches(NAME_PATTERN)) {
+		String lastName = map.get("lastName").toString();
+		if (firstName.matches(NAME_PATTERN) && lastName.matches(NAME_PATTERN)) {
 			User user = userService
 					.getUserByEmail(userService.getCurrentUser());
 			user.setFirstName(firstName);
-			user = userService.updateUser(user);
-			session.setAttribute("user", user);
-			return "success";
-		}
-		return "error";
-	}
-
-	@RequestMapping(value = "/changeLastName", method = RequestMethod.POST, headers = { "content-type=application/json" })
-	public @ResponseBody String changeLastNameAction(
-			@RequestBody Map<String, Object> map, HttpSession session) {
-		String lastName = map.get("lastName").toString();
-		if (lastName.matches(NAME_PATTERN)) {
-			User user = userService
-					.getUserByEmail(userService.getCurrentUser());
 			user.setLastName(lastName);
 			user = userService.updateUser(user);
 			session.setAttribute("user", user);

@@ -27,167 +27,77 @@
                 		<button class="btn btn-info" style="margin-top: 10px">Load Image</button>
                 	</div>
                 	<div class=" col-md-9 col-lg-9 "> 
-                		<table class="table table-user-information">
-                    		<tbody>
-                      			<tr>
-                        			<td>
-                        				<spring:message code="label.firstname" />:
-                        			</td>
-                        			<td>
-                        				<c:out value="${sessionScope.user.firstName}" />
-                        			</td>
-                        			<td>
-                        				<button data-original-title="<spring:message code="label.edit_first_name" />"
-                        					 data-toggle="tooltip" type="button" class="btn btn-sm btn-warning" 
-                        					 id="btn_change_first_name">
-                        					<i class="glyphicon glyphicon-edit"></i>
-                        				</button>
-                        			</td>
-                      			</tr>
-	                      		<tr>
-	                        		<td>
-                        				<spring:message code="label.lastname" />:
-                        			</td>
-                        			<td>
-                        				<c:out value="${sessionScope.user.lastName}" />
-                        			</td>
-                        			<td>
-                        				<button data-original-title="<spring:message code="label.edit_last_name" />" 
-                        					data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"
-                        					id="btn_change_last_name">
-                        					<i class="glyphicon glyphicon-edit"></i>
-                        				</button>
-                        			</td>
-	                      		</tr>
-	                      		<tr>
-	                        		<td>
-	                        			<spring:message code="label.registration_date" />:
-	                        		</td>
-	                        		<td>
-	                        			<fmt:formatDate value="${sessionScope.user.registration}" pattern="yyyy-MM-dd" />
-	                        		</td>
-	                      		</tr>
-	                     		<tr>
-	                        		<td>
-	                        			<spring:message code="label.email" />:
-	                        		</td>
-	                        		<td id="email">
-	                        			<c:out value="${sessionScope.user.email}" />
-	                        		</td>
-	                        		<td>
-                        				<button data-original-title="Edit email" data-toggle="tooltip"
-                        					type="button" class="btn btn-sm btn-warning"
-                        					id="btn_change_email">
-                        					<i class="glyphicon glyphicon-edit"></i>
-                        				</button>
-                        			</td>
-	                     		</tr>
-	                        	<tr>
-	                        		<td>Expired date</td>
-	                        		<td>
-	                        			<fmt:formatDate value="${sessionScope.user.expired}" pattern="yyyy-MM-dd" />
-	                        		</td>
-	                      		</tr>
-	                    	</tbody>
-              			</table>
-              			<button class="btn btn-info" data-toggle="modal" data-target="#modal_change_password">
-							<spring:message code="label.change_password"/>
-						</button>
+                		<form id="form_change_user_information" method="POST" role="form" 
+							action="<c:url value="/changeUserInformation" />">
+	                		<table class="table table-user-information">
+	                    		<tbody>
+	                      			<tr>
+	                        			<td>
+	                        				<spring:message code="label.firstname" />:
+	                        			</td>
+	                        			<td>
+	                       					<input type="text" id="first_name" class="form-control" name="first_name"
+												placeholder="<spring:message code="placeholder.firstname" />"  
+												value="<c:out value="${sessionScope.user.firstName}" />" 
+												data-toggle="tooltip" 
+												title="<spring:message code="label.edit_first_name" />" />
+	                        			</td>
+	                      			</tr>
+		                      		<tr>
+		                        		<td>
+	                        				<spring:message code="label.lastname" />:
+	                        			</td>
+	                        			<td>
+	                        				<input type="text" id="last_name" class="form-control" name="last_name"
+												placeholder="<spring:message code="placeholder.lastname" />"  
+												value="<c:out value="${sessionScope.user.lastName}" />" 
+												data-toggle="tooltip" 
+												title="<spring:message code="label.edit_last_name" />" />
+	                        			</td>
+		                      		</tr>
+		                      		<tr>
+		                        		<td>
+		                        			<spring:message code="label.registration_date" />:
+		                        		</td>
+		                        		<td>
+		                        			<fmt:formatDate value="${sessionScope.user.registration}" pattern="yyyy-MM-dd" />
+		                        		</td>
+		                      		</tr>
+		                     		<tr>
+		                        		<td>
+		                        			<spring:message code="label.email" />:
+		                        		</td>
+		                        		<td id="email">
+		                        			<c:out value="${sessionScope.user.email}" />
+		                        		</td>
+		                        		<td>
+	                        				<button data-original-title="Edit email" data-toggle="tooltip"
+	                        					type="button" class="btn btn-sm btn-warning"
+	                        					id="btn_change_email">
+	                        					<i class="glyphicon glyphicon-edit"></i>
+	                        				</button>
+	                        			</td>
+		                     		</tr>
+		                        	<tr>
+		                        		<td>Expired date</td>
+		                        		<td>
+		                        			<fmt:formatDate value="${sessionScope.user.expired}" pattern="yyyy-MM-dd" />
+		                        		</td>
+		                      		</tr>
+		                    	</tbody>
+	              			</table>
+	              			<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal_change_password">
+								<spring:message code="label.change_password"/>
+							</button>
+							<button type="submit" class="btn btn-success">
+								Save
+							</button>
+              			</form>
                 	</div>
               	</div>
             </div>
 		</div>
 	</div>
-</div>
-
-<!-- Modal window for change first name -->
-<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" 
-    id="modal_change_first_name" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">
-				    <span aria-hidden="true">&times;</span>
-				    <span class="sr-only">Close</span>
-				</button>
-				<h4 class="modal-title">
-					<spring:message code="label.edit_first_name" />
-				</h4>
-			</div>
-			<form id="form_change_first_name" class="form-horizontal" method="POST" role="form" 
-				action="<c:url value="/changeFirstName" />">
-				<div class="modal-body">				
-					<div class="panel panel-info">
-        				<div class="panel-body">
-        					<div class="form-group">
-								<label class="col-md-3 control-label" for="first_name">
-									<spring:message code="label.firstname" /> 
-								</label>
-								<div class="col-md-6">
-									<input type="text" id="first_name" class="form-control" name="first_name"
-										placeholder="<spring:message code="placeholder.firstname" />"  
-										value="<c:out value="${sessionScope.user.firstName}" />"/>
-								</div>
-							</div>
-	        			</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="submit" class="btn btn-success" >
-						<spring:message code="label.accept"/>
-					</button>
-					<button type="reset" class="btn btn-info" data-dismiss="modal">
-						<spring:message code="label.cancel" />
-					</button>
-				</div>
-			</form>
-		</div>		
-	</div> 
-</div>
-
-<!-- Modal window for change last name -->
-<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" 
-    id="modal_change_last_name" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">
-				    <span aria-hidden="true">&times;</span>
-				    <span class="sr-only">Close</span>
-				</button>
-				<h4 class="modal-title">
-					<spring:message code="label.edit_last_name" />
-				</h4>
-			</div>
-			<form id="form_change_last_name" class="form-horizontal" method="POST" role="form" 
-				action="<c:url value="/changeLastName" />">
-				<div class="modal-body">				
-					<div class="panel panel-info">
-        				<div class="panel-body">
-        					<div class="form-group">
-								<label class="col-md-3 control-label" for="last_name">
-									<spring:message code="label.lastname" /> 
-								</label>
-								<div class="col-md-6">
-									<input type="text" id="last_name" class="form-control" name="last_name"
-										placeholder="<spring:message code="placeholder.lastname" />"  
-										value="<c:out value="${sessionScope.user.lastName}" />"/>
-								</div>
-							</div>
-	        			</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="submit" class="btn btn-success" >
-						<spring:message code="label.accept"/>
-					</button>
-					<button type="reset" class="btn btn-info" data-dismiss="modal">
-						<spring:message code="label.cancel" />
-					</button>
-				</div>
-			</form>
-		</div>		
-	</div> 
 </div>
 
 <!-- Modal window for change email -->
@@ -302,25 +212,18 @@
 <script>
 jQuery(document).ready(function ($) {
 	
-	$("#btn_change_first_name").click(function(){	
-		$('#modal_change_first_name').modal();
-	});
-	
-	$("#btn_change_last_name").click(function(){	
-		$('#modal_change_last_name').modal();
-	});
-	
 	$("#btn_change_email").click(function(){	
 		$('#modal_change_email').modal();
 	});
 	
     $('[data-toggle="tooltip"]').tooltip();
     
-	$("#form_change_first_name").submit(function(){
+	$("#form_change_user_information").submit(function(){
 		var first_name = $("#first_name").val();
-		if(first_name != ""){
+		var last_name = $("#last_name").val();
+		if(first_name != "" && last_name != ""){
 			var url = $(this).attr("action");
-			var json = { "firstName" : first_name };
+			var json = { "firstName" : first_name, "lastName" : last_name };
 			$.ajax({
 		        url: url,
 		        data: JSON.stringify(json),
@@ -329,31 +232,8 @@ jQuery(document).ready(function ($) {
 		        success: function(response) {
 		        	if(response == "success"){	
 		        		location.reload();
-		        		$("#modal_change_first_name").modal("hide");
 		        	} else {
 		        		$("#first_name").val('');
-		        	}
-		        }
-		    });
-		}
-		return false;
-	});
-	
-	$("#form_change_last_name").submit(function(){
-		var last_name = $("#last_name").val();
-		if(last_name != ""){
-			var url = $(this).attr("action");
-			var json = { "lastName" : last_name };
-			$.ajax({
-		        url: url,
-		        data: JSON.stringify(json),
-		        contentType: 'application/json',
-		        type: "POST",
-		        success: function(response) {
-		        	if(response == "success"){	
-		        		location.reload();
-		        		$("#modal_change_last_name").modal("hide");
-		        	} else {
 		        		$("#last_name").val('');
 		        	}
 		        }
@@ -430,9 +310,13 @@ jQuery(document).ready(function ($) {
     	}, "Please specify a different (non-default) value"
     );
     
-    $("#form_change_first_name").validate({
+    $("#form_change_user_information").validate({
     	rules: {
     		first_name: {
+    			required: true,
+    			regexp: "^[A-ZА-ЯІЇЄ]{1}[a-zа-яіїє]{1,30}$"
+    		},
+    		last_name: {
     			required: true,
     			regexp: "^[A-ZА-ЯІЇЄ]{1}[a-zа-яіїє]{1,30}$"
     		}
@@ -441,18 +325,7 @@ jQuery(document).ready(function ($) {
     		first_name: {
     			required: "${required}",
 				regexp: "${firstname}"
-    		}
-    	}
-    });
-    
-    $("#form_change_last_name").validate({
-    	rules: {
-    		last_name: {
-    			required: true,
-    			regexp: "^[A-ZА-ЯІЇЄ]{1}[a-zа-яіїє]{1,30}$"
-    		}
-    	},
-    	messages: {
+    		},
     		last_name: {
     			required: "${required}",
 				regexp: "${lastfirstname}"
