@@ -29,17 +29,7 @@
                 </div>
          	</div>    
 			<div style="padding-top:30px" class="panel-body">
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-				<div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
-=======
->>>>>>> master
-				<c:if test="${error.equals('BadCredentialsException')}">
-=======
 				<c:if test="${error eq 'BadCredentialsException'}">
->>>>>>> 3b5f00ae0570a9eb6d5d38aaa9e134be91e3af91
 					<div class="alert alert-warning">
 						<strong><spring:message code="label.warning" /></strong>
 						<spring:message code="label.bad_redentials_exception" />

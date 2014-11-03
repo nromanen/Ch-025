@@ -301,7 +301,7 @@ public class TeacherController {
 
 				for (Block b : blocks)
 					blockService.deleteBlock(b);
-
+/*
 				for (CourseScheduler c : cs) {
 					Integer studentGroupNum = studentGroupService.getGroupNumberByCourse(c.getId());
 					List<StudentGroup> sg = studentGroupService.getStudentGroupsByGroupNumber(studentGroupNum);
@@ -310,7 +310,7 @@ public class TeacherController {
 
 					courseSchedulerService.deleteCourseScheduler(c);
 				}
-
+*/
 				subjectService.deleteSubject(subject);
 			} catch (Exception e) {
 			}

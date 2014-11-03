@@ -108,7 +108,6 @@
 		<put-attribute name="menu"
 			value="/WEB-INF/views/templates/student_menu.jsp" />
 	</definition>
-<<<<<<< HEAD
 	<definition name="topicView" extends="base-template">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Student" />
 		<put-attribute name="content" value="/WEB-INF/views/pages/topicView.jsp" />
@@ -116,9 +115,6 @@
 			value="/WEB-INF/views/templates/student_menu.jsp" />
 	</definition>
 	
-=======
-
->>>>>>> 3b5f00ae0570a9eb6d5d38aaa9e134be91e3af91
 	<!-- Course information -->
 	<definition name="courseInformation" extends="index">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
