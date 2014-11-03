@@ -7,7 +7,7 @@
 
 <div class="row">
 <div class="col-lg-12">
-	<h1 class="page-header">Subject: ${subject.name}</h1>
+	<h1 class="page-header"><spring:message code="label.teacher.subject"/>: ${subject.name}</h1>
 </div>
 </div>
 
@@ -16,13 +16,11 @@
 	<div class="panel-heading">
 
 		<button type="button" class="btn btn-outline btn-primary btn-xs"
-			onclick="location.href='editSubject?subjectId=${subject.id}'">Edit</button>
+			onclick="location.href='editSubject?subjectId=${subject.id}'"><spring:message code="label.teacher.edit"/></button>
 		<button type="button" class="btn btn-outline btn-primary btn-xs"
-			onclick="location.href='editBlock?subjectId=${subject.id}'">Add
-			module</button>
+			onclick="location.href='editBlock?subjectId=${subject.id}'"><spring:message code="label.teacher.addModule"/></button>
 		<button type="button" class="btn btn-outline btn-primary btn-xs"
-			onclick="location.href='editTopic?subjectId=${subject.id}'">Add
-			topic</button>
+			onclick="location.href='editTopic?subjectId=${subject.id}'"><spring:message code="label.teacher.addTopic"/></button>
 	</div>
 	<!-- .panel-heading -->
 	
@@ -33,10 +31,10 @@
 					<div class="panel-heading">
 						<h4 class="panel-title">
 							<a data-toggle="collapse" data-parent="#accordion"
-								href="#s-${subject.id}-${block.order}">Module
+								href="#s-${subject.id}-${block.order}"><spring:message code="label.teacher.module"/>
 								${block.order}. ${block.name} </a> (<fmt:formatDate pattern='dd-MM-yyyy' value='${block.startTime}' />  --  <fmt:formatDate pattern='dd-MM-yyyy' value='${block.endTime}' />)
 							<button type="button" class="btn btn-outline btn-primary btn-xs" style="float:right;"
-								onclick="location.href='editBlock?subjectId=${subject.id}&blockId=${block.id}'">Edit</button>
+								onclick="location.href='editBlock?subjectId=${subject.id}&blockId=${block.id}'"><spring:message code="label.teacher.edit"/></button>
 
 
 
@@ -49,10 +47,10 @@
 								<table class="table table-hover">
 									<thead>
 										<tr>
-											<th>Topic name</th>
-											<th>Order</th>
-											<th>Status</th>
-											<th>Action</th>
+											<th><spring:message code="label.teacher.topicName"/></th>
+											<th><spring:message code="label.teacher.order"/></th>
+											<th><spring:message code="label.teacher.status"/></th>
+											<th><spring:message code="label.teacher.action"/></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -64,9 +62,9 @@
 													<td>
 													<!-- ${topic.order}-->
 														 <button type="button" class="btn btn-outline btn-primary btn-xs"
-															onclick="location.href='changeTopicOrder?updown=up&topicId=${topic.id}&subjectId=${subject.id}'">Up</button>
+															onclick="location.href='changeTopicOrder?updown=up&topicId=${topic.id}&subjectId=${subject.id}'"><spring:message code="label.teacher.up"/></button>
 														<button type="button" class="btn btn-outline btn-primary btn-xs"
-															onclick="location.href='changeTopicOrder?updown=down&topicId=${topic.id}&subjectId=${subject.id}'">Down</button>
+															onclick="location.href='changeTopicOrder?updown=down&topicId=${topic.id}&subjectId=${subject.id}'"><spring:message code="label.teacher.down"/></button>
 
 
 
@@ -75,18 +73,18 @@
 															<c:when test="${topic.alive == true}">
 																<button type="button"
 																	class="btn btn-outline btn-success btn-xs"
-																	onclick="location.href='enableTopic?enable=false&topicId=${topic.id}&subjectId=${subject.id}'">Enabled</button>
+																	onclick="location.href='enableTopic?enable=false&topicId=${topic.id}&subjectId=${subject.id}'"><spring:message code="label.teacher.enable"/></button>
 															</c:when>
 															<c:otherwise>
 																<button type="button"
 																	class="btn btn-outline btn-danger btn-xs"
-																	onclick="location.href='enableTopic?enable=true&topicId=${topic.id}&subjectId=${subject.id}'">Disabled</button>
+																	onclick="location.href='enableTopic?enable=true&topicId=${topic.id}&subjectId=${subject.id}'"><spring:message code="label.teacher.disable"/></button>
 															</c:otherwise>
 														</c:choose></td>
 													<td>
 														<button type="button"
 															class="btn btn-outline btn-primary btn-xs"
-															onclick="location.href='deleteTopic?topicId=${topic.id}&subjectId=${subject.id}'">Delete</button>
+															onclick="location.href='deleteTopic?topicId=${topic.id}&subjectId=${subject.id}'"><spring:message code="label.teacher.delete"/></button>
 
 
 													</td>

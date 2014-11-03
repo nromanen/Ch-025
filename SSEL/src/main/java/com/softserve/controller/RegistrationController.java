@@ -68,7 +68,7 @@ public class RegistrationController {
 		return "login";
 	}
 
-	@RequestMapping(value = "/registration_ajax", method = RequestMethod.POST, headers = { "content-type=application/json" })
+	@RequestMapping(value = "/email_exists", method = RequestMethod.POST, headers = { "content-type=application/json" })
 	public @ResponseBody boolean isEmailExist(
 			@RequestBody Map<String, Object> map) {
 		String email = (String) map.get("email");
