@@ -1,5 +1,6 @@
 package com.softserve.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -14,12 +15,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.softserve.entity.Category;
 import com.softserve.entity.CourseScheduler;
 import com.softserve.entity.Log;
 import com.softserve.entity.Subject;
 import com.softserve.entity.User;
+import com.softserve.service.AdministratorService;
 import com.softserve.service.CategoryService;
 import com.softserve.service.CourseSchedulerService;
 import com.softserve.service.LogService;
@@ -48,6 +51,9 @@ public class AdministratorController {
 	@Autowired
 	private CategoryService categoryService;
 
+	@Autowired
+	private AdministratorService administratorService;
+	
 	@Resource(name = "LogService")
 	private LogService logService;
 
@@ -80,36 +86,37 @@ public class AdministratorController {
 	@RequestMapping(value = "/deleteCategory", method = RequestMethod.GET)
 	public String deleteCategory(
 			@RequestParam(value = "categoryId", required = false) Integer categoryId,
-			Model model) {
+			Model model, RedirectAttributes redirectAttributes) {
 		LOG.debug("Visit viewAllCategories page");
 		if (categoryId != null) {
 			Category category = categoryService.getCategoryById(categoryId);
-			model.addAttribute("message", "You are delete category: "
-					+ category.getName());
+			redirectAttributes.addFlashAttribute("message",
+					"You are delete category: <strong>" + category.getName()
+							+ "</strong>");
 			categoryService.deleteCategory(category);
 		}
-		// will be delete?
-		// Set<Category> categories = categoryService.getAllCategories();
-		// List<Category> list = new ArrayList<Category>(categories);
-		// Collections.sort(list,Collections.reverseOrder());
-		// model.addAttribute("categories", categories);
 		return "redirect:/viewAllCategories";
 	}
 
 	@RequestMapping(value = "/addCategory", method = RequestMethod.GET)
 	public String addCategory(
-			@RequestParam(value = "category", required = false) String category,
-			Model model) {
+			@RequestParam(value = "category", required = false) String categoryName,
+			Model model, RedirectAttributes redirectAttributes) {
 		LOG.debug("Visit viewAllCategories page");
-		if (category != "" && category != null) {
-			Category newCategory = new Category();
-			newCategory.setName(category);
-			categoryService.addCategory(newCategory);
-			// will be delete?
-			// Set<Category> categories = categoryService.getAllCategories();
-			// model.addAttribute("categories", categories);
-			// model.addAttribute("message", "You are add category: " +
-			// category);
+		if (categoryName != "" && categoryName != null) {
+			if (!administratorService.addCategory(categoryName)) {
+				redirectAttributes.addFlashAttribute("message",
+						"You are add category: <strong>" + categoryName
+								+ "</strong>");
+			} else {
+				redirectAttributes.addFlashAttribute("message",
+						"Category: <strong>" + categoryName
+								+ "</strong> allready exist!");
+			}
+			// Category newCategory = new Category();
+			// newCategory.setName(category);
+			// categoryService.addCategory(newCategory);
+
 		}
 		return "redirect:/viewAllCategories";
 	}
@@ -117,20 +124,35 @@ public class AdministratorController {
 	@RequestMapping(value = "/viewAllUsers", method = RequestMethod.GET)
 	public String viewAllUsers(Model model) {
 		LOG.debug("Visit viewAllUsers page");
-
+		List<User> users = userService.getAllUsers();
+		
+		model.addAttribute("users", users);
 		return "viewAllUsers";
 	}
 
 	@RequestMapping(value = "/viewAllSubjects", method = RequestMethod.GET)
 	public String viewAllSubjects(
 			@RequestParam(value = "message", required = false) String message,
+			@RequestParam(value = "searchText", required = false) String searchText,
+			@RequestParam(value = "searchOption", required = false) Integer searchOption,
 			Model model) {
 		LOG.debug("Visit viewAllLogs page");
-		List<Subject> subjects = subjectService.getAllSubjects();
-		List<Category> categories = categoryService.getAllCategories();
+		List<Subject> subjects = new ArrayList<Subject>();
 		if (message != null) {
 			model.addAttribute("message", message);
 		}
+		if (searchText != null && searchOption != null) {
+			if (searchOption == 1) {
+				subjects = administratorService.searchSubjectsByName(searchText);
+			}
+			else if (searchOption == 2) {
+				subjects = administratorService.searchSubjectsByCategory(searchText);
+			}
+		}
+		else {
+			subjects = subjectService.getAllSubjects();
+		}
+		List<Category> categories = categoryService.getAllCategories();
 		model.addAttribute("categories", categories);
 		model.addAttribute("subjects", subjects);
 		return "viewAllSubjects";
@@ -140,12 +162,12 @@ public class AdministratorController {
 	public String changeSubjectCategory(
 			@RequestParam(value = "subjectId", required = false) Integer subjectId,
 			@RequestParam(value = "categoryId", required = false) Integer categoryId,
-			Model model) {
+			Model model, RedirectAttributes redirectAttributes) {
 		LOG.debug("Visit changeSubjectCategory page");
 		if (subjectId != null && categoryId != null) {
 			Subject subject = subjectService.getSubjectById(subjectId);
 			Category category = categoryService.getCategoryById(categoryId);
-			model.addAttribute("message",
+			redirectAttributes.addFlashAttribute("message",
 					"You are change <b>" + subject.getName()
 							+ "</b> category ftom <b>"
 							+ subject.getCategory().getName() + "</b> to <b>"
@@ -153,10 +175,9 @@ public class AdministratorController {
 			subject.setCategory(category);
 			subjectService.updateSubject(subject);
 		} else {
-			model.addAttribute("message",
+			redirectAttributes.addFlashAttribute("message",
 					"Can't change category, input parameters is invalid!");
 		}
-
 		return "redirect:/viewAllSubjects";
 	}
 

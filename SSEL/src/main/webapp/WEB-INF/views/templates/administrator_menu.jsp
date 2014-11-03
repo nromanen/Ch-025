@@ -23,10 +23,10 @@
 			<p align="center">Admin panel</p>
 			<ul class="nav">
 				<li><a href="administrator">Home</a></li>
-				<li><a href="viewAllCategories">View all categories</a></li>
-				<li><a href="viewAllSubjects">View all subjects</a></li>
-				<li><a href="viewAllUsers">View all users</a></li>
-				<li><a href="viewAllLogs">View all logs</a></li>
+				<li><a href="viewAllCategories">Categories</a></li>
+				<li><a href="viewAllSubjects">Subjects</a></li>
+				<li><a href="viewAllUsers">Users</a></li>
+				<li><a href="viewAllLogs">Logs</a></li>
 			</ul>
 		</div>
 	</div>
