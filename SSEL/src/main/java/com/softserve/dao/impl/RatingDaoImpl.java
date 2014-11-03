@@ -87,7 +87,8 @@ public class RatingDaoImpl implements RatingDao {
 		.setParameter("gid", groupId)
 		.setParameter("uid", userId)
 		.getSingleResult();
-		return (double)ratingsCount/blocksCount*100;
+		ratingsCount *= 100L;
+		return (double)ratingsCount/blocksCount;
 	}
 	
 }
