@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,9 +30,14 @@ import com.softserve.service.StudentGroupService;
 import com.softserve.service.SubjectService;
 import com.softserve.service.TopicService;
 import com.softserve.service.UserService;
+import com.softserve.validator.BlockValidator;
+import com.softserve.validator.CategoryValidator;
+import com.softserve.validator.StudyDocumentValidator;
+import com.softserve.validator.SubjectValidator;
+import com.softserve.validator.TopicValidator;
 
 /**
- * Handles requests for the application home page.
+ * Handles requests for the application TEACHER Cabinet.
  */
 @Controller
 @Scope("session")
@@ -60,6 +66,21 @@ public class TeacherController {
 
 	@Autowired
 	private StudentGroupService studentGroupService;
+	
+	@Autowired
+	private TopicValidator topicValidator;
+	
+	@Autowired
+	private BlockValidator moduleValidator;
+	
+	@Autowired
+	private SubjectValidator subjectValidator;
+	
+	@Autowired
+	private CategoryValidator categoryValidator;
+	
+	@Autowired
+	private StudyDocumentValidator studyDocumentValidator;
 
 	@RequestMapping(value = "/categories", method = RequestMethod.GET)
 	public String categories(Model model) {
@@ -71,17 +92,19 @@ public class TeacherController {
 	@RequestMapping(value = "/teacher", method = RequestMethod.GET)
 	public String teacher(Model model, HttpSession sess) {
 		User user = (User) sess.getAttribute("user");
-		
+
 		if (user != null) {
-		//if (subjectService.getSubjectsByUserId(user.getId()) != null) {
-		//List<Subject> subjectList = subjectService.getSubjectsByUserId(user.getId());
-		//Set<Subject> subjectList = subjectService.getAllSubjects();
-		List<CourseScheduler> schedulerList = courseSchedulerService.getCourseSchedulersBySubjectUserId(user.getId());
-		List<Category> categories = categoryService.getAllCategories();
-		model.addAttribute("catList", categories);
-		//model.addAttribute("subjectList", subjectList);
-		model.addAttribute("schedulerList", schedulerList);
-		model.addAttribute("user", user);
+			// if (subjectService.getSubjectsByUserId(user.getId()) != null) {
+			// List<Subject> subjectList =
+			// subjectService.getSubjectsByUserId(user.getId());
+			// Set<Subject> subjectList = subjectService.getAllSubjects();
+			List<CourseScheduler> schedulerList = courseSchedulerService.getCourseSchedulersBySubjectUserId(user
+					.getId());
+			List<Category> categories = categoryService.getAllCategories();
+			model.addAttribute("catList", categories);
+			// model.addAttribute("subjectList", subjectList);
+			model.addAttribute("schedulerList", schedulerList);
+			model.addAttribute("user", user);
 		}
 		return "teacher";
 	}
@@ -115,6 +138,25 @@ public class TeacherController {
 			model.addAttribute("topic", topic);
 		}
 
+		List<Block> blocks = blockService.getBlocksBySubjectId(subjectId);
+		model.addAttribute("blockList", blocks);
+		List<Category> categories = categoryService.getAllCategories();
+		model.addAttribute("catList", categories);
+		model.addAttribute("subjectId", subjectId);
+
+		return "editTopic";
+	}
+	
+	@RequestMapping(value = "/editTopic", method = RequestMethod.POST)
+	public String editTopicPost(@RequestParam(value = "topicId", required = false) Integer topicId,
+			@RequestParam(value = "subjectId", required = false) Integer subjectId, Model model) {
+		if (topicId != null) {
+			Topic topic = topicService.getTopicById(topicId);
+			model.addAttribute("topic", topic);
+			model.addAttribute("block", topic.getBlock());
+		}
+
+		
 		List<Block> blocks = blockService.getBlocksBySubjectId(subjectId);
 		model.addAttribute("blockList", blocks);
 		List<Category> categories = categoryService.getAllCategories();
@@ -165,20 +207,28 @@ public class TeacherController {
 		return "editCategory";
 	}
 
-	@RequestMapping(value = "/saveTopic", method = RequestMethod.GET)
+	@RequestMapping(value = "/saveTopic", method = RequestMethod.POST)
 	public String saveTopic(@RequestParam(value = "topicId", required = false) Integer topicId,
 			@RequestParam(value = "blockId", required = true) Integer blockId,
 			@RequestParam(value = "topicAlive", required = true) boolean topicAlive,
 			@RequestParam(value = "topicContent", required = true) String topicContent,
-			@RequestParam(value = "topicName", required = true) String topicName,
-			@RequestParam(value = "topicOrder", required = true) Integer topicOrder, Model model) {
+			@RequestParam(value = "name", required = true) String topicName,
+			//Topic topic,
+			//BindingResult result,
+			Model model) {
 		Topic topic = topicId != null ? topicService.getTopicById(topicId) : new Topic();
 		topic.setBlock(blockService.getBlockById(blockId));
 		topic.setAlive(topicAlive);
 		topic.setContent(topicContent);
 		topic.setName(topicName);
-		topic.setOrder(topicOrder);
-
+		// topic.setOrder(topicOrder);
+		
+	//	topicValidator.validate(topic, result);
+/*		if (result.hasErrors()) {
+			return "editTopic";
+		}*/
+		
+		
 		if (topicId != null) {
 			topicService.updateTopic(topic);
 		} else {
