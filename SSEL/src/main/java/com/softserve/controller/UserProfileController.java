@@ -22,6 +22,8 @@ public class UserProfileController {
 	private static final Logger LOG = LoggerFactory
 			.getLogger(UserProfileController.class);
 
+	private static final String NAME_PATTERN = "[A-ZÀ-ß²¯ª]{1}[A-ZÀ-ß²¯ªa-zà-ÿ³¿º]{1,30}";
+
 	@Autowired
 	private UserService userService;
 
@@ -64,7 +66,7 @@ public class UserProfileController {
 	public @ResponseBody String changeFirstNameAction(
 			@RequestBody Map<String, Object> map, HttpSession session) {
 		String firstName = map.get("firstName").toString();
-		if (firstName != null) { //TODO pattern
+		if (firstName != null && firstName.matches(NAME_PATTERN)) {
 			User user = userService
 					.getUserByEmail(userService.getCurrentUser());
 			user.setFirstName(firstName);
@@ -74,12 +76,12 @@ public class UserProfileController {
 		}
 		return "error";
 	}
-	
+
 	@RequestMapping(value = "/changeLastName", method = RequestMethod.POST, headers = { "content-type=application/json" })
 	public @ResponseBody String changeLastNameAction(
 			@RequestBody Map<String, Object> map, HttpSession session) {
 		String lastName = map.get("lastName").toString();
-		if (lastName != null) { //TODO pattern
+		if (lastName != null && lastName.matches(NAME_PATTERN)) {
 			User user = userService
 					.getUserByEmail(userService.getCurrentUser());
 			user.setLastName(lastName);

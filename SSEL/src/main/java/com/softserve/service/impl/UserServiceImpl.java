@@ -116,6 +116,7 @@ public class UserServiceImpl implements UserService {
 			teacherRequest.setRequestDate(new Date());
 			teacherRequest.setUser(user);
 			teacherRequestService.addTeacherRequest(teacherRequest);
+			//TODO send email
 		}
 	}
 

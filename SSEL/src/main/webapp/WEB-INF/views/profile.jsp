@@ -12,6 +12,8 @@
 	<spring:message code="dataerror.password_incorrect" var="password_incorrect"/>
 	<spring:message code="dataerror.firstname" var="firstname"/>
 	<spring:message code="dataerror.firstname" var="lastname"/>
+	<spring:message code="dataerror.email_exist" var="email_exist" />
+	<spring:message code="dataerror.email_example" var="email_example"/>
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
 			<div class="panel-heading">
@@ -52,7 +54,7 @@
                         			<td>
                         				<button data-original-title="<spring:message code="label.edit_last_name" />" 
                         					data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"
-                        					 id="btn_change_last_name">
+                        					id="btn_change_last_name">
                         					<i class="glyphicon glyphicon-edit"></i>
                         				</button>
                         			</td>
@@ -74,7 +76,8 @@
 	                        		</td>
 	                        		<td>
                         				<button data-original-title="Edit email" data-toggle="tooltip"
-                        					type="button" class="btn btn-sm btn-warning">
+                        					type="button" class="btn btn-sm btn-warning"
+                        					id="btn_change_email">
                         					<i class="glyphicon glyphicon-edit"></i>
                         				</button>
                         			</td>
@@ -162,13 +165,58 @@
 					<div class="panel panel-info">
         				<div class="panel-body">
         					<div class="form-group">
-								<label class="col-md-3 control-label" for="first_name">
+								<label class="col-md-3 control-label" for="last_name">
 									<spring:message code="label.lastname" /> 
 								</label>
 								<div class="col-md-6">
 									<input type="text" id="last_name" class="form-control" name="last_name"
 										placeholder="<spring:message code="placeholder.lastname" />"  
 										value="<c:out value="${sessionScope.user.lastName}" />"/>
+								</div>
+							</div>
+	        			</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-success" >
+						<spring:message code="label.accept"/>
+					</button>
+					<button type="reset" class="btn btn-info" data-dismiss="modal">
+						<spring:message code="label.cancel" />
+					</button>
+				</div>
+			</form>
+		</div>		
+	</div> 
+</div>
+
+<!-- Modal window for change email -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" 
+    id="modal_change_email" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+				    <span aria-hidden="true">&times;</span>
+				    <span class="sr-only">Close</span>
+				</button>
+				<h4 class="modal-title">
+					Change email
+				</h4>
+			</div>
+			<form id="form_change_email" class="form-horizontal" method="POST" role="form" 
+				action="<c:url value="/changeEmail" />">
+				<div class="modal-body">				
+					<div class="panel panel-info">
+        				<div class="panel-body">
+        					<div class="form-group">
+								<label class="col-md-3 control-label" for="email">
+									<spring:message code="label.email" /> 
+								</label>
+								<div class="col-md-6">
+									<input type="email" id="email" class="form-control" name="email"
+										placeholder="<spring:message code="placeholder.email" />"  
+										value="<c:out value="${sessionScope.user.email}" />"/>
 								</div>
 							</div>
 	        			</div>
@@ -256,11 +304,15 @@ jQuery(document).ready(function ($) {
 	
 	$("#btn_change_first_name").click(function(){	
 		$('#modal_change_first_name').modal();
-	})
+	});
 	
 	$("#btn_change_last_name").click(function(){	
 		$('#modal_change_last_name').modal();
-	})
+	});
+	
+	$("#btn_change_email").click(function(){	
+		$('#modal_change_email').modal();
+	});
 	
     $('[data-toggle="tooltip"]').tooltip();
     
@@ -404,6 +456,21 @@ jQuery(document).ready(function ($) {
     		last_name: {
     			required: "${required}",
 				regexp: "${lastfirstname}"
+    		}
+    	}
+    });
+    
+    $("#form_change_email").validate({
+    	rules: {
+    		email: {
+    			required: true,
+    			email: true
+    		}
+    	},
+    	messages: {
+    		email: {
+    			required: "${required}",
+    			email: "${email_example}"
     		}
     	}
     });
