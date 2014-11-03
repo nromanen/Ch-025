@@ -1,5 +1,4 @@
-<%@page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <html>
@@ -15,6 +14,7 @@
 <link href="resources/css/plugins/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
 
 <script src="resources/js/jquery-1.11.1.min.js"></script>
+<script src="resources/js/jquery.validate.min.js"></script>
 <script src="resources/js/bootstrap.min.js"></script>
 <script src="resources/js/plugins/metisMenu/metisMenu.min.js"></script>
 <script src="resources/js/sb-admin-2.js"></script>
