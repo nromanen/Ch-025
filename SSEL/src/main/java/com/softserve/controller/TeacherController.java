@@ -309,7 +309,10 @@ public class TeacherController {
 			subjectService.addSubject(subject);
 
 			courseSchedulerService.addCourseScheduler(scheduler);
-
+			Group group = new Group();
+			group.setCourse(scheduler);
+			group.setActive(true);
+			groupService.addGroup(group);
 		}
 
 		return "redirect:/teacher";

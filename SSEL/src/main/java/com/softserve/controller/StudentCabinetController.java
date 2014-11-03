@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.softserve.entity.Block;
 import com.softserve.entity.CourseScheduler;
 import com.softserve.entity.Group;
+import com.softserve.entity.Rating;
 import com.softserve.entity.StudentGroup;
 import com.softserve.entity.Subject;
 import com.softserve.entity.Topic;
@@ -134,6 +135,7 @@ public class StudentCabinetController {
 		model.addAttribute("progress", ratingService.getProgressByGroupAndUser(groupId, userId));
 		model.addAttribute("blockList", blocks);
 		model.addAttribute("subject", subject);
+		model.addAttribute("courseId", courseId);
 		} catch(NullPointerException e) {
 			return "redirect:student?table=active";
 		}
@@ -152,8 +154,35 @@ public class StudentCabinetController {
 		model.addAttribute("content", topic.getContent());
 		return "topicView";
 	}
+	/**
+	 * Handle ratings request and prepare it
+	 * @param model data model for view
+	 * @param session session object
+	 * @return view URL
+	 */
+	@RequestMapping(value = "/ratings", method = RequestMethod.GET)
+	private String printStatistics(@RequestParam (value = "courseId", required = true) Integer courseId,
+								   @RequestParam (value = "showType", required = false) String showType,
+								   Model model, 
+								   HttpSession session) {
+		CourseScheduler cs = courseService.getCourseScheduleresBySubjectId(courseId).get(0);
+		Group group = groupService.getGroupByScheduler(cs.getId());
+		User user = (User) session.getAttribute("user");
+		double avgRating = ratingService.getAverageRatingByUserAndGroup(user.getId(), group.getGroupId());
+		double progress = ratingService.getProgressByGroupAndUser(group.getGroupId(), user.getId());
+		List<Block> blocks = blockService.getBlocksBySubjectId(cs.getSubject().getId());
+		List<Rating> ratings = ratingService.getRatingByGroupAndUser(group.getGroupId(), user.getId());
+		model.addAttribute("avgRating", avgRating);
+		model.addAttribute("progress", progress);
+		model.addAttribute("blocks",blocks);
+		model.addAttribute("ratings", ratings);
+		model.addAttribute("name", cs.getSubject().getName());
+		model.addAttribute("startEnd", "(" + cs.getStart()+"-"+cs.getEnd()+ ")");
+		model.addAttribute("showType", "table");
+		model.addAttribute("courseId", courseId);
+		return "ratings";
+	}
 	
-
 	/**
 	 * Perform subscribing student on course
 	 * @param subjectId subject identifier to subscribe
@@ -192,5 +221,6 @@ public class StudentCabinetController {
 		} 
 		return "redirect:course?subjectId="+subjectId;
 	}
+	
 	
 }

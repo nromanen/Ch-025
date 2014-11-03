@@ -10,7 +10,20 @@
 			<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span>
 			<span class="icon-bar"></span> <span class="icon-bar"></span>
 		</button>
-		<a class="navbar-brand" href="<c:url value="/" />">SSEL SoftServe Academy</a>
+		<c:choose>
+			<c:when test="${sessionScope.user.role.role eq 'STUDENT'}">
+				<c:set var="url" value="student" ></c:set>
+			</c:when>
+			<c:when test="${sessionScope.user.role.role eq 'TEACHER'}">
+				<c:set var="url" value="teacher" ></c:set>
+			</c:when>
+			<c:otherwise>
+				<c:set var="url" value="/" ></c:set>
+			</c:otherwise>
+		</c:choose>
+		
+		<a class="navbar-brand" href="<c:url value="${url}" />">
+		SSEL SoftServe Academy</a>
 	</div>
 	<!-- /.navbar-header -->
 	<ul class="nav navbar-top-links navbar-right">

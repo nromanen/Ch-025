@@ -10,15 +10,29 @@
 
 <div class="row">
 	<div class="panel panel-default">
-		<div class="col-lg-12">
-						<div class="panel-body">
-						<h1>${subject.name}
-							
-                            	<div id="morris-donut-chart"
-                            		style="width: 130; height: 130; position: float"></div>
-                        
-						</h1>
-						</div>
+		<div class="row">
+			<div class="col-lg-8">
+				<h1>${subject.name}</h1>
+			</div>
+			<div class="col-lg-2">
+				<div id="morris-donut-rating"
+                            		style="width: 100; height: 100; position: float"></div>
+                <div class="panel-heading">
+                            <i class="fa fa-bar-chart-o fa-fw"></i> Rating
+                </div>
+				  
+					
+			</div>
+			<div class="col-lg-2">
+				<div id="morris-donut-progress"
+                            		style="width: 100; height: 100; position: float"></div>
+                <div class="panel-heading">
+                            <i class="fa fa-bar-chart-o fa-fw"></i> Progress
+                </div>
+				        
+			</div>
+		
+		</div>
 		 <div class="row">
 			<form method="GET" action="subscribe">
 					<button value="${subject.id}" name="subjectId"
@@ -37,7 +51,10 @@
      
 		
 		<div class = "row">
-			<h2>Course material</h2>
+			<h2><spring:message code="label.course_material"></spring:message></h2>
+			<h5>
+				<a href="ratings?courseId=${courseId}" ><spring:message code="label.course_statistic" /></a>
+			</h5>
 		</div>
 		<!-- .panel-heading -->
 		<div class="panel-body">
@@ -97,19 +114,32 @@
 </div>
 </div>
 <!-- /.col-lg-12 -->
+
 <script>
 var rating = document.getElementById("rating").value;
 var progress = document.getElementById("progress").value;
 	Morris.Donut({
-	  element: 'morris-donut-chart',
+	  element: 'morris-donut-rating',
 	  data: [
-	    {label: "Rating", value: rating},
-	    {label: "Progress", value: progress}
+	    {label: "Success", value: rating},
+	    {label: "Failed", value: 100-rating}
 	  ],
 	colors: [
-		'#3399FF',
-		'#66FF66'
+		'#33CC33',
+		'#FF3300'
 	]
 	});
-		
+	
+	Morris.Donut({
+		  element: 'morris-donut-progress',
+		  data: [
+		    {label: "Success", value: progress},
+		    {label: "Failed", value: 100-progress}
+		  ],
+		colors: [
+			'#33CC33',
+			'#FF3300'
+		]
+		});
+			
 </script>
