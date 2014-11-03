@@ -39,4 +39,10 @@ public class GroupServiceImp implements GroupService{
 		return groupDao.getGroupsByStudent(userId);
 	}
 
+	@Transactional
+	@Override
+	public void deleteGroup(Group group) {
+		groupDao.deleteGroup(group);		
+	}
+
 }

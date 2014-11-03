@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-static-top" role="navigation"
 	style="margin-bottom: 0">
@@ -15,15 +16,12 @@
 	<ul class="nav navbar-top-links navbar-right">
 		<li>
 			<div>
-				<a  href="?lang=ua" style="padding: 0px"> 
-					<img style="width: 20px; height: 20px;" src='<c:url value="/resources/img/ua.png" />'> 
-				</a>
-				<a href="?lang=en" style="padding: 0px"> 
-					<img style="width: 20px; height: 20px;" src='<c:url value="/resources/img/en.png" />'> 
-				</a>
-				<a href="?lang=ru" style="padding: 0px"> 
-					<img style="width: 20px; height: 20px;" src='<c:url value="/resources/img/ru.png" />'> 
-				</a>
+				<img style="width: 20px; height: 20px; cursor: pointer;" src='<c:url value="/resources/img/ua.png" />' 
+					onclick="localization('ua')"> 
+				<img style="width: 20px; height: 20px; cursor: pointer;" src='<c:url value="/resources/img/en.png" />' 
+					onclick="localization('en')"> 
+				<img style="width: 20px; height: 20px; cursor: pointer;" src='<c:url value="/resources/img/ru.png" />' 
+					onclick="localization('ru')"> 
 			</div>
 		</li>
 		<li class="dropdown">
@@ -34,9 +32,9 @@
 			<ul class="dropdown-menu dropdown-user">
 				<c:if test="${sessionScope.user.role.role eq 'TEACHER'}">
 					<li><a href="teacher"><i class="fa fa-user fa-fw"></i>
-							Teacher cabinet</a></li>
+							<spring:message code="label.teacher_cabinet"/> </a></li>
 					<li><a href="#"><i class="fa fa-user fa-fw"></i>
-							Teacher profile</a></li>
+							<spring:message code="label.teacher_profile"/></a></li>
 					<li class="divider"></li>
 					<li><a href="logout"><i class="fa fa-sign-out fa-fw"></i>
 							Logout</a></li>
@@ -44,11 +42,11 @@
 				<c:if test="${sessionScope.user.role.role eq 'STUDENT'}">
 					<li>
 						<a href="student?table=active"> <i
-							class="fa fa-user fa-fw"></i> Student cabinet
+							class="fa fa-user fa-fw"></i> <spring:message code="label.student_cabinet"/>
 						</a>
 					</li>
 					<li><a href="#"> <i
-							class="fa fa-user fa-fw"></i> Student profile
+							class="fa fa-user fa-fw"></i> <spring:message code="label.student_profile"/>
 					</a></li>
 					<li class="divider"></li>
 					<li>
@@ -82,7 +80,7 @@
 		<div class="sidebar-nav navbar-collapse">
 			<ul class="nav" id="side-menu">
 				<li><a href="#"><i class="fa fa-sitemap fa-fw"></i>
-					<spring:message code="label.all_cources" /><span class="fa arrow"></span></a>
+					<spring:message code="label.all_courses" /><span class="fa arrow"></span></a>
 					<ul class="nav nav-second-level"  id="listCat">
 						<c:forEach items="${catList}" var="cat">
 							<li><a href="#"> ${cat.name} <span class="fa arrow"></span></a>

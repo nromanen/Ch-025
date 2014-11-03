@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 
 <div class="row">
@@ -11,8 +11,20 @@
 		<h1 class="page-header">SoftServe SSEL Academy</h1>
 	</div>
 	<div class="col-lg-12">
-		<p>SoftServe SSEL Academy is better way for self-education. We
-			choose the best courses for you!</p>
+		<p>
+			<spring:message code="label.quest_text" />
+		</p>
+	<div class="input-group custom-search-form">
+				<form method="get" action="search">
+					<input type="text" class="form-control" name="search" 
+						id="search" placeholder="Search...">
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="submit">
+							<i class="fa fa-search"></i>
+						</button>
+					</span>
+				</form>
+	</div>
 	</div>
 	<form method="GET" action="course">
 		<div class="blocks">
@@ -22,11 +34,15 @@
 						<button value="${subj.id}" name="subjectId" class="btn btn-link"
 							style="color: #428bca;">${subj.name}</button>
 					</div>
-					<div>Category: ${subj.category.name}</div>
+					<div>
+						<spring:message code="label.category" />
+						${subj.category.name}
+					</div>
 					<c:forEach items="${schedule}" var="schedule">
 						<c:if test="${schedule.subject.id eq subj.id}">
-							<div>Start date: 
-							<fmt:formatDate pattern='dd-MM-yyyy' value='${schedule.start}' /> 
+							<div>
+								<spring:message code="label.start_date" />
+								<fmt:formatDate pattern='dd-MM-yyyy' value='${schedule.start}' />
 							</div>
 						</c:if>
 					</c:forEach>

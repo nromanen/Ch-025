@@ -8,10 +8,13 @@
                     http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
 	<http pattern="/css/**" security="none" />
+	<http pattern="/fu/**" security="none" />
+	<http pattern="/upload/**" security="none" />
 
 	<http auto-config="true" use-expressions="true">
 		<intercept-url pattern="/registration" access="isAnonymous()" />
 		<intercept-url pattern="/login" access="isAnonymous()" />
+		<intercept-url pattern="/profile/**" access="isAuthenticated()" />
 		<intercept-url pattern="/teacher/teacher/**" access="hasRole('TEACHER')" />
 		<intercept-url pattern="/teacher/teacherCourse" access="hasRole('TEACHER')" />
 		<intercept-url pattern="/student/**" access="hasRole('STUDENT')" />
