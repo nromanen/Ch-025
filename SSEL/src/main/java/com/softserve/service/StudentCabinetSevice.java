@@ -4,10 +4,6 @@ import java.util.List;
 
 import com.softserve.entity.CourseScheduler;
 import com.softserve.entity.StudentGroup;
-
-
-
-
 /**
  * Specify Student cabinet functionality
  * 
@@ -23,7 +19,7 @@ public interface StudentCabinetSevice {
 	
 	public List<CourseScheduler> getFinishedCourses();
 	
-	public StudentGroup getStudentGroupByUserAndCourseId(int userId, int courseId);
+	public StudentGroup getStudentGroupByUserAndGroupId(int userId, int groupId);
 	
 	
 }

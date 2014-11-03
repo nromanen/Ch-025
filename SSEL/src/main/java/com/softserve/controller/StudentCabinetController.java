@@ -15,13 +15,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.softserve.entity.Block;
 import com.softserve.entity.CourseScheduler;
+import com.softserve.entity.Group;
 import com.softserve.entity.StudentGroup;
 import com.softserve.entity.Subject;
 import com.softserve.entity.Topic;
 import com.softserve.entity.User;
 import com.softserve.service.BlockService;
 import com.softserve.service.CourseSchedulerService;
+import com.softserve.service.GroupService;
 import com.softserve.service.MailService;
+import com.softserve.service.RatingService;
 import com.softserve.service.StudentCabinetSevice;
 import com.softserve.service.StudentGroupService;
 import com.softserve.service.SubjectService;
@@ -38,6 +41,10 @@ public class StudentCabinetController {
 	private StudentGroupService studentGroupService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private GroupService groupService;
+	@Autowired 
+	private RatingService ratingService;
 	@Autowired
 	private SubjectService subjectService;
 	@Autowired
@@ -74,23 +81,28 @@ public class StudentCabinetController {
 	public String printStudentCourses(@RequestParam(value="table", required = false) String table, Model model, 
 			HttpSession sess) {
 		User user = (User) sess.getAttribute("user");
-		int userId = user.getId();
+		int userId  = user.getId();
 		studentCabinetService.initSubscribedList(userId);
 		List<CourseScheduler> scheduler;
-		List<StudentGroup> groups;
+		List<Double> ratings;
+		List<Double> progreses;
 		if (table == null || table.equals("future")) { //build data model for future courses
 			scheduler = studentCabinetService.getFutureCourses();
 			model.addAttribute("courses",scheduler);
 			model.addAttribute("title", "Future courses");
 		} else if (table.equals("active")) { //build data model for active courses
 			scheduler = studentCabinetService.getActiveCourses(); 
-			groups = new ArrayList<>();
+			ratings = new ArrayList<>();
+			progreses = new ArrayList<>();
 			for (CourseScheduler item: scheduler) {
-				groups.add(studentCabinetService.getStudentGroupByUserAndCourseId(userId,item.getId()));
+				int groupId = groupService.getGroupByScheduler(item.getId()).getGroupId();
+				ratings.add(ratingService.getAverageRatingByUserAndGroup(userId, groupId));
+				progreses.add(ratingService.getProgressByGroupAndUser(groupId, userId));
 			}
 			model.addAttribute("title", "Active courses");
 			model.addAttribute("courses",scheduler);
-			model.addAttribute("groups", groups);
+			model.addAttribute("ratings", ratings);
+			model.addAttribute("progreses", progreses);
 			
 		} else { //build data model for finished courses
 			scheduler = studentCabinetService.getFinishedCourses();
@@ -117,9 +129,9 @@ public class StudentCabinetController {
 		List<Block> blocks = blockService.getBlocksBySubjectId(courseId);
 		Subject subject = subjectService.getSubjectById(courseId);
 		int courseSchedulerId = courseService.getCourseScheduleresBySubjectId(courseId).get(0).getId();
-		StudentGroup result = studentCabinetService.getStudentGroupByUserAndCourseId(userId, courseSchedulerId);
-		model.addAttribute("rating", result.getRating());
-		model.addAttribute("progress", result.getProgress());
+		int groupId = groupService.getGroupByScheduler(courseSchedulerId).getGroupId();
+		model.addAttribute("rating", ratingService.getAverageRatingByUserAndGroup(userId, groupId));
+		model.addAttribute("progress", ratingService.getProgressByGroupAndUser(groupId, userId));
 		model.addAttribute("blockList", blocks);
 		model.addAttribute("subject", subject);
 		} catch(NullPointerException e) {
@@ -149,23 +161,13 @@ public class StudentCabinetController {
 	 */
 	private synchronized String subscribe(int subjectId, int userId, String email) {
 		CourseScheduler cs = courseService.getCourseScheduleresBySubjectId(subjectId).get(0); //get subject course scheduler
-		StudentGroup row = studentCabinetService.getStudentGroupByUserAndCourseId(userId, cs.getId());
+		Group subscribedGroup = groupService.getGroupByScheduler(cs.getId());
+		int groupId = subscribedGroup.getGroupId();
+		StudentGroup row = studentCabinetService.getStudentGroupByUserAndGroupId(userId, groupId);
 		if (row == null) { //check if student hasn't subscribed
-			if (cs.getStart().after(new Date())) { // check if course hasn't started
-				int groupNumber;
-				if (studentGroupService.getAllStudentGroups().size() == 0) { // if no one group in db
-					groupNumber = 100;
-				} else {
-					groupNumber = studentGroupService.getGroupNumberByCourse(cs.getId()); 
-					if (groupNumber == -1) { // if user is first subscriber, create new group
-						groupNumber = studentGroupService.getNextGroupNumber();
-					}
-				}
+			if (cs.getStart().after(new Date()) && subscribedGroup.isActive()) { // check if course hasn't started
 				row = new StudentGroup();
-				row.setCourseScheduler(cs);
-				row.setGroupNumber(groupNumber);
-				row.setProgress(0.0);
-				row.setRating(0.0);
+				row.setGroupNumber(subscribedGroup);
 				row.setUser(userService.getUserById(userId));
 				studentGroupService.addStudentGroup(row);
 				mailService.sendMail(email, "ssel subscribe", "You've subscribed on course "+cs.getSubject().getName()+
@@ -181,7 +183,8 @@ public class StudentCabinetController {
 	 */
 	private String unsubscribe(int subjectId, int userId, String email) {
 		CourseScheduler cs = courseService.getCourseScheduleresBySubjectId(subjectId).get(0); //get subject course scheduler
-		StudentGroup row = studentCabinetService.getStudentGroupByUserAndCourseId(userId, cs.getId());
+		int groupId = groupService.getGroupByScheduler(cs.getId()).getGroupId();
+		StudentGroup row = studentCabinetService.getStudentGroupByUserAndGroupId(userId, groupId);
 		if (row != null) {
 			studentGroupService.deleteStudentGroup(row);
 			mailService.sendMail(email, "ssel unsubscribe", "You've unsubscribed from course "+cs.getSubject().getName()+

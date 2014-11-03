@@ -6,7 +6,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <div class="row">
 	<div class="col-lg-12">
-		<h1 class="page-header">Student cabinet</h1>
+		<h1 class="page-header">${title}</h1>
 	</div>
 </div>
 <div class="panel panel-default">
@@ -48,10 +48,10 @@
 									</td>
 								<c:if test="${table ne 'future'}">
 									<td>
-										${groups.get(index).rating}
+										${ratings.get(index)}
 									</td>
 									<td>
-										${groups.get(index).progress}
+										${progreses.get(index)}
 									</td>
 								<c:set var="index" value="${index+1}"/>
 							</c:if> 
