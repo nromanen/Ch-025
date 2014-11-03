@@ -21,13 +21,13 @@ import com.softserve.service.UserService;
 import com.softserve.validator.RegistrationValidation;
 
 @RunWith(Parameterized.class)
-public class RegistrationValidationTest {
+public class RegistrationValidationNegativeTest {
 	
 	private RegistrationValidation registrationValidation = new RegistrationValidation();
 	private Registration registration = new Registration();
 	private UserService userService;
 	
-	public RegistrationValidationTest(String firstName, String lastName, 
+	public RegistrationValidationNegativeTest(String firstName, String lastName, 
 			String email, String password, String confirmPassword) {
 		registration.setFirstName(firstName);
 		registration.setLastName(lastName);

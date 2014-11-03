@@ -145,5 +145,11 @@ public class GuestController {
 		model.addAttribute("topics", topics);
 		return "courseInformation";
 	}
+	
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
+	public String search(@RequestParam String search, Model model, HttpSession httpSession) {
+		User user = (User) httpSession.getAttribute("user");
+		return "search";
+	}
 
 }

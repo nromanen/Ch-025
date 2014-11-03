@@ -3,6 +3,7 @@ package com.softserve.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import com.softserve.entity.CourseScheduler;
 import com.softserve.service.AdministratorService;
 
@@ -23,15 +24,15 @@ public class AdministratorServiceImpl implements AdministratorService {
 	@Override
 	public List<CourseScheduler> getActiveCourses() {
 		Date currentDate = new Date();
-		ArrayList<CourseScheduler> cs = new ArrayList<>();
+		List<CourseScheduler> cs = new ArrayList<>();
 		for (CourseScheduler item : subscribedCourses) {
 			// TODO add end date course check
-			if ((currentDate.after(item.getStart()) || currentDate.equals(item.getStart()))
+			if (!currentDate.before(item.getStart()) 
 					&& currentDate.before(item.getEnd())) { //check if course is started
 				cs.add(item);
 			}
 		}
-		return cs;
+	return cs;
 	}
 
 }

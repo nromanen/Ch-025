@@ -4,7 +4,9 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.junit.Before;
@@ -52,11 +54,13 @@ public class AdministratorServiceTest {
 		verify(list, times(1)).add(scheduler);
 	}
 
-	@SuppressWarnings("deprecation")
 	private CourseScheduler addTestToList() {
 		CourseScheduler scheduler2 = new CourseScheduler();
-		scheduler2.setStart(new Date(2013, 5, 21));
-		scheduler2.setEnd(new Date(2016,6,12));
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(2013, Calendar.OCTOBER, 23);
+		scheduler2.setStart(calendar.getTime());
+		calendar.set(2016, Calendar.MAY, 14);
+		scheduler2.setEnd(calendar.getTime());
 		list.add(scheduler2);
 		return scheduler2;
 	}

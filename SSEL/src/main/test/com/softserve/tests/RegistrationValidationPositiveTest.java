@@ -21,13 +21,13 @@ import com.softserve.service.UserService;
 import com.softserve.validator.RegistrationValidation;
 
 @RunWith(Parameterized.class)
-public class RegistrationValidationTest2 {
+public class RegistrationValidationPositiveTest {
 	
 	private RegistrationValidation registrationValidation = new RegistrationValidation();
 	private Registration registration = new Registration();
 	private UserService userService;
 	
-	public RegistrationValidationTest2(String firstName, String lastName, 
+	public RegistrationValidationPositiveTest(String firstName, String lastName, 
 			String email, String password, String confirmPassword) {
 		registration.setFirstName(firstName);
 		registration.setLastName(lastName);
@@ -49,7 +49,7 @@ public class RegistrationValidationTest2 {
     				"Fsd", "Fdsfsd", "gdfg_fdg@gmail.com", "fdsFd54fd//*&", "fdsFd54fd//*&"
     			},
     			{
-    				"Fsd", "Fdsfsd", "gdfgf.dg@gmail.com", "12fdsF//d54fd*&", "12fdsF//d54fd*&"
+    				"Fsd", "Fdsfsd", "gdfgf.dg@i.ua", "12fdsF//d54fd*&", "12fdsF//d54fd*&"
     			},
     			{
     				"Вася", "Пупкін", "vasya.pupkin@mail.ru", "fdsFd54fd*&", "fdsFd54fd*&"

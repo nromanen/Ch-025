@@ -23,13 +23,13 @@ import com.softserve.service.UserService;
 import com.softserve.validator.ResetPasswordValidation;
 
 @RunWith(Parameterized.class)
-public class ResetPasswordValidationTest2 {
+public class ResetPasswordValidationPositiveTest {
 	
 	private ResetPasswordValidation resetPasswordValidation = new ResetPasswordValidation();
 	private ResetPassword resetPassword = new ResetPassword();
 	private UserService userService;
 	
-	public ResetPasswordValidationTest2(String newPassword, String confirmPassword) {
+	public ResetPasswordValidationPositiveTest(String newPassword, String confirmPassword) {
 		resetPassword.setPassword(newPassword);
 		resetPassword.setConfirmPassword(confirmPassword);
 	}
