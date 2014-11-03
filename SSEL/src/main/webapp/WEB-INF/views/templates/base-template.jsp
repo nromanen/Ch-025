@@ -21,6 +21,7 @@
 <script src="resources/js/plugins/dataTables/jquery.dataTables.js"></script>
 <script src="resources/js/searchScript.js"></script>
 <script src="resources/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/localization.js" />"></script>
 
 <title><tiles:getAsString name="title" /></title>
 </head>
