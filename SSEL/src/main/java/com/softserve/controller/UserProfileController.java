@@ -38,10 +38,7 @@ public class UserProfileController {
 		String email = userService.getCurrentUser();
 		String oldPassword = map.get("old_password").toString();
 		User user = userService.getUserByEmail(email);
-		if (!userService.isEqualsPasswords(oldPassword, user)) {
-			return false;
-		}
-		return true;
+		return userService.isEqualsPasswords(oldPassword, user);
 	}
 
 	@RequestMapping(value = "/changePassword", method = RequestMethod.POST, headers = { "content-type=application/json" })
@@ -52,13 +49,13 @@ public class UserProfileController {
 		String email = userService.getCurrentUser();
 		User user = userService.getUserByEmail(email);
 		if (!userService.isEqualsPasswords(oldPassword, user)) {
-			LOG.trace(
+			LOG.debug(
 					"{} trying to change their password but incorrectly entered old password",
 					email);
 			return "error";
 		}
 		userService.changePasswrod(user, newPassword);
-		LOG.trace("{} has successfuly changed their password", email);
+		LOG.debug("{} has successfuly changed their password", email);
 		return "success";
 	}
 
@@ -66,7 +63,7 @@ public class UserProfileController {
 	public @ResponseBody String changeFirstNameAction(
 			@RequestBody Map<String, Object> map, HttpSession session) {
 		String firstName = map.get("firstName").toString();
-		if (firstName != null && firstName.matches(NAME_PATTERN)) {
+		if (firstName.matches(NAME_PATTERN)) {
 			User user = userService
 					.getUserByEmail(userService.getCurrentUser());
 			user.setFirstName(firstName);
@@ -81,7 +78,7 @@ public class UserProfileController {
 	public @ResponseBody String changeLastNameAction(
 			@RequestBody Map<String, Object> map, HttpSession session) {
 		String lastName = map.get("lastName").toString();
-		if (lastName != null && lastName.matches(NAME_PATTERN)) {
+		if (lastName.matches(NAME_PATTERN)) {
 			User user = userService
 					.getUserByEmail(userService.getCurrentUser());
 			user.setLastName(lastName);
