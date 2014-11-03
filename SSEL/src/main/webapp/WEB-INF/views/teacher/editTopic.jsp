@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="s"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <script src="resources/ckeditor/ckeditor.js"></script>
 
@@ -14,8 +15,9 @@
 
 <div class="panel panel-default">
 	<div class="panel-body">
-		<form action="saveTopic" name="editTopicForm" id="editTopicForm">
+		<form:form method="post" action="saveTopic" name="editTopicForm" id="editTopicForm" commandName="topic">
 			<input type="hidden" name="topicId" value="${topic.id}">
+			<input type="hidden" name="subjectId" value="${subjectId}">
 
 			<div class="form-group">
 				<label><spring:message code="label.teacher.module"/></label> <select class="form-control" name="blockId" style="width: 40%">
@@ -36,8 +38,9 @@
 			</div>
 
 			<div class="form-group">
-				<label><spring:message code="label.teacher.name"/></label> <input class="form-control" name="topicName" style="width: 40%"
-					value="${topic.name}">
+				<label><spring:message code="label.teacher.name"/></label> <form:input class="form-control" path="name" name="topicName" style="width: 40%"
+					value="${topic.name}" />
+					<form:errors path="name" cssClass="topic_error" />
 				<p class="help-block"><spring:message code="label.teacher.inputOrEditTopicName"/></p>
 			</div>
 
@@ -61,7 +64,7 @@
 			<br> <input type="submit" class="btn btn-primary btn-lg"
 				value=<spring:message code="label.teacher.save"/>>
 
-		</form>
+		</form:form>
 
 
 		<!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
@@ -223,7 +226,7 @@
 
 			rules : {
 
-				topicName : {
+				topicName1 : {
 					required : true,
 					minlength : 4,
 					maxlength : 30,
