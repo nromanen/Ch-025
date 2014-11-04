@@ -31,6 +31,7 @@ public class Topic {
 	private String content;
 
 	@Column(name = "topic_order")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int order;
 
 	@Column(name = "alive")

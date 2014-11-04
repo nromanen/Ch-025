@@ -140,12 +140,17 @@ public class TeacherController {
 		List<Category> categories = categoryService.getAllCategories();
 		
 		Topic topic = new Topic();
+		topic.setAlive(true);
+		topic.setContent("");
+		topic.setName("");
+		topic.setOrder(0);
+		//topic.setId(0);
 		model.addAttribute("blockList", blocks);
 		model.addAttribute("catList", categories);
 		model.addAttribute("subjectId", subjectId);
 		model.addAttribute("topic", topic);
 		
-		return "redirect:editTopic";
+		return "editTopic";
 	}
 	
 	@RequestMapping(value = "/editTopic", method = RequestMethod.POST)
