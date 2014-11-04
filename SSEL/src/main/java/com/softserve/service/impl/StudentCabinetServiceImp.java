@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.dao.CourseSchedulerDao;
 import com.softserve.dao.StudentGroupDao;
@@ -27,6 +28,7 @@ public class StudentCabinetServiceImp implements StudentCabinetSevice{
 
 	}
 	
+	@Transactional
 	@Override
 	public void initSubscribedList(int user_id) {
 		subscribedCourses = courseSchedulerDao.getSubscribedCoursesByUserId(user_id);		
@@ -49,7 +51,6 @@ public class StudentCabinetServiceImp implements StudentCabinetSevice{
 		Date currentDate = new Date();
 		ArrayList<CourseScheduler> cs = new ArrayList<>();
 		for (CourseScheduler item : subscribedCourses) {
-			// TODO add end date course check
 			if ((currentDate.after(item.getStart()) || currentDate.equals(item.getStart()))
 					&& currentDate.before(item.getEnd())) { //check if course is started
 				cs.add(item);
@@ -70,10 +71,11 @@ public class StudentCabinetServiceImp implements StudentCabinetSevice{
 		return cs;
 	}
 
+	@Transactional
 	@Override
-	public StudentGroup getStudentGroupByUserAndCourseId(int userId,
-			int courseId) {
-		return studentGroupDao.getStudentGroupByUserAndCourseId(userId, courseId);
+	public StudentGroup getStudentGroupByUserAndGroupId(int userId,
+			int groupId) {
+		return studentGroupDao.getStudentGroupByGroupAndUser(groupId, userId);
 	}
 	
 }

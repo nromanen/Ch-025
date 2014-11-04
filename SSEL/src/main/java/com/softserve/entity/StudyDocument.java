@@ -12,8 +12,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -33,7 +31,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
  * @NamedQuery(name = "files", query =
  * "select sd from StudyDocument sd order by sd.id") })
  */
-@JsonIgnoreProperties({"id","newFilename","data","contentType","dateCreated","lastUpdated","topic"})
+@JsonIgnoreProperties({"id", "newFilename", "data", "contentType", "dateCreated", "lastUpdated", "topic" })
 public class StudyDocument implements Serializable {
 
 	private static final long serialVersionUID = 1L;

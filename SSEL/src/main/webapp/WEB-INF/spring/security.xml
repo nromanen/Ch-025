@@ -14,11 +14,11 @@
 	<http auto-config="true" use-expressions="true">
 		<intercept-url pattern="/registration" access="isAnonymous()" />
 		<intercept-url pattern="/login" access="isAnonymous()" />
+		<intercept-url pattern="/profile/**" access="isAuthenticated()" />
 		<intercept-url pattern="/teacher/teacher/**" access="hasRole('TEACHER')" />
 		<intercept-url pattern="/teacher/teacherCourse" access="hasRole('TEACHER')" />
 		<intercept-url pattern="/student/**" access="hasRole('STUDENT')" />
-		<intercept-url pattern="/student/**" access="hasRole('STUDENT')" />
-
+		
 		<intercept-url pattern="/teacher/editTopic/**" access="hasRole('TEACHER')" />
 		<intercept-url pattern="/teacher/editBlock/**" access="hasRole('TEACHER')" />
 		<intercept-url pattern="/teacher/editSubject/**" access="hasRole('TEACHER')" />

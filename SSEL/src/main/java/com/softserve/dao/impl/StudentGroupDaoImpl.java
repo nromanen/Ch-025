@@ -62,7 +62,7 @@ public class StudentGroupDaoImpl implements StudentGroupDao {
 	public List<StudentGroup> getStudentGroupsByGroupNumber(int number) {
 		LOG.debug("Get all topics by group number = {}", number);
 		Query query = entityManager.createQuery("FROM StudentGroup s "
-				+ "WHERE s.groupNumber = :number");
+				+ "WHERE s.group.groupId = :number");
 		query.setParameter("number", number);
 		return query.getResultList();
 	}
@@ -76,36 +76,14 @@ public class StudentGroupDaoImpl implements StudentGroupDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public StudentGroup getStudentGroupByUserAndCourseId(int userId,
-			int courseScheduler) {
-		LOG.debug("Get StudentGroup by user");
-		Query query = entityManager
-				.createQuery("select sg from StudentGroup sg "
-						+ "where sg.user.id=:user and sg.courseScheduler.id=:course");
-		query.setParameter("user", userId);
-		query.setParameter("course", courseScheduler);
-		List<StudentGroup> results = query.getResultList();
-		return (results.size() == 0) ? null : results.get(0);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public int getStudentGroupNumberByCourse(int courseScheduler) {
-		LOG.debug("Get StudentGroup by course");
-		Query query = entityManager
-				.createQuery("select distinct sg from StudentGroup sg where sg.courseScheduler.id = :id");
-		query.setParameter("id", courseScheduler);
-		List<StudentGroup> results = query.getResultList();
-		return (results.size() == 0) ? -1 : results.get(0).getGroupNumber();
-	}
-
-	@Override
-	public int getNextGroupNumber() {
-		LOG.debug("Get StudentGroup by course");
-		Query query = entityManager
-				.createQuery("select max(sg.groupNumber) from StudentGroup sg");
-		Integer res = (Integer) query.getSingleResult();
-		return (res != null) ? res + 1 : -1;
+	public StudentGroup getStudentGroupByGroupAndUser(int groupId, int userId) {
+		LOG.debug("Get student group by group id and user id");
+		Query query = entityManager.createQuery("SELECT s FROM StudentGroup s WHERE s.group.groupId = :gid AND "
+				+ "s.user.id = :uid");
+		query.setParameter("gid", groupId);
+		query.setParameter("uid", userId);
+		List<StudentGroup> groups = query.getResultList();
+		return (groups.size() == 0) ? null : groups.get(0);
 	}
 
 }

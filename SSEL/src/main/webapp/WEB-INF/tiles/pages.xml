@@ -14,6 +14,13 @@
 			value="/WEB-INF/views/templates/index_menu.jsp"></put-attribute>
 	</definition>
 
+	<!-- Profile -->
+	<definition name="profile" extends="sign-template">
+		<put-attribute name="title" value="SSEL SoftServeAcademy Profile" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/profile.jsp" />
+	</definition>
+
 	<!-- Registration -->
 	<definition name="registration" extends="sign-template">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Registration" />
@@ -44,6 +51,12 @@
 	<definition name="course" extends="index">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
 		<put-attribute name="content" value="/WEB-INF/views/pages/course.jsp" />
+	</definition>
+	
+	<!-- Search -->
+	<definition name="search" extends="index">
+		<put-attribute name="title" value="SSEL SoftServeAcademy Search"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/views/pages/search.jsp"></put-attribute>
 	</definition>
 
 	<!-- Student -->
@@ -108,7 +121,20 @@
 		<put-attribute name="menu"
 			value="/WEB-INF/views/templates/student_menu.jsp" />
 	</definition>
-
+	<definition name="topicView" extends="base-template">
+		<put-attribute name="title" value="SSEL SoftServeAcademy Student" />
+		<put-attribute name="content" value="/WEB-INF/views/pages/topicView.jsp" />
+		<put-attribute name="menu"
+			value="/WEB-INF/views/templates/student_menu.jsp" />
+	</definition>
+	<!-- Ratings page -->
+	<definition name="ratings" extends="base-template">
+		<put-attribute name="title" value="SSEL SoftServeAcademy Student" />
+		<put-attribute name="content" value="/WEB-INF/views/pages/ratings.jsp" />
+		<put-attribute name="menu"
+			value="/WEB-INF/views/templates/student_menu.jsp" />
+	</definition>
+	
 	<!-- Course information -->
 	<definition name="courseInformation" extends="index">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
