@@ -1,17 +1,23 @@
 package com.softserve.controller;
 
+import java.io.IOException;
+import java.util.Iterator;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.softserve.entity.User;
 import com.softserve.service.UserService;
@@ -28,7 +34,10 @@ public class UserProfileController {
 	private UserService userService;
 
 	@RequestMapping(value = "/profile")
-	public String showUserProfile() {
+	public String showUserProfile(HttpSession session) {
+		String email = userService.getCurrentUser();
+		User user = userService.getUserByEmail(email);
+		session.setAttribute("user", user);
 		return "profile";
 	}
 
@@ -75,4 +84,32 @@ public class UserProfileController {
 		}
 		return "error";
 	}
+
+	@RequestMapping(value = "/uploadPhoto", method = RequestMethod.POST)
+	public @ResponseBody String upload(MultipartHttpServletRequest request,
+			HttpServletResponse response, HttpSession session) {
+		Iterator<String> itr = request.getFileNames();
+		MultipartFile mpf = null;
+
+		while (itr.hasNext()) {
+			mpf = request.getFile(itr.next());
+			System.out.println(mpf.getOriginalFilename() + " uploaded! ");
+			System.out.println(mpf.getOriginalFilename());
+			System.out.println(mpf.getSize() + "b");
+			System.out.println(mpf.getContentType());
+			String email = userService.getCurrentUser();
+			User user = userService.getUserByEmail(email);
+			try {
+				System.out.println(mpf.getBytes());
+				user.setImage(mpf.getBytes());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			user = userService.updateUser(user);
+			String encodedImage = new String(Base64.encode(user.getImage()));
+			session.setAttribute("image", encodedImage);
+		}
+		return "success";
+	}
+
 }

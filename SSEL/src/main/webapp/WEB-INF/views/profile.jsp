@@ -22,9 +22,22 @@
             <div class="panel-body">
             	<div class="row">
               		<div class="col-md-3 col-lg-3 " align="center"> 
-                		<img alt="User Pic" class="img-circle"
-                			src="<c:url value="/resources/img/user_photo.png" />" > 
-                		<button class="btn btn-info" style="margin-top: 10px">Load Image</button>
+              			<c:choose>
+	              			<c:when test="${empty sessionScope.image}">
+	              				<img alt="User Pic" class="img-circle" style="height: 100px; width: 100px"
+                					src="<c:url value="/resources/img/user_photo.png" />" > 
+	              			</c:when>
+	              			<c:otherwise>
+	              				<img alt="User Pic" class="img-circle" style="height: 100px; width: 100px"
+                					src="data:image/png;base64,<c:out value="${sessionScope.image}" />" > 
+                					
+	              			</c:otherwise>
+              			</c:choose>
+                		
+                		<button type="button" class="btn btn-info" data-toggle="modal" 
+                			data-target="#modal_load_photo" style="margin-top: 15px">
+							Load Photo
+						</button>
                 	</div>
                 	<div class=" col-md-9 col-lg-9 "> 
                 		<form id="form_change_user_information" method="POST" role="form" 
@@ -100,9 +113,9 @@
 	</div>
 </div>
 
-<!-- Modal window for change email -->
+<!-- Modal window for load photo -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" 
-    id="modal_change_email" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    id="modal_load_photo" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -111,39 +124,121 @@
 				    <span class="sr-only">Close</span>
 				</button>
 				<h4 class="modal-title">
-					Change email
+					Load photo
 				</h4>
 			</div>
-			<form id="form_change_email" class="form-horizontal" method="POST" role="form" 
-				action="<c:url value="/changeEmail" />">
-				<div class="modal-body">				
-					<div class="panel panel-info">
-        				<div class="panel-body">
-        					<div class="form-group">
-								<label class="col-md-3 control-label" for="email">
-									<spring:message code="label.email" /> 
-								</label>
-								<div class="col-md-6">
-									<input type="email" id="email" class="form-control" name="email"
-										placeholder="<spring:message code="placeholder.email" />"  
-										value="<c:out value="${sessionScope.user.email}" />"/>
-								</div>
-							</div>
-	        			</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="submit" class="btn btn-success" >
-						<spring:message code="label.accept"/>
-					</button>
-					<button type="reset" class="btn btn-info" data-dismiss="modal">
-						<spring:message code="label.cancel" />
-					</button>
-				</div>
-			</form>
+			<div class="modal-body">	
+				<span class="btn btn-success fileinput-button">
+			        <i class="glyphicon glyphicon-plus"></i>
+			        <span>Add files...</span>
+			        <input id="fileupload" type="file" name="files[]" 
+			        	accept="image/png, image/jpeg, image/gif, image/jpg">
+			    </span>
+			    <div id="progress" class="progress" style="margin-top: 15px">
+			        <div class="progress-bar progress-bar-success"></div>
+			    </div>
+			    <div id="files" class="files"></div>
+			</div>
 		</div>		
 	</div> 
 </div>
+
+<script type="text/javascript">
+$(function () {
+        uploadButton = $('<button/>')
+            .addClass('btn btn-primary')
+            .prop('disabled', true)
+            .text('Processing...')
+            .on('click', function () {
+                var $this = $(this),
+                    data = $this.data();
+                $this
+                    .off('click')
+                    .text('Abort')
+                    .on('click', function () {
+                        $this.remove();
+                        data.abort();
+                    });
+                data.submit().always(function () {
+                    $this.remove();
+                });
+            });
+    $('#fileupload').fileupload({
+        url: 'uploadPhoto',
+        dataType: 'json',
+        autoUpload: false,
+        acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+        maxFileSize: 5000000, 
+        disableImageResize: /Android(?!.*Chrome)|Opera/
+            .test(window.navigator.userAgent),
+        previewMaxWidth: 100,
+        previewMaxHeight: 100,
+        previewCrop: true
+    }).on('fileuploadadd', function (e, data) {
+        data.context = $('<div id="photo" />').appendTo('#files');
+        $.each(data.files, function (index, file) {
+            var node = $('<p/>')
+                    .append($('<span/>').text(file.name));
+            if (!index) {
+                node
+                    .append('<br>')
+                    .append(uploadButton.clone(true).data(data));
+            }
+            node.appendTo(data.context);
+        });
+    }).on('fileuploadprocessalways', function (e, data) {
+        var index = data.index,
+            file = data.files[index],
+            node = $(data.context.children()[index]);
+        if (file.preview) {
+            node
+                .prepend('<br>')
+                .prepend(file.preview);
+        }
+        if (file.error) {
+            node
+                .append('<br>')
+                .append($('<span class="text-danger"/>').text(file.error));
+        }
+        if (index + 1 === data.files.length) {
+            data.context.find('button')
+                .text('Upload')
+                .prop('disabled', !!data.files.error);
+        }
+    }).on('fileuploadprogressall', function (e, data) {
+        var progress = parseInt(data.loaded / data.total * 100, 10);
+        $('#progress .progress-bar').css(
+            'width',
+            progress + '%'
+        );
+    }).on('fileuploaddone', function (e, data) {
+        $.each(data.result.files, function (index, file) {
+        	location.reload();
+            if (file.url) {
+                var link = $('<a>')
+                    .attr('target', '_blank')
+                    .prop('href', file.url);
+                $(data.context.children()[index])
+                    .wrap(link);
+            } else if (file.error) {
+                var error = $('<span class="text-danger"/>').text(file.error);
+                $(data.context.children()[index])
+                    .append('<br>')
+                    .append(error);
+            }
+        });
+    }).on('fileuploadfail', function (e, data) {
+        $.each(data.files, function (index) {
+        	location.reload();
+            var error = $('<span class="text-danger"/>'); //.text('File upload failed.')
+            $(data.context.children()[index])
+                .append('<br>')
+                .append(error);
+        });
+    }).prop('disabled', !$.support.fileInput)
+        .parent().addClass($.support.fileInput ? undefined : 'disabled');
+});
+</script>
 
 <!-- Modal window for change passwords -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" 
@@ -169,8 +264,15 @@
 									<spring:message code="label.old_password" />
 								</label>
 								<div class="col-md-6">
-									<input type="password" id="old_password" class="form-control" name="old_password"
-										placeholder="<spring:message code="placeholder.old_password"/>" />
+									<div class="input-group">
+										<input type="password" id="old_password" class="form-control pwd" name="old_password"
+											placeholder="<spring:message code="placeholder.old_password"/>" />
+										<span class="input-group-btn">
+	            							<button class="btn btn-default reveal" style="height: 34px" type="button">
+	            								<i class="glyphicon glyphicon-eye-open"></i>
+	            							</button>
+	          							</span> 
+          							</div>
 								</div>
 							</div>
 							<div class="form-group">
@@ -208,9 +310,52 @@
 	</div> 
 </div>
 
+<script src="//blueimp.github.io/JavaScript-Load-Image/js/load-image.all.min.js"></script>
+<script src="//blueimp.github.io/JavaScript-Canvas-to-Blob/js/canvas-to-blob.min.js"></script>
+<script src="<c:url value="/resources/js/vendor/jquery.ui.widget.js" />" ></script>
+<script src="<c:url value="/resources/js/jquery.iframe-transport.js" />" ></script>
+<script src="<c:url value="/resources/js/jquery.fileupload.js" />" ></script>
+<script src="<c:url value="/resources/js/jquery.fileupload-process.js" />"></script>
+<script src="<c:url value="/resources/js/jquery.fileupload-image.js" />" ></script>
+<script src="<c:url value="/resources/js/jquery.fileupload-validate.js" />" ></script>
 
 <script>
 jQuery(document).ready(function ($) {
+	
+	$("#fileupload").click(function(){	
+		$( "#photo" ).remove();
+	});
+	
+	$(".reveal").mousedown(function() {
+	    $(".pwd").replaceWith($('.pwd').clone().attr('type', 'text'));
+	})
+	.mouseup(function() {
+		$(".pwd").replaceWith($('.pwd').clone().attr('type', 'password'));
+	})
+	.mouseout(function() {
+		$(".pwd").replaceWith($('.pwd').clone().attr('type', 'password'));
+	});
+	
+	$('#upload').fileupload({
+	    dataType: 'json',
+	    done: function (e, data) {
+	        $.each(data.result, function (index, file) {
+	            $("#addingResultsData").show();
+	            $('body').data('filelist').push(file);
+	            $('#filename').append(formatFileDisplay(file));
+	        });
+	        $("#addingResultsData").hide();
+	        alert('hits on each file added');
+	    }
+	});
+	
+	$("#btn_change_email").click(function(){	
+		$('#modal_change_email').modal();
+	});
+	
+	$("#btn_load_photo").click(function(){	
+		$('#modal_load_photo').modal();
+	});
 	
 	$("#btn_change_email").click(function(){	
 		$('#modal_change_email').modal();
