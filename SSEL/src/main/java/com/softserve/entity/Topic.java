@@ -37,7 +37,7 @@ public class Topic {
 	private boolean alive;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinColumn(name = "id_block", nullable = false)
+	@JoinColumn(name = "id_block", nullable = true)
 	private Block block;
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "topic")

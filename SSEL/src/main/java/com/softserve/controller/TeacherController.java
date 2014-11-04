@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -81,7 +82,7 @@ public class TeacherController {
 	
 	@Autowired
 	private StudyDocumentValidator studyDocumentValidator;
-
+	
 	@RequestMapping(value = "/categories", method = RequestMethod.GET)
 	public String categories(Model model) {
 		List<Category> categoryList = categoryService.getAllCategories();
@@ -130,21 +131,21 @@ public class TeacherController {
 		return "teacherCourse";
 	}
 
-	@RequestMapping(value = "/editTopic", method = RequestMethod.GET)
-	public String editTopic(@RequestParam(value = "topicId", required = false) Integer topicId,
+	@RequestMapping(value = "/newTopic", method = RequestMethod.GET)
+	public String newTopic(
 			@RequestParam(value = "subjectId", required = true) Integer subjectId, Model model) {
-		if (topicId != null) {
-			Topic topic = topicService.getTopicById(topicId);
-			model.addAttribute("topic", topic);
-		}
+
 
 		List<Block> blocks = blockService.getBlocksBySubjectId(subjectId);
-		model.addAttribute("blockList", blocks);
 		List<Category> categories = categoryService.getAllCategories();
+		
+		Topic topic = new Topic();
+		model.addAttribute("blockList", blocks);
 		model.addAttribute("catList", categories);
 		model.addAttribute("subjectId", subjectId);
-
-		return "editTopic";
+		model.addAttribute("topic", topic);
+		
+		return "redirect:editTopic";
 	}
 	
 	@RequestMapping(value = "/editTopic", method = RequestMethod.POST)
@@ -163,6 +164,50 @@ public class TeacherController {
 		model.addAttribute("catList", categories);
 
 		return "editTopic";
+	}
+	
+	@RequestMapping(value = "/saveTopic", method = RequestMethod.POST)
+	public String saveTopic(@RequestParam(value = "topicId", required = false) Integer topicId,
+			@RequestParam(value = "blockId", required = true) Integer blockId,
+			@RequestParam(value = "subjectId", required = false) Integer subjectId,
+			@RequestParam(value = "topicAlive", required = true) boolean topicAlive,
+			@RequestParam(value = "topicContent", required = true) String topicContent,
+			@RequestParam(value = "name", required = true) String topicName,
+			@Valid Topic topic,
+			BindingResult result,
+			Model model) {
+		//Topic topic = topicId != null ? topicService.getTopicById(topicId) : new Topic();
+		topic.setBlock(blockService.getBlockById(blockId));
+		topic.setAlive(topicAlive);
+		topic.setContent(topicContent);
+		topic.setName(topicName);
+		// topic.setOrder(topicOrder);
+		
+		
+		topicValidator.validate(topic, result);
+		if (result.hasErrors()) {
+			if (topicId != null) {
+				//Topic topic = topicService.getTopicById(topicId);
+				model.addAttribute("topic", topic);
+				model.addAttribute("block", topic.getBlock());
+			}
+
+			
+			List<Block> blocks = blockService.getBlocksBySubjectId(subjectId);
+			model.addAttribute("blockList", blocks);
+			List<Category> categories = categoryService.getAllCategories();
+			model.addAttribute("catList", categories);
+			return "editTopic";
+		}
+		
+		
+		if (topicId != null) {
+			topicService.updateTopic(topic);
+		} else {
+			topicService.addTopic(topic);
+		}
+
+		return "redirect:/teacher";
 	}
 
 	@RequestMapping(value = "/editSubject", method = RequestMethod.GET)
@@ -205,37 +250,6 @@ public class TeacherController {
 		}
 
 		return "editCategory";
-	}
-
-	@RequestMapping(value = "/saveTopic", method = RequestMethod.POST)
-	public String saveTopic(@RequestParam(value = "topicId", required = false) Integer topicId,
-			@RequestParam(value = "blockId", required = true) Integer blockId,
-			@RequestParam(value = "topicAlive", required = true) boolean topicAlive,
-			@RequestParam(value = "topicContent", required = true) String topicContent,
-			@RequestParam(value = "name", required = true) String topicName,
-			//Topic topic,
-			//BindingResult result,
-			Model model) {
-		Topic topic = topicId != null ? topicService.getTopicById(topicId) : new Topic();
-		topic.setBlock(blockService.getBlockById(blockId));
-		topic.setAlive(topicAlive);
-		topic.setContent(topicContent);
-		topic.setName(topicName);
-		// topic.setOrder(topicOrder);
-		
-	//	topicValidator.validate(topic, result);
-/*		if (result.hasErrors()) {
-			return "editTopic";
-		}*/
-		
-		
-		if (topicId != null) {
-			topicService.updateTopic(topic);
-		} else {
-			topicService.addTopic(topic);
-		}
-
-		return "redirect:/teacher";
 	}
 
 	@RequestMapping(value = "/saveCategory", method = RequestMethod.GET)
