@@ -38,6 +38,10 @@ public class UserProfileController {
 		String email = userService.getCurrentUser();
 		User user = userService.getUserByEmail(email);
 		session.setAttribute("user", user);
+		if (user.getImage() != null) {
+			String encodedImage = new String(Base64.encode(user.getImage()));
+			session.setAttribute("image", encodedImage);
+		}
 		return "profile";
 	}
 
@@ -93,14 +97,9 @@ public class UserProfileController {
 
 		while (itr.hasNext()) {
 			mpf = request.getFile(itr.next());
-			System.out.println(mpf.getOriginalFilename() + " uploaded! ");
-			System.out.println(mpf.getOriginalFilename());
-			System.out.println(mpf.getSize() + "b");
-			System.out.println(mpf.getContentType());
 			String email = userService.getCurrentUser();
 			User user = userService.getUserByEmail(email);
 			try {
-				System.out.println(mpf.getBytes());
 				user.setImage(mpf.getBytes());
 			} catch (IOException e) {
 				e.printStackTrace();

@@ -14,14 +14,15 @@
 	<spring:message code="dataerror.firstname" var="lastname"/>
 	<spring:message code="dataerror.email_exist" var="email_exist" />
 	<spring:message code="dataerror.email_example" var="email_example"/>
+	<spring:message code="label.processing" var="processing"/>
+	<spring:message code="label.cancel" var="cancel"/>
+	<spring:message code="label.upload" var="upload" />
+	
 	<div class="row">
-		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
-			<div class="panel-heading">
-              <h3 class="panel-title">Title</h3>
-            </div>
+		<div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-xs-offset-0 col-sm-offset-0 col-md-offset-2 col-lg-offset-2 toppad">
             <div class="panel-body">
             	<div class="row">
-              		<div class="col-md-3 col-lg-3 " align="center"> 
+              		<div class="col-md-4 col-lg-4 " align="center"> 
               			<c:choose>
 	              			<c:when test="${empty sessionScope.image}">
 	              				<img alt="User Pic" class="img-circle" style="height: 100px; width: 100px"
@@ -30,16 +31,14 @@
 	              			<c:otherwise>
 	              				<img alt="User Pic" class="img-circle" style="height: 100px; width: 100px"
                 					src="data:image/png;base64,<c:out value="${sessionScope.image}" />" > 
-                					
 	              			</c:otherwise>
               			</c:choose>
-                		
                 		<button type="button" class="btn btn-info" data-toggle="modal" 
                 			data-target="#modal_load_photo" style="margin-top: 15px">
-							Load Photo
+							<spring:message code="label.load_image" />
 						</button>
                 	</div>
-                	<div class=" col-md-9 col-lg-9 "> 
+                	<div class=" col-md-8 col-lg-8 "> 
                 		<form id="form_change_user_information" method="POST" role="form" 
 							action="<c:url value="/changeUserInformation" />">
 	                		<table class="table table-user-information">
@@ -92,7 +91,9 @@
 	                        			</td>
 		                     		</tr>
 		                        	<tr>
-		                        		<td>Expired date</td>
+		                        		<td>
+		                        			<spring:message code="label.expired_date" />
+		                        		</td>
 		                        		<td>
 		                        			<fmt:formatDate value="${sessionScope.user.expired}" pattern="yyyy-MM-dd" />
 		                        		</td>
@@ -103,7 +104,7 @@
 								<spring:message code="label.change_password"/>
 							</button>
 							<button type="submit" class="btn btn-success">
-								Save
+								<spring:message code="label.save_changes" />
 							</button>
               			</form>
                 	</div>
@@ -124,13 +125,15 @@
 				    <span class="sr-only">Close</span>
 				</button>
 				<h4 class="modal-title">
-					Load photo
+					<spring:message code="label.load_image" />
 				</h4>
 			</div>
 			<div class="modal-body">	
 				<span class="btn btn-success fileinput-button">
 			        <i class="glyphicon glyphicon-plus"></i>
-			        <span>Add files...</span>
+			        <span>
+			        	<spring:message code="label.add_file" />
+			        </span>
 			        <input id="fileupload" type="file" name="files[]" 
 			        	accept="image/png, image/jpeg, image/gif, image/jpg">
 			    </span>
@@ -145,24 +148,23 @@
 
 <script type="text/javascript">
 $(function () {
-        uploadButton = $('<button/>')
-            .addClass('btn btn-primary')
-            .prop('disabled', true)
-            .text('Processing...')
-            .on('click', function () {
-                var $this = $(this),
-                    data = $this.data();
-                $this
-                    .off('click')
-                    .text('Abort')
-                    .on('click', function () {
-                        $this.remove();
-                        data.abort();
-                    });
-                data.submit().always(function () {
-                    $this.remove();
+	uploadButton = $('<button/>')
+    	.addClass('btn btn-primary')
+        .prop('disabled', true)
+        .text('${processing}')
+        .on('click', function () {
+        	var $this = $(this),
+            	data = $this.data();
+           	$this.off('click')
+           		.text('${cancel}')
+                .on('click', function () {
+                	$this.remove();
+                    data.abort();
                 });
+            data.submit().always(function () {
+            	$this.remove();
             });
+    	});
     $('#fileupload').fileupload({
         url: 'uploadPhoto',
         dataType: 'json',
@@ -202,7 +204,7 @@ $(function () {
         }
         if (index + 1 === data.files.length) {
             data.context.find('button')
-                .text('Upload')
+                .text('${upload}')
                 .prop('disabled', !!data.files.error);
         }
     }).on('fileuploadprogressall', function (e, data) {
@@ -265,13 +267,13 @@ $(function () {
 								</label>
 								<div class="col-md-6">
 									<div class="input-group">
-										<input type="password" id="old_password" class="form-control pwd" name="old_password"
-											placeholder="<spring:message code="placeholder.old_password"/>" />
 										<span class="input-group-btn">
 	            							<button class="btn btn-default reveal" style="height: 34px" type="button">
 	            								<i class="glyphicon glyphicon-eye-open"></i>
 	            							</button>
-	          							</span> 
+	          							</span>
+										<input type="password" id="old_password" class="form-control pwd" name="old_password"
+											placeholder="<spring:message code="placeholder.old_password"/>" /> 
           							</div>
 								</div>
 							</div>
@@ -334,19 +336,6 @@ jQuery(document).ready(function ($) {
 	})
 	.mouseout(function() {
 		$(".pwd").replaceWith($('.pwd').clone().attr('type', 'password'));
-	});
-	
-	$('#upload').fileupload({
-	    dataType: 'json',
-	    done: function (e, data) {
-	        $.each(data.result, function (index, file) {
-	            $("#addingResultsData").show();
-	            $('body').data('filelist').push(file);
-	            $('#filename').append(formatFileDisplay(file));
-	        });
-	        $("#addingResultsData").hide();
-	        alert('hits on each file added');
-	    }
 	});
 	
 	$("#btn_change_email").click(function(){	
@@ -473,7 +462,7 @@ jQuery(document).ready(function ($) {
     		},
     		last_name: {
     			required: "${required}",
-				regexp: "${lastfirstname}"
+				regexp: "${lastname}"
     		}
     	}
     });
