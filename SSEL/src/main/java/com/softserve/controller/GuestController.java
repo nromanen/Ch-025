@@ -24,6 +24,7 @@ import com.softserve.entity.User;
 import com.softserve.service.BlockService;
 import com.softserve.service.CategoryService;
 import com.softserve.service.CourseSchedulerService;
+import com.softserve.service.GroupService;
 import com.softserve.service.RoleService;
 import com.softserve.service.StudentCabinetSevice;
 import com.softserve.service.StudentGroupService;
@@ -64,9 +65,12 @@ public class GuestController {
 	@Autowired
 	private TopicService topicService;
 	
-	List<Subject> subjects;
-	List<Category> categories;
-	List<CourseScheduler> schedulers;
+	@Autowired
+	private GroupService groupService;
+	
+	private List<Subject> subjects;
+	private List<Category> categories;
+	private List<CourseScheduler> schedulers;
 
 	@RequestMapping(value = "/enter")
 	public String enter(Model model, Principal principal,
@@ -74,9 +78,9 @@ public class GuestController {
 		LOG.info("User login {}", principal.getName());
 		User user = userService.getUserByEmail(principal.getName());
 		httpSession.setAttribute("user", user);
-		if (user.getRole().getRole().equals(User.Roles.TEACHER.toString())){
+		if (user.getRole().getRole().equals(User.Roles.TEACHER.toString())) {
 			return "redirect:/teacher";
-		} else if (user.getRole().getRole().equals(User.Roles.STUDENT.toString())){
+		} else if (user.getRole().getRole().equals(User.Roles.STUDENT.toString())) {
 			return "redirect:/student";
 		} else {
 			return "redirect:/";
@@ -108,8 +112,8 @@ public class GuestController {
 				.getCourseScheduleresBySubjectId(subject.getId());
 		User user = (User) httpSession.getAttribute("user");
 		if (user != null) {
-			StudentGroup row = studCabService.getStudentGroupByUserAndCourseId(user.getId(),
-					schedulers.get(0).getId());
+			StudentGroup row = studCabService.getStudentGroupByUserAndGroupId(user.getId(), 
+					groupService.getGroupByScheduler(schedulers.get(0).getId()).getGroupId());
 			boolean isSubscribe = row == null;
 			model.addAttribute("isSubscribe", isSubscribe);
 		}
@@ -133,18 +137,25 @@ public class GuestController {
 				cSchedulerService.getCourseScheduleresBySubjectId(subject.getId());
 		User user = (User) httpSession.getAttribute("user");
 		if (user != null) {
-			StudentGroup row = studCabService.getStudentGroupByUserAndCourseId(user.getId(),
-					schedulers.get(0).getId());
+			StudentGroup row = studCabService.getStudentGroupByUserAndGroupId(user.getId(), 
+					groupService.getGroupByScheduler(schedulers.get(0).getId()).getGroupId());
 			boolean isSubscribe = row == null;
 			model.addAttribute("isSubscribe", isSubscribe);
 		}
-		
 		model.addAttribute("schedule", schedulers.get(0));
 		model.addAttribute("subject", subject);
 		model.addAttribute("category", category);
 		model.addAttribute("blocks", blocks);
 		model.addAttribute("topics", topics);
 		return "courseInformation";
+	}
+	
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
+	public String search(@RequestParam String search, Model model, HttpSession httpSession) {
+		User user = (User) httpSession.getAttribute("user");
+		
+		
+		return "search";
 	}
 
 }

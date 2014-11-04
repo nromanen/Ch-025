@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.softserve.entity.Block;
 import com.softserve.entity.Category;
 import com.softserve.entity.CourseScheduler;
+import com.softserve.entity.Group;
 import com.softserve.entity.StudentGroup;
 import com.softserve.entity.Subject;
 import com.softserve.entity.Topic;
@@ -35,6 +36,7 @@ import com.softserve.validator.CategoryValidator;
 import com.softserve.validator.StudyDocumentValidator;
 import com.softserve.validator.SubjectValidator;
 import com.softserve.validator.TopicValidator;
+import com.softserve.service.GroupService;
 
 /**
  * Handles requests for the application TEACHER Cabinet.
@@ -81,6 +83,9 @@ public class TeacherController {
 	
 	@Autowired
 	private StudyDocumentValidator studyDocumentValidator;
+	
+	@Autowired
+	private GroupService groupService;
 
 	@RequestMapping(value = "/categories", method = RequestMethod.GET)
 	public String categories(Model model) {
@@ -304,7 +309,10 @@ public class TeacherController {
 			subjectService.addSubject(subject);
 
 			courseSchedulerService.addCourseScheduler(scheduler);
-
+			Group group = new Group();
+			group.setCourse(scheduler);
+			group.setActive(true);
+			groupService.addGroup(group);
 		}
 
 		return "redirect:/teacher";
@@ -353,14 +361,15 @@ public class TeacherController {
 					blockService.deleteBlock(b);
 
 				for (CourseScheduler c : cs) {
-					Integer studentGroupNum = studentGroupService.getGroupNumberByCourse(c.getId());
+					Group courseGroup = groupService.getGroupByScheduler(c.getId());
+					Integer studentGroupNum = courseGroup.getGroupId();
 					List<StudentGroup> sg = studentGroupService.getStudentGroupsByGroupNumber(studentGroupNum);
 					for (StudentGroup ss : sg)
 						studentGroupService.deleteStudentGroup(ss);
-
+					groupService.deleteGroup(courseGroup);
 					courseSchedulerService.deleteCourseScheduler(c);
 				}
-
+				
 				subjectService.deleteSubject(subject);
 			} catch (Exception e) {
 			}

@@ -17,8 +17,5 @@ public interface StudentGroupService {
 
 	public List<StudentGroup> getAllStudentGroups();
 
-	public int getGroupNumberByCourse(int courseId);
-
-	public int getNextGroupNumber();
 
 }

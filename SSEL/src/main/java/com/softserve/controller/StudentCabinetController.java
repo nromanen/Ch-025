@@ -1,5 +1,6 @@
 package com.softserve.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,13 +13,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.softserve.dao.CourseSchedulerDao;
 import com.softserve.entity.Block;
 import com.softserve.entity.CourseScheduler;
+import com.softserve.entity.Group;
+import com.softserve.entity.Rating;
 import com.softserve.entity.StudentGroup;
 import com.softserve.entity.Subject;
+import com.softserve.entity.Topic;
 import com.softserve.entity.User;
 import com.softserve.service.BlockService;
+import com.softserve.service.CourseSchedulerService;
+import com.softserve.service.GroupService;
+import com.softserve.service.MailService;
+import com.softserve.service.RatingService;
 import com.softserve.service.StudentCabinetSevice;
 import com.softserve.service.StudentGroupService;
 import com.softserve.service.SubjectService;
@@ -30,139 +37,190 @@ public class StudentCabinetController {
 	@Autowired
 	private StudentCabinetSevice studentCabinetService;
 	@Autowired
-	private CourseSchedulerDao courseService;
+	private CourseSchedulerService courseService;
 	@Autowired 
 	private StudentGroupService studentGroupService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private GroupService groupService;
+	@Autowired 
+	private RatingService ratingService;
 	@Autowired
 	private SubjectService subjectService;
 	@Autowired
 	private TopicService topicService;
 	@Autowired
 	private BlockService blockService;
-	
+	@Autowired
+	private MailService mailService;
+	/**
+	 * Handle subscribe requests
+	 * @param subjectId subject id to subscribe/unsubscribe
+	 * @param operation true - subscribe, false - unsubscribe
+	 * @param sess session with user information in it
+	 * @return view URL
+	 */
 	@RequestMapping("/subscribe")
-	public String performSubscribe(@RequestParam("subjectId") Integer subjectId, @RequestParam("op") Boolean operation, HttpSession sess) {
+	public String performSubscribe(@RequestParam("subjectId") Integer subjectId, @RequestParam("op") Boolean operation, 
+			HttpSession sess) {
 		User user = (User) sess.getAttribute("user");
 		if (operation) {
-			return subscribe(subjectId, user.getId());
+			return subscribe(subjectId, user.getId(), user.getEmail());
 		} else {
-			return unsubscribe(subjectId, user.getId());
+			return unsubscribe(subjectId, user.getId(), user.getEmail());
 		}
 	}
-	
-	@RequestMapping("/student")
-	public String printStudentCourses(@RequestParam(value="table", required = false) String table, Model model) {
-		studentCabinetService.initSubscribedList(1);
-		if (table == null || table.equals("future")) {
-			model.addAttribute("table", generateHtmlTable(studentCabinetService.getFutureCourses()));
-		} else if (table.equals("active")){
-			model.addAttribute("table", generateHtmlTable(studentCabinetService.getActiveCourses(),1));
-		} else {
-			model.addAttribute("table", generateHtmlTable(studentCabinetService.getFinishedCourses(),1));
+	/**
+	 * Handle student cabinet requests
+	 * @param table courses to show ( future, active, finished)
+	 * @param model data model for view
+	 * @param sess session with user information in it
+	 * @return view URL
+	 */
+	@RequestMapping(value = "/student", method = RequestMethod.GET)
+	public String printStudentCourses(@RequestParam(value="table", required = false) String table, Model model, 
+			HttpSession sess) {
+		User user = (User) sess.getAttribute("user");
+		int userId  = user.getId();
+		studentCabinetService.initSubscribedList(userId);
+		List<CourseScheduler> scheduler;
+		List<Double> ratings;
+		List<Double> progreses;
+		if (table == null || table.equals("future")) { //build data model for future courses
+			scheduler = studentCabinetService.getFutureCourses();
+			model.addAttribute("courses",scheduler);
+			model.addAttribute("title", "Future courses");
+		} else if (table.equals("active")) { //build data model for active courses
+			scheduler = studentCabinetService.getActiveCourses(); 
+			ratings = new ArrayList<>();
+			progreses = new ArrayList<>();
+			for (CourseScheduler item: scheduler) {
+				int groupId = groupService.getGroupByScheduler(item.getId()).getGroupId();
+				ratings.add(ratingService.getAverageRatingByUserAndGroup(userId, groupId));
+				progreses.add(ratingService.getProgressByGroupAndUser(groupId, userId));
+			}
+			model.addAttribute("title", "Active courses");
+			model.addAttribute("courses",scheduler);
+			model.addAttribute("ratings", ratings);
+			model.addAttribute("progreses", progreses);
+			
+		} else { //build data model for finished courses
+			scheduler = studentCabinetService.getFinishedCourses();
+			model.addAttribute("courses", scheduler);
+			model.addAttribute("title", "Finished courses");
 		}
+			model.addAttribute("table", (table == null) ? "future" : table);
 		return "student";
 	}
-
+	/**
+	 * Handle modules request
+	 * @param courseId course identifier to show information about
+	 * @param model data model for view
+	 * @param session session with user information in it
+	 * @return view URL
+	 */
 	@RequestMapping(value = "/modules", method = RequestMethod.GET)
 	public String printModules(
-			@RequestParam(value = "courseId", required = true) Integer courseId, Model model) {
+			@RequestParam(value = "courseId", required = true) Integer courseId, Model model, HttpSession session) {
 		try {
+		User user = (User) session.getAttribute("user");
+		int userId;
+		userId = user.getId();
 		List<Block> blocks = blockService.getBlocksBySubjectId(courseId);
 		Subject subject = subjectService.getSubjectById(courseId);
+		int courseSchedulerId = courseService.getCourseScheduleresBySubjectId(courseId).get(0).getId();
+		int groupId = groupService.getGroupByScheduler(courseSchedulerId).getGroupId();
+		model.addAttribute("rating", ratingService.getAverageRatingByUserAndGroup(userId, groupId));
+		model.addAttribute("progress", ratingService.getProgressByGroupAndUser(groupId, userId));
 		model.addAttribute("blockList", blocks);
 		model.addAttribute("subject", subject);
+		model.addAttribute("courseId", courseId);
 		} catch(NullPointerException e) {
 			return "redirect:student?table=active";
 		}
 		return "modules";
 	}
-
+	/**
+	 * Handle topic request and prepare topic
+	 * @param topicId topic to show
+	 * @param model data model for view page
+	 * @return view URL
+	 */
+	@RequestMapping(value="/topicView", method = RequestMethod.GET)
+	public String printTopic(@RequestParam (value = "topicId", required = true) Integer topicId, Model model) {
+		Topic topic = topicService.getTopicById(topicId);
+		model.addAttribute("name", topic.getName());
+		model.addAttribute("content", topic.getContent());
+		return "topicView";
+	}
+	/**
+	 * Handle ratings request and prepare it
+	 * @param model data model for view
+	 * @param session session object
+	 * @return view URL
+	 */
+	@RequestMapping(value = "/ratings", method = RequestMethod.GET)
+	private String printStatistics(@RequestParam (value = "courseId", required = true) Integer courseId,
+								   @RequestParam (value = "showType", required = false) String showType,
+								   Model model, 
+								   HttpSession session) {
+		CourseScheduler cs = courseService.getCourseScheduleresBySubjectId(courseId).get(0);
+		Group group = groupService.getGroupByScheduler(cs.getId());
+		User user = (User) session.getAttribute("user");
+		double avgRating = ratingService.getAverageRatingByUserAndGroup(user.getId(), group.getGroupId());
+		double progress = ratingService.getProgressByGroupAndUser(group.getGroupId(), user.getId());
+		List<Block> blocks = blockService.getBlocksBySubjectId(cs.getSubject().getId());
+		List<Rating> ratings = ratingService.getRatingByGroupAndUser(group.getGroupId(), user.getId());
+		model.addAttribute("avgRating", avgRating);
+		model.addAttribute("progress", progress);
+		model.addAttribute("blocks",blocks);
+		model.addAttribute("ratings", ratings);
+		model.addAttribute("name", cs.getSubject().getName());
+		model.addAttribute("startEnd", "(" + cs.getStart()+"-"+cs.getEnd()+ ")");
+		model.addAttribute("showType", "table");
+		model.addAttribute("courseId", courseId);
+		return "ratings";
+	}
+	
 	/**
 	 * Perform subscribing student on course
 	 * @param subjectId subject identifier to subscribe
 	 * @return URL page
 	 */
-	private String subscribe(int subjectId, int userId) {
+	private synchronized String subscribe(int subjectId, int userId, String email) {
 		CourseScheduler cs = courseService.getCourseScheduleresBySubjectId(subjectId).get(0); //get subject course scheduler
-		StudentGroup row = studentCabinetService.getStudentGroupByUserAndCourseId(userId, cs.getId());
+		Group subscribedGroup = groupService.getGroupByScheduler(cs.getId());
+		int groupId = subscribedGroup.getGroupId();
+		StudentGroup row = studentCabinetService.getStudentGroupByUserAndGroupId(userId, groupId);
 		if (row == null) { //check if student hasn't subscribed
-			if (cs.getStart().after(new Date())) { // check if course hasn't started
-				int groupNumber;
-				if (studentGroupService.getAllStudentGroups().size() == 0) { // if no one group in db
-					groupNumber = 100;
-				} else {
-					groupNumber = studentGroupService.getGroupNumberByCourse(cs.getId()); 
-					if (groupNumber == -1) { // if user is first subscriber, create new group
-						groupNumber = studentGroupService.getNextGroupNumber();
-					}
-				}
+			if (cs.getStart().after(new Date()) && subscribedGroup.isActive()) { // check if course hasn't started
 				row = new StudentGroup();
-				//row.setId(1);
-				row.setCourseScheduler(cs);
-				row.setGroupNumber(groupNumber);
-				row.setProgress(0.0);
-				row.setRating(0.0);
+				row.setGroupNumber(subscribedGroup);
 				row.setUser(userService.getUserById(userId));
 				studentGroupService.addStudentGroup(row);
-				return "redirect:course?subjectId="+subjectId;
-			} else {//redirect user to error page
-				return "redirect:subscribe_error";
-			}
-		} else {//redirect user to error page
-			return "redirect:subscribe_error";
+				mailService.sendMail(email, "ssel subscribe", "You've subscribed on course "+cs.getSubject().getName()+
+						".Course started: "+cs.getStart()+"Good luck");
+			} 
 		}
+		return "redirect:course?subjectId="+subjectId;
 	}
 	/**
 	 * Perform unsubscribing student from course
 	 * @param subjectId subject identifier to unsubscribe
 	 * @return URL page
 	 */
-	private String unsubscribe(int subjectId, int userId) {
+	private String unsubscribe(int subjectId, int userId, String email) {
 		CourseScheduler cs = courseService.getCourseScheduleresBySubjectId(subjectId).get(0); //get subject course scheduler
-		StudentGroup row = studentCabinetService.getStudentGroupByUserAndCourseId(userId, cs.getId());
+		int groupId = groupService.getGroupByScheduler(cs.getId()).getGroupId();
+		StudentGroup row = studentCabinetService.getStudentGroupByUserAndGroupId(userId, groupId);
 		if (row != null) {
 			studentGroupService.deleteStudentGroup(row);
-			return "redirect:course?subjectId="+subjectId;
-		} else {
-			return "redirect:subscribe_error";
-		}
+			mailService.sendMail(email, "ssel unsubscribe", "You've unsubscribed from course "+cs.getSubject().getName()+
+					".You cannot subscribe on this course till it finished and start again."+"Good luck");
+		} 
+		return "redirect:course?subjectId="+subjectId;
 	}
 	
-	/**
-	 * Generate html table code for future courses
-	 * @param courses future courses list
-	 * @return html code of table
-	 */
-	private String generateHtmlTable(List<CourseScheduler> courses) {
-		String table = "";
-		table += "<thead><tr><td>Subject name</td><td>Start time</td></tr></thead>";
-		table += "<tbody>";
-		for (CourseScheduler item: courses) {
-			table += "<tr><td>"+item.getSubject().getName()+"</td><td>"+item.getStart()+"</td></tr>";
-		}
-		table += "</tbody>";
-		return table;
-	}
-	/**
-	 * Generate html table code for active courses
-	 * @param courses list of active courses
-	 * @param userId student id
-	 * @return html code of table
-	 */
-	private String generateHtmlTable(List<CourseScheduler> courses,int userId) {
-		String table = "";
-		table += "<thead><tr><td>Subject name</td><td>Start time</td><td>End time</td><td>Rating</td>"
-				+ "<td>Progress</td></tr></thead>";
-		table += "<tbody>";
-		for (CourseScheduler item: courses) {
-			StudentGroup group = studentCabinetService.getStudentGroupByUserAndCourseId(userId, item.getId());
-			table += "<tr><td><a href=\"modules?courseId="+item.getSubject().getId()+"\">"+item.getSubject().getName()+"</a>"
-					+ "</td><td>"+item.getStart()+"</td>"
-					+ "<td>"+item.getEnd()+"</td>"+"<td>"+group.getRating()+"</td><td>"+group.getProgress()+"</td></tr>";
-		}
-		table += "</tbody>";
-		return table;
-	}
+	
 }

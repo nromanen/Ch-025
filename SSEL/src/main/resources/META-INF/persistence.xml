@@ -14,7 +14,9 @@
 		<class>com.softserve.entity.StudentGroup</class>
 		<class>com.softserve.entity.Log</class>
 		<class>com.softserve.entity.TeacherRequest</class>
-		s<class>com.softserve.entity.StudyDocument</class>
+		<class>com.softserve.entity.StudyDocument</class>
+		<class>com.softserve.entity.Rating</class>
+		<class>com.softserve.entity.Group</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<validation-mode>NONE</validation-mode>
 		<properties>
