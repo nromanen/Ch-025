@@ -26,6 +26,7 @@ import com.softserve.service.CategoryService;
 import com.softserve.service.CourseSchedulerService;
 import com.softserve.service.GroupService;
 import com.softserve.service.RoleService;
+import com.softserve.service.SearchService;
 import com.softserve.service.StudentCabinetSevice;
 import com.softserve.service.StudentGroupService;
 import com.softserve.service.SubjectService;
@@ -67,6 +68,9 @@ public class GuestController {
 	
 	@Autowired
 	private GroupService groupService;
+	
+	@Autowired
+	private SearchService searchService;
 	
 	private List<Subject> subjects;
 	private List<Category> categories;
@@ -153,8 +157,8 @@ public class GuestController {
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public String search(@RequestParam String search, Model model, HttpSession httpSession) {
 		User user = (User) httpSession.getAttribute("user");
-		
-		
+		List<Category> categories = searchService.getCategoriesByNamePart(search);
+		model.addAttribute("categories", categories);
 		return "search";
 	}
 

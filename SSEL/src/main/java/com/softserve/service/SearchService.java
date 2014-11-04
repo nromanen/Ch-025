@@ -6,7 +6,7 @@ import com.softserve.entity.Category;
 import com.softserve.entity.Subject;
 
 public interface SearchService {
-	List<Category> findCategoriesByName(String name);
+	List<Category> getCategoriesByNamePart(String namePart);
 	
-	List<Subject> findSubjectsByName(String name);
+	List<Subject> findSubjectsByName(String namePart);
 }

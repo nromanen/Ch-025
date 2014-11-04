@@ -8,7 +8,7 @@
 
 <div class="row">
 	<div class="col-lg-12">
-		<h1 class="page-header">Search</h1>
+		<h1 class="page-header">Search result </h1>
 	</div>
 	<div class="col-lg-12">
 		<p>
@@ -25,6 +25,11 @@
 					</span>
 				</form>
 	</div>
+	</div>
+	<div>
+		<c:forEach var="cat" items="${categories}">
+			<c:out value="${cat.name}"></c:out> <br>
+		</c:forEach>
 	</div>
 	<!-- <form method="GET" action="course">
 		<div class="blocks">
