@@ -8,5 +8,5 @@ import com.softserve.entity.Subject;
 public interface SearchService {
 	List<Category> getCategoriesByNamePart(String namePart);
 	
-	List<Subject> findSubjectsByName(String namePart);
+	List<Subject> getSubjectsByNamePart(String namePart);
 }

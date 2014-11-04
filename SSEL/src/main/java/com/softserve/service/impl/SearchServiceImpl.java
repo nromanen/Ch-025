@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.softserve.dao.CategoryDao;
+import com.softserve.dao.SubjectDao;
 import com.softserve.entity.Category;
 import com.softserve.entity.Subject;
 import com.softserve.service.SearchService;
@@ -17,6 +18,9 @@ public class SearchServiceImpl implements SearchService {
 	
 	@Autowired
 	private CategoryDao categoryDao;
+	
+	@Autowired
+	private SubjectDao subjectDao;
 
 	@Override
 	@Transactional
@@ -24,10 +28,10 @@ public class SearchServiceImpl implements SearchService {
 		return categoryDao.getCategoriesByNamePart(namePart);
 	}
 	
+
 	@Override
-	public List<Subject> findSubjectsByName(String namePart) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Subject> getSubjectsByNamePart(String namePart) {
+		return subjectDao.getSubjectsByNamePart(namePart);
 	}
 
 }
