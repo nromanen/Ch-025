@@ -23,7 +23,8 @@
 		</c:choose>
 		
 		<a class="navbar-brand" href="<c:url value="${url}" />">
-		SSEL SoftServe Academy</a>
+			<img src="resources/img/logo.png">
+		</a>
 	</div>
 	<!-- /.navbar-header -->
 	<ul class="nav navbar-top-links navbar-right">
@@ -39,7 +40,16 @@
 		</li>
 		<li class="dropdown">
 			<a class="dropdown-toggle" data-toggle="dropdown" href="#"> 
-				<i class="fa fa-user fa-fw"></i>
+				<c:choose>
+	            	<c:when test="${empty sessionScope.image}">
+	              		<img alt="User Pic" class="img-circle" style="height: 30px; width: 30px"
+                			src="<c:url value="/resources/img/user_photo.png" />" > 
+	              	</c:when>
+	              	<c:otherwise>
+	              		<img alt="User Pic" class="img-circle" style="height: 30px; width: 30px"
+                			src="data:image/png;base64,<c:out value="${sessionScope.image}" />" > 		
+	              	</c:otherwise>
+              	</c:choose>
 				<i class="fa fa-caret-down"></i>
 			</a>
 			<ul class="dropdown-menu dropdown-user">
