@@ -64,14 +64,6 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-md-3 control-label" for="confirmPasswordReg">
-							Teacher
-						</label>
-						<div class="col-md-9">
-							<form:checkbox path="teacher" name="teacher"/>
-						</div>
-					</div>
-					<div class="form-group">
 						<label class="col-md-3 control-label" for="firstNameReg">
 							<spring:message code="label.firstname" />
 						</label>
@@ -91,6 +83,14 @@
 							<form:input path="lastName" type="text" cssClass="form-control"
 								id="lastNameReg" placeholder="${lastname}" name="lastName"/>
 							<form:errors path="lastName" element="div" style="padding: 2px; margin: 2px;" cssClass="alert alert-danger"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-3 control-label" for="confirmPasswordReg">
+							Teacher
+						</label>
+						<div class="col-md-9">
+							<form:checkbox path="teacher" name="teacher"/>
 						</div>
 					</div>
 					<div class="form-group">

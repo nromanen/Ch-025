@@ -55,15 +55,14 @@ public class User {
 
 	@Column(name = "verificationkey")
 	private String verificationKey;
-	
-	@Column(name = "image")
+
+	@Column(name = "image", columnDefinition = "LONGBLOB")
 	private byte[] image;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "role", nullable = false)
 	private Role role;
-	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="user")
 	private List<Subject> subjects = new ArrayList<>();
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
