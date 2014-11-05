@@ -2,6 +2,7 @@ package com.softserve.dao;
 
 import java.util.List;
 
+import com.softserve.entity.Category;
 import com.softserve.entity.Subject;
 
 public interface SubjectDao {
@@ -19,4 +20,6 @@ public interface SubjectDao {
 	public List<Subject> getSubjectsByCategoryId(int id);
 
 	List<Subject> getSubjectsByUserId(int id);
+
+	List<Subject> getSubjectsByNamePart(String namePart);
 }

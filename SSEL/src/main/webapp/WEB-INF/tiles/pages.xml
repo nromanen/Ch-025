@@ -53,6 +53,12 @@
 		<put-attribute name="content" value="/WEB-INF/views/pages/course.jsp" />
 	</definition>
 	
+	<!-- Category -->
+	<definition name="category" extends="index">
+		<put-attribute name="title" value="SSEL SoftServeAcademy Category"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/views/pages/category.jsp"></put-attribute>
+	</definition>
+	
 	<!-- Search -->
 	<definition name="search" extends="index">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Search"></put-attribute>

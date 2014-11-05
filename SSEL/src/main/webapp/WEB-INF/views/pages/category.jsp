@@ -4,12 +4,11 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 
 <div class="row">
 	<div class="col-lg-12">
-		<h1 class="page-header"> <spring:message code="label.search_result" /> </h1>
+		<h1 class="page-header">SoftServe SSEL Academy</h1>
 	</div>
 	<div class="col-lg-12">
 		<p>
@@ -27,30 +26,8 @@
 				</form>
 	</div>
 	</div>
-	<div class="clear"></div>
-	<div style="margin-left:20px; margin-top:10px;">
-	<div>
-		<p> <spring:message code="label.categories" /> </p>
-		<form method="get" action="category">
-		<div>
-		<c:if test="${fn:length(catList) gt 0}"> 
-		<c:forEach var="cat" items="${catList}">
-			<div style="padding-left:20px;">
-				<button value="${cat.id}" name="categoryId" class="btn btn-link"
-				style="color: #428bca;"> ${cat.name}</button>
-			</div>
-		</c:forEach>
-		</c:if>
-		<c:if test="${fn:length(catList) eq 0}">
-			<p style="color:red;"> <spring:message code="label.no_categories"/>  </p>
-		</c:if>
-		</div>
-		</form>
-	</div>
-	<p> <spring:message code="label.courses" /> </p>
 	<form method="GET" action="course">
 		<div class="blocks">
-			<c:if test="${fn:length(subjList) gt 0}"> 
 			<c:forEach items="${subjList}" var="subj">
 				<div class="inline">
 					<div class="title">
@@ -71,13 +48,8 @@
 					</c:forEach>
 				</div>
 			</c:forEach>
-			</c:if>
-			<c:if test="${fn:length(subjList) eq 0}">
-			<p style="color:red;"> <spring:message code="label.no_subjects"/> </p>
-		</c:if>
 		</div>
-	</form> 
-	</div> 
+	</form>
 </div>
 
 
