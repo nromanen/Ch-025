@@ -33,15 +33,15 @@
 		<p> <spring:message code="label.categories" /> </p>
 		<form method="get" action="category">
 		<div>
-		<c:if test="${fn:length(categories) gt 0}"> 
-		<c:forEach var="cat" items="${categories}">
+		<c:if test="${fn:length(catList) gt 0}"> 
+		<c:forEach var="cat" items="${catList}">
 			<div style="padding-left:20px;">
 				<button value="${cat.id}" name="categoryId" class="btn btn-link"
 				style="color: #428bca;"> ${cat.name}</button>
 			</div>
 		</c:forEach>
 		</c:if>
-		<c:if test="${fn:length(categories) eq 0}">
+		<c:if test="${fn:length(catList) eq 0}">
 			<p style="color:red;"> <spring:message code="label.no_categories"/>  </p>
 		</c:if>
 		</div>
@@ -50,8 +50,8 @@
 	<p> <spring:message code="label.courses" /> </p>
 	<form method="GET" action="course">
 		<div class="blocks">
-			<c:if test="${fn:length(subjects) gt 0}"> 
-			<c:forEach items="${subjects}" var="subj">
+			<c:if test="${fn:length(subjList) gt 0}"> 
+			<c:forEach items="${subjList}" var="subj">
 				<div class="inline">
 					<div class="title">
 						<button value="${subj.id}" name="subjectId" class="btn btn-link"
@@ -72,7 +72,7 @@
 				</div>
 			</c:forEach>
 			</c:if>
-			<c:if test="${fn:length(subjects) eq 0}">
+			<c:if test="${fn:length(subjList) eq 0}">
 			<p style="color:red;"> <spring:message code="label.no_subjects"/> </p>
 		</c:if>
 		</div>

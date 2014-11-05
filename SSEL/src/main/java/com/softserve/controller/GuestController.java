@@ -159,8 +159,8 @@ public class GuestController {
 		User user = (User) httpSession.getAttribute("user");
 		List<Category> categories = searchService.getCategoriesByNamePart(search);
 		List<Subject> subjects = searchService.getSubjectsByNamePart(search);
-		model.addAttribute("categories", categories);
-		model.addAttribute("subjects", subjects);
+		model.addAttribute("catList", categories);
+		model.addAttribute("subjList", subjects);
 		return "search";
 	}
 	
@@ -168,7 +168,7 @@ public class GuestController {
 	public String category(@RequestParam Integer categoryId, Model model, HttpSession httpSession) {
 		User user = (User) httpSession.getAttribute("user");
 		List<Subject> subjects = subjectService.getSubjectsByCategoryId(categoryId);
-		model.addAttribute("subjects", subjects);
+		model.addAttribute("subjList", subjects);
 		return "category";
 	}
 

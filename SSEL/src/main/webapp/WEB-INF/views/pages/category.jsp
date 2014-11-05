@@ -28,7 +28,7 @@
 	</div>
 	<form method="GET" action="course">
 		<div class="blocks">
-			<c:forEach items="${subjects}" var="subj">
+			<c:forEach items="${subjList}" var="subj">
 				<div class="inline">
 					<div class="title">
 						<button value="${subj.id}" name="subjectId" class="btn btn-link"
