@@ -21,6 +21,8 @@ public class LogDaoImpl implements LogDao {
 	private static final Logger LOG = LoggerFactory
 			.getLogger(TopicDaoImpl.class);
 
+	public static final int MAX_QUERY_LIMIT = 50;
+
 	@PersistenceContext(unitName = "entityManager")
 	private EntityManager entityManager;
 
@@ -33,21 +35,25 @@ public class LogDaoImpl implements LogDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Log> getLogsSinceDate(Date date) {
+	public List<Log> getLogsSinceDate(Date date, int pageNumb) {
 		LOG.debug("Get all logs sinse {}", date);
 		Query query = entityManager.createQuery("FROM Log l "
 				+ "WHERE l.eventDate > :date");
 		query.setParameter("date", date);
+		query.setFirstResult(MAX_QUERY_LIMIT * pageNumb);
+		query.setMaxResults(MAX_QUERY_LIMIT);
 		List<Log> logList = query.getResultList();
 		return logList;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Log> getAllLogs() {
+	public List<Log> getAllLogs(int pageNumb) {
 		LOG.debug("Get all Logs");
-		List<Log> logList = (List<Log>) entityManager.createQuery("FROM Log")
-				.getResultList();
+		Query query = entityManager.createQuery("FROM Log");
+		query.setFirstResult(MAX_QUERY_LIMIT * pageNumb);
+		query.setMaxResults(MAX_QUERY_LIMIT);
+		List<Log> logList = (List<Log>) query.getResultList();
 		return logList;
 	}
 
@@ -69,6 +75,29 @@ public class LogDaoImpl implements LogDao {
 		return entityManager.find(Log.class, id);
 	}
 
-	
-	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Log> getPartOfLogs(int firstLine, int numberOfLines) {
+		LOG.debug("Get part of Logs");
+		Query query = entityManager.createQuery("FROM Log");
+		query.setFirstResult(firstLine);
+		query.setMaxResults(numberOfLines);
+		List<Log> logList = (List<Log>) query.getResultList();
+		return logList;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Log> getRageofLogs(Date startDate, Date endDate, int pageNumb) {
+		LOG.debug("Get range of Logs");
+		Query query = entityManager
+				.createQuery("FROM Log l WHERE l.eventDate > :startDate AND l.eventDate <= :endDate");
+		query.setParameter("startDate", startDate);
+		query.setParameter("endDate", endDate);
+		query.setFirstResult(MAX_QUERY_LIMIT * pageNumb);
+		query.setMaxResults(MAX_QUERY_LIMIT);
+		List<Log> logList = (List<Log>) query.getResultList();
+		return logList;
+	}
+
 }

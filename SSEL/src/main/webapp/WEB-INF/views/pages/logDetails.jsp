@@ -16,6 +16,6 @@
 	${log.message}<br/><br/>
 	<b>Log's exception: </b><br/>
 	${log.exception}<br/><br/>
-	</font>
 	<a href="javascript: history.go(-1)">Go back</a>
+	</font>
 </div>

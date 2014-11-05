@@ -10,29 +10,54 @@
 <div class="row">
 	<div class="col-lg-12">
 		<h1 align="center">Logs, My Lord!</h1>
-		<h3 align="center"> Since ${showPeriod}</h3>
-		<br />
+		<h3 align="center">Since
+			<c:choose>
+				<c:when test="${not empty startPeriod}">
+					<fmt:formatDate pattern="dd-MM-yyyy" value="${startPeriod}" />
+					to 
+					<fmt:formatDate pattern="dd-MM-yyyy" value="${endPeriod}" />
+				</c:when>
+				<c:otherwise>
+					last 24 hours.
+				 </c:otherwise>
+			</c:choose></h3>
 		<div class="row">
-			<form action="viewLogsByDate" method="get">
-				Show logs since date: (dd.mm.yyyy)<input type="text" name="showDate" />
-				<input type="submit" value="show" />
-			</form>
-			<form action="deleteOldLogs" method="get">
-				Delete old logs to date: (dd.mm.yyyy)<input type="text"
-					name="deleteDate" /> <input type="submit" value="delete" onclick="destroy()" />
-			</form>
-			
-<script type="text/javascript"> 
-function destroy() {
-if (confirm ("Ви впевнені, що бажаєте видалити логи?")) 
-	window.location = "${pageContext.request.contextPath}/deleteOldLogs";
-	else 
-		window.location = "javascript: history.go(-1)";
-} 
-</script>			
-				
-			<br />
+			<div class="col-md-5" align="center">
+				<form action="viewLogsByDate" method="get">
+					Show logs from date: <input type="text" name="startDate"
+						placeholder="DD-MM-YYYY" /> to: <input type="text" name="endDate"
+						placeholder="DD-MM-YYYY" /> <input type="submit" value="show" />
+				</form>
+			</div>
+			<div class="col-md-5" align="center">
+				<form action="deleteOldLogs" method="get">
+					Delete old logs to date: <input type="text" name="deleteDate"
+						placeholder="DD-MM-YYYY" /> <input type="submit" value="delete" />
+				</form>
+			</div>
+
+			<div class="col-md-2">
+				<c:if
+					test="${((pageNumb == 0) and (logs.size() == 50)) or pageNumb > 0}">
+			Your request includes lot of information.
+			You can browse<br /> through it here:
+				<nav>
+						<ul class="pagination">
+							<c:if test="${pageNumb > 0}">
+								<li><a href="${pageContext.request.contextPath}/viewAllLogs?pageNumb=${pageNumb - 1}">Previous</a></li>
+								<li><a href="${pageContext.request.contextPath}/viewAllLogs?pageNumb=${pageNumb - 1}">${pageNumb}</a></li>
+							</c:if>
+							<li class="active"><a href="#">${pageNumb + 1}</a></li>
+							<c:if test="${logs.size() == 50}">
+								<li><a href="${pageContext.request.contextPath}/viewAllLogs?pageNumb=${pageNumb + 1}">${pageNumb + 2}</a></li>
+								<li><a href="${pageContext.request.contextPath}/viewAllLogs?pageNumb=${pageNumb + 1}">Next</a></li>
+							</c:if>
+						</ul>
+					</nav>
+				</c:if>
+			</div>
 		</div>
+
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<div class="table-responsive">
@@ -52,12 +77,18 @@ if (confirm ("Ви впевнені, що бажаєте видалити лог
 							<tr>
 								<td class="col-md-1">${log.eventDate}</td>
 								<td class="col-md-0.8">${log.level}</td>
-								<td class="col-md-3"><textarea rows="2" cols="45">${log.logger}</textarea></td>
-								<td class="col-md-5.7"><textarea rows="2" cols="100">${log.message}</textarea></td>
-								<td class="col-md-1"><c:if
-										test="${not empty log.exception}">
-										<a href="http://localhost:8080/SSEL/logDetails?LogId=${log.id}">Details</a>
-									</c:if></td>
+								<td class="col-md-3"><textarea rows="2" cols="45"
+										readonly="readonly">${log.logger}</textarea></td>
+								<td class="col-md-5.7"><textarea rows="2" cols="100"
+										readonly="readonly">${log.message}</textarea></td>
+								<td class="col-md-1"><c:choose>
+										<c:when test="${not empty log.exception}">
+											<a href="${pageContext.request.contextPath}/logDetails?LogId=${log.id}">Details</a>
+										</c:when>
+										<c:otherwise>
+								        No exception
+								    </c:otherwise>
+									</c:choose></td>
 							</tr>
 						</c:forEach>
 					</table>
