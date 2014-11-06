@@ -33,6 +33,8 @@ import com.softserve.service.UserService;
 @Controller
 public class AdministratorController {
 
+	public static final int DEFAULT_ELEMENTS_ON_PAGE = 10;
+
 	private static final Logger LOG = LoggerFactory
 			.getLogger(AdministratorController.class);
 
@@ -53,7 +55,7 @@ public class AdministratorController {
 
 	@Autowired
 	private AdministratorService administratorService;
-	
+
 	@Resource(name = "LogService")
 	private LogService logService;
 
@@ -72,13 +74,17 @@ public class AdministratorController {
 
 	@RequestMapping(value = "/viewAllCategories", method = RequestMethod.GET)
 	public String viewAllCategories(
-			@RequestParam(value = "message", required = false) String message,
+			@RequestParam(value = "successMessage", required = false) String successMessage,
+			@RequestParam(value = "errorMessage", required = false) String errorMessage,
 			Model model) {
 		LOG.debug("Visit viewAllCategories page");
 		List<Category> categories = categoryService.getAllCategories();
 		model.addAttribute("categories", categories);
-		if (message != null) {
-			model.addAttribute("message", message);
+		if (successMessage != null) {
+			model.addAttribute("successMessage", successMessage);
+		}
+		if (errorMessage != null) {
+			model.addAttribute("errorMessage", errorMessage);
 		}
 		return "viewAllCategories";
 	}
@@ -90,7 +96,7 @@ public class AdministratorController {
 		LOG.debug("Visit viewAllCategories page");
 		if (categoryId != null) {
 			Category category = categoryService.getCategoryById(categoryId);
-			redirectAttributes.addFlashAttribute("message",
+			redirectAttributes.addFlashAttribute("successMessage",
 					"You are delete category: <strong>" + category.getName()
 							+ "</strong>");
 			categoryService.deleteCategory(category);
@@ -105,18 +111,14 @@ public class AdministratorController {
 		LOG.debug("Visit viewAllCategories page");
 		if (categoryName != "" && categoryName != null) {
 			if (!administratorService.addCategory(categoryName)) {
-				redirectAttributes.addFlashAttribute("message",
+				redirectAttributes.addFlashAttribute("successMessage",
 						"You are add category: <strong>" + categoryName
 								+ "</strong>");
 			} else {
-				redirectAttributes.addFlashAttribute("message",
+				redirectAttributes.addFlashAttribute("errorMessage",
 						"Category: <strong>" + categoryName
 								+ "</strong> allready exist!");
 			}
-			// Category newCategory = new Category();
-			// newCategory.setName(category);
-			// categoryService.addCategory(newCategory);
-
 		}
 		return "redirect:/viewAllCategories";
 	}
@@ -125,34 +127,89 @@ public class AdministratorController {
 	public String viewAllUsers(Model model) {
 		LOG.debug("Visit viewAllUsers page");
 		List<User> users = userService.getAllUsers();
-		
+
 		model.addAttribute("users", users);
 		return "viewAllUsers";
 	}
 
 	@RequestMapping(value = "/viewAllSubjects", method = RequestMethod.GET)
 	public String viewAllSubjects(
-			@RequestParam(value = "message", required = false) String message,
+			@RequestParam(value = "successMessage", required = false) String successMessage,
+			@RequestParam(value = "errorMessage", required = false) String errorMessage,
 			@RequestParam(value = "searchText", required = false) String searchText,
-			@RequestParam(value = "searchOption", required = false) Integer searchOption,
+			@RequestParam(value = "searchOption", required = false) String searchOption,
+			@RequestParam(value = "elementsOnPage", required = false) Integer elementsOnPage,
+			@RequestParam(value = "currentPage", required = false) Integer currentPage,
+			@RequestParam(value = "sortBy", required = false) String sortBy,
+			@RequestParam(value = "sortMethod", required = false) String sortMethod,
 			Model model) {
-		LOG.debug("Visit viewAllLogs page");
+		LOG.debug("Visit viewAllSubjects page");
 		List<Subject> subjects = new ArrayList<Subject>();
-		if (message != null) {
-			model.addAttribute("message", message);
+		int startPosition;
+		int limitLength;
+		long count;
+		int pages;
+		if (successMessage != null) {
+			model.addAttribute("successMessage", successMessage);
 		}
-		if (searchText != null && searchOption != null) {
-			if (searchOption == 1) {
-				subjects = administratorService.searchSubjectsByName(searchText);
+
+		if (errorMessage != null) {
+			model.addAttribute("errorMessage", errorMessage);
+		}
+
+		if (elementsOnPage == null) {
+			elementsOnPage = DEFAULT_ELEMENTS_ON_PAGE;
+		}
+
+		if (currentPage == null) {
+			currentPage = 1;
+		}
+		
+		
+		startPosition = (currentPage - 1) * elementsOnPage;
+		limitLength = elementsOnPage;
+
+		count = subjectService.getSubjectsCount();
+		pages = (int) count / elementsOnPage;
+
+		if (searchText != null && !searchText.equals("") && searchOption != null) {
+			if (searchOption.equals("all")) {
+				subjects = subjectService.getSubjectsByTextVsLimit(searchText, startPosition, limitLength, sortBy, sortMethod);
+				count = subjectService.getSubjectsByTextCount(searchText);
+			} else if (searchOption.equals("subject")) {
+				subjects = subjectService.getSubjectsByNameVsLimit(searchText,
+						startPosition, limitLength, sortBy, sortMethod);
+				count = subjectService.getSubjectsByNameCount(searchText);
+			} else if (searchOption.equals("category")) {
+				subjects = subjectService.getSubjectsByCategoryVsLimit(
+						searchText, startPosition, limitLength, sortBy, sortMethod);
+				count = subjectService.getSubjectsByCategoryCount(searchText);
 			}
-			else if (searchOption == 2) {
-				subjects = administratorService.searchSubjectsByCategory(searchText);
-			}
+			model.addAttribute("searchText", searchText);
+			model.addAttribute("searchOption", searchOption);
+
+		} else {
+			count = subjectService.getSubjectsCount();
+			
+			subjects = subjectService.getSubjectsVsLimit(startPosition,
+					limitLength, sortBy, sortMethod);
 		}
-		else {
-			subjects = subjectService.getAllSubjects();
+		
+		pages = (int) count / elementsOnPage;
+		if ((count % elementsOnPage) != 0) {
+			pages++;
 		}
+
 		List<Category> categories = categoryService.getAllCategories();
+
+		if (sortBy != null && sortMethod != null) {
+			model.addAttribute("sortBy", sortBy);
+			model.addAttribute("sortMethod", sortMethod);
+		}
+		
+		model.addAttribute("pagesCount", pages);
+		model.addAttribute("elementsOnPage", elementsOnPage);
+		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("categories", categories);
 		model.addAttribute("subjects", subjects);
 		return "viewAllSubjects";
@@ -162,22 +219,31 @@ public class AdministratorController {
 	public String changeSubjectCategory(
 			@RequestParam(value = "subjectId", required = false) Integer subjectId,
 			@RequestParam(value = "categoryId", required = false) Integer categoryId,
+			@RequestParam(value = "elementsOnPage", required = false) Integer elementsOnPage,
+			@RequestParam(value = "currentPage", required = false) Integer currentPage,
+			@RequestParam(value = "searchText", required = false) String searchText,
+			@RequestParam(value = "searchOption", required = false) String searchOption,
+			@RequestParam(value = "sortBy", required = false) String sortBy,
+			@RequestParam(value = "sortMethod", required = false) String sortMethod,
+			
 			Model model, RedirectAttributes redirectAttributes) {
 		LOG.debug("Visit changeSubjectCategory page");
 		if (subjectId != null && categoryId != null) {
 			Subject subject = subjectService.getSubjectById(subjectId);
 			Category category = categoryService.getCategoryById(categoryId);
-			redirectAttributes.addFlashAttribute("message",
-					"You are change <b>" + subject.getName()
-							+ "</b> category ftom <b>"
-							+ subject.getCategory().getName() + "</b> to <b>"
-							+ category.getName() + "</b>");
+			redirectAttributes.addAttribute("successMessage", "You are change <b>" + subject.getName()	+ "</b> category from <b>" + subject.getCategory().getName() + "</b> to <b>" + category.getName() + "</b>");
 			subject.setCategory(category);
 			subjectService.updateSubject(subject);
 		} else {
-			redirectAttributes.addFlashAttribute("message",
+			redirectAttributes.addAttribute("errorMessage",
 					"Can't change category, input parameters is invalid!");
 		}
+		redirectAttributes.addAttribute("currentPage", currentPage);
+		redirectAttributes.addAttribute("elementsOnPage", elementsOnPage);
+		redirectAttributes.addAttribute("searchText", searchText);
+		redirectAttributes.addAttribute("searchOption", searchOption);
+		redirectAttributes.addAttribute("sortBy", sortBy);
+		redirectAttributes.addAttribute("sortMethod", sortMethod);
 		return "redirect:/viewAllSubjects";
 	}
 

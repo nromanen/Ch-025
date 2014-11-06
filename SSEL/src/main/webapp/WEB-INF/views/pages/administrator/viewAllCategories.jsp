@@ -37,12 +37,20 @@ $(document).on("click", ".openModalWindow", function () {
 	<!-- /.modal -->
 <div class="row">
 	<div class="col-lg-12">
-		<c:if test="${not empty message}">
+		<c:if test="${not empty successMessage}">
 			<div class="alert alert-success alert-dismissible" role="alert">
 				<button type="button" class="close" data-dismiss="alert">
 					<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
 				</button>
-				<p align="center">${message}</p>
+				<p align="center">${successMessage}</p>
+			</div>
+		</c:if>
+		<c:if test="${not empty errorMessage}">
+			<div class="alert alert-danger alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert">
+					<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+				</button>
+				<p align="center">${errorMessage}</p>
 			</div>
 		</c:if>
 		<div class="col-md-3">

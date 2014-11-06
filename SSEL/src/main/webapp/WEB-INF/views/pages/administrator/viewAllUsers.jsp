@@ -29,7 +29,7 @@
 					<td align="center">${user.role.role}</td>
 					<td align="center">
 					<c:if test="${user.blocked eq false}">
-					<a href="#"><span class="glyphicon glyphicon-unchecked"></span></a>
+					<a href="#"><span class="glyphicon glyphicon-unchecked green"></span></a>
 					</c:if>
 					<c:if test="${user.blocked eq true}">
 					<a href="#"><span class="glyphicon glyphicon-check red"></span></a>
