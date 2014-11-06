@@ -1,5 +1,6 @@
 package com.softserve.service.impl;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -89,14 +90,17 @@ public class UserServiceImpl implements UserService {
 	public void registrate(Registration registration, HttpServletRequest request) {
 		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(
 				PASSWORD_STRENGTH);
+		Calendar calendar = Calendar.getInstance();
+
 		User user = new User();
 		user.setEmail(registration.getEmail().trim());
 		user.setPassword(passwordEncoder.encode(registration.getPassword()));
 		user.setBlocked(true);
 		user.setFirstName(registration.getFirstName().trim());
 		user.setLastName(registration.getLastName().trim());
-		user.setRegistration(new Date());
-		user.setExpired(new Date());
+		user.setRegistration(calendar.getTime());
+		calendar.add(Calendar.YEAR, 1);
+		user.setExpired(calendar.getTime());
 		user.setVerificationKey(passwordEncoder.encode(registration.getEmail()));
 
 		if (!registration.isTeacher()) {
@@ -116,7 +120,7 @@ public class UserServiceImpl implements UserService {
 			teacherRequest.setRequestDate(new Date());
 			teacherRequest.setUser(user);
 			teacherRequestService.addTeacherRequest(teacherRequest);
-			//TODO send email
+			// TODO send email
 		}
 	}
 

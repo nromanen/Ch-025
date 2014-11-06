@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 	
 <link href="<c:url value="/resources/css/bootstrap.min.css" />" rel="stylesheet" type="text/css">
+<link href="<c:url value="/resources/css/bootstrapValidator.css" />" rel="stylesheet" type="text/css">
 <link href="<c:url value="/resources/css/plugins/metisMenu/metisMenu.min.css" />" rel="stylesheet" type="text/css">
 <link href="<c:url value="/resources/css/sb-admin-2.css" />" rel="stylesheet" type="text/css">
 <link href="<c:url value="/resources/styles/styles.css" />" rel="stylesheet" type="text/css">

@@ -36,7 +36,7 @@
 
 	<!-- Remind -->
 	<definition name="remind" extends="sign-template">
-		<put-attribute name="title" value="SSEL SoftServeAcademy Renind" />
+		<put-attribute name="title" value="SSEL SoftServeAcademy Remind" />
 		<put-attribute name="content" value="/WEB-INF/views/remind.jsp" />
 	</definition>
 
