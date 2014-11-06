@@ -18,7 +18,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "block")
-public class Block implements Comparable<Topic>{
+public class Block implements Comparable<Topic> {
 
 	@Id
 	@Column(name = "id")
@@ -41,7 +41,7 @@ public class Block implements Comparable<Topic>{
 	@JoinColumn(name = "id_subject", nullable = false)
 	private Subject subject;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy="block")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "block")
 	private List<Topic> topics = new ArrayList<>();
 	
 	public Block() {

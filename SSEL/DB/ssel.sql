@@ -90,6 +90,7 @@ INSERT INTO `course_scheduler` VALUES ('6', '2014-10-31', '2015-01-16', '11');
 -- ----------------------------
 DROP TABLE IF EXISTS `logging`;
 CREATE TABLE `logging` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `eventDate` datetime DEFAULT NULL,
   `level` varchar(255) DEFAULT NULL,
   `logger` varchar(255) DEFAULT NULL,

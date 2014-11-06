@@ -14,85 +14,99 @@
 	<spring:message code="dataerror.firstname" var="lastname"/>
 	<spring:message code="dataerror.email_exist" var="email_exist" />
 	<spring:message code="dataerror.email_example" var="email_example"/>
+	<spring:message code="label.processing" var="processing"/>
+	<spring:message code="label.cancel" var="cancel"/>
+	<spring:message code="label.upload" var="upload" />
+	
 	<div class="row">
-		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
-			<div class="panel-heading">
-              <h3 class="panel-title">Title</h3>
-            </div>
+		<div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-xs-offset-0 col-sm-offset-0 col-md-offset-2 col-lg-offset-2 toppad">
             <div class="panel-body">
             	<div class="row">
-              		<div class="col-md-3 col-lg-3 " align="center"> 
-                		<img alt="User Pic" class="img-circle"
-                			src="<c:url value="/resources/img/user_photo.png" />" > 
-                		<button class="btn btn-info" style="margin-top: 10px">Load Image</button>
-                	</div>
-                	<div class=" col-md-9 col-lg-9 "> 
-                		<table class="table table-user-information">
-                    		<tbody>
-                      			<tr>
-                        			<td>
-                        				<spring:message code="label.firstname" />:
-                        			</td>
-                        			<td>
-                        				<c:out value="${sessionScope.user.firstName}" />
-                        			</td>
-                        			<td>
-                        				<button data-original-title="<spring:message code="label.edit_first_name" />"
-                        					 data-toggle="tooltip" type="button" class="btn btn-sm btn-warning" 
-                        					 id="btn_change_first_name">
-                        					<i class="glyphicon glyphicon-edit"></i>
-                        				</button>
-                        			</td>
-                      			</tr>
-	                      		<tr>
-	                        		<td>
-                        				<spring:message code="label.lastname" />:
-                        			</td>
-                        			<td>
-                        				<c:out value="${sessionScope.user.lastName}" />
-                        			</td>
-                        			<td>
-                        				<button data-original-title="<spring:message code="label.edit_last_name" />" 
-                        					data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"
-                        					id="btn_change_last_name">
-                        					<i class="glyphicon glyphicon-edit"></i>
-                        				</button>
-                        			</td>
-	                      		</tr>
-	                      		<tr>
-	                        		<td>
-	                        			<spring:message code="label.registration_date" />:
-	                        		</td>
-	                        		<td>
-	                        			<fmt:formatDate value="${sessionScope.user.registration}" pattern="yyyy-MM-dd" />
-	                        		</td>
-	                      		</tr>
-	                     		<tr>
-	                        		<td>
-	                        			<spring:message code="label.email" />:
-	                        		</td>
-	                        		<td id="email">
-	                        			<c:out value="${sessionScope.user.email}" />
-	                        		</td>
-	                        		<td>
-                        				<button data-original-title="Edit email" data-toggle="tooltip"
-                        					type="button" class="btn btn-sm btn-warning"
-                        					id="btn_change_email">
-                        					<i class="glyphicon glyphicon-edit"></i>
-                        				</button>
-                        			</td>
-	                     		</tr>
-	                        	<tr>
-	                        		<td>Expired date</td>
-	                        		<td>
-	                        			<fmt:formatDate value="${sessionScope.user.expired}" pattern="yyyy-MM-dd" />
-	                        		</td>
-	                      		</tr>
-	                    	</tbody>
-              			</table>
-              			<button class="btn btn-info" data-toggle="modal" data-target="#modal_change_password">
-							<spring:message code="label.change_password"/>
+              		<div class="col-md-4 col-lg-4 " align="center"> 
+              			<c:choose>
+	              			<c:when test="${empty sessionScope.image}">
+	              				<img alt="User Pic" class="img-circle" style="height: 100px; width: 100px"
+                					src="<c:url value="/resources/img/user_photo.png" />" > 
+	              			</c:when>
+	              			<c:otherwise>
+	              				<img alt="User Pic" class="img-circle" style="height: 100px; width: 100px"
+                					src="data:image/png;base64,<c:out value="${sessionScope.image}" />" > 
+	              			</c:otherwise>
+              			</c:choose>
+                		<button type="button" class="btn btn-info" data-toggle="modal" 
+                			data-target="#modal_load_photo" style="margin-top: 15px">
+							<spring:message code="label.load_image" />
 						</button>
+                	</div>
+                	<div class=" col-md-8 col-lg-8 "> 
+                		<form id="form_change_user_information" method="POST" role="form" 
+							action="<c:url value="/changeUserInformation" />">
+	                		<table class="table table-user-information">
+	                    		<tbody>
+	                      			<tr>
+	                        			<td>
+	                        				<spring:message code="label.firstname" />:
+	                        			</td>
+	                        			<td>
+	                       					<input type="text" id="first_name" class="form-control" name="first_name"
+												placeholder="<spring:message code="placeholder.firstname" />"  
+												value="<c:out value="${sessionScope.user.firstName}" />" 
+												data-toggle="tooltip" data-placement="right"
+												title="<spring:message code="label.edit_first_name" />" />
+	                        			</td>
+	                      			</tr>
+		                      		<tr>
+		                        		<td>
+	                        				<spring:message code="label.lastname" />:
+	                        			</td>
+	                        			<td>
+	                        				<input type="text" id="last_name" class="form-control" name="last_name"
+												placeholder="<spring:message code="placeholder.lastname" />"  
+												value="<c:out value="${sessionScope.user.lastName}" />" 
+												data-toggle="tooltip" data-placement="right"
+												title="<spring:message code="label.edit_last_name" />" />
+	                        			</td>
+		                      		</tr>
+		                      		<tr>
+		                        		<td>
+		                        			<spring:message code="label.registration_date" />:
+		                        		</td>
+		                        		<td>
+		                        			<fmt:formatDate value="${sessionScope.user.registration}" pattern="yyyy-MM-dd" />
+		                        		</td>
+		                      		</tr>
+		                     		<tr>
+		                        		<td>
+		                        			<spring:message code="label.email" />:
+		                        		</td>
+		                        		<td id="email">
+		                        			<c:out value="${sessionScope.user.email}" />
+		                        		</td>
+		                        		<td>
+	                        				<button data-original-title="Edit email" data-toggle="tooltip"
+	                        					type="button" class="btn btn-sm btn-warning"
+	                        					id="btn_change_email">
+	                        					<i class="glyphicon glyphicon-edit"></i>
+	                        				</button>
+	                        			</td>
+		                     		</tr>
+		                        	<tr>
+		                        		<td>
+		                        			<spring:message code="label.expired_date" />
+		                        		</td>
+		                        		<td>
+		                        			<fmt:formatDate value="${sessionScope.user.expired}" pattern="yyyy-MM-dd" />
+		                        		</td>
+		                      		</tr>
+		                    	</tbody>
+	              			</table>
+	              			<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal_change_password">
+								<spring:message code="label.change_password"/>
+							</button>
+							<button type="submit" class="btn btn-success">
+								<spring:message code="label.save_changes" />
+							</button>
+              			</form>
                 	</div>
               	</div>
             </div>
@@ -100,9 +114,9 @@
 	</div>
 </div>
 
-<!-- Modal window for change first name -->
+<!-- Modal window for load photo -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" 
-    id="modal_change_first_name" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    id="modal_load_photo" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -111,129 +125,122 @@
 				    <span class="sr-only">Close</span>
 				</button>
 				<h4 class="modal-title">
-					<spring:message code="label.edit_first_name" />
+					<spring:message code="label.load_image" />
 				</h4>
 			</div>
-			<form id="form_change_first_name" class="form-horizontal" method="POST" role="form" 
-				action="<c:url value="/changeFirstName" />">
-				<div class="modal-body">				
-					<div class="panel panel-info">
-        				<div class="panel-body">
-        					<div class="form-group">
-								<label class="col-md-3 control-label" for="first_name">
-									<spring:message code="label.firstname" /> 
-								</label>
-								<div class="col-md-6">
-									<input type="text" id="first_name" class="form-control" name="first_name"
-										placeholder="<spring:message code="placeholder.firstname" />"  
-										value="<c:out value="${sessionScope.user.firstName}" />"/>
-								</div>
-							</div>
-	        			</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="submit" class="btn btn-success" >
-						<spring:message code="label.accept"/>
-					</button>
-					<button type="reset" class="btn btn-info" data-dismiss="modal">
-						<spring:message code="label.cancel" />
-					</button>
-				</div>
-			</form>
+			<div class="modal-body">	
+				<span class="btn btn-success fileinput-button">
+			        <i class="glyphicon glyphicon-plus"></i>
+			        <span>
+			        	<spring:message code="label.add_file" />
+			        </span>
+			        <input id="fileupload" type="file" name="files[]" 
+			        	accept="image/*">
+			    </span>
+			    <div id="progress" class="progress" style="margin-top: 15px">
+			        <div class="progress-bar progress-bar-success"></div>
+			    </div>
+			    <div id="files" class="files"></div>
+			</div>
 		</div>		
 	</div> 
 </div>
 
-<!-- Modal window for change last name -->
-<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" 
-    id="modal_change_last_name" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">
-				    <span aria-hidden="true">&times;</span>
-				    <span class="sr-only">Close</span>
-				</button>
-				<h4 class="modal-title">
-					<spring:message code="label.edit_last_name" />
-				</h4>
-			</div>
-			<form id="form_change_last_name" class="form-horizontal" method="POST" role="form" 
-				action="<c:url value="/changeLastName" />">
-				<div class="modal-body">				
-					<div class="panel panel-info">
-        				<div class="panel-body">
-        					<div class="form-group">
-								<label class="col-md-3 control-label" for="last_name">
-									<spring:message code="label.lastname" /> 
-								</label>
-								<div class="col-md-6">
-									<input type="text" id="last_name" class="form-control" name="last_name"
-										placeholder="<spring:message code="placeholder.lastname" />"  
-										value="<c:out value="${sessionScope.user.lastName}" />"/>
-								</div>
-							</div>
-	        			</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="submit" class="btn btn-success" >
-						<spring:message code="label.accept"/>
-					</button>
-					<button type="reset" class="btn btn-info" data-dismiss="modal">
-						<spring:message code="label.cancel" />
-					</button>
-				</div>
-			</form>
-		</div>		
-	</div> 
-</div>
-
-<!-- Modal window for change email -->
-<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" 
-    id="modal_change_email" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">
-				    <span aria-hidden="true">&times;</span>
-				    <span class="sr-only">Close</span>
-				</button>
-				<h4 class="modal-title">
-					Change email
-				</h4>
-			</div>
-			<form id="form_change_email" class="form-horizontal" method="POST" role="form" 
-				action="<c:url value="/changeEmail" />">
-				<div class="modal-body">				
-					<div class="panel panel-info">
-        				<div class="panel-body">
-        					<div class="form-group">
-								<label class="col-md-3 control-label" for="email">
-									<spring:message code="label.email" /> 
-								</label>
-								<div class="col-md-6">
-									<input type="email" id="email" class="form-control" name="email"
-										placeholder="<spring:message code="placeholder.email" />"  
-										value="<c:out value="${sessionScope.user.email}" />"/>
-								</div>
-							</div>
-	        			</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="submit" class="btn btn-success" >
-						<spring:message code="label.accept"/>
-					</button>
-					<button type="reset" class="btn btn-info" data-dismiss="modal">
-						<spring:message code="label.cancel" />
-					</button>
-				</div>
-			</form>
-		</div>		
-	</div> 
-</div>
+<script type="text/javascript">
+$(function () {
+	uploadButton = $('<button/>')
+    	.addClass('btn btn-primary')
+        .prop('disabled', true)
+        .text('${processing}')
+        .on('click', function () {
+        	var $this = $(this),
+            	data = $this.data();
+           	$this.off('click')
+           		.text('${cancel}')
+                .on('click', function () {
+                	$this.remove();
+                    data.abort();
+                });
+            data.submit().always(function () {
+            	$this.remove();
+            });
+    	});
+    $('#fileupload').fileupload({
+        url: 'uploadPhoto',
+        dataType: 'json',
+        autoUpload: false,
+        acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+        maxFileSize: 5000000, 
+        disableImageResize: /Android(?!.*Chrome)|Opera/
+            .test(window.navigator.userAgent),
+        previewMaxWidth: 100,
+        previewMaxHeight: 100,
+        previewCrop: true
+    }).on('fileuploadadd', function (e, data) {
+        data.context = $('<div id="photo" />').appendTo('#files');
+        $.each(data.files, function (index, file) {
+            var node = $('<p/>')
+                    .append($('<span/>').text(file.name));
+            if (!index) {
+                node
+                    .append('<br>')
+                    .append(uploadButton.clone(true).data(data));
+            }
+            node.appendTo(data.context);
+        });
+    }).on('fileuploadprocessalways', function (e, data) {
+        var index = data.index,
+            file = data.files[index],
+            node = $(data.context.children()[index]);
+        if (file.preview) {
+            node
+                .prepend('<br>')
+                .prepend(file.preview);
+        }
+        if (file.error) {
+            node
+                .append('<br>')
+                .append($('<span class="text-danger"/>').text(file.error));
+        }
+        if (index + 1 === data.files.length) {
+            data.context.find('button')
+                .text('${upload}')
+                .prop('disabled', !!data.files.error);
+        }
+    }).on('fileuploadprogressall', function (e, data) {
+        var progress = parseInt(data.loaded / data.total * 100, 10);
+        $('#progress .progress-bar').css(
+            'width',
+            progress + '%'
+        );
+    }).on('fileuploaddone', function (e, data) {
+        $.each(data.result.files, function (index, file) {
+        	location.reload();
+            if (file.url) {
+                var link = $('<a>')
+                    .attr('target', '_blank')
+                    .prop('href', file.url);
+                $(data.context.children()[index])
+                    .wrap(link);
+            } else if (file.error) {
+                var error = $('<span class="text-danger"/>').text(file.error);
+                $(data.context.children()[index])
+                    .append('<br>')
+                    .append(error);
+            }
+        });
+    }).on('fileuploadfail', function (e, data) {
+        $.each(data.files, function (index) {
+        	location.reload();
+            var error = $('<span class="text-danger"/>'); //.text('File upload failed.')
+            $(data.context.children()[index])
+                .append('<br>')
+                .append(error);
+        });
+    }).prop('disabled', !$.support.fileInput)
+        .parent().addClass($.support.fileInput ? undefined : 'disabled');
+});
+</script>
 
 <!-- Modal window for change passwords -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" 
@@ -259,8 +266,15 @@
 									<spring:message code="label.old_password" />
 								</label>
 								<div class="col-md-6">
-									<input type="password" id="old_password" class="form-control" name="old_password"
-										placeholder="<spring:message code="placeholder.old_password"/>" />
+									<div class="input-group">
+										<input type="password" id="old_password" class="form-control pwd" name="old_password"
+											placeholder="<spring:message code="placeholder.old_password"/>" /> 
+										<span class="input-group-btn">
+		            						<button class="btn btn-default reveal" style="height: 34px" type="button" >
+		            							<i class="glyphicon glyphicon-eye-open"></i>
+		            						</button>
+	          							</span>
+          							</div>
 								</div>
 							</div>
 							<div class="form-group">
@@ -298,16 +312,38 @@
 	</div> 
 </div>
 
+<script src="//blueimp.github.io/JavaScript-Load-Image/js/load-image.all.min.js"></script>
+<script src="//blueimp.github.io/JavaScript-Canvas-to-Blob/js/canvas-to-blob.min.js"></script>
+<script src="<c:url value="/resources/js/vendor/jquery.ui.widget.js" />" ></script>
+<script src="<c:url value="/resources/js/jquery.iframe-transport.js" />" ></script>
+<script src="<c:url value="/resources/js/jquery.fileupload.js" />" ></script>
+<script src="<c:url value="/resources/js/jquery.fileupload-process.js" />"></script>
+<script src="<c:url value="/resources/js/jquery.fileupload-image.js" />" ></script>
+<script src="<c:url value="/resources/js/jquery.fileupload-validate.js" />" ></script>
 
 <script>
 jQuery(document).ready(function ($) {
 	
-	$("#btn_change_first_name").click(function(){	
-		$('#modal_change_first_name').modal();
+	$("#fileupload").click(function(){	
+		$( "#photo" ).remove();
 	});
 	
-	$("#btn_change_last_name").click(function(){	
-		$('#modal_change_last_name').modal();
+	$(".reveal").mousedown(function() {
+	    $(".pwd").replaceWith($('.pwd').clone().attr('type', 'text'));
+	})
+	.mouseup(function() {
+		$(".pwd").replaceWith($('.pwd').clone().attr('type', 'password'));
+	})
+	.mouseout(function() {
+		$(".pwd").replaceWith($('.pwd').clone().attr('type', 'password'));
+	});
+	
+	$("#btn_change_email").click(function(){	
+		$('#modal_change_email').modal();
+	});
+	
+	$("#btn_load_photo").click(function(){	
+		$('#modal_load_photo').modal();
 	});
 	
 	$("#btn_change_email").click(function(){	
@@ -316,11 +352,12 @@ jQuery(document).ready(function ($) {
 	
     $('[data-toggle="tooltip"]').tooltip();
     
-	$("#form_change_first_name").submit(function(){
+	$("#form_change_user_information").submit(function(){
 		var first_name = $("#first_name").val();
-		if(first_name != ""){
+		var last_name = $("#last_name").val();
+		if(first_name != "" && last_name != ""){
 			var url = $(this).attr("action");
-			var json = { "firstName" : first_name };
+			var json = { "firstName" : first_name, "lastName" : last_name };
 			$.ajax({
 		        url: url,
 		        data: JSON.stringify(json),
@@ -329,31 +366,8 @@ jQuery(document).ready(function ($) {
 		        success: function(response) {
 		        	if(response == "success"){	
 		        		location.reload();
-		        		$("#modal_change_first_name").modal("hide");
 		        	} else {
 		        		$("#first_name").val('');
-		        	}
-		        }
-		    });
-		}
-		return false;
-	});
-	
-	$("#form_change_last_name").submit(function(){
-		var last_name = $("#last_name").val();
-		if(last_name != ""){
-			var url = $(this).attr("action");
-			var json = { "lastName" : last_name };
-			$.ajax({
-		        url: url,
-		        data: JSON.stringify(json),
-		        contentType: 'application/json',
-		        type: "POST",
-		        success: function(response) {
-		        	if(response == "success"){	
-		        		location.reload();
-		        		$("#modal_change_last_name").modal("hide");
-		        	} else {
 		        		$("#last_name").val('');
 		        	}
 		        }
@@ -430,9 +444,13 @@ jQuery(document).ready(function ($) {
     	}, "Please specify a different (non-default) value"
     );
     
-    $("#form_change_first_name").validate({
+    $("#form_change_user_information").validate({
     	rules: {
     		first_name: {
+    			required: true,
+    			regexp: "^[A-ZА-ЯІЇЄ]{1}[a-zа-яіїє]{1,30}$"
+    		},
+    		last_name: {
     			required: true,
     			regexp: "^[A-ZА-ЯІЇЄ]{1}[a-zа-яіїє]{1,30}$"
     		}
@@ -441,21 +459,10 @@ jQuery(document).ready(function ($) {
     		first_name: {
     			required: "${required}",
 				regexp: "${firstname}"
-    		}
-    	}
-    });
-    
-    $("#form_change_last_name").validate({
-    	rules: {
-    		last_name: {
-    			required: true,
-    			regexp: "^[A-ZА-ЯІЇЄ]{1}[a-zа-яіїє]{1,30}$"
-    		}
-    	},
-    	messages: {
+    		},
     		last_name: {
     			required: "${required}",
-				regexp: "${lastfirstname}"
+				regexp: "${lastname}"
     		}
     	}
     });

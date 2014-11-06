@@ -38,4 +38,6 @@ public interface SubjectDao {
 	public long getSubjectsByCategoryCount(String searchCategory);
 
 	public long getSubjectsByTextCount(String searchText);
+
+	List<Subject> getSubjectsByNamePart(String namePart);
 }

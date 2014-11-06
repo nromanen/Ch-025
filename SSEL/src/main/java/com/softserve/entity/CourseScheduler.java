@@ -1,8 +1,6 @@
 package com.softserve.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -34,9 +31,6 @@ public class CourseScheduler {
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "id_subject")
 	private Subject subject;
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "courseScheduler")
-	private List<StudentGroup> groups = new ArrayList<>();
 
 	public int getId() {
 		return id;
@@ -70,12 +64,5 @@ public class CourseScheduler {
 		this.end = end;
 	}
 
-	public List<StudentGroup> getGroups() {
-		return groups;
-	}
-
-	public void setGroups(List<StudentGroup> groups) {
-		this.groups = groups;
-	}
 
 }

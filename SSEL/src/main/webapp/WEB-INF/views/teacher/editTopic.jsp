@@ -209,12 +209,6 @@
 <script src="resources/js/main.js"></script>
 
 <script type="text/javascript">
-<!--
-	
-//-->
-</script>
-
-<script type="text/javascript">
 	$(document).ready(function() {
 
 		$.validator.addMethod('regexp', function(value, element, regexp) {

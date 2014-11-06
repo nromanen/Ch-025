@@ -21,13 +21,6 @@ public class AdministratorServiceImpl implements AdministratorService {
 	@Autowired
 	private SubjectService subjectService;
 	
-	/**
-	 * Constructor by default
-	 */
-	public AdministratorServiceImpl() {
-
-	}
-	
 	@Override
 	public boolean addCategory(String name) {
 		boolean exist = false;

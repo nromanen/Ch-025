@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE tiles-definitions PUBLIC
-"-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" 
+"-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
 "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
 
@@ -51,6 +51,18 @@
 	<definition name="course" extends="index">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
 		<put-attribute name="content" value="/WEB-INF/views/pages/course.jsp" />
+	</definition>
+
+	<!-- Category -->
+	<definition name="category" extends="index">
+		<put-attribute name="title" value="SSEL SoftServeAcademy Category"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/views/pages/category.jsp"></put-attribute>
+	</definition>
+
+	<!-- Search -->
+	<definition name="search" extends="index">
+		<put-attribute name="title" value="SSEL SoftServeAcademy Search"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/views/pages/search.jsp"></put-attribute>
 	</definition>
 
 	<!-- Student -->
@@ -112,6 +124,19 @@
 	<definition name="modules" extends="base-template">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Student" />
 		<put-attribute name="content" value="/WEB-INF/views/pages/modules.jsp" />
+		<put-attribute name="menu"
+			value="/WEB-INF/views/templates/student_menu.jsp" />
+	</definition>
+	<definition name="topicView" extends="base-template">
+		<put-attribute name="title" value="SSEL SoftServeAcademy Student" />
+		<put-attribute name="content" value="/WEB-INF/views/pages/topicView.jsp" />
+		<put-attribute name="menu"
+			value="/WEB-INF/views/templates/student_menu.jsp" />
+	</definition>
+	<!-- Ratings page -->
+	<definition name="ratings" extends="base-template">
+		<put-attribute name="title" value="SSEL SoftServeAcademy Student" />
+		<put-attribute name="content" value="/WEB-INF/views/pages/ratings.jsp" />
 		<put-attribute name="menu"
 			value="/WEB-INF/views/templates/student_menu.jsp" />
 	</definition>

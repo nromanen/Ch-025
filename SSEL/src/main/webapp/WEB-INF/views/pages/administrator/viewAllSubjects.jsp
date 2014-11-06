@@ -154,9 +154,12 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal">
-					<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					<span aria-hidden="true">&times;</span><span class="sr-only"><spring:message
+							code="label.close" /></span>
 				</button>
-				<h4 class="modal-title" align="center">Please, choose category!</h4>
+				<h4 class="modal-title" align="center">
+					<spring:message code="label.choose_category" />
+				</h4>
 				<select multiple class="form-control" id="newCategory">
 
 					<c:forEach items="${categories}" var="category">
@@ -168,8 +171,12 @@
 			<div class="modal-footer">
 				<p align="center">
 					<button type="button" id="mybtn" id="mybtn" class="btn btn-primary"
-						onClick="">Change</button>
-					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+						onClick="">
+						<spring:message code="label.change" />
+					</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">
+						<spring:message code="label.cancel" />
+					</button>
 				</p>
 			</div>
 		</div>
@@ -184,7 +191,8 @@
 		<c:if test="${not empty successMessage}">
 			<div class="alert alert-success alert-dismissible" role="alert">
 				<button type="button" class="close" data-dismiss="alert">
-					<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					<span aria-hidden="true">&times;</span><span class="sr-only"><spring:message
+							code="label.close" /></span>
 				</button>
 				<p align="center">${successMessage}</p>
 			</div>
@@ -193,7 +201,8 @@
 		<c:if test="${not empty errorMessage}">
 			<div class="alert alert-danger alert-dismissible" role="alert">
 				<button type="button" class="close" data-dismiss="alert">
-					<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					<span aria-hidden="true">&times;</span><span class="sr-only"><spring:message
+							code="label.close" /></span>
 				</button>
 				<p align="center">${errorMessage}</p>
 			</div>
@@ -202,7 +211,10 @@
 
 		<div class="col-md-2"></div>
 		<div class="col-md-8">
-			<h1 align="center">Subjects:</h1>
+			<h1 align="center">
+				<spring:message code="label.subjects" />
+				:
+			</h1>
 
 			<!-- search block -->
 			<div class="col-md-12">
@@ -213,19 +225,21 @@
 						</a>
 						<ul class="dropdown-menu">
 							<li><label> <input type="radio" name="searchOption"
-									value="all" checked>All
+									value="all" checked> <spring:message code="label.all" />
 							</label></li>
 							<li><label> <input type="radio" name="searchOption"
-									value="subject">Subject
+									value="subject"> <spring:message code="label.subject" />
 							</label></li>
 							<li><label> <input type="radio" name="searchOption"
-									value="category">Category
+									value="category"> <spring:message
+										code="label.admin_category" />
 							</label></li>
 						</ul>
 					</div>
 					<input type="text" class="form-control" id="searchText"
-						placeholder="Search text"> <a href="#"
-						class="input-group-addon" onclick="searchTextFunction()"><span
+						placeholder="<spring:message code='label.search_text' />">
+					<a href="#" class="input-group-addon"
+						onclick="searchTextFunction()"><span
 						class="glyphicon glyphicon-search"></span></a>
 				</div>
 				<!-- /search block-->
@@ -253,31 +267,41 @@
 						<td class="col-md-6">
 							<table class="col-md-12">
 								<tr align="right">
-									<td rowspan="2" align="center">Subject name</td>
-									<td><a href="#"
-										onclick="changeSortFunction('subject','desc')"><span
-											data-id="subject" data-method="ASC"
-											class="glyphicon glyphicon-chevron-up"></span></a></td>
+									<td rowspan="2" align="center"><spring:message
+											code="label.subject_name" /></td>
+									<td><c:if
+											test="${sortBy ne 'subject' or sortMethod ne 'desc'}">
+											<a href="#" onclick="changeSortFunction('subject','desc')"><span
+												data-id="subject" data-method="ASC"
+												class="glyphicon glyphicon-chevron-up"></span></a>
+										</c:if></td>
 								</tr>
 								<tr align="right">
-									<td><a href="#"
-										onclick="changeSortFunction('subject','asc')"><span
-											class="glyphicon glyphicon-chevron-down"></span></a></td>
+									<td><c:if
+											test="${sortBy ne 'subject' or sortMethod ne 'asc'}">
+											<a href="#" onclick="changeSortFunction('subject','asc')"><span
+												class="glyphicon glyphicon-chevron-down"></span></a>
+										</c:if></td>
 								</tr>
 							</table>
 						</td>
 						<td class="col-md-4">
 							<table class="col-md-12">
 								<tr align="right">
-									<td rowspan="2" align="center">Category</td>
-									<td><a href="#"
-										onclick="changeSortFunction('category','desc')"><span
-											class="glyphicon glyphicon-chevron-up"></span></a></td>
+									<td rowspan="2" align="center"><spring:message
+											code="label.admin_category" /></td>
+									<td><c:if
+											test="${sortBy ne 'category' or sortMethod ne 'desc'}">
+											<a href="#" onclick="changeSortFunction('category','desc')"><span
+												class="glyphicon glyphicon-chevron-up"></span></a>
+										</c:if></td>
 								</tr>
 								<tr align="right">
-									<td><a href="#"
-										onclick="changeSortFunction('category','asc')"><span
-											class="glyphicon glyphicon-chevron-down"></span></a></td>
+									<td><c:if
+											test="${sortBy ne 'category' or sortMethod ne 'asc'}">
+											<a href="#" onclick="changeSortFunction('category','asc')"><span
+												class="glyphicon glyphicon-chevron-down"></span></a>
+										</c:if></td>
 								</tr>
 							</table>
 						</td>
@@ -304,22 +328,43 @@
 				<c:if test="${pagesCount gt 1}">
 					<nav>
 						<ul class="pagination">
-							<li><a href="#">&laquo;</a></li>
+							<c:choose>
+								<c:when test="${currentPage eq 1}">
+									<li class="disabled"><a href="#">|&laquo;</a></li>
+								</c:when>
+								<c:otherwise>
+									<li><a href="#" onclick="changePageFunction('1')">|&laquo;</a></li>
+								</c:otherwise>
+							</c:choose>
 							<c:forEach var="pageNumber" begin="1" end="${pagesCount}">
-								<li
-									<c:if test="${pageNumber eq currentPage}">class="active"</c:if>>
-									<a href="#" onclick="changePageFunction('${pageNumber}')">${pageNumber}</a>
-								</li>
+								<c:if
+									test="${(currentPage-5) le pageNumber and (currentPage + 5) ge pageNumber}">
+									<c:choose>
+										<c:when test="${pageNumber eq currentPage}">
+											<li class="active"><a href="#">${pageNumber}</a></li>
+										</c:when>
+										<c:otherwise>
+											<li><a href="#"
+												onclick="changePageFunction('${pageNumber}')">${pageNumber}</a>
+											</li>
+										</c:otherwise>
+									</c:choose>
+								</c:if>
 							</c:forEach>
-							<!-- <li class="active"><a href="#">3</a></li>  -->
-							<li><a href="#">&raquo;</a></li>
+							<c:choose>
+								<c:when test="${currentPage eq pagesCount}">
+									<li class="disabled"><a href="#">&raquo;|</a></li>
+								</c:when>
+								<c:otherwise>
+									<li><a href="#"
+										onclick="changePageFunction('${pagesCount}')">&raquo;|</a></li>
+								</c:otherwise>
+							</c:choose>
 						</ul>
 					</nav>
 				</c:if>
 				<!-- /Pagination block -->
-
 			</div>
-
 		</div>
 		<div class="col-md-2"></div>
 	</div>
