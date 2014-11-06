@@ -24,11 +24,11 @@ public interface UserService {
 
 	public List<User> getAllUsers();
 
-	public void registrate(Registration registration, HttpServletRequest request);
+	public void registrate(Registration registration, HttpServletRequest request, String message);
 
 	public User getUserByKey(String key);
 	
-	public void remindPassword(User user, HttpServletRequest request);
+	public void remindPassword(User user, HttpServletRequest request, String message);
 	
 	public void restorePassword(User user, ResetPassword resetPassword);
 	

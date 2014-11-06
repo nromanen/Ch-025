@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public void registrate(Registration registration, HttpServletRequest request) {
+	public void registrate(Registration registration, HttpServletRequest request, String message) {
 		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(
 				PASSWORD_STRENGTH);
 		Calendar calendar = Calendar.getInstance();
@@ -107,9 +107,8 @@ public class UserServiceImpl implements UserService {
 			user.setRole(roleService.getRoleByName(Roles.STUDENT.toString()));
 			String url = request.getRequestURL().toString();
 			url.replaceAll(request.getServletPath(), "/");
-			String message = "Thank you for registration.<br>Please confirm your email by clicking next link: ";
 			url = url + "/confirm?key=" + user.getVerificationKey();
-			message += "<a href=\"" + url + "\">" + url + "</a>";
+			message += " <a href=\"" + url + "\">" + url + "</a>";
 			mailService.sendMail(user.getEmail(), "SSEL registration", message);
 			userDao.addUser(user);
 		} else {
@@ -132,11 +131,10 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public void remindPassword(User user, HttpServletRequest request) {
+	public void remindPassword(User user, HttpServletRequest request, String message) {
 		String url = request.getRequestURL().toString();
-		String message = "Change your password by clicking on next link: ";
 		url = url + "/pass?key=" + user.getVerificationKey();
-		message += "<a href=\"" + url + "\">" + url + "</a>";
+		message += " <a href=\"" + url + "\">" + url + "</a>";
 		mailService.sendMail(user.getEmail(), "SSEL change password", message);
 		user.setBlocked(true);
 		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(

@@ -30,7 +30,7 @@ public class MailServiceImpl implements MailService {
 		final MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper helper;
 		try {
-			helper = new MimeMessageHelper(message, true);
+			helper = new MimeMessageHelper(message, true, "UTF-8");
 			helper.setFrom("email");
 			helper.setTo(to);
 			helper.setSubject(subject);
