@@ -88,16 +88,26 @@ public class LogDaoImpl implements LogDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Log> getRageofLogs(Date startDate, Date endDate, int pageNumb) {
+	public List<Log> getRageofLogs(Date startDate, Date endDate, int logsPerPage, int pageNumb) {
 		LOG.debug("Get range of Logs");
 		Query query = entityManager
 				.createQuery("FROM Log l WHERE l.eventDate > :startDate AND l.eventDate <= :endDate");
 		query.setParameter("startDate", startDate);
 		query.setParameter("endDate", endDate);
-		query.setFirstResult(MAX_QUERY_LIMIT * pageNumb);
-		query.setMaxResults(MAX_QUERY_LIMIT);
+		query.setFirstResult(logsPerPage * pageNumb);
+		query.setMaxResults(logsPerPage);
 		List<Log> logList = (List<Log>) query.getResultList();
 		return logList;
+	}
+
+	
+	@Override
+	public Long countLogsInQuery(Date startDate, Date endDate) {
+		Query query = entityManager
+				.createQuery("SELECT COUNT(*) FROM Log l WHERE l.eventDate > :startDate AND l.eventDate <= :endDate");
+		query.setParameter("startDate", startDate);
+		query.setParameter("endDate", endDate);
+		return (Long) query.getSingleResult();
 	}
 
 }

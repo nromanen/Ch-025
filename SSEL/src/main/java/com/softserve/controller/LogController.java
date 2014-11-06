@@ -23,7 +23,7 @@ public class LogController {
 
 	private static final Logger LOG = LoggerFactory
 			.getLogger(AdministratorController.class);
-	
+
 	@Resource(name = "LogService")
 	private LogService logService;
 
@@ -32,27 +32,31 @@ public class LogController {
 	public String viewAllLogs(Model model, HttpSession session,
 			@RequestParam(value = "pageNumb", required = false) Integer pageNumb) {
 		LOG.debug("Visit viewAllLogs page");
-		List<Log> logList;
-		Date startPeriod;
-		Date endPeriod;
-		if (pageNumb == null) {
+		int logsPerPage = 10;
+		GregorianCalendar startDate = null;
+		GregorianCalendar endDate;
+		if (pageNumb == null || pageNumb < 0) {
 			pageNumb = 0;
 		}
-		if (session.getAttribute("startDate") != null) {
-			GregorianCalendar startDate = (GregorianCalendar) session
-					.getAttribute("startDate");
-			GregorianCalendar endDate = (GregorianCalendar) session
-					.getAttribute("endDate");
-			logList = logService.getRageofLogs(startDate, endDate, pageNumb);
-			startPeriod = startDate.getTime();
-			endPeriod = endDate.getTime();
-		} else {
-			GregorianCalendar startDate = new GregorianCalendar();
-			startDate.set(startDate.DATE, (startDate.get(startDate.DATE) - 1));
-			logList = logService.getLogsSinceDate(startDate, pageNumb);
-			startPeriod = null;
-			endPeriod = null;
+		if (session.getAttribute("logsPerPage") != null) {
+			logsPerPage = (int)session.getAttribute("logsPerPage");
 		}
+		if (session.getAttribute("startDate") != null) {
+			startDate = (GregorianCalendar) session.getAttribute("startDate");
+			endDate = (GregorianCalendar) session.getAttribute("endDate");
+		} else {
+			endDate = new GregorianCalendar();
+			startDate = new GregorianCalendar();
+			startDate.set(endDate.DATE, (endDate.get(endDate.DATE) - 1));
+		}
+		List<Log> logList = logService.getRageofLogs(startDate, endDate, logsPerPage, pageNumb);
+		Long logsInQuery = logService.countLogsInQuery(startDate, endDate);
+		int numberOfPages = logService.getNumberOfPages(logsInQuery, logsPerPage);
+		Date startPeriod = startDate.getTime();
+		Date endPeriod = endDate.getTime();
+		
+		model.addAttribute("numberOfPages", numberOfPages);
+		model.addAttribute("logsInQuery", logsInQuery);
 		model.addAttribute("pageNumb", pageNumb);
 		model.addAttribute("startPeriod", startPeriod);
 		model.addAttribute("endPeriod", endPeriod);
@@ -61,17 +65,21 @@ public class LogController {
 	}
 
 	@RequestMapping(value = "/viewLogsByDate", method = RequestMethod.GET)
-	public String viewLogsByDate(
-			Model model,
-			HttpSession session,
+	public String viewLogsByDate(Model model, HttpSession session,
 			@RequestParam(value = "startDate", required = false) String startDateString,
-			@RequestParam(value = "endDate", required = false) String endDateString) {
+			@RequestParam(value = "endDate", required = false) String endDateString,
+			@RequestParam(value = "logsPerPage", required = false) Integer logsPerPage) {
 		LOG.debug("Visit viewLogsByDate page");
+		if (logsPerPage != null) {
+			session.setAttribute("logsPerPage", logsPerPage);
+		}
 		GregorianCalendar startCalendar = logService.parseDate(startDateString);
 		if (startCalendar == null) {
 			return "redirect:/viewAllLogs";
 		} else {
 			GregorianCalendar endCalendar = logService.parseDate(endDateString);
+			int defaultLogsPerPage = 10;
+			session.setAttribute("logsPerPage", defaultLogsPerPage);
 			if (endCalendar == null) {
 				endCalendar = new GregorianCalendar();
 			}

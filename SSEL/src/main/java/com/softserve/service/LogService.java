@@ -22,6 +22,11 @@ public interface LogService {
 	public List<Log> getPartOfLogs(int firstLine, int numberOfLines);
 
 	public List<Log> getRageofLogs(GregorianCalendar startCalendar,
-			GregorianCalendar endCalendar, int pageNumb);
+			GregorianCalendar endCalendar, int logsPerPage, int pageNumb);
+
+	public Long countLogsInQuery(GregorianCalendar startCalendar,
+			GregorianCalendar endCalendar);
+	
+	public int getNumberOfPages(Long logsInQuery, int logsPerPage);
 
 }

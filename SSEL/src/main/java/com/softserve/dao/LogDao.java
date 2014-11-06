@@ -19,6 +19,8 @@ public interface LogDao {
 
 	public List<Log> getPartOfLogs(int firstLine, int numberOfLines);
 
-	public List<Log> getRageofLogs(Date startDate, Date endDate, int pageNumb);
+	public List<Log> getRageofLogs(Date startDate, Date endDate, int logsPerPage, int pageNumb);
+	
+	public Long countLogsInQuery (Date startDate, Date endDate);
 
 }

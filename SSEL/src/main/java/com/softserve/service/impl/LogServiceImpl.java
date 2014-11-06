@@ -63,7 +63,7 @@ public class LogServiceImpl implements LogService {
 	}
 
 	private String[] splitDateString(String dateString) {
-		if (!(dateString.isEmpty())) {
+		if (dateString != null) {
 			String preparedDateString = (((dateString.replace(".", "/"))
 					.replace(",", "/")).replace("-", "/")).replace("\\", "/");
 			String[] dateParts = preparedDateString.split("/");
@@ -84,13 +84,35 @@ public class LogServiceImpl implements LogService {
 
 	@Override
 	public List<Log> getRageofLogs(GregorianCalendar startCalendar,
-			GregorianCalendar endCalendar, int pageNumb) {
+			GregorianCalendar endCalendar, int logsPerPage, int pageNumb) {
 		endCalendar.set(endCalendar.HOUR_OF_DAY, 23);
 		endCalendar.set(endCalendar.MINUTE, 59);
 		endCalendar.set(endCalendar.SECOND, 50);
 		Date startDate = startCalendar.getTime();
 		Date endDate = endCalendar.getTime();
-		return logDao.getRageofLogs(startDate, endDate, pageNumb);
+		return logDao.getRageofLogs(startDate, endDate, logsPerPage, pageNumb);
 	}
+
+	@Override
+	public Long countLogsInQuery(GregorianCalendar startCalendar,
+			GregorianCalendar endCalendar) {
+		endCalendar.set(endCalendar.HOUR_OF_DAY, 23);
+		endCalendar.set(endCalendar.MINUTE, 59);
+		endCalendar.set(endCalendar.SECOND, 50);
+		Date startDate = startCalendar.getTime();
+		Date endDate = endCalendar.getTime();
+		return logDao.countLogsInQuery(startDate, endDate);
+	}
+
+	@Override
+	public int getNumberOfPages(Long logsInQuery, int logsPerPage) {
+		int numberOfPages = (int) (logsInQuery / logsPerPage);
+		if ((logsInQuery % logsPerPage) != 0) {
+			++numberOfPages;
+		}
+		return numberOfPages;
+	}
+
+	
 
 }
