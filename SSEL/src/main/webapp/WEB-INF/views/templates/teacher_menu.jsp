@@ -22,16 +22,12 @@
 
 		<li>
 			<div>
-				<a href="?lang=ua" style="padding: 0px"> <img
-					style="width: 20px; height: 20px;"
-					src='<c:url value="/resources/img/ua.png" />'>
-				</a> <a href="?lang=en" style="padding: 0px"> <img
-					style="width: 20px; height: 20px;"
-					src='<c:url value="/resources/img/en.png" />'>
-				</a> <a href="?lang=ru" style="padding: 0px"> <img
-					style="width: 20px; height: 20px;"
-					src='<c:url value="/resources/img/ru.png" />'>
-				</a>
+				<img style="width: 20px; height: 20px; cursor: pointer;" src='<c:url value="/resources/img/ua.png" />' 
+					onclick="localization('ua')"> 
+				<img style="width: 20px; height: 20px; cursor: pointer;" src='<c:url value="/resources/img/en.png" />' 
+					onclick="localization('en')"> 
+				<img style="width: 20px; height: 20px; cursor: pointer;" src='<c:url value="/resources/img/ru.png" />' 
+					onclick="localization('ru')"> 
 			</div>
 		</li>
 
