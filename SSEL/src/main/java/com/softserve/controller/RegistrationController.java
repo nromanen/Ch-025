@@ -51,12 +51,14 @@ public class RegistrationController {
 			String message = messageSource.getMessage(
 					"message.teacher.confirm_registration", new Object[] {},
 					LocaleContextHolder.getLocale());
-			userService.registrateTeacher(registration, request, message);
+			userService.registrateTeacher(registration, message);
 		} else {
 			String message = messageSource.getMessage(
 					"message.user.confirm_registration", new Object[] {},
 					LocaleContextHolder.getLocale());
-			userService.registrateStudent(registration, request, message);
+			String url = request.getRequestURL().toString();
+			url.replaceAll(request.getServletPath(), "/");
+			userService.registrateStudent(registration, url, message);
 		}
 		return "redirect:/";
 	}

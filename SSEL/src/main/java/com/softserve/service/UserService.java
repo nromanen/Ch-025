@@ -2,8 +2,6 @@ package com.softserve.service;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import com.softserve.entity.User;
 import com.softserve.form.Registration;
 import com.softserve.form.ResetPassword;
@@ -24,13 +22,13 @@ public interface UserService {
 
 	public List<User> getAllUsers();
 
-	public void registrateStudent(Registration registration, HttpServletRequest request, String message);
+	public void registrateStudent(Registration registration, String url, String message);
 	
-	public void registrateTeacher(Registration registration, HttpServletRequest request, String message);
+	public void registrateTeacher(Registration registration, String message);
 
 	public User getUserByKey(String key);
 	
-	public void remindPassword(User user, HttpServletRequest request, String message);
+	public void remindPassword(User user, String url, String message);
 	
 	public void restorePassword(User user, ResetPassword resetPassword);
 	

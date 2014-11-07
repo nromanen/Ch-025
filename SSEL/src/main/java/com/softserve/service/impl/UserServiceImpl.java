@@ -4,8 +4,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -88,8 +86,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public void registrateStudent(Registration registration,
-			HttpServletRequest request, String message) {
+	public void registrateStudent(Registration registration, String url,
+			String message) {
 		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(
 				PASSWORD_STRENGTH);
 		Calendar calendar = Calendar.getInstance();
@@ -105,19 +103,16 @@ public class UserServiceImpl implements UserService {
 		user.setExpired(calendar.getTime());
 		user.setVerificationKey(passwordEncoder.encode(registration.getEmail()));
 		user.setRole(roleService.getRoleByName(Roles.STUDENT.toString()));
-		
-		String url = request.getRequestURL().toString();
-		url.replaceAll(request.getServletPath(), "/");
+
 		url = url + "/confirm?key=" + user.getVerificationKey();
 		message += " <a href=\"" + url + "\">" + url + "</a>";
 		mailService.sendMail(user.getEmail(), "SSEL registration", message);
 		userDao.addUser(user);
 	}
-	
+
 	@Override
 	@Transactional
-	public void registrateTeacher(Registration registration,
-			HttpServletRequest request, String message) {
+	public void registrateTeacher(Registration registration, String message) {
 		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(
 				PASSWORD_STRENGTH);
 		Calendar calendar = Calendar.getInstance();
@@ -134,13 +129,13 @@ public class UserServiceImpl implements UserService {
 		user.setVerificationKey(passwordEncoder.encode(registration.getEmail()));
 		user.setRole(roleService.getRoleByName(Roles.TEACHER.toString()));
 		user = userDao.addUser(user);
-		
+
 		TeacherRequest teacherRequest = new TeacherRequest();
 		teacherRequest.setActive(true);
 		teacherRequest.setRequestDate(new Date());
 		teacherRequest.setUser(user);
 		teacherRequestService.addTeacherRequest(teacherRequest);
-		
+
 		mailService.sendMail(user.getEmail(), "SSEL registration", message);
 	}
 
@@ -152,9 +147,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public void remindPassword(User user, HttpServletRequest request,
-			String message) {
-		String url = request.getRequestURL().toString();
+	public void remindPassword(User user, String url, String message) {
 		url = url + "/pass?key=" + user.getVerificationKey();
 		message += " <a href=\"" + url + "\">" + url + "</a>";
 		mailService.sendMail(user.getEmail(), "SSEL change password", message);

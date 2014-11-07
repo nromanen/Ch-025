@@ -48,8 +48,8 @@ public class ForgotPasswordController {
 		String message = new String(messageSource.getMessage(
 				"message.user.chage_password", new Object[] {},
 				LocaleContextHolder.getLocale()));
-		System.out.println(message);
-		userService.remindPassword(user, request, message);
+		String url = request.getRequestURL().toString();
+		userService.remindPassword(user, url, message);
 		return "redirect:/";
 	}
 
