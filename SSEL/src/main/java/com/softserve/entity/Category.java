@@ -9,11 +9,12 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "category")
+@Table(name = "category", indexes = {@Index(columnList = "name", name = "name_index_cat")})
 public class Category {
 
 	@Id

@@ -6,6 +6,10 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -83,6 +87,18 @@ public class SubjectDaoImpl implements SubjectDao {
 				+ "WHERE s.user.id = :id");
 		query.setParameter("id", id);
 		return query.getResultList();
+	}
+	
+	@Override
+	public List<Subject> getSubjectsByNamePart(String namePart) {
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Subject> criteriaQuery = criteriaBuilder.createQuery(Subject.class);
+		Root<Subject> root = criteriaQuery.from(Subject.class);
+		criteriaQuery.select(root);
+		Predicate predicate = 
+				criteriaBuilder.like(criteriaBuilder.upper(root.<String>get("name")), "%" + namePart.toUpperCase() + "%");
+		criteriaQuery.where(predicate);
+		return entityManager.createQuery(criteriaQuery).getResultList();
 	}
 
 }
