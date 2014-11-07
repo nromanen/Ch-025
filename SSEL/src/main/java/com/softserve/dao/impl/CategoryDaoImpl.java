@@ -69,8 +69,9 @@ public class CategoryDaoImpl implements CategoryDao {
 		return entityManager.find(Category.class, id);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<Category> getCategoriesByNamePart(String namePart) {
+	public List<Category> getCategoriesByNamePart(String namePart, int pageNumber, int pageSize) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Category> criteriaQuery = criteriaBuilder.createQuery(Category.class);
 		Root<Category> root = criteriaQuery.from(Category.class);
@@ -79,7 +80,10 @@ public class CategoryDaoImpl implements CategoryDao {
 				criteriaBuilder.like(criteriaBuilder.upper(root.<String>get("name")), "%" + namePart.toUpperCase() + "%");
 		
 		criteriaQuery.where(predicate);
-		return entityManager.createQuery(criteriaQuery).getResultList();
+		Query query = entityManager.createQuery(criteriaQuery);
+		query.setFirstResult((pageNumber - 1) * pageSize);
+		query.setMaxResults(pageSize);
+		return query.getResultList();
 	}
 
 }

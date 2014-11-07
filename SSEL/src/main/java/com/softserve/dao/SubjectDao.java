@@ -21,5 +21,5 @@ public interface SubjectDao {
 
 	List<Subject> getSubjectsByUserId(int id);
 
-	List<Subject> getSubjectsByNamePart(String namePart);
+	List<Subject> getSubjectsByNamePart(String namePart, int pageNumber, int pageSize);
 }

@@ -24,14 +24,14 @@ public class SearchServiceImpl implements SearchService {
 
 	@Override
 	@Transactional
-	public List<Category> getCategoriesByNamePart(String namePart) {
-		return categoryDao.getCategoriesByNamePart(namePart);
+	public List<Category> getCategoriesByNamePart(String namePart, int pageNumber, int pageSize) {
+		return categoryDao.getCategoriesByNamePart(namePart, pageNumber, pageSize);
 	}
 	
 
 	@Override
-	public List<Subject> getSubjectsByNamePart(String namePart) {
-		return subjectDao.getSubjectsByNamePart(namePart);
+	public List<Subject> getSubjectsByNamePart(String namePart, int pageNumber, int pageSize) {
+		return subjectDao.getSubjectsByNamePart(namePart, pageNumber, pageSize);
 	}
 
 }
