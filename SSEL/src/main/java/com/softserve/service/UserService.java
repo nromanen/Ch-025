@@ -24,7 +24,9 @@ public interface UserService {
 
 	public List<User> getAllUsers();
 
-	public void registrate(Registration registration, HttpServletRequest request, String message);
+	public void registrateStudent(Registration registration, HttpServletRequest request, String message);
+	
+	public void registrateTeacher(Registration registration, HttpServletRequest request, String message);
 
 	public User getUserByKey(String key);
 	

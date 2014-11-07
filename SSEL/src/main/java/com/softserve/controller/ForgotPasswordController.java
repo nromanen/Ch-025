@@ -1,7 +1,5 @@
 package com.softserve.controller;
 
-import java.io.UnsupportedEncodingException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -39,7 +37,7 @@ public class ForgotPasswordController {
 
 	@RequestMapping(value = "/remind", method = RequestMethod.POST)
 	public String passwordRestore(@RequestParam String email,
-			HttpServletRequest request) throws UnsupportedEncodingException {
+			HttpServletRequest request) {
 		if (email == null) {
 			return "remind";
 		}

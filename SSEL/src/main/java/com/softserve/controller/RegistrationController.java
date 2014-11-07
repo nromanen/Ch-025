@@ -47,10 +47,17 @@ public class RegistrationController {
 		if (result.hasErrors()) {
 			return "registration";
 		}
-		String message = messageSource.getMessage(
-				"message.user.confirm_registration", new Object[] {},
-				LocaleContextHolder.getLocale());
-		userService.registrate(registration, request, message);
+		if (registration.isTeacher()) {
+			String message = messageSource.getMessage(
+					"message.teacher.confirm_registration", new Object[] {},
+					LocaleContextHolder.getLocale());
+			userService.registrateTeacher(registration, request, message);
+		} else {
+			String message = messageSource.getMessage(
+					"message.user.confirm_registration", new Object[] {},
+					LocaleContextHolder.getLocale());
+			userService.registrateStudent(registration, request, message);
+		}
 		return "redirect:/";
 	}
 

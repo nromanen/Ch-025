@@ -30,6 +30,7 @@ public class UserServiceImpl implements UserService {
 
 	private static final int PASSWORD_STRENGTH = 10;
 	private static final String DEFAULT_PASSWORD = "ssel2014";
+	private static final int ONE_YEAR = 1;
 
 	@Autowired
 	private UserDao userDao;
@@ -87,7 +88,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public void registrate(Registration registration, HttpServletRequest request, String message) {
+	public void registrateStudent(Registration registration,
+			HttpServletRequest request, String message) {
 		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(
 				PASSWORD_STRENGTH);
 		Calendar calendar = Calendar.getInstance();
@@ -99,28 +101,47 @@ public class UserServiceImpl implements UserService {
 		user.setFirstName(registration.getFirstName().trim());
 		user.setLastName(registration.getLastName().trim());
 		user.setRegistration(calendar.getTime());
-		calendar.add(Calendar.YEAR, 1);
+		calendar.add(Calendar.YEAR, ONE_YEAR);
 		user.setExpired(calendar.getTime());
 		user.setVerificationKey(passwordEncoder.encode(registration.getEmail()));
+		user.setRole(roleService.getRoleByName(Roles.STUDENT.toString()));
+		
+		String url = request.getRequestURL().toString();
+		url.replaceAll(request.getServletPath(), "/");
+		url = url + "/confirm?key=" + user.getVerificationKey();
+		message += " <a href=\"" + url + "\">" + url + "</a>";
+		mailService.sendMail(user.getEmail(), "SSEL registration", message);
+		userDao.addUser(user);
+	}
+	
+	@Override
+	@Transactional
+	public void registrateTeacher(Registration registration,
+			HttpServletRequest request, String message) {
+		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(
+				PASSWORD_STRENGTH);
+		Calendar calendar = Calendar.getInstance();
 
-		if (!registration.isTeacher()) {
-			user.setRole(roleService.getRoleByName(Roles.STUDENT.toString()));
-			String url = request.getRequestURL().toString();
-			url.replaceAll(request.getServletPath(), "/");
-			url = url + "/confirm?key=" + user.getVerificationKey();
-			message += " <a href=\"" + url + "\">" + url + "</a>";
-			mailService.sendMail(user.getEmail(), "SSEL registration", message);
-			userDao.addUser(user);
-		} else {
-			user.setRole(roleService.getRoleByName(Roles.TEACHER.toString()));
-			user = userDao.addUser(user);
-			TeacherRequest teacherRequest = new TeacherRequest();
-			teacherRequest.setActive(true);
-			teacherRequest.setRequestDate(new Date());
-			teacherRequest.setUser(user);
-			teacherRequestService.addTeacherRequest(teacherRequest);
-			// TODO send email
-		}
+		User user = new User();
+		user.setEmail(registration.getEmail().trim());
+		user.setPassword(passwordEncoder.encode(registration.getPassword()));
+		user.setBlocked(true);
+		user.setFirstName(registration.getFirstName().trim());
+		user.setLastName(registration.getLastName().trim());
+		user.setRegistration(calendar.getTime());
+		calendar.add(Calendar.YEAR, ONE_YEAR);
+		user.setExpired(calendar.getTime());
+		user.setVerificationKey(passwordEncoder.encode(registration.getEmail()));
+		user.setRole(roleService.getRoleByName(Roles.TEACHER.toString()));
+		user = userDao.addUser(user);
+		
+		TeacherRequest teacherRequest = new TeacherRequest();
+		teacherRequest.setActive(true);
+		teacherRequest.setRequestDate(new Date());
+		teacherRequest.setUser(user);
+		teacherRequestService.addTeacherRequest(teacherRequest);
+		
+		mailService.sendMail(user.getEmail(), "SSEL registration", message);
 	}
 
 	@Override
@@ -131,7 +152,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public void remindPassword(User user, HttpServletRequest request, String message) {
+	public void remindPassword(User user, HttpServletRequest request,
+			String message) {
 		String url = request.getRequestURL().toString();
 		url = url + "/pass?key=" + user.getVerificationKey();
 		message += " <a href=\"" + url + "\">" + url + "</a>";
