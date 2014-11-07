@@ -158,7 +158,7 @@ public class TeacherController {
 		return "editTopic";
 	}
 	
-	@RequestMapping(value = "/editTopic", method = RequestMethod.POST)
+	@RequestMapping(value = "/editTopic", method = RequestMethod.GET)
 	public String editTopicPost(@RequestParam(value = "topicId", required = false) Integer topicId,
 			@RequestParam(value = "subjectId", required = false) Integer subjectId, Model model) {
 		if (topicId != null) {
@@ -167,7 +167,7 @@ public class TeacherController {
 			model.addAttribute("block", topic.getBlock());
 		}
 
-		
+		model.addAttribute("subjectId", subjectId);
 		List<Block> blocks = blockService.getBlocksBySubjectId(subjectId);
 		model.addAttribute("blockList", blocks);
 		List<Category> categories = categoryService.getAllCategories();
@@ -177,45 +177,47 @@ public class TeacherController {
 	}
 	
 	@RequestMapping(value = "/saveTopic", method = RequestMethod.POST)
-	public String saveTopic(@RequestParam(value = "topicId", required = false) Integer topicId,
-			@RequestParam(value = "blockId", required = true) Integer blockId,
-			@RequestParam(value = "subjectId", required = false) Integer subjectId,
-			@RequestParam(value = "topicAlive", required = true) boolean topicAlive,
-			@RequestParam(value = "topicContent", required = true) String topicContent,
-			@RequestParam(value = "name", required = true) String topicName,
+	public String saveTopic(
+			//@RequestParam(value = "topicId", required = false) Integer topicId,
+			//@RequestParam(value = "blockId", required = true) Integer blockId,
+			//@RequestParam(value = "subjectId", required = false) Integer subjectId,
+			//@RequestParam(value = "topicAlive", required = true) boolean topicAlive,
+			//@RequestParam(value = "topicContent", required = true) String topicContent,
+			//@RequestParam(value = "name", required = true) String topicName,
 			@Valid Topic topic,
 			BindingResult result,
 			Model model) {
 		//Topic topic = topicId != null ? topicService.getTopicById(topicId) : new Topic();
-		topic.setBlock(blockService.getBlockById(blockId));
-		topic.setAlive(topicAlive);
-		topic.setContent(topicContent);
-		topic.setName(topicName);
+		//topic.setBlock(blockService.getBlockById(blockId));
+		//topic.setAlive(topicAlive);
+		//topic.setContent(topicContent);
+		//topic.setName(topicName);
 		// topic.setOrder(topicOrder);
 		
 		
 		topicValidator.validate(topic, result);
 		if (result.hasErrors()) {
-			if (topicId != null) {
+/*			if (topicId != null) {
 				//Topic topic = topicService.getTopicById(topicId);
 				model.addAttribute("topic", topic);
 				model.addAttribute("block", topic.getBlock());
-			}
+			}*/
 
-			
-			List<Block> blocks = blockService.getBlocksBySubjectId(subjectId);
-			model.addAttribute("blockList", blocks);
+			//if (subjectId != null) {
+			//List<Block> blocks = blockService.getBlocksBySubjectId(subjectId);
+			//model.addAttribute("blockList", blocks);
+			//}
 			List<Category> categories = categoryService.getAllCategories();
 			model.addAttribute("catList", categories);
 			return "editTopic";
 		}
 		
 		
-		if (topicId != null) {
+//		if (topicId != null) {
 			topicService.updateTopic(topic);
-		} else {
-			topicService.addTopic(topic);
-		}
+	//	} else {
+//			topicService.addTopic(topic);
+//		}*/
 
 		return "redirect:/teacher";
 	}

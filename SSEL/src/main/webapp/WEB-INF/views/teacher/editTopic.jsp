@@ -16,11 +16,11 @@
 <div class="panel panel-default">
 	<div class="panel-body">
 		<form:form method="post" action="saveTopic" name="editTopicForm" id="editTopicForm" commandName="topic">
-			<input type="hidden" name="topicId" value="${topic.id}">
+			<input type="hidden" name="topicId" path="id" value="${topic.id}">
 			<input type="hidden" name="subjectId" value="${subjectId}">
 
 			<div class="form-group">
-				<label><spring:message code="label.teacher.module"/></label> <select class="form-control" name="blockId" style="width: 40%">
+				<label><spring:message code="label.teacher.module"/></label> <form:select class="form-control" name="blockId" path="block" style="width: 40%"/>
 					<c:forEach items="${blockList}" var="block">
 						<c:choose>
 							<c:when test="${topic.block.id == block.id}">
@@ -45,18 +45,18 @@
 			</div>
 
 			<div class="form-group">
-				<label><spring:message code="label.teacher.topicEnable"/></label> <label class="radio-inline"> <input
-					type="radio" name="topicAlive" id="optionsRadiosInline1" value="1"
-					checked><spring:message code="label.teacher.enable"/>
-				</label> <label class="radio-inline"> <input type="radio"
-					name="topicAlive" id="optionsRadiosInline2" value="0"><spring:message code="label.teacher.disable"/>
+				<label><spring:message code="label.teacher.topicEnable"/></label> <label class="radio-inline"> <form:input
+					type="radio" name="topicAlive" path="alive" id="optionsRadiosInline1" value="1"
+					checked/><spring:message code="label.teacher.enable"/>
+				</label> <label class="radio-inline"> <form:input type="radio"
+					name="topicAlive" path="topicAlive" id="optionsRadiosInline2" value="0"/><spring:message code="label.teacher.disable"/>
 				</label>
 			</div>
 
 			<label><spring:message code="label.teacher.content"/></label>
-			<textarea name="topicContent" id="topicContent" rows="15" cols="80">
-                ${topic.content}
-            </textarea>
+			<form:textarea name="topicContent" id="topicContent" path="content" rows="15" cols="80"/>
+                
+            <!--${topic.content}/form:textarea-->
 			<script>
 				CKEDITOR.replace('topicContent');
 			</script>
