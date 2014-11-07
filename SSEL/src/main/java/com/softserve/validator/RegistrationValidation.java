@@ -12,7 +12,7 @@ import com.softserve.service.UserService;
 @Component
 public class RegistrationValidation implements Validator {
 
-	private static final String NAME_PATTERN = "[A-ZА-ЯЄЇІ]{1}[A-ZА-߲ЯЄЇІa-zа-яїєі]{1,30}";
+	private static final String NAME_PATTERN = "[A-Z�-߲��]{1}[a-z�-����]{1,30}";
 	private static final String EMAIL_PATTERN = "[A-Za-z0-9_\\.-]{1,30}@[A-Za-z0-9_\\.-]{1,30}";
 	private static final String PASSWORD_PATTERN = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[//@/./&/!#/$%/^/*/?])(?!.*\\s).{4,20}$";
 
@@ -56,16 +56,16 @@ public class RegistrationValidation implements Validator {
 		if (!registration.getEmail().matches(EMAIL_PATTERN)) {
 			errors.rejectValue("email", "dataerror.email_example");
 		}
-		
+
 		if (!registration.getPassword().matches(PASSWORD_PATTERN)) {
 			errors.rejectValue("password", "dataerror.password_pattern");
 		}
-		
+
 		if (registration.getPassword().length() < 4) {
 			errors.rejectValue("password", "dataerror.minimum_4_characters");
 		}
 	}
-	
+
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}

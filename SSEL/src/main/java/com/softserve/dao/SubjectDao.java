@@ -20,6 +20,8 @@ public interface SubjectDao {
 
 	List<Subject> getSubjectsByUserId(int id);
 
+	List<Subject> getSubjectsByNamePart(String namePart);
+
 	public List<Subject> getSubjectsVsLimit(int startPosition, int limitLength, String sortBy, String sortMethod);
 
 	public List<Subject> getSubjectsByNameVsLimit(String searchText,
@@ -39,5 +41,4 @@ public interface SubjectDao {
 
 	public long getSubjectsByTextCount(String searchText);
 
-	List<Subject> getSubjectsByNamePart(String namePart);
 }

@@ -181,4 +181,66 @@ public class UserServiceImpl implements UserService {
 				.getAuthentication();
 		return authentication.getName();
 	}
+
+	@Override
+	@Transactional
+	public List<User> getUsersVsLimit(int startPosition, int limitLength, String sortBy, String sortMethod) {
+		return userDao.getUsersVsLimit(startPosition, limitLength, sortBy, sortMethod);
+	}
+
+	@Override
+	@Transactional
+	public List<User> getUsersByFirstNameVsLimit(String searchText,
+			int startPosition, int limitLength, String sortBy, String sortMethod) {
+		return userDao.getUsersByFirstNameVsLimit(searchText, startPosition,
+				limitLength, sortBy, sortMethod);
+	}
+
+	@Override
+	@Transactional
+	public List<User> getUsersByLastNameVsLimit(String searchText,
+			int startPosition, int limitLength, String sortBy, String sortMethod) {
+		return userDao.getUsersByLastNameVsLimit(searchText, startPosition,
+				limitLength, sortBy, sortMethod);
+	}
+
+	@Override
+	@Transactional
+	public List<User> getUsersByRoleVsLimit(String searchText,
+			int startPosition, int limitLength, String sortBy, String sortMethod) {
+		return userDao.getUsersByRoleVsLimit(searchText,
+				startPosition, limitLength, sortBy, sortMethod);
+	}
+
+	@Override
+	@Transactional
+	public List<User> getUsersByTextVsLimit(String searchText,
+			int startPosition, int limitLength, String sortBy, String sortMethod) {
+		return userDao.getUsersByTextVsLimit(searchText, startPosition, limitLength, sortBy, sortMethod);
+	}
+
+	@Override
+	public long getUsersCount() {
+		return userDao.getUsersCount();
+	}
+
+	@Override
+	public long getUsersByFirstNameCount(String searchName) {
+		return userDao.getUsersByFirstNameCount(searchName);
+	}
+
+	@Override
+	public long getUsersByLastNameCount(String searchName) {
+		return userDao.getUsersByLastNameCount(searchName);
+	}
+
+	@Override
+	public long getUsersByRoleCount(String searchRole) {
+		return userDao.getUsersByRoleCount(searchRole);
+	}
+
+	@Override
+	public long getUsersByTextCount(String searchText) {
+		return userDao.getUsersByTextCount(searchText);
+	}
 }

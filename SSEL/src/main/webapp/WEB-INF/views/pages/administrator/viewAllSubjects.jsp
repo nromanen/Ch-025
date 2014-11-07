@@ -146,7 +146,6 @@
 	}
 </script>
 
-<p id="demo"></p>
 <!-- Modal window -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel" aria-hidden="true">
@@ -309,7 +308,7 @@
 					<c:forEach items="${subjects}" var="subject">
 						<tr>
 							<td>${subject.name}</td>
-							<td align="center">
+							<td>
 								<div id="category-${subject.id}">
 									${subject.category.name} <a type="button" data-toggle="modal"
 										data-id="changeSubjectCategory?subjectId=${subject.id}"
