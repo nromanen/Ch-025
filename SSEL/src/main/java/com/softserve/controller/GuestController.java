@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -82,6 +83,10 @@ public class GuestController {
 		LOG.info("User login {}", principal.getName());
 		User user = userService.getUserByEmail(principal.getName());
 		httpSession.setAttribute("user", user);
+		if (user.getImage() != null) {
+			String encodedImage = new String(Base64.encode(user.getImage()));
+			httpSession.setAttribute("image", encodedImage);
+		}
 		if (user.getRole().getRole().equals(User.Roles.TEACHER.toString())) {
 			return "redirect:/teacher";
 		} else if (user.getRole().getRole().equals(User.Roles.STUDENT.toString())) {

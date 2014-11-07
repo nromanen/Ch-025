@@ -51,7 +51,7 @@
 	                       					<input type="text" id="first_name" class="form-control" name="first_name"
 												placeholder="<spring:message code="placeholder.firstname" />"  
 												value="<c:out value="${sessionScope.user.firstName}" />" 
-												data-toggle="tooltip" 
+												data-toggle="tooltip" data-placement="right"
 												title="<spring:message code="label.edit_first_name" />" />
 	                        			</td>
 	                      			</tr>
@@ -63,7 +63,7 @@
 	                        				<input type="text" id="last_name" class="form-control" name="last_name"
 												placeholder="<spring:message code="placeholder.lastname" />"  
 												value="<c:out value="${sessionScope.user.lastName}" />" 
-												data-toggle="tooltip" 
+												data-toggle="tooltip" data-placement="right"
 												title="<spring:message code="label.edit_last_name" />" />
 	                        			</td>
 		                      		</tr>
@@ -135,7 +135,7 @@
 			        	<spring:message code="label.add_file" />
 			        </span>
 			        <input id="fileupload" type="file" name="files[]" 
-			        	accept="image/png, image/jpeg, image/gif, image/jpg">
+			        	accept="image/*">
 			    </span>
 			    <div id="progress" class="progress" style="margin-top: 15px">
 			        <div class="progress-bar progress-bar-success"></div>
@@ -267,13 +267,13 @@ $(function () {
 								</label>
 								<div class="col-md-6">
 									<div class="input-group">
-										<span class="input-group-btn">
-	            							<button class="btn btn-default reveal" style="height: 34px" type="button">
-	            								<i class="glyphicon glyphicon-eye-open"></i>
-	            							</button>
-	          							</span>
 										<input type="password" id="old_password" class="form-control pwd" name="old_password"
 											placeholder="<spring:message code="placeholder.old_password"/>" /> 
+										<span class="input-group-btn">
+		            						<button class="btn btn-default reveal" style="height: 34px" type="button" >
+		            							<i class="glyphicon glyphicon-eye-open"></i>
+		            						</button>
+	          							</span>
           							</div>
 								</div>
 							</div>
