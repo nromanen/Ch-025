@@ -42,7 +42,7 @@
 		</c:forEach>
 		</c:if>
 		<c:if test="${fn:length(catList) eq 0}">
-			<p style="color:red;"> <spring:message code="label.no_categories"/>  </p>
+			<p style="margin-left:30px;"> <spring:message code="label.no_categories"/>  </p>
 		</c:if>
 		</div>
 		</form>
@@ -73,7 +73,7 @@
 			</c:forEach>
 			</c:if>
 			<c:if test="${fn:length(subjList) eq 0}">
-			<p style="color:red;"> <spring:message code="label.no_subjects"/> </p>
+			<p style="margin-left:30px;"> <spring:message code="label.no_subjects"/> </p>
 		</c:if>
 		</div>
 	</form> 

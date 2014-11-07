@@ -104,8 +104,9 @@ public class GuestController {
 	}
 
 	@RequestMapping(value = "/course", method = RequestMethod.GET)
-	public String course(@RequestParam Integer subjectId, Model model,
-			HttpSession httpSession) {
+	public String course(@RequestParam Integer subjectId, 
+			@RequestParam(value = "isSubscribed", required = false) Boolean isSubscribed, 
+			Model model, HttpSession httpSession) {
 		LOG.debug("Visit course page as guest");
 		subjects = subjectService.getAllSubjects();
 		categories = categoryService.getAllCategories();
