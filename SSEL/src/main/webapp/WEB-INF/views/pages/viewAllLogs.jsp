@@ -16,6 +16,7 @@
 			<fmt:formatDate pattern="dd-MM-yyyy" value="${endPeriod}" />
 		</h3>
 		<div class="row">
+		
 			<!-- Picking logsPerPage parameter -->
 			<div class="col-md-1" align="left">
 				<form method="get" action="getParameters">
@@ -40,6 +41,7 @@
 					</select> <input type="submit" style="visibility: hidden;">
 				</form>
 			</div>
+			
 			<!-- Selecting range of dates for viewing logs -->
 			<div class="col-md-5" align="left">
 				<form action="getRangeOfDates" method="get">
@@ -50,15 +52,16 @@
 						<input type="submit" value="show" />
 				</form>
 			</div>
+			
 			<!-- Selecting date for deleting old logs -->
 			<div class="col-md-4" align="left">
 				<form action="deleteOldLogs" method="get">
 					Delete old logs to date: <input type="text" name="deleteDate"
-						placeholder="DD-MM-YYYY" /> <input type="submit" value="delete" />
+						placeholder="DD-MM-YYYY" /> 
+						<input type="submit" value="delete" onclick="return confirm('Are you shure?')" />
 				</form>
 			</div>
-		</div>
-
+			
 		<!-- Pagination scroll -->
 		<div align="right">
 			<nav>
@@ -67,32 +70,25 @@
 						<li class="disabled"><a href="#">Previous</a></li>
 					</c:if>
 					<c:if test="${pageNumb > 0}">
-						<li><a
-							href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 1}">Previous</a></li>
-						<li><a
-							href="${pageContext.request.contextPath}/viewLogs?pageNumb=0">1</a></li>
+						<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 1}">Previous</a></li>
+						<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=0">1</a></li>
 					</c:if>
 					<c:if test="${pageNumb > 2}">
 						<li><a href="#">...</a></li>
 					</c:if>
 					<c:if test="${pageNumb > 1}">
-						<li><a
-							href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 1}">${pageNumb}</a></li>
+						<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 1}">${pageNumb}</a></li>
 					</c:if>
-
 					<li class="active"><a href="#">${pageNumb + 1}</a></li>
 					<c:if test="${pageNumb < (numberOfPages - 2)}">
-						<li><a
-							href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 1}">${pageNumb + 2}</a></li>
+						<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 1}">${pageNumb + 2}</a></li>
 					</c:if>
 					<c:if test="${pageNumb < (numberOfPages - 3)}">
 						<li><a href="#">...</a></li>
 					</c:if>
 					<c:if test="${pageNumb < (numberOfPages - 1)}">
-						<li><a
-							href="${pageContext.request.contextPath}/viewLogs?pageNumb=${numberOfPages-1}">${numberOfPages}</a></li>
-						<li><a
-							href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 1}">Next</a></li>
+						<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${numberOfPages-1}">${numberOfPages}</a></li>
+						<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 1}">Next</a></li>
 					</c:if>
 					<c:if test="${pageNumb > (numberOfPages - 2)}">
 						<li class="disabled"><a href="#">Next</a></li>
@@ -100,28 +96,26 @@
 				</ul>
 			</nav>
 		</div>
+	</div>
+	
 		<!-- Table with logs -->
 		<table class="table table-striped table-bordered table-hover">
 			<thead>
 				<tr>
 					<!-- Head of table also includes sorting parameters -->
-					<th>Date <br /> <font size="-2"> <a
-							href="${pageContext.request.contextPath}/getParameters?orderBy=date-asc">Up</a>
-							<a
-							href="${pageContext.request.contextPath}/getParameters?orderBy=date-desc">Down</a>
+					<th>Date <br /> <font size="-2"> 
+						<a href="${pageContext.request.contextPath}/getParameters?orderBy=date-asc">Up</a>
+						<a href="${pageContext.request.contextPath}/getParameters?orderBy=date-desc">Down</a>
 					</font></th>
-					<th>Level<br /> <font size="-2"> <a
-							href="${pageContext.request.contextPath}/getParameters?orderBy=level-asc">Up</a>
-							<a
-							href="${pageContext.request.contextPath}/getParameters?orderBy=level-desc">Down</a>
-					</font>
-					</th>
+					<th>Level<br /> <font size="-2"> 
+						<a href="${pageContext.request.contextPath}/getParameters?orderBy=level-asc">Up</a>
+						<a href="${pageContext.request.contextPath}/getParameters?orderBy=level-desc">Down</a>
+					</font></th>
 					<th>Logger</th>
 					<th>Message</th>
-					<th>Exception<br /> <font size="-2"> <a
-							href="${pageContext.request.contextPath}/getParameters?orderBy=exception-asc">Up</a>
-							<a
-							href="${pageContext.request.contextPath}/getParameters?orderBy=exception-desc">Down</a>
+					<th>Exception<br /> <font size="-2"> 
+						<a href="${pageContext.request.contextPath}/getParameters?orderBy=exception-asc">Up</a>
+						<a href="${pageContext.request.contextPath}/getParameters?orderBy=exception-desc">Down</a>
 					</font></th>
 				</tr>
 			</thead>
@@ -133,18 +127,19 @@
 							readonly="readonly">${log.logger}</textarea></td>
 					<td class="col-md-5.7"><textarea rows="2" cols="100"
 							readonly="readonly">${log.message}</textarea></td>
-					<td class="col-md-1"><c:choose>
+					<td class="col-md-1">
+						<c:choose>
 							<c:when test="${not empty log.exception}">
-								<a
-									href="${pageContext.request.contextPath}/logDetails?LogId=${log.id}">Details</a>
+								<a href="${pageContext.request.contextPath}/logDetails?LogId=${log.id}">Details</a>
 							</c:when>
 							<c:otherwise>
-								        No exception
-								    </c:otherwise>
+								 No exception
+							</c:otherwise>
 						</c:choose></td>
 				</tr>
 			</c:forEach>
 		</table>
+		
 		<!-- Pagination scroll -->
 		<div align="right">
 			<nav>
@@ -153,32 +148,26 @@
 						<li class="disabled"><a href="#">Previous</a></li>
 					</c:if>
 					<c:if test="${pageNumb > 0}">
-						<li><a
-							href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 1}">Previous</a></li>
-						<li><a
-							href="${pageContext.request.contextPath}/viewLogs?pageNumb=0">1</a></li>
+						<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 1}">Previous</a></li>
+						<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=0">1</a></li>
 					</c:if>
 					<c:if test="${pageNumb > 2}">
 						<li><a href="#">...</a></li>
 					</c:if>
 					<c:if test="${pageNumb > 1}">
-						<li><a
-							href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 1}">${pageNumb}</a></li>
+						<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 1}">${pageNumb}</a></li>
 					</c:if>
 
 					<li class="active"><a href="#">${pageNumb + 1}</a></li>
 					<c:if test="${pageNumb < (numberOfPages - 2)}">
-						<li><a
-							href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 1}">${pageNumb + 2}</a></li>
+						<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 1}">${pageNumb + 2}</a></li>
 					</c:if>
 					<c:if test="${pageNumb < (numberOfPages - 3)}">
 						<li><a href="#">...</a></li>
 					</c:if>
 					<c:if test="${pageNumb < (numberOfPages - 1)}">
-						<li><a
-							href="${pageContext.request.contextPath}/viewLogs?pageNumb=${numberOfPages-1}">${numberOfPages}</a></li>
-						<li><a
-							href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 1}">Next</a></li>
+						<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${numberOfPages-1}">${numberOfPages}</a></li>
+						<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 1}">Next</a></li>
 					</c:if>
 					<c:if test="${pageNumb > (numberOfPages - 2)}">
 						<li class="disabled"><a href="#">Next</a></li>
