@@ -27,6 +27,9 @@ public class StudentCabinetServiceTest {
 	private StudentCabinetSevice studentCabinetService;
 	private CourseSchedulerDao courseSchedulerDao;
 	private List<CourseScheduler> list;
+	/**
+	 * Initialized any test
+	 */
 	@SuppressWarnings("deprecation")
 	@Before
 	public void initTests() {
@@ -44,27 +47,35 @@ public class StudentCabinetServiceTest {
 			list.add(newCourse);
 		}
 	}
-	
+	/**
+	 * Check dao method call
+	 */
 	@Test
 	public void testVerifyDaoMethod() {
 		studentCabinetService.initSubscribedList(anyInt());
 		verify(courseSchedulerDao).getSubscribedCoursesByUserId(anyInt());
 	}
-	
+	/**
+	 * Check subscribed list is not null
+	 */
 	@Test
 	public void testSubscribedListIsNotNull() {
 		when(courseSchedulerDao.getSubscribedCoursesByUserId(anyInt())).thenReturn(list);
 		studentCabinetService.initSubscribedList(anyInt());
 		assertEquals(list, studentCabinetService.getSubscribedCourseList());
 	}
-	
+	/**
+	 * Check subscribe list is null
+	 */
 	@Test
 	public void testSubscribedListIsNull() {
 		when(courseSchedulerDao.getSubscribedCoursesByUserId(anyInt())).thenReturn(null);
 		studentCabinetService.initSubscribedList(anyInt());
 		assertNull(studentCabinetService.getSubscribedCourseList());
 	}
-	
+	/**
+	 * tests getFutureCourses service method
+	 */
 	@SuppressWarnings("deprecation")
 	@Test
 	public void testGetFutureCourses() {
@@ -72,6 +83,9 @@ public class StudentCabinetServiceTest {
 		studentCabinetService.initSubscribedList(anyInt());
 		assertEquals(1, studentCabinetService.getFutureCourses(new Date("08-Nov-2014")).size());
 	}
+	/**
+	 * tests getActiveCourses service method
+	 */
 	
 	@SuppressWarnings("deprecation")
 	@Test
@@ -80,6 +94,9 @@ public class StudentCabinetServiceTest {
 		studentCabinetService.initSubscribedList(anyInt());
 		assertEquals(2, studentCabinetService.getActiveCourses(new Date("09-Nov-2014")).size());
 	}
+	/**
+	 * tests getFinishedCourses service method
+	 */
 	
 	@SuppressWarnings("deprecation")
 	@Test
