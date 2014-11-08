@@ -1,9 +1,11 @@
 package com.softserve.controller;
 
+import java.beans.PropertyEditorSupport;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -12,6 +14,10 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -176,15 +182,28 @@ public class TeacherController {
 		return "editTopic";
 	}
 	
+	@InitBinder
+	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
+	    binder.registerCustomEditor(Block.class, "block", new PropertyEditorSupport() {
+	    @Override
+	    public void setAsText(String text) {
+	        Block bl = blockService.getBlockById(Integer.parseInt(text));
+	        setValue(bl);
+	    }
+	    });
+	}
+	
 	@RequestMapping(value = "/saveTopic", method = RequestMethod.POST)
 	public String saveTopic(
 			//@RequestParam(value = "topicId", required = false) Integer topicId,
 			//@RequestParam(value = "blockId", required = true) Integer blockId,
-			//@RequestParam(value = "subjectId", required = false) Integer subjectId,
+			//@RequestParam(value = "subjectId", required = true) Integer subjectId,
 			//@RequestParam(value = "topicAlive", required = true) boolean topicAlive,
 			//@RequestParam(value = "topicContent", required = true) String topicContent,
 			//@RequestParam(value = "name", required = true) String topicName,
-			@Valid Topic topic,
+			//@ModelAttribute
+			@Valid @ModelAttribute("topic") Topic topic,
+			
 			BindingResult result,
 			Model model) {
 		//Topic topic = topicId != null ? topicService.getTopicById(topicId) : new Topic();
@@ -204,8 +223,8 @@ public class TeacherController {
 			}*/
 
 			//if (subjectId != null) {
-			//List<Block> blocks = blockService.getBlocksBySubjectId(subjectId);
-			//model.addAttribute("blockList", blocks);
+			List<Block> blocks = blockService.getAllBlocks();// BlocksBySubjectId(subjectId);//topic.getBlock().getSubject().getId());
+			model.addAttribute("blockList", blocks);
 			//}
 			List<Category> categories = categoryService.getAllCategories();
 			model.addAttribute("catList", categories);

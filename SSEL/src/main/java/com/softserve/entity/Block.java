@@ -20,6 +20,14 @@ import javax.persistence.Table;
 @Table(name = "block")
 public class Block implements Comparable<Topic> {
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return name;
+	}
+
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
