@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,6 +29,9 @@ public class RegistrationController {
 	private UserService userService;
 
 	@Autowired
+	private MessageSource messageSource;
+
+	@Autowired
 	private RegistrationValidation registrationValidation;
 
 	@RequestMapping(value = "/registration", method = RequestMethod.GET)
@@ -42,7 +47,19 @@ public class RegistrationController {
 		if (result.hasErrors()) {
 			return "registration";
 		}
-		userService.registrate(registration, request);
+		if (registration.isTeacher()) {
+			String message = messageSource.getMessage(
+					"message.teacher.confirm_registration", new Object[] {},
+					LocaleContextHolder.getLocale());
+			userService.registrateTeacher(registration, message);
+		} else {
+			String message = messageSource.getMessage(
+					"message.user.confirm_registration", new Object[] {},
+					LocaleContextHolder.getLocale());
+			String url = request.getRequestURL().toString();
+			url.replaceAll(request.getServletPath(), "/");
+			userService.registrateStudent(registration, url, message);
+		}
 		return "redirect:/";
 	}
 

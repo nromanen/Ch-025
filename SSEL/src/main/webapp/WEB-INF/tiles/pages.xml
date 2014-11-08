@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE tiles-definitions PUBLIC
-"-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" 
+"-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
 "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
 
@@ -36,7 +36,7 @@
 
 	<!-- Remind -->
 	<definition name="remind" extends="sign-template">
-		<put-attribute name="title" value="SSEL SoftServeAcademy Renind" />
+		<put-attribute name="title" value="SSEL SoftServeAcademy Remind" />
 		<put-attribute name="content" value="/WEB-INF/views/remind.jsp" />
 	</definition>
 
@@ -52,13 +52,13 @@
 		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
 		<put-attribute name="content" value="/WEB-INF/views/pages/course.jsp" />
 	</definition>
-	
+
 	<!-- Category -->
 	<definition name="category" extends="index">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Category"></put-attribute>
 		<put-attribute name="content" value="/WEB-INF/views/pages/category.jsp"></put-attribute>
 	</definition>
-	
+
 	<!-- Search -->
 	<definition name="search" extends="index">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Search"></put-attribute>
@@ -140,7 +140,7 @@
 		<put-attribute name="menu"
 			value="/WEB-INF/views/templates/student_menu.jsp" />
 	</definition>
-	
+
 	<!-- Course information -->
 	<definition name="courseInformation" extends="index">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
@@ -151,29 +151,38 @@
 	<!-- Administrator -->
 	<definition name="administrator" extends="base-template">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
-		<put-attribute name="content"
-			value="/WEB-INF/views/pages/administrator.jsp"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/views/pages/administrator/administrator.jsp"></put-attribute>
 		<put-attribute name="menu"
 			value="/WEB-INF/views/templates/administrator_menu.jsp"></put-attribute>
 	</definition>
 	<definition name="viewAllCategories" extends="administrator">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
-		<put-attribute name="content"
-			value="/WEB-INF/views/pages/viewAllCategories.jsp"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/views/pages/administrator/viewAllCategories.jsp"></put-attribute>
 		<put-attribute name="menu"
 			value="/WEB-INF/views/templates/administrator_menu.jsp"></put-attribute>
 	</definition>
 	<definition name="viewAllUsers" extends="administrator">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
-		<put-attribute name="content"
-			value="/WEB-INF/views/pages/viewAllUsers.jsp"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/views/pages/administrator/viewAllUsers.jsp"></put-attribute>
 		<put-attribute name="menu"
 			value="/WEB-INF/views/templates/administrator_menu.jsp"></put-attribute>
 	</definition>
 	<definition name="viewAllLogs" extends="administrator">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
+		<put-attribute name="content" value="/WEB-INF/views/pages/administrator/viewAllLogs.jsp"></put-attribute>
+		<put-attribute name="menu"
+			value="/WEB-INF/views/templates/administrator_menu.jsp"></put-attribute>
+	</definition>
+	<definition name="viewAllSubjects" extends="administrator">
+		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
+		<put-attribute name="content" value="/WEB-INF/views/pages/administrator/viewAllSubjects.jsp"></put-attribute>
+		<put-attribute name="menu"
+			value="/WEB-INF/views/templates/administrator_menu.jsp"></put-attribute>
+	</definition>
+	<definition name="logDetails" extends="administrator">
+		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
 		<put-attribute name="content"
-			value="/WEB-INF/views/pages/viewAllLogs.jsp"></put-attribute>
+			value="/WEB-INF/views/pages/administrator/logDetails.jsp"></put-attribute>
 		<put-attribute name="menu"
 			value="/WEB-INF/views/templates/administrator_menu.jsp"></put-attribute>
 	</definition>

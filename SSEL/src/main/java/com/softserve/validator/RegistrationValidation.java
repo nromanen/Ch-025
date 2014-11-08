@@ -56,16 +56,16 @@ public class RegistrationValidation implements Validator {
 		if (!registration.getEmail().matches(EMAIL_PATTERN)) {
 			errors.rejectValue("email", "dataerror.email_example");
 		}
-		
+
 		if (!registration.getPassword().matches(PASSWORD_PATTERN)) {
 			errors.rejectValue("password", "dataerror.password_pattern");
 		}
-		
+
 		if (registration.getPassword().length() < 4) {
 			errors.rejectValue("password", "dataerror.minimum_4_characters");
 		}
 	}
-	
+
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}

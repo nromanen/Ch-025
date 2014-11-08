@@ -1,18 +1,26 @@
 package com.softserve.service;
 
-import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import com.softserve.entity.Log;
 
 public interface LogService {
 
-	public Log addLog(Log log);
+	public Log getLogById(int id);
+	
+	public List<Log> getRangeOfLogs(GregorianCalendar startCalendar,
+			GregorianCalendar endCalendar, int logsPerPage, int pageNumb, String orderBy);
+	
+	public void deleteLogsDueDate(GregorianCalendar calendar);
 
-	public List<Log> getLogsSinceDate(Date date);
-
-	public List<Log> getAllLogs();
-
-	public void deleteLogsDueDate(Date date);
+	public Long countLogsInQuery(GregorianCalendar startCalendar,
+			GregorianCalendar endCalendar);
+	
+	public int getNumberOfPages(Long logsInQuery, int logsPerPage);
+	
+	public GregorianCalendar parseDate(String dateString);
+	
+	public String createOrderByPart(String orderByParameter);
 
 }
