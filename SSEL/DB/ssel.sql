@@ -85,6 +85,34 @@ INSERT INTO `course_scheduler` VALUES ('4', '2014-12-31', '2014-10-03', '8');
 INSERT INTO `course_scheduler` VALUES ('5', '2014-10-01', '2014-11-30', '9');
 INSERT INTO `course_scheduler` VALUES ('6', '2014-10-31', '2015-01-16', '11');
 
+--
+-- Table structure for table `groups`
+--
+
+DROP TABLE IF EXISTS `groups`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `groups` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `isActive` bit(1) DEFAULT NULL,
+  `id_course_scheduler` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_96demx41l6j5l1llgh6inp1w0` (`id_course_scheduler`),
+  CONSTRAINT `FK_96demx41l6j5l1llgh6inp1w0` FOREIGN KEY (`id_course_scheduler`) REFERENCES `course_scheduler` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `groups`
+--
+
+LOCK TABLES `groups` WRITE;
+/*!40000 ALTER TABLE `groups` DISABLE KEYS */;
+INSERT INTO `groups` VALUES (1,'',4),(2,'',5),(3,'\0',3);
+/*!40000 ALTER TABLE `groups` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
 -- ----------------------------
 -- Table structure for `logging`
 -- ----------------------------
@@ -270,6 +298,38 @@ INSERT INTO `logging` VALUES ('2014-10-29 08:22:12', 'WARN', 'org.apache.tiles.r
 INSERT INTO `logging` VALUES ('2014-10-29 08:43:57', 'WARN', 'org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder', 'Encoded password does not look like BCrypt', '');
 INSERT INTO `logging` VALUES ('2014-10-29 08:45:39', 'WARN', 'org.springframework.web.servlet.PageNotFound', 'No mapping found for HTTP request with URI [/SSEL/іегвуте] in DispatcherServlet with name \'appServlet\'', '');
 
+--
+-- Table structure for table `rating`
+--
+
+DROP TABLE IF EXISTS `rating`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `rating` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `mark` double DEFAULT NULL,
+  `id_block` int(11) DEFAULT NULL,
+  `id_group` int(11) DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_qk86s4pe1wpwsjv8lrxpmsv92` (`id_block`),
+  KEY `FK_cnjs788xf5bg57ff93gkfl3x3` (`id_group`),
+  KEY `FK_jl72fljncdib2delovgq2qgxo` (`id_user`),
+  CONSTRAINT `FK_cnjs788xf5bg57ff93gkfl3x3` FOREIGN KEY (`id_group`) REFERENCES `groups` (`id`),
+  CONSTRAINT `FK_jl72fljncdib2delovgq2qgxo` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`),
+  CONSTRAINT `FK_qk86s4pe1wpwsjv8lrxpmsv92` FOREIGN KEY (`id_block`) REFERENCES `block` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `rating`
+--
+
+LOCK TABLES `rating` WRITE;
+/*!40000 ALTER TABLE `rating` DISABLE KEYS */;
+INSERT INTO `rating` VALUES (1,10,6,1,7),(2,7,15,1,7),(3,75,6,3,7),(4,60,15,3,7),(5,90,16,3,7),(6,57,17,3,7);
+/*!40000 ALTER TABLE `rating` ENABLE KEYS */;
+UNLOCK TABLES;
 -- ----------------------------
 -- Table structure for `role`
 -- ----------------------------
@@ -287,31 +347,34 @@ INSERT INTO `role` VALUES ('1', 'ADMIN');
 INSERT INTO `role` VALUES ('2', 'STUDENT');
 INSERT INTO `role` VALUES ('3', 'TEACHER');
 
--- ----------------------------
--- Table structure for `student_group`
--- ----------------------------
+--
+-- Table structure for table `student_group`
+--
+
 DROP TABLE IF EXISTS `student_group`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `student_group` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `groupNumber` int(11) NOT NULL,
-  `progress` double NOT NULL,
-  `rating` double NOT NULL,
-  `id_course_scheduler` int(11) DEFAULT NULL,
+  `id_group` int(11) DEFAULT NULL,
   `id_user` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_qwrow5v9nx2q2mvhp60069x0` (`id_course_scheduler`),
+  KEY `FK_5cpd83ph40qvyvw8w28xlftma` (`id_group`),
   KEY `FK_efnecvqpn68w3gfiqlyg2c137` (`id_user`),
-  CONSTRAINT `FK_efnecvqpn68w3gfiqlyg2c137` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`),
-  CONSTRAINT `FK_qwrow5v9nx2q2mvhp60069x0` FOREIGN KEY (`id_course_scheduler`) REFERENCES `course_scheduler` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+  CONSTRAINT `FK_5cpd83ph40qvyvw8w28xlftma` FOREIGN KEY (`id_group`) REFERENCES `groups` (`id`),
+  CONSTRAINT `FK_efnecvqpn68w3gfiqlyg2c137` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of student_group
--- ----------------------------
-INSERT INTO `student_group` VALUES ('2', '100', '0', '0', '4', '7');
-INSERT INTO `student_group` VALUES ('3', '101', '0', '0', '3', '7');
-INSERT INTO `student_group` VALUES ('4', '102', '75', '100', '3', '7');
-INSERT INTO `student_group` VALUES ('5', '103', '0', '0', '5', '7');
+--
+-- Dumping data for table `student_group`
+--
+
+LOCK TABLES `student_group` WRITE;
+/*!40000 ALTER TABLE `student_group` DISABLE KEYS */;
+INSERT INTO `student_group` VALUES (2,2,7),(3,1,7),(4,3,7);
+/*!40000 ALTER TABLE `student_group` ENABLE KEYS */;
+UNLOCK TABLES;
 
 -- ----------------------------
 -- Table structure for `subject`
