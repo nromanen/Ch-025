@@ -164,10 +164,9 @@ public class GuestController {
 	}
 	
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
-	public String search(@RequestParam String search, Model model, HttpSession httpSession,
+	public String search(@RequestParam String search, Model model, 
 			@RequestParam (value = "pageNumber", required = false) Integer pageNumber,
 			@RequestParam (value = "pageSize", required = false) Integer pageSize) {
-		User user = (User) httpSession.getAttribute("user");
 		if (pageNumber == null) {
 			pageNumber = 1;
 		}
@@ -178,12 +177,17 @@ public class GuestController {
 		List<Subject> subjects = searchService.getSubjectsByNamePart(search, pageNumber, pageSize);
 		model.addAttribute("catList", categories);
 		model.addAttribute("subjList", subjects);
+		model.addAttribute("search", search);
+		model.addAttribute("pageSize", pageSize);
+		model.addAttribute("pageNumber", pageNumber);
+		
+		Long numberOfPages = searchService.getSubjectsQuantityByNamePart(search) / pageSize + 1;
+		model.addAttribute("numberOfPages", numberOfPages);
 		return "search";
 	}
 	
 	@RequestMapping(value = "/category", method = RequestMethod.GET)
-	public String category(@RequestParam Integer categoryId, Model model, HttpSession httpSession) {
-		User user = (User) httpSession.getAttribute("user");
+	public String category(@RequestParam Integer categoryId, Model model) {
 		List<Subject> subjects = subjectService.getSubjectsByCategoryId(categoryId);
 		model.addAttribute("subjList", subjects);
 		return "category";

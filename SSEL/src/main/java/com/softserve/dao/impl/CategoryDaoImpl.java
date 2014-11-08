@@ -85,5 +85,16 @@ public class CategoryDaoImpl implements CategoryDao {
 		query.setMaxResults(pageSize);
 		return query.getResultList();
 	}
+	
+	public Long getCategoriesQuantityByNamePart(String namePart) {
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+		Root<Category> root = criteriaQuery.from(Category.class);
+		criteriaQuery.select(criteriaBuilder.count(criteriaQuery.from(Category.class)));
+		Predicate predicate = 
+				criteriaBuilder.like(criteriaBuilder.upper(root.<String>get("name")), "%" + namePart.toUpperCase() + "%");
+		criteriaQuery.where(predicate);
+		return entityManager.createQuery(criteriaQuery).getSingleResult();
+	}
 
 }

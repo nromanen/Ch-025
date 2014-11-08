@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.softserve.dao.SubjectDao;
+import com.softserve.entity.Category;
 import com.softserve.entity.Subject;
 
 @Repository
@@ -103,6 +104,17 @@ public class SubjectDaoImpl implements SubjectDao {
 		query.setFirstResult((pageNumber - 1) * pageSize);
 		query.setMaxResults(pageSize);
 		return query.getResultList();
+	}
+	
+	public Long getSubjectsQuantityByNamePart(String namePart) {
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+		Root<Subject> root = criteriaQuery.from(Subject.class);
+		criteriaQuery.select(criteriaBuilder.count(criteriaQuery.from(Category.class)));
+		Predicate predicate = 
+				criteriaBuilder.like(criteriaBuilder.upper(root.<String>get("name")), "%" + namePart.toUpperCase() + "%");
+		criteriaQuery.where(predicate);
+		return entityManager.createQuery(criteriaQuery).getSingleResult();
 	}
 
 	@SuppressWarnings("unchecked")

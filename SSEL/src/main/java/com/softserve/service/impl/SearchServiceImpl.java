@@ -30,8 +30,23 @@ public class SearchServiceImpl implements SearchService {
 	
 
 	@Override
+	@Transactional
 	public List<Subject> getSubjectsByNamePart(String namePart, int pageNumber, int pageSize) {
 		return subjectDao.getSubjectsByNamePart(namePart, pageNumber, pageSize);
+	}
+
+
+	@Override
+	@Transactional
+	public Long getSubjectsQuantityByNamePart(String namePart) {
+		return subjectDao.getSubjectsQuantityByNamePart(namePart);
+	}
+
+
+	@Override
+	@Transactional
+	public Long getCategoriesQuantityByNamePart(String namePart) {
+		return categoryDao.getCategoriesQuantityByNamePart(namePart);
 	}
 
 }
