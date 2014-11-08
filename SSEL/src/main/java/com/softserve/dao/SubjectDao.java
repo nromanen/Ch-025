@@ -41,6 +41,7 @@ public interface SubjectDao {
 
 	public long getSubjectsByTextCount(String searchText);
 
-	
 	Long getSubjectsQuantityByNamePart(String namePart);
+	
+	List<Subject> getSubjectsByCategoryIdWithLimit(int categoryId, int pageNumber, int pageSize);
 }

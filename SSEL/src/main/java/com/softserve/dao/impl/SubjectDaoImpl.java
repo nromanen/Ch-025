@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.softserve.dao.SubjectDao;
-import com.softserve.entity.Category;
 import com.softserve.entity.Subject;
 
 @Repository
@@ -107,14 +106,10 @@ public class SubjectDaoImpl implements SubjectDao {
 	}
 	
 	public Long getSubjectsQuantityByNamePart(String namePart) {
-		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-		CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
-		Root<Subject> root = criteriaQuery.from(Subject.class);
-		criteriaQuery.select(criteriaBuilder.count(criteriaQuery.from(Category.class)));
-		Predicate predicate = 
-				criteriaBuilder.like(criteriaBuilder.upper(root.<String>get("name")), "%" + namePart.toUpperCase() + "%");
-		criteriaQuery.where(predicate);
-		return entityManager.createQuery(criteriaQuery).getSingleResult();
+		Query query = entityManager
+				.createQuery("SELECT COUNT (*) FROM Subject s WHERE name LIKE :namepart");
+		query.setParameter("namepart", "%" + namePart + "%");
+		return (Long) query.getSingleResult();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -227,6 +222,21 @@ public class SubjectDaoImpl implements SubjectDao {
 						+ "WHERE s.name = :searchText or s.category.name = :searchText");
 		query.setParameter("searchText", searchText);
 		return (Long) query.getSingleResult();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Subject> getSubjectsByCategoryIdWithLimit(int categoryId, int pageNumber, int pageSize) {
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Subject> criteriaQuery = criteriaBuilder.createQuery(Subject.class);
+		Root<Subject> root = criteriaQuery.from(Subject.class);
+		criteriaQuery.select(root);
+		Predicate predicate = criteriaBuilder.equal(root.<Integer>get("category"), categoryId);
+		criteriaQuery.where(predicate);
+		Query query = entityManager.createQuery(criteriaQuery);
+		query.setFirstResult((pageNumber - 1) * pageSize);
+		query.setMaxResults(pageSize);
+		return query.getResultList();
 	}
 
 }

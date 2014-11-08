@@ -31,46 +31,41 @@
 	</div>
 	<div>
 		<form action="search" method="get">
-			<label for="rowsPerPage">Choose number of records per page</label> 
-			<select	id="rowsPerPage" name="pageSize" onchange="this.form.submit()">
+			<label for="sel1" style="margin-left:20px;"> <spring:message code="label.records_per_page"/></label> 
+			<select	class="form-control" id="sel1" name="pageSize" onchange="this.form.submit()">
 				<option value="5" <c:if test="${pageSize eq 5}"> selected </c:if> > 5</option>
 				<option value="10" <c:if test="${pageSize eq 10}"> selected </c:if> >10</option>
 				<option value="20" <c:if test="${pageSize eq 20}"> selected </c:if> >20</option>
 				<option value="50" <c:if test="${pageSize eq 50}"> selected </c:if> >50</option>
 				<option value="100" <c:if test="${pageSize eq 100}"> selected </c:if> >100</option>
 			</select>
-			<div align="right">
-			<nav>
-				<ul class="pagination">
-					<c:if test="${pageNumber lt 1}">
-						<li class="disabled"><a href="#">Previous</a></li>
+			<div class="btn-group" style="float: right;">
+					<c:if test="${pageNumber gt 1}">
+						<button name="pageNumber" value="${pageNumber - 1}" type="submit" class="btn btn-default">Previous</button>
+						<button name="pageNumber" value="1" type="submit" class="btn btn-default">1</button>
 					</c:if>
-					<c:if test="${pageNumber gt 0}">
-						<li><button name="pageNumber" value="${pageNumber - 1}" type="submit">Previous</button></li>
-						<li><button name="pageNumber" value="1" type="submit">1</button></li>
+					<c:if test="${pageNumber gt 3}">
+						<button class="btn btn-default" disabled="disabled">...</button>
+						
 					</c:if>
-					<c:if test="${pageNumb gt 2}">
-						<li><a href="#">...</a></li>
+					<c:if test="${pageNumber gt 2}">
+						<button name="pageNumber" value="${pageNumber - 1}" type="submit" class="btn btn-default">${pageNumber - 1}</button>
 					</c:if>
-					<c:if test="${pageNumb gt 1}">
-						<li><button name="pageNumber" value="${pageNumber}"  type="submit">${pageNumber}</button></li>
-					</c:if>
-					<li class="active"><a href="#">${pageNumber}</a></li>
-					<c:if test="${pageNumber < (numberOfPages - 2)}">
-						<li><button name="pageNumber" value="${pageNumber + 1}"  type="submit">${pageNumber + 2}</button></li>
-					</c:if>
-					<c:if test="${pageNumber lt (numberOfPages - 3)}">
-						<li><a href="#">...</a></li>
-					</c:if>
+					<button class="btn btn-default" disabled="disabled">${pageNumber}</button>
+					
 					<c:if test="${pageNumber lt (numberOfPages - 1)}">
-						<li><button name="pageNumber" value="${pageNumber - 1}" type="submit">${numberOfPages}</button></li>
-						<li><button name="pageNumber" value="${pageNumber + 1}" type="submit">Next</button></li>
+						<button name="pageNumber" value="${pageNumber + 1}"  type="submit" class="btn btn-default">${pageNumber + 1}</button>
 					</c:if>
-					<c:if test="${pageNumber gt (numberOfPages - 2)}">
-						<li class="disabled"><a href="#">Next</a></li>
+					<c:if test="${pageNumber lt (numberOfPages - 2)}">
+						<button class="btn btn-default" disabled="disabled">...</button>
 					</c:if>
-				</ul>
-			</nav>
+					<c:if test="${pageNumber le (numberOfPages - 1)}">
+						 <button name="pageNumber" value="${numberOfPages}" type="submit" class="btn btn-default">${numberOfPages}</button> 
+						<button name="pageNumber" value="${pageNumber + 1}" type="submit" class="btn btn-default"><spring:message code="label.next"/></button>
+					</c:if>
+					<c:if test="${pageNumber eq (numberOfPages)}">
+						<button class="btn btn-default" disabled="disabled"><spring:message code="label.next"/></button>
+					</c:if>
 		</div>
 			<input type="hidden" value="${search}" name="search">
 		</form>
@@ -107,12 +102,12 @@
 				<c:if test="${fn:length(subjList) gt 0}">
 					<table class="table table-striped table-bordered table-hover">
 						<tr>
-							<th>Course name</th>
+							<th><spring:message code="label.course_name" /></th>
 							<th><spring:message code="label.category" /></th>
 							<th><spring:message code="label.start_date" /></th>
 						</tr>
-						<tr>
 							<c:forEach items="${subjList}" var="subj">
+								<tr>
 								<td>
 									<button value="${subj.id}" name="subjectId"
 										class="btn btn-link" style="color: #428bca;">${subj.name}</button>
@@ -124,9 +119,8 @@
 												<fmt:formatDate pattern='dd-MM-yyyy'
 													value='${schedule.start}' />
 										</c:if>
-									</c:forEach></td>
+									</c:forEach></td> </tr>
 							</c:forEach>
-						</tr>
 					</table>
 				</c:if>
 			</div>

@@ -13,4 +13,6 @@ public interface SearchService {
 	Long getSubjectsQuantityByNamePart(String namePart);
 	
 	Long getCategoriesQuantityByNamePart(String namePart);
+	
+	List<Subject> getSubjectsByCategoryIdWithLimit(int categoryId, int pageNumber, int pageSize);
 }

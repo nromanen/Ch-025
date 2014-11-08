@@ -1,8 +1,10 @@
+html {
+	overflow-y:scroll !important;
+}
 body {
 	margin: 0px;
 	padding: 0px;
 	height: 100%;
-	overflow: hidden;
 }
 
 .page {
@@ -107,4 +109,10 @@ body {
 
 .inp {
 	width:300px !important;
+	display:inline-block !important;
+}
+
+#sel1 {
+	width: auto !important;
+	display:inline-block !important;
 }

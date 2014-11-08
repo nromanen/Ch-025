@@ -180,16 +180,32 @@ public class GuestController {
 		model.addAttribute("search", search);
 		model.addAttribute("pageSize", pageSize);
 		model.addAttribute("pageNumber", pageNumber);
-		
-		Long numberOfPages = searchService.getSubjectsQuantityByNamePart(search) / pageSize + 1;
+		Long count = searchService.getSubjectsQuantityByNamePart(search);
+		Long numberOfPages =  count / pageSize + 1;
 		model.addAttribute("numberOfPages", numberOfPages);
 		return "search";
 	}
 	
 	@RequestMapping(value = "/category", method = RequestMethod.GET)
-	public String category(@RequestParam Integer categoryId, Model model) {
-		List<Subject> subjects = subjectService.getSubjectsByCategoryId(categoryId);
+	public String category(@RequestParam Integer categoryId, Model model,
+			@RequestParam (value = "pageNumber", required = false) Integer pageNumber,
+			@RequestParam (value = "pageSize", required = false) Integer pageSize) {
+		if (pageNumber == null) {
+			pageNumber = 1;
+		}
+		if (pageSize == null) {
+			pageSize = 10;
+		}
+		List<Subject> subjects = 
+				searchService.getSubjectsByCategoryIdWithLimit(categoryId, pageNumber, pageSize);
+		Category category = categoryService.getCategoryById(categoryId);
+		Long count = subjectService.getSubjectsByCategoryCount(category.getName());
+		Long numberOfPages =  count / pageSize + 1;
+		model.addAttribute("numberOfPages", numberOfPages);
 		model.addAttribute("subjList", subjects);
+		model.addAttribute("pageSize", pageSize);
+		model.addAttribute("pageNumber", pageNumber);
+		model.addAttribute("categoryId", categoryId);
 		return "category";
 	}
 
