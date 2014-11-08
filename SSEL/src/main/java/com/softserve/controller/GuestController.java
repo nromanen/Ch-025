@@ -124,7 +124,7 @@ public class GuestController {
 				.getCourseScheduleresBySubjectId(subject.getId());
 		User user = (User) httpSession.getAttribute("user");
 		if (user != null) {
-			StudentGroup row = studCabService.getStudentGroupByUserAndGroupId(user.getId(), 
+			StudentGroup row = studentGroupService.getStudentGroupByUserAndGroupId(user.getId(), 
 					groupService.getGroupByScheduler(schedulers.get(0).getId()).getGroupId());
 			boolean isSubscribe = row == null;
 			model.addAttribute("isSubscribe", isSubscribe);
@@ -149,7 +149,7 @@ public class GuestController {
 				cSchedulerService.getCourseScheduleresBySubjectId(subject.getId());
 		User user = (User) httpSession.getAttribute("user");
 		if (user != null) {
-			StudentGroup row = studCabService.getStudentGroupByUserAndGroupId(user.getId(), 
+			StudentGroup row = studentGroupService.getStudentGroupByUserAndGroupId(user.getId(), 
 					groupService.getGroupByScheduler(schedulers.get(0).getId()).getGroupId());
 			boolean isSubscribe = row == null;
 			model.addAttribute("isSubscribe", isSubscribe);

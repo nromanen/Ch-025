@@ -9,9 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.dao.CourseSchedulerDao;
-import com.softserve.dao.StudentGroupDao;
 import com.softserve.entity.CourseScheduler;
-import com.softserve.entity.StudentGroup;
 import com.softserve.service.StudentCabinetSevice;
 
 @Service
@@ -19,24 +17,21 @@ public class StudentCabinetServiceImp implements StudentCabinetSevice{
 	private List<CourseScheduler> subscribedCourses;
 	@Autowired
 	private CourseSchedulerDao courseSchedulerDao;
-	@Autowired
-	private StudentGroupDao studentGroupDao;
 	/**
 	 * Constructor by default
 	 */
-	public StudentCabinetServiceImp() {
-
+	public StudentCabinetServiceImp(CourseSchedulerDao instance) {
+		courseSchedulerDao = instance;
 	}
 	
 	@Transactional
 	@Override
-	public void initSubscribedList(int user_id) {
-		subscribedCourses = courseSchedulerDao.getSubscribedCoursesByUserId(user_id);		
+	public void initSubscribedList(int userId) {
+		subscribedCourses = courseSchedulerDao.getSubscribedCoursesByUserId(userId);		
 	}
 
 	@Override
-	public List<CourseScheduler> getFutureCourses() {
-		Date currentDate = new Date();
+	public List<CourseScheduler> getFutureCourses(Date currentDate) {
 		ArrayList<CourseScheduler> cs = new ArrayList<>();
 		for (CourseScheduler item : subscribedCourses) {
 			if (currentDate.before(item.getStart())) { //check if current date less than course start time
@@ -47,12 +42,10 @@ public class StudentCabinetServiceImp implements StudentCabinetSevice{
 	}
 
 	@Override
-	public List<CourseScheduler> getActiveCourses() {
-		Date currentDate = new Date();
+	public List<CourseScheduler> getActiveCourses(Date currentDate) {
 		ArrayList<CourseScheduler> cs = new ArrayList<>();
 		for (CourseScheduler item : subscribedCourses) {
-			if ((currentDate.after(item.getStart()) || currentDate.equals(item.getStart()))
-					&& currentDate.before(item.getEnd())) { //check if course is started
+			if (currentDate.after(item.getStart()) && currentDate.before(item.getEnd())) { //check if course is started
 				cs.add(item);
 			}
 		}
@@ -60,8 +53,7 @@ public class StudentCabinetServiceImp implements StudentCabinetSevice{
 	}
 
 	@Override
-	public List<CourseScheduler> getFinishedCourses() {
-		Date currentDate = new Date();
+	public List<CourseScheduler> getFinishedCourses(Date currentDate) {
 		ArrayList<CourseScheduler> cs = new ArrayList<>();
 		for (CourseScheduler item : subscribedCourses) {
 			if (currentDate.after(item.getEnd())) { //check if course is finished
@@ -70,12 +62,9 @@ public class StudentCabinetServiceImp implements StudentCabinetSevice{
 		}
 		return cs;
 	}
-
-	@Transactional
-	@Override
-	public StudentGroup getStudentGroupByUserAndGroupId(int userId,
-			int groupId) {
-		return studentGroupDao.getStudentGroupByGroupAndUser(groupId, userId);
-	}
 	
+	@Override
+	public List<CourseScheduler> getSubscribedCourseList() {
+		return subscribedCourses;
+	}
 }
