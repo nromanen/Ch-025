@@ -51,6 +51,36 @@
 				<i class="fa fa-caret-down"></i>
 			</a>
 			<ul class="dropdown-menu dropdown-user">
+				<c:if test="${sessionScope.user.role.role eq 'TEACHER'}">
+					<li>
+						<a href="<c:url value="/teacher" />" >
+							<i class="fa fa-user fa-fw"></i>
+							<spring:message code="label.teacher_cabinet"/> 
+						</a>
+					</li>
+					<li class="divider"></li>
+					<li>
+						<a href="<c:url value="/logout" />" >
+							<i class="fa fa-sign-out fa-fw"></i>
+							<spring:message code="label.logout"/> 
+						</a>
+					</li>
+				</c:if>
+				<c:if test="${sessionScope.user.role.role eq 'STUDENT'}">
+					<li>
+						<a href="<c:url value="/student?table=active" />" > 
+							<i class="fa fa-user fa-fw"></i> 
+							<spring:message code="label.student_cabinet"/>
+						</a>
+					</li>
+					<li class="divider"></li>
+					<li>
+						<a href="<c:url value="/logout" />">
+							<i class="fa fa-sign-out fa-fw"></i>
+							<spring:message code="label.logout"/> 
+						</a>
+					</li>
+				</c:if>
 				<c:if test="${sessionScope.user.role.role ne 'TEACHER'
 					 && sessionScope.user.role.role ne 'STUDENT' && sessionScope.user.role.role ne 'ADMIN'}">
 					<li>

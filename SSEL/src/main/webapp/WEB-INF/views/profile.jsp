@@ -99,7 +99,7 @@
 		                        		</label>
 		                        	</div>
 		                        </div>	             
->		                    </div>
+		                    </div>
 							<div class="form-group">
 		                   		<label class="col-md-3 control-label">
 		                        	<spring:message code="label.expired_date" />:
