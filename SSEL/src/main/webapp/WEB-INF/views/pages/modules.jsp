@@ -14,6 +14,7 @@
 			<div class="col-lg-8">
 				<h1>${subject.name}</h1>
 			</div>
+					
 			<div class="col-lg-2">
 				<div id="morris-donut-rating"
                             		style="width: 100; height: 100; position: float"></div>
@@ -31,30 +32,29 @@
                 </div>
 				        
 			</div>
-		
-		</div>
-		 <div class="row">
+			<div class="col-lg-12">
 			<form method="GET" action="subscribe">
 					<button value="${subject.id}" name="subjectId"
 							class="btn btn-warning" style="width: 200px; margin-top: 8px;">Unsubscribe
 							from course</button>
 					<input type="hidden" name="op" value="false">
 			</form>
+			<form action="ratings" method="GET">
+					<button  type="submit" class="btn btn-success" ><spring:message code="label.course_statistic" /></button>
+					<input type="hidden" name="courseId" value="${courseId}" />
+			</form>
 		</div>
-			<!--  <form method="GET" action="courseInformation">
-				<button value="${subject.id}" name="subjectId" class="btn btn-info"
-					style="width: 200px; margin-top: 8px;">Details</button>
-		</form>-->
+
+		</div>
 				        <!-- /.panel-body -->
    		<input type="hidden" id="rating" value="${rating}" />
 		<input type="hidden" id="progress" value="${progress}" />
      
 		
 		<div class = "row">
+			<div class="col-lg-12">
 			<h2><spring:message code="label.course_material"></spring:message></h2>
-			<h5>
-				<a href="ratings?courseId=${courseId}" ><spring:message code="label.course_statistic" /></a>
-			</h5>
+			</div>
 		</div>
 		<!-- .panel-heading -->
 		<div class="panel-body">

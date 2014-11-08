@@ -6,18 +6,24 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.softserve.dao.StudyDocumentDao;
 import com.softserve.entity.Block;
 import com.softserve.entity.CourseScheduler;
 import com.softserve.entity.Group;
 import com.softserve.entity.Rating;
 import com.softserve.entity.StudentGroup;
+import com.softserve.entity.StudyDocument;
 import com.softserve.entity.Subject;
 import com.softserve.entity.Topic;
 import com.softserve.entity.User;
@@ -32,8 +38,17 @@ import com.softserve.service.SubjectService;
 import com.softserve.service.TopicService;
 import com.softserve.service.UserService;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+/**
+ * Handle student requests
+ * @author Анатолій
+ *
+ */
 @Controller
 public class StudentCabinetController {
+	private static final Logger log = LoggerFactory.getLogger(StudentCabinetController.class);
 	@Autowired
 	private StudentCabinetSevice studentCabinetService;
 	@Autowired
@@ -54,6 +69,10 @@ public class StudentCabinetController {
 	private BlockService blockService;
 	@Autowired
 	private MailService mailService;
+	@Autowired
+	private StudyDocumentDao studyDocumentDao;
+	@Autowired 
+	private MessageSource messageSource; 
 	/**
 	 * Handle subscribe requests
 	 * @param subjectId subject id to subscribe/unsubscribe
@@ -90,27 +109,36 @@ public class StudentCabinetController {
 		if (table == null || table.equals("future")) { //build data model for future courses
 			scheduler = studentCabinetService.getFutureCourses();
 			model.addAttribute("courses",scheduler);
-			model.addAttribute("title", "Future courses");
+			String title = messageSource.getMessage("label.future_courses", new Object[]{},
+								LocaleContextHolder.getLocale());
+			model.addAttribute("title", title);
+			model.addAttribute("table", "future");
+			return "student";
 		} else if (table.equals("active")) { //build data model for active courses
 			scheduler = studentCabinetService.getActiveCourses(); 
-			ratings = new ArrayList<>();
-			progreses = new ArrayList<>();
-			for (CourseScheduler item: scheduler) {
-				int groupId = groupService.getGroupByScheduler(item.getId()).getGroupId();
-				ratings.add(ratingService.getAverageRatingByUserAndGroup(userId, groupId));
-				progreses.add(ratingService.getProgressByGroupAndUser(groupId, userId));
-			}
-			model.addAttribute("title", "Active courses");
-			model.addAttribute("courses",scheduler);
-			model.addAttribute("ratings", ratings);
-			model.addAttribute("progreses", progreses);
+			String title = messageSource.getMessage("label.active_courses", new Object[]{},
+					LocaleContextHolder.getLocale());
+			model.addAttribute("title", title);
+			model.addAttribute("table", "active");
 			
 		} else { //build data model for finished courses
 			scheduler = studentCabinetService.getFinishedCourses();
-			model.addAttribute("courses", scheduler);
-			model.addAttribute("title", "Finished courses");
+			String title = messageSource.getMessage("label.finished_courses", new Object[]{},
+					LocaleContextHolder.getLocale());
+			model.addAttribute("title", title);
+			model.addAttribute("table", "finished");
 		}
-			model.addAttribute("table", (table == null) ? "future" : table);
+		ratings = new ArrayList<>();
+		progreses = new ArrayList<>();
+		for (CourseScheduler item: scheduler) {
+			int groupId = groupService.getGroupByScheduler(item.getId()).getGroupId();
+			ratings.add(ratingService.getAverageRatingByUserAndGroup(userId, groupId));
+			progreses.add(ratingService.getProgressByGroupAndUser(groupId, userId));
+		}	
+		
+		model.addAttribute("courses",scheduler);
+		model.addAttribute("ratings", ratings);
+		model.addAttribute("progreses", progreses);
 		return "student";
 	}
 	/**
@@ -148,11 +176,39 @@ public class StudentCabinetController {
 	 * @return view URL
 	 */
 	@RequestMapping(value="/topicView", method = RequestMethod.GET)
-	public String printTopic(@RequestParam (value = "topicId", required = true) Integer topicId, Model model) {
+	public String printTopic(@RequestParam (value = "topicId", required = true) Integer topicId, Model model,
+			HttpSession sess) {
 		Topic topic = topicService.getTopicById(topicId);
+		String dirname = sess.getServletContext().getRealPath("resources");
+		dirname += "\\tmp\\";
+		File tmpDir = new File(dirname);
+		if (!tmpDir.exists()) {
+			tmpDir.mkdir();
+		}
+		List<StudyDocument> documents = studyDocumentDao.listByTopicId(topic.getId());
+		for (StudyDocument doc : documents) {
+			File file = new File(dirname+doc.getName());
+			if(!file.exists()) {
+				try(FileOutputStream fout = new FileOutputStream(dirname+doc.getName());){
+					fout.write(doc.getData());
+				} catch (IOException e) {
+					log.error("Cannot write topic temp files");
+				}
+			}
+		}
+		model.addAttribute("block_name", topic.getBlock().getName());
+		model.addAttribute("topic order", topic.getOrder());
 		model.addAttribute("name", topic.getName());
+		model.addAttribute("docs", documents);
 		model.addAttribute("content", topic.getContent());
+		model.addAttribute("path", dirname);
 		return "topicView";
+	}
+	
+	@RequestMapping (value = "/deleteTempFile", method = RequestMethod.POST)
+	public String deleteTempFile(@RequestParam (value = "documentName", required = true) String documentName,
+									HttpSession session) {
+		return "redirect:topicView?topicId=";
 	}
 	/**
 	 * Handle ratings request and prepare it
@@ -183,6 +239,7 @@ public class StudentCabinetController {
 		return "ratings";
 	}
 	
+	
 	/**
 	 * Perform subscribing student on course
 	 * @param subjectId subject identifier to subscribe
@@ -203,7 +260,7 @@ public class StudentCabinetController {
 						".Course started: "+cs.getStart()+"Good luck");
 			} 
 		}
-		return "redirect:course?subjectId="+subjectId;
+		return "redirect:course?subjectId="+subjectId+"&isSubscribed=true";
 	}
 	/**
 	 * Perform unsubscribing student from course
@@ -219,7 +276,7 @@ public class StudentCabinetController {
 			mailService.sendMail(email, "ssel unsubscribe", "You've unsubscribed from course "+cs.getSubject().getName()+
 					".You cannot subscribe on this course till it finished and start again."+"Good luck");
 		} 
-		return "redirect:course?subjectId="+subjectId;
+		return "redirect:course?subjectId="+subjectId+"&isSubscribed=false";
 	}
 	
 	

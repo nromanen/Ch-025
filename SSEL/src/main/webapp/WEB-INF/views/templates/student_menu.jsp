@@ -49,10 +49,12 @@
 		<div class="sidebar-nav navbar-collapse">
 			<ul class="nav" id="side-menu">
 				<li><a href="<c:url value="/" />" ><spring:message code="label.all_cources" /></a></li>
-						<li class="nav nav-first-level">
-						<a href="#"><spring:message code="label.subscribed_courses" /></a></li>
+						<li class="nav nav-first-level"></li>
+						<li><a href="#"><i class="fa fa-sitemap fa-fw"></i>
+							<spring:message code="label.subscribed_courses" /></a>
+						</li>
 					<ul class="nav nav-second-level">
-						<li ><a href="student?table=future">
+						<li><a href="student?table=future">
 								<spring:message code="label.future_courses" />
 							</a></li>
 						<li class="active" ><a href="student?table=active">
@@ -62,7 +64,6 @@
 								<spring:message code="label.finished_courses" />
 							</a></li>
 					</ul> <!-- /.nav-second-level -->
-
 			</ul>
 		</div>
 		<!-- /.sidebar-collapse -->

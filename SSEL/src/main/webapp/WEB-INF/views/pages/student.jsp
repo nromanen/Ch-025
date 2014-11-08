@@ -34,6 +34,9 @@
 										<c:when test="${table eq 'active'}">
 											<a href="modules?courseId=${course.subject.id}">${course.subject.name}</a>
 										</c:when>
+										<c:when test="${table eq 'finished'}">
+											<a href="ratings?courseId=${course.subject.id}">${course.subject.name}</a>
+										</c:when>
 										<c:otherwise>
 											<a href="courseInformation?subjectId=${course.subject.id}">${course.subject.name}
 											</a>

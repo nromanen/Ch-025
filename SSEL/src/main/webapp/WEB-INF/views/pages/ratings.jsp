@@ -119,12 +119,12 @@ var progress = document.getElementById("progress").value;
 		});
 			
 </script>
-<c:if test="${showType eq 'graph'}">
 <script>
 var table = document.getElementById("data");
 var l = [];
-for (var i = 0, cell; cell = table.cells[i]; i += 3) {
-	l.push({y: table.cells[i], a:table.cells[i+1].textContent});
+for (var i = 0, row; row = table.rows[i]; i ++) {
+	
+	l.push({y: row.cells[0].textContent, a: row.cells[1].textContent});
 }
 Morris.Bar({
 	  element: 'bar-example',
@@ -134,4 +134,3 @@ Morris.Bar({
 	  labels: ['Series A']
 	});
 </script>
-</c:if>
