@@ -6,16 +6,16 @@
 
 <div class="row">
 	<div class="col-lg-12">
-		<h1 align="center">Log details </h1>
+		<h1 align="center"><spring:message code="label.log_details" /></h1>
 	</div>
 	<font size="+1">
-	<b>Log's date:</b> ${log.eventDate}<br/><br/>
-	<b>Log's level: </b>${log.level}<br/><br/>
-	<b>Log's logger: </b>${log.logger} <br/><br/>
-	<b>Log's message:</b><br/>
+	<b><spring:message code="label.log_date" /></b> ${log.eventDate}<br/><br/>
+	<b><spring:message code="label.log_level" /></b> ${log.level}<br/><br/>
+	<b><spring:message code="label.log_logger" /></b> ${log.logger} <br/><br/>
+	<b><spring:message code="label.log_message" /></b> <br/>
 	${log.message}<br/><br/>
-	<b>Log's exception: </b><br/>
+	<b><spring:message code="label.log_exception" /> </b><br/>
 	${log.exception}<br/><br/>
-	<a href="javascript: history.go(-1)">Go back</a>
+	<a href="javascript: history.go(-1)"><spring:message code="label.log_goBack" /></a>
 	</font>
 </div>
