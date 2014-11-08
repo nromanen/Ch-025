@@ -78,7 +78,7 @@ public class SubjectDaoImpl implements SubjectDao {
 		query.setParameter("id", id);
 		return query.getResultList();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Subject> getSubjectsByUserId(int id) {
@@ -99,6 +99,118 @@ public class SubjectDaoImpl implements SubjectDao {
 				criteriaBuilder.like(criteriaBuilder.upper(root.<String>get("name")), "%" + namePart.toUpperCase() + "%");
 		criteriaQuery.where(predicate);
 		return entityManager.createQuery(criteriaQuery).getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Subject> getSubjectsByNameVsLimit(String searchText,
+			int startPosition, int limitLength, String sortBy, String sortMethod) {
+		LOG.debug("Get all subjects vs limit searchText = {}", searchText);
+		String textQuery = "FROM Subject s WHERE s.name = '" + searchText + "'";
+		Query query = setQueryParameters(textQuery, startPosition, limitLength, sortBy,
+				sortMethod);
+		return query.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Subject> getSubjectsByCategoryVsLimit(String searchText,
+			int startPosition, int limitLength, String sortBy, String sortMethod) {
+		LOG.debug("Get all subjects vs limit searchText = {}", searchText);
+
+		String textQuery = "FROM Subject s WHERE s.category.name = '" + searchText + "'";
+		Query query = setQueryParameters(textQuery, startPosition, limitLength, sortBy,
+				sortMethod);
+		return query.getResultList();
+	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Subject> getSubjectsVsLimit(int startPosition, int limitLength,
+			String sortBy, String sortMethod) {
+		LOG.debug("Get subjects from - to = {} {}", startPosition, limitLength);
+		String textQuery = "FROM Subject s";
+		Query query = setQueryParameters(textQuery, startPosition, limitLength, sortBy,
+				sortMethod);
+		return query.getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Subject> getSubjectsByTextVsLimit(String searchText,
+			int startPosition, int limitLength, String sortBy, String sortMethod) {
+		LOG.debug("Get all subjects by searchText = {}", searchText);
+		String textQuery = "FROM Subject s WHERE s.name = '" + searchText
+				+ "' or s.category.name = '" + searchText + "'";
+		Query query = setQueryParameters(textQuery, startPosition, limitLength, sortBy,
+				sortMethod);
+		return query.getResultList();
+	}
+
+	private Query setQueryParameters(String textQuery, int startPosition,
+			int limitLength, String sortBy, String sortMethod) {
+		Query query;
+		if (sortBy != null && sortMethod != null) {
+			if (sortBy.equals("subject")) {
+				sortBy = "ORDER BY s.name";
+			} else {
+				sortBy = "ORDER BY s.category.name";
+			}
+
+			if (sortMethod.equals("asc")) {
+				sortMethod = "ASC";
+			} else {
+				sortMethod = "DESC";
+			}
+			sortBy += " " + sortMethod;
+			query = entityManager.createQuery(textQuery + " " + sortBy);
+		} else {
+			query = entityManager.createQuery(textQuery);
+		}
+
+		query.setFirstResult(startPosition);
+		query.setMaxResults(limitLength);
+
+		return query;
+	}
+
+	@Override
+	public long getSubjectsCount() {
+		LOG.debug("Get all subjects count");
+		Query query = entityManager
+				.createQuery("SELECT COUNT (*) FROM Subject s ");
+		return (Long) query.getSingleResult();
+	}
+
+	@Override
+	public long getSubjectsByNameCount(String searchName) {
+		LOG.debug("Get subjects by name count");
+		Query query = entityManager
+				.createQuery("SELECT COUNT (*) FROM Subject s "
+						+ "WHERE s.name = :name");
+		query.setParameter("name", searchName);
+		return (Long) query.getSingleResult();
+	}
+
+	@Override
+	public long getSubjectsByCategoryCount(String searchCategory) {
+		LOG.debug("Get subjects by category count");
+		Query query = entityManager
+				.createQuery("SELECT COUNT (*) FROM Subject s "
+						+ "WHERE s.category.name = :name");
+		query.setParameter("name", searchCategory);
+		return (Long) query.getSingleResult();
+	}
+
+	@Override
+	public long getSubjectsByTextCount(String searchText) {
+		LOG.debug("Get subjects count");
+		Query query = entityManager
+				.createQuery("SELECT COUNT (*) FROM Subject s "
+						+ "WHERE s.name = :searchText or s.category.name = :searchText");
+		query.setParameter("searchText", searchText);
+		return (Long) query.getSingleResult();
 	}
 
 }

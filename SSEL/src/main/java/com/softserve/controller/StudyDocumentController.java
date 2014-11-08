@@ -14,20 +14,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-
-
 //import javax.sfileio.SFileIO;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
 
-
-
 //import org.davidmendoza.fileUpload.config.PropertyPlaceholderConfig;
 import com.softserve.dao.StudyDocumentDao;
 import com.softserve.entity.StudyDocument;
 import com.softserve.entity.Topic;
-
 
 import com.softserve.service.TopicService;
 
@@ -61,27 +56,18 @@ public class StudyDocumentController {
 	private TopicService topicService;
 	@Autowired
 	private StudyDocumentDao studyDocumentDao;
-	@Value("tmp")
-	private String fileUploadDirectory;
-
-	@RequestMapping(value = "/fu", method = RequestMethod.GET)
-	public String index() {
-		log.debug("StudyDocumentController home");
-		System.out.println("uhome");
-		return "fu";
-	}
 
 	@RequestMapping(value = "upload", method = RequestMethod.GET)
 	public @ResponseBody Map list(@RequestParam(value = "topicId", required = false) Integer topicId) {
 		log.debug("uploadGet called");
 		System.out.println("uploadGet called " + topicId);
 
-		List<StudyDocument> list = topicId != null ? studyDocumentDao.listByTopicId(topicId) : new ArrayList<StudyDocument>();
+		List<StudyDocument> list = topicId != null ? studyDocumentDao.listByTopicId(topicId)
+				: new ArrayList<StudyDocument>();
 
 		for (StudyDocument studyDocument : list) {
 			studyDocument.setUrl("file/" + studyDocument.getId());
 			studyDocument.setDeleteUrl("delete/" + studyDocument.getId());
-			// studyDocument.setDeleteType("DELETE");
 		}
 		Map<String, Object> files = new HashMap<>();
 		files.put("files", list);
@@ -92,59 +78,30 @@ public class StudyDocumentController {
 	@RequestMapping(value = "upload", method = RequestMethod.POST)
 	public @ResponseBody Map upload(MultipartHttpServletRequest request, HttpServletResponse response) {
 		log.debug("uploadPost called");
-		System.out.println("uploadPost called");
-		new File("tmp").mkdir();
 		Iterator<String> itr = request.getFileNames();
-		
-		MultipartFile mpf;
+
+		MultipartFile multipartFile;
 		List<StudyDocument> list = new LinkedList<>();
 
 		while (itr.hasNext()) {
-			mpf = request.getFile(itr.next());
-			log.debug("Uploading {}", mpf.getOriginalFilename());
+			multipartFile = request.getFile(itr.next());
+			log.debug("Uploading {}", multipartFile.getOriginalFilename());
 
-			String newFilenameBase = UUID.randomUUID().toString();
-			String originalFileExtension = mpf.getOriginalFilename().substring(
-					mpf.getOriginalFilename().lastIndexOf("."));
-			String newFilename = newFilenameBase + originalFileExtension;
-			String storageDirectory = fileUploadDirectory;
-			String contentType = mpf.getContentType();
-
-			File newFile = new File(storageDirectory + "/" + newFilename);
+			StudyDocument studyDocument = new StudyDocument();
+			studyDocument.setName(multipartFile.getOriginalFilename());
+			studyDocument.setNewFilename(UUID.randomUUID().toString());
+			studyDocument.setContentType(multipartFile.getContentType());
+			studyDocument.setSize(multipartFile.getSize());
+			studyDocument.setTopic(topicService.getTopicById(Integer.parseInt(request.getParameter("topicId"))));
 			try {
-				mpf.transferTo(newFile);
-
-				StudyDocument studyDocument = new StudyDocument();
-				studyDocument.setName(mpf.getOriginalFilename());
-
-				studyDocument.setNewFilename(newFilename);
-				studyDocument.setContentType(contentType);
-				studyDocument.setSize(mpf.getSize());
-				studyDocument.setTopic(topicService.getTopicById(Integer.parseInt(request.getParameter("topicId"))));
-
-				byte[] fileData = new byte[(int) newFile.length()];
-
-				try {
-					FileInputStream fileInputStream = new FileInputStream(newFile);
-					fileInputStream.read(fileData);
-					fileInputStream.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-				studyDocument.setData(fileData);
-
+				studyDocument.setData(multipartFile.getBytes());
 				studyDocument = studyDocumentDao.create(studyDocument);
-
 				studyDocument.setUrl("file/" + studyDocument.getId());
-
 				studyDocument.setDeleteUrl("delete/" + studyDocument.getId());
-				// studyDocument.setDeleteType("DELETE");
-
 				list.add(studyDocument);
-
 			} catch (IOException e) {
-				log.error("Could not upload file " + mpf.getOriginalFilename(), e);
+				log.error("Could not upload file " + multipartFile.getOriginalFilename(), e);
+				e.printStackTrace();
 			}
 
 		}
@@ -157,7 +114,8 @@ public class StudyDocumentController {
 	@RequestMapping(value = "file/{id}", method = RequestMethod.GET)
 	public void file(HttpServletResponse response, @PathVariable Long id) {
 		StudyDocument sfile = studyDocumentDao.get(id);
-		//File sfileFile = new File(fileUploadDirectory + "/" + sfile.getNewFilename());
+		// File sfileFile = new File(fileUploadDirectory + "/" +
+		// sfile.getNewFilename());
 		response.setContentType(sfile.getContentType());
 		response.setContentLength(sfile.getSize().intValue());
 		try {
