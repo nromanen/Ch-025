@@ -163,6 +163,7 @@ public class StudentCabinetController {
 		model.addAttribute("progress", ratingService.getProgressByGroupAndUser(groupId, userId));
 		model.addAttribute("blockList", blocks);
 		model.addAttribute("subject", subject);
+		model.addAttribute("table", "active");
 		model.addAttribute("courseId", courseId);
 		} catch(NullPointerException e) {
 			return "redirect:student?table=active";
@@ -201,15 +202,11 @@ public class StudentCabinetController {
 		model.addAttribute("name", topic.getName());
 		model.addAttribute("docs", documents);
 		model.addAttribute("content", topic.getContent());
+		model.addAttribute("table", "active");
 		model.addAttribute("path", dirname);
 		return "topicView";
 	}
 	
-	@RequestMapping (value = "/deleteTempFile", method = RequestMethod.POST)
-	public String deleteTempFile(@RequestParam (value = "documentName", required = true) String documentName,
-									HttpSession session) {
-		return "redirect:topicView?topicId=";
-	}
 	/**
 	 * Handle ratings request and prepare it
 	 * @param model data model for view
@@ -235,6 +232,7 @@ public class StudentCabinetController {
 		model.addAttribute("name", cs.getSubject().getName());
 		model.addAttribute("startEnd", "(" + cs.getStart()+"-"+cs.getEnd()+ ")");
 		model.addAttribute("showType", "table");
+		model.addAttribute("table", "active");
 		model.addAttribute("courseId", courseId);
 		return "ratings";
 	}
@@ -245,7 +243,7 @@ public class StudentCabinetController {
 	 * @param subjectId subject identifier to subscribe
 	 * @return URL page
 	 */
-	private synchronized String subscribe(int subjectId, int userId, String email) {
+	private String subscribe(int subjectId, int userId, String email) {
 		CourseScheduler cs = courseService.getCourseScheduleresBySubjectId(subjectId).get(0); //get subject course scheduler
 		Group subscribedGroup = groupService.getGroupByScheduler(cs.getId());
 		int groupId = subscribedGroup.getGroupId();

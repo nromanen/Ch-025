@@ -17,20 +17,20 @@
         }
 </script>
 <div align="center">
-<h1>${block_name}.Lection . ${name}</h1>
+<h1>${block_name}. ${name}</h1>
 <h2>${content}</h2>
 <c:if test="${docs.size() ne 0}">
 	<table class="table">
 	<thead>
 		<tr>
 			<td>
-				File name
+				<spring:message code="label.student.file_name" />
 			</td>
 			<td>
-				View
+				<spring:message code="label.student.view_in" />
 			</td>
 			<td>
-				Download
+				<spring:message code="label.student.download_file" />
 			</td>
 		</tr>
 	</thead>
@@ -43,13 +43,14 @@
 			<td>
 			<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal"
 			onClick="prepereModal('<c:url value="/" />resources/tmp/${doc.name}','${doc.name}')">
-  				View in browser
+  				<spring:message code="label.student.view_in" />
 			</button>
 							
 			</td>
 			<td>
 			<form action="<c:url value="/file/${doc.id}" />" >
-				<button type="submit" class="btn btn-primary btn-lg"> Download file </button>
+				<button type="submit" class="btn btn-primary btn-lg"> <spring:message code="label.student.download_file" />
+				 </button>
 			</form>
 			</td>
 		</tr>
@@ -72,7 +73,9 @@
         <a id="dok" class="media"  href="" ></a> 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal")">Close</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal")">
+			<spring:message code="label.student.close_modal" />
+		</button>
       </div>
     </div>
   </div>

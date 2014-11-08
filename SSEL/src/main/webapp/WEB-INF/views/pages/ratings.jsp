@@ -21,7 +21,7 @@
 				<div id="morris-donut-rating"
                             		style="width: 100; height: 100; position: float"></div>
                 <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i> Rating
+                            <i class="fa fa-bar-chart-o fa-fw"></i> <spring:message code="label.student.current_rating" />
                 </div>
 				  
 					
@@ -30,13 +30,15 @@
 				<div id="morris-donut-progress"
                             		style="width: 100; height: 100; position: float"></div>
                 <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i> Progress
+                            <i class="fa fa-bar-chart-o fa-fw"></i> <spring:message code="label.student.current_progress" />
                 </div>
 				        
 			</div>
 		
 		</div>
 		<input type="hidden" value="${avgRating}" id="rating" />
+		<input type="hidden" id="success" value="<spring:message code="label.student.success" />" />
+   		<input type="hidden" id="failed" value="<spring:message code="label.student.failed" />" />
 		<input type="hidden" value="${progress}" id="progress" />
 		<div class="panel-body">
             <div class="col-lg-8">
@@ -94,11 +96,13 @@
 <script>
 var rating = document.getElementById("rating").value;
 var progress = document.getElementById("progress").value;
+var success = document.getElementById("success").value;
+var failed = document.getElementById("failed").value;
 	Morris.Donut({
 	  element: 'morris-donut-rating',
 	  data: [
-	    {label: "Success", value: rating},
-	    {label: "Failed", value: 100-rating}
+	    {label: success, value: rating},
+	    {label: failed, value: 100-rating}
 	  ],
 	colors: [
 		'#33CC33',
@@ -109,8 +113,8 @@ var progress = document.getElementById("progress").value;
 	Morris.Donut({
 		  element: 'morris-donut-progress',
 		  data: [
-		    {label: "Success", value: progress},
-		    {label: "Failed", value: 100-progress}
+		    {label: success, value: progress},
+		    {label: failed, value: 100-progress}
 		  ],
 		colors: [
 			'#33CC33',
@@ -118,19 +122,4 @@ var progress = document.getElementById("progress").value;
 		]
 		});
 			
-</script>
-<script>
-var table = document.getElementById("data");
-var l = [];
-for (var i = 0, row; row = table.rows[i]; i ++) {
-	
-	l.push({y: row.cells[0].textContent, a: row.cells[1].textContent});
-}
-Morris.Bar({
-	  element: 'bar-example',
-	  data: l,
-	  xkey: 'y',
-	  ykeys: ['a'],
-	  labels: ['Series A']
-	});
 </script>
