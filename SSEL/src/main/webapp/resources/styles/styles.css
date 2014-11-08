@@ -81,10 +81,26 @@ body {
 	margin-top: 8px;
 } 
 
+.red {
+	color: red;
+}
+
+.green {
+	color: green;
+}
+
 .flag_icon {
     
 }
 
 .language_toggle {
     cursor: pointer;
+}
+
+.clear {
+	clear:both;
+}
+
+.fix-height {
+	height: 34px;
 }

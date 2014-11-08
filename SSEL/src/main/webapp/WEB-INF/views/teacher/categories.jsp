@@ -6,18 +6,18 @@
 
 <div class="row">
 	<div class="col-lg-12">
-		<h1 class="page-header">Categories</h1>
+		<h1 class="page-header"><spring:message code="label.teacher.categories"/></h1>
 	</div>
-	<!-- /.col-lg-12 -->
 </div>
+
 <div class="panel panel-default">
 	<div class="panel-body">
-		<form action="saveCategory">
+		<form action="saveCategory" name="editCategoryForm" id="editCategoryForm">
 			<input type="hidden" name="categoryId" value="${category.id}">
 			<div class="form-group">
-				<label>Category name</label> <input class="form-control"
-					name="categoryName" style="width: 40%" value="${category.name}">
-				<p class="help-block">Input name for new category</p>
+				<label><spring:message code="label.teacher.name"/></label> <input class="form-control"
+					name="categoryName" id="categoryName" style="width: 40%" value="${category.name}">
+				<p class="help-block"><spring:message code="label.teacher.inputNameOfNewCategory"/></p>
 				<input type="submit" class="btn btn-primary btn-lg" value="Add">
 			</div>
 		</form>
@@ -31,7 +31,7 @@
 			<thead>
 				<tr>
 					<th><input type="checkbox" id="selectall" /></th>
-					<th>Category name</th>
+					<th><spring:message code="label.teacher.name"/></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -49,7 +49,7 @@
 		</table>
 	</div>
 	<button type="button" id="delButton"
-		class="btn btn-primary btn-lg">Delete</button>
+		class="btn btn-primary btn-lg"><spring:message code="label.teacher.delete"/></button>
 		<br>
 		<br>
 
@@ -92,3 +92,38 @@
 	});
 </script>
 
+<script type="text/javascript">
+$(document).ready(function(){
+	
+	$.validator.addMethod(
+			'regexp',
+			function(value, element, regexp) {
+				var re = new RegExp(regexp);
+			    return this.optional(element) || re.test(value);
+			},
+			"Please check your input."
+		);
+
+    $("#editCategoryForm").validate({
+
+       rules:{
+
+            categoryName:{
+                required: true,
+                minlength: 4,
+                maxlength: 30,
+                regexp: "^[A-ZА-ЯІЇЄa-zа-яіїє0-9.,:_ ]{4,30}$"
+            },
+       }
+
+    });
+
+});
+</script>
+<style>
+  
+ .error {
+  color:red;
+ }
+  
+</style> 

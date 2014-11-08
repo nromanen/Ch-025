@@ -1,5 +1,8 @@
 package com.softserve.entity;
 
+import java.util.Set;
+import java.util.TreeSet;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -27,14 +31,18 @@ public class Topic {
 	private String content;
 
 	@Column(name = "topic_order")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int order;
 
 	@Column(name = "alive")
 	private boolean alive;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinColumn(name = "id_block", nullable = false)
+	@JoinColumn(name = "id_block", nullable = true)
 	private Block block;
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "topic")
+	private Set<StudyDocument> studyDocuments = new TreeSet<>();
 
 	public int getId() {
 		return id;

@@ -56,10 +56,12 @@ public class User {
 	@Column(name = "verificationkey")
 	private String verificationKey;
 
+	@Column(name = "image", columnDefinition = "LONGBLOB")
+	private byte[] image;
+
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "role", nullable = false)
 	private Role role;
-	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="user")
 	private List<Subject> subjects = new ArrayList<>();
 
@@ -163,6 +165,14 @@ public class User {
 
 	public void setSubjects(List<Subject> subjects) {
 		this.subjects = subjects;
+	}
+
+	public byte[] getImage() {
+		return image;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
 	}
 
 	@Override

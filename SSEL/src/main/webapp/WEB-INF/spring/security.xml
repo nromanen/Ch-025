@@ -8,21 +8,29 @@
                     http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
 	<http pattern="/css/**" security="none" />
+	<http pattern="/fu/**" security="none" />
+	<http pattern="/upload/**" security="none" />
 
 	<http auto-config="true" use-expressions="true">
 		<intercept-url pattern="/registration" access="isAnonymous()" />
 		<intercept-url pattern="/login" access="isAnonymous()" />
+		<intercept-url pattern="/profile/**" access="isAuthenticated()" />
 		<intercept-url pattern="/teacher/teacher/**" access="hasRole('TEACHER')" />
 		<intercept-url pattern="/teacher/teacherCourse" access="hasRole('TEACHER')" />
 		<intercept-url pattern="/student/**" access="hasRole('STUDENT')" />
-		<intercept-url pattern="/student/**" access="hasRole('STUDENT')" />
-
+		
 		<intercept-url pattern="/teacher/editTopic/**" access="hasRole('TEACHER')" />
 		<intercept-url pattern="/teacher/editBlock/**" access="hasRole('TEACHER')" />
 		<intercept-url pattern="/teacher/editSubject/**" access="hasRole('TEACHER')" />
 		<intercept-url pattern="/teacher/editCategory/**" access="hasRole('TEACHER')" />
 		<intercept-url pattern="/teacher/categories/**" access="hasRole('TEACHER')" />
 		<intercept-url pattern="/teacher/**" access="hasRole('TEACHER')" />
+		
+		<intercept-url pattern="/administrator/**" access="hasRole('ADMIN')" />
+		<intercept-url pattern="/viewAllCategories/**" access="hasRole('ADMIN')" />
+		<intercept-url pattern="/viewLogs/**" access="hasRole('ADMIN')" />
+		<intercept-url pattern="/viewAllUsers/**" access="hasRole('ADMIN')" />
+		<intercept-url pattern="/viewAllSubjects/**" access="hasRole('ADMIN')" />
 
 
 		<form-login login-page="/login" default-target-url="/enter"

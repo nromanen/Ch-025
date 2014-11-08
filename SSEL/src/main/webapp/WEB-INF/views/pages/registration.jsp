@@ -3,7 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<script src="<c:url value="/resources/js/jquery.validate.min.js" />"></script>
+<script src="<c:url value="/resources/js/jquery.validate.min.js" />" ></script>
 <div class="container">
 	<div id="signupbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
  		<div class="panel panel-info">
@@ -24,9 +24,9 @@
 					<div class="form-group">
 						<spring:message code="dataerror.field_required" var="required"/>
 						<spring:message code="dataerror.password_pattern" var="pattern"/>
+						<spring:message code="dataerror.passwords_do_not_match" var="passwords_do_not_match" />
 						<spring:message code="dataerror.minimum_4_characters" var="minimum"/>
 						<spring:message code="dataerror.email_example" var="email_example"/>
-						<spring:message code="dataerror.passwords_do_not_match" var="passwords_do_not_match" />
 						<spring:message code="dataerror.firstname" var="error_firstname"/>
 						<spring:message code="dataerror.lastname" var="error_lastname"/>
 						<spring:message code="dataerror.email_exist" var="email_exist" />
@@ -86,6 +86,14 @@
 						</div>
 					</div>
 					<div class="form-group">
+						<label class="col-md-3 control-label" for="confirmPasswordReg">
+							Teacher
+						</label>
+						<div class="col-md-9">
+							<form:checkbox path="teacher" name="teacher"/>
+						</div>
+					</div>
+					<div class="form-group">
 						<div class="col-md-offset-3 col-md-9">
 							<button type="submit" class="btn btn-success" disabled="disabled" id="btnsumbmit">
 								<spring:message code="label.registration"/>
@@ -107,12 +115,15 @@ jQuery(document).ready(function ($) {
 		var json = {"email" : $('#inputEmailReg').val()};
 		$.ajax({
 			type: "POST",
-			url: "registration_ajax",
+			url: "email_exists",
 			contentType: "application/json",
 			data: JSON.stringify(json),
 			success : function(response) {
 				if (response == true) {
-					$('#inputEmailReg').addClass("error").after("<label id='lbl' class='error'>${email_exist}</label>");
+					$('#inputEmailReg').addClass("error");
+					if($("#lbl").length == 0) {
+						$('#inputEmailReg').after("<label id='lbl' class='error'>${email_exist}</label>");
+					}
 					$('#btnsumbmit').prop("disabled", true);
 				}
 				else { 

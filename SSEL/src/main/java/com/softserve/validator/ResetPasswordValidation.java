@@ -49,5 +49,9 @@ public class ResetPasswordValidation implements Validator {
 			errors.rejectValue("password", "dataerror.minimum_4_characters");
 		}
 	}
+	
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
 
 }

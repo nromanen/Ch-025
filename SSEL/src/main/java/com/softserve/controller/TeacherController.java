@@ -5,11 +5,13 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.softserve.entity.Block;
 import com.softserve.entity.Category;
 import com.softserve.entity.CourseScheduler;
+import com.softserve.entity.Group;
 import com.softserve.entity.StudentGroup;
 import com.softserve.entity.Subject;
 import com.softserve.entity.Topic;
@@ -29,9 +32,15 @@ import com.softserve.service.StudentGroupService;
 import com.softserve.service.SubjectService;
 import com.softserve.service.TopicService;
 import com.softserve.service.UserService;
+import com.softserve.validator.BlockValidator;
+import com.softserve.validator.CategoryValidator;
+import com.softserve.validator.StudyDocumentValidator;
+import com.softserve.validator.SubjectValidator;
+import com.softserve.validator.TopicValidator;
+import com.softserve.service.GroupService;
 
 /**
- * Handles requests for the application home page.
+ * Handles requests for the application TEACHER Cabinet.
  */
 @Controller
 @Scope("session")
@@ -60,6 +69,24 @@ public class TeacherController {
 
 	@Autowired
 	private StudentGroupService studentGroupService;
+	
+	@Autowired
+	private TopicValidator topicValidator;
+	
+	@Autowired
+	private BlockValidator moduleValidator;
+	
+	@Autowired
+	private SubjectValidator subjectValidator;
+	
+	@Autowired
+	private CategoryValidator categoryValidator;
+	
+	@Autowired
+	private StudyDocumentValidator studyDocumentValidator;
+	
+	@Autowired
+	private GroupService groupService;
 
 	@RequestMapping(value = "/categories", method = RequestMethod.GET)
 	public String categories(Model model) {
@@ -71,17 +98,19 @@ public class TeacherController {
 	@RequestMapping(value = "/teacher", method = RequestMethod.GET)
 	public String teacher(Model model, HttpSession sess) {
 		User user = (User) sess.getAttribute("user");
-		
+
 		if (user != null) {
-		//if (subjectService.getSubjectsByUserId(user.getId()) != null) {
-		//List<Subject> subjectList = subjectService.getSubjectsByUserId(user.getId());
-		//Set<Subject> subjectList = subjectService.getAllSubjects();
-		List<CourseScheduler> schedulerList = courseSchedulerService.getCourseSchedulersBySubjectUserId(user.getId());
-		List<Category> categories = categoryService.getAllCategories();
-		model.addAttribute("catList", categories);
-		//model.addAttribute("subjectList", subjectList);
-		model.addAttribute("schedulerList", schedulerList);
-		model.addAttribute("user", user);
+			// if (subjectService.getSubjectsByUserId(user.getId()) != null) {
+			// List<Subject> subjectList =
+			// subjectService.getSubjectsByUserId(user.getId());
+			// Set<Subject> subjectList = subjectService.getAllSubjects();
+			List<CourseScheduler> schedulerList = courseSchedulerService.getCourseSchedulersBySubjectUserId(user
+					.getId());
+			List<Category> categories = categoryService.getAllCategories();
+			model.addAttribute("catList", categories);
+			// model.addAttribute("subjectList", subjectList);
+			model.addAttribute("schedulerList", schedulerList);
+			model.addAttribute("user", user);
 		}
 		return "teacher";
 	}
@@ -107,20 +136,90 @@ public class TeacherController {
 		return "teacherCourse";
 	}
 
-	@RequestMapping(value = "/editTopic", method = RequestMethod.GET)
-	public String editTopic(@RequestParam(value = "topicId", required = false) Integer topicId,
+	@RequestMapping(value = "/newTopic", method = RequestMethod.GET)
+	public String newTopic(
 			@RequestParam(value = "subjectId", required = true) Integer subjectId, Model model) {
+
+
+		List<Block> blocks = blockService.getBlocksBySubjectId(subjectId);
+		List<Category> categories = categoryService.getAllCategories();
+		
+		Topic topic = new Topic();
+		topic.setAlive(true);
+		topic.setContent("");
+		topic.setName("");
+		topic.setOrder(0);
+		//topic.setId(0);
+		model.addAttribute("blockList", blocks);
+		model.addAttribute("catList", categories);
+		model.addAttribute("subjectId", subjectId);
+		model.addAttribute("topic", topic);
+		
+		return "editTopic";
+	}
+	
+	@RequestMapping(value = "/editTopic", method = RequestMethod.GET)
+	public String editTopicPost(@RequestParam(value = "topicId", required = false) Integer topicId,
+			@RequestParam(value = "subjectId", required = false) Integer subjectId, Model model) {
 		if (topicId != null) {
 			Topic topic = topicService.getTopicById(topicId);
 			model.addAttribute("topic", topic);
+			model.addAttribute("block", topic.getBlock());
 		}
 
+		model.addAttribute("subjectId", subjectId);
 		List<Block> blocks = blockService.getBlocksBySubjectId(subjectId);
 		model.addAttribute("blockList", blocks);
 		List<Category> categories = categoryService.getAllCategories();
 		model.addAttribute("catList", categories);
 
 		return "editTopic";
+	}
+	
+	@RequestMapping(value = "/saveTopic", method = RequestMethod.POST)
+	public String saveTopic(
+			//@RequestParam(value = "topicId", required = false) Integer topicId,
+			//@RequestParam(value = "blockId", required = true) Integer blockId,
+			//@RequestParam(value = "subjectId", required = false) Integer subjectId,
+			//@RequestParam(value = "topicAlive", required = true) boolean topicAlive,
+			//@RequestParam(value = "topicContent", required = true) String topicContent,
+			//@RequestParam(value = "name", required = true) String topicName,
+			@Valid Topic topic,
+			BindingResult result,
+			Model model) {
+		//Topic topic = topicId != null ? topicService.getTopicById(topicId) : new Topic();
+		//topic.setBlock(blockService.getBlockById(blockId));
+		//topic.setAlive(topicAlive);
+		//topic.setContent(topicContent);
+		//topic.setName(topicName);
+		// topic.setOrder(topicOrder);
+		
+		
+		topicValidator.validate(topic, result);
+		if (result.hasErrors()) {
+/*			if (topicId != null) {
+				//Topic topic = topicService.getTopicById(topicId);
+				model.addAttribute("topic", topic);
+				model.addAttribute("block", topic.getBlock());
+			}*/
+
+			//if (subjectId != null) {
+			//List<Block> blocks = blockService.getBlocksBySubjectId(subjectId);
+			//model.addAttribute("blockList", blocks);
+			//}
+			List<Category> categories = categoryService.getAllCategories();
+			model.addAttribute("catList", categories);
+			return "editTopic";
+		}
+		
+		
+//		if (topicId != null) {
+			topicService.updateTopic(topic);
+	//	} else {
+//			topicService.addTopic(topic);
+//		}*/
+
+		return "redirect:/teacher";
 	}
 
 	@RequestMapping(value = "/editSubject", method = RequestMethod.GET)
@@ -163,29 +262,6 @@ public class TeacherController {
 		}
 
 		return "editCategory";
-	}
-
-	@RequestMapping(value = "/saveTopic", method = RequestMethod.GET)
-	public String saveTopic(@RequestParam(value = "topicId", required = false) Integer topicId,
-			@RequestParam(value = "blockId", required = true) Integer blockId,
-			@RequestParam(value = "topicAlive", required = true) boolean topicAlive,
-			@RequestParam(value = "topicContent", required = true) String topicContent,
-			@RequestParam(value = "topicName", required = true) String topicName,
-			@RequestParam(value = "topicOrder", required = true) Integer topicOrder, Model model) {
-		Topic topic = topicId != null ? topicService.getTopicById(topicId) : new Topic();
-		topic.setBlock(blockService.getBlockById(blockId));
-		topic.setAlive(topicAlive);
-		topic.setContent(topicContent);
-		topic.setName(topicName);
-		topic.setOrder(topicOrder);
-
-		if (topicId != null) {
-			topicService.updateTopic(topic);
-		} else {
-			topicService.addTopic(topic);
-		}
-
-		return "redirect:/teacher";
 	}
 
 	@RequestMapping(value = "/saveCategory", method = RequestMethod.GET)
@@ -254,7 +330,10 @@ public class TeacherController {
 			subjectService.addSubject(subject);
 
 			courseSchedulerService.addCourseScheduler(scheduler);
-
+			Group group = new Group();
+			group.setCourse(scheduler);
+			group.setActive(true);
+			groupService.addGroup(group);
 		}
 
 		return "redirect:/teacher";
@@ -303,14 +382,15 @@ public class TeacherController {
 					blockService.deleteBlock(b);
 
 				for (CourseScheduler c : cs) {
-					Integer studentGroupNum = studentGroupService.getGroupNumberByCourse(c.getId());
+					Group courseGroup = groupService.getGroupByScheduler(c.getId());
+					Integer studentGroupNum = courseGroup.getGroupId();
 					List<StudentGroup> sg = studentGroupService.getStudentGroupsByGroupNumber(studentGroupNum);
 					for (StudentGroup ss : sg)
 						studentGroupService.deleteStudentGroup(ss);
-
+					groupService.deleteGroup(courseGroup);
 					courseSchedulerService.deleteCourseScheduler(c);
 				}
-
+				
 				subjectService.deleteSubject(subject);
 			} catch (Exception e) {
 			}

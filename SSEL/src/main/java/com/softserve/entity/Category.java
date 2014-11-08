@@ -9,11 +9,12 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "category")
+@Table(name = "category", indexes = {@Index(columnList = "name", name = "name_index_cat")})
 public class Category {
 
 	@Id
@@ -24,7 +25,7 @@ public class Category {
 	@Column(name = "name", nullable = false)
 	private  String name;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy="category")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "category")
 	private List<Subject> subjects = new ArrayList<>();
 	
 	public Category() {
@@ -52,6 +53,12 @@ public class Category {
 
 	public void setSubjects(List<Subject> subjects) {
 		this.subjects = subjects;
+	}
+
+	@Override
+	public String toString() {
+		return "Category [id=" + id + ", name=" + name + ", subjects="
+				+ subjects + "]";
 	}
 	
 }
