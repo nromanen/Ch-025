@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,7 @@ import com.softserve.service.CategoryService;
 import com.softserve.service.CourseSchedulerService;
 import com.softserve.service.GroupService;
 import com.softserve.service.RoleService;
+import com.softserve.service.SearchService;
 import com.softserve.service.StudentCabinetSevice;
 import com.softserve.service.StudentGroupService;
 import com.softserve.service.SubjectService;
@@ -68,6 +70,9 @@ public class GuestController {
 	@Autowired
 	private GroupService groupService;
 	
+	@Autowired
+	private SearchService searchService;
+	
 	private List<Subject> subjects;
 	private List<Category> categories;
 	private List<CourseScheduler> schedulers;
@@ -78,11 +83,18 @@ public class GuestController {
 		LOG.info("User login {}", principal.getName());
 		User user = userService.getUserByEmail(principal.getName());
 		httpSession.setAttribute("user", user);
+		if (user.getImage() != null) {
+			String encodedImage = new String(Base64.encode(user.getImage()));
+			httpSession.setAttribute("image", encodedImage);
+		}
 		if (user.getRole().getRole().equals(User.Roles.TEACHER.toString())) {
 			return "redirect:/teacher";
 		} else if (user.getRole().getRole().equals(User.Roles.STUDENT.toString())) {
 			return "redirect:/student";
-		} else {
+		} else if (user.getRole().getRole().equals(User.Roles.ADMIN.toString())){
+			return "redirect:/administrator";
+		} 
+		else {
 			return "redirect:/";
 		}
 	}
@@ -153,9 +165,19 @@ public class GuestController {
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public String search(@RequestParam String search, Model model, HttpSession httpSession) {
 		User user = (User) httpSession.getAttribute("user");
-		
-		
+		List<Category> categories = searchService.getCategoriesByNamePart(search);
+		List<Subject> subjects = searchService.getSubjectsByNamePart(search);
+		model.addAttribute("catList", categories);
+		model.addAttribute("subjList", subjects);
 		return "search";
+	}
+	
+	@RequestMapping(value = "/category", method = RequestMethod.GET)
+	public String category(@RequestParam Integer categoryId, Model model, HttpSession httpSession) {
+		User user = (User) httpSession.getAttribute("user");
+		List<Subject> subjects = subjectService.getSubjectsByCategoryId(categoryId);
+		model.addAttribute("subjList", subjects);
+		return "category";
 	}
 
 }

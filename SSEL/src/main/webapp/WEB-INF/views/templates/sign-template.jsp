@@ -13,6 +13,8 @@
 <link href="<c:url value="/resources/font-awesome-4.1.0/css/font-awesome.min.css" />" rel="stylesheet" type="text/css">
 <link href="<c:url value="/resources/css/registration.css" />" rel="stylesheet" type="text/css">
 <link href="<c:url value="/resources/css/profile.css" />" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="<c:url value="/resources/css/jquery.fileupload.css" />" type="text/css"/>
+<link rel="stylesheet" href="<c:url value="resources/css/jquery.fileupload-ui.css" />" type="text/css"/>
 
 <script src="<c:url value="/resources/js/jquery-1.11.1.min.js" />"></script>
 <script src="<c:url value="/resources/js/bootstrap.min.js" />"></script>

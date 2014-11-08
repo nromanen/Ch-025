@@ -1,5 +1,7 @@
 package com.softserve.service.impl;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,29 +65,41 @@ public class TopicServiceImpl implements TopicService {
 	public void changeOrderUp(Topic topic) {
 		List<Topic> topics = topicDao.getTopicsByBlockId(topic.getBlock().getId());
 
+		int indexOfTopic = 0;
+
+		for (int i = 0; i < topics.size(); i++) {
+			if (topics.get(i).getOrder() == topic.getOrder()) {
+				indexOfTopic = i;
+			}
+
+		}
+
+		if (indexOfTopic >= 1) {
+			int tmpOrder = topic.getOrder();
+			Topic topic1 = topics.get(indexOfTopic - 1);
+			topic.setOrder(topic1.getOrder());
+			topic1.setOrder(tmpOrder);
+			updateTopic(topic);
+			updateTopic(topic1);
+		}
+
 		/*
 		 * for(int i = topics.size()-1 ; i > 0 ; i--) { for(int j = 0 ; j < i ;
 		 * j++) { if (topics.get(j).getOrder() > topics.get(j + 1).getOrder()) {
 		 * Topic temp = topics.get(j); topics.set(j, topics.get(j + 1));
 		 * topics.set(j + 1, temp); } } }
 		 */
-		int tempOrder = 0;
-		int tempIndex = topics.indexOf(topic);
-		for (Topic t : topics) {
-			if (t.getOrder() < topic.getOrder() && t.getOrder() > tempOrder) {
-				tempOrder = t.getOrder();
-				tempIndex = topics.indexOf(t);
-
-			}
-		}
-		if (tempIndex >= 0 && tempIndex < topics.size()) {
-			Topic t1 = topics.get(tempIndex);
-			t1.setOrder(topic.getOrder());
-			topic.setOrder(tempOrder);
-			updateTopic(topic);
-			updateTopic(t1);
-
-		}
+		/*
+		 * int tempOrder = 0; int tempIndex = topics.indexOf(topic); for (Topic
+		 * t : topics) { if (t.getOrder() < topic.getOrder() && t.getOrder() >
+		 * tempOrder) { tempOrder = t.getOrder(); tempIndex = topics.indexOf(t);
+		 * 
+		 * } } if (tempIndex >= 0 && tempIndex < topics.size()) { Topic t1 =
+		 * topics.get(tempIndex); t1.setOrder(topic.getOrder());
+		 * topic.setOrder(tempOrder); updateTopic(topic); updateTopic(t1);
+		 * 
+		 * }
+		 */
 
 		/*
 		 * int tempIndex = topics.indexOf(topic); if (tempIndex > 0) { int
@@ -102,23 +116,21 @@ public class TopicServiceImpl implements TopicService {
 	public void changeOrderDown(Topic topic) {
 		List<Topic> topics = topicDao.getTopicsByBlockId(topic.getBlock().getId());
 
-		int tempOrder = 9999999;
-		int tempIndex = topics.indexOf(topic);
-		for (Topic t : topics) {
-			if (t.getOrder() > topic.getOrder() && t.getOrder() < tempOrder) {
-				tempOrder = t.getOrder();
-				tempIndex = topics.indexOf(t);
+		// *********************************************************
+		/*
+		 * int tempOrder = 9999999; int tempIndex = topics.indexOf(topic); for
+		 * (Topic t : topics) { if (t.getOrder() > topic.getOrder() &&
+		 * t.getOrder() < tempOrder) { tempOrder = t.getOrder(); tempIndex =
+		 * topics.indexOf(t);
+		 * 
+		 * } }
+		 * 
+		 * if (tempIndex >= 0 && tempIndex < topics.size()) { Topic t1 =
+		 * topics.get(tempIndex); t1.setOrder(topic.getOrder());
+		 * topic.setOrder(tempOrder); updateTopic(topic); updateTopic(t1); }
+		 */
+		// **********************************************************
 
-			}
-		}
-
-		if (tempIndex >= 0 && tempIndex < topics.size()) {
-			Topic t1 = topics.get(tempIndex);
-			t1.setOrder(topic.getOrder());
-			topic.setOrder(tempOrder);
-			updateTopic(topic);
-			updateTopic(t1);
-		}
 		/*
 		 * for(int i = topics.size()-1 ; i > 0 ; i--) { for(int j = 0 ; j < i ;
 		 * j++) { if (topics.get(j).getOrder() > topics.get(j + 1).getOrder()) {
@@ -128,9 +140,27 @@ public class TopicServiceImpl implements TopicService {
 
 		/*
 		 * Collections.sort(topics, new Comparator<Topic>() { public int
-		 * compare(Topic o1, Topic o2) { return o1.getOrder() - o2.getOrder(); }
-		 * });
+		 * compare(Topic topic1, Topic topic2) { return topic1.getOrder() -
+		 * topic2.getOrder(); } });
 		 */
+
+		int indexOfTopic = 0;
+
+		for (int i = 0; i < topics.size(); i++) {
+			if (topics.get(i).getOrder() == topic.getOrder()) {
+				indexOfTopic = i;
+			}
+
+		}
+
+		if (indexOfTopic < topics.size() - 1) {
+			int tmpOrder = topic.getOrder();
+			Topic topic1 = topics.get(indexOfTopic + 1);
+			topic.setOrder(topic1.getOrder());
+			topic1.setOrder(tmpOrder);
+			updateTopic(topic);
+			updateTopic(topic1);
+		}
 
 		/*
 		 * int tempIndex = topics.indexOf(topic); if (tempIndex < topics.size()

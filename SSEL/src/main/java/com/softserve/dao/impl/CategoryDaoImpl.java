@@ -6,6 +6,10 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,6 +67,19 @@ public class CategoryDaoImpl implements CategoryDao {
 	public Category getCategoryById(int id) {
 		LOG.debug("Get category with id = {}", id);
 		return entityManager.find(Category.class, id);
+	}
+
+	@Override
+	public List<Category> getCategoriesByNamePart(String namePart) {
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Category> criteriaQuery = criteriaBuilder.createQuery(Category.class);
+		Root<Category> root = criteriaQuery.from(Category.class);
+		criteriaQuery.select(root);
+		Predicate predicate = 
+				criteriaBuilder.like(criteriaBuilder.upper(root.<String>get("name")), "%" + namePart.toUpperCase() + "%");
+		
+		criteriaQuery.where(predicate);
+		return entityManager.createQuery(criteriaQuery).getResultList();
 	}
 
 }
