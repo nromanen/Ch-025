@@ -3,17 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<script src="<c:url value="/resources/js/jquery.validate.min.js" />" ></script>
+<script src="<c:url value="/resources/js/bootstrapValidator.js" />" ></script>
 <div class="container">
-	<spring:message code="dataerror.field_required" var="required"/>
-	<spring:message code="dataerror.password_pattern" var="pattern"/>
-	<spring:message code="dataerror.passwords_do_not_match" var="passwords_do_not_match" />
-	<spring:message code="dataerror.minimum_4_characters" var="minimum"/>	
-	<spring:message code="dataerror.password_incorrect" var="password_incorrect"/>
-	<spring:message code="dataerror.firstname" var="firstname"/>
-	<spring:message code="dataerror.firstname" var="lastname"/>
-	<spring:message code="dataerror.email_exist" var="email_exist" />
-	<spring:message code="dataerror.email_example" var="email_example"/>
 	<spring:message code="label.processing" var="processing"/>
 	<spring:message code="label.cancel" var="cancel"/>
 	<spring:message code="label.upload" var="upload" />
@@ -38,74 +29,97 @@
 							<spring:message code="label.load_image" />
 						</button>
                 	</div>
-                	<div class=" col-md-8 col-lg-8 "> 
+                	<div class="col-md-8 col-lg-8 "> 
                 		<form id="form_change_user_information" method="POST" role="form" 
-							action="<c:url value="/changeUserInformation" />">
-	                		<table class="table table-user-information">
-	                    		<tbody>
-	                      			<tr>
-	                        			<td>
-	                        				<spring:message code="label.firstname" />:
-	                        			</td>
-	                        			<td>
-	                       					<input type="text" id="first_name" class="form-control" name="first_name"
-												placeholder="<spring:message code="placeholder.firstname" />"  
-												value="<c:out value="${sessionScope.user.firstName}" />" 
-												data-toggle="tooltip" data-placement="right"
-												title="<spring:message code="label.edit_first_name" />" />
-	                        			</td>
-	                      			</tr>
-		                      		<tr>
-		                        		<td>
-	                        				<spring:message code="label.lastname" />:
-	                        			</td>
-	                        			<td>
-	                        				<input type="text" id="last_name" class="form-control" name="last_name"
-												placeholder="<spring:message code="placeholder.lastname" />"  
-												value="<c:out value="${sessionScope.user.lastName}" />" 
-												data-toggle="tooltip" data-placement="right"
-												title="<spring:message code="label.edit_last_name" />" />
-	                        			</td>
-		                      		</tr>
-		                      		<tr>
-		                        		<td>
-		                        			<spring:message code="label.registration_date" />:
-		                        		</td>
-		                        		<td>
-		                        			<fmt:formatDate value="${sessionScope.user.registration}" pattern="yyyy-MM-dd" />
-		                        		</td>
-		                      		</tr>
-		                     		<tr>
-		                        		<td>
-		                        			<spring:message code="label.email" />:
-		                        		</td>
-		                        		<td id="email">
+							action="<c:url value="/changeUserInformation" />"
+							data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+			      			data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+			      			data-bv-feedbackicons-validating="glyphicon glyphicon-refresh"
+			      			data-bv-submitbuttons='button[type="submit"]'
+			      			data-bv-live="enabled"
+			      			class="form-horizontal">
+	                		<div class="form-group">
+	                			<label class="col-md-3 control-label" for="first_name">
+	                        		<spring:message code="label.firstname" />:
+	                        	</label>
+	                        	<div class="col-md-7">
+	                        		<div class="input-group">
+		                       			<input type="text" id="first_name" class="form-control" name="first_name"
+											placeholder="<spring:message code="placeholder.firstname" />"  
+											value="<c:out value="${sessionScope.user.firstName}" />" 
+											data-toggle="tooltip" 
+											data-placement="top"
+											title="<spring:message code="label.edit_first_name" />" 
+											data-bv-notempty="true"
+	                						data-bv-notempty-message="<spring:message code="dataerror.field_required" />"
+	                						pattern="^[A-ZА-ЯІЇЄ]{1}[a-zа-яіїє]{1,30}$"
+	                						data-bv-regexp-message="<spring:message code="dataerror.firstname" />">
+                					</div>
+                				</div>
+	                        </div>
+		                    <div class="form-group">
+	                			<label class="col-md-3 control-label" for="last_name">
+	                        		<spring:message code="label.lastname" />:
+	                        	</label>
+	                        	<div class="col-md-7">		
+	                        		<div class="input-group">
+		                        		<input type="text" id="last_name" class="form-control" name="last_name"
+											placeholder="<spring:message code="placeholder.lastname" />"  
+											value="<c:out value="${sessionScope.user.lastName}" />" 
+											data-toggle="tooltip" 
+											data-placement="top"
+											title="<spring:message code="label.edit_last_name" />" 
+											data-bv-notempty="true"
+	                						data-bv-notempty-message="<spring:message code="dataerror.field_required" />"
+	                						pattern="^[A-ZА-ЯІЇЄ]{1}[a-zа-яіїє]{1,30}$"
+	                						data-bv-regexp-message="<spring:message code="dataerror.lastname" />">
+                					</div>
+	                        	</div>
+	                        </div>
+		                   	<div class="form-group">
+		                   		<label class="col-md-3 control-label">
+		                        	<spring:message code="label.registration_date" />:
+		                        </label>
+		                        <div class="col-md-6 control-label">		
+	                        		<div class="input-group">
+	                        			<label>
+	                        				<fmt:formatDate value="${sessionScope.user.registration}" pattern="yyyy-MM-dd" />
+		                        		</label>	
+		                      		</div>
+		                     	</div>
+		                     </div>
+		                     <div class="form-group">
+		                   		<label class="col-md-3 control-label">
+		                        	<spring:message code="label.email" />:
+		                        </label>
+		                        <div class="col-md-6 control-label">		
+	                        		<div class="input-group">
+	                        			<label>
 		                        			<c:out value="${sessionScope.user.email}" />
-		                        		</td>
-		                        		<td>
-	                        				<button data-original-title="Edit email" data-toggle="tooltip"
-	                        					type="button" class="btn btn-sm btn-warning"
-	                        					id="btn_change_email">
-	                        					<i class="glyphicon glyphicon-edit"></i>
-	                        				</button>
-	                        			</td>
-		                     		</tr>
-		                        	<tr>
-		                        		<td>
-		                        			<spring:message code="label.expired_date" />
-		                        		</td>
-		                        		<td>
-		                        			<fmt:formatDate value="${sessionScope.user.expired}" pattern="yyyy-MM-dd" />
-		                        		</td>
-		                      		</tr>
-		                    	</tbody>
-	              			</table>
-	              			<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal_change_password">
-								<spring:message code="label.change_password"/>
-							</button>
-							<button type="submit" class="btn btn-success">
-								<spring:message code="label.save_changes" />
-							</button>
+		                        		</label>
+		                        	</div>
+		                        </div>	             
+		                    </div>
+							<div class="form-group">
+		                   		<label class="col-md-3 control-label">
+		                        	<spring:message code="label.expired_date" />:
+		                        </label>
+		                        <div class="col-md-6 control-label">		
+	                        		<div class="input-group">
+	                        			<label>
+	                        				<fmt:formatDate value="${sessionScope.user.expired}" pattern="yyyy-MM-dd" />
+		                        		</label>	
+		                      		</div>
+		                     	</div>
+		                  	</div>
+		                    <div class="form-group">
+		              			<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal_change_password">
+									<spring:message code="label.change_password"/>
+								</button>
+								<button type="submit" class="btn btn-success">
+									<spring:message code="label.save_changes" />
+								</button>
+							</div>
               			</form>
                 	</div>
               	</div>
@@ -257,7 +271,12 @@ $(function () {
 				</h4>
 			</div>
 			<form id="form_change_password" class="form-horizontal" method="POST" role="form" 
-				action="<c:url value="/changePassword" />">
+				action="<c:url value="/changePassword" />" 
+				data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+      			data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+      			data-bv-feedbackicons-validating="glyphicon glyphicon-refresh"
+      			data-bv-submitbuttons='button[type="submit"]'
+      			data-bv-live="enabled">
 				<div class="modal-body">				
 					<div class="panel panel-info">
         				<div class="panel-body">
@@ -267,14 +286,23 @@ $(function () {
 								</label>
 								<div class="col-md-6">
 									<div class="input-group">
-										<input type="password" id="old_password" class="form-control pwd" name="old_password"
-											placeholder="<spring:message code="placeholder.old_password"/>" /> 
 										<span class="input-group-btn">
 		            						<button class="btn btn-default reveal" style="height: 34px" type="button" >
 		            							<i class="glyphicon glyphicon-eye-open"></i>
 		            						</button>
 	          							</span>
+										<input type="password" id="old_password" class="form-control pwd" name="old_password"
+											placeholder="<spring:message code="placeholder.old_password"/>" 
+											data-bv-notempty="true"
+                							data-bv-notempty-message="<spring:message code="dataerror.field_required" />" 
+                							data-toggle="tooltip" 
+											data-placement="top"
+											title="<spring:message code="placeholder.old_password" />" /> 
           							</div>
+          							<small id="old_password_error" 
+          								 class="help-block" style="display: none; color: #a94442">
+          								<spring:message code="dataerror.password_incorrect" />
+									</small>
 								</div>
 							</div>
 							<div class="form-group">
@@ -283,7 +311,20 @@ $(function () {
 								</label>
 								<div class="col-md-6">
 									<input type="password" id="new_password" class="form-control" name="new_password"
-										placeholder="<spring:message code="placeholder.new_password"/>" />
+										placeholder="<spring:message code="placeholder.new_password"/>" 
+										data-bv-notempty="true"
+                						data-bv-notempty-message="<spring:message code="dataerror.field_required" />"
+                						pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[/@/./&/!#/$%/^/*/?])(?!.*\s).{4,20}$"
+                						data-bv-regexp-message="<spring:message code="dataerror.password_pattern" />"
+                						data-bv-stringlength="true"
+                						data-bv-stringlength-min="4"
+                						data-bv-stringlength-message="<spring:message code="dataerror.minimum_4_characters" />"
+                						data-bv-different="true"
+                						data-bv-different-field="old_password"
+                						data-bv-different-message="The old password and new password cannot be the same as each other"  
+                						data-toggle="tooltip" 
+										data-placement="top"
+										title="<spring:message code="placeholder.new_password" />" />
 								</div>
 							</div>
 							<div class="form-group">
@@ -292,7 +333,13 @@ $(function () {
 								</label>
 								<div class="col-md-6">
 									<input type="password" class="form-control" id="confirm_password" name="confirm_password"
-										placeholder="<spring:message code="placeholder.confirm_password"/>" />
+										placeholder="<spring:message code="placeholder.confirm_password"/>" 
+										data-bv-identical="true"
+                						data-bv-identical-field="new_password"
+               			 				data-bv-identical-message="<spring:message code="dataerror.passwords_do_not_match" />" 
+               			 				data-toggle="tooltip" 
+										data-placement="top"
+										title="<spring:message code="placeholder.confirm_password" />" />
 								</div>
 							</div>
 	        			</div>
@@ -300,7 +347,7 @@ $(function () {
 				</div>
 				<div class="modal-footer">
 					<button type="submit" id="btn_change_password_submit"  
-						class="btn btn-success" disabled="disabled" >
+						class="btn btn-success" >
 						<spring:message code="label.accept"/>
 					</button>
 					<button type="reset" id="btn_form_close" class="btn btn-info" data-dismiss="modal">
@@ -320,200 +367,4 @@ $(function () {
 <script src="<c:url value="/resources/js/jquery.fileupload-process.js" />"></script>
 <script src="<c:url value="/resources/js/jquery.fileupload-image.js" />" ></script>
 <script src="<c:url value="/resources/js/jquery.fileupload-validate.js" />" ></script>
-
-<script>
-jQuery(document).ready(function ($) {
-	
-	$("#fileupload").click(function(){	
-		$( "#photo" ).remove();
-	});
-	
-	$(".reveal").mousedown(function() {
-	    $(".pwd").replaceWith($('.pwd').clone().attr('type', 'text'));
-	})
-	.mouseup(function() {
-		$(".pwd").replaceWith($('.pwd').clone().attr('type', 'password'));
-	})
-	.mouseout(function() {
-		$(".pwd").replaceWith($('.pwd').clone().attr('type', 'password'));
-	});
-	
-	$("#btn_change_email").click(function(){	
-		$('#modal_change_email').modal();
-	});
-	
-	$("#btn_load_photo").click(function(){	
-		$('#modal_load_photo').modal();
-	});
-	
-	$("#btn_change_email").click(function(){	
-		$('#modal_change_email').modal();
-	});
-	
-    $('[data-toggle="tooltip"]').tooltip();
-    
-	$("#form_change_user_information").submit(function(){
-		var first_name = $("#first_name").val();
-		var last_name = $("#last_name").val();
-		if(first_name != "" && last_name != ""){
-			var url = $(this).attr("action");
-			var json = { "firstName" : first_name, "lastName" : last_name };
-			$.ajax({
-		        url: url,
-		        data: JSON.stringify(json),
-		        contentType: 'application/json',
-		        type: "POST",
-		        success: function(response) {
-		        	if(response == "success"){	
-		        		location.reload();
-		        	} else {
-		        		$("#first_name").val('');
-		        		$("#last_name").val('');
-		        	}
-		        }
-		    });
-		}
-		return false;
-	});
-	
-    $("#form_change_password").submit(function(){
-		var old_password = $("#old_password").val();
-		var new_password = $("#new_password").val();
-		if((old_password != "") && (new_password != "")){
-			var url = $(this).attr("action");
-			var json = { "oldPassword" : old_password, "newPassword" : new_password };
-			$.ajax({
-		        url: url,
-		        data: JSON.stringify(json),
-		        contentType: 'application/json',
-		        type: "POST",
-		        success: function(response) {
-		        	if(response == "success"){	
-		        		$('#old_password').removeClass("error");
-						$('#lbl').remove();
-		        		$("#modal_change_password").modal("hide");
-		        		
-		        	} else {
-		        		$("#old_password").addClass("error");
-						if($("#lbl").length == 0) {
-							$('#old_password').after("<label id='lbl' class='error'>${password_incorrect}</label>");
-						}
-		        	}
-		        }
-		    });
-		}
-		return false;
-	});    
-    
-    $("#old_password").on("blur", function(){
-		var json = {"old_password" : $('#old_password').val()};
-		$.ajax({
-			type: "POST",
-			url: "checkOldPassword",
-			contentType: "application/json",
-			data: JSON.stringify(json),
-			success : function(response) {
-				if (response == false) {
-					$('#old_password').addClass("error");
-					if($("#lbl").length == 0) {
-						$('#old_password').after("<label id='lbl' class='error'>${password_incorrect}</label>");
-					}
-					$('#btn_change_password_submit').prop("disabled", true);
-				}
-				else { 
-					$('#old_password').removeClass("error");
-					$('#lbl').remove();
-					$('#btn_change_password_submit').prop("disabled", false);
-				}
-			}
-		});		
-	});
-    
-    $.validator.addMethod(
-    	'regexp',
-    	function(value, element, regexp) {
-    		var re = new RegExp(regexp);
-    		return this.optional(element) || re.test(value);
-    	}, "Please check your input."
-    );
-    
-    $.validator.addMethod(
-    		'notEqual', 
-    		function(value, element, param) {
-    	  		return this.optional(element) || value != $(param).val();
-    	}, "Please specify a different (non-default) value"
-    );
-    
-    $("#form_change_user_information").validate({
-    	rules: {
-    		first_name: {
-    			required: true,
-    			regexp: "^[A-ZА-ЯІЇЄ]{1}[a-zа-яіїє]{1,30}$"
-    		},
-    		last_name: {
-    			required: true,
-    			regexp: "^[A-ZА-ЯІЇЄ]{1}[a-zа-яіїє]{1,30}$"
-    		}
-    	},
-    	messages: {
-    		first_name: {
-    			required: "${required}",
-				regexp: "${firstname}"
-    		},
-    		last_name: {
-    			required: "${required}",
-				regexp: "${lastname}"
-    		}
-    	}
-    });
-    
-    $("#form_change_email").validate({
-    	rules: {
-    		email: {
-    			required: true,
-    			email: true
-    		}
-    	},
-    	messages: {
-    		email: {
-    			required: "${required}",
-    			email: "${email_example}"
-    		}
-    	}
-    });
-    
-    $("#form_change_password").validate({
-    	rules: {
-    		old_password: {
-    			required: true
-    		},
-    		new_password: {
-    			required: true,
-    			minlength: 4,
-    			regexp: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[//@/./&/!#/$%/^/*/?])(?!.*\\s).{4,20}$",
-    			notEqual: "#old_password"
-    			
-    		},
-    		confirm_password: {
-    			required: true,
-    			equalTo: "#new_password"
-    		}
-    	},
-    	messages: {
-    		old_password: {
-    			required: "${required}"
-    		},
-    		new_password: {
-    			required: "${required}",
-    			minlength: "${minimum}",
-    			regexp: "${pattern}",
-    			notEqual: "Must be different"
-    		}, 
-    		confirm_password: {
-    			required: "${required}",
-    			equalTo: "${passwords_do_not_match}"
-    		}
-    	}
-    });
-});
-</script> 
+<script src="<c:url value="/resources/js/profile.js" />" ></script>

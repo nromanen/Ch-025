@@ -184,6 +184,13 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.33</version>
 		</dependency>
+		
+		<!-- Liquibase -->
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+			<version>3.2.2</version>
+		</dependency>
 
 		<!-- Mail -->
 		<dependency>

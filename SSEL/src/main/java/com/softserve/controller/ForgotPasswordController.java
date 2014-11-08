@@ -4,6 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,6 +27,9 @@ public class ForgotPasswordController {
 	@Autowired
 	private ResetPasswordValidation resetPasswordValidation;
 
+	@Autowired
+	private MessageSource messageSource;
+
 	@RequestMapping(value = "/remind", method = RequestMethod.GET)
 	public String remindForm() {
 		return "remind";
@@ -40,7 +45,11 @@ public class ForgotPasswordController {
 		if (user == null) {
 			return "remind";
 		}
-		userService.remindPassword(user, request);
+		String message = new String(messageSource.getMessage(
+				"message.user.chage_password", new Object[] {},
+				LocaleContextHolder.getLocale()));
+		String url = request.getRequestURL().toString();
+		userService.remindPassword(user, url, message);
 		return "redirect:/";
 	}
 

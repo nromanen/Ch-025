@@ -63,7 +63,7 @@
 				<li><a href="viewAllCategories"><spring:message code="label.admin.categories"/></a></li>
 				<li><a href="viewAllSubjects"><spring:message code="label.admin.subjects"/></a></li>
 				<li><a href="viewAllUsers"><spring:message code="label.admin.users"/></a></li>
-				<li><a href="viewAllLogs"><spring:message code="label.admin.logs"/></a></li>
+				<li><a href="viewLogs"><spring:message code="label.admin.logs"/></a></li>
 			</ul>
 		</div>
 	</div>

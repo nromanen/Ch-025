@@ -9,7 +9,18 @@
 			<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span>
 			<span class="icon-bar"></span> <span class="icon-bar"></span>
 		</button>
-		<a class="navbar-brand" href="<c:url value="/" />">
+		<c:choose>
+			<c:when test="${sessionScope.user.role.role eq 'STUDENT'}">
+				<c:set var="url" value="student" ></c:set>
+			</c:when>
+			<c:when test="${sessionScope.user.role.role eq 'TEACHER'}">
+				<c:set var="url" value="teacher" ></c:set>
+			</c:when>
+			<c:otherwise>
+				<c:set var="url" value="/" ></c:set>
+			</c:otherwise>
+		</c:choose>
+		<a class="navbar-brand" href="<c:url value="${url}" />">
 			<img src="resources/img/logo.png">
 		</a>
 	</div>
@@ -40,6 +51,36 @@
 				<i class="fa fa-caret-down"></i>
 			</a>
 			<ul class="dropdown-menu dropdown-user">
+				<c:if test="${sessionScope.user.role.role eq 'TEACHER'}">
+					<li>
+						<a href="<c:url value="/teacher" />" >
+							<i class="fa fa-user fa-fw"></i>
+							<spring:message code="label.teacher_cabinet"/> 
+						</a>
+					</li>
+					<li class="divider"></li>
+					<li>
+						<a href="<c:url value="/logout" />" >
+							<i class="fa fa-sign-out fa-fw"></i>
+							<spring:message code="label.logout"/> 
+						</a>
+					</li>
+				</c:if>
+				<c:if test="${sessionScope.user.role.role eq 'STUDENT'}">
+					<li>
+						<a href="<c:url value="/student?table=active" />" > 
+							<i class="fa fa-user fa-fw"></i> 
+							<spring:message code="label.student_cabinet"/>
+						</a>
+					</li>
+					<li class="divider"></li>
+					<li>
+						<a href="<c:url value="/logout" />">
+							<i class="fa fa-sign-out fa-fw"></i>
+							<spring:message code="label.logout"/> 
+						</a>
+					</li>
+				</c:if>
 				<c:if test="${sessionScope.user.role.role ne 'TEACHER'
 					 && sessionScope.user.role.role ne 'STUDENT' && sessionScope.user.role.role ne 'ADMIN'}">
 					<li>

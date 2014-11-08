@@ -51,5 +51,9 @@ public class RoleServiceImpl implements RoleService {
 	public Role getRoleByName(String name) {
 		return roleDao.getRoleByName(name);
 	}
+	
+	public void setRoleDao(RoleDao roleDao) {
+		this.roleDao = roleDao;
+	}
 
 }

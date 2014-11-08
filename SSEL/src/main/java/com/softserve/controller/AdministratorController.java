@@ -3,10 +3,6 @@ package com.softserve.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +15,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.softserve.entity.Category;
 import com.softserve.entity.CourseScheduler;
-import com.softserve.entity.Log;
 import com.softserve.entity.Role;
 import com.softserve.entity.Subject;
 import com.softserve.entity.User;
 import com.softserve.service.AdministratorService;
 import com.softserve.service.CategoryService;
 import com.softserve.service.CourseSchedulerService;
-import com.softserve.service.LogService;
 import com.softserve.service.RoleService;
 import com.softserve.service.StudentGroupService;
 import com.softserve.service.SubjectService;
@@ -60,9 +54,6 @@ public class AdministratorController {
 
 	@Autowired
 	private RoleService roleService;
-
-	@Resource(name = "LogService")
-	private LogService logService;
 
 	@RequestMapping(value = "/administrator", method = RequestMethod.GET)
 	public String administrator(Model model) {
@@ -410,14 +401,5 @@ public class AdministratorController {
 		redirectAttributes.addAttribute("sortBy", sortBy);
 		redirectAttributes.addAttribute("sortMethod", sortMethod);
 		return "redirect:/viewAllSubjects";
-	}
-
-	@RequestMapping(value = "/viewAllLogs", method = RequestMethod.GET)
-	public String viewAllLogs(Model model, HttpServletRequest request) {
-		LOG.debug("Visit viewAllLogs page");
-		HttpSession session = request.getSession();
-		List<Log> logList = logService.getAllLogs();
-		session.setAttribute("logs", logList);
-		return "viewAllLogs";
 	}
 }
