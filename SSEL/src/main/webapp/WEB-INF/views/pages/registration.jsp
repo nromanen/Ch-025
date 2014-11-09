@@ -3,7 +3,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<script src="<c:url value="/resources/js/jquery.validate.min.js" />" ></script>
+<script src="<c:url value="/resources/js/bootstrapValidator.js" />" ></script>
+<script src="<c:url value="/resources/js/registration.js" />" ></script>
 <div class="container">
 	<div id="signupbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
  		<div class="panel panel-info">
@@ -19,13 +20,18 @@
         	</div>  
 	       	<div class="panel-body">
 	       		<c:url value="/registration" var="registration"/>
-				<form:form id="registration" class="form-horizontal" method="POST"
-					commandName="registration" role="form" action="${registration}" >
+				<form:form id="registration_form" class="form-horizontal" method="POST"
+					commandName="registration" role="form" action="${registration}" 
+					data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+			     	data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+			     	data-bv-feedbackicons-validating="glyphicon glyphicon-refresh"
+			     	data-bv-submitbuttons='button[type="submit"]'
+			     	data-bv-live="enabled">
 					<div class="form-group">
-						<spring:message code="dataerror.field_required" var="required"/>
-						<spring:message code="dataerror.password_pattern" var="pattern"/>
+						<spring:message code="dataerror.field_required" var="field_required"/>
+						<spring:message code="dataerror.password_pattern" var="password_pattern"/>
 						<spring:message code="dataerror.passwords_do_not_match" var="passwords_do_not_match" />
-						<spring:message code="dataerror.minimum_4_characters" var="minimum"/>
+						<spring:message code="dataerror.minimum_4_characters" var="minimum_4_characters"/>
 						<spring:message code="dataerror.email_example" var="email_example"/>
 						<spring:message code="dataerror.firstname" var="error_firstname"/>
 						<spring:message code="dataerror.lastname" var="error_lastname"/>
@@ -37,7 +43,16 @@
 						<div class="col-md-9">
 							<spring:message code="placeholder.email" var="email"/>
 							<form:input path="email" type="email" id="inputEmailReg" name="email" 
-								placeholder="${email}" cssClass="form-control"  />
+								placeholder="${email}" cssClass="form-control"  
+								data-bv-trigger="blur"
+								data-bv-notempty="true"
+		                		data-bv-notempty-message="${field_required}" 
+		                		data-bv-emailaddress-message="${email_example}" 
+		                		data-bv-remote="true"
+								data-bv-remote-message="${email_exist}"
+								data-bv-remote-type="get"
+								data-bv-remote-name="email"
+								data-bv-remote-url="isExistsEmail" />
 							<form:errors path="email" element="div" style="padding: 2px; margin: 2px;" cssClass="alert alert-danger" />
 						</div>
 					</div>
@@ -48,7 +63,14 @@
 						<div class="col-md-9">
 							<spring:message code="placeholder.password" var="password"/>
 							<form:input path="password" type="password" id="inputPasswordReg" 
-								placeholder="${password}" cssClass="form-control"  name="password"/>
+								placeholder="${password}" cssClass="form-control"  name="password" 
+								data-bv-notempty="true"
+                				data-bv-notempty-message="${field_required}"
+								pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[/@/./&/!#/$%/^/*/?])(?!.*\s).{4,20}$"
+                				data-bv-regexp-message="${password_pattern}"
+                				data-bv-stringlength="true"
+                				data-bv-stringlength-min="4"
+                				data-bv-stringlength-message="${minimum_4_characters}" />
 							<form:errors path="password" element="div" style="padding: 2px; margin: 2px;" cssClass="alert alert-danger" />
 						</div>
 					</div>
@@ -59,7 +81,12 @@
 						<div class="col-md-9">
 							<spring:message code="placeholder.confirm_password" var="confirm_password"/>
 							<form:input path="confirmPassword" type="password" cssClass="form-control"
-								id="confirmPasswordReg" placeholder="${confirm_password}" name="confirmPassword"/>
+								id="confirmPasswordReg" placeholder="${confirm_password}" name="confirmPassword" 
+								data-bv-notempty="true"
+                				data-bv-notempty-message="${field_required}"
+								data-bv-identical="true"
+                				data-bv-identical-field="password"
+               			 		data-bv-identical-message="${passwords_do_not_match}" />
 							<form:errors path="confirmPassword" element="div" style="padding: 2px; margin: 2px;" cssClass="alert alert-danger" />
 						</div>
 					</div>
@@ -70,7 +97,11 @@
 						<div class="col-md-9">
 							<spring:message code="placeholder.firstname" var="firstname"/>
 							<form:input path="firstName" type="text" cssClass="form-control"
-								id="firstNameReg" placeholder="${firstname}" name="firstName"/>
+								id="firstNameReg" placeholder="${firstname}" name="firstName" 
+								data-bv-notempty="true"
+	                			data-bv-notempty-message="${field_required}"
+	                			pattern="^[A-ZА-ЯІЇЄ]{1}[a-zа-яіїє]{1,30}$"
+	                			data-bv-regexp-message="${error_firstname}" />
 							<form:errors path="firstName" element="div" style="padding: 2px; margin: 2px;" cssClass="alert alert-danger" />
 						</div>
 					</div>
@@ -81,7 +112,11 @@
 						<div class="col-md-9">
 							<spring:message code="placeholder.lastname" var="lastname"/>
 							<form:input path="lastName" type="text" cssClass="form-control"
-								id="lastNameReg" placeholder="${lastname}" name="lastName"/>
+								id="lastNameReg" placeholder="${lastname}" name="lastName" 
+								data-bv-notempty="true"
+	                			data-bv-notempty-message="${field_required}"
+	                			pattern="^[A-ZА-ЯІЇЄ]{1}[a-zа-яіїє]{1,30}$"
+	                			data-bv-regexp-message="${error_lastname}" />
 							<form:errors path="lastName" element="div" style="padding: 2px; margin: 2px;" cssClass="alert alert-danger"/>
 						</div>
 					</div>
@@ -95,7 +130,7 @@
 					</div>
 					<div class="form-group">
 						<div class="col-md-offset-3 col-md-9">
-							<button type="submit" class="btn btn-success" disabled="disabled" id="btnsumbmit">
+							<button type="submit" class="btn btn-success" id="btnsumbmit">
 								<spring:message code="label.registration"/>
 							</button>
 							<button type="reset" class="btn btn-primary">
@@ -108,88 +143,3 @@
 		</div>
 	</div>
 </div>
-<script>
-jQuery(document).ready(function ($) {
-	
-	$("#inputEmailReg").on("blur", function(){
-		var json = {"email" : $('#inputEmailReg').val()};
-		$.ajax({
-			type: "POST",
-			url: "email_exists",
-			contentType: "application/json",
-			data: JSON.stringify(json),
-			success : function(response) {
-				if (response == true) {
-					$('#inputEmailReg').addClass("error");
-					if($("#lbl").length == 0) {
-						$('#inputEmailReg').after("<label id='lbl' class='error'>${email_exist}</label>");
-					}
-					$('#btnsumbmit').prop("disabled", true);
-				}
-				else { 
-					$('#inputEmailReg').removeClass("error");
-					$('#lbl').remove();
-					$('#btnsumbmit').prop("disabled", false);
-				}
-			}
-		});		
-	});
-	
-	$.validator.addMethod(
-		'regexp',
-		function(value, element, regexp) {
-			var re = new RegExp(regexp);
-		    return this.optional(element) || re.test(value);
-		},
-		"Please check your input."
-	);
-	$("#registration").validate({
-		rules: {
-			password: {
-				required: true,
-				minlength: 4,
-				regexp: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[//@/./&/!#/$%/^/*/?])(?!.*\\s).{4,20}$"
-			},
-			email: {
-				required: true,
-				email: true
-			},
-			confirmPassword: {
-				required: true,
-				equalTo: "#inputPasswordReg"
-			},
-			firstName: {
-				required: true,
-				regexp: "^[A-ZА-ЯІЇЄ]{1}[a-zа-яіїє]{1,30}$"
-			},
-			lastName: {
-				required: true,
-				regexp: "^[A-ZА-ЯІЇЄ]{1}[a-zа-яіїє]{1,30}$"
-			}
-		},
-		messages: {
-			password: {
-				required: "${required}",
-				minlength: "${minimum}",
-				regexp: "${pattern}"
-			},
-			email: {
-				required: "${required}",
-				email: "${email_example}"
-			}, 
-			confirmPassword: {
-				required: "${required}",
-				equalTo: "${passwords_do_not_match}"
-			},
-			firstName: {
-				required: "${required}",
-				regexp: "${error_firstname}"
-			},
-			lastName: {
-				required: "${required}",
-				regexp: "${error_lastname}"
-			}
-		}
-	})
-});
-</script>

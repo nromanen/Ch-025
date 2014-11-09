@@ -292,17 +292,19 @@ $(function () {
 		            						</button>
 	          							</span>
 										<input type="password" id="old_password" class="form-control pwd" name="old_password"
-											placeholder="<spring:message code="placeholder.old_password"/>" 
+											placeholder="<spring:message code="placeholder.old_password"/>"
+											data-bv-trigger="blur" 
 											data-bv-notempty="true"
                 							data-bv-notempty-message="<spring:message code="dataerror.field_required" />" 
                 							data-toggle="tooltip" 
 											data-placement="top"
-											title="<spring:message code="placeholder.old_password" />" /> 
+											title="<spring:message code="placeholder.old_password" />" 
+											data-bv-remote="true"
+											data-bv-remote-message="<spring:message code="dataerror.password_incorrect" />"
+											data-bv-remote-type="get"
+											data-bv-remote-name="oldPassword"
+											data-bv-remote-url="checkOldPassword" /> 
           							</div>
-          							<small id="old_password_error" 
-          								 class="help-block" style="display: none; color: #a94442">
-          								<spring:message code="dataerror.password_incorrect" />
-									</small>
 								</div>
 							</div>
 							<div class="form-group">
