@@ -97,8 +97,9 @@ public class CategoryDaoImpl implements CategoryDao {
 	/**
 	 * @see com.softserve.dao.CategoryDao#getCategoriesByNamePart(java.lang.String)
 	 */
+@SuppressWarnings("unchecked")
 	@Override
-	public List<Category> getCategoriesByNamePart(String namePart) {
+	public List<Category> getCategoriesByNamePart(String namePart, int pageNumber, int pageSize) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Category> criteriaQuery = criteriaBuilder
 				.createQuery(Category.class);
@@ -109,7 +110,17 @@ public class CategoryDaoImpl implements CategoryDao {
 						+ namePart.toUpperCase() + "%");
 
 		criteriaQuery.where(predicate);
-		return entityManager.createQuery(criteriaQuery).getResultList();
+		Query query = entityManager.createQuery(criteriaQuery);
+		query.setFirstResult((pageNumber - 1) * pageSize);
+		query.setMaxResults(pageSize);
+		return query.getResultList();
+	}
+	
+	public Long getCategoriesQuantityByNamePart(String namePart) {
+		Query query = entityManager
+				.createQuery("SELECT COUNT (*) FROM Category s WHERE name LIKE :namepart");
+		query.setParameter("namepart", "%" + namePart + "%");
+		return (Long) query.getSingleResult();
 	}
 
 }

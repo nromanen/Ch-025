@@ -62,5 +62,7 @@ public interface CategoryDao {
 	 *            is a name part of record in database
 	 * @return list of category object if exists or empty list
 	 */
-	List<Category> getCategoriesByNamePart(String namePart);
+	List<Category> getCategoriesByNamePart(String namePart, int pageNumber, int pageSize);
+	
+	Long getCategoriesQuantityByNamePart(String namePart);
 }

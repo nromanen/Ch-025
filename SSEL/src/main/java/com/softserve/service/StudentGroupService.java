@@ -17,5 +17,7 @@ public interface StudentGroupService {
 
 	public List<StudentGroup> getAllStudentGroups();
 
+	public StudentGroup getStudentGroupByUserAndGroupId(int userId, int groupId);
+	
 
 }

@@ -22,7 +22,7 @@
 <c:if test="${docs.size() ne 0}">
 	<table class="table">
 	<thead>
-		<tr>
+		<tr class="alert alert-success">
 			<td>
 				<spring:message code="label.student.file_name" />
 			</td>
@@ -36,7 +36,7 @@
 	</thead>
 	<tbody>
 	<c:forEach items="${docs}" var="doc">
-		<tr>
+		<tr class="alert alert-info">
 			<td>
 				${doc.name}
 			</td>

@@ -28,7 +28,7 @@
 		
 		<intercept-url pattern="/administrator/**" access="hasRole('ADMIN')" />
 		<intercept-url pattern="/viewAllCategories/**" access="hasRole('ADMIN')" />
-		<intercept-url pattern="/viewAllLogs/**" access="hasRole('ADMIN')" />
+		<intercept-url pattern="/viewLogs/**" access="hasRole('ADMIN')" />
 		<intercept-url pattern="/viewAllUsers/**" access="hasRole('ADMIN')" />
 		<intercept-url pattern="/viewAllSubjects/**" access="hasRole('ADMIN')" />
 
