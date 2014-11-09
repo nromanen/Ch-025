@@ -9,6 +9,12 @@ import org.springframework.validation.Validator;
 import com.softserve.form.Registration;
 import com.softserve.service.UserService;
 
+/**
+ * Class for validation registration form
+ * 
+ * @author Khomyshyn Roman
+ */
+
 @Component
 public class RegistrationValidation implements Validator {
 

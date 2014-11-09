@@ -1,6 +1,5 @@
 package com.softserve.form;
 
-
 public class Registration {
 	
 	private String email;	

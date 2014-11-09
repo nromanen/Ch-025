@@ -24,6 +24,11 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.softserve.entity.User;
 import com.softserve.service.UserService;
 
+/**
+ * Handle user profile request
+ * 
+ * @author Khomyshyn Roman
+ */
 @Controller
 public class UserProfileController {
 

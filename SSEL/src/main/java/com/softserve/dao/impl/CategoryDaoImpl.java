@@ -18,15 +18,26 @@ import org.springframework.stereotype.Repository;
 import com.softserve.dao.CategoryDao;
 import com.softserve.entity.Category;
 
+/**
+ * The Class CategoryDaoImpl. This class implement interface {@link CategoryDao}
+ * 
+ * @author Roma Khomyshyn
+ * @author Andriy Shutka
+ */
 @Repository
 public class CategoryDaoImpl implements CategoryDao {
 
+	/** The Constant LOG. */
 	private static final Logger LOG = LoggerFactory
 			.getLogger(CategoryDaoImpl.class);
 
+	/** The entity manager. */
 	@PersistenceContext(unitName = "entityManager")
 	private EntityManager entityManager;
 
+	/**
+	 * @see com.softserve.dao.CategoryDao#addCategory(com.softserve.entity.Category)
+	 */
 	@Override
 	public Category addCategory(Category category) {
 		LOG.debug("Add category {}", category.getName());
@@ -34,6 +45,10 @@ public class CategoryDaoImpl implements CategoryDao {
 		return category;
 	}
 
+	/**
+	 * @see com.softserve.dao.CategoryDao#updateCategory(com.softserve.entity.Category
+	 *      )
+	 */
 	@Override
 	public Category updateCategory(Category category) {
 		LOG.debug("Update category = {}", category.getName());
@@ -41,6 +56,10 @@ public class CategoryDaoImpl implements CategoryDao {
 		return category;
 	}
 
+	/**
+	 * @see com.softserve.dao.CategoryDao#deleteCategory(com.softserve.entity.Category
+	 *      )
+	 */
 	@Override
 	public void deleteCategory(Category category) {
 		Query query = entityManager
@@ -53,6 +72,9 @@ public class CategoryDaoImpl implements CategoryDao {
 		}
 	}
 
+	/**
+	 * @see com.softserve.dao.CategoryDao#getAllCategories()
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Category> getAllCategories() {
@@ -63,21 +85,29 @@ public class CategoryDaoImpl implements CategoryDao {
 		return categories;
 	}
 
+	/**
+	 * @see com.softserve.dao.CategoryDao#getCategoryById(int)
+	 */
 	@Override
 	public Category getCategoryById(int id) {
 		LOG.debug("Get category with id = {}", id);
 		return entityManager.find(Category.class, id);
 	}
 
+	/**
+	 * @see com.softserve.dao.CategoryDao#getCategoriesByNamePart(java.lang.String)
+	 */
 	@Override
 	public List<Category> getCategoriesByNamePart(String namePart) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-		CriteriaQuery<Category> criteriaQuery = criteriaBuilder.createQuery(Category.class);
+		CriteriaQuery<Category> criteriaQuery = criteriaBuilder
+				.createQuery(Category.class);
 		Root<Category> root = criteriaQuery.from(Category.class);
 		criteriaQuery.select(root);
-		Predicate predicate = 
-				criteriaBuilder.like(criteriaBuilder.upper(root.<String>get("name")), "%" + namePart.toUpperCase() + "%");
-		
+		Predicate predicate = criteriaBuilder.like(
+				criteriaBuilder.upper(root.<String> get("name")), "%"
+						+ namePart.toUpperCase() + "%");
+
 		criteriaQuery.where(predicate);
 		return entityManager.createQuery(criteriaQuery).getResultList();
 	}

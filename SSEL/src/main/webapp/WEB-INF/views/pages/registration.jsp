@@ -52,7 +52,8 @@
 								data-bv-remote-message="${email_exist}"
 								data-bv-remote-type="get"
 								data-bv-remote-name="email"
-								data-bv-remote-url="isExistsEmail" />
+								data-bv-remote-url="isExistsEmail"
+								data-bv-valid-message="valid" />
 							<form:errors path="email" element="div" style="padding: 2px; margin: 2px;" cssClass="alert alert-danger" />
 						</div>
 					</div>

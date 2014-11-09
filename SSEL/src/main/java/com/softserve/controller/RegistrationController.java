@@ -22,6 +22,11 @@ import com.softserve.form.Registration;
 import com.softserve.service.UserService;
 import com.softserve.validator.RegistrationValidation;
 
+/**
+ * Handle registration request
+ * 
+ * @author Khomyshyn Roman
+ */
 @Controller
 public class RegistrationController {
 
