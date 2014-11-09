@@ -3,6 +3,7 @@ package com.softserve.controller;
 import java.beans.PropertyEditorSupport;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,12 +11,14 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,7 +52,6 @@ import com.softserve.service.GroupService;
  * Handles requests for the application TEACHER Cabinet.
  */
 @Controller
-@Scope("session")
 public class TeacherController {
 
 	@Autowired
@@ -75,24 +77,53 @@ public class TeacherController {
 
 	@Autowired
 	private StudentGroupService studentGroupService;
-	
+
 	@Autowired
 	private TopicValidator topicValidator;
-	
+
 	@Autowired
 	private BlockValidator moduleValidator;
-	
+
 	@Autowired
 	private SubjectValidator subjectValidator;
-	
+
 	@Autowired
 	private CategoryValidator categoryValidator;
-	
+
 	@Autowired
 	private StudyDocumentValidator studyDocumentValidator;
-	
+
 	@Autowired
 	private GroupService groupService;
+
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		sdf.setLenient(true);
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
+	}
+
+	@InitBinder
+	public void blockInitBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
+		binder.registerCustomEditor(Block.class, "block", new PropertyEditorSupport() {
+			@Override
+			public void setAsText(String id) {
+				Block block = blockService.getBlockById(Integer.parseInt(id));
+				setValue(block);
+			}
+		});
+	}
+	
+	@InitBinder
+	public void subjectInitBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
+		binder.registerCustomEditor(Subject.class, "subject", new PropertyEditorSupport() {
+			@Override
+			public void setAsText(String id) {
+				Subject subject = subjectService.getSubjectById(Integer.parseInt(id));
+				setValue(subject);
+			}
+		});
+	}
 
 	@RequestMapping(value = "/categories", method = RequestMethod.GET)
 	public String categories(Model model) {
@@ -102,19 +133,14 @@ public class TeacherController {
 	}
 
 	@RequestMapping(value = "/teacher", method = RequestMethod.GET)
-	public String teacher(Model model, HttpSession sess) {
-		User user = (User) sess.getAttribute("user");
+	public String teacher(Model model, HttpSession session) {
+		User user = (User) session.getAttribute("user");
 
 		if (user != null) {
-			// if (subjectService.getSubjectsByUserId(user.getId()) != null) {
-			// List<Subject> subjectList =
-			// subjectService.getSubjectsByUserId(user.getId());
-			// Set<Subject> subjectList = subjectService.getAllSubjects();
 			List<CourseScheduler> schedulerList = courseSchedulerService.getCourseSchedulersBySubjectUserId(user
 					.getId());
 			List<Category> categories = categoryService.getAllCategories();
 			model.addAttribute("catList", categories);
-			// model.addAttribute("subjectList", subjectList);
 			model.addAttribute("schedulerList", schedulerList);
 			model.addAttribute("user", user);
 		}
@@ -142,37 +168,12 @@ public class TeacherController {
 		return "teacherCourse";
 	}
 
-	@RequestMapping(value = "/newTopic", method = RequestMethod.GET)
-	public String newTopic(
-			@RequestParam(value = "subjectId", required = true) Integer subjectId, Model model) {
-
-
-		List<Block> blocks = blockService.getBlocksBySubjectId(subjectId);
-		List<Category> categories = categoryService.getAllCategories();
-		
-		Topic topic = new Topic();
-		topic.setAlive(true);
-		topic.setContent("");
-		topic.setName("");
-		topic.setOrder(0);
-		//topic.setId(0);
-		model.addAttribute("blockList", blocks);
-		model.addAttribute("catList", categories);
-		model.addAttribute("subjectId", subjectId);
-		model.addAttribute("topic", topic);
-		
-		return "editTopic";
-	}
-	
 	@RequestMapping(value = "/editTopic", method = RequestMethod.GET)
-	public String editTopicPost(@RequestParam(value = "topicId", required = false) Integer topicId,
+	public String editTopic(@RequestParam(value = "topicId", required = false) Integer topicId,
 			@RequestParam(value = "subjectId", required = false) Integer subjectId, Model model) {
-		if (topicId != null) {
-			Topic topic = topicService.getTopicById(topicId);
-			model.addAttribute("topic", topic);
-			model.addAttribute("block", topic.getBlock());
-		}
+		Topic topic = topicId != null ? topicService.getTopicById(topicId) : new Topic();
 
+		model.addAttribute("topic", topic);
 		model.addAttribute("subjectId", subjectId);
 		List<Block> blocks = blockService.getBlocksBySubjectId(subjectId);
 		model.addAttribute("blockList", blocks);
@@ -181,63 +182,31 @@ public class TeacherController {
 
 		return "editTopic";
 	}
-	
-	@InitBinder
-	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
-	    binder.registerCustomEditor(Block.class, "block", new PropertyEditorSupport() {
-	    @Override
-	    public void setAsText(String text) {
-	        Block bl = blockService.getBlockById(Integer.parseInt(text));
-	        setValue(bl);
-	    }
-	    });
-	}
-	
-	@RequestMapping(value = "/saveTopic", method = RequestMethod.POST)
-	public String saveTopic(
-			//@RequestParam(value = "topicId", required = false) Integer topicId,
-			//@RequestParam(value = "blockId", required = true) Integer blockId,
-			//@RequestParam(value = "subjectId", required = true) Integer subjectId,
-			//@RequestParam(value = "topicAlive", required = true) boolean topicAlive,
-			//@RequestParam(value = "topicContent", required = true) String topicContent,
-			//@RequestParam(value = "name", required = true) String topicName,
-			//@ModelAttribute
-			@Valid @ModelAttribute("topic") Topic topic,
-			
-			BindingResult result,
-			Model model) {
-		//Topic topic = topicId != null ? topicService.getTopicById(topicId) : new Topic();
-		//topic.setBlock(blockService.getBlockById(blockId));
-		//topic.setAlive(topicAlive);
-		//topic.setContent(topicContent);
-		//topic.setName(topicName);
-		// topic.setOrder(topicOrder);
-		
-		
-		topicValidator.validate(topic, result);
-		if (result.hasErrors()) {
-/*			if (topicId != null) {
-				//Topic topic = topicService.getTopicById(topicId);
-				model.addAttribute("topic", topic);
-				model.addAttribute("block", topic.getBlock());
-			}*/
 
-			//if (subjectId != null) {
-			List<Block> blocks = blockService.getAllBlocks();// BlocksBySubjectId(subjectId);//topic.getBlock().getSubject().getId());
+	@RequestMapping(value = "/saveTopic", method = RequestMethod.POST)
+	public String saveTopic(@Valid @ModelAttribute("topic") Topic topic, BindingResult result, Model model) {
+		// topicValidator.validate(topic, result);
+		if (result.hasErrors()) {
+			List<Block> blocks = blockService.getAllBlocks();
 			model.addAttribute("blockList", blocks);
-			//}
 			List<Category> categories = categoryService.getAllCategories();
 			model.addAttribute("catList", categories);
 			return "editTopic";
 		}
-		
-		
-//		if (topicId != null) {
-			topicService.updateTopic(topic);
-	//	} else {
-//			topicService.addTopic(topic);
-//		}*/
-
+		topicService.updateTopic(topic);
+		return "redirect:/teacher";
+	}
+	
+	@RequestMapping(value = "/saveBlock", method = RequestMethod.POST)
+	public String saveBlock(@Valid @ModelAttribute("block") Block block, BindingResult result, Model model) {
+		if (result.hasErrors()) {
+			List<Subject> subjectList = subjectService.getAllSubjects();
+			model.addAttribute("subjectList", subjectList);
+			List<Category> categories = categoryService.getAllCategories();
+			model.addAttribute("catList", categories);
+			return "editBlock";
+		}
+		blockService.updateBlock(block);
 		return "redirect:/teacher";
 	}
 
@@ -409,7 +378,7 @@ public class TeacherController {
 					groupService.deleteGroup(courseGroup);
 					courseSchedulerService.deleteCourseScheduler(c);
 				}
-				
+
 				subjectService.deleteSubject(subject);
 			} catch (Exception e) {
 			}

@@ -15,14 +15,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "block")
 public class Block implements Comparable<Topic> {
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return name;
@@ -37,12 +41,21 @@ public class Block implements Comparable<Topic> {
 	private int order;
 	
 	@Column(name = "start_time", nullable = false)
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern="dd-MM-yyyy")
+	@NotNull
 	private Date startTime;
 	
 	@Column(name = "end_time", nullable = false)
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern="dd-MM-yyyy")
+	@NotNull
 	private Date endTime;
 	
 	@Column(name = "name", nullable = false)
+	@NotNull 
+	@Size(min=4, max=30)
+	@Pattern(regexp="^[A-Za-z0-9.,:_ ]{4,30}$")
 	private String name;
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)

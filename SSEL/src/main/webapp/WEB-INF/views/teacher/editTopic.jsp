@@ -29,7 +29,7 @@
 			<div class="form-group">
 				<label><spring:message code="label.teacher.name"/></label>
 				<form:input class="form-control" path="name" style="width: 40%" value="${topic.name}" />
-					<form:errors path="name" cssClass="topic_error" />
+					<form:errors path="name" cssClass="error" />
 				<p class="help-block"><spring:message code="label.teacher.inputOrEditTopicName"/></p>
 			</div>
 
