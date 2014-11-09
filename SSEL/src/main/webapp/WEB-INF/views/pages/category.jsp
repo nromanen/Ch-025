@@ -39,7 +39,7 @@
 			</select>
 			<div class="btn-group" style="float: right;">
 					<c:if test="${pageNumber gt 1}">
-						<button name="pageNumber" value="${pageNumber - 1}" type="submit" class="btn btn-default">Previous</button>
+						<button name="pageNumber" value="${pageNumber - 1}" type="submit" class="btn btn-default"><spring:message code="label.prev"/></button>
 						<button name="pageNumber" value="1" type="submit" class="btn btn-default">1</button>
 					</c:if>
 					<c:if test="${pageNumber gt 3}">

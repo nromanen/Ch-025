@@ -208,5 +208,5 @@ public class GuestController {
 		model.addAttribute("categoryId", categoryId);
 		return "category";
 	}
-
+	
 }
