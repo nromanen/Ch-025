@@ -43,7 +43,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 /**
  * Handle student requests
- * @author Анатолій
+ * @author 
  *
  */
 @Controller

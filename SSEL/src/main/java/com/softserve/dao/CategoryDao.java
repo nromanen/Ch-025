@@ -16,5 +16,7 @@ public interface CategoryDao {
 
 	public Category getCategoryById(int id);
 	
-	List<Category> getCategoriesByNamePart(String namePart);
+	List<Category> getCategoriesByNamePart(String namePart, int pageNumber, int pageSize);
+	
+	Long getCategoriesQuantityByNamePart(String namePart);
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import com.softserve.entity.Group;
 /**
  * Specify group data access object
- * @author Анатолій
+ * @author 
  *
  */
 public interface GroupDao {

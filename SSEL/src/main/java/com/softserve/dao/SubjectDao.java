@@ -20,7 +20,7 @@ public interface SubjectDao {
 
 	List<Subject> getSubjectsByUserId(int id);
 
-	List<Subject> getSubjectsByNamePart(String namePart);
+	List<Subject> getSubjectsByNamePart(String namePart, int pageNumber, int pageSize);
 
 	public List<Subject> getSubjectsVsLimit(int startPosition, int limitLength, String sortBy, String sortMethod);
 
@@ -41,4 +41,7 @@ public interface SubjectDao {
 
 	public long getSubjectsByTextCount(String searchText);
 
+	Long getSubjectsQuantityByNamePart(String namePart);
+	
+	List<Subject> getSubjectsByCategoryIdWithLimit(int categoryId, int pageNumber, int pageSize);
 }

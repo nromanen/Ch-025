@@ -6,7 +6,7 @@ import java.util.List;
 import com.softserve.entity.Group;
 /**
  * Specify service for group
- * @author Анатолій
+ * @author
  *
  */
 public interface GroupService {

@@ -112,8 +112,9 @@ public class GuestController {
 	}
 
 	@RequestMapping(value = "/course", method = RequestMethod.GET)
-	public String course(@RequestParam Integer subjectId, Model model,
-			HttpSession httpSession) {
+	public String course(@RequestParam Integer subjectId, 
+			@RequestParam(value = "isSubscribed", required = false) Boolean isSubscribed, 
+			Model model, HttpSession httpSession) {
 		LOG.debug("Visit course page as guest");
 		subjects = subjectService.getAllSubjects();
 		categories = categoryService.getAllCategories();
@@ -163,21 +164,49 @@ public class GuestController {
 	}
 	
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
-	public String search(@RequestParam String search, Model model, HttpSession httpSession) {
-		User user = (User) httpSession.getAttribute("user");
-		List<Category> categories = searchService.getCategoriesByNamePart(search);
-		List<Subject> subjects = searchService.getSubjectsByNamePart(search);
+	public String search(@RequestParam String search, Model model, 
+			@RequestParam (value = "pageNumber", required = false) Integer pageNumber,
+			@RequestParam (value = "pageSize", required = false) Integer pageSize) {
+		if (pageNumber == null) {
+			pageNumber = 1;
+		}
+		if (pageSize == null) {
+			pageSize = 10;
+		}
+		List<Category> categories = searchService.getCategoriesByNamePart(search, pageNumber, pageSize);
+		List<Subject> subjects = searchService.getSubjectsByNamePart(search, pageNumber, pageSize);
 		model.addAttribute("catList", categories);
 		model.addAttribute("subjList", subjects);
+		model.addAttribute("search", search);
+		model.addAttribute("pageSize", pageSize);
+		model.addAttribute("pageNumber", pageNumber);
+		Long count = searchService.getSubjectsQuantityByNamePart(search);
+		Long numberOfPages =  count / pageSize + 1;
+		model.addAttribute("numberOfPages", numberOfPages);
 		return "search";
 	}
 	
 	@RequestMapping(value = "/category", method = RequestMethod.GET)
-	public String category(@RequestParam Integer categoryId, Model model, HttpSession httpSession) {
-		User user = (User) httpSession.getAttribute("user");
-		List<Subject> subjects = subjectService.getSubjectsByCategoryId(categoryId);
+	public String category(@RequestParam Integer categoryId, Model model,
+			@RequestParam (value = "pageNumber", required = false) Integer pageNumber,
+			@RequestParam (value = "pageSize", required = false) Integer pageSize) {
+		if (pageNumber == null) {
+			pageNumber = 1;
+		}
+		if (pageSize == null) {
+			pageSize = 10;
+		}
+		List<Subject> subjects = 
+				searchService.getSubjectsByCategoryIdWithLimit(categoryId, pageNumber, pageSize);
+		Category category = categoryService.getCategoryById(categoryId);
+		Long count = subjectService.getSubjectsByCategoryCount(category.getName());
+		Long numberOfPages =  count / pageSize + 1;
+		model.addAttribute("numberOfPages", numberOfPages);
 		model.addAttribute("subjList", subjects);
+		model.addAttribute("pageSize", pageSize);
+		model.addAttribute("pageNumber", pageNumber);
+		model.addAttribute("categoryId", categoryId);
 		return "category";
 	}
-
+	
 }
