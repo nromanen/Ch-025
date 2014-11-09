@@ -36,6 +36,7 @@
 						<spring:message code="dataerror.firstname" var="error_firstname"/>
 						<spring:message code="dataerror.lastname" var="error_lastname"/>
 						<spring:message code="dataerror.email_exist" var="email_exist" />
+						<spring:message code="label.email_free" var="email_free"/>
 						
 						<label class="col-md-3 control-label" for="inputEmailReg">
 							<spring:message code="label.email" />
@@ -53,7 +54,7 @@
 								data-bv-remote-type="get"
 								data-bv-remote-name="email"
 								data-bv-remote-url="isExistsEmail"
-								data-bv-valid-message="valid" />
+								data-bv-valid-message="${email_free}" />
 							<form:errors path="email" element="div" style="padding: 2px; margin: 2px;" cssClass="alert alert-danger" />
 						</div>
 					</div>
@@ -123,10 +124,12 @@
 					</div>
 					<div class="form-group">
 						<label class="col-md-3 control-label" for="confirmPasswordReg">
-							Teacher
 						</label>
 						<div class="col-md-9">
-							<form:checkbox path="teacher" name="teacher"/>
+							<form:checkbox path="teacher" name="teacher" id="teacher"/> 
+							<label class="control-label" for="teacher">
+								<spring:message code="label.registration_as_teacher" />
+							</label>
 						</div>
 					</div>
 					<div class="form-group">
