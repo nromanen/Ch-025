@@ -107,7 +107,7 @@ public class StudentCabinetController {
 		List<Double> ratings;
 		List<Double> progreses;
 		if (table == null || table.equals("future")) { //build data model for future courses
-			scheduler = studentCabinetService.getFutureCourses();
+			scheduler = studentCabinetService.getFutureCourses(new Date());
 			model.addAttribute("courses",scheduler);
 			String title = messageSource.getMessage("label.future_courses", new Object[]{},
 								LocaleContextHolder.getLocale());
@@ -115,14 +115,14 @@ public class StudentCabinetController {
 			model.addAttribute("table", "future");
 			return "student";
 		} else if (table.equals("active")) { //build data model for active courses
-			scheduler = studentCabinetService.getActiveCourses(); 
+			scheduler = studentCabinetService.getActiveCourses(new Date()); 
 			String title = messageSource.getMessage("label.active_courses", new Object[]{},
 					LocaleContextHolder.getLocale());
 			model.addAttribute("title", title);
 			model.addAttribute("table", "active");
 			
 		} else { //build data model for finished courses
-			scheduler = studentCabinetService.getFinishedCourses();
+			scheduler = studentCabinetService.getFinishedCourses(new Date());
 			String title = messageSource.getMessage("label.finished_courses", new Object[]{},
 					LocaleContextHolder.getLocale());
 			model.addAttribute("title", title);
@@ -247,7 +247,7 @@ public class StudentCabinetController {
 		CourseScheduler cs = courseService.getCourseScheduleresBySubjectId(subjectId).get(0); //get subject course scheduler
 		Group subscribedGroup = groupService.getGroupByScheduler(cs.getId());
 		int groupId = subscribedGroup.getGroupId();
-		StudentGroup row = studentCabinetService.getStudentGroupByUserAndGroupId(userId, groupId);
+		StudentGroup row = studentGroupService.getStudentGroupByUserAndGroupId(userId, groupId);
 		if (row == null) { //check if student hasn't subscribed
 			if (cs.getStart().after(new Date()) && subscribedGroup.isActive()) { // check if course hasn't started
 				row = new StudentGroup();
@@ -268,7 +268,7 @@ public class StudentCabinetController {
 	private String unsubscribe(int subjectId, int userId, String email) {
 		CourseScheduler cs = courseService.getCourseScheduleresBySubjectId(subjectId).get(0); //get subject course scheduler
 		int groupId = groupService.getGroupByScheduler(cs.getId()).getGroupId();
-		StudentGroup row = studentCabinetService.getStudentGroupByUserAndGroupId(userId, groupId);
+		StudentGroup row = studentGroupService.getStudentGroupByUserAndGroupId(userId, groupId);
 		if (row != null) {
 			studentGroupService.deleteStudentGroup(row);
 			mailService.sendMail(email, "ssel unsubscribe", "You've unsubscribed from course "+cs.getSubject().getName()+

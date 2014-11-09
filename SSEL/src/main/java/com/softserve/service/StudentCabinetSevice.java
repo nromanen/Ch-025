@@ -1,9 +1,9 @@
 package com.softserve.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.softserve.entity.CourseScheduler;
-import com.softserve.entity.StudentGroup;
 /**
  * Specify Student cabinet functionality
  * 
@@ -11,15 +11,14 @@ import com.softserve.entity.StudentGroup;
  */
 public interface StudentCabinetSevice {
 
-	public void initSubscribedList(int user_id);
+	public void initSubscribedList(int userId);
 	
-	public List<CourseScheduler> getFutureCourses();
+	public List<CourseScheduler> getSubscribedCourseList();
 	
-	public List<CourseScheduler> getActiveCourses();
+	public List<CourseScheduler> getFutureCourses(Date currentDate);
 	
-	public List<CourseScheduler> getFinishedCourses();
+	public List<CourseScheduler> getActiveCourses(Date currentDate);
 	
-	public StudentGroup getStudentGroupByUserAndGroupId(int userId, int groupId);
-	
+	public List<CourseScheduler> getFinishedCourses(Date currentDate);
 	
 }
