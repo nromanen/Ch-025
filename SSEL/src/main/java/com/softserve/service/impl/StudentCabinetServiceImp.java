@@ -17,6 +17,8 @@ public class StudentCabinetServiceImp implements StudentCabinetSevice{
 	private List<CourseScheduler> subscribedCourses;
 	@Autowired
 	private CourseSchedulerDao courseSchedulerDao;
+	
+	public StudentCabinetServiceImp() {}
 	/**
 	 * Constructor by default
 	 */
