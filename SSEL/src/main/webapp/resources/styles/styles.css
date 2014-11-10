@@ -66,20 +66,20 @@ body {
 
 .courceInformation p{
 	padding-left: 30px;
-} 
+}
 
 .courceInformation td{
 	padding-left: 60px;
-} 
+}
 
 .courceInformation .topic{
 	padding-left: 90px;
-} 
+}
 
 .courceInformation .btn-success{
 	border-radius: 5px;
 	margin-top: 8px;
-} 
+}
 
 .red {
 	color: red;
@@ -90,7 +90,7 @@ body {
 }
 
 .flag_icon {
-    
+
 }
 
 .language_toggle {

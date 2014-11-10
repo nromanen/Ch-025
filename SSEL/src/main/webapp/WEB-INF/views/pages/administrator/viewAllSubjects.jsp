@@ -5,6 +5,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
+<script>
+	$(function() {
+		//$(".sidebar").find("a").addClass("active");
+		$(".sidebar").find($('a[href="viewAllSubjects"]')).addClass("active");
+	});
+</script>
+
 <script type="text/javascript">
 	$(document)
 			.on(
@@ -61,12 +68,35 @@
 					});
 </script>
 
+
 <script type="text/javascript">
 	function changeElementsPerPageFunction(sel) {
 		var elements = document.getElementById("elementsOnPage");
+		var newPage = elements.options[elements.selectedIndex].value;
+
+		/*
+		//$.get( "viewAllSubjects?elementsOnPage=5");
+		$.post( "viewAllSubjects?elementsOnPage="+newPage );
+		echo("${elementsOnPage}");
+		//$.get( "viewAllSubjects", {elementsOnPage: "3"} );
+
+
+		var saveData = $.ajax({
+		type: 'POST',
+		url: "changeSubjectAjax",
+		data: { elementsOnPage: newPage},
+		success: function(resultData) {
+			alert("asd");
+			json = JSON.stringify(resultData)
+			document.getElementById("demo").innerHTML=json;
+
+		}
+		});
+		 */
+
 		if ('${searchText}' != "" && '${searchOption}' != "") {
 			if ('${sortBy}' != "" && '${sortMethod}' != "") {
-				window.location.href = "viewAllSubjects?elementsOnPage="
+				window.location.href = "c"
 						+ elements.options[elements.selectedIndex].value
 						+ "&searchText=${searchText}&searchOption=${searchOption}&sortBy=${sortBy}&sortMethod=${sortMethod}";
 			} else {
@@ -146,6 +176,24 @@
 	}
 </script>
 
+<script type="text/javascript">
+	var xmlhttp;
+
+	function testAjax() {
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest(); //for IE7+, Firefox, Chrome, Opera, Safari
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP"); //for IE6, IE5
+		}
+
+		xmlhttp.open("POST", "saveData", true, "myUserName", "somePassord");
+
+		document.getElementById("demo").innerHTML = xmlhttp.responseText;
+
+	}
+</script>
+
+<textarea id="demo"></textarea>
 <!-- Modal window -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel" aria-hidden="true">
@@ -210,11 +258,7 @@
 
 		<div class="col-md-2"></div>
 		<div class="col-md-8">
-			<h1 align="center">
-				<spring:message code="label.subjects" />
-				:
-			</h1>
-
+			<br>
 			<!-- search block -->
 			<div class="col-md-12">
 				<div class="input-group col-md-6">
