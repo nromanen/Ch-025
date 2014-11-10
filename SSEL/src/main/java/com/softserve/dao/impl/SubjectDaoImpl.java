@@ -89,8 +89,9 @@ public class SubjectDaoImpl implements SubjectDao {
 		return query.getResultList();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<Subject> getSubjectsByNamePart(String namePart) {
+	public List<Subject> getSubjectsByNamePart(String namePart, int pageNumber, int pageSize) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Subject> criteriaQuery = criteriaBuilder.createQuery(Subject.class);
 		Root<Subject> root = criteriaQuery.from(Subject.class);
@@ -98,7 +99,17 @@ public class SubjectDaoImpl implements SubjectDao {
 		Predicate predicate = 
 				criteriaBuilder.like(criteriaBuilder.upper(root.<String>get("name")), "%" + namePart.toUpperCase() + "%");
 		criteriaQuery.where(predicate);
-		return entityManager.createQuery(criteriaQuery).getResultList();
+		Query query = entityManager.createQuery(criteriaQuery);
+		query.setFirstResult((pageNumber - 1) * pageSize);
+		query.setMaxResults(pageSize);
+		return query.getResultList();
+	}
+	
+	public Long getSubjectsQuantityByNamePart(String namePart) {
+		Query query = entityManager
+				.createQuery("SELECT COUNT (*) FROM Subject s WHERE name LIKE :namepart");
+		query.setParameter("namepart", "%" + namePart + "%");
+		return (Long) query.getSingleResult();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -211,6 +222,21 @@ public class SubjectDaoImpl implements SubjectDao {
 						+ "WHERE s.name = :searchText or s.category.name = :searchText");
 		query.setParameter("searchText", searchText);
 		return (Long) query.getSingleResult();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Subject> getSubjectsByCategoryIdWithLimit(int categoryId, int pageNumber, int pageSize) {
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Subject> criteriaQuery = criteriaBuilder.createQuery(Subject.class);
+		Root<Subject> root = criteriaQuery.from(Subject.class);
+		criteriaQuery.select(root);
+		Predicate predicate = criteriaBuilder.equal(root.<Integer>get("category"), categoryId);
+		criteriaQuery.where(predicate);
+		Query query = entityManager.createQuery(criteriaQuery);
+		query.setFirstResult((pageNumber - 1) * pageSize);
+		query.setMaxResults(pageSize);
+		return query.getResultList();
 	}
 
 }

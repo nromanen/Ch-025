@@ -14,7 +14,7 @@ import com.softserve.dao.GroupDao;
 import com.softserve.entity.Group;
 /**
  * Implement functionality, specified in GroupDao
- * @author Анатолій
+ * @author 
  *
  */
 @Repository

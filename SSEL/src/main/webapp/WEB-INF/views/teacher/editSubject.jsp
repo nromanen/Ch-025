@@ -1,8 +1,8 @@
-<%@page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 
 <script src="resources/ckeditor/ckeditor.js"></script>
@@ -16,56 +16,50 @@
 <div class="row">
 	<div class="panel panel-default">
 		<div class="panel-body">
-			<form action="saveSubject" name="saveSubject" id="saveSubject">
+			<form:form method="post" action="saveSubject" name="saveSubject" id="esaveSubject" commandName="subject">
+				<form:hidden path="id"/>
+				<input type="hidden" name="user" value="${subject.id}">
 				<input type="hidden" name="subjectId" value="${subject.id}">
 				<div class="form-group">
-					<label><spring:message code="label.teacher.category"/></label> <select class="form-control"
-						name="subjectCategoryId" style="width:40%">
-						<c:forEach items="${catList}" var="category">
-							<c:choose>
-								<c:when test="${subject.category.id == category.id}">
-									<option selected value="${category.id}">${category.id}.
-										${category.name}</option>
-								</c:when>
-								<c:otherwise>
-									<option value="${category.id}">${category.id}.
-										${category.name}</option>
-								</c:otherwise>
-							</c:choose>
-						</c:forEach>
-					</select>
+					<label><spring:message code="label.teacher.category"/></label>
+					<form:select class="form-control" items="${catList}" path="category" itemValue="id" itemLabel="name" style="width: 40%"/>
 					<p class="help-block"><spring:message code="label.teacher.selectCategory"/></p>
 				</div>
 
 				<div class="form-group">
-					<label><spring:message code="label.teacher.name"/></label> <input class="form-control"
-						name="subjectName" id="subjectName" maxlength="30" style="width:40%" value="${subject.name}">
+					<label><spring:message code="label.teacher.name"/></label>
+					<form:input class="form-control" path="name" style="width: 40%" value="${subject.name}" />
+					<form:errors path="name" cssClass="error" />
 					<p class="help-block"><spring:message code="label.teacher.inputOrEditSubjectName"/></p>
 				</div>
-				<label>Content</label>
-				<textarea name="subjectDescription" id="subjectDescription" rows="10" cols="80">
-                ${subject.description}
-         
-            </textarea>
+				
+				<label><spring:message code="label.teacher.content"/></label>
+				<form:textarea id="description" path="description" rows="15" cols="80"/>
+				
+				
+
 				<script>
-					CKEDITOR.replace('subjectDescription');
+					CKEDITOR.replace('description');
 				</script>
 				<br>
 
+			<fmt:formatDate value="${scheduler.start}" var="startDate" pattern="dd-MM-yyyy" />
+			<fmt:formatDate value="${scheduler.end}" var="endDate" pattern="dd-MM-yyyy" />
 
 				<div class="form-group">
 					
 					<label><spring:message code="label.teacher.startDate"/></label>
 					<input name="startDate" class="src_date" type="textarea" placeholder="DD-MM-YYYY"
-						value="<fmt:formatDate pattern='dd-MM-yyyy' value='${scheduler.start}' />" id="startDate">
+						value="${startDate}" id="startDate">
 					
 					<label><spring:message code="label.teacher.endDate"/></label> 
 					<input name="endDate" class="src_date" type="textarea" placeholder="DD-MM-YYYY" 
-						value="<fmt:formatDate pattern='dd-MM-yyyy' value='${scheduler.end}' />" id="endDate">
+						value="${endDate}" id="endDate">
 						
 				</div>
+				
 				<br> <input type="submit" class="btn btn-primary btn-lg" value=<spring:message code="label.teacher.save"/>>
-			</form>
+			</form:form>
 		</div>
 	</div>
 </div>

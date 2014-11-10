@@ -2,20 +2,6 @@
 	pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-
-<script>
-	$(document).ready(function () {
-		$('#email, #password').on("keyup", function() {
-			if ($('#email').val() != 0 && $('#password').val() != 0) {
-				$('#submit_btn').removeAttr('disabled');
-			} else {
-				$('#submit_btn').attr("disabled", "disabled");
-			}
-		});
-	});
-</script>
-
 <div class="container">
 	<div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">                    
      	<div class="panel panel-info" >
@@ -63,7 +49,7 @@
 						</div>
 					</div>
 					<div style="margin-top:10px" class="form-group">
-						<button type="submit" class="btn btn-success" id="submit_btn" disabled>
+						<button type="submit" class="btn btn-success" id="submit_btn">
 							<spring:message code="label.sing_in" />
 						</button>
 						<a href="<c:url value="/registration" />" class="btn btn-primary">

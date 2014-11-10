@@ -52,5 +52,10 @@ public class StudentGroupServiceImpl implements StudentGroupService {
 		return studentGroupDao.getAllStudentGroups();
 	}
 
-
+	@Transactional
+	@Override
+	public StudentGroup getStudentGroupByUserAndGroupId(int userId,
+			int groupId) {
+		return studentGroupDao.getStudentGroupByGroupAndUser(groupId, userId);
+	}
 }

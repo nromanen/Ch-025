@@ -3,23 +3,28 @@ package com.softserve.connectionFactory;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
+
+import javax.annotation.Resource;
 import javax.sql.DataSource;
+
 import org.apache.commons.dbcp.DriverManagerConnectionFactory;
 import org.apache.commons.dbcp.PoolableConnectionFactory;
 import org.apache.commons.dbcp.PoolingDataSource;
 import org.apache.commons.pool.impl.GenericObjectPool;
+import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
  
 public class ConnectionFactory {
     private static interface Singleton {
         final ConnectionFactory INSTANCE = new ConnectionFactory();
     }
- 
+    
+       
     private final DataSource dataSource;
  
     private ConnectionFactory() {
-        Properties properties = new Properties();
+    	Properties properties = new Properties();
         properties.setProperty("user", "root");
-        properties.setProperty("password", "root"); // or get properties from some configuration file
+        properties.setProperty("password", "root");
       
         GenericObjectPool pool = new GenericObjectPool();
         DriverManagerConnectionFactory connectionFactory = new DriverManagerConnectionFactory(

@@ -16,12 +16,12 @@
 				id="dataTables-example">
 				<thead>
 					<tr>
-						<td>Subject name</td>
-						<td>Start time</td>
-						<td>End time</td>
+						<td><spring:message code="label.teacher.subjectName" /></td>
+						<td><spring:message code="label.student.start_time" /></td>
+						<td><spring:message code="label.student.end_time" /></td>
 						<c:if test="${table ne 'future'}">
-							<td>Current rating</td>
-							<td>Current progress</td>
+							<td><spring:message code="label.student.current_rating" /></td>
+							<td><spring:message code="label.student.current_progress" /></td>
 						</c:if>
 					</tr>
 				</thead>
@@ -33,6 +33,9 @@
 									<c:choose>	
 										<c:when test="${table eq 'active'}">
 											<a href="modules?courseId=${course.subject.id}">${course.subject.name}</a>
+										</c:when>
+										<c:when test="${table eq 'finished'}">
+											<a href="ratings?courseId=${course.subject.id}">${course.subject.name}</a>
 										</c:when>
 										<c:otherwise>
 											<a href="courseInformation?subjectId=${course.subject.id}">${course.subject.name}
@@ -48,10 +51,10 @@
 									</td>
 								<c:if test="${table ne 'future'}">
 									<td>
-										${ratings[index]}
+										${ratings.get(index)}
 									</td>
 									<td>
-										${progreses[index]}
+										${progreses.get(index)}
 									</td>
 								<c:set var="index" value="${index+1}"/>
 							</c:if> 

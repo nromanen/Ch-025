@@ -17,7 +17,6 @@
 			<c:if test="${sessionScope.user.role.role eq 'STUDENT'}">
 				<c:if test="${schedule.start >= now}">
 				<form method="GET" action="subscribe">
-				
 					<c:if test="${isSubscribe eq true}">
 						<button value="${subject.id}" name="subjectId"
 							class="btn btn-success" style="width: 200px; margin-top: 8px;">
@@ -29,6 +28,12 @@
 							<spring:message code="label.unsubscribe" /></button>
 					</c:if>
 					<input type="hidden" name="op" value="${isSubscribe}">
+					<c:if test="${isSubscribed eq true}">
+						<p> <spring:message code="label.subscribed"/> </p>
+					</c:if>
+					<c:if test="${isSubscribed eq false}">
+						<p> <spring:message code="label.unsubscribed"/> </p>
+					</c:if>
 				</form>
 				</c:if>
 				<c:if test="${schedule.start < now }">

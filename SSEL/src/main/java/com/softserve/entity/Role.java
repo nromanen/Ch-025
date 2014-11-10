@@ -9,19 +9,19 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "role")
-public class Role  {
+public class Role {
 
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
-	@Column(name = "role", nullable = false)
+
+	@Column(name = "role", nullable = false, length = 10)
 	private String role;
-	
+
 	public Role() {
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -63,10 +63,10 @@ public class Role  {
 			return false;
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
 		return role;
 	}
-	
+
 }

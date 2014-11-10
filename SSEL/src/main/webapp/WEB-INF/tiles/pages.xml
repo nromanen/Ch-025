@@ -36,7 +36,7 @@
 
 	<!-- Remind -->
 	<definition name="remind" extends="sign-template">
-		<put-attribute name="title" value="SSEL SoftServeAcademy Renind" />
+		<put-attribute name="title" value="SSEL SoftServeAcademy Remind" />
 		<put-attribute name="content" value="/WEB-INF/views/remind.jsp" />
 	</definition>
 
@@ -179,9 +179,16 @@
 		<put-attribute name="menu"
 			value="/WEB-INF/views/templates/administrator_menu.jsp"></put-attribute>
 	</definition>
+<<<<<<< HEAD
 	<definition name="viewAllRequests" extends="administrator">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
 		<put-attribute name="content" value="/WEB-INF/views/pages/administrator/viewAllRequests.jsp"></put-attribute>
+=======
+	<definition name="logDetails" extends="administrator">
+		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/pages/administrator/logDetails.jsp"></put-attribute>
+>>>>>>> f98bdf9d8c3c1c6923dc3908adeab57e6a2fe15c
 		<put-attribute name="menu"
 			value="/WEB-INF/views/templates/administrator_menu.jsp"></put-attribute>
 	</definition>

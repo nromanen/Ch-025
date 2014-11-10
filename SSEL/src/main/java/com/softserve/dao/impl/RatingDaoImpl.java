@@ -72,9 +72,10 @@ public class RatingDaoImpl implements RatingDao {
 				+ "r.user.id = :ui ");
 		query.setParameter("gi", groupId);
 		query.setParameter("ui", userId);
-		return (Double) query.getSingleResult();
+		return (query.getResultList().size() != 0) ? (Double) query.getSingleResult() : 0;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public double getProgressByGroupAndUser(int groupId, int userId) {
 		CourseScheduler cs = (CourseScheduler) entityManager.createQuery("SELECT gr.course FROM Group gr WHERE gr.groupId = :id")
@@ -82,11 +83,11 @@ public class RatingDaoImpl implements RatingDao {
 		Query query = entityManager.createQuery("SELECT count(bl.id) FROM Block bl WHERE bl.subject.id = :id")
 				.setParameter("id", cs.getSubject().getId());
 		Long blocksCount = (Long) query.getSingleResult();
-		Long ratingsCount = (Long) entityManager.createQuery("SELECT count(rt.id) FROM Rating rt WHERE "
+		List<Long> ratings =  entityManager.createQuery("SELECT count(rt.id) FROM Rating rt WHERE "
 				+ "rt.group.groupId = :gid AND rt.user.id = :uid")
 		.setParameter("gid", groupId)
-		.setParameter("uid", userId)
-		.getSingleResult();
+		.setParameter("uid", userId).getResultList();
+		Long ratingsCount = (ratings.size() != 0) ? ratings.get(0) : 0;
 		ratingsCount *= 100L;
 		return (double)ratingsCount/blocksCount;
 	}
