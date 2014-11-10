@@ -1,6 +1,7 @@
 package com.softserve.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -22,6 +24,11 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.softserve.entity.User;
 import com.softserve.service.UserService;
 
+/**
+ * Handle user profile request
+ * 
+ * @author Khomyshyn Roman
+ */
 @Controller
 public class UserProfileController {
 
@@ -45,13 +52,15 @@ public class UserProfileController {
 		return "profile";
 	}
 
-	@RequestMapping(value = "/checkOldPassword", method = RequestMethod.POST, headers = { "content-type=application/json" })
-	public @ResponseBody boolean checkOldPassword(
-			@RequestBody Map<String, Object> map) {
+	@RequestMapping(value = "/checkOldPassword")
+	public @ResponseBody Map<String, String> checkOldPassword(
+			@RequestParam String oldPassword) {
 		String email = userService.getCurrentUser();
-		String oldPassword = map.get("old_password").toString();
 		User user = userService.getUserByEmail(email);
-		return userService.isEqualsPasswords(oldPassword, user);
+		Map<String, String> map = new HashMap<>();
+		map.put("valid", Boolean.toString(userService.isEqualsPasswords(
+				oldPassword, user)));
+		return map;
 	}
 
 	@RequestMapping(value = "/changePassword", method = RequestMethod.POST, headers = { "content-type=application/json" })

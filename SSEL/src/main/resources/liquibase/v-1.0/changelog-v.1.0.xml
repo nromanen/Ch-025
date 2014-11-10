@@ -17,24 +17,62 @@
 	</changeSet>
 
 	<changeSet id="2014-11-08-insert-into-table-role-1" author="Roma">
-		<comment>Insert role into table</comment>
+		<comment>Insert role admin into table</comment>
 		<insert tableName="role">
 			<column name="role" value="ADMIN" />
 		</insert>
 	</changeSet>
 
 	<changeSet id="2014-11-08-insert-into-table-role-2" author="Roma">
-		<comment>Insert role into table</comment>
+		<comment>Insert role student into table</comment>
 		<insert tableName="role">
 			<column name="role" value="STUDENT" />
 		</insert>
 	</changeSet>
 
 	<changeSet id="2014-11-08-insert-into-table-role-3" author="Roma">
-		<comment>Insert role into table</comment>
+		<comment>Insert role teacher into table</comment>
 		<insert tableName="role">
 			<column name="role" value="TEACHER" />
 		</insert>
+	</changeSet>
+
+	<changeSet id="2014-11-08-create-table-user-1" author="Roma">
+		<createTable tableName="user">
+			<column name="id" autoIncrement="true" type="int">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="blocked" type="boolean">
+				<constraints nullable="false" />
+			</column>
+			<column name="email" type="varchar(50)">
+				<constraints nullable="false" />
+			</column>
+			<column name="expired" type="datetime">
+				<constraints nullable="false" />
+			</column>
+			<column name="firstName" type="varchar(30)">
+				<constraints nullable="false" />
+			</column>
+			<column name="lastName" type="varchar(30)">
+				<constraints nullable="false" />
+			</column>
+			<column name="password" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="registration" type="datetime">
+				<constraints nullable="false" />
+			</column>
+			<column name="role" type="int" />
+			<column name="verificationkey" type="varchar(255)" />
+			<column name="image" type="LONGBLOB" />
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="2014-11-08-create-foreign-key-1" author="Roma">
+		<addForeignKeyConstraint constraintName="fk_user_role"
+			referencedTableName="role" baseColumnNames="role" baseTableName="user"
+			referencedColumnNames="id" onDelete="CASCADE" onUpdate="CASCADE" />
 	</changeSet>
 
 </databaseChangeLog>

@@ -22,6 +22,12 @@ public class StudentCabinetServiceImp implements StudentCabinetSevice{
 	/**
 	 * Constructor by default
 	 */
+	public StudentCabinetServiceImp() {
+		
+	}
+	/**
+	 * Constructor for test
+	 */
 	public StudentCabinetServiceImp(CourseSchedulerDao instance) {
 		courseSchedulerDao = instance;
 	}

@@ -51,10 +51,10 @@
 									</td>
 								<c:if test="${table ne 'future'}">
 									<td>
-										${ratings[index]}
+										${ratings.get(index)}
 									</td>
 									<td>
-										${progreses[index]}
+										${progreses.get(index)}
 									</td>
 								<c:set var="index" value="${index+1}"/>
 							</c:if> 

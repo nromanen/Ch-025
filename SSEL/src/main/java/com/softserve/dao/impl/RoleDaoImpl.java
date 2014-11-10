@@ -15,21 +15,34 @@ import org.springframework.stereotype.Repository;
 import com.softserve.dao.RoleDao;
 import com.softserve.entity.Role;
 
+/**
+ * The Class RoleDaoImpl. This class implement interface {@link RoleDao}
+ *
+ * @author Khomyshyn Roman
+ */
 @Repository
 public class RoleDaoImpl implements RoleDao {
 
+	/** The Constant LOG. */
 	private static final Logger LOG = LoggerFactory
 			.getLogger(RoleDaoImpl.class);
 
+	/** The entity manager. */
 	@PersistenceContext(unitName = "entityManager")
 	private EntityManager entityManager;
 
+	/**
+	 * @see com.softserve.dao.RoleDao#getRoleById(int)
+	 */
 	@Override
 	public Role getRoleById(int id) {
 		LOG.debug("Get role with id = {}", id);
 		return entityManager.find(Role.class, id);
 	}
 
+	/**
+	 * @see com.softserve.dao.RoleDao#addRole(com.softserve.entity.Role)
+	 */
 	@Override
 	public Role addRole(Role role) {
 		LOG.debug("Add role {}", role);
@@ -37,6 +50,9 @@ public class RoleDaoImpl implements RoleDao {
 		return role;
 	}
 
+	/**
+	 * @see com.softserve.dao.RoleDao#updateRole(com.softserve.entity.Role)
+	 */
 	@Override
 	public Role updateRole(Role role) {
 		LOG.debug("Update role = {}", role.getRole());
@@ -44,6 +60,9 @@ public class RoleDaoImpl implements RoleDao {
 		return role;
 	}
 
+	/**
+	 * @see com.softserve.dao.RoleDao#deleteRole(com.softserve.entity.Role)
+	 */
 	@Override
 	public void deleteRole(Role role) {
 		Query query = entityManager
@@ -56,6 +75,9 @@ public class RoleDaoImpl implements RoleDao {
 		}
 	}
 
+	/**
+	 * @see com.softserve.dao.RoleDao#getAllRoles()
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Role> getAllRoles() {
@@ -65,6 +87,9 @@ public class RoleDaoImpl implements RoleDao {
 		return roles;
 	}
 
+	/**
+	 * @see com.softserve.dao.RoleDao#getRoleByName(java.lang.String)
+	 */
 	@Override
 	public Role getRoleByName(String name) {
 		LOG.debug("Get role(name = {})", name);

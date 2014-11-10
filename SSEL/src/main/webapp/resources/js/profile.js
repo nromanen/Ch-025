@@ -53,28 +53,6 @@ jQuery(document).ready(function ($) {
 		return false;
 	});
     
-    $("#old_password").on("blur", function(){
-		var json = {"old_password" : $('#old_password').val()};
-		$.ajax({
-			type: "POST",
-			url: "checkOldPassword",
-			contentType: "application/json",
-			data: JSON.stringify(json),
-			success : function(response) {
-				if (response == false) {
-					$("#old_password_error").css("display", "block");
-					$("#old_password_error").removeClass("has-success");
-					$("#old_password_error").addClass("has-error");
-					$('#btn_change_password_submit').prop("disabled", true);
-				}
-				else { 
-					$("#old_password_error").css("display", "none");
-					$('#btn_change_password_submit').prop("disabled", false);
-				}
-			}
-		});		
-	});
-    
     $("#form_change_password").submit(function(){
 		var old_password = $("#old_password").val();
 		var new_password = $("#new_password").val();
@@ -89,7 +67,6 @@ jQuery(document).ready(function ($) {
 		        success: function(response) {
 		        	if(response == "success"){	
 		        		$("#modal_change_password").modal("hide");
-		        		
 		        	} 
 		        }
 		    });

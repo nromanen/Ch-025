@@ -62,13 +62,13 @@
 							<spring:message code="label.subscribed_courses" /></a>
 						</li>
 					<ul class="nav nav-second-level">
-						<li id="future" class="<c:if test="${table eq 'future'}" >active</c:if>"><a href="student?table=future" >
+						<li id="future" ><a href="student?table=future" class="<c:if test="${table eq 'future'}" >active</c:if>">
 								<spring:message code="label.future_courses" />
 							</a></li>
-						<li id="active" class="<c:if test="${table eq 'active'}" >active</c:if>"><a href="student?table=active" >
+						<li id="active" ><a href="student?table=active" class="<c:if test="${table eq 'active'}" >active</c:if>" >
 								<spring:message code="label.active_courses" />
 							</a></li>
-						<li id="finished" class="<c:if test="${table eq 'finished'}" >active</c:if>"><a href="student?table=finished" >
+						<li id="finished"><a href="student?table=finished" class="<c:if test="${table eq 'finished'}" >active</c:if>" >
 								<spring:message code="label.finished_courses" />
 							</a></li>
 					</ul> <!-- /.nav-second-level -->

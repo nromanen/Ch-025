@@ -81,9 +81,8 @@ public class StudentCabinetController {
 	 * @return view URL
 	 */
 	@RequestMapping("/subscribe")
-	public String performSubscribe(@RequestParam("subjectId") Integer subjectId, @RequestParam("op") Boolean operation, 
-			HttpSession sess) {
-		User user = (User) sess.getAttribute("user");
+	public String performSubscribe(@RequestParam("subjectId") Integer subjectId, @RequestParam("op") Boolean operation) {
+		User user = userService.getUserByEmail(userService.getCurrentUser()); //(User) sess.getAttribute("user");
 		if (operation) {
 			return subscribe(subjectId, user.getId(), user.getEmail());
 		} else {
@@ -98,9 +97,8 @@ public class StudentCabinetController {
 	 * @return view URL
 	 */
 	@RequestMapping(value = "/student", method = RequestMethod.GET)
-	public String printStudentCourses(@RequestParam(value="table", required = false) String table, Model model, 
-			HttpSession sess) {
-		User user = (User) sess.getAttribute("user");
+	public String printStudentCourses(@RequestParam(value="table", required = false) String table, Model model) {
+		User user = userService.getUserByEmail(userService.getCurrentUser());//(User) sess.getAttribute("user");
 		int userId  = user.getId();
 		studentCabinetService.initSubscribedList(userId);
 		List<CourseScheduler> scheduler;
@@ -132,6 +130,7 @@ public class StudentCabinetController {
 		progreses = new ArrayList<>();
 		for (CourseScheduler item: scheduler) {
 			int groupId = groupService.getGroupByScheduler(item.getId()).getGroupId();
+			System.out.println("Group id ="+groupId+" UserId="+userId);
 			ratings.add(ratingService.getAverageRatingByUserAndGroup(userId, groupId));
 			progreses.add(ratingService.getProgressByGroupAndUser(groupId, userId));
 		}	
@@ -150,9 +149,9 @@ public class StudentCabinetController {
 	 */
 	@RequestMapping(value = "/modules", method = RequestMethod.GET)
 	public String printModules(
-			@RequestParam(value = "courseId", required = true) Integer courseId, Model model, HttpSession session) {
+			@RequestParam(value = "courseId", required = true) Integer courseId, Model model) {
 		try {
-		User user = (User) session.getAttribute("user");
+		User user = userService.getUserByEmail(userService.getCurrentUser());//(User) session.getAttribute("user");
 		int userId;
 		userId = user.getId();
 		List<Block> blocks = blockService.getBlocksBySubjectId(courseId);
@@ -178,9 +177,9 @@ public class StudentCabinetController {
 	 */
 	@RequestMapping(value="/topicView", method = RequestMethod.GET)
 	public String printTopic(@RequestParam (value = "topicId", required = true) Integer topicId, Model model,
-			HttpSession sess) {
+			HttpSession session) {
 		Topic topic = topicService.getTopicById(topicId);
-		String dirname = sess.getServletContext().getRealPath("resources");
+		String dirname = session.getServletContext().getRealPath("resources");
 		dirname += "\\tmp\\";
 		File tmpDir = new File(dirname);
 		if (!tmpDir.exists()) {
@@ -189,7 +188,8 @@ public class StudentCabinetController {
 		List<StudyDocument> documents = studyDocumentDao.listByTopicId(topic.getId());
 		for (StudyDocument doc : documents) {
 			File file = new File(dirname+doc.getName());
-			if(!file.exists()) {
+			Date lastModified = new Date(file.lastModified());
+			if(!file.exists() || lastModified.before(doc.getLastUpdated())) {
 				try(FileOutputStream fout = new FileOutputStream(dirname+doc.getName());){
 					fout.write(doc.getData());
 				} catch (IOException e) {
@@ -216,11 +216,10 @@ public class StudentCabinetController {
 	@RequestMapping(value = "/ratings", method = RequestMethod.GET)
 	private String printStatistics(@RequestParam (value = "courseId", required = true) Integer courseId,
 								   @RequestParam (value = "showType", required = false) String showType,
-								   Model model, 
-								   HttpSession session) {
+								   Model model) {
 		CourseScheduler cs = courseService.getCourseScheduleresBySubjectId(courseId).get(0);
 		Group group = groupService.getGroupByScheduler(cs.getId());
-		User user = (User) session.getAttribute("user");
+		User user = userService.getUserByEmail(userService.getCurrentUser());//(User) session.getAttribute("user");
 		double avgRating = ratingService.getAverageRatingByUserAndGroup(user.getId(), group.getGroupId());
 		double progress = ratingService.getProgressByGroupAndUser(group.getGroupId(), user.getId());
 		List<Block> blocks = blockService.getBlocksBySubjectId(cs.getSubject().getId());
