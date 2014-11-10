@@ -11,22 +11,13 @@ import com.softserve.service.UserService;
 
 /**
  * Class for validation registration form
-<<<<<<< HEAD
- *
-=======
- * 
->>>>>>> f98bdf9d8c3c1c6923dc3908adeab57e6a2fe15c
  * @author Khomyshyn Roman
  */
 
 @Component
 public class RegistrationValidation implements Validator {
 
-<<<<<<< HEAD
 	private static final String NAME_PATTERN = "[A-ZÀ-ß²¯ª]{1}[A-ZÀ-ß²¯ªa-zà-ÿ³¿º]{1,30}";
-=======
-	private static final String NAME_PATTERN = "[A-ZÐ-Ð¯Ð„Ð‡Ð†]{1}[A-ZÐ-Ð¯Ð„Ð‡Ð†a-zÐ°-ÑÑ—Ñ”Ñ–]{1,30}";
->>>>>>> f98bdf9d8c3c1c6923dc3908adeab57e6a2fe15c
 	private static final String EMAIL_PATTERN = "[A-Za-z0-9_\\.-]{1,30}@[A-Za-z0-9_\\.-]{1,30}";
 	private static final String PASSWORD_PATTERN = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[//@/./&/!#/$%/^/*/?])(?!.*\\s).{4,20}$";
 

@@ -22,21 +22,12 @@ import com.softserve.validator.RegistrationValidation;
 
 @RunWith(Parameterized.class)
 public class RegistrationValidationPositiveTest {
-<<<<<<< HEAD:SSEL/src/test/java/com/softserve/tests/RegistrationValidationPositiveTest.java
 
 	private RegistrationValidation registrationValidation = new RegistrationValidation();
 	private Registration registration = new Registration();
 	private UserService userService;
 
 	public RegistrationValidationPositiveTest(String firstName, String lastName,
-=======
-	
-	private RegistrationValidation registrationValidation = new RegistrationValidation();
-	private Registration registration = new Registration();
-	private UserService userService;
-	
-	public RegistrationValidationPositiveTest(String firstName, String lastName, 
->>>>>>> f98bdf9d8c3c1c6923dc3908adeab57e6a2fe15c:SSEL/src/test/java/com/softserve/tests/RegistrationValidationPositiveTest.java
 			String email, String password, String confirmPassword) {
 		registration.setFirstName(firstName);
 		registration.setLastName(lastName);
@@ -44,11 +35,7 @@ public class RegistrationValidationPositiveTest {
 		registration.setPassword(password);
 		registration.setConfirmPassword(confirmPassword);
 	}
-<<<<<<< HEAD:SSEL/src/test/java/com/softserve/tests/RegistrationValidationPositiveTest.java
 
-=======
-	
->>>>>>> f98bdf9d8c3c1c6923dc3908adeab57e6a2fe15c:SSEL/src/test/java/com/softserve/tests/RegistrationValidationPositiveTest.java
     @Parameters
     public static Collection<Object[]> data() {
     	Object[][] data = new Object[][] {
@@ -65,17 +52,10 @@ public class RegistrationValidationPositiveTest {
     				"Fsd", "Fdsfsd", "gdfgf.dg@i.ua", "12fdsF//d54fd*&", "12fdsF//d54fd*&"
     			},
     			{
-<<<<<<< HEAD:SSEL/src/test/java/com/softserve/tests/RegistrationValidationPositiveTest.java
     				"Âàñÿ", "Ïóïê³í", "vasya.pupkin@mail.ru", "fdsFd54fd*&", "fdsFd54fd*&"
     			},
     			{
     				"²âàí", "²âàíåíêî", "vanya@yahoo.com", "QweFrty34*&", "QweFrty34*&"
-=======
-    				"Ð’Ð°ÑÑ", "ÐŸÑƒÐ¿ÐºÑ–Ð½", "vasya.pupkin@mail.ru", "fdsFd54fd*&", "fdsFd54fd*&"
-    			},
-    			{
-    				"Ð†Ð²Ð°Ð½", "Ð†Ð²Ð°Ð½ÐµÐ½ÐºÐ¾", "vanya@yahoo.com", "QweFrty34*&", "QweFrty34*&"
->>>>>>> f98bdf9d8c3c1c6923dc3908adeab57e6a2fe15c:SSEL/src/test/java/com/softserve/tests/RegistrationValidationPositiveTest.java
     			},
     			{
     				"Fdsds", "Brbrbf", "VasYa@gmail.com", "f--dsfdFd54fd*&", "f--dsfdFd54fd*&"
@@ -86,39 +66,23 @@ public class RegistrationValidationPositiveTest {
     	};
     	return Arrays.asList(data);
     }
-<<<<<<< HEAD:SSEL/src/test/java/com/softserve/tests/RegistrationValidationPositiveTest.java
 
-=======
-	
->>>>>>> f98bdf9d8c3c1c6923dc3908adeab57e6a2fe15c:SSEL/src/test/java/com/softserve/tests/RegistrationValidationPositiveTest.java
 	@Before
 	public void setUp() {
 		userService = mock(UserService.class);
 		registrationValidation.setUserService(userService);
 	}
-<<<<<<< HEAD:SSEL/src/test/java/com/softserve/tests/RegistrationValidationPositiveTest.java
 
-=======
-	
->>>>>>> f98bdf9d8c3c1c6923dc3908adeab57e6a2fe15c:SSEL/src/test/java/com/softserve/tests/RegistrationValidationPositiveTest.java
 	@Test
 	public void testSupports() {
 		assertTrue(registrationValidation.supports(Registration.class));
 	}
-<<<<<<< HEAD:SSEL/src/test/java/com/softserve/tests/RegistrationValidationPositiveTest.java
 
-=======
-	
->>>>>>> f98bdf9d8c3c1c6923dc3908adeab57e6a2fe15c:SSEL/src/test/java/com/softserve/tests/RegistrationValidationPositiveTest.java
 	@Test
 	public void testNotSupports() {
 		assertFalse(registrationValidation.supports(Object.class));
 	}
-<<<<<<< HEAD:SSEL/src/test/java/com/softserve/tests/RegistrationValidationPositiveTest.java
 
-=======
-	
->>>>>>> f98bdf9d8c3c1c6923dc3908adeab57e6a2fe15c:SSEL/src/test/java/com/softserve/tests/RegistrationValidationPositiveTest.java
 	@Test
 	public void testHasErrors() {
 		when(userService.isExist(registration.getEmail())).thenReturn(false);
@@ -127,8 +91,4 @@ public class RegistrationValidationPositiveTest {
         assertFalse(errors.hasErrors());
 	}
 
-<<<<<<< HEAD:SSEL/src/test/java/com/softserve/tests/RegistrationValidationPositiveTest.java
 }
-=======
-}
->>>>>>> f98bdf9d8c3c1c6923dc3908adeab57e6a2fe15c:SSEL/src/test/java/com/softserve/tests/RegistrationValidationPositiveTest.java
