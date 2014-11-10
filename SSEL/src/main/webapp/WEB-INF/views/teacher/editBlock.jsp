@@ -1,9 +1,10 @@
-<%@page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+
 
 <div class="row">
 	<div class="col-lg-12">
@@ -13,53 +14,44 @@
 
 <div class="panel panel-default">
 	<div class="panel-body">
-		<form action="saveBlock" name="editBlockForm" id="editBlockForm">
-			<input type="hidden" name="blockId" value="${block.id}">
-
+		<form:form method="post" action="saveBlock" name="editBlockForm" id="editBlockForm" commandName="block">
+			<form:hidden path="id"/>
+			
 			<div class="form-group">
-				<label><spring:message code="label.teacher.subject"/></label> <select class="form-control"
-					name="subjectId" style="width: 40%">
-					<c:forEach items="${subjectList}" var="subject">
-						<c:choose>
-							<c:when test="${block.subject.id == subject.id}">
-								<option selected value="${subject.id}"> ${subject.name}</option>
-							</c:when>
-							<c:otherwise>
-								<option value="${subject.id}"> ${subject.name}</option>
-							</c:otherwise>
-						</c:choose>
-					</c:forEach>
-				</select>
+				<label><spring:message code="label.teacher.subject"/></label>
+				<form:select class="form-control" items="${subjectList}" path="subject" itemValue="id" itemLabel="name" style="width: 40%"/>
 				<p class="help-block"><spring:message code="label.teacher.subject"/></p>
 			</div>
 
 			<div class="form-group">
-				<label><spring:message code="label.teacher.name"/></label> <input class="form-control"
-					name="blockName" id="blockName" style="width: 40%" value="${block.name}">
-				<p class="help-block">Input or edit module name</p>
+				<label><spring:message code="label.teacher.name"/></label>
+				<form:input class="form-control" path="name" style="width: 40%" value="${block.name}" />
+					<form:errors path="name" cssClass="error" />
+				<p class="help-block"><spring:message code="label.teacher.inputOrEditModuleName"/></p>
 			</div>
+			
+			<fmt:formatDate value="${block.startTime}" var="startTime" pattern="dd-MM-yyyy" />
+			<fmt:formatDate value="${block.endTime}" var="endTime" pattern="dd-MM-yyyy" />
+			
 
 			<div class="form-group">
-				<label><spring:message code="label.teacher.order"/></label> <input class="form-control"
-					name="blockOrder" id="blockOrder" style="width: 5%" value="${block.order}">
-				<p class="help-block">Input or edit module order</p>
-			</div>
-
-			<div class="form-group">
-				<label><spring:message code="label.teacher.startDate"/></label> <input name="startDate" class="src_date"
-					type="textarea" placeholder="DD-MM-YYYY"
-					value="<fmt:formatDate pattern='dd-MM-yyyy' value='${block.startTime}' />"
-					id="startDate" required> <label><spring:message code="label.teacher.endDate"/></label> <input
-					name="endDate" class="src_date" type="textarea"
-					placeholder="DD-MM-YYYY"
-					value="<fmt:formatDate pattern='dd-MM-yyyy' value='${block.endTime}' />"
-					id="endDate" required>
+				<label><spring:message code="label.teacher.startDate"/></label>
+				<form:input class="form-control" path="startTime" style="width: 20%"
+				value="${startTime}" placeholder="DD-MM-YYYY" />
+					<form:errors path="startTime" cssClass="error" />
+				
+				<br>	
+				
+				<label><spring:message code="label.teacher.endDate"/></label>
+				<form:input class="form-control" path="endTime" style="width: 20%"
+				value="${endTime}" placeholder="DD-MM-YYYY" />
+					<form:errors path="endTime" cssClass="error" />
 			</div>
 
 			<br> <br> <input type="submit"
-				class="btn btn-primary btn-lg" value="Save">
+				class="btn btn-primary btn-lg" value=<spring:message code="label.teacher.save"/>>
 
-		</form>
+		</form:form>
 	</div>
 </div>
 

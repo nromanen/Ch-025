@@ -40,7 +40,7 @@
             maxFileSize: '@',
             minFileSize: '@',
             maxNumberOfFiles: '@',
-            disabled: '@disableValidation'
+            disabled: '@enableValidation'
         }
     );
 
@@ -49,17 +49,17 @@
     $.widget('blueimp.fileupload', $.blueimp.fileupload, {
 
         options: {
-            /*
+            
             // The regular expression for allowed file types, matches
             // against either file type or file name:
-            acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+            acceptFileTypes: /(\.|\/)(gif|jpe?g|doc|xls|ppt|docx|xlsx|pptx|pdf|png)$/i,
             // The maximum allowed file size in bytes:
-            maxFileSize: 10000000, // 10 MB
+            maxFileSize: 30000000, // 10 MB
             // The minimum allowed file size in bytes:
             minFileSize: undefined, // No minimal file size
             // The limit of files to be uploaded:
             maxNumberOfFiles: 10,
-            */
+            
 
             // Function returning the current number of files,
             // has to be overriden for maxNumberOfFiles validation:
@@ -106,6 +106,9 @@
                 if (file.error || data.files.error) {
                     data.files.error = true;
                     dfd.rejectWith(this, [data]);
+                    location.reload();
+                    alert (file.error);
+                    
                 } else {
                     dfd.resolveWith(this, [data]);
                 }

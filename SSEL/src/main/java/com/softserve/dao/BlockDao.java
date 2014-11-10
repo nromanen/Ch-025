@@ -6,15 +6,15 @@ import com.softserve.entity.Block;
 
 public interface BlockDao {
 
-	public Block addBlock(Block block);
+	Block addBlock(Block block);
 
-	public Block updateBlock(Block block);
+	Block updateBlock(Block block);
 
-	public void deleteBlock(Block block);
+	void deleteBlock(Block block);
 
-	public Block getBlockById(int id);
+	Block getBlockById(int id);
+	
+	List<Block> getAllBlocks();
 
-	public List<Block> getAllBlocks();
-
-	public List<Block> getBlocksBySubjectId(int id);
+	List<Block> getBlocksBySubjectId(int id);
 }

@@ -3,6 +3,8 @@ package com.softserve.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,19 +13,23 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.softserve.entity.Category;
 import com.softserve.entity.CourseScheduler;
 import com.softserve.entity.Role;
 import com.softserve.entity.Subject;
+import com.softserve.entity.TeacherRequest;
 import com.softserve.entity.User;
 import com.softserve.service.AdministratorService;
 import com.softserve.service.CategoryService;
 import com.softserve.service.CourseSchedulerService;
+import com.softserve.service.LogService;
 import com.softserve.service.RoleService;
 import com.softserve.service.StudentGroupService;
 import com.softserve.service.SubjectService;
+import com.softserve.service.TeacherRequestService;
 import com.softserve.service.UserService;
 
 @Controller
@@ -54,6 +60,12 @@ public class AdministratorController {
 
 	@Autowired
 	private RoleService roleService;
+
+	@Autowired
+	private TeacherRequestService teacherRequestService;
+
+	@Resource(name = "LogService")
+	private LogService logService;
 
 	@RequestMapping(value = "/administrator", method = RequestMethod.GET)
 	public String administrator(Model model) {
@@ -220,7 +232,6 @@ public class AdministratorController {
 
 			Model model, RedirectAttributes redirectAttributes) {
 		LOG.debug("Visit changeSubjectCategory page");
-		System.out.println(userId + "  " + roleId);
 		if (userId != null && roleId != null) {
 			User user = userService.getUserById(userId);
 			Role role = roleService.getRoleById(roleId);
@@ -282,7 +293,7 @@ public class AdministratorController {
 		return "redirect:/viewAllUsers";
 	}
 
-	@RequestMapping(value = "/viewAllSubjects", method = RequestMethod.GET)
+	@RequestMapping(value = "/viewAllSubjects")
 	public String viewAllSubjects(
 			@RequestParam(value = "successMessage", required = false) String successMessage,
 			@RequestParam(value = "errorMessage", required = false) String errorMessage,
@@ -367,6 +378,15 @@ public class AdministratorController {
 		return "viewAllSubjects";
 	}
 
+	@RequestMapping(value = "/changeSubjectAjax")
+	@ResponseBody
+	public String changeSubjectAjax(
+			@RequestParam(value = "elementsOnPage", required = false) Integer elementsOnPage,
+			RedirectAttributes redirectAttributes) {
+		redirectAttributes.addAttribute("elementsOnPage", elementsOnPage);
+		return "redirect:/viewAllSubjects";
+	}
+
 	@RequestMapping(value = "/changeSubjectCategory", method = RequestMethod.GET)
 	public String changeSubjectCategory(
 			@RequestParam(value = "subjectId", required = false) Integer subjectId,
@@ -401,5 +421,141 @@ public class AdministratorController {
 		redirectAttributes.addAttribute("sortBy", sortBy);
 		redirectAttributes.addAttribute("sortMethod", sortMethod);
 		return "redirect:/viewAllSubjects";
+	}
+
+	@RequestMapping(value = "/viewAllRequests", method = RequestMethod.GET)
+	public String viewAllRequests(
+			@RequestParam(value = "successMessage", required = false) String successMessage,
+			@RequestParam(value = "errorMessage", required = false) String errorMessage,
+			@RequestParam(value = "searchText", required = false) String searchText,
+			@RequestParam(value = "searchOption", required = false) String searchOption,
+			@RequestParam(value = "elementsOnPage", required = false) Integer elementsOnPage,
+			@RequestParam(value = "currentPage", required = false) Integer currentPage,
+			@RequestParam(value = "sortBy", required = false) String sortBy,
+			@RequestParam(value = "sortMethod", required = false) String sortMethod,
+			Model model) {
+		LOG.debug("Visit viewAllUsers page");
+		List<User> users = new ArrayList<User>();
+		int startPosition;
+		int limitLength;
+		long count;
+		int pages;
+		if (successMessage != null) {
+			model.addAttribute("successMessage", successMessage);
+		}
+
+		if (errorMessage != null) {
+			model.addAttribute("errorMessage", errorMessage);
+		}
+
+		if (elementsOnPage == null) {
+			elementsOnPage = DEFAULT_ELEMENTS_ON_PAGE;
+		}
+
+		if (currentPage == null) {
+			currentPage = 1;
+		}
+
+		startPosition = (currentPage - 1) * elementsOnPage;
+		limitLength = elementsOnPage;
+
+		count = userService.getUsersCount();
+		pages = (int) count / elementsOnPage;
+
+		if (searchText != null && !searchText.equals("")
+				&& searchOption != null) {
+			if (searchOption.equals("all")) {
+				users = userService.getUsersByTextVsLimit(searchText,
+						startPosition, limitLength, sortBy, sortMethod);
+				count = userService.getUsersByTextCount(searchText);
+			} else if (searchOption.equals("userFirstName")) {
+				users = userService.getUsersByFirstNameVsLimit(searchText,
+						startPosition, limitLength, sortBy, sortMethod);
+				count = userService.getUsersByFirstNameCount(searchText);
+			} else if (searchOption.equals("userLastName")) {
+				users = userService.getUsersByLastNameVsLimit(searchText,
+						startPosition, limitLength, sortBy, sortMethod);
+				count = userService.getUsersByLastNameCount(searchText);
+			} else if (searchOption.equals("role")) {
+				users = userService.getUsersByRoleVsLimit(searchText,
+						startPosition, limitLength, sortBy, sortMethod);
+				count = userService.getUsersByRoleCount(searchText);
+			}
+			model.addAttribute("searchText", searchText);
+			model.addAttribute("searchOption", searchOption);
+
+		} else {
+			count = userService.getUsersCount();
+
+			users = userService.getUsersVsLimit(startPosition, limitLength,
+					sortBy, sortMethod);
+		}
+
+		pages = (int) count / elementsOnPage;
+		if ((count % elementsOnPage) != 0) {
+			pages++;
+		}
+
+		if (sortBy != null && sortMethod != null) {
+			model.addAttribute("sortBy", sortBy);
+			model.addAttribute("sortMethod", sortMethod);
+		}
+
+		List<Role> roles = roleService.getAllRoles();
+		List<TeacherRequest> teacherRequests = teacherRequestService
+				.getAllActiveTeacherRequests();
+		model.addAttribute("teacherRequests", teacherRequests);
+
+		model.addAttribute("users", users);
+		model.addAttribute("roles", roles);
+		model.addAttribute("pagesCount", pages);
+		model.addAttribute("elementsOnPage", elementsOnPage);
+		model.addAttribute("currentPage", currentPage);
+		return "viewAllRequests";
+	}
+
+	@RequestMapping(value = "/changeUserRoleToAdmin")
+	public String changeUserRoleToAdmin(
+			@RequestParam(value = "userId", required = false) Integer userId,
+			Model model, RedirectAttributes redirectAttributes) {
+		LOG.debug("Visit changeUserRoleToAdmin page");
+		if (userId != null) {
+			User user = userService.getUserById(userId);
+			Role role = roleService.getRoleByName("TEACHER");
+			redirectAttributes.addAttribute("successMessage",
+					"You are change <b>" + user.getEmail()
+							+ "</b> role to <b>" + role.getRole() + "</b>");
+			user.setRole(role);
+			userService.updateUser(user);
+			TeacherRequest teacherRequest = teacherRequestService
+					.getTeacherRequestByUserId(userId);
+			teacherRequest.setActive(false);
+			teacherRequestService.updateTeacherRequest(teacherRequest);
+
+		} else {
+			redirectAttributes.addAttribute("errorMessage",
+					"Can't change role, input parameters is invalid!");
+		}
+		return "redirect:/viewAllRequests";
+	}
+
+	@RequestMapping(value = "/deleteTeacherRequest")
+	public String deleteTeacherRequest(
+			@RequestParam(value = "userId", required = false) Integer userId,
+			Model model, RedirectAttributes redirectAttributes) {
+		LOG.debug("Visit changeUserRoleToAdmin page");
+		if (userId != null) {
+			redirectAttributes.addAttribute("successMessage",
+					"Request is delete");
+			TeacherRequest teacherRequest = teacherRequestService
+					.getTeacherRequestByUserId(userId);
+			teacherRequest.setActive(false);
+			teacherRequestService.updateTeacherRequest(teacherRequest);
+
+		} else {
+			redirectAttributes.addAttribute("errorMessage",
+					"Can't delete request, input parameters is invalid!");
+		}
+		return "redirect:/viewAllRequests";
 	}
 }

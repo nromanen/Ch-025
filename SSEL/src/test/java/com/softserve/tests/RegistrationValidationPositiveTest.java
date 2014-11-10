@@ -22,12 +22,12 @@ import com.softserve.validator.RegistrationValidation;
 
 @RunWith(Parameterized.class)
 public class RegistrationValidationPositiveTest {
-	
+
 	private RegistrationValidation registrationValidation = new RegistrationValidation();
 	private Registration registration = new Registration();
 	private UserService userService;
-	
-	public RegistrationValidationPositiveTest(String firstName, String lastName, 
+
+	public RegistrationValidationPositiveTest(String firstName, String lastName,
 			String email, String password, String confirmPassword) {
 		registration.setFirstName(firstName);
 		registration.setLastName(lastName);
@@ -35,7 +35,7 @@ public class RegistrationValidationPositiveTest {
 		registration.setPassword(password);
 		registration.setConfirmPassword(confirmPassword);
 	}
-	
+
     @Parameters
     public static Collection<Object[]> data() {
     	Object[][] data = new Object[][] {
@@ -52,10 +52,10 @@ public class RegistrationValidationPositiveTest {
     				"Fsd", "Fdsfsd", "gdfgf.dg@i.ua", "12fdsF//d54fd*&", "12fdsF//d54fd*&"
     			},
     			{
-    				"–í–∞—Å—è", "–ü—É–ø–∫—ñ–Ω", "vasya.pupkin@mail.ru", "fdsFd54fd*&", "fdsFd54fd*&"
+    				"¬‡Òˇ", "œÛÔÍ≥Ì", "vasya.pupkin@mail.ru", "fdsFd54fd*&", "fdsFd54fd*&"
     			},
     			{
-    				"–Ü–≤–∞–Ω", "–Ü–≤–∞–Ω–µ–Ω–∫–æ", "vanya@yahoo.com", "QweFrty34*&", "QweFrty34*&"
+    				"≤‚‡Ì", "≤‚‡ÌÂÌÍÓ", "vanya@yahoo.com", "QweFrty34*&", "QweFrty34*&"
     			},
     			{
     				"Fdsds", "Brbrbf", "VasYa@gmail.com", "f--dsfdFd54fd*&", "f--dsfdFd54fd*&"
@@ -66,23 +66,23 @@ public class RegistrationValidationPositiveTest {
     	};
     	return Arrays.asList(data);
     }
-	
+
 	@Before
 	public void setUp() {
 		userService = mock(UserService.class);
 		registrationValidation.setUserService(userService);
 	}
-	
+
 	@Test
 	public void testSupports() {
 		assertTrue(registrationValidation.supports(Registration.class));
 	}
-	
+
 	@Test
 	public void testNotSupports() {
 		assertFalse(registrationValidation.supports(Object.class));
 	}
-	
+
 	@Test
 	public void testHasErrors() {
 		when(userService.isExist(registration.getEmail())).thenReturn(false);
