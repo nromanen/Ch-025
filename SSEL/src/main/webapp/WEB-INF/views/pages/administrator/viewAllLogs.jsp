@@ -44,9 +44,9 @@
 			<!-- Selecting range of dates for viewing logs -->
 			<div class="col-md-5" align="left">
 				<form action="getRangeOfDates" method="get">
-					<spring:message code="label.show_logs_from_date" /> <input type="text" name="startDate"
+					<spring:message code="label.show_logs_from_date" /> <input type="text" name="startDate" class="datepicker"
 						placeholder="<spring:message code="label.placeholder" />" /> 
-						<spring:message code="label.to" /> <input type="text" name="endDate"
+						<spring:message code="label.to" /> <input type="text" name="endDate" class="datepicker"
 						placeholder="<spring:message code="label.placeholder" />" /> 
 						<input type="submit" value="<spring:message code="label.show" />" />
 				</form>
@@ -55,7 +55,7 @@
 			<!-- Selecting date for deleting old logs -->
 			<div class="col-md-4" align="left">
 				<form action="deleteOldLogs" method="get">
-					<spring:message code="label.delete_old_logs_to_date" /> <input type="text" name="deleteDate"
+					<spring:message code="label.delete_old_logs_to_date" /> <input type="text" name="deleteDate" class="datepicker"
 						placeholder="<spring:message code="label.placeholder" />" /> 
 						<input type="submit" value="<spring:message code="label.delete" />" onclick="return confirm('<spring:message code="label.are_you_sure" />')" />
 				</form>
