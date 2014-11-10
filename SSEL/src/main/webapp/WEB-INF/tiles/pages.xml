@@ -196,6 +196,13 @@
 		<put-attribute name="menu"
 			value="/WEB-INF/views/templates/administrator_menu.jsp"></put-attribute>
 	</definition>
+	<definition name="logDetails" extends="administrator">
+		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/pages/administrator/logDetails.jsp"></put-attribute>
+		<put-attribute name="menu"
+			value="/WEB-INF/views/templates/administrator_menu.jsp"></put-attribute>
+	</definition>
 </tiles-definitions>
 
 

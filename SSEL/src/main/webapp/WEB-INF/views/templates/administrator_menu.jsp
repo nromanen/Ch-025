@@ -64,6 +64,7 @@
 				<strong><spring:message code="label.admin.panel" /></strong>
 			</p>
 			<ul class="nav">
+<<<<<<< HEAD
 				<li><a href="administrator"><spring:message
 							code="label.admin.home" /></a></li>
 				<li><a href="viewAllCategories"><spring:message
@@ -76,6 +77,13 @@
 							code="label.requests" /></a></li>
 				<li><a href="viewLogs"><spring:message
 							code="label.admin.logs" /></a></li>
+=======
+				<li><a href="administrator"><spring:message code="label.admin.home"/></a></li>
+				<li><a href="viewAllCategories"><spring:message code="label.admin.categories"/></a></li>
+				<li><a href="viewAllSubjects"><spring:message code="label.admin.subjects"/></a></li>
+				<li><a href="viewAllUsers"><spring:message code="label.admin.users"/></a></li>
+				<li><a href="viewLogs"><spring:message code="label.admin.logs"/></a></li>
+>>>>>>> f98bdf9d8c3c1c6923dc3908adeab57e6a2fe15c
 			</ul>
 		</div>
 	</div>
