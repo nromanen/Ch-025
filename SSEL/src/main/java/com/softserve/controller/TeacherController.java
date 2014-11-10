@@ -102,6 +102,17 @@ public class TeacherController {
 		sdf.setLenient(true);
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
 	}
+	
+	@InitBinder
+	public void userInitBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
+		binder.registerCustomEditor(User.class, "user", new PropertyEditorSupport() {
+			@Override
+			public void setAsText(String id) {
+				User user = userService.getUserById(Integer.parseInt(id));
+				setValue(user);
+			}
+		});
+	}
 
 	@InitBinder
 	public void blockInitBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
@@ -121,6 +132,17 @@ public class TeacherController {
 			public void setAsText(String id) {
 				Subject subject = subjectService.getSubjectById(Integer.parseInt(id));
 				setValue(subject);
+			}
+		});
+	}
+	
+	@InitBinder
+	public void categoryInitBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
+		binder.registerCustomEditor(Category.class, "category", new PropertyEditorSupport() {
+			@Override
+			public void setAsText(String id) {
+				Category category = categoryService.getCategoryById(Integer.parseInt(id));
+				setValue(category);
 			}
 		});
 	}
@@ -209,12 +231,86 @@ public class TeacherController {
 		blockService.updateBlock(block);
 		return "redirect:/teacher";
 	}
+	
+	@RequestMapping(value = "/saveSubject", method = RequestMethod.POST)
+	public String saveSubject(
+			@RequestParam(value = "user", required = false) String userId,
+			@RequestParam(value = "startDate", required = false) String startDate,
+			@RequestParam(value = "endDate", required = false) String endDate, 
+			@Valid @ModelAttribute("subject") Subject subject, BindingResult result, Model model, HttpSession session) throws ParseException {
+		SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+		List<Category> categories = categoryService.getAllCategories();
+		model.addAttribute("catList", categories);
+		User user = (User) session.getAttribute("user");
+		subject.setUser(user);
+		if (result.hasErrors()) {
+			return "editSubject";
+		} else {
+			
+		
+
+		if (subject.getId() < 1) {
+			
+			CourseScheduler scheduler = new CourseScheduler();
+			scheduler.setStart(format.parse(startDate));
+			scheduler.setEnd(format.parse(endDate));
+			//subjectService.updateSubject(subject);
+			scheduler.setSubject(subject);
+			
+			subjectService.addSubject(subject);
+
+			courseSchedulerService.addCourseScheduler(scheduler);
+			Group group = new Group();
+			group.setCourse(scheduler);
+			group.setActive(true);
+			groupService.addGroup(group);
+		}
+		
+		subjectService.updateSubject(subject);
+		return "redirect:/teacher";
+	}
+	}
+	
+	@RequestMapping(value = "/saveSubject", method = RequestMethod.GET)
+	public String saveSubjectold(@RequestParam(value = "subjectId", required = false) Integer subjectId,
+			@RequestParam(value = "subjectName", required = true) String subjectName,
+			@RequestParam(value = "subjectDescription", required = true) String subjectDescription,
+			@RequestParam(value = "subjectCategoryId", required = true) Integer subjectCategoryId,
+			@RequestParam(value = "startDate", required = true) String startDate,
+			@RequestParam(value = "endDate", required = true) String endDate, Model model) throws ParseException {
+		SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+		Category category = categoryService.getCategoryById(subjectCategoryId);
+		Subject subject = subjectId != null ? subjectService.getSubjectById(subjectId) : new Subject();
+		subject.setName(subjectName);
+		subject.setDescription(subjectDescription);
+		subject.setCategory(category);
+
+		if (subjectId != null) {
+			subjectService.updateSubject(subject);
+		} else {
+			CourseScheduler scheduler = new CourseScheduler();
+			scheduler.setStart(format.parse(startDate));
+			scheduler.setEnd(format.parse(endDate));
+			scheduler.setSubject(subject);
+			subjectService.addSubject(subject);
+
+			courseSchedulerService.addCourseScheduler(scheduler);
+			Group group = new Group();
+			group.setCourse(scheduler);
+			group.setActive(true);
+			groupService.addGroup(group);
+		}
+
+		return "redirect:/teacher";
+	}
 
 	@RequestMapping(value = "/editSubject", method = RequestMethod.GET)
 	public String editSubject(@RequestParam(value = "subjectId", required = false) Integer subjectId, Model model) {
+		Subject subject = subjectId != null ? subjectService.getSubjectById(subjectId) : new Subject();
+		
 		if (subjectId != null) {
-			Subject subject = subjectService.getSubjectById(subjectId);
-			model.addAttribute("subject", subject);
+			
+			
 
 			List<CourseScheduler> courseSchedulerList = courseSchedulerService
 					.getCourseScheduleresBySubjectId(subjectId);
@@ -222,17 +318,15 @@ public class TeacherController {
 		}
 		List<Category> categoryList = categoryService.getAllCategories();
 		model.addAttribute("catList", categoryList);
-
+		model.addAttribute("subject", subject);
 		return "editSubject";
 	}
 
 	@RequestMapping(value = "/editBlock", method = RequestMethod.GET)
 	public String editBlock(@RequestParam(value = "blockId", required = false) Integer blockId, Model model) {
-		if (blockId != null) {
-			Block block = blockService.getBlockById(blockId);
-			model.addAttribute("block", block);
-		}
+		Block block = blockId != null ? blockService.getBlockById(blockId) : new Block();
 
+		model.addAttribute("block", block);
 		List<Subject> subjectList = subjectService.getAllSubjects();
 		model.addAttribute("subjectList", subjectList);
 
@@ -292,39 +386,6 @@ public class TeacherController {
 		}
 		model.addAttribute("subjectId", subjectId);
 		return "redirect:/teacherCourse";
-	}
-
-	@RequestMapping(value = "/saveSubject", method = RequestMethod.GET)
-	public String saveSubject(@RequestParam(value = "subjectId", required = false) Integer subjectId,
-			@RequestParam(value = "subjectName", required = true) String subjectName,
-			@RequestParam(value = "subjectDescription", required = true) String subjectDescription,
-			@RequestParam(value = "subjectCategoryId", required = true) Integer subjectCategoryId,
-			@RequestParam(value = "startDate", required = true) String startDate,
-			@RequestParam(value = "endDate", required = true) String endDate, Model model) throws ParseException {
-		SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-		Category category = categoryService.getCategoryById(subjectCategoryId);
-		Subject subject = subjectId != null ? subjectService.getSubjectById(subjectId) : new Subject();
-		subject.setName(subjectName);
-		subject.setDescription(subjectDescription);
-		subject.setCategory(category);
-
-		if (subjectId != null) {
-			subjectService.updateSubject(subject);
-		} else {
-			CourseScheduler scheduler = new CourseScheduler();
-			scheduler.setStart(format.parse(startDate));
-			scheduler.setEnd(format.parse(endDate));
-			scheduler.setSubject(subject);
-			subjectService.addSubject(subject);
-
-			courseSchedulerService.addCourseScheduler(scheduler);
-			Group group = new Group();
-			group.setCourse(scheduler);
-			group.setActive(true);
-			groupService.addGroup(group);
-		}
-
-		return "redirect:/teacher";
 	}
 
 	@RequestMapping(value = "/enableTopic", method = RequestMethod.GET)
