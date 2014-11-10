@@ -1,5 +1,6 @@
 package com.softserve.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Repository;
 
 import com.softserve.dao.BlockDao;
 import com.softserve.entity.Block;
+import com.softserve.entity.Category;
+import com.softserve.entity.Topic;
 
 @Repository
 public class BlockDaoImpl implements BlockDao {
@@ -58,7 +61,10 @@ public class BlockDaoImpl implements BlockDao {
 	@Override
 	public List<Block> getAllBlocks() {
 		LOG.debug("Get all blocks");
-		return entityManager.createNativeQuery("FROM Block").getResultList();
+		List<Block> blocks = new ArrayList<>();
+		blocks.addAll(entityManager.createQuery("FROM Block")
+				.getResultList());
+		return blocks;
 	}
 
 	@SuppressWarnings("unchecked")

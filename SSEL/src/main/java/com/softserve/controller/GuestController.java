@@ -120,6 +120,7 @@ public class GuestController {
 		categories = categoryService.getAllCategories();
 		model.addAttribute("subList", subjects);
 		model.addAttribute("catList", categories);
+		model.addAttribute("isSubscribed", isSubscribed);
 		Subject subject = subjectService.getSubjectById(subjectId);
 		schedulers = cSchedulerService
 				.getCourseScheduleresBySubjectId(subject.getId());
@@ -173,15 +174,22 @@ public class GuestController {
 		if (pageSize == null) {
 			pageSize = 10;
 		}
+		Long numberOfPages = 0L;
 		List<Category> categories = searchService.getCategoriesByNamePart(search, pageNumber, pageSize);
 		List<Subject> subjects = searchService.getSubjectsByNamePart(search, pageNumber, pageSize);
+		List<CourseScheduler> schedule = cSchedulerService.getAllCourseScheduleres();
 		model.addAttribute("catList", categories);
 		model.addAttribute("subjList", subjects);
 		model.addAttribute("search", search);
 		model.addAttribute("pageSize", pageSize);
 		model.addAttribute("pageNumber", pageNumber);
+		model.addAttribute("schedule", schedule);
 		Long count = searchService.getSubjectsQuantityByNamePart(search);
-		Long numberOfPages =  count / pageSize + 1;
+		if ((count % pageSize) > 0) {
+			numberOfPages =  count / pageSize + 1;
+		} else {
+			numberOfPages =  count / pageSize;
+		}
 		model.addAttribute("numberOfPages", numberOfPages);
 		return "search";
 	}
@@ -196,16 +204,23 @@ public class GuestController {
 		if (pageSize == null) {
 			pageSize = 10;
 		}
+		Long numberOfPages = 0L;
 		List<Subject> subjects = 
 				searchService.getSubjectsByCategoryIdWithLimit(categoryId, pageNumber, pageSize);
 		Category category = categoryService.getCategoryById(categoryId);
+		List<CourseScheduler> schedule = cSchedulerService.getAllCourseScheduleres();
 		Long count = subjectService.getSubjectsByCategoryCount(category.getName());
-		Long numberOfPages =  count / pageSize + 1;
+		if ((count % pageSize) > 0) {
+			numberOfPages =  count / pageSize + 1;
+		} else {
+			numberOfPages =  count / pageSize;
+		}
 		model.addAttribute("numberOfPages", numberOfPages);
 		model.addAttribute("subjList", subjects);
 		model.addAttribute("pageSize", pageSize);
 		model.addAttribute("pageNumber", pageNumber);
 		model.addAttribute("categoryId", categoryId);
+		model.addAttribute("schedule", schedule);
 		return "category";
 	}
 	

@@ -15,6 +15,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 
 @Entity
@@ -27,6 +30,9 @@ public class Subject {
 	private int id;
 
 	@Column(name = "name", nullable = false)
+	@NotNull 
+	@Size(min=4, max=30)
+	@Pattern(regexp="^[A-Za-z0-9.,:_ ]{4,30}$")
 	private String name;
 
 	@Column(name = "description")

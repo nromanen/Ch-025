@@ -37,7 +37,7 @@
 				</form>
 				</c:if>
 				<c:if test="${schedule.start < now }">
-					<p style="color:red"><spring:message code="label.time_is_out" /></p>
+					<p><spring:message code="label.time_is_out" /></p>
 				</c:if>
 			</c:if>
 			<form method="GET" action="courseInformation">

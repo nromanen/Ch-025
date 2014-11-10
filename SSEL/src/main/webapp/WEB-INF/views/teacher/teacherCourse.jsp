@@ -50,6 +50,12 @@
 								)
 								<button type="button" class="btn btn-outline btn-primary btn-xs"
 									style="float: right;"
+									onclick="location.href='deleteBlock?blockId=${block.id}'">
+									<spring:message code="label.teacher.delete" />
+								</button>
+								
+								<button type="button" class="btn btn-outline btn-primary btn-xs"
+									style="float: right;"
 									onclick="location.href='editBlock?subjectId=${subject.id}&blockId=${block.id}'">
 									<spring:message code="label.teacher.edit" />
 								</button>
