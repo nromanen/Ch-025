@@ -28,7 +28,7 @@
 		<!-- JDBC appender -->
 		<Jdbc name="DBAppender" tableName="ssel.logging" >
 			<ConnectionFactory
-				class="com.softserve.connectionFactory.ConnectionFactory" method="getDatabaseConnection" />
+				class="com.softserve.util.ConnectionFactory" method="getDatabaseConnection" />
 			<ThresholdFilter level="WARN" onMatch="ACCEPT"
 				onMismatch="DENY" />
 			<Column name="eventDate" isEventTimestamp="true" />
