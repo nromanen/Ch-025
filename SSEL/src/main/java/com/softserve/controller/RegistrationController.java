@@ -1,15 +1,17 @@
 package com.softserve.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,11 +22,19 @@ import com.softserve.form.Registration;
 import com.softserve.service.UserService;
 import com.softserve.validator.RegistrationValidation;
 
+/**
+ * Handle registration request
+ * 
+ * @author Khomyshyn Roman
+ */
 @Controller
 public class RegistrationController {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private MessageSource messageSource;
 
 	@Autowired
 	private RegistrationValidation registrationValidation;
@@ -42,7 +52,19 @@ public class RegistrationController {
 		if (result.hasErrors()) {
 			return "registration";
 		}
-		userService.registrate(registration, request);
+		if (registration.isTeacher()) {
+			String message = messageSource.getMessage(
+					"message.teacher.confirm_registration", new Object[] {},
+					LocaleContextHolder.getLocale());
+			userService.registrateTeacher(registration, message);
+		} else {
+			String message = messageSource.getMessage(
+					"message.user.confirm_registration", new Object[] {},
+					LocaleContextHolder.getLocale());
+			String url = request.getRequestURL().toString();
+			url.replaceAll(request.getServletPath(), "/");
+			userService.registrateStudent(registration, url, message);
+		}
 		return "redirect:/";
 	}
 
@@ -68,13 +90,11 @@ public class RegistrationController {
 		return "login";
 	}
 
-	@RequestMapping(value = "/email_exists", method = RequestMethod.POST, headers = { "content-type=application/json" })
-	public @ResponseBody boolean isEmailExist(
-			@RequestBody Map<String, Object> map) {
-		String email = (String) map.get("email");
-		if (email == null) {
-			return false;
-		}
-		return userService.isExist(email);
+	@RequestMapping(value = "/isExistsEmail", method = RequestMethod.GET)
+	public @ResponseBody Map<String, String> isExistsEmail(
+			@RequestParam String email) {
+		Map<String, String> map = new HashMap<>();
+		map.put("valid", Boolean.toString(!userService.isExist(email)));
+		return map;
 	}
 }

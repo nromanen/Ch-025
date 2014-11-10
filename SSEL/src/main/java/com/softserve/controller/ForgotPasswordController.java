@@ -3,7 +3,11 @@ package com.softserve.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,17 +20,29 @@ import com.softserve.form.ResetPassword;
 import com.softserve.service.UserService;
 import com.softserve.validator.ResetPasswordValidation;
 
+/**
+ * Handle forgot password request
+ * 
+ * @author Khomyshyn Roman
+ */
 @Controller
 public class ForgotPasswordController {
 
+	private static final Logger LOG = LoggerFactory
+			.getLogger(ForgotPasswordController.class);
+	
 	@Autowired
 	private UserService userService;
 
 	@Autowired
 	private ResetPasswordValidation resetPasswordValidation;
 
+	@Autowired
+	private MessageSource messageSource;
+
 	@RequestMapping(value = "/remind", method = RequestMethod.GET)
 	public String remindForm() {
+		LOG.debug("Open remind.jsp page");
 		return "remind";
 	}
 
@@ -34,13 +50,20 @@ public class ForgotPasswordController {
 	public String passwordRestore(@RequestParam String email,
 			HttpServletRequest request) {
 		if (email == null) {
+			LOG.debug("Email is null");
 			return "remind";
 		}
 		User user = userService.getUserByEmail(email);
 		if (user == null) {
+			LOG.debug("Email is not registereb");
 			return "remind";
 		}
-		userService.remindPassword(user, request);
+		String message = new String(messageSource.getMessage(
+				"message.user.chage_password", new Object[] {},
+				LocaleContextHolder.getLocale()));
+		String url = request.getRequestURL().toString();
+		LOG.debug("Send message to email {}", email);
+		userService.remindPassword(user, url, message);
 		return "redirect:/";
 	}
 

@@ -25,6 +25,12 @@
 		<intercept-url pattern="/teacher/editCategory/**" access="hasRole('TEACHER')" />
 		<intercept-url pattern="/teacher/categories/**" access="hasRole('TEACHER')" />
 		<intercept-url pattern="/teacher/**" access="hasRole('TEACHER')" />
+		
+		<intercept-url pattern="/administrator/**" access="hasRole('ADMIN')" />
+		<intercept-url pattern="/viewAllCategories/**" access="hasRole('ADMIN')" />
+		<intercept-url pattern="/viewLogs/**" access="hasRole('ADMIN')" />
+		<intercept-url pattern="/viewAllUsers/**" access="hasRole('ADMIN')" />
+		<intercept-url pattern="/viewAllSubjects/**" access="hasRole('ADMIN')" />
 
 
 		<form-login login-page="/login" default-target-url="/enter"

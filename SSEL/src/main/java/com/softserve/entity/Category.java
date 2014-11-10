@@ -54,5 +54,11 @@ public class Category {
 	public void setSubjects(List<Subject> subjects) {
 		this.subjects = subjects;
 	}
+
+	@Override
+	public String toString() {
+		return "Category [id=" + id + ", name=" + name + ", subjects="
+				+ subjects + "]";
+	}
 	
 }
