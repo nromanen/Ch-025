@@ -102,19 +102,19 @@
 			<thead>
 				<tr>
 					<!-- Head of table also includes sorting parameters -->
-					<th><spring:message code="label.t_date" /><br /> <font size="-2"> 
-						<a href="${pageContext.request.contextPath}/getParameters?orderBy=date-asc">Up</a>
-						<a href="${pageContext.request.contextPath}/getParameters?orderBy=date-desc">Down</a>
+					<th><spring:message code="label.t_date" /><br>  <font size="+2">
+						<a href="${pageContext.request.contextPath}/getParameters?orderBy=date-asc">&#x21e7;</a><!-- стрілочки  -->
+						<a href="${pageContext.request.contextPath}/getParameters?orderBy=date-desc">&#x21e9;</a>
 					</font></th>
-					<th><spring:message code="label.t_level" /><br /> <font size="-2"> 
-						<a href="${pageContext.request.contextPath}/getParameters?orderBy=level-asc">Up</a>
-						<a href="${pageContext.request.contextPath}/getParameters?orderBy=level-desc">Down</a>
+					<th><spring:message code="label.t_level" /> <br><font size="+2"> 
+						<a href="${pageContext.request.contextPath}/getParameters?orderBy=level-asc">&#x21e7;</a>
+						<a href="${pageContext.request.contextPath}/getParameters?orderBy=level-desc">&#x21e9;</a>
 					</font></th>
-					<th><spring:message code="label.t_logger" /><br /></th>
+					<th><spring:message code="label.t_logger"  /></th>
 					<th><spring:message code="label.t_message" /><br /></th>
-					<th><spring:message code="label.t_exception" /><br /> <font size="-2"> 
-						<a href="${pageContext.request.contextPath}/getParameters?orderBy=exception-asc">Up</a>
-						<a href="${pageContext.request.contextPath}/getParameters?orderBy=exception-desc">Down</a>
+					<th><spring:message code="label.t_exception" /> <font size="+2"> 
+						<a href="${pageContext.request.contextPath}/getParameters?orderBy=exception-asc">&#x21e7;</a>
+						<a href="${pageContext.request.contextPath}/getParameters?orderBy=exception-desc">&#x21e9;</a>
 					</font></th>
 				</tr>
 			</thead>
