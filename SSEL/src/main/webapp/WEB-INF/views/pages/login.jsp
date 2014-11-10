@@ -2,6 +2,8 @@
 	pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<script src="<c:url value="/resources/js/bootstrapValidator.js" />" ></script>
+<script src="<c:url value="/resources/js/login.js" />" ></script>
 <div class="container">
 	<div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">                    
      	<div class="panel panel-info" >
@@ -29,16 +31,30 @@
 					</div>
 				</c:if>
 				<form role="form" action="<c:url value="/j_spring_security_check" />" method="POST"
-					accept-charset="UTF-8">
-					<div style="margin-bottom: 25px" class="input-group">
-						<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-						<input class="form-control" placeholder="<spring:message code="placeholder.email" />" 
-							name="j_username" type="email" autofocus required="required" id="email" >
+					accept-charset="UTF-8" id ="login_form"
+					data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+			     	data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+			     	data-bv-feedbackicons-validating="glyphicon glyphicon-refresh"
+			     	data-bv-submitbuttons='button[type="submit"]'
+			     	data-bv-live="enabled">
+			     	<div class="form-group">
+						<div style="margin-bottom: 25px" class="input-group">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+							<input class="form-control" placeholder="<spring:message code="placeholder.email" />" 
+								name="j_username" type="email" autofocus id="email" 
+								data-bv-notempty="true"
+			                	data-bv-notempty-message="<spring:message code="dataerror.field_required" />" 
+			                	data-bv-emailaddress-message="<spring:message code="dataerror.email_example" />" >
+						</div>
 					</div>
-					<div style="margin-bottom: 10px" class="input-group">
-						<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-						<input class="form-control" placeholder="<spring:message code="placeholder.password"/>"
-							name="j_password" type="password" required="required" id="password">
+					<div class="form-group">
+						<div style="margin-bottom: 10px" class="input-group">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+							<input class="form-control" placeholder="<spring:message code="placeholder.password"/>"
+								name="j_password" type="password" required="required" id="password"
+								data-bv-notempty="true"
+			                	data-bv-notempty-message="<spring:message code="dataerror.field_required" />"  >
+						</div>
 					</div>
 					<div class="input-group">
 						<div class="checkbox">
