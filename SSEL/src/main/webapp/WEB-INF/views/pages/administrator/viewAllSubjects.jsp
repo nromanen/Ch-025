@@ -86,7 +86,6 @@
 		url: "changeSubjectAjax",
 		data: { elementsOnPage: newPage},
 		success: function(resultData) {
-			alert("asd");
 			json = JSON.stringify(resultData)
 			document.getElementById("demo").innerHTML=json;
 
@@ -176,24 +175,6 @@
 	}
 </script>
 
-<script type="text/javascript">
-	var xmlhttp;
-
-	function testAjax() {
-		if (window.XMLHttpRequest) {
-			xmlhttp = new XMLHttpRequest(); //for IE7+, Firefox, Chrome, Opera, Safari
-		} else {
-			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP"); //for IE6, IE5
-		}
-
-		xmlhttp.open("POST", "saveData", true, "myUserName", "somePassord");
-
-		document.getElementById("demo").innerHTML = xmlhttp.responseText;
-
-	}
-</script>
-
-<textarea id="demo"></textarea>
 <!-- Modal window -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel" aria-hidden="true">

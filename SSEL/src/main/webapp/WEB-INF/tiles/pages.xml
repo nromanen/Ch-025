@@ -17,8 +17,7 @@
 	<!-- Profile -->
 	<definition name="profile" extends="sign-template">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Profile" />
-		<put-attribute name="content"
-			value="/WEB-INF/views/profile.jsp" />
+		<put-attribute name="content" value="/WEB-INF/views/profile.jsp" />
 	</definition>
 
 	<!-- Registration -->
@@ -151,19 +150,36 @@
 	<!-- Administrator -->
 	<definition name="administrator" extends="base-template">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
-		<put-attribute name="content" value="/WEB-INF/views/pages/administrator/administrator.jsp"></put-attribute>
+		<put-attribute name="content"
+			value="/WEB-INF/views/pages/administrator/administrator.jsp"></put-attribute>
 		<put-attribute name="menu"
 			value="/WEB-INF/views/templates/administrator_menu.jsp"></put-attribute>
 	</definition>
 	<definition name="viewAllCategories" extends="administrator">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
-		<put-attribute name="content" value="/WEB-INF/views/pages/administrator/viewAllCategories.jsp"></put-attribute>
+		<put-attribute name="content"
+			value="/WEB-INF/views/pages/administrator/viewAllCategories.jsp"></put-attribute>
 		<put-attribute name="menu"
 			value="/WEB-INF/views/templates/administrator_menu.jsp"></put-attribute>
 	</definition>
 	<definition name="viewAllUsers" extends="administrator">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
-		<put-attribute name="content" value="/WEB-INF/views/pages/administrator/viewAllUsers.jsp"></put-attribute>
+		<put-attribute name="content"
+			value="/WEB-INF/views/pages/administrator/viewAllUsers.jsp"></put-attribute>
+		<put-attribute name="menu"
+			value="/WEB-INF/views/templates/administrator_menu.jsp"></put-attribute>
+	</definition>
+	<definition name="viewAllSubjects" extends="administrator">
+		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/pages/administrator/viewAllSubjects.jsp"></put-attribute>
+		<put-attribute name="menu"
+			value="/WEB-INF/views/templates/administrator_menu.jsp"></put-attribute>
+	</definition>
+	<definition name="viewAllRequests" extends="administrator">
+		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/pages/administrator/viewAllRequests.jsp"></put-attribute>
 		<put-attribute name="menu"
 			value="/WEB-INF/views/templates/administrator_menu.jsp"></put-attribute>
 	</definition>
@@ -173,22 +189,10 @@
 		<put-attribute name="menu"
 			value="/WEB-INF/views/templates/administrator_menu.jsp"></put-attribute>
 	</definition>
-	<definition name="viewAllSubjects" extends="administrator">
-		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
-		<put-attribute name="content" value="/WEB-INF/views/pages/administrator/viewAllSubjects.jsp"></put-attribute>
-		<put-attribute name="menu"
-			value="/WEB-INF/views/templates/administrator_menu.jsp"></put-attribute>
-	</definition>
-<<<<<<< HEAD
-	<definition name="viewAllRequests" extends="administrator">
-		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
-		<put-attribute name="content" value="/WEB-INF/views/pages/administrator/viewAllRequests.jsp"></put-attribute>
-=======
 	<definition name="logDetails" extends="administrator">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
 		<put-attribute name="content"
 			value="/WEB-INF/views/pages/administrator/logDetails.jsp"></put-attribute>
->>>>>>> f98bdf9d8c3c1c6923dc3908adeab57e6a2fe15c
 		<put-attribute name="menu"
 			value="/WEB-INF/views/templates/administrator_menu.jsp"></put-attribute>
 	</definition>
