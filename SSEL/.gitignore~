@@ -1,0 +1,16 @@
+/bin/
+/target/
+/.settings/
+/.classpath
+/.project
+/app_log-10-24-2014.log
+/app_log.log
+/.apt_generated/
+<<<<<<< HEAD
+/app_log-10-30-2014.log
+/app_log-11-09-2014.log
+=======
+/app_log-10-30-2014.log<<<<<<< .mine/target/
+=======>>>>>>> .theirs
+/app_log-11-10-2014.log
+>>>>>>> b4adfeb6dbdfbf1078661c13fa37f3e51d3d0794
