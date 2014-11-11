@@ -2,7 +2,6 @@ package com.softserve.service;
 
 import java.util.List;
 
-import com.softserve.entity.Subject;
 import com.softserve.entity.User;
 import com.softserve.form.Registration;
 import com.softserve.form.ResetPassword;

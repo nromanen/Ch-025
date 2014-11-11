@@ -5,6 +5,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
+<script>
+$(function() {
+	//$(".sidebar").find("a").addClass("active");
+	$(".sidebar").find($('a[href="viewAllUsers"]')).addClass("active");
+	});
+</script>
+
 <script type="text/javascript">
 	$(document)
 			.on(
@@ -242,14 +249,11 @@
 		<!-- /Message block -->
 
 		<div class="col-md-12">
-			<h1 align="center">
-				<spring:message code="label.users" />
-				:
-			</h1>
+			<br>
 
 			<!-- search block -->
 			<div class="col-md-12">
-				<div class="input-group col-md-6">
+				<div class="input-group col-md-4">
 					<div class="input-group-addon">
 						<a href="#" data-toggle="dropdown" class="dropdown"> <span
 							class="glyphicon glyphicon-cog"></span>

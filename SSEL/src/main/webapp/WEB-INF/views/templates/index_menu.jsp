@@ -56,7 +56,7 @@
 				<c:if test="${sessionScope.user.role.role eq 'TEACHER'}">
 					<li><a href="teacher"><i class="fa fa-user fa-fw"></i>
 							<spring:message code="label.teacher_cabinet"/> </a></li>
-					<li><a href="#"><i class="fa fa-user fa-fw"></i>
+					<li><a href="<c:url value="/profile" />"><i class="fa fa-user fa-fw"></i>
 							<spring:message code="label.teacher_profile"/></a></li>
 					<li class="divider"></li>
 					<li><a href="logout"><i class="fa fa-sign-out fa-fw"></i>
@@ -68,7 +68,7 @@
 							class="fa fa-user fa-fw"></i> <spring:message code="label.student_cabinet"/>
 						</a>
 					</li>
-					<li><a href="#"> <i
+					<li><a href="<c:url value="/profile" />"> <i
 							class="fa fa-user fa-fw"></i> <spring:message code="label.student_profile"/>
 					</a></li>
 					<li class="divider"></li>

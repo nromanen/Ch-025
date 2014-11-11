@@ -2,9 +2,9 @@
 <beans:beans xmlns="http://www.springframework.org/schema/security"
 	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
-                    http://www.springframework.org/schema/security 
+                    http://www.springframework.org/schema/security
                     http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
 	<http pattern="/css/**" security="none" />
@@ -19,6 +19,7 @@
 		<intercept-url pattern="/ratings/**" access="hasRole('STUDENT')"/>
 		<intercept-url pattern="/topicView/**" access="hasRole('STUDENT')"/>
 		<intercept-url pattern="/modules/**" access="hasRole('STUDENT')"/>
+		
 		<intercept-url pattern="/teacher/teacher/**" access="hasRole('TEACHER')" />
 		<intercept-url pattern="/teacher/teacherCourse" access="hasRole('TEACHER')" />
 		<intercept-url pattern="/teacher/editTopic/**" access="hasRole('TEACHER')" />
@@ -27,12 +28,13 @@
 		<intercept-url pattern="/teacher/editCategory/**" access="hasRole('TEACHER')" />
 		<intercept-url pattern="/teacher/categories/**" access="hasRole('TEACHER')" />
 		<intercept-url pattern="/teacher/**" access="hasRole('TEACHER')" />
-		
+
 		<intercept-url pattern="/administrator/**" access="hasRole('ADMIN')" />
 		<intercept-url pattern="/viewAllCategories/**" access="hasRole('ADMIN')" />
 		<intercept-url pattern="/viewLogs/**" access="hasRole('ADMIN')" />
 		<intercept-url pattern="/viewAllUsers/**" access="hasRole('ADMIN')" />
 		<intercept-url pattern="/viewAllSubjects/**" access="hasRole('ADMIN')" />
+		<intercept-url pattern="/viewAllRequests/**" access="hasRole('ADMIN')" />
 
 
 		<form-login login-page="/login" default-target-url="/enter"
@@ -43,7 +45,7 @@
 
 		<remember-me key="userKey" token-validity-seconds="2419200" />
 	</http>
-	
+
 	<beans:bean id="exceptionFilter"
                 class="org.springframework.security.web.authentication.ExceptionMappingAuthenticationFailureHandler">
         <beans:property name="exceptionMappings">

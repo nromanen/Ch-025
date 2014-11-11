@@ -31,7 +31,11 @@ public class LogController {
 	/**
 	 * Operates with viewAllLogs page. Checks for required parameters in session
 	 * and used it. And if some of them doesn't exists - takes default values.
+<<<<<<< HEAD
+	 *
+=======
 	 * 
+>>>>>>> f98bdf9d8c3c1c6923dc3908adeab57e6a2fe15c
 	 * @param pageNumb
 	 *            - number of page for query.
 	 */

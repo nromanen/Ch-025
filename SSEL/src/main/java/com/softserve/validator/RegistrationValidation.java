@@ -11,7 +11,6 @@ import com.softserve.service.UserService;
 
 /**
  * Class for validation registration form
- * 
  * @author Khomyshyn Roman
  */
 
