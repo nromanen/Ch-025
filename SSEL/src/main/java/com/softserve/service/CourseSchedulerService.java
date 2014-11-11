@@ -6,18 +6,25 @@ import com.softserve.entity.CourseScheduler;
 
 public interface CourseSchedulerService {
 
-	public CourseScheduler addCourseScheduler(CourseScheduler courseScheduler);
+	CourseScheduler addCourseScheduler(CourseScheduler courseScheduler);
 
-	public void deleteCourseScheduler(CourseScheduler courseScheduler);
+	void deleteCourseScheduler(CourseScheduler courseScheduler);
 
-	public CourseScheduler updateCourseScheduler(CourseScheduler courseScheduler);
+	CourseScheduler updateCourseScheduler(CourseScheduler courseScheduler);
 
-	public CourseScheduler getCourseSchedulerById(int id);
+	CourseScheduler getCourseSchedulerById(int id);
 
-	public List<CourseScheduler> getAllCourseScheduleres();
+	List<CourseScheduler> getAllCourseScheduleres();
 
-	public List<CourseScheduler> getCourseScheduleresBySubjectId(int id);
+	List<CourseScheduler> getCourseScheduleresBySubjectId(int id);
 	
 	List<CourseScheduler> getCourseSchedulersBySubjectUserId(int id);
+	
+	List<CourseScheduler> getActiveSubscribedCoursesByUserId(int id);
+	
+	List<CourseScheduler> getFutureSubscribedCoursesByUserId(int id);
+	
+	List<CourseScheduler> getFinishedSubscribedCoursesByUserId(int id);
+
 	
 }

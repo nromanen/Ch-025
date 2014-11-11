@@ -1,10 +1,13 @@
 package com.softserve.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,15 +35,10 @@ import com.softserve.service.CourseSchedulerService;
 import com.softserve.service.GroupService;
 import com.softserve.service.MailService;
 import com.softserve.service.RatingService;
-import com.softserve.service.StudentCabinetSevice;
 import com.softserve.service.StudentGroupService;
 import com.softserve.service.SubjectService;
 import com.softserve.service.TopicService;
 import com.softserve.service.UserService;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 /**
  * Handle student requests
  * @author 
@@ -49,8 +47,6 @@ import java.io.IOException;
 @Controller
 public class StudentCabinetController {
 	private static final Logger log = LoggerFactory.getLogger(StudentCabinetController.class);
-	@Autowired
-	private StudentCabinetSevice studentCabinetService;
 	@Autowired
 	private CourseSchedulerService courseService;
 	@Autowired 
@@ -99,13 +95,12 @@ public class StudentCabinetController {
 	@RequestMapping(value = "/student", method = RequestMethod.GET)
 	public String printStudentCourses(@RequestParam(value="table", required = false) String table, Model model) {
 		User user = userService.getUserByEmail(userService.getCurrentUser());//(User) sess.getAttribute("user");
-		int userId  = user.getId();
-		studentCabinetService.initSubscribedList(userId);
+		int userId = user.getId();
 		List<CourseScheduler> scheduler;
 		List<Double> ratings;
 		List<Double> progreses;
 		if (table == null || table.equals("future")) { //build data model for future courses
-			scheduler = studentCabinetService.getFutureCourses(new Date());
+			scheduler = courseService.getFutureSubscribedCoursesByUserId(userId);
 			model.addAttribute("courses",scheduler);
 			String title = messageSource.getMessage("label.future_courses", new Object[]{},
 								LocaleContextHolder.getLocale());
@@ -113,14 +108,14 @@ public class StudentCabinetController {
 			model.addAttribute("table", "future");
 			return "student";
 		} else if (table.equals("active")) { //build data model for active courses
-			scheduler = studentCabinetService.getActiveCourses(new Date()); 
+			scheduler = courseService.getActiveSubscribedCoursesByUserId(userId);
 			String title = messageSource.getMessage("label.active_courses", new Object[]{},
 					LocaleContextHolder.getLocale());
 			model.addAttribute("title", title);
 			model.addAttribute("table", "active");
 			
 		} else { //build data model for finished courses
-			scheduler = studentCabinetService.getFinishedCourses(new Date());
+			scheduler = courseService.getFinishedSubscribedCoursesByUserId(userId);
 			String title = messageSource.getMessage("label.finished_courses", new Object[]{},
 					LocaleContextHolder.getLocale());
 			model.addAttribute("title", title);
@@ -130,11 +125,9 @@ public class StudentCabinetController {
 		progreses = new ArrayList<>();
 		for (CourseScheduler item: scheduler) {
 			int groupId = groupService.getGroupByScheduler(item.getId()).getGroupId();
-			System.out.println("Group id ="+groupId+" UserId="+userId);
 			ratings.add(ratingService.getAverageRatingByUserAndGroup(userId, groupId));
 			progreses.add(ratingService.getProgressByGroupAndUser(groupId, userId));
 		}	
-		
 		model.addAttribute("courses",scheduler);
 		model.addAttribute("ratings", ratings);
 		model.addAttribute("progreses", progreses);
@@ -152,8 +145,7 @@ public class StudentCabinetController {
 			@RequestParam(value = "courseId", required = true) Integer courseId, Model model) {
 		try {
 		User user = userService.getUserByEmail(userService.getCurrentUser());//(User) session.getAttribute("user");
-		int userId;
-		userId = user.getId();
+		int userId = user.getId();
 		List<Block> blocks = blockService.getBlocksBySubjectId(courseId);
 		Subject subject = subjectService.getSubjectById(courseId);
 		int courseSchedulerId = courseService.getCourseScheduleresBySubjectId(courseId).get(0).getId();
@@ -177,30 +169,34 @@ public class StudentCabinetController {
 	 */
 	@RequestMapping(value="/topicView", method = RequestMethod.GET)
 	public String printTopic(@RequestParam (value = "topicId", required = true) Integer topicId, Model model,
-			HttpSession session) {
+			HttpServletRequest request) {
 		Topic topic = topicService.getTopicById(topicId);
-		String dirname = session.getServletContext().getRealPath("resources");
+		String dirname = request.getSession().getServletContext().getRealPath("resources");
 		dirname += "\\tmp\\";
 		File tmpDir = new File(dirname);
 		if (!tmpDir.exists()) {
 			tmpDir.mkdir();
 		}
-		List<StudyDocument> documents = studyDocumentDao.listByTopicId(topic.getId());
-		for (StudyDocument doc : documents) {
-			File file = new File(dirname+doc.getName());
-			Date lastModified = new Date(file.lastModified());
-			if(!file.exists() || lastModified.before(doc.getLastUpdated())) {
-				try(FileOutputStream fout = new FileOutputStream(dirname+doc.getName());){
-					fout.write(doc.getData());
-				} catch (IOException e) {
-					log.error("Cannot write topic temp files");
+			List<StudyDocument> documents = studyDocumentDao.listByTopicId(topic.getId());
+			for (StudyDocument doc : documents) {
+				File file = new File(dirname+doc.getName());
+				if(!file.exists()) {
+					try(FileOutputStream fout = new FileOutputStream(dirname+doc.getName());){
+						fout.write(doc.getData());
+					} catch (IOException e) {
+						log.error("Cannot write topic temp files");
+					}
 				}
 			}
+		if (isSupportedBrowserForPlugin(request.getHeader("User-Agent"))) {
+			model.addAttribute("isSupported", true);
+		} else {
+			model.addAttribute("isSupported", false);
 		}
+		model.addAttribute("docs", documents);
 		model.addAttribute("block_name", topic.getBlock().getName());
 		model.addAttribute("topic order", topic.getOrder());
 		model.addAttribute("name", topic.getName());
-		model.addAttribute("docs", documents);
 		model.addAttribute("content", topic.getContent());
 		model.addAttribute("table", "active");
 		model.addAttribute("path", dirname);
@@ -224,10 +220,10 @@ public class StudentCabinetController {
 		double progress = ratingService.getProgressByGroupAndUser(group.getGroupId(), user.getId());
 		List<Block> blocks = blockService.getBlocksBySubjectId(cs.getSubject().getId());
 		List<Rating> ratings = ratingService.getRatingByGroupAndUser(group.getGroupId(), user.getId());
+		model.addAttribute("ratings", ratings);
 		model.addAttribute("avgRating", avgRating);
 		model.addAttribute("progress", progress);
 		model.addAttribute("blocks",blocks);
-		model.addAttribute("ratings", ratings);
 		model.addAttribute("name", cs.getSubject().getName());
 		model.addAttribute("startEnd", "(" + cs.getStart()+"-"+cs.getEnd()+ ")");
 		model.addAttribute("showType", "table");
@@ -275,6 +271,16 @@ public class StudentCabinetController {
 		} 
 		return "redirect:course?subjectId="+subjectId+"&isSubscribed=false";
 	}
-	
+	/**
+	 * Check if browser is supported for plugin
+	 * @param userAgent http header with browser info
+	 * @return true - for Opera, Chrome, Mozilla, false - IE
+	 */
+	private boolean isSupportedBrowserForPlugin(String userAgent) {
+	    if(userAgent.contains("MSIE")){ 
+	        return false;
+	    }
+	    return true;
+	}
 	
 }
