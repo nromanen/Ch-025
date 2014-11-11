@@ -15,7 +15,7 @@
 			<fmt:formatDate pattern="dd-MM-yyyy" value="${endPeriod}" />
 		</h3>
 		<div class="row">
-
+		
 			<!-- Picking logsPerPage parameter -->
 			<div class="col-md-1" align="left">
 				<form method="get" action="getParameters">
@@ -40,27 +40,27 @@
 					</select> <input type="submit" style="visibility: hidden;">
 				</form>
 			</div>
-
+			
 			<!-- Selecting range of dates for viewing logs -->
 			<div class="col-md-5" align="left">
 				<form action="getRangeOfDates" method="get">
 					<spring:message code="label.show_logs_from_date" /> <input type="text" name="startDate" class="datepicker"
-						placeholder="<spring:message code="label.placeholder" />" />
+						placeholder="<spring:message code="label.placeholder" />" /> 
 						<spring:message code="label.to" /> <input type="text" name="endDate" class="datepicker"
-						placeholder="<spring:message code="label.placeholder" />" />
+						placeholder="<spring:message code="label.placeholder" />" /> 
 						<input type="submit" value="<spring:message code="label.show" />" />
 				</form>
 			</div>
-
+				
 			<!-- Selecting date for deleting old logs -->
 			<div class="col-md-4" align="left">
 				<form action="deleteOldLogs" method="get">
 					<spring:message code="label.delete_old_logs_to_date" /> <input type="text" name="deleteDate" class="datepicker"
-						placeholder="<spring:message code="label.placeholder" />" />
+						placeholder="<spring:message code="label.placeholder" />" /> 
 						<input type="submit" value="<spring:message code="label.delete" />" onclick="return confirm('<spring:message code="label.are_you_sure" />')" />
 				</form>
 			</div>
-
+			
 		<!-- Pagination scroll -->
 		<div align="right">
 			<nav>
@@ -102,30 +102,30 @@
 			<thead>
 				<tr>
 					<!-- Head of table also includes sorting parameters -->
-					<th><spring:message code="label.t_date" /><br /> <font size="-2">
-						<a href="${pageContext.request.contextPath}/getParameters?orderBy=date-asc">Up</a>
-						<a href="${pageContext.request.contextPath}/getParameters?orderBy=date-desc">Down</a>
+					<th><spring:message code="label.t_date" /><br>  <font size="+2">
+						<a href="${pageContext.request.contextPath}/getParameters?orderBy=date-asc">&#x21e7;</a><!-- стрілочки  -->
+						<a href="${pageContext.request.contextPath}/getParameters?orderBy=date-desc">&#x21e9;</a>
 					</font></th>
-					<th><spring:message code="label.t_level" /><br /> <font size="-2">
-						<a href="${pageContext.request.contextPath}/getParameters?orderBy=level-asc">Up</a>
-						<a href="${pageContext.request.contextPath}/getParameters?orderBy=level-desc">Down</a>
+					<th><spring:message code="label.t_level" /> <br><font size="+2"> 
+						<a href="${pageContext.request.contextPath}/getParameters?orderBy=level-asc">&#x21e7;</a>
+						<a href="${pageContext.request.contextPath}/getParameters?orderBy=level-desc">&#x21e9;</a>
 					</font></th>
-					<th><spring:message code="label.t_logger" /><br /></th>
+					<th><spring:message code="label.t_logger"  /></th>
 					<th><spring:message code="label.t_message" /><br /></th>
-					<th><spring:message code="label.t_exception" /><br /> <font size="-2">
-						<a href="${pageContext.request.contextPath}/getParameters?orderBy=exception-asc">Up</a>
-						<a href="${pageContext.request.contextPath}/getParameters?orderBy=exception-desc">Down</a>
+					<th><spring:message code="label.t_exception" /> <font size="+2"> 
+						<a href="${pageContext.request.contextPath}/getParameters?orderBy=exception-asc">&#x21e7;</a>
+						<a href="${pageContext.request.contextPath}/getParameters?orderBy=exception-desc">&#x21e9;</a>
 					</font></th>
 				</tr>
 			</thead>
 			<c:forEach items="${logs}" var="log">
 				<tr>
 					<td class="col-md-1">${log.eventDate}</td>
-					<td class="col-md-0.8">${log.level}</td>
-					<td class="col-md-3"><textarea rows="2" cols="45"
+					<td class="col-md-1">${log.level}</td>
+					<td class="col-md-3"><textarea class="col-md-12" rows="2" 
 							readonly="readonly">${log.logger}</textarea></td>
-					<td class="col-md-5.7"><textarea rows="2" cols="100"
-							readonly="readonly">${log.message}</textarea></td>
+					<td class="col-md-6"><textarea class="col-md-12" rows="2" 
+					readonly="readonly">${log.message}</textarea></td>
 					<td class="col-md-1">
 						<c:choose>
 							<c:when test="${not empty log.exception}">
@@ -138,7 +138,7 @@
 				</tr>
 			</c:forEach>
 		</table>
-
+		
 		<!-- Pagination scroll -->
 		<div align="right">
 			<nav>

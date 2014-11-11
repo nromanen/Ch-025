@@ -1,8 +1,7 @@
-<%@page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@taglib uri="http://www.springframework.org/tags" prefix="s"%>
-<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <script src="resources/ckeditor/ckeditor.js"></script>
@@ -57,9 +56,7 @@
 		</form:form>
 
 
-		<!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
-		<link rel="stylesheet" href="resources/css/jquery.fileupload.css">
-		<link rel="stylesheet" href="resources/css/jquery.fileupload-ui.css">
+
 
 		<!-- The file upload form used as target for the file upload widget -->
 		<form id="fileupload" action='<s:url value="upload"/>' method="POST"
@@ -160,7 +157,7 @@
             {% if (file.deleteUrl) { %}
                 <button class="btn btn-danger delete" data-type="DELETE" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
                     <i class="glyphicon glyphicon-trash"></i>
-                    <span>Delete</span>
+                    <span><spring:message code="label.teacher.delete"/></span>
                 </button>
 
             {% } else { %}
@@ -198,11 +195,11 @@
 <!-- The main application script -->
 <script src="resources/js/main.js"></script>
 
-<script type="text/javascript">
-<!--
-	
-//-->
-</script>
+<!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
+<link rel="stylesheet" href="resources/css/jquery.fileupload.css">
+<link rel="stylesheet" href="resources/css/jquery.fileupload-ui.css">
+
+
 
 <script type="text/javascript">
 	$(document).ready(function() {

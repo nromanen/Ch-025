@@ -54,7 +54,7 @@ public class RatingDaoImpl implements RatingDao {
 	public Rating getRatingById(int ratingId) {
 		Query query = entityManager.createQuery("SELECT r FROM Rating r WHERE r.ratingId = :id");
 		query.setParameter("id", ratingId);
-		return (query.getResultList().size() == 0) ? null : (Rating) query.getSingleResult(); 
+		return (Rating) query.getSingleResult(); 
 	}
 
 	@SuppressWarnings("unchecked")
@@ -63,16 +63,27 @@ public class RatingDaoImpl implements RatingDao {
 		Query query = entityManager.createQuery("SELECT r FROM Rating r WHERE r.group.groupId = :gi AND r.user.id = :ui ");
 		query.setParameter("gi", groupId);
 		query.setParameter("ui", userId);
-		return query.getResultList();
+		if (query.getResultList().size() == 0) {
+			System.out.println("Not records for select");
+			return null;
+		} else {
+			return query.getResultList();
+		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public double getAverageRatingByGroupAndUser(int groupId, int userId) {
 		Query query = entityManager.createQuery("SELECT avg(r.mark) FROM Rating r WHERE r.group.groupId = :gi AND "
 				+ "r.user.id = :ui ");
 		query.setParameter("gi", groupId);
 		query.setParameter("ui", userId);
-		return (query.getResultList().size() != 0) ? (Double) query.getSingleResult() : 0;
+		try {
+			List<Double> resultList = query.getResultList();
+		return resultList.get(0);
+		} catch (NullPointerException e) {
+			return 0.0;
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -87,9 +98,13 @@ public class RatingDaoImpl implements RatingDao {
 				+ "rt.group.groupId = :gid AND rt.user.id = :uid")
 		.setParameter("gid", groupId)
 		.setParameter("uid", userId).getResultList();
-		Long ratingsCount = (ratings.size() != 0) ? ratings.get(0) : 0;
-		ratingsCount *= 100L;
-		return (double)ratingsCount/blocksCount;
+		try{
+			Long ratingsCount = ratings.get(0);
+			ratingsCount *= 100L;
+			return (double)ratingsCount/blocksCount;
+		} catch(NullPointerException e) {
+			return 0.0;
+		}
 	}
 	
 }

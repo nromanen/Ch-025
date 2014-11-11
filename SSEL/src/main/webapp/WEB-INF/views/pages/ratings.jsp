@@ -92,34 +92,45 @@
 	</div>
 </div>
 </div>
-
 <script>
+/**
+ * Donouts for rating and progress 
+ */
 var rating = document.getElementById("rating").value;
 var progress = document.getElementById("progress").value;
 var success = document.getElementById("success").value;
 var failed = document.getElementById("failed").value;
-	Morris.Donut({
-	  element: 'morris-donut-rating',
-	  data: [
-	    {label: success, value: rating},
-	    {label: failed, value: 100-rating}
-	  ],
-	colors: [
-		'#33CC33',
-		'#FF3300'
-	]
-	});
+var data1 = [];
+var data2 = [];
+var colors = [];
+if(rating == 100.0) {
+	data1.push({label: success, value : 100});
+} else if (rating > 0.0) {
+	data1.push({label: success, value : rating});
+	data1.push({label: failed, value : 100 - rating});
+} else {
+	data1.push({label: failed, value : 100 });
+}
+if (progress == 100.0) {
+	data2.push({label: success, value : 100});
+}else if(progress > 0.0) {
+	data2.push({label: success, value : progress});
+	data2.push({label: failed, value : 100-progress});
+} else {
+	data2.push({label:failed, value: 100});
+}
+	colors.push('#33CC33');
+	colors.push('#FF3300');
 	
 	Morris.Donut({
 		  element: 'morris-donut-progress',
-		  data: [
-		    {label: success, value: progress},
-		    {label: failed, value: 100-progress}
-		  ],
-		colors: [
-			'#33CC33',
-			'#FF3300'
-		]
+		  data: data2,
+		  colors: colors
 		});
-			
-</script>
+	
+	Morris.Donut({
+	  element: 'morris-donut-rating',
+	  data: data1,
+	  colors: colors
+	});
+	</script>

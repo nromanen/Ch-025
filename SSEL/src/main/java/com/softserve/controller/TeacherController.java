@@ -3,6 +3,7 @@ package com.softserve.controller;
 import java.beans.PropertyEditorSupport;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -219,6 +220,16 @@ public class TeacherController {
 		return "redirect:/teacher";
 	}
 	
+	@RequestMapping(value = "/saveTopic", method = RequestMethod.GET)
+	public String saveTopic(@ModelAttribute("topic") Topic topic, Model model) {
+	
+		List<Block> blocks = blockService.getAllBlocks();
+		model.addAttribute("blockList", blocks);
+		List<Category> categories = categoryService.getAllCategories();
+		model.addAttribute("catList", categories);
+		return "editTopic";
+	}
+	
 	@RequestMapping(value = "/saveBlock", method = RequestMethod.POST)
 	public String saveBlock(@Valid @ModelAttribute("block") Block block, BindingResult result, Model model) {
 		if (result.hasErrors()) {
@@ -408,6 +419,20 @@ public class TeacherController {
 			@RequestParam(value = "subjectId", required = true) Integer subjectId, Model model) {
 		Topic topic = topicService.getTopicById(topicId);
 		topicService.deleteTopic(topic);
+		model.addAttribute("subjectId", subjectId);
+		return "redirect:/teacherCourse";
+
+	}
+	
+	@RequestMapping(value = "/deleteBlock", method = RequestMethod.GET)
+	public String deleteBlock(@RequestParam(value = "blockId", required = true) Integer blockId,
+			@RequestParam(value = "subjectId", required = true) Integer subjectId, Model model) {
+		List<Topic> topics = topicService.getTopicsByBlockId(blockId); 
+		for (Topic topic:topics) {
+			topicService.deleteTopic(topic);
+		}
+		Block block = blockService.getBlockById(blockId);
+		blockService.deleteBlock(block);
 		model.addAttribute("subjectId", subjectId);
 		return "redirect:/teacherCourse";
 

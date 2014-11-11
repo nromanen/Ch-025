@@ -28,7 +28,6 @@ import com.softserve.service.CourseSchedulerService;
 import com.softserve.service.GroupService;
 import com.softserve.service.RoleService;
 import com.softserve.service.SearchService;
-import com.softserve.service.StudentCabinetSevice;
 import com.softserve.service.StudentGroupService;
 import com.softserve.service.SubjectService;
 import com.softserve.service.TopicService;
@@ -58,8 +57,6 @@ public class GuestController {
 	@Autowired
 	private RoleService roleService;
 
-	@Autowired
-	private StudentCabinetSevice studCabService;
 	
 	@Autowired
 	private BlockService blockService;

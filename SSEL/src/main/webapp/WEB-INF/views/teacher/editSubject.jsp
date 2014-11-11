@@ -49,11 +49,14 @@
 				<div class="form-group">
 					
 					<label><spring:message code="label.teacher.startDate"/></label>
-					<input name="startDate" class="src_date" type="textarea" placeholder="DD-MM-YYYY"
+					<br>
+					<input name="startDate" class="datepicker" placeholder="DD-MM-YYYY"
 						value="${startDate}" id="startDate">
-					
-					<label><spring:message code="label.teacher.endDate"/></label> 
-					<input name="endDate" class="src_date" type="textarea" placeholder="DD-MM-YYYY" 
+					<br>
+					<br>
+					<label><spring:message code="label.teacher.endDate"/></label>
+					<br> 
+					<input name="endDate" class="datepicker" placeholder="DD-MM-YYYY" 
 						value="${endDate}" id="endDate">
 						
 				</div>
