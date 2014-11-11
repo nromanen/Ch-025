@@ -17,6 +17,8 @@ public interface TeacherRequestDao {
 	public List<TeacherRequest> getAllTeacherRequests();
 
 	public TeacherRequest getTeacherRequestByUserId(int userId);
-	
+
 	public List<TeacherRequest> getAllActiveTeacherRequests();
+
+	public long getAllActiveTeacherRequestsCount();
 }
