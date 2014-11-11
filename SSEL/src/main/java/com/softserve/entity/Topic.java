@@ -27,27 +27,27 @@ public class Topic {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column(name = "name")
-	@NotNull 
-	@Size(min=4, max=30)
-	@Pattern(regexp="^[A-Za-z0-9.,:_ ]{4,30}$")
+	@Column(name = "name", nullable = false)
+	@NotNull
+	@Size(min = 4, max = 30)
+	@Pattern(regexp = "^[A-Za-z0-9.,:_ ]{4,30}$")
 	private String name;
 
-	@Column(name = "content")
+	@Column(name = "content", nullable = false)
 	private String content;
 
-	@Column(name = "topic_order")
+	@Column(name = "topic_order", nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int order;
 
-	@Column(name = "alive")
-	@NotNull 
+	@Column(name = "alive", nullable = false)
+	@NotNull
 	private boolean alive;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "id_block", nullable = true)
 	private Block block;
-	
+
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "topic")
 	private Set<StudyDocument> studyDocuments = new TreeSet<>();
 
