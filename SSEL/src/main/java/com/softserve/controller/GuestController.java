@@ -165,10 +165,10 @@ public class GuestController {
 	public String search(@RequestParam String search, Model model, 
 			@RequestParam (value = "pageNumber", required = false) Integer pageNumber,
 			@RequestParam (value = "pageSize", required = false) Integer pageSize) {
-		if (pageNumber == null) {
+		if (pageNumber == null || pageNumber < 1) {
 			pageNumber = 1;
 		}
-		if (pageSize == null) {
+		if (pageSize == null || pageSize < 1) {
 			pageSize = 10;
 		}
 		Long numberOfPages = 0L;
@@ -195,10 +195,10 @@ public class GuestController {
 	public String category(@RequestParam Integer categoryId, Model model,
 			@RequestParam (value = "pageNumber", required = false) Integer pageNumber,
 			@RequestParam (value = "pageSize", required = false) Integer pageSize) {
-		if (pageNumber == null) {
+		if (pageNumber == null || pageNumber < 1) {
 			pageNumber = 1;
 		}
-		if (pageSize == null) {
+		if (pageSize == null || pageSize < 1) {
 			pageSize = 10;
 		}
 		Long numberOfPages = 0L;
