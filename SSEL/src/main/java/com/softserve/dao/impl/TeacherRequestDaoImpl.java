@@ -68,7 +68,11 @@ public class TeacherRequestDaoImpl implements TeacherRequestDao {
 		Query query = entityManager.createQuery("FROM TeacherRequest t "
 				+ "WHERE t.user.id = :id");
 		query.setParameter("id", userId);
+		try {
 		return (TeacherRequest) query.getSingleResult();
+		} catch (Exception e){
+			return null;
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -77,6 +81,14 @@ public class TeacherRequestDaoImpl implements TeacherRequestDao {
 		LOG.debug("Get all active teacher requests");
 		return entityManager.createQuery(
 				"FROM TeacherRequest t WHERE t.active = 1").getResultList();
+	}
+
+	@Override
+	public long getAllActiveTeacherRequestsCount() {
+		LOG.debug("Get all active teacher requests count");
+		Query query = entityManager
+				.createQuery("SELECT COUNT (*) FROM TeacherRequest t WHERE t.active = 1");
+		return (Long) query.getSingleResult();
 	}
 
 }

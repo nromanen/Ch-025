@@ -73,7 +73,11 @@
 				<li><a href="viewAllUsers"><spring:message
 							code="label.admin.users" /></a></li>
 				<li><a href="viewAllRequests"><spring:message
-							code="label.requests" /></a></li>
+							code="label.requests" />
+							<c:if test="${activeTeacherRequests ne 0}">
+							<span class="badge">   ${activeTeacherRequests}</span>
+							</c:if>
+							</a></li>
 				<li><a href="viewLogs"><spring:message
 							code="label.admin.logs" /></a></li>
 			</ul>

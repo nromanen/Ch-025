@@ -13,8 +13,5 @@ $(function() {
 
 <div class="row">
 	<div class="col-lg-12">
-		<p>There are ${subjects} subjects on the site!</p>
-		<p>There are ${courceScheduler} cources is open!</p>
-		<p>There are ${users} was registered on the site!</p>
 	</div>
 </div>
