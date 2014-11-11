@@ -180,8 +180,7 @@ public class StudentCabinetController {
 			List<StudyDocument> documents = studyDocumentDao.listByTopicId(topic.getId());
 			for (StudyDocument doc : documents) {
 				File file = new File(dirname+doc.getName());
-				Date lastModified = new Date(file.lastModified());
-				if(!file.exists() || lastModified.before(doc.getLastUpdated())) {
+				if(!file.exists()) {
 					try(FileOutputStream fout = new FileOutputStream(dirname+doc.getName());){
 						fout.write(doc.getData());
 					} catch (IOException e) {
