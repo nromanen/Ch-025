@@ -59,4 +59,10 @@ public class TeacherRequestServiceImpl implements TeacherRequestService {
 		return teacherRequestDao.getAllActiveTeacherRequests();
 	}
 
+	@Override
+	@Transactional
+	public long getAllActiveTeacherRequestsCount() {
+		return teacherRequestDao.getAllActiveTeacherRequestsCount();
+	}
+
 }

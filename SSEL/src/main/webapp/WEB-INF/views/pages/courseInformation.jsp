@@ -8,8 +8,17 @@
 	<div class="col-lg-12">
 		<c:if test="${sessionScope.user.role.role ne 'STUDENT'}">
 			<div class="alert alert-danger" role="alert" align="center">
-				<span><spring:message code="label.course_subscribe"/> <a
-					href="login" class="btn btn-primary"><spring:message code="label.sing_in"/></a></span>
+				<span><spring:message code="label.course_subscribe"/>
+				<c:if test="${sessionScope.user.role.role eq 'TEACHER'}">
+				<spring:message code="label.as_student"/>
+				</c:if>
+				<c:if test="${sessionScope.user.role.role ne 'TEACHER' && sessionScope.user.role.role ne 'ADMIN' }">
+				<a href="login" class="btn btn-primary"><spring:message code="label.sing_in"/></a>
+				</c:if>
+				<c:if test="${sessionScope.user.role.role eq 'ADMIN'}">
+				<spring:message code="label.as_student"/>
+				</c:if>
+				</span>
 			</div>
 		</c:if>
 		<h2 align="center">${subject.name}</h2>

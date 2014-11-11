@@ -74,9 +74,13 @@ public class AdministratorController {
 		List<CourseScheduler> courceScheduler = courceSchedulerService
 				.getAllCourseScheduleres();
 		List<User> users = userService.getAllUsers();
+		int activeTeacherRequests = (int) teacherRequestService
+				.getAllActiveTeacherRequestsCount();
+		model.addAttribute("activeTeacherRequests", activeTeacherRequests);
 		model.addAttribute("subjects", subjects.size());
 		model.addAttribute("courceScheduler", courceScheduler.size());
 		model.addAttribute("users", users.size());
+
 		return "administrator";
 	}
 
@@ -94,6 +98,9 @@ public class AdministratorController {
 		if (errorMessage != null) {
 			model.addAttribute("errorMessage", errorMessage);
 		}
+		int activeTeacherRequests = (int) teacherRequestService
+				.getAllActiveTeacherRequestsCount();
+		model.addAttribute("activeTeacherRequests", activeTeacherRequests);
 		return "viewAllCategories";
 	}
 
@@ -163,7 +170,6 @@ public class AdministratorController {
 		if (currentPage == null) {
 			currentPage = 1;
 		}
-
 		startPosition = (currentPage - 1) * elementsOnPage;
 		limitLength = elementsOnPage;
 
@@ -210,7 +216,9 @@ public class AdministratorController {
 		}
 
 		List<Role> roles = roleService.getAllRoles();
-
+		int activeTeacherRequests = (int) teacherRequestService
+				.getAllActiveTeacherRequestsCount();
+		model.addAttribute("activeTeacherRequests", activeTeacherRequests);
 		model.addAttribute("users", users);
 		model.addAttribute("roles", roles);
 		model.addAttribute("pagesCount", pages);
@@ -270,6 +278,12 @@ public class AdministratorController {
 			User user = userService.getUserById(userId);
 			if (user.isBlocked()) {
 				user.setBlocked(false);
+				TeacherRequest teacherRequest = teacherRequestService
+						.getTeacherRequestByUserId(userId);
+				if (teacherRequest != null) {
+					teacherRequest.setActive(false);
+					teacherRequestService.updateTeacherRequest(teacherRequest);
+				}
 				redirectAttributes
 						.addAttribute("successMessage",
 								"You are unblock user: <b>" + user.getEmail()
@@ -369,7 +383,9 @@ public class AdministratorController {
 			model.addAttribute("sortBy", sortBy);
 			model.addAttribute("sortMethod", sortMethod);
 		}
-
+		int activeTeacherRequests = (int) teacherRequestService
+				.getAllActiveTeacherRequestsCount();
+		model.addAttribute("activeTeacherRequests", activeTeacherRequests);
 		model.addAttribute("pagesCount", pages);
 		model.addAttribute("elementsOnPage", elementsOnPage);
 		model.addAttribute("currentPage", currentPage);
@@ -427,19 +443,8 @@ public class AdministratorController {
 	public String viewAllRequests(
 			@RequestParam(value = "successMessage", required = false) String successMessage,
 			@RequestParam(value = "errorMessage", required = false) String errorMessage,
-			@RequestParam(value = "searchText", required = false) String searchText,
-			@RequestParam(value = "searchOption", required = false) String searchOption,
-			@RequestParam(value = "elementsOnPage", required = false) Integer elementsOnPage,
-			@RequestParam(value = "currentPage", required = false) Integer currentPage,
-			@RequestParam(value = "sortBy", required = false) String sortBy,
-			@RequestParam(value = "sortMethod", required = false) String sortMethod,
 			Model model) {
-		LOG.debug("Visit viewAllUsers page");
-		List<User> users = new ArrayList<User>();
-		int startPosition;
-		int limitLength;
-		long count;
-		int pages;
+		LOG.debug("Visit viewAllRequests page");
 		if (successMessage != null) {
 			model.addAttribute("successMessage", successMessage);
 		}
@@ -448,69 +453,12 @@ public class AdministratorController {
 			model.addAttribute("errorMessage", errorMessage);
 		}
 
-		if (elementsOnPage == null) {
-			elementsOnPage = DEFAULT_ELEMENTS_ON_PAGE;
-		}
-
-		if (currentPage == null) {
-			currentPage = 1;
-		}
-
-		startPosition = (currentPage - 1) * elementsOnPage;
-		limitLength = elementsOnPage;
-
-		count = userService.getUsersCount();
-		pages = (int) count / elementsOnPage;
-
-		if (searchText != null && !searchText.equals("")
-				&& searchOption != null) {
-			if (searchOption.equals("all")) {
-				users = userService.getUsersByTextVsLimit(searchText,
-						startPosition, limitLength, sortBy, sortMethod);
-				count = userService.getUsersByTextCount(searchText);
-			} else if (searchOption.equals("userFirstName")) {
-				users = userService.getUsersByFirstNameVsLimit(searchText,
-						startPosition, limitLength, sortBy, sortMethod);
-				count = userService.getUsersByFirstNameCount(searchText);
-			} else if (searchOption.equals("userLastName")) {
-				users = userService.getUsersByLastNameVsLimit(searchText,
-						startPosition, limitLength, sortBy, sortMethod);
-				count = userService.getUsersByLastNameCount(searchText);
-			} else if (searchOption.equals("role")) {
-				users = userService.getUsersByRoleVsLimit(searchText,
-						startPosition, limitLength, sortBy, sortMethod);
-				count = userService.getUsersByRoleCount(searchText);
-			}
-			model.addAttribute("searchText", searchText);
-			model.addAttribute("searchOption", searchOption);
-
-		} else {
-			count = userService.getUsersCount();
-
-			users = userService.getUsersVsLimit(startPosition, limitLength,
-					sortBy, sortMethod);
-		}
-
-		pages = (int) count / elementsOnPage;
-		if ((count % elementsOnPage) != 0) {
-			pages++;
-		}
-
-		if (sortBy != null && sortMethod != null) {
-			model.addAttribute("sortBy", sortBy);
-			model.addAttribute("sortMethod", sortMethod);
-		}
-
-		List<Role> roles = roleService.getAllRoles();
 		List<TeacherRequest> teacherRequests = teacherRequestService
 				.getAllActiveTeacherRequests();
 		model.addAttribute("teacherRequests", teacherRequests);
-
-		model.addAttribute("users", users);
-		model.addAttribute("roles", roles);
-		model.addAttribute("pagesCount", pages);
-		model.addAttribute("elementsOnPage", elementsOnPage);
-		model.addAttribute("currentPage", currentPage);
+		int activeTeacherRequests = (int) teacherRequestService
+				.getAllActiveTeacherRequestsCount();
+		model.addAttribute("activeTeacherRequests", activeTeacherRequests);
 		return "viewAllRequests";
 	}
 
@@ -521,20 +469,20 @@ public class AdministratorController {
 		LOG.debug("Visit changeUserRoleToAdmin page");
 		if (userId != null) {
 			User user = userService.getUserById(userId);
-			Role role = roleService.getRoleByName("TEACHER");
-			redirectAttributes.addAttribute("successMessage",
-					"You are change <b>" + user.getEmail()
-							+ "</b> role to <b>" + role.getRole() + "</b>");
-			user.setRole(role);
+
+			user.setBlocked(false);
 			userService.updateUser(user);
 			TeacherRequest teacherRequest = teacherRequestService
 					.getTeacherRequestByUserId(userId);
 			teacherRequest.setActive(false);
 			teacherRequestService.updateTeacherRequest(teacherRequest);
+			redirectAttributes.addAttribute("successMessage",
+					"You allow the user to: <b>" + user.getEmail()
+							+ "</b> become <b>TEACHER</b>");
 
 		} else {
 			redirectAttributes.addAttribute("errorMessage",
-					"Can't change role, input parameters is invalid!");
+					"Can't unblocked user, input parameters is invalid!");
 		}
 		return "redirect:/viewAllRequests";
 	}

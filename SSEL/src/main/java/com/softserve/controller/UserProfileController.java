@@ -26,11 +26,7 @@ import com.softserve.service.UserService;
 
 /**
  * Handle user profile request
-<<<<<<< HEAD
- *
-=======
  * 
->>>>>>> f98bdf9d8c3c1c6923dc3908adeab57e6a2fe15c
  * @author Khomyshyn Roman
  */
 @Controller
