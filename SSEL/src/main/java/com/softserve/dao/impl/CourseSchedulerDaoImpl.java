@@ -1,5 +1,7 @@
 package com.softserve.dao.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -77,11 +79,12 @@ public class CourseSchedulerDaoImpl implements CourseSchedulerDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<CourseScheduler> getSubscribedCoursesByUserId(int id) {
+	public List<CourseScheduler> getActiveSubscribedCoursesByUserId(int id) {
 		LOG.debug("Get all course schedulers by user id = {}", id);
 		Query query = entityManager
 				.createQuery("select gr.course from Group gr, StudentGroup sgr "
-						+ "where sgr.group.id = gr.id and sgr.user.id = :id");
+						+ "where sgr.group.id = gr.id and sgr.user.id = :id and "
+						+ "(current_timestamp() between gr.course.start and gr.course.end)");
 		query.setParameter("id", id);
 		return query.getResultList();
 	}
@@ -92,6 +95,30 @@ public class CourseSchedulerDaoImpl implements CourseSchedulerDao {
 		LOG.debug("Get all course schedulers by user id = {}", id);
 		Query query = entityManager.createQuery("FROM CourseScheduler c "
 				+ "WHERE c.subject.user.id = :id");
+		query.setParameter("id", id);
+		return query.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<CourseScheduler> getFutureSubscribedCoursesByUserId(int id) {
+		LOG.debug("Get all course schedulers by user id = {}", id);
+		Query query = entityManager
+				.createQuery("select gr.course from Group gr, StudentGroup sgr "
+						+ "where sgr.group.id = gr.id and sgr.user.id = :id and "
+						+ "gr.course.start > current_timestamp()");
+		query.setParameter("id", id);
+		return query.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<CourseScheduler> getFinishedSubscribedCoursesByUserId(int id) {
+		LOG.debug("Get all course schedulers by user id = {}", id);
+		Query query = entityManager
+				.createQuery("select gr.course from Group gr, StudentGroup sgr "
+						+ "where sgr.group.id = gr.id and sgr.user.id = :id and "
+						+ "gr.course.end < current_timestamp()");
 		query.setParameter("id", id);
 		return query.getResultList();
 	}

@@ -67,10 +67,21 @@
     <div class="modal-content">
       <div class="modal-header">
 	    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h2 class="modal-title" id="myModalLabel" ></h2>
+        <h2 class="modal-title" id="myModalLabel" >
+        	<c:if test="${!isSupported}" >
+        		<spring:message code="label.student.not_supported_title" />
+        	</c:if> 
+        </h2>
       </div>
       <div class="modal-body">
-        <a id="dok" class="media"  href="" ></a> 
+        <c:choose>
+        	<c:when test="${isSupported}" >
+        		<a id="dok" class="media"  href="" ></a> 
+        	</c:when>
+        	<c:otherwise>
+        		<spring:message code="label.student.not_supported_body" />
+        	</c:otherwise>
+        </c:choose>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal")">
