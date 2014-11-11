@@ -121,11 +121,11 @@
 			<c:forEach items="${logs}" var="log">
 				<tr>
 					<td class="col-md-1">${log.eventDate}</td>
-					<td class="col-md-0.8">${log.level}</td>
-					<td class="col-md-3"><textarea rows="2" cols="45"
+					<td class="col-md-1">${log.level}</td>
+					<td class="col-md-3"><textarea class="col-md-12" rows="2" 
 							readonly="readonly">${log.logger}</textarea></td>
-					<td class="col-md-5.7"><textarea rows="2" cols="100"
-							readonly="readonly">${log.message}</textarea></td>
+					<td class="col-md-6"><textarea class="col-md-12" rows="2" 
+					readonly="readonly">${log.message}</textarea></td>
 					<td class="col-md-1">
 						<c:choose>
 							<c:when test="${not empty log.exception}">

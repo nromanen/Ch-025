@@ -13,8 +13,6 @@ import org.springframework.stereotype.Repository;
 
 import com.softserve.dao.BlockDao;
 import com.softserve.entity.Block;
-import com.softserve.entity.Category;
-import com.softserve.entity.Topic;
 
 @Repository
 public class BlockDaoImpl implements BlockDao {

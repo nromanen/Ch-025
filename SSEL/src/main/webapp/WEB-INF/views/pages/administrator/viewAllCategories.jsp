@@ -13,6 +13,13 @@
 	});
 </script>
 
+<script>
+$(function() {
+	//$(".sidebar").find("a").addClass("active");
+	$(".sidebar").find($('a[href="viewAllCategories"]')).addClass("active");
+	});
+</script>
+
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
@@ -78,9 +85,7 @@
 			</form>
 		</div>
 		<div class="col-md-6">
-			<h1 align="center">
-				<spring:message code="label.categories" />
-			</h1>
+		<br>
 			<table class="table table-bordered">
 				<tr align="center" class="info">
 					<td class="col-md-5"><spring:message
