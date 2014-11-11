@@ -8,48 +8,63 @@
 
 <div class="row">
 	<div class="col-lg-12">
-		<h1 class="page-header"><spring:message code="label.teacher.editModule"/></h1>
+		<h1 class="page-header">
+			<spring:message code="label.teacher.editModule" />
+		</h1>
 	</div>
 </div>
 
 <div class="panel panel-default">
 	<div class="panel-body">
-		<form:form method="post" action="saveBlock" name="editBlockForm" id="editBlockForm" commandName="block">
-			<form:hidden path="id"/>
-			
+		<form:form method="post" action="saveBlock" name="editBlockForm"
+			id="editBlockForm" commandName="block">
+			<form:hidden path="id" />
+
 			<div class="form-group">
-				<label><spring:message code="label.teacher.subject"/></label>
-				<form:select class="form-control" items="${subjectList}" path="subject" itemValue="id" itemLabel="name" style="width: 40%"/>
-				<p class="help-block"><spring:message code="label.teacher.subject"/></p>
+				<label><spring:message code="label.teacher.subject" /></label>
+				<form:select class="form-control" items="${subjectList}"
+					path="subject" itemValue="id" itemLabel="name" style="width: 40%" />
+				<p class="help-block">
+					<spring:message code="label.teacher.subject" />
+				</p>
 			</div>
 
 			<div class="form-group">
-				<label><spring:message code="label.teacher.name"/></label>
-				<form:input class="form-control" path="name" style="width: 40%" value="${block.name}" />
-					<form:errors path="name" cssClass="error" />
-				<p class="help-block"><spring:message code="label.teacher.inputOrEditModuleName"/></p>
+				<label><spring:message code="label.teacher.name" /></label>
+				<form:input class="form-control" path="name" style="width: 40%"
+					value="${block.name}" />
+				<form:errors path="name" cssClass="error" />
+				<p class="help-block">
+					<spring:message code="label.teacher.inputOrEditModuleName" />
+				</p>
 			</div>
-			
-			<fmt:formatDate value="${block.startTime}" var="startTime" pattern="dd-MM-yyyy" />
-			<fmt:formatDate value="${block.endTime}" var="endTime" pattern="dd-MM-yyyy" />
-			
+
+			<fmt:formatDate value="${block.startTime}" var="startTime"
+				pattern="dd-MM-yyyy" />
+			<fmt:formatDate value="${block.endTime}" var="endTime"
+				pattern="dd-MM-yyyy" />
+
 
 			<div class="form-group">
-				<label><spring:message code="label.teacher.startDate"/></label>
-				<form:input class="form-control" path="startTime" style="width: 20%"
-				value="${startTime}" placeholder="DD-MM-YYYY" />
-					<form:errors path="startTime" cssClass="error" />
-				
-				<br>	
-				
-				<label><spring:message code="label.teacher.endDate"/></label>
-				<form:input class="form-control" path="endTime" style="width: 20%"
-				value="${endTime}" placeholder="DD-MM-YYYY" />
-					<form:errors path="endTime" cssClass="error" />
+				<label><spring:message code="label.teacher.startDate" /></label>
+				<br>
+				<form:input class="datepicker" path="startTime" style="width: 20%"
+					value="${startTime}" placeholder="DD-MM-YYYY" />
+				<form:errors path="startTime" cssClass="error" />
+
+				<br> 
+				<br>
+				<label><spring:message code="label.teacher.endDate" /></label>
+				<br>
+				<form:input class="datepicker" path="endTime" style="width: 20%"
+					value="${endTime}" placeholder="DD-MM-YYYY" />
+				<form:errors path="endTime" cssClass="error" />
 			</div>
 
-			<br> <br> <input type="submit"
-				class="btn btn-primary btn-lg" value=<spring:message code="label.teacher.save"/>>
+			<br>
+			<br>
+			<input type="submit" class="btn btn-primary btn-lg"
+				value=<spring:message code="label.teacher.save"/>>
 
 		</form:form>
 	</div>
@@ -73,7 +88,7 @@
 					maxlength : 30,
 					regexp : "^[A-ZА-ЯІЇЄa-zа-яіїє0-9.,:_ ]{4,30}$"
 				},
-				
+
 				blockOrder : {
 					required : true,
 					minlength : 1,

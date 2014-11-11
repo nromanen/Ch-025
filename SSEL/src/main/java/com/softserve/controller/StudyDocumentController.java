@@ -2,8 +2,6 @@ package com.softserve.controller;
 
 //import java.awt.sfile.BufferedSFile;
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -14,17 +12,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+
+
 //import javax.sfileio.SFileIO;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
 
+
+
 //import org.davidmendoza.fileUpload.config.PropertyPlaceholderConfig;
 import com.softserve.dao.StudyDocumentDao;
 import com.softserve.entity.StudyDocument;
 import com.softserve.entity.Topic;
-
 import com.softserve.service.TopicService;
+
+
 
 //import org.imgscalr.Scalr;
 import org.slf4j.Logger;
@@ -58,7 +61,7 @@ public class StudyDocumentController {
 	private StudyDocumentDao studyDocumentDao;
 
 	@RequestMapping(value = "upload", method = RequestMethod.GET)
-	public @ResponseBody Map list(@RequestParam(value = "topicId", required = false) Integer topicId) {
+	public @ResponseBody Map<String, Object> list(@RequestParam(value = "topicId", required = false) Integer topicId) {
 		log.debug("uploadGet called");
 		System.out.println("uploadGet called " + topicId);
 
@@ -76,7 +79,7 @@ public class StudyDocumentController {
 	}
 
 	@RequestMapping(value = "upload", method = RequestMethod.POST)
-	public @ResponseBody Map upload(MultipartHttpServletRequest request, HttpServletResponse response) {
+	public @ResponseBody Map<String, Object> upload(MultipartHttpServletRequest request, HttpServletResponse response) {
 		log.debug("uploadPost called");
 		Iterator<String> itr = request.getFileNames();
 

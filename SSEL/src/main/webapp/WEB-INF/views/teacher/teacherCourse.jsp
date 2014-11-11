@@ -1,9 +1,8 @@
-<%@page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 
 <div class="row">
@@ -42,26 +41,22 @@
 							<h4 class="panel-title">
 								<a data-toggle="collapse" data-parent="#accordion"
 									href="#s-${subject.id}-${block.order}"><spring:message
-										code="label.teacher.module" /> ${block.order}. ${block.name}
-								</a> (
+										code="label.teacher.module" /> ${block.name} </a> (
 								<fmt:formatDate pattern='dd-MM-yyyy' value='${block.startTime}' />
 								--
 								<fmt:formatDate pattern='dd-MM-yyyy' value='${block.endTime}' />
 								)
 								<button type="button" class="btn btn-outline btn-primary btn-xs"
 									style="float: right;"
-									onclick="location.href='deleteBlock?blockId=${block.id}'">
+									onclick="location.href='deleteBlock?blockId=${block.id}&subjectId=${subject.id}'">
 									<spring:message code="label.teacher.delete" />
 								</button>
-								
+
 								<button type="button" class="btn btn-outline btn-primary btn-xs"
 									style="float: right;"
 									onclick="location.href='editBlock?subjectId=${subject.id}&blockId=${block.id}'">
 									<spring:message code="label.teacher.edit" />
 								</button>
-
-
-
 							</h4>
 						</div>
 						<div id="s-${subject.id}-${block.order}"
@@ -95,7 +90,7 @@
 																	<c:set var="count" value="${fn:length(topicList)}" />
 
 																</c:when>
-																
+
 																<c:when test="${counter == fn:length(topicList)-1}">
 																	<button type="button"
 																		class="btn btn-outline btn-primary btn-xs"
@@ -143,8 +138,6 @@
 																onclick="location.href='deleteTopic?topicId=${topic.id}&subjectId=${subject.id}'">
 																<spring:message code="label.teacher.delete" />
 															</button>
-
-
 														</td>
 													</tr>
 												</c:if>
