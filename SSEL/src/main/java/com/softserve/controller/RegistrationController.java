@@ -77,8 +77,7 @@ public class RegistrationController {
 					"message.user.confirm_registration", new Object[] {},
 					LocaleContextHolder.getLocale());
 			String url = request.getRequestURL().toString();
-			System.out.println(url);
-			url.replaceAll(request.getServletPath(), "/");
+//			url.replaceAll(request.getServletPath(), "/");
 			userService.registrateStudent(registration, url, message);
 		}
 		return "redirect:/";
@@ -88,7 +87,7 @@ public class RegistrationController {
 	public String confirmEmail(@RequestParam("key") String key) {
 		LOG.debug("Student confirm his account");
 		User user = userService.getUserByKey(key);
-		if (user != null && user.isBlocked() == true) {
+		if (user != null && user.isBlocked()) {
 			user.setBlocked(false);
 			userService.updateUser(user);
 		}

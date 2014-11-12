@@ -182,9 +182,9 @@
 		<addForeignKeyConstraint constraintName="fk_subject_user"
 			referencedTableName="user" baseColumnNames="id_user" baseTableName="subject"
 			referencedColumnNames="id" onDelete="CASCADE" onUpdate="CASCADE" />
-		<addForeignKeyConstraint constraintName="fk_subject_categoty"
-			referencedTableName="category" baseColumnNames="id_categoty"
-			baseTableName="subject" referencedColumnNames="id" />
+		<addForeignKeyConstraint constraintName="fk_subject_category"
+			referencedTableName="category" baseColumnNames="id_category"
+			baseTableName="subject" referencedColumnNames="id" onDelete="CASCADE" onUpdate="CASCADE" />
 	</changeSet>
 
 	<changeSet id="2014-11-11-create-index-table-subject" author="Roma">
@@ -280,11 +280,11 @@
 		</createTable>
 	</changeSet>
 
-	<changeSet id="2014-11-11-foreign-key-table-files-1" author="Roma">
+	<changeSet id="2014-11-11-foreign-key-table-files-2" author="Roma">
 		<comment>Create foreign key files</comment>
 		<addForeignKeyConstraint constraintName="fk_files_topic"
 			referencedTableName="topic" baseColumnNames="id_topic" baseTableName="files"
-			referencedColumnNames="id" onDelete="SET NULL" onUpdate="SET NULL" />
+			referencedColumnNames="id" onDelete="CASCADE" onUpdate="CASCADE" />
 	</changeSet>
 
 	<changeSet id="2014-11-11-create-table-course_scheduler"
@@ -357,13 +357,13 @@
 		</createTable>
 	</changeSet>
 
-	<changeSet id="2014-11-11-foreign-key-table-rating-1" author="Roma">
+	<changeSet id="2014-11-11-foreign-key-table-rating-2" author="Roma">
 		<comment>Create foreign key rating</comment>
 		<addForeignKeyConstraint constraintName="fk_rating_block"
 			referencedTableName="block" baseColumnNames="id_block" baseTableName="rating"
 			referencedColumnNames="id" onDelete="CASCADE" onUpdate="CASCADE" />
 		<addForeignKeyConstraint constraintName="fk_rating_group"
-			referencedTableName="group" baseColumnNames="id_group" baseTableName="rating"
+			referencedTableName="groups" baseColumnNames="id_group" baseTableName="rating"
 			referencedColumnNames="id" onDelete="CASCADE" onUpdate="CASCADE" />
 		<addForeignKeyConstraint constraintName="fk_rating_user"
 			referencedTableName="user" baseColumnNames="id_user" baseTableName="rating"
@@ -388,7 +388,7 @@
 	<changeSet id="2014-11-11-foreign-key-table-student_group-1" author="Roma">
 		<comment>Create foreign key rating</comment>
 		<addForeignKeyConstraint constraintName="fk_student_group_groups"
-			referencedTableName="group" baseColumnNames="id_group" baseTableName="student_group"
+			referencedTableName="groups" baseColumnNames="id_group" baseTableName="student_group"
 			referencedColumnNames="id" onDelete="CASCADE" onUpdate="CASCADE" />
 		<addForeignKeyConstraint constraintName="fk_student_group_user"
 			referencedTableName="user" baseColumnNames="id_user" baseTableName="student_group"
