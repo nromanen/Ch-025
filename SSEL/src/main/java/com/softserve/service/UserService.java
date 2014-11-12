@@ -34,7 +34,7 @@ public interface UserService {
 
 	public String getEncoderPassword(String password);
 
-	public void changePasswrod(User user, String password);
+	public void changePassword(User user, String password);
 
 	public boolean isEqualsPasswords(String password, User user);
 

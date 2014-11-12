@@ -23,10 +23,6 @@ jQuery(document).ready(function ($) {
 		$('#modal_load_photo').modal();
 	});
 	
-	$("#btn_change_email").click(function(){	
-		$('#modal_change_email').modal();
-	});
-	
     $('[data-toggle="tooltip"]').tooltip();
     
     $("#form_change_user_information").submit(function(){
@@ -44,6 +40,7 @@ jQuery(document).ready(function ($) {
 		        	if(response == "success"){	
 		        		location.reload();
 		        	} else {
+		        		//bootbox alert
 		        		$("#first_name").val('');
 		        		$("#last_name").val('');
 		        	}
@@ -67,7 +64,9 @@ jQuery(document).ready(function ($) {
 		        success: function(response) {
 		        	if(response == "success"){	
 		        		$("#modal_change_password").modal("hide");
-		        	} 
+		        	} else {
+		        		//bootbox alert
+		        	}
 		        }
 		    });
 		}
