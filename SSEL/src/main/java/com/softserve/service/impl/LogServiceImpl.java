@@ -20,6 +20,10 @@ public class LogServiceImpl implements LogService {
 	@Autowired
 	private LogDao logDao;
 
+	public void setLogDao(LogDao logDao) {
+		this.logDao = logDao;
+	}
+
 	/**
 	 * Deletes all logs older than inputed date. (Not including it)
 	 */
