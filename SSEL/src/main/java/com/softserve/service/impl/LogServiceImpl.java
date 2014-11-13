@@ -13,7 +13,6 @@ import com.softserve.dao.LogDao;
 import com.softserve.entity.Log;
 import com.softserve.service.LogService;
 
-
 @Service("LogService")
 public class LogServiceImpl implements LogService {
 
@@ -52,14 +51,18 @@ public class LogServiceImpl implements LogService {
 	@Override
 	public GregorianCalendar parseDate(String dateString) {
 		String[] dateParts = splitDateString(dateString);
-		if (dateParts != null) {
-			GregorianCalendar calendar = new GregorianCalendar(
-					(Integer.parseInt(dateParts[2])),
-					(Integer.parseInt(dateParts[1]) - 1), // *
-					Integer.parseInt(dateParts[0]));
-			// * In calendar month enumeration starts from 0. User doesn't know
-			// about this.
-			return calendar;
+		try {
+			if (dateParts != null) {
+				GregorianCalendar calendar = new GregorianCalendar(
+						(Integer.parseInt(dateParts[2])),
+						(Integer.parseInt(dateParts[1]) - 1), // *
+						Integer.parseInt(dateParts[0]));
+				// * In calendar month enumeration starts from 0. User doesn't
+				// know about this.
+				return calendar;
+			}
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
 		}
 		return null;
 	}
@@ -118,12 +121,15 @@ public class LogServiceImpl implements LogService {
 	 */
 	@Override
 	public int getNumberOfPages(Long logsInQuery, int logsPerPage) {
-		int numberOfPages = (int) (logsInQuery / logsPerPage);
-		if ((logsInQuery % logsPerPage) != 0) {
-			// you'll need one more page to show last few results
-			++numberOfPages;
+		if (logsPerPage > 0) {
+			int numberOfPages = (int) (logsInQuery / logsPerPage);
+			if ((logsInQuery % logsPerPage) != 0) {
+				// you'll need one more page to show last few results
+				++numberOfPages;
+			}
+			return numberOfPages;
 		}
-		return numberOfPages;
+		return 1;
 	}
 
 	/**
@@ -135,8 +141,13 @@ public class LogServiceImpl implements LogService {
 	 */
 	@Override
 	public String createOrderByPart(String orderByParameter) {
-		String[] resultParts = splitOrderByParameter(orderByParameter);
-		String resultString = resultParts[0] + " " + resultParts[1];
+		String resultString;
+		if (orderByParameter != null) {
+			String[] resultParts = splitOrderByParameter(orderByParameter);
+			resultString = resultParts[0] + " " + resultParts[1];
+		} else {
+			resultString = "eventDate DESC";
+		}
 		return resultString;
 	}
 
@@ -160,16 +171,21 @@ public class LogServiceImpl implements LogService {
 			columnName = "eventDate";
 			break;
 		}
-		switch (partsOfParam[1]) {
-		case "asc":
-			upOrDown = "ASC";
-			break;
-		case "desc":
+		try {
+			switch (partsOfParam[1]) {
+			case "asc":
+				upOrDown = "ASC";
+				break;
+			case "desc":
+				upOrDown = "DESC";
+				break;
+			default:
+				upOrDown = "DESC";
+				break;
+			}
+		} catch (ArrayIndexOutOfBoundsException e) {
 			upOrDown = "DESC";
-			break;
-		default:
-			upOrDown = "DESC";
-			break;
+			e.printStackTrace();
 		}
 		String[] resultParts = { columnName, upOrDown };
 		return resultParts;
@@ -186,13 +202,14 @@ public class LogServiceImpl implements LogService {
 					return dateParts;
 				}
 			} catch (ArrayIndexOutOfBoundsException e) {
+				e.printStackTrace();
 			}
 		}
 		return null;
 	}
-	
-// When you add endDate to range query - it is not includes
-// this method helps him being included
+
+	// When you add endDate to range query - it is not includes
+	// this method helps him being included
 	private GregorianCalendar makeEndOfDay(GregorianCalendar calendar) {
 		calendar.set(Calendar.HOUR_OF_DAY, 23);
 		calendar.set(Calendar.MINUTE, 59);

@@ -87,7 +87,6 @@ public class LogController {
 				.getAllActiveTeacherRequestsCount();
 		model.addAttribute("activeTeacherRequests", activeTeacherRequests);
 		model.addAttribute("numberOfPages", numberOfPages);
-		model.addAttribute("logsInQuery", logsInQuery);
 		model.addAttribute("pageNumb", pageNumb);
 		model.addAttribute("startPeriod", startPeriod);
 		model.addAttribute("endPeriod", endPeriod);
