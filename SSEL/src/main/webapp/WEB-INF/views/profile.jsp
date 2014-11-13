@@ -129,7 +129,7 @@
 </div>
 
 <!-- Modal window for load photo -->
-<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" 
+<div class="modal animated bounce bs-example-modal-lg" tabindex="-1" role="dialog" 
     id="modal_load_photo" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -257,7 +257,7 @@ $(function () {
 </script>
 
 <!-- Modal window for change passwords -->
-<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" 
+<div class="modal animated bounce bs-example-modal-lg" tabindex="-1" role="dialog" 
     id="modal_change_password" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">

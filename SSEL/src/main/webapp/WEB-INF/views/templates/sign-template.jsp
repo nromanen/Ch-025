@@ -16,6 +16,7 @@
 <link href="<c:url value="/resources/css/profile.css" />" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="<c:url value="/resources/css/jquery.fileupload.css" />" type="text/css"/>
 <link rel="stylesheet" href="<c:url value="resources/css/jquery.fileupload-ui.css" />" type="text/css"/>
+<link rel="stylesheet" href="<c:url value="resources/css/animate.css" />" type="text/css"/>
 
 <script src="<c:url value="/resources/js/jquery-1.11.1.min.js" />"></script>
 <script src="<c:url value="/resources/js/bootstrap.min.js" />"></script>

@@ -1,5 +1,6 @@
 package com.softserve.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -19,7 +20,7 @@ import com.softserve.service.StudentGroupService;
 @Service
 public class SchedulingServiceImpl implements SchedulingService {
 
-	private static final int DATE_TOMORROW = 1;
+	private static final int BEFORE_COURSE_BEGIN = 1;
 
 	@Autowired
 	private CourseSchedulerService courseSchedulerService;
@@ -30,24 +31,25 @@ public class SchedulingServiceImpl implements SchedulingService {
 	@Autowired
 	private MailService mailService;
 
-	// @Scheduled(cron = "0 30 16 * * *")
-
 	@Override
-	@Scheduled(cron = "*/5 * * * * *")
+	@Scheduled(cron = "0 43 16 * * *")
 	public void courseBegin() {
 		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.DATE, DATE_TOMORROW);
+		calendar.add(Calendar.DATE, BEFORE_COURSE_BEGIN);
 		Date date = calendar.getTime();
-		System.out.println("Date " + date.toString());
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		
 		List<CourseScheduler> courseSchedulers = courseSchedulerService
 				.getCourseSchedulersByStartDate(date);
 		for (CourseScheduler courseScheduler : courseSchedulers) {
+			String message = "Hello. Course "
+					+ courseScheduler.getSubject().getName() + " begin at "
+					+ format.format(date);
 			for (StudentGroup studentGroup : studentGroupService
 					.getStudentGroupsByCourseSheduledId(courseScheduler.getId())) {
 				User user = studentGroup.getUser();
-				mailService.sendMail(user.getEmail(), "SSEL course start.",
-						"Course " + courseScheduler.getSubject().getName()
-								+ " begin " + date.toString());
+				mailService.sendMail(user.getEmail(), "SSEL Course start!",
+						message);
 			}
 		}
 	}

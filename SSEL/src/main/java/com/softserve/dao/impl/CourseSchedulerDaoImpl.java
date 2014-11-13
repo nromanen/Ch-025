@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TemporalType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -128,7 +129,7 @@ public class CourseSchedulerDaoImpl implements CourseSchedulerDao {
 		LOG.debug("Get all course schedulers by start date = {}", date);
 		Query query = entityManager
 				.createQuery("FROM CourseScheduler c WHERE c.start = :date");
-		query.setParameter("date", date);
+		query.setParameter("date", date, TemporalType.DATE);
 		return query.getResultList();
 	}
 
