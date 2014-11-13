@@ -91,7 +91,8 @@ public class SubjectDaoImpl implements SubjectDao {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Subject> getSubjectsByNamePart(String namePart, int pageNumber, int pageSize) {
+	public List<Subject> getSubjectsByNamePart(String namePart, int pageNumber, int pageSize, 
+			String sortBy, boolean isReverse) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Subject> criteriaQuery = criteriaBuilder.createQuery(Subject.class);
 		Root<Subject> root = criteriaQuery.from(Subject.class);
@@ -99,6 +100,11 @@ public class SubjectDaoImpl implements SubjectDao {
 		Predicate predicate = 
 				criteriaBuilder.like(criteriaBuilder.upper(root.<String>get("name")), "%" + namePart.toUpperCase() + "%");
 		criteriaQuery.where(predicate);
+		if (isReverse) {
+			criteriaQuery.orderBy(criteriaBuilder.desc(root.<String>get(sortBy)));
+		} else {
+			criteriaQuery.orderBy(criteriaBuilder.asc(root.<String>get(sortBy)));
+		}
 		Query query = entityManager.createQuery(criteriaQuery);
 		query.setFirstResult((pageNumber - 1) * pageSize);
 		query.setMaxResults(pageSize);
@@ -226,13 +232,19 @@ public class SubjectDaoImpl implements SubjectDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Subject> getSubjectsByCategoryIdWithLimit(int categoryId, int pageNumber, int pageSize) {
+	public List<Subject> getSubjectsByCategoryIdWithLimit(int categoryId, int pageNumber, int pageSize,
+			String sortBy, boolean isReverse) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Subject> criteriaQuery = criteriaBuilder.createQuery(Subject.class);
 		Root<Subject> root = criteriaQuery.from(Subject.class);
 		criteriaQuery.select(root);
 		Predicate predicate = criteriaBuilder.equal(root.<Integer>get("category"), categoryId);
 		criteriaQuery.where(predicate);
+		if (isReverse) {
+			criteriaQuery.orderBy(criteriaBuilder.desc(root.<String>get(sortBy)));
+		} else {
+			criteriaQuery.orderBy(criteriaBuilder.asc(root.<String>get(sortBy)));
+		}
 		Query query = entityManager.createQuery(criteriaQuery);
 		query.setFirstResult((pageNumber - 1) * pageSize);
 		query.setMaxResults(pageSize);

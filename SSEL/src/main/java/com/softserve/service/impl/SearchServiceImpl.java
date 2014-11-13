@@ -31,8 +31,9 @@ public class SearchServiceImpl implements SearchService {
 
 	@Override
 	@Transactional
-	public List<Subject> getSubjectsByNamePart(String namePart, int pageNumber, int pageSize) {
-		return subjectDao.getSubjectsByNamePart(namePart, pageNumber, pageSize);
+	public List<Subject> getSubjectsByNamePart(String namePart, int pageNumber, int pageSize, 
+			String sortBy, boolean isReverse) {
+		return subjectDao.getSubjectsByNamePart(namePart, pageNumber, pageSize, sortBy, isReverse);
 	}
 
 
@@ -49,8 +50,9 @@ public class SearchServiceImpl implements SearchService {
 
 
 	@Override
-	public List<Subject> getSubjectsByCategoryIdWithLimit(int categoryId, int pageNumber, int pageSize) {
-		return subjectDao.getSubjectsByCategoryIdWithLimit(categoryId, pageNumber, pageSize);
+	public List<Subject> getSubjectsByCategoryIdWithLimit(int categoryId, int pageNumber, int pageSize,
+			String sortBy, boolean isReverse) {
+		return subjectDao.getSubjectsByCategoryIdWithLimit(categoryId, pageNumber, pageSize, sortBy, isReverse);
 	}
 
 }

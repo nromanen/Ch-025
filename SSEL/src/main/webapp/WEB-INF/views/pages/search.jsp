@@ -102,8 +102,20 @@
 				<c:if test="${fn:length(subjList) gt 0}">
 					<table class="table table-striped table-bordered table-hover">
 						<tr>
-							<th><spring:message code="label.course_name" /></th>
-							<th><spring:message code="label.category" /></th>
+							<th>
+								<spring:message code="label.course_name" />
+								<a href="search?pageSize=${pageSize}&pageNumber=${pageNumber}
+									&search=${search}&sortBy=name&isReverse=false">&#8593; </a>
+								<a href="search?pageSize=${pageSize}&pageNumber=${pageNumber}
+									&search=${search}&sortBy=name&isReverse=true">&#8595;  </a>
+							</th>
+							<th>
+								<spring:message code="label.category" />
+								<a href="search?pageSize=${pageSize}&pageNumber=${pageNumber}
+									&search=${search}&sortBy=category&isReverse=false">&#8593; </a>
+								<a href="search?pageSize=${pageSize}&pageNumber=${pageNumber}
+									&search=${search}&sortBy=category&isReverse=true">&#8595;  </a>
+							</th>
 							<th><spring:message code="label.start_date" /></th>
 						</tr>
 							<c:forEach items="${subjList}" var="subj">

@@ -73,9 +73,27 @@
 				<c:if test="${fn:length(subjList) gt 0}">
 					<table class="table table-striped table-bordered table-hover">
 						<tr>
-							<th><spring:message code="label.course_name" /></th>
-							<th><spring:message code="label.category" /></th>
-							<th><spring:message code="label.start_date" /></th>
+							<th>
+								<spring:message code="label.course_name" />
+								<a href="category?pageSize=${pageSize}&pageNumber=${pageNumber}
+									&categoryId=${categoryId}&sortBy=name&isReverse=false">&#8593; </a>
+								<a href="category?pageSize=${pageSize}&pageNumber=${pageNumber}
+									&categoryId=${categoryId}&sortBy=name&isReverse=true">&#8595;  </a>
+							</th>
+							<th>
+								<spring:message code="label.category" />
+								<a href="category?pageSize=${pageSize}&pageNumber=${pageNumber}
+									&categoryId=${categoryId}&sortBy=category&isReverse=false">&#8593; </a>
+								<a href="category?pageSize=${pageSize}&pageNumber=${pageNumber}
+									&categoryId=${categoryId}&sortBy=category&isReverse=true">&#8595;  </a>
+							</th>
+							<th>
+								<spring:message code="label.start_date" />
+								<!-- <a href="category?pageSize=${pageSize}&pageNumber=${pageNumber}
+									&categoryId=${categoryId}&sortBy=start&isReverse=false">&#8593; </a>
+								<a href="category?pageSize=${pageSize}&pageNumber=${pageNumber}
+									&categoryId=${categoryId}&sortBy=starts&isReverse=true">&#8595;  </a> -->
+							</th>
 						</tr>
 							<c:forEach items="${subjList}" var="subj">
 								<tr>

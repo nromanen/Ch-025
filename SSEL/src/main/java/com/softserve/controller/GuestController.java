@@ -38,6 +38,8 @@ public class GuestController {
 
 	private static final Logger LOG = LoggerFactory
 			.getLogger(GuestController.class);
+	private static final int START_PAGE = 1;
+	private static final int PAGE_SIZE = 10;
 
 	@Autowired
 	private SubjectService subjectService;
@@ -164,16 +166,24 @@ public class GuestController {
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public String search(@RequestParam String search, Model model, 
 			@RequestParam (value = "pageNumber", required = false) Integer pageNumber,
-			@RequestParam (value = "pageSize", required = false) Integer pageSize) {
+			@RequestParam (value = "pageSize", required = false) Integer pageSize,
+			@RequestParam (value = "sortBy", required = false) String sortBy,
+			@RequestParam (value = "isReverse", required = false) Boolean isReverse) {
 		if (pageNumber == null || pageNumber < 1) {
-			pageNumber = 1;
+			pageNumber = START_PAGE;
 		}
 		if (pageSize == null || pageSize < 1) {
-			pageSize = 10;
+			pageSize = PAGE_SIZE;
+		}
+		if (sortBy == null) {
+			sortBy = "id";
+		}
+		if (isReverse == null) {
+			isReverse = false;
 		}
 		Long numberOfPages = 0L;
 		List<Category> categories = searchService.getCategoriesByNamePart(search, pageNumber, pageSize);
-		List<Subject> subjects = searchService.getSubjectsByNamePart(search, pageNumber, pageSize);
+		List<Subject> subjects = searchService.getSubjectsByNamePart(search, pageNumber, pageSize, sortBy, isReverse);
 		List<CourseScheduler> schedule = cSchedulerService.getAllCourseScheduleres();
 		model.addAttribute("catList", categories);
 		model.addAttribute("subjList", subjects);
@@ -182,11 +192,7 @@ public class GuestController {
 		model.addAttribute("pageNumber", pageNumber);
 		model.addAttribute("schedule", schedule);
 		Long count = searchService.getSubjectsQuantityByNamePart(search);
-		if ((count % pageSize) > 0) {
-			numberOfPages =  count / pageSize + 1;
-		} else {
-			numberOfPages =  count / pageSize;
-		}
+		numberOfPages = (count % pageSize > 0) ? count / pageSize + 1 : count / pageSize;
 		model.addAttribute("numberOfPages", numberOfPages);
 		return "search";
 	}
@@ -194,24 +200,28 @@ public class GuestController {
 	@RequestMapping(value = "/category", method = RequestMethod.GET)
 	public String category(@RequestParam Integer categoryId, Model model,
 			@RequestParam (value = "pageNumber", required = false) Integer pageNumber,
-			@RequestParam (value = "pageSize", required = false) Integer pageSize) {
+			@RequestParam (value = "pageSize", required = false) Integer pageSize,
+			@RequestParam (value = "sortBy", required = false) String sortBy,
+			@RequestParam (value = "isReverse", required = false) Boolean isReverse) {
 		if (pageNumber == null || pageNumber < 1) {
-			pageNumber = 1;
+			pageNumber = START_PAGE;
 		}
 		if (pageSize == null || pageSize < 1) {
-			pageSize = 10;
+			pageSize = PAGE_SIZE;
 		}
-		Long numberOfPages = 0L;
+		if (sortBy == null) {
+			sortBy = "id";
+		}
+		if (isReverse == null) {
+			isReverse = false;
+		}
+		Long numberOfPages = 0l;
 		List<Subject> subjects = 
-				searchService.getSubjectsByCategoryIdWithLimit(categoryId, pageNumber, pageSize);
+				searchService.getSubjectsByCategoryIdWithLimit(categoryId, pageNumber, pageSize, sortBy, isReverse);
 		Category category = categoryService.getCategoryById(categoryId);
 		List<CourseScheduler> schedule = cSchedulerService.getAllCourseScheduleres();
 		Long count = subjectService.getSubjectsByCategoryCount(category.getName());
-		if ((count % pageSize) > 0) {
-			numberOfPages =  count / pageSize + 1;
-		} else {
-			numberOfPages =  count / pageSize;
-		}
+		numberOfPages = (count % pageSize > 0) ? count / pageSize + 1 : count / pageSize;
 		model.addAttribute("numberOfPages", numberOfPages);
 		model.addAttribute("subjList", subjects);
 		model.addAttribute("pageSize", pageSize);
