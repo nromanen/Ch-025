@@ -112,5 +112,16 @@ public class StudyDocumentDaoImpl implements StudyDocumentDao {
 			log.warn("Tried to delete subject(id = {})", id);
 		}		
 	}
+	/**
+	 * @see com.softserve.dao.StudyDocumentDao#getDocumentsForInactiveTopics()
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<StudyDocument> getDocumentsForInactiveTopics() {
+		log.debug("Get all inactive files");
+		return entityManager.createQuery("FROM StudyDocument sd WHERE sd.topic.alive = :val")
+				.setParameter("val", false)
+				.getResultList();
+	}
 
 }

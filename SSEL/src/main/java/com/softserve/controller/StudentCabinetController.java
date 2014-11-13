@@ -1,16 +1,10 @@
 package com.softserve.controller;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -20,12 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.softserve.dao.StudyDocumentDao;
 import com.softserve.entity.Block;
 import com.softserve.entity.CourseScheduler;
 import com.softserve.entity.Group;
 import com.softserve.entity.Rating;
-import com.softserve.entity.StudentGroup;
 import com.softserve.entity.StudyDocument;
 import com.softserve.entity.Subject;
 import com.softserve.entity.Topic;
@@ -33,24 +25,20 @@ import com.softserve.entity.User;
 import com.softserve.service.BlockService;
 import com.softserve.service.CourseSchedulerService;
 import com.softserve.service.GroupService;
-import com.softserve.service.MailService;
 import com.softserve.service.RatingService;
-import com.softserve.service.StudentGroupService;
+import com.softserve.service.StudentCabinetService;
 import com.softserve.service.SubjectService;
 import com.softserve.service.TopicService;
 import com.softserve.service.UserService;
 /**
  * Handle student requests
- * @author 
+ * @author Anatoliy 
  *
  */
 @Controller
 public class StudentCabinetController {
-	private static final Logger log = LoggerFactory.getLogger(StudentCabinetController.class);
 	@Autowired
 	private CourseSchedulerService courseService;
-	@Autowired 
-	private StudentGroupService studentGroupService;
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -63,27 +51,26 @@ public class StudentCabinetController {
 	private TopicService topicService;
 	@Autowired
 	private BlockService blockService;
-	@Autowired
-	private MailService mailService;
-	@Autowired
-	private StudyDocumentDao studyDocumentDao;
 	@Autowired 
 	private MessageSource messageSource; 
+	@Autowired
+	private StudentCabinetService studentCabinetService;
 	/**
 	 * Handle subscribe requests
 	 * @param subjectId subject id to subscribe/unsubscribe
 	 * @param operation true - subscribe, false - unsubscribe
-	 * @param sess session with user information in it
 	 * @return view URL
 	 */
 	@RequestMapping("/subscribe")
-	public String performSubscribe(@RequestParam("subjectId") Integer subjectId, @RequestParam("op") Boolean operation) {
+	public String performSubscribe(@RequestParam(value = "subjectId", required = true) Integer subjectId,
+								   @RequestParam(value = "op", required = true)  Boolean operation) {
 		User user = userService.getUserByEmail(userService.getCurrentUser()); //(User) sess.getAttribute("user");
-		if (operation) {
-			return subscribe(subjectId, user.getId(), user.getEmail());
-		} else {
-			return unsubscribe(subjectId, user.getId(), user.getEmail());
-		}
+		List<CourseScheduler> schedulers = courseService.getCourseScheduleresBySubjectId(subjectId);
+		if (schedulers.size() !=0) {
+			studentCabinetService.subscribe(schedulers.get(0), user, operation);
+			return "redirect:course?subjectId="+subjectId+"&isSubscribed="+operation;
+		} 
+		return "redirect:course?subjectId="+subjectId;
 	}
 	/**
 	 * Handle student cabinet requests
@@ -168,23 +155,8 @@ public class StudentCabinetController {
 			HttpServletRequest request) {
 		Topic topic = topicService.getTopicById(topicId);
 		String dirname = request.getSession().getServletContext().getRealPath("resources");
-		dirname += "\\tmp\\";
-		File tmpDir = new File(dirname);
-		if (!tmpDir.exists()) {
-			tmpDir.mkdir();
-		}
-			List<StudyDocument> documents = studyDocumentDao.listByTopicId(topic.getId());
-			for (StudyDocument doc : documents) {
-				File file = new File(dirname+doc.getName());
-				if(!file.exists()) {
-					try(FileOutputStream fout = new FileOutputStream(dirname+doc.getName());){
-						fout.write(doc.getData());
-					} catch (IOException e) {
-						log.error("Cannot write topic temp files");
-					}
-				}
-			}
 		boolean isSupported = isSupportedBrowserForPlugin(request.getHeader("User-Agent"));
+		List<StudyDocument> documents = studentCabinetService.updateTopicFilesOnServer(dirname, topic.getId());
 		model.addAttribute("isSupported", isSupported);
 		model.addAttribute("docs", documents);
 		model.addAttribute("block_name", topic.getBlock().getName());
@@ -225,52 +197,13 @@ public class StudentCabinetController {
 		return "ratings";
 	}
 	
-	
-	/**
-	 * Perform subscribing student on course
-	 * @param subjectId subject identifier to subscribe
-	 * @return URL page
-	 */
-	private String subscribe(int subjectId, int userId, String email) {
-		CourseScheduler cs = courseService.getCourseScheduleresBySubjectId(subjectId).get(0); //get subject course scheduler
-		Group subscribedGroup = groupService.getGroupByScheduler(cs.getId());
-		int groupId = subscribedGroup.getGroupId();
-		StudentGroup row = studentGroupService.getStudentGroupByUserAndGroupId(userId, groupId);
-		if (row == null) { //check if student hasn't subscribed
-			if (cs.getStart().after(new Date()) && subscribedGroup.isActive()) { // check if course hasn't started
-				row = new StudentGroup();
-				row.setGroupNumber(subscribedGroup);
-				row.setUser(userService.getUserById(userId));
-				studentGroupService.addStudentGroup(row);
-				mailService.sendMail(email, "ssel subscribe", "You've subscribed on course "+cs.getSubject().getName()+
-						".Course started: "+cs.getStart()+"Good luck");
-			} 
-		}
-		return "redirect:course?subjectId="+subjectId+"&isSubscribed=true";
-	}
-	/**
-	 * Perform unsubscribing student from course
-	 * @param subjectId subject identifier to unsubscribe
-	 * @return URL page
-	 */
-	private String unsubscribe(int subjectId, int userId, String email) {
-		CourseScheduler cs = courseService.getCourseScheduleresBySubjectId(subjectId).get(0); //get subject course scheduler
-		int groupId = groupService.getGroupByScheduler(cs.getId()).getGroupId();
-		StudentGroup row = studentGroupService.getStudentGroupByUserAndGroupId(userId, groupId);
-		if (row != null) {
-			studentGroupService.deleteStudentGroup(row);
-			mailService.sendMail(email, "ssel unsubscribe", "You've unsubscribed from course "+cs.getSubject().getName()+
-					".You cannot subscribe on this course till it finished and start again."+"Good luck");
-		} 
-		return "redirect:course?subjectId="+subjectId+"&isSubscribed=false";
-	}
 	/**
 	 * Check if browser is supported for plugin
 	 * @param userAgent http header with browser info
 	 * @return true - for Opera, Chrome, Mozilla, false - IE
 	 */
 	private boolean isSupportedBrowserForPlugin(String userAgent) {
-	    return userAgent.contains("MSIE");
+	    return !userAgent.contains("MSIE");
 	}
 	
 }
