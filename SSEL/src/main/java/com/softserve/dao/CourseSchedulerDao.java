@@ -19,8 +19,9 @@ public interface CourseSchedulerDao {
 	/**
 	 * Delete course scheduler
 	 * @param courseScheduler scheduler that was removed
+	 * @param deleted true - mark as deleted, false - restore
 	 */
-	void deleteCourseScheduler(CourseScheduler courseScheduler);
+	void setCourseSchedulerDeleted(CourseScheduler courseScheduler, boolean deleted);
 	/**
 	 * Update course scheduler
 	 * @param courseScheduler scheduler that'll be update
@@ -38,6 +39,11 @@ public interface CourseSchedulerDao {
 	 * @return list of course schedulers
 	 */
 	List<CourseScheduler> getAllCourseScheduleres();
+	/**
+	 * Return all course schedulers mark as deleted
+	 * @return list of course schedulers
+	 */
+	List<CourseScheduler> getAllDeletedCourseSchedulers();
 	/**
 	 * Return course schedulers for some subject
 	 * @param id unique subject identifier

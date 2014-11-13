@@ -36,6 +36,9 @@ public class Topic {
 	@Column(name = "content", nullable = false)
 	private String content;
 
+	@Column(name = "deleted")
+	private boolean isDeleted;
+	
 	@Column(name = "topic_order", nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int order;
@@ -57,6 +60,14 @@ public class Topic {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 
 	public String getName() {

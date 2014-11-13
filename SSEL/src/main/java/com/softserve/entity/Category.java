@@ -25,6 +25,10 @@ public class Category {
 	@Column(name = "name", nullable = false)
 	private  String name;
 	
+	@Column(name = "deleted")
+	private boolean isDeleted;
+	
+
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "category")
 	private List<Subject> subjects = new ArrayList<>();
 	
@@ -53,6 +57,14 @@ public class Category {
 
 	public void setSubjects(List<Subject> subjects) {
 		this.subjects = subjects;
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 
 	@Override

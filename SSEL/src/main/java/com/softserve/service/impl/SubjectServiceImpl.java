@@ -26,7 +26,7 @@ public class SubjectServiceImpl implements SubjectService {
 	@Override
 	@Transactional
 	public void deleteSubject(Subject subject) {
-		subjectDao.deleteSubject(subject);
+		subjectDao.setSubjectDeleted(subject, true);
 	}
 
 	@Override

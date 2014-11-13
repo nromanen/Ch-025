@@ -27,6 +27,9 @@ public class CourseScheduler {
 
 	@Column(name = "end", nullable = false)
 	private Date end;
+	
+	@Column(name = "deleted")
+	private boolean isDeleted;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "id_subject")
@@ -38,6 +41,14 @@ public class CourseScheduler {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 
 	public Date getStart() {

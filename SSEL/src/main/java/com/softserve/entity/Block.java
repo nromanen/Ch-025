@@ -58,6 +58,9 @@ public class Block implements Comparable<Topic> {
 	@Pattern(regexp="^[A-Za-z0-9.,:_ ]{4,30}$")
 	private String name;
 	
+	@Column(name = "deleted")
+	private boolean isDeleted;
+	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "id_subject", nullable = false)
 	private Subject subject;
@@ -98,6 +101,14 @@ public class Block implements Comparable<Topic> {
 
 	public void setTopics(List<Topic> topics) {
 		this.topics = topics;
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 
 	public Date getStartTime() {

@@ -8,7 +8,7 @@ public interface SubjectDao {
 
 	public Subject addSubject(Subject subject);
 
-	public void deleteSubject(Subject subject);
+	public void setSubjectDeleted(Subject subject,boolean deleted);
 
 	public Subject updateSubject(Subject subject);
 

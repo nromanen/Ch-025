@@ -24,6 +24,9 @@ public class Group implements Serializable {
 	@Column(name = "isActive")
 	private boolean isActive;
 	
+	@Column(name = "deleted")
+	private boolean isDeleted;
+	
 	private static final long serialVersionUID = 1L;
 
 	public Group() {
@@ -36,6 +39,14 @@ public class Group implements Serializable {
 
 	public void setGroupId(int group_id) {
 		this.groupId = group_id;
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 
 	public CourseScheduler getCourse() {
