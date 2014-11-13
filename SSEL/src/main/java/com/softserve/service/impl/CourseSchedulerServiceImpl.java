@@ -1,5 +1,6 @@
 package com.softserve.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,7 @@ public class CourseSchedulerServiceImpl implements CourseSchedulerService {
 	}
 
 	@Override
+	@Transactional
 	public List<CourseScheduler> getCourseSchedulersBySubjectUserId(int id) {
 		return courseSchedulerDao.getCourseSchedulersBySubjectUserId(id);
 	}
@@ -73,5 +75,11 @@ public class CourseSchedulerServiceImpl implements CourseSchedulerService {
 	@Override
 	public List<CourseScheduler> getFinishedSubscribedCoursesByUserId(int id) {
 		return courseSchedulerDao.getFinishedSubscribedCoursesByUserId(id);
+	}
+
+	@Override
+	@Transactional
+	public List<CourseScheduler> getCourseSchedulersByStartDate(Date date) {
+		return courseSchedulerDao.getCourseSchedulersByStartDate(date);
 	}
 }

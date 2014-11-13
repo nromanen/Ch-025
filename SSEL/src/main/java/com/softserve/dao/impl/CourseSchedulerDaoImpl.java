@@ -1,6 +1,5 @@
 package com.softserve.dao.impl;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -88,7 +87,7 @@ public class CourseSchedulerDaoImpl implements CourseSchedulerDao {
 		query.setParameter("id", id);
 		return query.getResultList();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<CourseScheduler> getCourseSchedulersBySubjectUserId(int id) {
@@ -120,6 +119,16 @@ public class CourseSchedulerDaoImpl implements CourseSchedulerDao {
 						+ "where sgr.group.id = gr.id and sgr.user.id = :id and "
 						+ "gr.course.end < current_timestamp()");
 		query.setParameter("id", id);
+		return query.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<CourseScheduler> getCourseSchedulersByStartDate(Date date) {
+		LOG.debug("Get all course schedulers by start date = {}", date);
+		Query query = entityManager
+				.createQuery("FROM CourseScheduler c WHERE c.start = :date");
+		query.setParameter("date", date);
 		return query.getResultList();
 	}
 

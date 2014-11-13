@@ -18,6 +18,6 @@ public interface StudentGroupService {
 	public List<StudentGroup> getAllStudentGroups();
 
 	public StudentGroup getStudentGroupByUserAndGroupId(int userId, int groupId);
-	
 
+	public List<StudentGroup> getStudentGroupsByCourseSheduledId(int id);
 }

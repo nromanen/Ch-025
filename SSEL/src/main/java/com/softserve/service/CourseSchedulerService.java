@@ -1,5 +1,6 @@
 package com.softserve.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.softserve.entity.CourseScheduler;
@@ -26,5 +27,5 @@ public interface CourseSchedulerService {
 	
 	List<CourseScheduler> getFinishedSubscribedCoursesByUserId(int id);
 
-	
+	List<CourseScheduler> getCourseSchedulersByStartDate(Date date);
 }

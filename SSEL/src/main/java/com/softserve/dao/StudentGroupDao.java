@@ -19,5 +19,7 @@ public interface StudentGroupDao {
 	public StudentGroup getStudentGroupByGroupAndUser(int groupId, int userId);
 
 	public List<StudentGroup> getAllStudentGroups();
+	
+	public List<StudentGroup> getStudentGroupsByCourseSheduledId(int id);
 }
 

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.softserve.entity.User;
 import com.softserve.form.ResetPassword;
 import com.softserve.service.UserService;
-import com.softserve.validator.ResetPasswordValidation;
+import com.softserve.validator.ResetPasswordValidator;
 
 /**
  * Handle forgot password request
@@ -38,7 +38,7 @@ public class ForgotPasswordController {
 	private UserService userService;
 
 	@Autowired
-	private ResetPasswordValidation resetPasswordValidation;
+	private ResetPasswordValidator resetPasswordValidator;
 
 	@Autowired
 	private MessageSource messageSource;
@@ -81,7 +81,7 @@ public class ForgotPasswordController {
 	@RequestMapping(value = "/remind/pass", method = RequestMethod.POST)
 	public String passwordRestore(@Valid final ResetPassword resetPassword,
 			BindingResult result) {
-		resetPasswordValidation.validate(resetPassword, result);
+		resetPasswordValidator.validate(resetPassword, result);
 		if (result.hasErrors()) {
 			return "restore";
 		}

@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.softserve.entity.User;
 import com.softserve.form.Registration;
 import com.softserve.service.UserService;
-import com.softserve.validator.RegistrationValidation;
+import com.softserve.validator.RegistrationValidator;
 
 /**
  * Handle registration request
@@ -49,7 +49,7 @@ public class RegistrationController {
 	private MessageSource messageSource;
 
 	@Autowired
-	private RegistrationValidation registrationValidation;
+	private RegistrationValidator registrationValidator;
 
 	@RequestMapping(value = "/registration", method = RequestMethod.GET)
 	public String regForm(Model model) {
@@ -62,7 +62,7 @@ public class RegistrationController {
 	public String processRegistration(@Valid final Registration registration,
 			BindingResult result, HttpServletRequest request) {
 		LOG.debug("Check information from registration form");
-		registrationValidation.validate(registration, result);
+		registrationValidator.validate(registration, result);
 		if (result.hasErrors()) {
 			LOG.debug("Registration form has error");
 			return "registration";
@@ -77,7 +77,6 @@ public class RegistrationController {
 					"message.user.confirm_registration", new Object[] {},
 					LocaleContextHolder.getLocale());
 			String url = request.getRequestURL().toString();
-//			url.replaceAll(request.getServletPath(), "/");
 			userService.registrateStudent(registration, url, message);
 		}
 		return "redirect:/";
@@ -91,7 +90,7 @@ public class RegistrationController {
 			user.setBlocked(false);
 			userService.updateUser(user);
 		}
-		return "redirect:/";
+		return "redirect:/login";
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
