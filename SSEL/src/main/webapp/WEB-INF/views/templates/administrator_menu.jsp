@@ -1,5 +1,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+
+<script type="text/javascript">
+	window.setTimeout(function() {
+		$(".alert-dismissible").alert('close');
+	}, 3000);
+</script>
+
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-static-top" role="navigation"
 	style="margin-bottom: 0">
@@ -63,7 +70,7 @@
 			<p align="center" class="alert alert-success">
 				<strong><spring:message code="label.admin.panel" /></strong>
 			</p>
-			<ul class="nav">
+			<ul class="nav admin">
 				<li><a href="administrator"><spring:message
 							code="label.admin.home" /></a></li>
 				<li><a href="viewAllCategories"><spring:message

@@ -7,7 +7,6 @@
 
 <script>
 	$(function() {
-		//$(".sidebar").find("a").addClass("active");
 		$(".sidebar").find($('a[href="viewAllSubjects"]')).addClass("active");
 	});
 </script>
@@ -19,6 +18,32 @@
 					".openModalWindow",
 					function() {
 						var subjectId = $(this).data('id');
+						var categoryId = $(this).data('category-id');
+
+						$
+								.ajax({
+									type : "POST",
+									url : "getCategory",
+									data : {
+										"categoryId" : categoryId
+									},
+									error : function(xhr) {
+										alert(xhr.statusText);
+									},
+									success : function(str) {
+
+										obj = JSON.parse(str);
+										//document.getElementById("demo").innerHTML =obj.categories.length;
+										$("#newCategory").empty();
+										for (i = 0; i < obj.categories.length; i++) {
+											$("#newCategory")
+													.append(
+															'<option value="'+obj.categories[i].categoryId+'">'
+																	+ obj.categories[i].categoryName
+																	+ '</option>');
+										}
+									}
+								})
 
 						document.getElementById("mybtn").onclick = function() {
 							var newCategory = document
@@ -73,25 +98,6 @@
 	function changeElementsPerPageFunction(sel) {
 		var elements = document.getElementById("elementsOnPage");
 		var newPage = elements.options[elements.selectedIndex].value;
-
-		/*
-		//$.get( "viewAllSubjects?elementsOnPage=5");
-		$.post( "viewAllSubjects?elementsOnPage="+newPage );
-		echo("${elementsOnPage}");
-		//$.get( "viewAllSubjects", {elementsOnPage: "3"} );
-
-
-		var saveData = $.ajax({
-		type: 'POST',
-		url: "changeSubjectAjax",
-		data: { elementsOnPage: newPage},
-		success: function(resultData) {
-			json = JSON.stringify(resultData)
-			document.getElementById("demo").innerHTML=json;
-
-		}
-		});
-		 */
 
 		if ('${searchText}' != "" && '${searchOption}' != "") {
 			if ('${sortBy}' != "" && '${sortMethod}' != "") {
@@ -188,13 +194,8 @@
 				<h4 class="modal-title" align="center">
 					<spring:message code="label.choose_category" />
 				</h4>
-				<select multiple class="form-control" id="newCategory">
-
-					<c:forEach items="${categories}" var="category">
-						<option value="${category.id}">${category.name}</option>
-					</c:forEach>
-
-				</select>
+				<p id="demo"></p>
+				<select multiple class="form-control" id="newCategory"></select>
 			</div>
 			<div class="modal-footer">
 				<p align="center">
@@ -288,28 +289,29 @@
 			<div class="col-md-12" align="center">
 				<table class="table table-bordered">
 					<tr align="center" class="info">
-						<td class="col-md-6">
+						<td class="col-md-7">
 							<table class="col-md-12">
 								<tr align="right">
 									<td rowspan="2" align="center"><spring:message
 											code="label.subject_name" /></td>
 									<td><c:if
 											test="${sortBy ne 'subject' or sortMethod ne 'desc'}">
-											<a href="#" onclick="changeSortFunction('subject','desc')"><span
-												data-id="subject" data-method="ASC"
-												class="glyphicon glyphicon-chevron-up"></span></a>
+											<a href="#" onclick="changeSortFunction('subject','desc')">
+												<span class="glyphicon glyphicon-chevron-up"></span>
+											</a>
 										</c:if></td>
 								</tr>
 								<tr align="right">
 									<td><c:if
 											test="${sortBy ne 'subject' or sortMethod ne 'asc'}">
-											<a href="#" onclick="changeSortFunction('subject','asc')"><span
-												class="glyphicon glyphicon-chevron-down"></span></a>
+											<a href="#" onclick="changeSortFunction('subject','asc')">
+												<span class="glyphicon glyphicon-chevron-down"></span>
+											</a>
 										</c:if></td>
 								</tr>
 							</table>
 						</td>
-						<td class="col-md-4">
+						<td class="col-md-5">
 							<table class="col-md-12">
 								<tr align="right">
 									<td rowspan="2" align="center"><spring:message
@@ -333,16 +335,18 @@
 					<c:forEach items="${subjects}" var="subject">
 						<tr>
 							<td>${subject.name}</td>
-							<td>
-								<div id="category-${subject.id}">
-									${subject.category.name} <a type="button" data-toggle="modal"
-										data-id="changeSubjectCategory?subjectId=${subject.id}"
-										data-category-id="${subject.category.id}"
-										class="btn btn-default openModalWindow" data-toggle="dropdown"
-										href="#myModal"> <span class="caret"></span>
-									</a>
-								</div>
-
+							<td class="leftBorder">
+								<table class="col-md-12">
+									<tr>
+										<td>${subject.category.name}</td>
+										<td class="col-md-2"><a type="button" data-toggle="modal"
+											data-id="changeSubjectCategory?subjectId=${subject.id}"
+											data-category-id="${subject.category.id}"
+											class="btn btn-default openModalWindow"
+											data-toggle="dropdown" href="#myModal"> <span
+												class="caret"></span></a></td>
+									</tr>
+								</table>
 							</td>
 						</tr>
 					</c:forEach>

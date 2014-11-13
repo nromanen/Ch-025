@@ -14,7 +14,7 @@
 
 <script type="text/javascript">
 	function changeRoleFunction(userId) {
-		window.location.href = "changeUserRoleToAdmin?userId=" + userId;
+		window.location.href = "changeUserRoleToTeacher?userId=" + userId;
 	}
 </script>
 

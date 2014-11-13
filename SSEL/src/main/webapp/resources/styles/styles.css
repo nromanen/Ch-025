@@ -116,3 +116,16 @@ body {
 	width: auto !important;
 	display:inline-block !important;
 }
+
+.table .glyphicon-chevron-down{
+	margin-right:1px;
+}
+
+.table td{
+	height:20px;
+}
+
+.admin span{
+	background-color:#0080ff;
+	float:right;
+}

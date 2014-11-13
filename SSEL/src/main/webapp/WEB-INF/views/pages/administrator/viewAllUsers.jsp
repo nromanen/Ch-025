@@ -6,9 +6,9 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <script>
-$(function() {
-	//$(".sidebar").find("a").addClass("active");
-	$(".sidebar").find($('a[href="viewAllUsers"]')).addClass("active");
+	$(function() {
+		//$(".sidebar").find("a").addClass("active");
+		$(".sidebar").find($('a[href="viewAllUsers"]')).addClass("active");
 	});
 </script>
 
@@ -183,7 +183,6 @@ $(function() {
 		}
 	}
 </script>
-
 
 <!-- Modal window -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
@@ -439,15 +438,18 @@ $(function() {
 							<td align="center"><fmt:formatDate pattern="dd-MM-yyyy"
 									value="${user.expired}" /></td>
 							<td>
-								<div id="category-${user.id}">
-									${user.role.role} <a type="button" data-toggle="modal"
-										data-id="changeUserRole?userId=${user.id}"
-										data-category-id="${user.role.id}"
-										class="btn btn-default openModalWindow" data-toggle="dropdown"
-										href="#myModal"> <span class="caret"></span>
-									</a>
-								</div>
-
+								<table class="col-md-12">
+									<tr>
+										<td>${user.role.role}</td>
+										<td class="col-md-2"><a type="button" data-toggle="modal"
+											data-id="changeUserRole?userId=${user.id}"
+											data-category-id="${user.role.id}"
+											class="btn btn-default openModalWindow"
+											data-toggle="dropdown" href="#myModal"> <span
+												class="caret"></span>
+										</a></td>
+									</tr>
+								</table>
 							</td>
 							<td align="center"><c:if test="${user.blocked eq false}">
 									<a href="#" onclick="changeStatusFunction('${user.id}')"><span
