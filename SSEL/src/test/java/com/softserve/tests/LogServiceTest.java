@@ -64,6 +64,8 @@ public class LogServiceTest {
 	public void testGetLogById() {
 		when(logDao.getLogById(1)).thenReturn(log);
 		Log testLog = logServiceImpl.getLogById(1);
+		verify((logDao), times(1)).getLogById(1);
+		verifyNoMoreInteractions(logDao);
 		assertSame(testLog.getId(), 25);
 	}
 
@@ -114,31 +116,18 @@ public class LogServiceTest {
 		GregorianCalendar calendarTwo = new GregorianCalendar(2014, 5, 22);
 		GregorianCalendar resultOne = logServiceImpl.parseDate("15-11-2014");
 		GregorianCalendar resultTwo = logServiceImpl.parseDate("22-06-2014");
-		GregorianCalendar resultThree = logServiceImpl.parseDate("15.11,2014");
-		GregorianCalendar resultFour = logServiceImpl.parseDate("22\\06/2014");
-		GregorianCalendar resultFive = logServiceImpl.parseDate("2020554021");
-		GregorianCalendar resultSix = logServiceImpl.parseDate("dd-mm-yyyy");
-		assertTrue((resultOne.equals(calendarOne)) && (resultThree).equals(calendarOne) &&
-				(resultTwo.equals(calendarTwo)) && (resultFour.equals(calendarTwo)) &&
-				(resultFive == null) && (resultSix == null));
+		assertTrue((resultOne.equals(calendarOne))
+				&& (resultTwo).equals(calendarTwo));
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	@Test
+	public void testCreateOrderByPart() {
+		String resultOne = logServiceImpl.createOrderByPart("level-asc");
+		String resultTwo = logServiceImpl.createOrderByPart("exception-desc");
+		String resultThree = logServiceImpl.createOrderByPart("dlafldksfja");
+		assertTrue((resultOne.equals("level ASC"))
+				&& (resultTwo).equals("exception DESC")
+				&& (resultThree.equals("eventDate DESC")));
+	}
+
 }

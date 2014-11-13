@@ -1,20 +1,28 @@
 package com.softserve.service.impl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.dao.LogDao;
+import com.softserve.dao.impl.TopicDaoImpl;
 import com.softserve.entity.Log;
 import com.softserve.service.LogService;
 
 @Service("LogService")
 public class LogServiceImpl implements LogService {
+	
+	private static final Logger LOG = LoggerFactory
+			.getLogger(TopicDaoImpl.class);
 
 	@Autowired
 	private LogDao logDao;
@@ -50,19 +58,14 @@ public class LogServiceImpl implements LogService {
 	 */
 	@Override
 	public GregorianCalendar parseDate(String dateString) {
-		String[] dateParts = splitDateString(dateString);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		try {
-			if (dateParts != null) {
-				GregorianCalendar calendar = new GregorianCalendar(
-						(Integer.parseInt(dateParts[2])),
-						(Integer.parseInt(dateParts[1]) - 1), // *
-						Integer.parseInt(dateParts[0]));
-				// * In calendar month enumeration starts from 0. User doesn't
-				// know about this.
-				return calendar;
-			}
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
+			Date date = dateFormat.parse(dateString);
+			GregorianCalendar calendar = new GregorianCalendar();
+			calendar.setTime(date);
+			return calendar;
+		} catch (ParseException e1) {
+			LOG.info(e1.toString());
 		}
 		return null;
 	}
@@ -185,27 +188,10 @@ public class LogServiceImpl implements LogService {
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
 			upOrDown = "DESC";
-			e.printStackTrace();
+			LOG.info(e.toString() + " Error in createOrderByPart method");
 		}
 		String[] resultParts = { columnName, upOrDown };
 		return resultParts;
-	}
-
-	// used in converting dateString into GregorianCalendar parseDate method
-	private String[] splitDateString(String dateString) {
-		if (dateString != null) {
-			String preparedDateString = (((dateString.replace(".", "/"))
-					.replace(",", "/")).replace("-", "/")).replace("\\", "/");
-			String[] dateParts = preparedDateString.split("/");
-			try {
-				if (dateParts.length == 3 & dateParts[2].length() == 4) {
-					return dateParts;
-				}
-			} catch (ArrayIndexOutOfBoundsException e) {
-				e.printStackTrace();
-			}
-		}
-		return null;
 	}
 
 	// When you add endDate to range query - it is not includes

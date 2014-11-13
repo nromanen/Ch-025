@@ -48,10 +48,10 @@
 				<form action="getRangeOfDates" method="get">
 					<spring:message code="label.show_logs_from_date" />
 					<input type="text" name="startDate" class="datepicker"
-						placeholder="<spring:message code="label.placeholder" />" />
+						placeholder="<spring:message code="label.placeholder" />" readonly="readonly" />
 					<spring:message code="label.to" />
 					<input type="text" name="endDate" class="datepicker"
-						placeholder="<spring:message code="label.placeholder" />" /> <input
+						placeholder="<spring:message code="label.placeholder" />" readonly="readonly" /> <input
 						type="submit" class="btn btn-primary"
 						value="<spring:message code="label.show" />" />
 				</form>
@@ -130,7 +130,7 @@
 							</font></th>
 							<th><spring:message code="label.t_logger" /></th>
 							<th><spring:message code="label.t_message" /><br /></th>
-							<th><spring:message code="label.t_exception" /> <font
+							<th><spring:message code="label.t_exception" /><br> <font
 								size="+2"> <a href="${pageContext.request.contextPath}/getParameters?orderBy=exception-asc">&#x21e7;</a>
 									<a href="${pageContext.request.contextPath}/getParameters?orderBy=exception-desc">&#x21e9;</a>
 							</font></th>
