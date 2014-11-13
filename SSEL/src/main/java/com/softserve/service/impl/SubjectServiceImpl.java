@@ -107,4 +107,9 @@ public class SubjectServiceImpl implements SubjectService {
 		return subjectDao.getSubjectsByTextCount(searchText);
 	}
 
+	@Override
+	public void restoreSubject(Subject subject) {
+		subjectDao.setSubjectDeleted(subject, false);
+	}
+
 }

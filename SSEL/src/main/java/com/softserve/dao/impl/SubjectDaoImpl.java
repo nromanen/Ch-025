@@ -252,4 +252,13 @@ public class SubjectDaoImpl implements SubjectDao {
 		return query.getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Subject> getDeletedSubjects() {
+		LOG.debug("Get deleted");
+		return entityManager.createQuery("FROM Subject s WHERE s.isDeleted = :val")
+				.setParameter("val", false)
+				.getResultList();
+	}
+
 }
