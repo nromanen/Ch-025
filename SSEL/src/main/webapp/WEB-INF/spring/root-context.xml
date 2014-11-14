@@ -12,7 +12,7 @@
 	<context:annotation-config />
 	
 	<task:annotation-driven />
-	<bean id="DeleteInactiveTopicsService" class="com.softserve.service.DeleteInactiveTopicsService" ></bean>
+	<bean id="DeleteInactiveTopicsService" class="com.softserve.service.impl.DeleteInactiveTopicsServiceImpl" ></bean>
 
 	<context:component-scan base-package="com.softserve.dao" />
 	<context:component-scan base-package="com.softserve.service" />

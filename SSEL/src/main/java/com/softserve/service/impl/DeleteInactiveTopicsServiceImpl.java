@@ -27,7 +27,7 @@ public class DeleteInactiveTopicsServiceImpl implements DeleteInactiveTopicsServ
 	/**
 	 * @see com.softserve.service.DeleteInactiveTopicsService#deleteInactiveTopics()
 	 */
-	@Scheduled (cron = "* * * * *")
+	@Scheduled (cron = "* 2 * * * *")
 	@Override
 	public void deleteInactiveTopics() {
 		List<StudyDocument> inactiveAttachments = studyDocumentDao.getDocumentsForInactiveTopics();
