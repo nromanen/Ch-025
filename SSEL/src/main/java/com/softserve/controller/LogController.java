@@ -29,10 +29,14 @@ public class LogController {
 
 	@Autowired
 	private TeacherRequestService teacherRequestService;
-
+	
 	@Resource(name = "LogService")
 	private LogService logService;
 
+	public void setLogService(LogService logService) {
+		this.logService = logService;
+	}
+	
 	/**
 	 * Operates with viewAllLogs page. Checks for required parameters in session
 	 * and used it. And if some of them doesn't exists - takes default values.

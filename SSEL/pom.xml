@@ -49,18 +49,6 @@
 			<artifactId>spring-orm</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>3.2.0.RELEASE</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.github.springtestdbunit</groupId>
-			<artifactId>spring-test-dbunit</artifactId>
-			<version>1.0.0</version>
-			<scope>test</scope>
-		</dependency>
 
 		<!-- AspectJ -->
 		<dependency>
@@ -159,11 +147,27 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
 			<version>1.9.5</version>
+		</dependency>
+		<!-- New added by vetall-->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>3.2.0.RELEASE</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.4.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.4.2</version>
 		</dependency>
 
 		<!-- JPA -->

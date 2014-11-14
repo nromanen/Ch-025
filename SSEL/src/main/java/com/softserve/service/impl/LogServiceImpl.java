@@ -65,7 +65,7 @@ public class LogServiceImpl implements LogService {
 			calendar.setTime(date);
 			return calendar;
 		} catch (ParseException e1) {
-			LOG.info(e1.toString());
+			LOG.debug(e1.toString());
 		}
 		return null;
 	}
@@ -188,7 +188,7 @@ public class LogServiceImpl implements LogService {
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
 			upOrDown = "DESC";
-			LOG.info(e.toString() + " Error in createOrderByPart method");
+			LOG.debug(e.toString() + " Error in createOrderByPart method");
 		}
 		String[] resultParts = { columnName, upOrDown };
 		return resultParts;
