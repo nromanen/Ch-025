@@ -51,10 +51,12 @@
 									</td>
 								<c:if test="${table ne 'future'}">
 									<td>
-										${ratings[index]}
+										<fmt:formatNumber type="number"  maxIntegerDigits="3" maxFractionDigits="2"
+										value="${ratings[index]}" />
 									</td>
 									<td>
-										${progreses[index]}
+									<fmt:formatNumber type="number"  maxIntegerDigits="3" maxFractionDigits="2"
+										value="${progreses[index]}" />
 									</td>
 								<c:set var="index" value="${index+1}"/>
 							</c:if> 

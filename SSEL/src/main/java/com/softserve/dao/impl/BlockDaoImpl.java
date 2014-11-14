@@ -38,18 +38,6 @@ public class BlockDaoImpl implements BlockDao {
 	}
 
 	@Override
-	public void deleteBlock(Block block) {
-		Query query = entityManager
-				.createQuery("DELETE FROM Block b WHERE b.id = :id");
-		query.setParameter("id", block.getId());
-		if (query.executeUpdate() != 0) {
-			LOG.debug("Deleted block(id = {})", block.getId());
-		} else {
-			LOG.warn("Tried to delete block(id = {})", block.getId());
-		}
-	}
-
-	@Override
 	public Block getBlockById(int id) {
 		LOG.debug("Get block with id = {}", id);
 		return entityManager.find(Block.class, id);
@@ -60,7 +48,8 @@ public class BlockDaoImpl implements BlockDao {
 	public List<Block> getAllBlocks() {
 		LOG.debug("Get all blocks");
 		List<Block> blocks = new ArrayList<>();
-		blocks.addAll(entityManager.createQuery("FROM Block")
+		blocks.addAll(entityManager.createQuery("FROM Block b WHERE b.isDeleted = :val")
+				.setParameter("val",false)
 				.getResultList());
 		return blocks;
 	}
@@ -70,8 +59,32 @@ public class BlockDaoImpl implements BlockDao {
 	public List<Block> getBlocksBySubjectId(int id) {
 		LOG.debug("Get all topics by block id = {}", id);
 		Query query = entityManager.createQuery("FROM Block b "
-				+ "WHERE b.subject.id = :id " + "ORDER BY b.order");
+				+ "WHERE b.subject.id = :id AND b.isDeleted = :val " + "ORDER BY b.order");
 		query.setParameter("id", id);
+		query.setParameter("val",false);
+		return query.getResultList();
+	}
+
+
+	@Override
+	public void setBlockDeleted(int blockId, boolean deleted) {
+		Query query = entityManager
+				.createQuery("UPDATE Block b SET b.isDeleted = :del WHERE b.id = :id");
+		query.setParameter("id", blockId);
+		query.setParameter("del", deleted);
+		if (query.executeUpdate() != 0) {
+			LOG.debug("Deleted block(id = {})", blockId);
+		} else {
+			LOG.warn("Tried to delete block(id = {})", blockId);
+		}	
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Block> getAllDeletedBlocks() {
+		LOG.debug("Get all deleted blocks");
+		Query query = entityManager.createQuery("SELECT b FROM Block b WHERE b.deleted = :val");
+		query.setParameter("val",true);
 		return query.getResultList();
 	}
 

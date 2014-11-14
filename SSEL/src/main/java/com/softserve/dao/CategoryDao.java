@@ -32,12 +32,11 @@ public interface CategoryDao {
 	public Category updateCategory(Category category);
 
 	/**
-	 * Delete category record from database
-	 * 
-	 * @param category
-	 *            record to delete
+	 *  Manage category delete
+	 * @param category some category
+	 * @param deleted true - mark as deleted, false - restore
 	 */
-	public void deleteCategory(Category category);
+	public void setCategoryDeleted(Category category, boolean deleted);
 
 	/**
 	 * Return all categories from database
@@ -45,7 +44,11 @@ public interface CategoryDao {
 	 * @return list of category object if exists or empty list
 	 */
 	public List<Category> getAllCategories();
-
+	/**
+	 * Return all deleted categories
+	 * @return list of categories
+	 */
+	List<Category> getAllDeletedCategories();
 	/**
 	 * Return category record by category id
 	 * 
