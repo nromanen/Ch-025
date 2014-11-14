@@ -6,44 +6,45 @@ import com.softserve.entity.User;
 
 public interface UserDao {
 
-	public User addUser(User user);
+	User addUser(User user);
 
-	public void deleteUser(User user);
+	void deleteUser(User user);
 
-	public User updateUser(User user);
+	User updateUser(User user);
 
-	public User getUserById(int id);
+	User getUserById(int id);
 
-	public User getUserByEmail(String email);
+	User getUserByEmail(String email);
 
-	public User getUserByKey(String key);
+	User getUserByKey(String key);
 
-	public boolean isExist(String email);
+	boolean isExist(String email);
 
-	public List<User> getAllUsers();
+	List<User> getAllUsers();
 
-	public List<User> getUsersVsLimit(int startPosition, int limitLength, String sortBy, String sortMethod);
+	List<User> getUsersVsLimit(int startPosition, int limitLength,
+			String sortBy, String sortMethod);
 
-	public List<User> getUsersByFirstNameVsLimit(String searchText,
-			int startPosition, int limitLength, String sortBy, String sortMethod);
+	List<User> getUsersByFirstNameVsLimit(String searchText, int startPosition,
+			int limitLength, String sortBy, String sortMethod);
 
-	public List<User> getUsersByRoleVsLimit(String searchText,
-			int startPosition, int limitLength, String sortBy, String sortMethod);
+	List<User> getUsersByRoleVsLimit(String searchText, int startPosition,
+			int limitLength, String sortBy, String sortMethod);
 
-	public List<User> getUsersByTextVsLimit(String searchText,
-			int startPosition, int limitLength, String sortBy, String sortMethod);
+	List<User> getUsersByTextVsLimit(String searchText, int startPosition,
+			int limitLength, String sortBy, String sortMethod);
 
-	public List<User> getUsersByLastNameVsLimit(String searchText,
-			int startPosition, int limitLength, String sortBy, String sortMethod);
+	List<User> getUsersByLastNameVsLimit(String searchText, int startPosition,
+			int limitLength, String sortBy, String sortMethod);
 
-	public long getUsersCount();
+	long getUsersCount();
 
-	public long getUsersByFirstNameCount(String searchName);
+	long getUsersByFirstNameCount(String searchName);
 
-	public long getUsersByRoleCount(String searchCategory);
+	long getUsersByRoleCount(String searchCategory);
 
-	public long getUsersByTextCount(String searchText);
+	long getUsersByTextCount(String searchText);
 
-	public long getUsersByLastNameCount(String searchText);
+	long getUsersByLastNameCount(String searchText);
 
 }

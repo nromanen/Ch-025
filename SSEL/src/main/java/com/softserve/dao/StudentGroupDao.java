@@ -6,20 +6,19 @@ import com.softserve.entity.StudentGroup;
 
 public interface StudentGroupDao {
 
-	public StudentGroup addStudentGroup(StudentGroup studentGroup);
+	StudentGroup addStudentGroup(StudentGroup studentGroup);
 
-	public StudentGroup updateStudentGroup(StudentGroup studentGroup);
+	StudentGroup updateStudentGroup(StudentGroup studentGroup);
 
-	public void deleteStudentGroup(StudentGroup studentGroup);
+	void deleteStudentGroup(StudentGroup studentGroup);
 
-	public StudentGroup getStudentGroupById(int id);
+	StudentGroup getStudentGroupById(int id);
 
-	public List<StudentGroup> getStudentGroupsByGroupNumber(int number);
-	
-	public StudentGroup getStudentGroupByGroupAndUser(int groupId, int userId);
+	List<StudentGroup> getStudentGroupsByGroupNumber(int number);
 
-	public List<StudentGroup> getAllStudentGroups();
-	
-	public List<StudentGroup> getStudentGroupsByCourseSheduledId(int id);
+	StudentGroup getStudentGroupByGroupAndUser(int groupId, int userId);
+
+	List<StudentGroup> getAllStudentGroups();
+
+	List<StudentGroup> getStudentGroupsByCourseSheduledId(int id);
 }
-

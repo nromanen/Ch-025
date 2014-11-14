@@ -45,7 +45,7 @@
 	                        	<div class="col-md-7">
 	                        		<div class="input-group">
 		                       			<input type="text" id="first_name" class="form-control" name="first_name"
-											placeholder="<spring:message code="placeholder.firstname" />"  
+											placeholder="<spring:message code="placeholder.firstname" />" 
 											value="<c:out value="${sessionScope.user.firstName}" />" 
 											data-toggle="tooltip" 
 											data-placement="top"

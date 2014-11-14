@@ -12,6 +12,8 @@ import javax.persistence.*;
 @Table(name = "groups")
 public class Group implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,8 +28,6 @@ public class Group implements Serializable {
 
 	@Column(name = "deleted")
 	private boolean isDeleted;
-	
-	private static final long serialVersionUID = 1L;
 
 	public Group() {
 

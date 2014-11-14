@@ -5,19 +5,19 @@ import java.util.List;
 import com.softserve.entity.StudentGroup;
 
 public interface StudentGroupService {
-	public StudentGroup addStudentGroup(StudentGroup studentGroup);
+	StudentGroup addStudentGroup(StudentGroup studentGroup);
 
-	public StudentGroup updateStudentGroup(StudentGroup studentGroup);
+	StudentGroup updateStudentGroup(StudentGroup studentGroup);
 
-	public void deleteStudentGroup(StudentGroup studentGroup);
+	void deleteStudentGroup(StudentGroup studentGroup);
 
-	public StudentGroup getStudentGroupById(int id);
+	StudentGroup getStudentGroupById(int id);
 
-	public List<StudentGroup> getStudentGroupsByGroupNumber(int number);
+	List<StudentGroup> getStudentGroupsByGroupNumber(int number);
 
-	public List<StudentGroup> getAllStudentGroups();
+	List<StudentGroup> getAllStudentGroups();
 
-	public StudentGroup getStudentGroupByUserAndGroupId(int userId, int groupId);
+	StudentGroup getStudentGroupByUserAndGroupId(int userId, int groupId);
 
-	public List<StudentGroup> getStudentGroupsByCourseSheduledId(int id);
+	List<StudentGroup> getStudentGroupsByCourseSheduledId(int id);
 }
