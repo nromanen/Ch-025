@@ -10,7 +10,7 @@
 <link href="<c:url value="/resources/css/bootstrapValidator.css" />" rel="stylesheet" type="text/css">
 <link href="<c:url value="/resources/css/plugins/metisMenu/metisMenu.min.css" />" rel="stylesheet" type="text/css">
 <link href="<c:url value="/resources/css/sb-admin-2.css" />" rel="stylesheet" type="text/css">
-<link href="<c:url value="/resources/styles/styles.css" />" rel="stylesheet" type="text/css">
+<link href="<c:url value="/resources/css/bootstrap-social.css" />" rel="stylesheet" type="text/css">
 <link href="<c:url value="/resources/font-awesome-4.1.0/css/font-awesome.min.css" />" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="<c:url value="/resources/css/jquery.fileupload.css" />" type="text/css"/>
 <link rel="stylesheet" href="<c:url value="/resources/css/jquery.fileupload-ui.css" />" type="text/css"/>

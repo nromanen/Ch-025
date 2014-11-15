@@ -48,7 +48,7 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<div style="margin-bottom: 10px" class="input-group">
+						<div class="input-group">
 							<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
 							<input class="form-control" placeholder="<spring:message code="placeholder.password"/>"
 								name="j_password" type="password" required="required" id="password"
@@ -64,13 +64,21 @@
 							</label>
 						</div>
 					</div>
-					<div style="margin-top:10px" class="form-group">
+					<div class="form-group" align="center">
 						<button type="submit" class="btn btn-success" id="submit_btn">
 							<spring:message code="label.sing_in" />
 						</button>
 						<a href="<c:url value="/registration" />" class="btn btn-primary">
 							<spring:message code="label.registration"/> 
 						</a>
+					</div>
+					<div class="form-group" align="center">
+						<a class="btn btn-social btn-twitter">
+    						<i class="fa fa-twitter"></i> Sign in with Twitter
+  						</a>
+  						<a class="btn btn-social btn-facebook">
+    						<i class="fa fa-facebook"></i> Sign in with Facebook
+  						</a>
 					</div>
 				</form>
 			</div>

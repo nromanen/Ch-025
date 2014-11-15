@@ -30,7 +30,7 @@ public class SchedulingServiceImpl implements SchedulingService {
 
 	@Autowired
 	private MailService mailService;
-
+	
 	@Override
 	@Scheduled(cron = "0 43 16 * * *")
 	public void courseBegin() {
