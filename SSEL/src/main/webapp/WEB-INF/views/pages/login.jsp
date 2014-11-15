@@ -64,7 +64,7 @@
 							</label>
 						</div>
 					</div>
-					<div class="form-group" align="center">
+					<div class="form-group">
 						<button type="submit" class="btn btn-success" id="submit_btn">
 							<spring:message code="label.sing_in" />
 						</button>
@@ -72,7 +72,7 @@
 							<spring:message code="label.registration"/> 
 						</a>
 					</div>
-					<div class="form-group" align="center">
+					<div class="form-group">
 						<a class="btn btn-social btn-twitter">
     						<i class="fa fa-twitter"></i> Sign in with Twitter
   						</a>
