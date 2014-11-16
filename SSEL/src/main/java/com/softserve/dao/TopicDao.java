@@ -6,18 +6,19 @@ import com.softserve.entity.Topic;
 
 public interface TopicDao {
 
-	public Topic getTopicById(int id);
+	Topic getTopicById(int id);
 
-	public Topic addTopic(Topic topic);
+	Topic addTopic(Topic topic);
 
-	public Topic updateTopic(Topic topic);
+	Topic updateTopic(Topic topic);
 
-	public void deleteTopic(Topic topic);
+	void deleteTopic(Topic topic);
 
-	public List<Topic> getAllTopics();
+	List<Topic> getAllTopics();
 
-	public List<Topic> getTopicsByBlockId(int id);
+	List<Topic> getTopicsByBlockId(int id);
 	
-	public List<Topic> getTopicsBySubjectId(int id);
-}
+	Integer getTopicsCountByBlockId(int id);
 
+	List<Topic> getTopicsBySubjectId(int id);
+}

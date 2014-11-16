@@ -81,4 +81,14 @@ public class TopicDaoImpl implements TopicDao {
 		return query.getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public Integer getTopicsCountByBlockId(int id) {
+		LOG.debug("Get", id);
+		Query query = entityManager.createQuery("SELECT count(t) FROM Topic t "
+				+ "WHERE t.block.id = :id ");
+		query.setParameter("id", id);
+		return Integer.parseInt((String) query.getResultList().get(0));
+	}
+
 }
