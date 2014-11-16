@@ -12,29 +12,26 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "logging")
 public class Log {
-	
+
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@Column(name = "eventDate")
 	private Date eventDate;
-	
+
 	@Column(name = "level")
 	private String level;
-	
 
 	@Column(name = "logger")
 	private String logger;
-	
+
 	@Column(name = "message")
 	private String message;
-	
+
 	@Column(name = "exception")
 	private String exception;
-	
-	
 
 	public int getId() {
 		return id;
@@ -83,5 +80,5 @@ public class Log {
 	public void setException(String exception) {
 		this.exception = exception;
 	}
-	
+
 }

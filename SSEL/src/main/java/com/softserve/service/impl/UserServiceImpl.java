@@ -186,7 +186,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public void changePasswrod(User user, String password) {
+	public void changePassword(User user, String password) {
 		user.setPassword(getEncoderPassword(password));
 		userDao.updateUser(user);
 	}

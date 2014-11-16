@@ -3,39 +3,45 @@ package com.softserve.service;
 import java.util.List;
 
 import com.softserve.entity.Subject;
-
+/**
+ * Specify subject functionality
+ * @author Анатолій
+ *
+ */
 public interface SubjectService {
 
-	public Subject addSubject(Subject subject);
+	Subject addSubject(Subject subject);
 
-	public void deleteSubject(Subject subject);
+	void deleteSubject(Subject subject);
+	
+	void restoreSubject(Subject subject); 
 
-	public Subject updateSubject(Subject subject);
+	Subject updateSubject(Subject subject);
 
-	public Subject getSubjectById(int id);
+	Subject getSubjectById(int id);
 
-	public List<Subject> getAllSubjects();
+	List<Subject> getAllSubjects();
 
-	public List<Subject> getSubjectsByCategoryId(int id);
+	List<Subject> getSubjectsByCategoryId(int id);
 
-	public List<Subject> getSubjectsByUserId(int id);
+	List<Subject> getSubjectsByUserId(int id);
 
-	public List<Subject> getSubjectsVsLimit(int startPosition, int limitLength, String sortBy, String sortMethod);
+	List<Subject> getSubjectsVsLimit(int startPosition, int limitLength, String sortBy, String sortMethod);
 
-	public List<Subject> getSubjectsByNameVsLimit(String searchText,
+	List<Subject> getSubjectsByNameVsLimit(String searchText,
 			int startPosition, int limitLength, String sortBy, String sortMethod);
 
-	public List<Subject> getSubjectsByCategoryVsLimit(String searchText,
+	List<Subject> getSubjectsByCategoryVsLimit(String searchText,
 			int startPosition, int limitLength, String sortBy, String sortMethod);
 	
-	public List<Subject> getSubjectsByTextVsLimit(String searchText,
+	List<Subject> getSubjectsByTextVsLimit(String searchText,
 			int startPosition, int limitLength, String sortBy, String sortMethod);
 
-	public long getSubjectsCount();
+	long getSubjectsCount();
 
-	public long getSubjectsByNameCount(String searchName);
+	long getSubjectsByNameCount(String searchName);
 
-	public long getSubjectsByCategoryCount(String searchCategory);
+	long getSubjectsByCategoryCount(String searchCategory);
 	
-	public long getSubjectsByTextCount(String searchText);
+	long getSubjectsByTextCount(String searchText);
 }

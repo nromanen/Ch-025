@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.softserve.entity.Log;
 import com.softserve.service.LogService;
+import com.softserve.service.TeacherRequestService;
 
 @Controller
 public class LogController {
@@ -25,17 +27,15 @@ public class LogController {
 	private static final Logger LOG = LoggerFactory
 			.getLogger(AdministratorController.class);
 
+	@Autowired
+	private TeacherRequestService teacherRequestService;
+
 	@Resource(name = "LogService")
 	private LogService logService;
 
 	/**
 	 * Operates with viewAllLogs page. Checks for required parameters in session
 	 * and used it. And if some of them doesn't exists - takes default values.
-<<<<<<< HEAD
-	 *
-=======
-	 * 
->>>>>>> f98bdf9d8c3c1c6923dc3908adeab57e6a2fe15c
 	 * @param pageNumb
 	 *            - number of page for query.
 	 */
@@ -83,7 +83,9 @@ public class LogController {
 				logsPerPage);
 		Date startPeriod = startDate.getTime();
 		Date endPeriod = endDate.getTime();
-
+		int activeTeacherRequests = (int) teacherRequestService
+				.getAllActiveTeacherRequestsCount();
+		model.addAttribute("activeTeacherRequests", activeTeacherRequests);
 		model.addAttribute("numberOfPages", numberOfPages);
 		model.addAttribute("logsInQuery", logsInQuery);
 		model.addAttribute("pageNumb", pageNumb);
@@ -167,6 +169,9 @@ public class LogController {
 		LOG.debug("Visit logDetails page");
 		Log log = logService.getLogById(logId);
 		model.addAttribute("log", log);
+		int activeTeacherRequests = (int) teacherRequestService
+				.getAllActiveTeacherRequestsCount();
+		model.addAttribute("activeTeacherRequests", activeTeacherRequests);
 		return "logDetails";
 	}
 

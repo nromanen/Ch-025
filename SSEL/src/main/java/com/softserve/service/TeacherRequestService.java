@@ -6,17 +6,19 @@ import com.softserve.entity.TeacherRequest;
 
 public interface TeacherRequestService {
 
-	public TeacherRequest addTeacherRequest(TeacherRequest request);
+	TeacherRequest addTeacherRequest(TeacherRequest request);
 
-	public TeacherRequest updateTeacherRequest(TeacherRequest request);
+	TeacherRequest updateTeacherRequest(TeacherRequest request);
 
-	public void deleteTeacherRequest(TeacherRequest request);
+	void deleteTeacherRequest(TeacherRequest request);
 
-	public TeacherRequest getTeacherRequestById(int id);
+	TeacherRequest getTeacherRequestById(int id);
 
-	public List<TeacherRequest> getAllTeacherRequests();
+	List<TeacherRequest> getAllTeacherRequests();
 
-	public TeacherRequest getTeacherRequestByUserId(int userId);
-	
-	public List<TeacherRequest> getAllActiveTeacherRequests();
+	TeacherRequest getTeacherRequestByUserId(int userId);
+
+	List<TeacherRequest> getAllActiveTeacherRequests();
+
+	long getAllActiveTeacherRequestsCount();
 }

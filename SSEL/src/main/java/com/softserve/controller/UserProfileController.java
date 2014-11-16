@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +27,7 @@ import com.softserve.service.UserService;
 
 /**
  * Handle user profile request
-<<<<<<< HEAD
- *
-=======
  * 
->>>>>>> f98bdf9d8c3c1c6923dc3908adeab57e6a2fe15c
  * @author Khomyshyn Roman
  */
 @Controller
@@ -39,7 +36,14 @@ public class UserProfileController {
 	private static final Logger LOG = LoggerFactory
 			.getLogger(UserProfileController.class);
 
-	private static final String NAME_PATTERN = "[A-Z–ê-–Ø–Ü–á–Ñ]{1}[A-Z–ê-–Ø–Ü–á–Ña-z–∞-—è—ñ—ó—î]{1,30}";
+	private static final String NAME_PATTERN = "[A-Z¿-ﬂ≤Ø™]{1}[A-Z¿-ﬂ≤Ø™a-z‡-ˇ≥ø∫]{1,30}";
+	private static final String ATTRIBUTE_VALID = "valid";
+	private static final String ATTRIBUTE_IMAGE = "image";
+	private static final String ATTRIBUTE_USER = "user";
+	private static final String KEY_OLD_PASSWORD = "oldPassword";
+	private static final String KEY_NEW_PASSWORD = "newPassword";
+	private static final String KEY_FIRSTNAME = "firstName";
+	private static final String KEY_LASTNAME = "lastName";
 
 	@Autowired
 	private UserService userService;
@@ -48,10 +52,10 @@ public class UserProfileController {
 	public String showUserProfile(HttpSession session) {
 		String email = userService.getCurrentUser();
 		User user = userService.getUserByEmail(email);
-		session.setAttribute("user", user);
+		session.setAttribute(ATTRIBUTE_USER, user);
 		if (user.getImage() != null) {
 			String encodedImage = new String(Base64.encode(user.getImage()));
-			session.setAttribute("image", encodedImage);
+			session.setAttribute(ATTRIBUTE_IMAGE, encodedImage);
 		}
 		return "profile";
 	}
@@ -62,25 +66,30 @@ public class UserProfileController {
 		String email = userService.getCurrentUser();
 		User user = userService.getUserByEmail(email);
 		Map<String, String> map = new HashMap<>();
-		map.put("valid", Boolean.toString(userService.isEqualsPasswords(
-				oldPassword, user)));
+		if (StringUtils.isBlank(oldPassword)) {
+			map.put(ATTRIBUTE_VALID, Boolean.toString(Boolean.FALSE));
+		} else {
+			map.put(ATTRIBUTE_VALID, Boolean.toString(userService
+					.isEqualsPasswords(oldPassword, user)));
+		}
 		return map;
 	}
 
 	@RequestMapping(value = "/changePassword", method = RequestMethod.POST, headers = { "content-type=application/json" })
 	public @ResponseBody String changePasswordAction(
 			@RequestBody Map<String, Object> map) {
-		String oldPassword = map.get("oldPassword").toString();
-		String newPassword = map.get("newPassword").toString();
+		String oldPassword = map.get(KEY_OLD_PASSWORD).toString();
+		String newPassword = map.get(KEY_NEW_PASSWORD).toString();
 		String email = userService.getCurrentUser();
 		User user = userService.getUserByEmail(email);
-		if (!userService.isEqualsPasswords(oldPassword, user)) {
+		if (!userService.isEqualsPasswords(oldPassword, user)
+				|| StringUtils.isAnyBlank(oldPassword, newPassword)) {
 			LOG.debug(
 					"{} trying to change their password but incorrectly entered old password",
 					email);
 			return "error";
 		}
-		userService.changePasswrod(user, newPassword);
+		userService.changePassword(user, newPassword);
 		LOG.debug("{} has successfuly changed their password", email);
 		return "success";
 	}
@@ -88,8 +97,8 @@ public class UserProfileController {
 	@RequestMapping(value = "/changeUserInformation", method = RequestMethod.POST, headers = { "content-type=application/json" })
 	public @ResponseBody String changeFirstNameAction(
 			@RequestBody Map<String, Object> map, HttpSession session) {
-		String firstName = map.get("firstName").toString();
-		String lastName = map.get("lastName").toString();
+		String firstName = map.get(KEY_FIRSTNAME).toString();
+		String lastName = map.get(KEY_LASTNAME).toString();
 		if (firstName.matches(NAME_PATTERN) && lastName.matches(NAME_PATTERN)) {
 			User user = userService
 					.getUserByEmail(userService.getCurrentUser());

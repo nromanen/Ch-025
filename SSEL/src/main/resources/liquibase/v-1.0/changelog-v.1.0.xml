@@ -4,6 +4,9 @@
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
+	<property name="now" value="now()" dbms="mysql" />
+	<property name="longtext" value="longtext" dbms="mysql" />
+
 	<changeSet id="2014-11-08-create-table-role-1" author="Roma">
 		<comment>Create table role</comment>
 		<createTable tableName="role">
@@ -68,10 +71,327 @@
 			<column name="image" type="LONGBLOB" />
 		</createTable>
 	</changeSet>
-	
-	<changeSet id="2014-11-08-create-foreign-key-1" author="Roma">
+
+	<changeSet id="2014-11-08-create-foreign-key-table-user-1"
+		author="Roma">
 		<addForeignKeyConstraint constraintName="fk_user_role"
 			referencedTableName="role" baseColumnNames="role" baseTableName="user"
+			referencedColumnNames="id" onDelete="CASCADE" onUpdate="CASCADE" />
+	</changeSet>
+
+	<changeSet id="2014-11-10-insert-into-table-user-1" author="Roma">
+		<comment>Insert into admin into table user</comment>
+		<insert tableName="user">
+			<column name="blocked" valueBoolean="false" />
+			<column name="email" value="sselcourse@gmail.com" />
+			<column name="expired" valueDate="${now}" />
+			<column name="firstName" value="Admin" />
+			<column name="lastName" value="Admin" />
+			<column name="password"
+				value="$2a$10$zluygJkutKExo/ywKfiXnul9hUpUo1ZVb.juyEHPYDwOhdbR/Doge" />
+			<column name="registration" value="${now}" />
+			<column name="role" value="1" />
+		</insert>
+	</changeSet>
+
+	<changeSet id="2014-11-10-create-table-teacher_request-1"
+		author="Roma">
+		<comment>Create table teacher_request</comment>
+		<createTable tableName="teacher_request">
+			<column name="id" autoIncrement="true" type="int">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="active" type="boolean">
+				<constraints nullable="false" />
+			</column>
+			<column name="request_date" type="datetime">
+				<constraints nullable="false" />
+			</column>
+			<column name="id_user" type="int">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="2014-11-10-foreign-key-table-teacher_request-1"
+		author="Roma">
+		<comment>Create foreign key</comment>
+		<addForeignKeyConstraint constraintName="fk_user_request"
+			referencedTableName="user" baseColumnNames="id_user" baseTableName="teacher_request"
+			referencedColumnNames="id" onDelete="CASCADE" onUpdate="CASCADE" />
+		<addUniqueConstraint columnNames="id_user"
+			tableName="teacher_request" constraintName="uk_id_user" />
+	</changeSet>
+
+	<changeSet id="2014-11-10-create-table-logging" author="Roma">
+		<comment>Create table logging</comment>
+		<createTable tableName="logging">
+			<column name="id" autoIncrement="true" type="int">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="eventDate" type="datetime" />
+			<column name="level" type="varchar(255)" />
+			<column name="logger" type="text" />
+			<column name="message" type="${longtext}" />
+			<column name="exception" type="${longtext}" />
+		</createTable>
+	</changeSet>
+
+	<changeSet id="2014-11-10-create-table-category" author="Roma">
+		<comment>Create table category</comment>
+		<createTable tableName="category">
+			<column name="id" autoIncrement="true" type="int">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="name" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="2014-11-11-create-index-table-category"
+		author="Roma">
+		<comment>Create index table category column name</comment>
+		<createIndex tableName="category" indexName="index_category_name">
+			<column name="name" />
+		</createIndex>
+	</changeSet>
+
+	<changeSet id="2014-11-11-create-table-subject" author="Roma">
+		<comment>Create table subject</comment>
+		<createTable tableName="subject">
+			<column name="id" autoIncrement="true" type="int">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="description" type="${longtext}" />
+			<column name="name" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="id_category" type="int">
+				<constraints nullable="false" />
+			</column>
+			<column name="id_user" type="int">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="2014-11-11-foreign-key-table-subject-1"
+		author="Roma">
+		<comment>Create foreign key subject</comment>
+		<addForeignKeyConstraint constraintName="fk_subject_user"
+			referencedTableName="user" baseColumnNames="id_user" baseTableName="subject"
+			referencedColumnNames="id" onDelete="CASCADE" onUpdate="CASCADE" />
+		<addForeignKeyConstraint constraintName="fk_subject_category"
+			referencedTableName="category" baseColumnNames="id_category"
+			baseTableName="subject" referencedColumnNames="id" onDelete="CASCADE" onUpdate="CASCADE" />
+	</changeSet>
+
+	<changeSet id="2014-11-11-create-index-table-subject" author="Roma">
+		<comment>Create index table subject column name</comment>
+		<createIndex tableName="subject" indexName="index_subject_name">
+			<column name="name" />
+		</createIndex>
+	</changeSet>
+
+	<changeSet id="2014-11-11-create-table-block" author="Roma">
+		<comment>Create table block</comment>
+		<createTable tableName="block">
+			<column name="id" autoIncrement="true" type="int">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="end_time" type="date">
+				<constraints nullable="false" />
+			</column>
+			<column name="name" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="block_order" type="int">
+				<constraints nullable="false" />
+			</column>
+			<column name="start_time" type="date">
+				<constraints nullable="false" />
+			</column>
+			<column name="id_subject" type="int">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="2014-11-11-foreign-key-table-block-1" author="Roma">
+		<comment>Create foreign key block</comment>
+		<addForeignKeyConstraint constraintName="fk_block_subject"
+			referencedTableName="subject" baseColumnNames="id_subject"
+			baseTableName="block" referencedColumnNames="id" onDelete="CASCADE"
+			onUpdate="CASCADE" />
+	</changeSet>
+
+	<changeSet id="2014-11-11-create-table-topic" author="Roma">
+		<comment>Create table topic</comment>
+		<createTable tableName="topic">
+			<column name="id" autoIncrement="true" type="int">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="alive" type="boolean">
+				<constraints nullable="false" />
+			</column>
+			<column name="content" type="${longtext}">
+				<constraints nullable="false" />
+			</column>
+			<column name="name" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="topic_order" type="int" defaultValue="1">
+				<constraints nullable="false" />
+			</column>
+			<column name="id_block" type="int">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="2014-11-11-foreign-key-table-topic-1" author="Roma">
+		<comment>Create foreign key topic</comment>
+		<addForeignKeyConstraint constraintName="fk_topic_block"
+			referencedTableName="block" baseColumnNames="id_block" baseTableName="topic"
+			referencedColumnNames="id" onDelete="CASCADE" onUpdate="CASCADE" />
+	</changeSet>
+
+	<changeSet id="2014-11-11-create-table-files" author="Roma">
+		<comment>Create table files</comment>
+		<createTable tableName="files">
+			<column name="id" type="int" autoIncrement="true">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="contentType" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="dateCreated" type="datetime" defaultValue="null" />
+			<column name="lastUpdated" type="datetime" defaultValue="null" />
+			<column name="name" type="varchar(255)" defaultValue="null" />
+			<column name="newFilename" type="varchar(255)" defaultValue="null" />
+			<column name="size_" type="int" />
+			<column name="data" type="longblob">
+				<constraints nullable="false" />
+			</column>
+			<column name="id_topic" type="int">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="2014-11-11-foreign-key-table-files-2" author="Roma">
+		<comment>Create foreign key files</comment>
+		<addForeignKeyConstraint constraintName="fk_files_topic"
+			referencedTableName="topic" baseColumnNames="id_topic" baseTableName="files"
+			referencedColumnNames="id" onDelete="CASCADE" onUpdate="CASCADE" />
+	</changeSet>
+
+	<changeSet id="2014-11-11-create-table-course_scheduler"
+		author="Roma">
+		<comment>Create table course_scheduler</comment>
+		<createTable tableName="course_scheduler">
+			<column name="id" type="int" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="end" type="date">
+				<constraints nullable="false" />
+			</column>
+			<column name="start" type="date">
+				<constraints nullable="false" />
+			</column>
+			<column name="id_subject" type="int">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="2014-11-11-foreign-key-table-course_scheduler-1"
+		author="Roma">
+		<comment>Create foreign key course_scheduler</comment>
+		<addForeignKeyConstraint constraintName="fk_course_scheduler_subject"
+			referencedTableName="subject" baseColumnNames="id_subject"
+			baseTableName="course_scheduler" referencedColumnNames="id" onDelete="CASCADE"
+			onUpdate="CASCADE" />
+	</changeSet>
+
+	<changeSet id="2014-11-11-create-table-groups" author="Roma">
+		<comment>Create table groups</comment>
+		<createTable tableName="groups">
+			<column name="id" type="int" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="isActive" type="boolean">
+				<constraints nullable="false" />
+			</column>
+			<column name="id_course_scheduler" type="int" />
+		</createTable>
+	</changeSet>
+
+	<changeSet id="2014-11-11-foreign-key-table-groups-1" author="Roma">
+		<comment>Create foreign key groups</comment>
+		<addForeignKeyConstraint constraintName="fk_groups_course_scheduler"
+			referencedTableName="course_scheduler" baseColumnNames="id_course_scheduler"
+			baseTableName="groups" referencedColumnNames="id" onDelete="CASCADE"
+			onUpdate="CASCADE" />
+	</changeSet>
+
+	<changeSet id="2014-11-11-create-table-rating" author="Roma">
+		<comment>Create table rating</comment>
+		<createTable tableName="rating">
+			<column name="id" type="int" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="mark" type="double">
+				<constraints nullable="false" />
+			</column>
+			<column name="id_block" type="int">
+				<constraints nullable="false" />
+			</column>
+			<column name="id_group" type="int">
+				<constraints nullable="false" />
+			</column>
+			<column name="id_user" type="int">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="2014-11-11-foreign-key-table-rating-2" author="Roma">
+		<comment>Create foreign key rating</comment>
+		<addForeignKeyConstraint constraintName="fk_rating_block"
+			referencedTableName="block" baseColumnNames="id_block" baseTableName="rating"
+			referencedColumnNames="id" onDelete="CASCADE" onUpdate="CASCADE" />
+		<addForeignKeyConstraint constraintName="fk_rating_group"
+			referencedTableName="groups" baseColumnNames="id_group" baseTableName="rating"
+			referencedColumnNames="id" onDelete="CASCADE" onUpdate="CASCADE" />
+		<addForeignKeyConstraint constraintName="fk_rating_user"
+			referencedTableName="user" baseColumnNames="id_user" baseTableName="rating"
+			referencedColumnNames="id" onDelete="CASCADE" onUpdate="CASCADE" />
+	</changeSet>
+	
+	<changeSet id="2014-11-11-create-table-student_group" author="Roma">
+		<comment>Create table student_group</comment>
+		<createTable tableName="student_group">
+			<column name="id" type="int" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="id_group" type="int">
+				 <constraints nullable="false"/>
+			</column>
+			<column name="id_user" type="int">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="2014-11-11-foreign-key-table-student_group-1" author="Roma">
+		<comment>Create foreign key rating</comment>
+		<addForeignKeyConstraint constraintName="fk_student_group_groups"
+			referencedTableName="groups" baseColumnNames="id_group" baseTableName="student_group"
+			referencedColumnNames="id" onDelete="CASCADE" onUpdate="CASCADE" />
+		<addForeignKeyConstraint constraintName="fk_student_group_user"
+			referencedTableName="user" baseColumnNames="id_user" baseTableName="student_group"
 			referencedColumnNames="id" onDelete="CASCADE" onUpdate="CASCADE" />
 	</changeSet>
 

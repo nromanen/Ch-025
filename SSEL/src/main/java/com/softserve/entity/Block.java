@@ -27,44 +27,42 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name = "block")
 public class Block implements Comparable<Topic> {
 
-	@Override
-	public String toString() {
-		return name;
-	}
-
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@Column(name = "block_order", nullable = false)
 	private int order;
-	
+
 	@Column(name = "start_time", nullable = false)
 	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern="dd-MM-yyyy")
+	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	@NotNull
 	private Date startTime;
-	
+
 	@Column(name = "end_time", nullable = false)
 	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern="dd-MM-yyyy")
+	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	@NotNull
 	private Date endTime;
-	
+
 	@Column(name = "name", nullable = false)
-	@NotNull 
-	@Size(min=4, max=30)
-	@Pattern(regexp="^[A-Za-z0-9.,:_ ]{4,30}$")
+	@NotNull
+	@Size(min = 4, max = 30)
+	@Pattern(regexp = "^[A-Za-z0-9.,:_ ]{4,30}$")
 	private String name;
-	
+
+	@Column(name = "deleted")
+	private boolean isDeleted;
+
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "id_subject", nullable = false)
 	private Subject subject;
-	
+
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "block")
 	private List<Topic> topics = new ArrayList<>();
-	
+
 	public Block() {
 	}
 
@@ -100,6 +98,14 @@ public class Block implements Comparable<Topic> {
 		this.topics = topics;
 	}
 
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
 	public Date getStartTime() {
 		return startTime;
 	}
@@ -126,8 +132,12 @@ public class Block implements Comparable<Topic> {
 
 	@Override
 	public int compareTo(Topic o) {
-			return Integer.compare(order, o.getOrder());
+		return Integer.compare(order, o.getOrder());
 	}
 
-	
+	@Override
+	public String toString() {
+		return name;
+	}
+
 }

@@ -6,15 +6,15 @@ import com.softserve.entity.Role;
 
 public interface RoleService {
 
-	public Role getRoleById(int id);
+	Role getRoleById(int id);
 
-	public Role addRole(Role role);
+	Role addRole(Role role);
 
-	public Role updateRole(Role role);
+	Role updateRole(Role role);
 
-	public void deleteRole(Role role);
+	void deleteRole(Role role);
 
-	public List<Role> getAllRoles();
-	
-	public Role getRoleByName(String name);
+	List<Role> getAllRoles();
+
+	Role getRoleByName(String name);
 }

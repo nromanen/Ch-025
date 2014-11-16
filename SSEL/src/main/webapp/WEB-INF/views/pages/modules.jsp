@@ -7,14 +7,14 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
-
+<script src="resources/js/student/donouts.js"></script>
 <div class="row">
 	<div class="panel panel-default">
 		<div class="row">
 			<div class="col-lg-8">
 				<h1>${subject.name}</h1>
 			</div>
-					
+			  	
 			<div class="col-lg-2">
 				<div id="morris-donut-rating"
                             		style="width: 100; height: 100; position: float"></div>
@@ -24,6 +24,7 @@
 				  
 					
 			</div>
+
 			<div class="col-lg-2">
 				<div id="morris-donut-progress"
                             		style="width: 100; height: 100; position: float"></div>
@@ -40,7 +41,9 @@
 					<input type="hidden" name="op" value="false">
 			</form>
 			<form action="ratings" method="GET">
-					<button  type="submit" class="btn btn-success" ><spring:message code="label.course_statistic" /></button>
+					<button  type="submit" class="btn btn-success" <c:if test="${rating == 0}" >disabled="true"</c:if> >
+					<spring:message code="label.course_statistic" />
+					</button>
 					<input type="hidden" name="courseId" value="${courseId}" />
 			</form>
 		</div>
@@ -81,7 +84,6 @@
 										<thead>
 											<tr>
 												<th><spring:message code="label.teacher.topicName" /></th>
-												<th><spring:message code="label.teacher.topicEnable" /></th>
 											</tr>
 										</thead>
 										<tbody>
@@ -97,7 +99,6 @@
 															</c:otherwise>
 														</c:choose>
 													</td>
-													<td>${topic.alive}</td>
 												</tr>
 											</c:forEach>
 										</tbody>
@@ -116,34 +117,45 @@
 </div>
 </div>
 <!-- /.col-lg-12 -->
-
-<script>
+<<script>
+/**
+ * Donouts for rating and progress 
+ */
 var rating = document.getElementById("rating").value;
 var progress = document.getElementById("progress").value;
 var success = document.getElementById("success").value;
 var failed = document.getElementById("failed").value;
-	Morris.Donut({
-	  element: 'morris-donut-rating',
-	  data: [
-	    {label: success, value: rating},
-	    {label: failed, value: 100-rating}
-	  ],
-	colors: [
-		'#33CC33',
-		'#FF3300'
-	]
-	});
+var data1 = [];
+var data2 = [];
+var colors = [];
+if(rating == 100.0) {
+	data1.push({label: success, value : 100});
+} else if (rating > 0.0) {
+	data1.push({label: success, value : rating});
+	data1.push({label: failed, value : 100 - rating});
+} else {
+	data1.push({label: failed, value : 100 });
+}
+if (progress == 100.0) {
+	data2.push({label: success, value : 100});
+}else if(progress > 0.0) {
+	data2.push({label: success, value : progress});
+	data2.push({label: failed, value : 100-progress});
+} else {
+	data2.push({label:failed, value: 100});
+}
+	colors.push('#33CC33');
+	colors.push('#FF3300');
 	
 	Morris.Donut({
 		  element: 'morris-donut-progress',
-		  data: [
-		    {label: success, value: progress},
-		    {label: failed, value: 100-progress}
-		  ],
-		colors: [
-			'#33CC33',
-			'#FF3300'
-		]
+		  data: data2,
+		  colors: colors
 		});
-			
-</script>
+	
+	Morris.Donut({
+	  element: 'morris-donut-rating',
+	  data: data1,
+	  colors: colors
+	});
+	</script>
