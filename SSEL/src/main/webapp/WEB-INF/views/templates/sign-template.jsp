@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -22,7 +23,8 @@
 <script src="<c:url value="/resources/js/sb-admin-2.js" />"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/localization.js" />"></script>
 
-<title><tiles:getAsString name="title" /></title>
+<tiles:importAttribute name="title" />
+<title><spring:message code="${title}" /></title>
 </head>
 
 <body>

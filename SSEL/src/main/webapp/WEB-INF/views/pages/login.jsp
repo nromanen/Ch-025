@@ -73,10 +73,10 @@
 						</a>
 					</div>
 					<div class="form-group">
-						<a class="btn btn-social btn-twitter">
+						<a class="btn btn-social btn-twitter" href="#">
     						<i class="fa fa-twitter"></i> Sign in with Twitter
   						</a>
-  						<a class="btn btn-social btn-facebook">
+  						<a class="btn btn-social btn-facebook" href="<c:url value="/connect/facebook" />">
     						<i class="fa fa-facebook"></i> Sign in with Facebook
   						</a>
 					</div>

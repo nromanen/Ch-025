@@ -68,4 +68,13 @@
 		</addColumn>
 	</changeSet>
 
+	<changeSet id="2014-11-16-add-column-table-user" author="Roma">
+		<comment>Add column social to table user</comment>
+		<addColumn tableName="user">
+			<column name="social" type="varchar(20)" defaultValue="REGISTRATION">
+				<constraints nullable="false"/>
+			</column>
+		</addColumn>
+	</changeSet>
+
 </databaseChangeLog>
