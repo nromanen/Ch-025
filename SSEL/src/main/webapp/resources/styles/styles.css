@@ -116,3 +116,20 @@ body {
 	width: auto !important;
 	display:inline-block !important;
 }
+
+.clr {
+	background: #428bca;
+	color: white;
+}
+
+.clrnoact {
+	color: #428bca;
+}
+
+.info > th {
+	text-align: center;
+}
+
+.rightArrow {
+	float:right;
+}

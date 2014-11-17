@@ -165,23 +165,13 @@ public class GuestController {
 	
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public String search(@RequestParam String search, Model model, 
-			@RequestParam (value = "pageNumber", required = false) Integer pageNumber,
-			@RequestParam (value = "pageSize", required = false) Integer pageSize,
-			@RequestParam (value = "sortBy", required = false) String sortBy,
-			@RequestParam (value = "isReverse", required = false) Boolean isReverse) {
-		if (pageNumber == null || pageNumber < 1) {
-			pageNumber = START_PAGE;
-		}
-		if (pageSize == null || pageSize < 1) {
-			pageSize = PAGE_SIZE;
-		}
-		if (sortBy == null) {
-			sortBy = "id";
-		}
-		if (isReverse == null) {
-			isReverse = false;
-		}
-		Long numberOfPages = 0L;
+			@RequestParam (value = "pageNumber", required = false, defaultValue = START_PAGE + "") Integer pageNumber,
+			@RequestParam (value = "pageSize", required = false, defaultValue = PAGE_SIZE + "") Integer pageSize,
+			@RequestParam (value = "sortBy", required = false, defaultValue = "id") String sortBy,
+			@RequestParam (value = "isReverse", required = false, defaultValue = "false") Boolean isReverse) {
+		pageNumber = pageNumber > 0 ? pageNumber : START_PAGE;
+		pageSize = pageSize > 0 ? pageSize : PAGE_SIZE;
+		Long numberOfPages = 0l;
 		List<Category> categories = searchService.getCategoriesByNamePart(search, pageNumber, pageSize);
 		List<Subject> subjects = searchService.getSubjectsByNamePart(search, pageNumber, pageSize, sortBy, isReverse);
 		List<CourseScheduler> schedule = cSchedulerService.getAllCourseScheduleres();
@@ -191,6 +181,7 @@ public class GuestController {
 		model.addAttribute("pageSize", pageSize);
 		model.addAttribute("pageNumber", pageNumber);
 		model.addAttribute("schedule", schedule);
+		model.addAttribute("isReverse", isReverse);
 		Long count = searchService.getSubjectsQuantityByNamePart(search);
 		numberOfPages = (count % pageSize > 0) ? count / pageSize + 1 : count / pageSize;
 		model.addAttribute("numberOfPages", numberOfPages);
@@ -199,22 +190,12 @@ public class GuestController {
 	
 	@RequestMapping(value = "/category", method = RequestMethod.GET)
 	public String category(@RequestParam Integer categoryId, Model model,
-			@RequestParam (value = "pageNumber", required = false) Integer pageNumber,
-			@RequestParam (value = "pageSize", required = false) Integer pageSize,
-			@RequestParam (value = "sortBy", required = false) String sortBy,
-			@RequestParam (value = "isReverse", required = false) Boolean isReverse) {
-		if (pageNumber == null || pageNumber < 1) {
-			pageNumber = START_PAGE;
-		}
-		if (pageSize == null || pageSize < 1) {
-			pageSize = PAGE_SIZE;
-		}
-		if (sortBy == null) {
-			sortBy = "id";
-		}
-		if (isReverse == null) {
-			isReverse = false;
-		}
+			@RequestParam (value = "pageNumber", required = false, defaultValue = START_PAGE + "") Integer pageNumber,
+			@RequestParam (value = "pageSize", required = false, defaultValue = PAGE_SIZE + "") Integer pageSize,
+			@RequestParam (value = "sortBy", required = false, defaultValue = "id") String sortBy,
+			@RequestParam (value = "isReverse", required = false, defaultValue = "false") Boolean isReverse) {
+		pageNumber = pageNumber > 0 ? pageNumber : START_PAGE;
+		pageSize = pageSize > 0 ? pageSize : PAGE_SIZE;
 		Long numberOfPages = 0l;
 		List<Subject> subjects = 
 				searchService.getSubjectsByCategoryIdWithLimit(categoryId, pageNumber, pageSize, sortBy, isReverse);
@@ -228,6 +209,7 @@ public class GuestController {
 		model.addAttribute("pageNumber", pageNumber);
 		model.addAttribute("categoryId", categoryId);
 		model.addAttribute("schedule", schedule);
+		model.addAttribute("isReverse", isReverse);
 		return "category";
 	}
 	

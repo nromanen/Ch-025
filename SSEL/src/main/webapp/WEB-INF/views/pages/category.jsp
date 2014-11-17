@@ -39,30 +39,30 @@
 			</select>
 			<div class="btn-group" style="float: right;">
 					<c:if test="${pageNumber gt 1}">
-						<button name="pageNumber" value="${pageNumber - 1}" type="submit" class="btn btn-default"><spring:message code="label.prev"/></button>
-						<button name="pageNumber" value="1" type="submit" class="btn btn-default">1</button>
+						<button name="pageNumber" value="${pageNumber - 1}" type="submit" class="btn btn-default clrnoact"><spring:message code="label.prev"/></button>
+						<button name="pageNumber" value="1" type="submit" class="btn btn-default clrnoact">1</button>
 					</c:if>
 					<c:if test="${pageNumber gt 3}">
 						<button class="btn btn-default" disabled="disabled">...</button>
 						
 					</c:if>
 					<c:if test="${pageNumber gt 2}">
-						<button name="pageNumber" value="${pageNumber - 1}" type="submit" class="btn btn-default">${pageNumber - 1}</button>
+						<button name="pageNumber" value="${pageNumber - 1}" type="submit" class="btn btn-default clrnoact">${pageNumber - 1}</button>
 					</c:if>
-					<button class="btn btn-default" disabled="disabled">${pageNumber}</button>
+					<button class="btn btn-default clr">${pageNumber}</button>
 					
 					<c:if test="${pageNumber lt (numberOfPages - 1)}">
-						<button name="pageNumber" value="${pageNumber + 1}"  type="submit" class="btn btn-default">${pageNumber + 1}</button>
+						<button name="pageNumber" value="${pageNumber + 1}"  type="submit" class="btn btn-default clrnoact">${pageNumber + 1}</button>
 					</c:if>
 					<c:if test="${pageNumber lt (numberOfPages - 2)}">
 						<button class="btn btn-default" disabled="disabled">...</button>
 					</c:if>
 					<c:if test="${pageNumber le (numberOfPages - 1)}">
-						 <button name="pageNumber" value="${numberOfPages}" type="submit" class="btn btn-default">${numberOfPages}</button> 
-						<button name="pageNumber" value="${pageNumber + 1}" type="submit" class="btn btn-default"><spring:message code="label.next"/></button>
+						 <button name="pageNumber" value="${numberOfPages}" type="submit" class="btn btn-default clrnoact">${numberOfPages}</button> 
+						<button name="pageNumber" value="${pageNumber + 1}" type="submit" class="btn btn-default clrnoact"><spring:message code="label.next"/></button>
 					</c:if>
 					<c:if test="${pageNumber eq (numberOfPages)}">
-						<button class="btn btn-default" disabled="disabled"><spring:message code="label.next"/></button>
+						<button class="btn btn-default clrnoact" disabled="disabled"><spring:message code="label.next"/></button>
 					</c:if>
 		</div>
 			<input type="hidden" value="${categoryId}" name="categoryId">
@@ -71,28 +71,43 @@
 	<form method="GET" action="course">
 			<div class="blocks">
 				<c:if test="${fn:length(subjList) gt 0}">
-					<table class="table table-striped table-bordered table-hover">
-						<tr>
+					<table class="table table-bordered table-hover">
+						<tr class="info">
 							<th>
 								<spring:message code="label.course_name" />
+								<div class="rightArrow">
+								<c:out value="${isReverse }"></c:out>
+								<c:if test="${isReverse eq false}">
 								<a href="category?pageSize=${pageSize}&pageNumber=${pageNumber}
-									&categoryId=${categoryId}&sortBy=name&isReverse=false">&#8593; </a>
+									&categoryId=${categoryId}&sortBy=name&isReverse=false"><span class="fa fa-sort-alpha-asc"></span> </a> 
+								</c:if>
+								<c:if test="${isReverse eq true || isReverse eq null}">
 								<a href="category?pageSize=${pageSize}&pageNumber=${pageNumber}
-									&categoryId=${categoryId}&sortBy=name&isReverse=true">&#8595;  </a>
+									&categoryId=${categoryId}&sortBy=name&isReverse=true"><span class="fa fa-sort-alpha-desc"></span>  </a>
+								</c:if>
+								</div>
 							</th>
 							<th>
 								<spring:message code="label.category" />
+								<div class="rightArrow">
+								<c:if test="${isReverse eq true}">
 								<a href="category?pageSize=${pageSize}&pageNumber=${pageNumber}
-									&categoryId=${categoryId}&sortBy=category&isReverse=false">&#8593; </a>
+									&categoryId=${categoryId}&sortBy=category&isReverse=false"><span class="fa fa-sort-alpha-asc"></span> </a> 
+								</c:if>
+								<c:if test="${isReverse eq false}">
 								<a href="category?pageSize=${pageSize}&pageNumber=${pageNumber}
-									&categoryId=${categoryId}&sortBy=category&isReverse=true">&#8595;  </a>
+									&categoryId=${categoryId}&sortBy=category&isReverse=true"><span class="fa fa-sort-alpha-desc"></span>  </a>
+								</c:if>
+								</div>
 							</th>
 							<th>
 								<spring:message code="label.start_date" />
+								<div class="rightArrow">
 								<!-- <a href="category?pageSize=${pageSize}&pageNumber=${pageNumber}
 									&categoryId=${categoryId}&sortBy=start&isReverse=false">&#8593; </a>
 								<a href="category?pageSize=${pageSize}&pageNumber=${pageNumber}
 									&categoryId=${categoryId}&sortBy=starts&isReverse=true">&#8595;  </a> -->
+								</div>
 							</th>
 						</tr>
 							<c:forEach items="${subjList}" var="subj">
@@ -131,30 +146,30 @@
 			</select>
 			<div class="btn-group" style="float: right;">
 					<c:if test="${pageNumber gt 1}">
-						<button name="pageNumber" value="${pageNumber - 1}" type="submit" class="btn btn-default"><spring:message code="label.prev"/></button>
-						<button name="pageNumber" value="1" type="submit" class="btn btn-default">1</button>
+						<button name="pageNumber" value="${pageNumber - 1}" type="submit" class="btn btn-default clrnoact"><spring:message code="label.prev"/></button>
+						<button name="pageNumber" value="1" type="submit" class="btn btn-default clrnoact">1</button>
 					</c:if>
 					<c:if test="${pageNumber gt 3}">
 						<button class="btn btn-default" disabled="disabled">...</button>
 						
 					</c:if>
 					<c:if test="${pageNumber gt 2}">
-						<button name="pageNumber" value="${pageNumber - 1}" type="submit" class="btn btn-default">${pageNumber - 1}</button>
+						<button name="pageNumber" value="${pageNumber - 1}" type="submit" class="btn btn-default clrnoact">${pageNumber - 1}</button>
 					</c:if>
-					<button class="btn btn-default" disabled="disabled">${pageNumber}</button>
+					<button class="btn btn-default clr">${pageNumber}</button>
 					
 					<c:if test="${pageNumber lt (numberOfPages - 1)}">
-						<button name="pageNumber" value="${pageNumber + 1}"  type="submit" class="btn btn-default">${pageNumber + 1}</button>
+						<button name="pageNumber" value="${pageNumber + 1}"  type="submit" class="btn btn-default clrnoact">${pageNumber + 1}</button>
 					</c:if>
 					<c:if test="${pageNumber lt (numberOfPages - 2)}">
 						<button class="btn btn-default" disabled="disabled">...</button>
 					</c:if>
 					<c:if test="${pageNumber le (numberOfPages - 1)}">
-						 <button name="pageNumber" value="${numberOfPages}" type="submit" class="btn btn-default">${numberOfPages}</button> 
-						<button name="pageNumber" value="${pageNumber + 1}" type="submit" class="btn btn-default"><spring:message code="label.next"/></button>
+						 <button name="pageNumber" value="${numberOfPages}" type="submit" class="btn btn-default clrnoact">${numberOfPages}</button> 
+						<button name="pageNumber" value="${pageNumber + 1}" type="submit" class="btn btn-default clrnoact"><spring:message code="label.next"/></button>
 					</c:if>
 					<c:if test="${pageNumber eq (numberOfPages)}">
-						<button class="btn btn-default" disabled="disabled"><spring:message code="label.next"/></button>
+						<button class="btn btn-default clrnoact" disabled="disabled"><spring:message code="label.next"/></button>
 					</c:if>
 		</div>
 			<input type="hidden" value="${categoryId}" name="categoryId">
