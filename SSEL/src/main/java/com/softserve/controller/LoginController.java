@@ -5,7 +5,6 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.social.facebook.api.Facebook;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,8 +20,6 @@ public class LoginController {
 	private static final String USER_DISABLED = "userDisabled";
 	private static final String KEY_ERROR = "error";
 	
-	private Facebook facebook;
-	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String loginPage(
 			@RequestParam(value = "error", required = false) String error,
@@ -36,9 +33,5 @@ public class LoginController {
 		}
 		return "login";
 	}
-	
-	@RequestMapping(value = "/connect/facebook", method = RequestMethod.GET)
-	public String facebookConnect() {
-		return "redirect:/";
-	}
+
 }
