@@ -104,19 +104,40 @@
 						<tr class="info">
 							<th>
 								<spring:message code="label.course_name" />
+								<div class="rightArrow">
+								<c:if test="${isReverse eq false}">
 								<a href="search?pageSize=${pageSize}&pageNumber=${pageNumber}
-									&search=${search}&sortBy=name&isReverse=false">&#8593; </a>
+									&search=${search}&sortBy=name&isReverse=true"><span class="fa fa-sort-alpha-asc"></span> </a>
+									</c:if>
+									<c:if test="${isReverse eq true}">
 								<a href="search?pageSize=${pageSize}&pageNumber=${pageNumber}
-									&search=${search}&sortBy=name&isReverse=true">&#8595;  </a>
+									&search=${search}&sortBy=name&isReverse=false"><span class="fa fa-sort-alpha-desc"> </span></a>
+								</c:if>
+								</div>
 							</th>
 							<th>
 								<spring:message code="label.category" />
+								<div class="rightArrow">
+								<c:if test="${isReverse eq false}">
 								<a href="search?pageSize=${pageSize}&pageNumber=${pageNumber}
-									&search=${search}&sortBy=category&isReverse=false">&#8593; </a>
+									&search=${search}&sortBy=category&isReverse=true"><span class="fa fa-sort-alpha-asc"></span> </a>
+									</c:if>
+									<c:if test="${isReverse eq true}">
 								<a href="search?pageSize=${pageSize}&pageNumber=${pageNumber}
-									&search=${search}&sortBy=category&isReverse=true">&#8595;  </a>
+									&search=${search}&sortBy=category&isReverse=false"><span class="fa fa-sort-alpha-desc"> </span>  </a>
+									</c:if>
+									</div>
 							</th>
-							<th><spring:message code="label.start_date" /></th>
+							<th><spring:message code="label.start_date" />
+							<div class="rightArrow">
+							<c:if test="${isReverse eq false}">
+								<a href="search?pageSize=${pageSize}&pageNumber=${pageNumber}
+									&search=${search}&sortBy=schedulers&isReverse=true"><span class="fa fa-sort-alpha-asc"></span> </a>
+									</c:if>
+									<c:if test="${isReverse eq true}">
+								<a href="search?pageSize=${pageSize}&pageNumber=${pageNumber}
+									&search=${search}&sortBy=schedulers&isReverse=false"><span class="fa fa-sort-alpha-desc"> </span> </a>
+									</c:if></div></th>
 						</tr>
 							<c:forEach items="${subjList}" var="subj">
 								<tr>
@@ -126,12 +147,8 @@
 								</td>
 								<td>
 									${subj.category.name}</td>
-								<td><c:forEach items="${schedule}" var="schedule">
-										<c:if test="${schedule.subject.id eq subj.id}">
-												<fmt:formatDate pattern='dd-MM-yyyy'
-													value='${schedule.start}' />
-										</c:if>
-									</c:forEach></td> </tr>
+								<td><fmt:formatDate pattern='dd-MM-yyyy' 
+									value='${subj.schedulers[0].start}'/></td> </tr>
 							</c:forEach>
 					</table>
 				</c:if>

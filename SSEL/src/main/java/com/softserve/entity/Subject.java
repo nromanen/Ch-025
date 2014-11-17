@@ -52,6 +52,14 @@ public class Subject {
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "subject")
 	private List<CourseScheduler> schedulers = new ArrayList<>();
 
+	public List<CourseScheduler> getSchedulers() {
+		return schedulers;
+	}
+
+	public void setSchedulers(List<CourseScheduler> schedulers) {
+		this.schedulers = schedulers;
+	}
+
 	public Subject() {
 	}
 

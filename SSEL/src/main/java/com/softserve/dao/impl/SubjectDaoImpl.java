@@ -8,14 +8,19 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.metamodel.EntityType;
+import javax.persistence.metamodel.Metamodel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.softserve.dao.SubjectDao;
+import com.softserve.entity.CourseScheduler;
 import com.softserve.entity.Subject;
 
 @Repository
@@ -96,10 +101,15 @@ public class SubjectDaoImpl implements SubjectDao {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Subject> criteriaQuery = criteriaBuilder.createQuery(Subject.class);
 		Root<Subject> root = criteriaQuery.from(Subject.class);
+		Join<Subject, CourseScheduler> scheduler = root.join("schedulers");
 		criteriaQuery.select(root);
+		List<Predicate> predicates = new ArrayList<Predicate>();
 		Predicate predicate = 
 				criteriaBuilder.like(criteriaBuilder.upper(root.<String>get("name")), "%" + namePart.toUpperCase() + "%");
-		criteriaQuery.where(predicate);
+		Predicate predicateJoin = criteriaBuilder.equal(scheduler.get("subject"), root.get("id"));
+		predicates.add(predicate);
+		predicates.add(predicateJoin);
+		criteriaQuery.where(predicates.toArray(new Predicate[] {}));
 		if (isReverse) {
 			criteriaQuery.orderBy(criteriaBuilder.desc(root.<String>get(sortBy)));
 		} else {

@@ -76,37 +76,40 @@
 							<th>
 								<spring:message code="label.course_name" />
 								<div class="rightArrow">
-								<c:out value="${isReverse }"></c:out>
 								<c:if test="${isReverse eq false}">
 								<a href="category?pageSize=${pageSize}&pageNumber=${pageNumber}
-									&categoryId=${categoryId}&sortBy=name&isReverse=false"><span class="fa fa-sort-alpha-asc"></span> </a> 
+									&categoryId=${categoryId}&sortBy=name&isReverse=true"><span class="fa fa-sort-alpha-asc"></span> </a> 
 								</c:if>
-								<c:if test="${isReverse eq true || isReverse eq null}">
+								<c:if test="${isReverse eq true}">
 								<a href="category?pageSize=${pageSize}&pageNumber=${pageNumber}
-									&categoryId=${categoryId}&sortBy=name&isReverse=true"><span class="fa fa-sort-alpha-desc"></span>  </a>
+									&categoryId=${categoryId}&sortBy=name&isReverse=false"><span class="fa fa-sort-alpha-desc"></span>  </a>
 								</c:if>
 								</div>
 							</th>
 							<th>
 								<spring:message code="label.category" />
 								<div class="rightArrow">
-								<c:if test="${isReverse eq true}">
-								<a href="category?pageSize=${pageSize}&pageNumber=${pageNumber}
-									&categoryId=${categoryId}&sortBy=category&isReverse=false"><span class="fa fa-sort-alpha-asc"></span> </a> 
-								</c:if>
 								<c:if test="${isReverse eq false}">
 								<a href="category?pageSize=${pageSize}&pageNumber=${pageNumber}
-									&categoryId=${categoryId}&sortBy=category&isReverse=true"><span class="fa fa-sort-alpha-desc"></span>  </a>
+									&categoryId=${categoryId}&sortBy=category&isReverse=true"><span class="fa fa-sort-alpha-asc"></span> </a> 
+								</c:if>
+								<c:if test="${isReverse eq true}">
+								<a href="category?pageSize=${pageSize}&pageNumber=${pageNumber}
+									&categoryId=${categoryId}&sortBy=category&isReverse=false"><span class="fa fa-sort-alpha-desc"></span>  </a>
 								</c:if>
 								</div>
 							</th>
 							<th>
 								<spring:message code="label.start_date" />
 								<div class="rightArrow">
-								<!-- <a href="category?pageSize=${pageSize}&pageNumber=${pageNumber}
-									&categoryId=${categoryId}&sortBy=start&isReverse=false">&#8593; </a>
+								<c:if test="${isReverse eq false}">
 								<a href="category?pageSize=${pageSize}&pageNumber=${pageNumber}
-									&categoryId=${categoryId}&sortBy=starts&isReverse=true">&#8595;  </a> -->
+									&categoryId=${categoryId}&sortBy=start&isReverse=true"><span class="fa fa-sort-alpha-asc"></span> </a>
+									</c:if>
+									<c:if test="${isReverse eq true}">
+								<a href="category?pageSize=${pageSize}&pageNumber=${pageNumber}
+									&categoryId=${categoryId}&sortBy=starts&isReverse=false"><span class="fa fa-sort-alpha-desc"> </span>  </a>
+								</c:if>
 								</div>
 							</th>
 						</tr>
@@ -118,12 +121,8 @@
 								</td>
 								<td>
 									${subj.category.name}</td>
-								<td><c:forEach items="${schedule}" var="schedule">
-										<c:if test="${schedule.subject.id eq subj.id}">
-												<fmt:formatDate pattern='dd-MM-yyyy'
-													value='${schedule.start}' />
-										</c:if>
-									</c:forEach></td> </tr>
+								<td><fmt:formatDate pattern='dd-MM-yyyy' 
+									value='${subj.schedulers[0].start}'/></td> </tr>
 							</c:forEach>
 					</table>
 				</c:if>

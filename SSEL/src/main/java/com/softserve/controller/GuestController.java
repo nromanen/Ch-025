@@ -174,13 +174,11 @@ public class GuestController {
 		Long numberOfPages = 0l;
 		List<Category> categories = searchService.getCategoriesByNamePart(search, pageNumber, pageSize);
 		List<Subject> subjects = searchService.getSubjectsByNamePart(search, pageNumber, pageSize, sortBy, isReverse);
-		List<CourseScheduler> schedule = cSchedulerService.getAllCourseScheduleres();
 		model.addAttribute("catList", categories);
 		model.addAttribute("subjList", subjects);
 		model.addAttribute("search", search);
 		model.addAttribute("pageSize", pageSize);
 		model.addAttribute("pageNumber", pageNumber);
-		model.addAttribute("schedule", schedule);
 		model.addAttribute("isReverse", isReverse);
 		Long count = searchService.getSubjectsQuantityByNamePart(search);
 		numberOfPages = (count % pageSize > 0) ? count / pageSize + 1 : count / pageSize;
@@ -200,7 +198,6 @@ public class GuestController {
 		List<Subject> subjects = 
 				searchService.getSubjectsByCategoryIdWithLimit(categoryId, pageNumber, pageSize, sortBy, isReverse);
 		Category category = categoryService.getCategoryById(categoryId);
-		List<CourseScheduler> schedule = cSchedulerService.getAllCourseScheduleres();
 		Long count = subjectService.getSubjectsByCategoryCount(category.getName());
 		numberOfPages = (count % pageSize > 0) ? count / pageSize + 1 : count / pageSize;
 		model.addAttribute("numberOfPages", numberOfPages);
@@ -208,7 +205,6 @@ public class GuestController {
 		model.addAttribute("pageSize", pageSize);
 		model.addAttribute("pageNumber", pageNumber);
 		model.addAttribute("categoryId", categoryId);
-		model.addAttribute("schedule", schedule);
 		model.addAttribute("isReverse", isReverse);
 		return "category";
 	}
