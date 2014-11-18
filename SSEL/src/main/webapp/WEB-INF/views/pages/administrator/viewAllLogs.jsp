@@ -17,60 +17,68 @@
 			<fmt:formatDate pattern="dd-MM-yyyy" value="${endPeriod}" />
 		</h3>
 		<div class="row">
-
-			<!-- Picking logsPerPage parameter -->
-			<div class="col-md-1" align="left">
-				<form method="get" action="getParameters">
-					<select name="logsPerPage" onchange="this.form.submit()">
-						<c:choose>
-							<c:when test="${empty logsPerPage}">
-								<option selected value="10">10</option>
-							</c:when>
-							<c:otherwise>
-								<option selected value="${logsPerPage}">${logsPerPage}</option>
-							</c:otherwise>
-						</c:choose>
-						<c:if test="${(logsPerPage != 10) or (empty logsPerPage)}">
-							<option value="10">10</option>
-						</c:if>
-						<c:if test="${logsPerPage != 25}">
-							<option value="25">25</option>
-						</c:if>
-						<c:if test="${logsPerPage != 50}">
-							<option value="50">50</option>
-						</c:if>
-					</select> <input type="submit" style="visibility: hidden;">
-				</form>
-			</div>
-
 			<!-- Selecting range of dates for viewing logs -->
-			<div class="col-md-5" align="left">
+			<div class="col-md-7" align="center">
 				<form action="getRangeOfDates" method="get">
 					<spring:message code="label.show_logs_from_date" />
 					<input type="text" name="startDate" class="datepicker"
-						placeholder="<spring:message code="label.placeholder" />" readonly="readonly" />
+						placeholder="<spring:message code="label.placeholder" />"
+						readonly="readonly" />
 					<spring:message code="label.to" />
 					<input type="text" name="endDate" class="datepicker"
-						placeholder="<spring:message code="label.placeholder" />" readonly="readonly" /> <input
-						type="submit" class="btn btn-primary"
+						placeholder="<spring:message code="label.placeholder" />"
+						readonly="readonly" /> <input type="submit"
+						class="btn btn-primary"
 						value="<spring:message code="label.show" />" />
 				</form>
 			</div>
-
 			<!-- Selecting date for deleting old logs -->
-			<div class="col-md-4" align="left">
+			<div class="col-md-5" align="center">
 				<form action="deleteOldLogs" method="get">
 					<spring:message code="label.delete_old_logs_to_date" />
 					<input type="text" name="deleteDate" class="datepicker"
-						placeholder="<spring:message code="label.placeholder" />" /> <input
-						type="submit" class="btn btn-danger"
+						placeholder="<spring:message code="label.placeholder" />"
+						readonly="readonly" /> <input type="submit"
+						class="btn btn-danger"
 						value="<spring:message code="label.delete" />"
 						onclick="return confirm('<spring:message code="label.are_you_sure" />')" />
 				</form>
 			</div>
-
+		</div>
+		<div class="row" align="left">
+			<div class="col-md-2" align="left">
+				<div class="col-md-12" align="left">
+					<br /> <br />
+				</div>
+				<!-- Picking logsPerPage parameter -->
+				<div class="col-md-12" align="left">
+					<form method="get" action="getParameters">
+						<spring:message code="label.records_per_page" />
+						<select name="logsPerPage" onchange="this.form.submit()">
+							<c:choose>
+								<c:when test="${empty logsPerPage}">
+									<option selected value="10">10</option>
+								</c:when>
+								<c:otherwise>
+									<option selected value="${logsPerPage}">${logsPerPage}</option>
+								</c:otherwise>
+							</c:choose>
+							<c:if test="${(logsPerPage != 10) or (empty logsPerPage)}">
+								<option value="10">10</option>
+							</c:if>
+							<c:if test="${logsPerPage != 25}">
+								<option value="25">25</option>
+							</c:if>
+							<c:if test="${logsPerPage != 50}">
+								<option value="50">50</option>
+							</c:if>
+						</select>
+						<!-- <input type="submit" style="visibility: hidden;"> -->
+					</form>
+				</div>
+			</div>
 			<!-- Pagination scroll -->
-			<div align="right">
+			<div class="col-md-10" align="right">
 				<nav>
 					<ul class="pagination">
 						<c:if test="${pageNumb < 1}">
@@ -78,26 +86,32 @@
 										code="label.previous" /></a></li>
 						</c:if>
 						<c:if test="${pageNumb > 0}">
-							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 1}"><spring:message
+							<li><a
+								href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 1}"><spring:message
 										code="label.previous" /></a></li>
-							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=0">1</a></li>
+							<li><a
+								href="${pageContext.request.contextPath}/viewLogs?pageNumb=0">1</a></li>
 						</c:if>
 						<c:if test="${pageNumb > 2}">
 							<li><a href="#">...</a></li>
 						</c:if>
 						<c:if test="${pageNumb > 1}">
-							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 1}">${pageNumb}</a></li>
+							<li><a
+								href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 1}">${pageNumb}</a></li>
 						</c:if>
 						<li class="active"><a href="#">${pageNumb + 1}</a></li>
 						<c:if test="${pageNumb < (numberOfPages - 2)}">
-							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 1}">${pageNumb + 2}</a></li>
+							<li><a
+								href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 1}">${pageNumb + 2}</a></li>
 						</c:if>
 						<c:if test="${pageNumb < (numberOfPages - 3)}">
 							<li><a href="#">...</a></li>
 						</c:if>
 						<c:if test="${pageNumb < (numberOfPages - 1)}">
-							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${numberOfPages-1}">${numberOfPages}</a></li>
-							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 1}"><spring:message
+							<li><a
+								href="${pageContext.request.contextPath}/viewLogs?pageNumb=${numberOfPages-1}">${numberOfPages}</a></li>
+							<li><a
+								href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 1}"><spring:message
 										code="label.next" /></a></li>
 						</c:if>
 						<c:if test="${pageNumb > (numberOfPages - 2)}">
@@ -108,101 +122,105 @@
 				</nav>
 			</div>
 		</div>
-
-		<c:choose>
-			<c:when test="${empty logs}">
-				<h1 align="center">No data!</h1>
-			</c:when>
-			<c:otherwise>
-
-				<!-- Table with logs -->
-				<table class="table table-striped table-bordered table-hover">
-					<thead>
-						<tr>
-							<!-- Head of table also includes sorting parameters -->
-							<th><spring:message code="label.t_date" /><br> <font
-								size="+2"> <a href="${pageContext.request.contextPath}/getParameters?orderBy=date-asc">&#x21e7;</a>
-									<a href="${pageContext.request.contextPath}/getParameters?orderBy=date-desc">&#x21e9;</a>
-							</font></th>
-							<th><spring:message code="label.t_level" /> <br> <font
-								size="+2"> <a href="${pageContext.request.contextPath}/getParameters?orderBy=level-asc">&#x21e7;</a>
-									<a href="${pageContext.request.contextPath}/getParameters?orderBy=level-desc">&#x21e9;</a>
-							</font></th>
-							<th><spring:message code="label.t_logger" /></th>
-							<th><spring:message code="label.t_message" /><br /></th>
-							<th><spring:message code="label.t_exception" /><br> <font
-								size="+2"> <a href="${pageContext.request.contextPath}/getParameters?orderBy=exception-asc">&#x21e7;</a>
-									<a href="${pageContext.request.contextPath}/getParameters?orderBy=exception-desc">&#x21e9;</a>
-							</font></th>
-						</tr>
-					</thead>
-					<c:forEach items="${logs}" var="log">
-						<tr>
-							<td class="col-md-1"><fmt:formatDate
-									pattern="dd-MM-yyyy HH:mm:ss" value="${log.eventDate}" /></td>
-							<td class="col-md-1">${log.level}</td>
-							<td class="col-md-3"><textarea class="col-md-12" rows="2"
-									readonly="readonly">${log.logger}</textarea></td>
-							<td class="col-md-6"><textarea class="col-md-12" rows="2"
-									readonly="readonly">${log.message}</textarea></td>
-							<td class="col-md-1"><c:choose>
-									<c:when test="${not empty log.exception}">
-										<a href="${pageContext.request.contextPath}/logDetails?LogId=${log.id}">Details</a>
-									</c:when>
-									<c:otherwise>
-								 No exception
-							</c:otherwise>
-								</c:choose></td>
-						</tr>
-					</c:forEach>
-				</table>
-
-			</c:otherwise>
-		</c:choose>
-
-		<!-- Pagination scroll -->
-		<div align="right">
-			<nav>
-				<ul class="pagination">
-					<c:if test="${pageNumb < 1}">
-						<li class="disabled"><a href="#"><spring:message
-									code="label.previous" /></a></li>
-					</c:if>
-					<c:if test="${pageNumb > 0}">
-						<li><a
-							href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 1}"><spring:message
-									code="label.previous" /></a></li>
-						<li><a
-							href="${pageContext.request.contextPath}/viewLogs?pageNumb=0">1</a></li>
-					</c:if>
-					<c:if test="${pageNumb > 2}">
-						<li><a href="#">...</a></li>
-					</c:if>
-					<c:if test="${pageNumb > 1}">
-						<li><a
-							href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 1}">${pageNumb}</a></li>
-					</c:if>
-					<li class="active"><a href="#">${pageNumb + 1}</a></li>
-					<c:if test="${pageNumb < (numberOfPages - 2)}">
-						<li><a
-							href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 1}">${pageNumb + 2}</a></li>
-					</c:if>
-					<c:if test="${pageNumb < (numberOfPages - 3)}">
-						<li><a href="#">...</a></li>
-					</c:if>
-					<c:if test="${pageNumb < (numberOfPages - 1)}">
-						<li><a
-							href="${pageContext.request.contextPath}/viewLogs?pageNumb=${numberOfPages-1}">${numberOfPages}</a></li>
-						<li><a
-							href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 1}"><spring:message
-									code="label.next" /></a></li>
-					</c:if>
-					<c:if test="${pageNumb > (numberOfPages - 2)}">
-						<li class="disabled"><a href="#"><spring:message
-									code="label.next" /></a></li>
-					</c:if>
-				</ul>
-			</nav>
-		</div>
 	</div>
+	<c:choose>
+		<c:when test="${empty logs}">
+			<h1 align="center">No data!</h1>
+		</c:when>
+		<c:otherwise>
+			<!-- Table with logs -->
+			<table class="table table-striped table-bordered table-hover">
+				<thead>
+					<tr>
+						<!-- Head of table also includes sorting parameters -->
+						<th><spring:message code="label.t_date" /><br> <font
+							size="+2"> <a
+								href="${pageContext.request.contextPath}/getParameters?orderBy=date-asc">&#x21e7;</a>
+								<a
+								href="${pageContext.request.contextPath}/getParameters?orderBy=date-desc">&#x21e9;</a>
+						</font></th>
+						<th><spring:message code="label.t_level" /> <br> <font
+							size="+2"> <a
+								href="${pageContext.request.contextPath}/getParameters?orderBy=level-asc">&#x21e7;</a>
+								<a
+								href="${pageContext.request.contextPath}/getParameters?orderBy=level-desc">&#x21e9;</a>
+						</font></th>
+						<th><spring:message code="label.t_logger" /></th>
+						<th><spring:message code="label.t_message" /><br /></th>
+						<th><spring:message code="label.t_exception" /><br> <font
+							size="+2"> <a
+								href="${pageContext.request.contextPath}/getParameters?orderBy=exception-asc">&#x21e7;</a>
+								<a
+								href="${pageContext.request.contextPath}/getParameters?orderBy=exception-desc">&#x21e9;</a>
+						</font></th>
+					</tr>
+				</thead>
+				<c:forEach items="${logs}" var="log">
+					<tr>
+						<td class="col-md-1"><fmt:formatDate
+								pattern="dd-MM-yyyy HH:mm:ss" value="${log.eventDate}" /></td>
+						<td class="col-md-1">${log.level}</td>
+						<td class="col-md-3"><textarea class="col-md-12" rows="2"
+								readonly="readonly">${log.logger}</textarea></td>
+						<td class="col-md-6"><textarea class="col-md-12" rows="2"
+								readonly="readonly">${log.message}</textarea></td>
+						<td class="col-md-1"><c:choose>
+								<c:when test="${not empty log.exception}">
+									<a
+										href="${pageContext.request.contextPath}/logDetails?LogId=${log.id}">Details</a>
+								</c:when>
+								<c:otherwise>
+No exception
+</c:otherwise>
+							</c:choose></td>
+					</tr>
+				</c:forEach>
+			</table>
+		</c:otherwise>
+	</c:choose>
+	<!-- Pagination scroll -->
+	<div align="right">
+		<nav>
+			<ul class="pagination">
+				<c:if test="${pageNumb < 1}">
+					<li class="disabled"><a href="#"><spring:message
+								code="label.previous" /></a></li>
+				</c:if>
+				<c:if test="${pageNumb > 0}">
+					<li><a
+						href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 1}"><spring:message
+								code="label.previous" /></a></li>
+					<li><a
+						href="${pageContext.request.contextPath}/viewLogs?pageNumb=0">1</a></li>
+				</c:if>
+				<c:if test="${pageNumb > 2}">
+					<li><a href="#">...</a></li>
+				</c:if>
+				<c:if test="${pageNumb > 1}">
+					<li><a
+						href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 1}">${pageNumb}</a></li>
+				</c:if>
+				<li class="active"><a href="#">${pageNumb + 1}</a></li>
+				<c:if test="${pageNumb < (numberOfPages - 2)}">
+					<li><a
+						href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 1}">${pageNumb + 2}</a></li>
+				</c:if>
+				<c:if test="${pageNumb < (numberOfPages - 3)}">
+					<li><a href="#">...</a></li>
+				</c:if>
+				<c:if test="${pageNumb < (numberOfPages - 1)}">
+					<li><a
+						href="${pageContext.request.contextPath}/viewLogs?pageNumb=${numberOfPages-1}">${numberOfPages}</a></li>
+					<li><a
+						href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 1}"><spring:message
+								code="label.next" /></a></li>
+				</c:if>
+				<c:if test="${pageNumb > (numberOfPages - 2)}">
+					<li class="disabled"><a href="#"><spring:message
+								code="label.next" /></a></li>
+				</c:if>
+			</ul>
+		</nav>
+	</div>
+</div>
 </div>
