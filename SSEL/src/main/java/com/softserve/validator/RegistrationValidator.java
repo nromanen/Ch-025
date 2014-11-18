@@ -17,7 +17,8 @@ import com.softserve.service.UserService;
 @Component
 public class RegistrationValidator implements Validator {
 
-	private static final String NAME_PATTERN = "[A-Z¿-ﬂ≤Ø™]{1}[A-Z¿-ﬂ≤Ø™a-z‡-ˇ≥ø∫]{1,30}";
+
+	private static final String NAME_PATTERN = "[A-Z–ê-–Ø–Ü–á–Ñ]{1}[A-Z–ê-–Ø–Ü–á–Ña-z–∞-—è—ñ—ó—î]{1,30}";
 	private static final String EMAIL_PATTERN = "[A-Za-z0-9_\\.-]{1,30}@[A-Za-z0-9_\\.-]{1,30}";
 	private static final String PASSWORD_PATTERN = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[//@/./&/!#/$%/^/*/?])(?!.*\\s).{4,20}$";
 
