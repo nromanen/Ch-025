@@ -38,6 +38,9 @@
 				<option value="100" <c:if test="${pageSize eq 100}"> selected </c:if> >100</option>
 			</select>
 			<div class="btn-group" style="float: right;">
+					<c:if test="${pageNumber eq 1}">
+						<button name="pageNumber" class="btn btn-default clrnoact" disabled="disabled"><spring:message code="label.prev"/></button>
+					</c:if>
 					<c:if test="${pageNumber gt 1}">
 						<button name="pageNumber" value="${pageNumber - 1}" type="submit" class="btn btn-default clrnoact"><spring:message code="label.prev"/></button>
 						<button name="pageNumber" value="1" type="submit" class="btn btn-default clrnoact">1</button>
@@ -104,24 +107,24 @@
 								<div class="rightArrow">
 								<c:if test="${isReverse eq false}">
 								<a href="category?pageSize=${pageSize}&pageNumber=${pageNumber}
-									&categoryId=${categoryId}&sortBy=start&isReverse=true"><span class="fa fa-sort-alpha-asc"></span> </a>
+									&categoryId=${categoryId}&sortBy=date&isReverse=true"><span class="fa fa-sort-alpha-asc"></span> </a>
 									</c:if>
 									<c:if test="${isReverse eq true}">
 								<a href="category?pageSize=${pageSize}&pageNumber=${pageNumber}
-									&categoryId=${categoryId}&sortBy=starts&isReverse=false"><span class="fa fa-sort-alpha-desc"> </span>  </a>
+									&categoryId=${categoryId}&sortBy=dates&isReverse=false"><span class="fa fa-sort-alpha-desc"> </span>  </a>
 								</c:if>
 								</div>
 							</th>
 						</tr>
 							<c:forEach items="${subjList}" var="subj">
 								<tr>
-								<td>
+								<td  style="width: 45%;">
 									<button value="${subj.id}" name="subjectId"
 										class="btn btn-link" style="color: #428bca;">${subj.name}</button>
 								</td>
-								<td>
+								<td  style="width: 35%;">
 									${subj.category.name}</td>
-								<td><fmt:formatDate pattern='dd-MM-yyyy' 
+								<td  style="width: 20%;"><fmt:formatDate pattern='dd-MM-yyyy' 
 									value='${subj.schedulers[0].start}'/></td> </tr>
 							</c:forEach>
 					</table>
@@ -144,6 +147,9 @@
 				<option value="100" <c:if test="${pageSize eq 100}"> selected </c:if> >100</option>
 			</select>
 			<div class="btn-group" style="float: right;">
+					<c:if test="${pageNumber eq 1}">
+						<button name="pageNumber" class="btn btn-default clrnoact" disabled="disabled"><spring:message code="label.prev"/></button>
+					</c:if>
 					<c:if test="${pageNumber gt 1}">
 						<button name="pageNumber" value="${pageNumber - 1}" type="submit" class="btn btn-default clrnoact"><spring:message code="label.prev"/></button>
 						<button name="pageNumber" value="1" type="submit" class="btn btn-default clrnoact">1</button>

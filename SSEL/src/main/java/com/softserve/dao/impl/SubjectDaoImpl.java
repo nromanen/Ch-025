@@ -1,6 +1,7 @@
 package com.softserve.dao.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -8,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -17,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.softserve.dao.SubjectDao;
+import com.softserve.entity.Category;
 import com.softserve.entity.CourseScheduler;
 import com.softserve.entity.Subject;
 
@@ -102,8 +105,9 @@ public class SubjectDaoImpl implements SubjectDao {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Subject> criteriaQuery = criteriaBuilder.createQuery(Subject.class);
 		Root<Subject> root = criteriaQuery.from(Subject.class);
+		Root<Category> category = criteriaQuery.from(Category.class);
 		Join<Subject, CourseScheduler> scheduler = root.join("schedulers");
-		criteriaQuery.select(root);
+		criteriaQuery.select(root).distinct(true);
 		List<Predicate> predicates = new ArrayList<Predicate>();
 		Predicate predicate = 
 				criteriaBuilder.like(criteriaBuilder.upper(root.<String>get("name")), "%" + namePart.toUpperCase() + "%");
@@ -113,10 +117,18 @@ public class SubjectDaoImpl implements SubjectDao {
 		predicates.add(predicateJoin);
 		predicates.add(predicateDeleted);
 		criteriaQuery.where(predicates.toArray(new Predicate[] {}));
+		Expression<?> sort = root.<String>get("id");
+		if (sortBy.equals("name")) {
+			sort = root.<String>get(sortBy);
+		} else if (sortBy.equals("category")) {
+			sort = category.<String>get("name");
+		} else if (sortBy.equals("date")) {
+			sort = scheduler.<Date>get("start");
+		}
 		if (isReverse) {
-			criteriaQuery.orderBy(criteriaBuilder.desc(root.<String>get(sortBy)));
+			criteriaQuery.orderBy(criteriaBuilder.desc(sort));
 		} else {
-			criteriaQuery.orderBy(criteriaBuilder.asc(root.<String>get(sortBy)));
+			criteriaQuery.orderBy(criteriaBuilder.asc(sort));
 		}
 		Query query = entityManager.createQuery(criteriaQuery);
 		query.setFirstResult((pageNumber - 1) * pageSize);
@@ -250,8 +262,9 @@ public class SubjectDaoImpl implements SubjectDao {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Subject> criteriaQuery = criteriaBuilder.createQuery(Subject.class);
 		Root<Subject> root = criteriaQuery.from(Subject.class);
+		Root<Category> category = criteriaQuery.from(Category.class);
 		Join<Subject, CourseScheduler> scheduler = root.join("schedulers");
-		criteriaQuery.select(root);
+		criteriaQuery.select(root).distinct(true);
 		List<Predicate> predicates = new ArrayList<Predicate>();
 		
 		Predicate predicate = criteriaBuilder.equal(root.<Integer>get("category"), categoryId);
@@ -262,10 +275,18 @@ public class SubjectDaoImpl implements SubjectDao {
 		predicates.add(predicateJoin);
 		predicates.add(predicateDeleted);
 		criteriaQuery.where(predicates.toArray(new Predicate[] {}));
+		Expression<?> sort = root.<String>get("id");
+		if (sortBy.equals("name")) {
+			sort = root.<String>get(sortBy);
+		} else if (sortBy.equals("category")) {
+			sort = category.<String>get("name");
+		} else if (sortBy.equals("date")) {
+			sort = scheduler.<Date>get("start");
+		}
 		if (isReverse) {
-			criteriaQuery.orderBy(criteriaBuilder.desc(root.<String>get(sortBy)));
+			criteriaQuery.orderBy(criteriaBuilder.desc(sort));
 		} else {
-			criteriaQuery.orderBy(criteriaBuilder.asc(root.<String>get(sortBy)));
+			criteriaQuery.orderBy(criteriaBuilder.asc(sort));
 		}
 		Query query = entityManager.createQuery(criteriaQuery);
 		query.setFirstResult((pageNumber - 1) * pageSize);
