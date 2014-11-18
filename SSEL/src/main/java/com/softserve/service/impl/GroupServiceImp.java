@@ -20,29 +20,51 @@ public class GroupServiceImp implements GroupService{
 
 	@Autowired
 	private GroupDao groupDao;
-	
+	/**
+	 * @see com.softserve.service.GroupService#addGroup(Group)
+	 */
 	@Transactional
 	@Override
 	public Group addGroup(Group group) {
 		return groupDao.addGroup(group);
 	}
-	
+	/**
+	 * @see com.softserve.service.GroupService#getGroupByScheduler(int)
+	 */
 	@Transactional
 	@Override
 	public Group getGroupByScheduler(int schedulerId) {
 		return groupDao.getGroupByScheduler(schedulerId);
 	}
-	
+	/**
+	 * @see com.softserve.service.GroupService#getGroupsByStudent(int)
+	 */
 	@Transactional
 	@Override
 	public List<Group> getGroupsByStudent(int userId) {
 		return groupDao.getGroupsByStudent(userId);
 	}
-
+	/**
+	 * @see com.softserve.service.GroupService#deleteGroup(Group)
+	 */
 	@Transactional
 	@Override
 	public void deleteGroup(Group group) {
-		groupDao.deleteGroup(group);		
+		groupDao.setGroupDeleted(group, true);		
+	}
+	/**
+	 * @see com.softserve.service.GroupService#restoreGroup(Group)
+	 */
+	@Override
+	public void restoreGroup(Group group) {
+		groupDao.setGroupDeleted(group, false);		
+	}
+	/**
+	 * @see com.softserve.service.GroupService#getDeletedGroups()
+	 */
+	@Override
+	public List<Group> getDeletedGroups() {
+		return groupDao.getAllDeletedGroups();
 	}
 
 }

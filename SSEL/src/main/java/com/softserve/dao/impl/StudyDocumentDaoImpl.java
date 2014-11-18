@@ -27,53 +27,81 @@ public class StudyDocumentDaoImpl implements StudyDocumentDao {
 
 	@PersistenceContext(unitName = "entityManager")
 	private EntityManager entityManager;
-
+	/**
+	 * @see com.softserve.dao.StudyDocumentDao#list()
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional(readOnly = true)
 	public List<StudyDocument> list() {
 		log.debug("List of files");
 		List<StudyDocument> studyDocumet = new ArrayList<StudyDocument>();
-		studyDocumet.addAll(entityManager.createQuery("FROM StudyDocument").getResultList());
+		studyDocumet.addAll(entityManager.createQuery("FROM StudyDocument sd WHERE sd.isDeleted = :val")
+				.setParameter("val",false)
+				.getResultList());
 		return studyDocumet;
 	}
-
+	/**
+	 * @see com.softserve.dao.StudyDocumentDao#listByTopicId(int) 
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<StudyDocument> listByTopicId(int id) {
 		log.debug("List of files");
 		List<StudyDocument> studyDocumet = new ArrayList<StudyDocument>();
-		Query query = entityManager.createQuery("FROM StudyDocument sd WHERE sd.topic.id = :id ORDER BY sd.id");
+		Query query = entityManager.createQuery("FROM StudyDocument sd WHERE sd.topic.id = :id and sd.isDeleted = :val"
+				+ " ORDER BY sd.id");
 		query.setParameter("id", id);
+		query.setParameter("val",false);
 		studyDocumet.addAll(query.getResultList());
 		return studyDocumet;
 	}
-
+	/**
+	 * @see com.softserve.dao.StudyDocumentDao#create(StudyDocument)
+	 */
 	@Override
 	public StudyDocument create(StudyDocument stadyDocument) {
 		log.debug("Creating file");
 		entityManager.persist(stadyDocument);
 		return stadyDocument;
 	}
-
+	/**
+	 * @see com.softserve.dao.StudyDocumentDao#get(Long)
+	 */
 	@Override
 	@Transactional(readOnly = true)
 	public StudyDocument get(Long id) {
 		log.debug("Getting file {}", id);
 		return entityManager.find(StudyDocument.class, id);
 	}
-
+	/**
+	 * @see com.softserve.dao.StudyDocumentDao#setDeleted(Long, boolean)
+	 */
 	@Override
-	public void delete(StudyDocument stadyDocument) {
-		Query query = entityManager.createQuery("DELETE FROM StudyDocument s WHERE s.id = :id");
-		query.setParameter("id", stadyDocument.getId());
+	public void setDeleted(Long id, boolean deleted) {
+		Query query = entityManager.createQuery("UPDATE StudyDocument s SET s.isDeleted = :del WHERE s.id = :id");
+		query.setParameter("id", id);
+		query.setParameter("del", deleted);
 		if (query.executeUpdate() != 0) {
-			log.debug("Deleted subject(id = {})", stadyDocument.getId());
+			log.debug("Deleted subject(id = {})", id);
 		} else {
-			log.warn("Tried to delete subject(id = {})", stadyDocument.getId());
+			log.warn("Tried to delete subject(id = {})", id);
 		}
 	}
-	
+	/**
+	 * @see com.softserve.dao.StudyDocumentDao#deletedList()
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<StudyDocument> deletedList() {
+		log.debug("Get all deleted documents");
+		return entityManager.createQuery("FROM StudyDocument s WHERE s.deleted = :val")
+				.setParameter("val", true)
+				.getResultList();
+	}
+	/**
+	 * @see com.softserve.dao.StudyDocumentDao#delete(Long)
+	 */
 	@Override
 	public void delete(Long id) {
 		Query query = entityManager.createQuery("DELETE FROM StudyDocument s WHERE s.id = :id");
@@ -82,7 +110,7 @@ public class StudyDocumentDaoImpl implements StudyDocumentDao {
 			log.debug("Deleted subject(id = {})", id);
 		} else {
 			log.warn("Tried to delete subject(id = {})", id);
-		}
+		}		
 	}
 
 }

@@ -17,49 +17,65 @@ public class TopicServiceImpl implements TopicService {
 
 	@Autowired
 	private TopicDao topicDao;
-
+	/**
+	 * @see com.softserve.service.TopicService#getTopicById(int)
+	 */
 	@Override
 	@Transactional
 	public Topic getTopicById(int id) {
 		return topicDao.getTopicById(id);
 	}
-
+	/**
+	 * @see com.softserve.service.TopicService#addTopic(Topic)
+	 */
 	@Override
 	@Transactional
 	public Topic addTopic(Topic topic) {
 		return topicDao.addTopic(topic);
 	}
-
+	/**
+	 * @see com.softserve.service.TopicService#updateTopic(Topic)
+	 */
 	@Override
 	@Transactional
 	public Topic updateTopic(Topic topic) {
 		return topicDao.updateTopic(topic);
 	}
-
+	/**
+	 * @see com.softserve.service.TopicService#deleteTopic(Topic)
+	 */
 	@Override
 	@Transactional
 	public void deleteTopic(Topic topic) {
-		topicDao.deleteTopic(topic);
+		topicDao.setTopicDeleted(topic, true);
 	}
-
+	/**
+	 * @see com.softserve.service.TopicService#getAllTopics()
+	 */
 	@Override
 	@Transactional
 	public List<Topic> getAllTopics() {
 		return topicDao.getAllTopics();
 	}
-
+	/**
+	 * @see com.softserve.service.TopicService#getTopicsByBlockId(int)
+	 */
 	@Override
 	@Transactional
 	public List<Topic> getTopicsByBlockId(int id) {
 		return topicDao.getTopicsByBlockId(id);
 	}
-
+	/**
+	 * @see com.softserve.service.TopicService#getTopicsBySubjectId(int)
+	 */
 	@Override
 	@Transactional
 	public List<Topic> getTopicsBySubjectId(int id) {
 		return topicDao.getTopicsBySubjectId(id);
 	}
-
+	/**
+	 * @see com.softserve.service.TopicService#changeOrderUp(Topic)
+	 */
 	@Override
 	@Transactional
 	public void changeOrderUp(Topic topic) {
@@ -110,7 +126,9 @@ public class TopicServiceImpl implements TopicService {
 		 * updateTopic(topics.get(tempIndex)); }
 		 */
 	}
-
+	/**
+	 * @see com.softserve.service.TopicService#changeOrderDown(Topic)
+	 */
 	@Override
 	@Transactional
 	public void changeOrderDown(Topic topic) {
@@ -170,6 +188,20 @@ public class TopicServiceImpl implements TopicService {
 		 * updateTopic(topics.get(tempIndex + 1));
 		 * updateTopic(topics.get(tempIndex)); }
 		 */
+	}
+	/**
+	 * @see com.softserve.service.TopicService#restoreTopic(Topic)
+	 */
+	@Override
+	public void restoreTopic(Topic topic) {
+		topicDao.setTopicDeleted(topic, false);
+	}
+	/**
+	 * @see com.softserve.service.TopicService#getDeletedTopics()
+	 */
+	@Override
+	public List<Topic> getDeletedTopics() {
+		return topicDao.getAllDeletedTopics();
 	}
 
 }
