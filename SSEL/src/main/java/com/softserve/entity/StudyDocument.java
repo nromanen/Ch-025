@@ -52,6 +52,10 @@ public class StudyDocument implements Serializable {
 	private Date lastUpdated;
 	@Column(name = "DATA", unique = false, nullable = false)
 	private byte[] data;
+	
+	@Column(name = "deleted")
+	private boolean isDeleted;
+	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "id_topic", nullable = true)
 	private Topic topic;
@@ -76,6 +80,14 @@ public class StudyDocument implements Serializable {
 	 */
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 
 	/**

@@ -54,8 +54,13 @@ public class StudentGroupServiceImpl implements StudentGroupService {
 
 	@Transactional
 	@Override
-	public StudentGroup getStudentGroupByUserAndGroupId(int userId,
-			int groupId) {
+	public StudentGroup getStudentGroupByUserAndGroupId(int userId, int groupId) {
 		return studentGroupDao.getStudentGroupByGroupAndUser(groupId, userId);
+	}
+
+	@Override
+	@Transactional
+	public List<StudentGroup> getStudentGroupsByCourseSheduledId(int id) {
+		return studentGroupDao.getStudentGroupsByCourseSheduledId(id);
 	}
 }

@@ -8,59 +8,60 @@ import com.softserve.form.ResetPassword;
 
 public interface UserService {
 
-	public User addUser(User user);
+	User addUser(User user);
 
-	public void deleteUser(User user);
+	void deleteUser(User user);
 
-	public User updateUser(User user);
+	User updateUser(User user);
 
-	public User getUserById(int id);
+	User getUserById(int id);
 
-	public User getUserByEmail(String email);
+	User getUserByEmail(String email);
 
-	public boolean isExist(String email);
+	boolean isExist(String email);
 
-	public List<User> getAllUsers();
+	List<User> getAllUsers();
 
-	public void registrateStudent(Registration registration, String url, String message);
-	
-	public void registrateTeacher(Registration registration, String message);
+	void registrateStudent(Registration registration, String url, String message);
 
-	public User getUserByKey(String key);
+	void registrateTeacher(Registration registration, String message);
 
-	public void remindPassword(User user, String url, String message);
+	User getUserByKey(String key);
 
-	public void restorePassword(User user, ResetPassword resetPassword);
+	void remindPassword(User user, String url, String message);
 
-	public String getEncoderPassword(String password);
+	void restorePassword(User user, ResetPassword resetPassword);
 
-	public void changePasswrod(User user, String password);
+	String getEncoderPassword(String password);
 
-	public boolean isEqualsPasswords(String password, User user);
+	void changePassword(User user, String password);
 
-	public String getCurrentUser();
+	boolean isEqualsPasswords(String password, User user);
 
-	public List<User> getUsersVsLimit(int startPosition, int limitLength, String sortBy, String sortMethod);
+	String getCurrentUser();
 
-	public List<User> getUsersByFirstNameVsLimit(String searchText,
-			int startPosition, int limitLength, String sortBy, String sortMethod);
+	public List<User> getUsersVsLimit(int startPosition, int limitLength,
+			String sortBy, String sortMethod);
 
-	public List<User> getUsersByRoleVsLimit(String searchText,
-			int startPosition, int limitLength, String sortBy, String sortMethod);
+	List<User> getUsersByFirstNameVsLimit(String searchText, int startPosition,
+			int limitLength, String sortBy, String sortMethod);
 
-	public List<User> getUsersByTextVsLimit(String searchText,
-			int startPosition, int limitLength, String sortBy, String sortMethod);
+	List<User> getUsersByRoleVsLimit(String searchText, int startPosition,
+			int limitLength, String sortBy, String sortMethod);
 
-	public List<User> getUsersByLastNameVsLimit(String searchText,
-			int startPosition, int limitLength, String sortBy, String sortMethod);
+	List<User> getUsersByTextVsLimit(String searchText, int startPosition,
+			int limitLength, String sortBy, String sortMethod);
 
-	public long getUsersCount();
+	List<User> getUsersByLastNameVsLimit(String searchText, int startPosition,
+			int limitLength, String sortBy, String sortMethod);
 
-	public long getUsersByFirstNameCount(String searchName);
+	long getUsersCount();
 
-	public long getUsersByRoleCount(String searchCategory);
+	long getUsersByFirstNameCount(String searchName);
 
-	public long getUsersByTextCount(String searchText);
+	long getUsersByRoleCount(String searchCategory);
 
-	public long getUsersByLastNameCount(String searchText);
+	long getUsersByTextCount(String searchText);
+
+	long getUsersByLastNameCount(String searchText);
 }

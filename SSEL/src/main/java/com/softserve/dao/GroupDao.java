@@ -14,40 +14,50 @@ public interface GroupDao {
 	 * @param newGroup new group
 	 * @return added group
 	 */
-	public Group addGroup(Group newGroup);
+	Group addGroup(Group newGroup);
 	
 	/**
 	 * Update information about some group
 	 * @param updatedGroup updated group information
 	 * @return updated group
 	 */
-	public Group updateGroup(Group updatedGroup);
+	Group updateGroup(Group updatedGroup);
 	
 	/**
 	 * Delete group from groups list
 	 * @param group group that'll be deleted
+	 * @param deleted true - mark as deleted, false - restore
 	 */
-	public void deleteGroup(Group group);
+	void setGroupDeleted(Group group, boolean deleted);
 	
 	/**
 	 * Return group from groups list by id
 	 * @param groupId unique group identifier
 	 * @return group if exists, and null otherwise
 	 */
-	public Group getGroupById(int groupId);
+	Group getGroupById(int groupId);
 	
 	/**
 	 * Return group from groups list by course 
 	 * @param schedulerId unique course identifier 
 	 * @return
 	 */
-	public Group getGroupByScheduler(int schedulerId);
+	Group getGroupByScheduler(int schedulerId);
 	
 	/**
 	 * Return groups from some student
 	 * @param userId unique user identifier with STUDENT role 
 	 * @return
 	 */
-	public List<Group> getGroupsByStudent(int userId);
-	
+	List<Group> getGroupsByStudent(int userId);
+	/**
+	 * Return all groups which is not deleted
+	 * @return list of groups
+	 */
+	List<Group> getAllGroups();
+	/**
+	 * Return all deleted groups
+	 * @return list of groups
+	 */
+	List<Group> getAllDeletedGroups();
 }

@@ -68,11 +68,11 @@
                    				${block.name}
                    			</td>
                    			<td>
-                   				${ratings.get(index).mark}
+                   				${ratings[index].mark}
                    			</td>
                    			<td>
                    				<c:choose>
-                   					<c:when test="${ratings.get(index).mark > 60}">
+                   					<c:when test="${ratings[index].mark >= 60}">
                    						<div class="alert alert-success"><spring:message code="label.test_success" />
                    						</div>
                    					</c:when>

@@ -26,7 +26,7 @@ public class SubjectServiceImpl implements SubjectService {
 	@Override
 	@Transactional
 	public void deleteSubject(Subject subject) {
-		subjectDao.deleteSubject(subject);
+		subjectDao.setSubjectDeleted(subject, true);
 	}
 
 	@Override
@@ -105,6 +105,11 @@ public class SubjectServiceImpl implements SubjectService {
 	@Override
 	public long getSubjectsByTextCount(String searchText) {
 		return subjectDao.getSubjectsByTextCount(searchText);
+	}
+
+	@Override
+	public void restoreSubject(Subject subject) {
+		subjectDao.setSubjectDeleted(subject, false);
 	}
 
 }
