@@ -67,5 +67,11 @@
 			</column>
 		</addColumn>
 	</changeSet>
+	
+	<changeSet id="2014-11-18-update-table-log" author="Vitalik">
+		<sql>
+		<!-- Some important code goes here. Stay tunes! -->
+		</sql>
+	</changeSet>
 
 </databaseChangeLog>
