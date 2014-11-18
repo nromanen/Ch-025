@@ -50,6 +50,7 @@ public class SearchServiceImpl implements SearchService {
 
 
 	@Override
+	@Transactional
 	public List<Subject> getSubjectsByCategoryIdWithLimit(int categoryId, int pageNumber, int pageSize,
 			String sortBy, boolean isReverse) {
 		return subjectDao.getSubjectsByCategoryIdWithLimit(categoryId, pageNumber, pageSize, sortBy, isReverse);

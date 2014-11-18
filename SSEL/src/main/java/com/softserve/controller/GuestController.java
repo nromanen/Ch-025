@@ -173,16 +173,18 @@ public class GuestController {
 		pageSize = pageSize > 0 ? pageSize : PAGE_SIZE;
 		Long numberOfPages = 0l;
 		List<Category> categories = searchService.getCategoriesByNamePart(search, pageNumber, pageSize);
-		List<Subject> subjects = searchService.getSubjectsByNamePart(search, pageNumber, pageSize, sortBy, isReverse);
+		List<Subject> subjects = searchService.getSubjectsByNamePart(search, pageNumber, 
+				pageSize, sortBy, isReverse);
+		Long count = searchService.getSubjectsQuantityByNamePart(search);
+		numberOfPages = (count % pageSize > 0) ? count / pageSize + 1 : count / pageSize;
+		model.addAttribute("numberOfPages", numberOfPages);
 		model.addAttribute("catList", categories);
 		model.addAttribute("subjList", subjects);
 		model.addAttribute("search", search);
 		model.addAttribute("pageSize", pageSize);
 		model.addAttribute("pageNumber", pageNumber);
 		model.addAttribute("isReverse", isReverse);
-		Long count = searchService.getSubjectsQuantityByNamePart(search);
-		numberOfPages = (count % pageSize > 0) ? count / pageSize + 1 : count / pageSize;
-		model.addAttribute("numberOfPages", numberOfPages);
+
 		return "search";
 	}
 	
@@ -196,7 +198,8 @@ public class GuestController {
 		pageSize = pageSize > 0 ? pageSize : PAGE_SIZE;
 		Long numberOfPages = 0l;
 		List<Subject> subjects = 
-				searchService.getSubjectsByCategoryIdWithLimit(categoryId, pageNumber, pageSize, sortBy, isReverse);
+				searchService.getSubjectsByCategoryIdWithLimit(categoryId, pageNumber, 
+						pageSize, sortBy, isReverse);
 		Category category = categoryService.getCategoryById(categoryId);
 		Long count = subjectService.getSubjectsByCategoryCount(category.getName());
 		numberOfPages = (count % pageSize > 0) ? count / pageSize + 1 : count / pageSize;

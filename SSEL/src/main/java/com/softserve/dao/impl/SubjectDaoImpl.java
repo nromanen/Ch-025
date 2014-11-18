@@ -105,7 +105,7 @@ public class SubjectDaoImpl implements SubjectDao {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Subject> criteriaQuery = criteriaBuilder.createQuery(Subject.class);
 		Root<Subject> root = criteriaQuery.from(Subject.class);
-		Root<Category> category = criteriaQuery.from(Category.class);
+		Join<Subject, Category> category = root.join("category");
 		Join<Subject, CourseScheduler> scheduler = root.join("schedulers");
 		criteriaQuery.select(root).distinct(true);
 		List<Predicate> predicates = new ArrayList<Predicate>();
@@ -262,11 +262,10 @@ public class SubjectDaoImpl implements SubjectDao {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Subject> criteriaQuery = criteriaBuilder.createQuery(Subject.class);
 		Root<Subject> root = criteriaQuery.from(Subject.class);
-		Root<Category> category = criteriaQuery.from(Category.class);
+		Join<Subject, Category> category = root.join("category");
 		Join<Subject, CourseScheduler> scheduler = root.join("schedulers");
 		criteriaQuery.select(root).distinct(true);
 		List<Predicate> predicates = new ArrayList<Predicate>();
-		
 		Predicate predicate = criteriaBuilder.equal(root.<Integer>get("category"), categoryId);
 		criteriaQuery.where(predicate);
 		Predicate predicateJoin = criteriaBuilder.equal(scheduler.get("subject"), root.get("id"));
