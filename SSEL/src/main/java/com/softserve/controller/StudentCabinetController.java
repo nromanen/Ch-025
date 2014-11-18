@@ -143,7 +143,6 @@ public class StudentCabinetController {
 	@RequestMapping(value = "/modules", method = RequestMethod.GET)
 	public String printModules(
 			@RequestParam(value = "courseId", required = true) Integer courseId, Model model) {
-		try {
 		User user = userService.getUserByEmail(userService.getCurrentUser());//(User) session.getAttribute("user");
 		int userId = user.getId();
 		List<Block> blocks = blockService.getBlocksBySubjectId(courseId);
@@ -156,9 +155,6 @@ public class StudentCabinetController {
 		model.addAttribute("subject", subject);
 		model.addAttribute("table", "active");
 		model.addAttribute("courseId", courseId);
-		} catch(NullPointerException e) {
-			return "redirect:student?table=active";
-		}
 		return "modules";
 	}
 	/**
@@ -188,11 +184,8 @@ public class StudentCabinetController {
 					}
 				}
 			}
-		if (isSupportedBrowserForPlugin(request.getHeader("User-Agent"))) {
-			model.addAttribute("isSupported", true);
-		} else {
-			model.addAttribute("isSupported", false);
-		}
+		boolean isSupported = isSupportedBrowserForPlugin(request.getHeader("User-Agent"));
+		model.addAttribute("isSupported", isSupported);
 		model.addAttribute("docs", documents);
 		model.addAttribute("block_name", topic.getBlock().getName());
 		model.addAttribute("topic order", topic.getOrder());
@@ -277,10 +270,7 @@ public class StudentCabinetController {
 	 * @return true - for Opera, Chrome, Mozilla, false - IE
 	 */
 	private boolean isSupportedBrowserForPlugin(String userAgent) {
-	    if(userAgent.contains("MSIE")){ 
-	        return false;
-	    }
-	    return true;
+	    return userAgent.contains("MSIE");
 	}
 	
 }

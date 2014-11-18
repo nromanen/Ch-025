@@ -36,7 +36,7 @@ public class UserProfileController {
 	private static final Logger LOG = LoggerFactory
 			.getLogger(UserProfileController.class);
 
-	private static final String NAME_PATTERN = "[A-Z–ê-–Ø–Ü–á–Ñ]{1}[A-Z–ê-–Ø–Ü–á–Ña-z–∞-—è—ñ—ó—î]{1,30}";
+	private static final String NAME_PATTERN = "[A-Z¿-ﬂ≤Ø™]{1}[A-Z¿-ﬂ≤Ø™a-z‡-ˇ≥ø∫]{1,30}";
 	private static final String ATTRIBUTE_VALID = "valid";
 	private static final String ATTRIBUTE_IMAGE = "image";
 	private static final String ATTRIBUTE_USER = "user";

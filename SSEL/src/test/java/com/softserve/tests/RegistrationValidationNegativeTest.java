@@ -18,12 +18,12 @@ import org.springframework.validation.BindingResult;
 
 import com.softserve.form.Registration;
 import com.softserve.service.UserService;
-import com.softserve.validator.RegistrationValidation;
+import com.softserve.validator.RegistrationValidator;
 
 @RunWith(Parameterized.class)
 public class RegistrationValidationNegativeTest {
 	
-	private RegistrationValidation registrationValidation = new RegistrationValidation();
+	private RegistrationValidator registrationValidation = new RegistrationValidator();
 	private Registration registration = new Registration();
 	private UserService userService;
 	

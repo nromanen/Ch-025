@@ -10,7 +10,7 @@ import com.softserve.form.ResetPassword;
 import com.softserve.service.UserService;
 
 @Component
-public class ResetPasswordValidation implements Validator {
+public class ResetPasswordValidator implements Validator {
 
 	private static final String PASSWORD_PATTERN = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[//@/./&/!#/$%/^/*/?])(?!.*\\s).{4,20}$";
 	

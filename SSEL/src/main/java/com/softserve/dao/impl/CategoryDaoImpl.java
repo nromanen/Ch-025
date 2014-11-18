@@ -23,6 +23,7 @@ import com.softserve.entity.Category;
  * 
  * @author Roma Khomyshyn
  * @author Andriy Shutka
+ * @author Anatoliy Vacaliuck
  */
 @Repository
 public class CategoryDaoImpl implements CategoryDao {
@@ -56,21 +57,6 @@ public class CategoryDaoImpl implements CategoryDao {
 		return category;
 	}
 
-	/**
-	 * @see com.softserve.dao.CategoryDao#deleteCategory(com.softserve.entity.Category
-	 *      )
-	 */
-	@Override
-	public void deleteCategory(Category category) {
-		Query query = entityManager
-				.createQuery("DELETE FROM Category c WHERE c.id = :id");
-		query.setParameter("id", category.getId());
-		if (query.executeUpdate() != 0) {
-			LOG.debug("Deleted category(id = {})", category.getId());
-		} else {
-			LOG.warn("Tried to delete category(id = {})", category.getId());
-		}
-	}
 
 	/**
 	 * @see com.softserve.dao.CategoryDao#getAllCategories()
@@ -80,8 +66,9 @@ public class CategoryDaoImpl implements CategoryDao {
 	public List<Category> getAllCategories() {
 		LOG.debug("Get all categories");
 		List<Category> categories = new ArrayList<>();
-		categories.addAll(entityManager.createQuery("FROM Category")
-				.getResultList());
+		categories.addAll(entityManager.createQuery("FROM Category c WHERE c.isDeleted = :val")
+		.setParameter("val", false)
+		.getResultList());
 		return categories;
 	}
 
@@ -105,22 +92,54 @@ public class CategoryDaoImpl implements CategoryDao {
 				.createQuery(Category.class);
 		Root<Category> root = criteriaQuery.from(Category.class);
 		criteriaQuery.select(root);
+		List<Predicate> predicates = new ArrayList<Predicate>();
 		Predicate predicate = criteriaBuilder.like(
 				criteriaBuilder.upper(root.<String> get("name")), "%"
 						+ namePart.toUpperCase() + "%");
-
-		criteriaQuery.where(predicate);
+		Predicate predicateDeleted = criteriaBuilder.equal(root.get("isDeleted"), false); 
+		predicates.add(predicate);
+		predicates.add(predicateDeleted);
+		criteriaQuery.where(predicates.toArray(new Predicate[] {}));
 		Query query = entityManager.createQuery(criteriaQuery);
 		query.setFirstResult((pageNumber - 1) * pageSize);
 		query.setMaxResults(pageSize);
 		return query.getResultList();
 	}
-	
+	/**
+	 * @see com.softserve.dao.CategoryDao#getCategoriesQuantityByNamePart(String)
+	 */
 	public Long getCategoriesQuantityByNamePart(String namePart) {
 		Query query = entityManager
-				.createQuery("SELECT COUNT (*) FROM Category s WHERE name LIKE :namepart");
+				.createQuery("SELECT COUNT (*) FROM Category s WHERE name LIKE :namepart AND s.isDeleted = :val");
 		query.setParameter("namepart", "%" + namePart + "%");
+		query.setParameter("val", false);
 		return (Long) query.getSingleResult();
+	}
+	/**
+	 * @see com.softserve.dao.CategoryDao#setCategoryDeleted(Category, boolean)
+	 */
+	@Override
+	public void setCategoryDeleted(Category category, boolean deleted) {
+		Query query = entityManager
+				.createQuery("UPDATE Category c SET c.isDeleted = :del WHERE c.id = :id");
+		query.setParameter("id", category.getId());
+		query.setParameter("del", deleted);
+		if (query.executeUpdate() != 0) {
+			LOG.debug("Deleted = {} category(id = {})", deleted,category.getId());
+		} else {
+			LOG.warn("Tried to delete category(id = {})", category.getId());
+		}		
+	}
+	/**
+	 * @see com.softserve.dao.CategoryDao#getAllDeletedCategories()
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Category> getAllDeletedCategories() {
+		LOG.debug("Get all deleted categories");
+		Query query = entityManager.createQuery("SELECT c FROM Category c WHERE c.isDeleted = :val");
+		query.setParameter("val", true);
+		return query.getResultList();
 	}
 
 }

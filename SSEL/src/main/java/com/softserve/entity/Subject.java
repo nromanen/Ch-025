@@ -37,6 +37,9 @@ public class Subject {
 
 	@Column(name = "description")
 	private String description;
+	
+	@Column(name = "deleted")
+	private boolean isDeleted;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "id_category", nullable = false)
@@ -69,6 +72,14 @@ public class Subject {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 
 	public String getName() {
