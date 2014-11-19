@@ -91,7 +91,7 @@
 
 																</c:when>
 
-																<c:when test="${counter == fn:length(topicList)-1}">
+																<c:when test="${counter == blockSizesArray[block.id]-1}">
 																	<button type="button"
 																		class="btn btn-outline btn-primary btn-xs"
 																		onclick="location.href='changeTopicOrder?updown=up&topicId=${topic.id}&subjectId=${subject.id}'">

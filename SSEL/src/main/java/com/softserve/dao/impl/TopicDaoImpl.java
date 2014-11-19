@@ -110,7 +110,7 @@ public class TopicDaoImpl implements TopicDao {
 				.getResultList();
 	}
 
-	@SuppressWarnings("unchecked")
+/*	@SuppressWarnings("unchecked")
 	@Override
 	public Integer getTopicsCountByBlockId(int id) {
 		LOG.debug("Get", id);
@@ -118,6 +118,6 @@ public class TopicDaoImpl implements TopicDao {
 				+ "WHERE t.block.id = :id ");
 		query.setParameter("id", id);
 		return Integer.parseInt((String) query.getResultList().get(0));
-	}
+	}*/
 
 }

@@ -210,6 +210,8 @@
 <!-- The main application script -->
 <script src="resources/js/main.js"></script>
 
+
+
 <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
 <link rel="stylesheet" href="resources/css/jquery.fileupload.css">
 <link rel="stylesheet" href="resources/css/jquery.fileupload-ui.css">
@@ -262,6 +264,10 @@
 				</h4>
 			</div>
 			<div class="modal-body">	
+	
+
+			<iframe seamless="seamless" width="570" height="700" id="remote_site" src="teacherCourse"></iframe>
+  
 
 
 			</div>

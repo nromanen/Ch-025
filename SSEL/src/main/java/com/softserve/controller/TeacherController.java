@@ -5,7 +5,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -174,6 +176,7 @@ public class TeacherController {
 	public String teacherCourse(@RequestParam(value = "subjectId", required = false) Integer subjectId, Model model) {
 		List<Subject> subjects = subjectService.getAllSubjects();
 		List<Category> categories = categoryService.getAllCategories();
+		Map<Integer, Integer> blockSizesArray = new HashMap<Integer, Integer>();
 
 		model.addAttribute("subList", subjects);
 		model.addAttribute("catList", categories);
@@ -181,10 +184,15 @@ public class TeacherController {
 			List<Topic> topics = topicService.getTopicsBySubjectId(subjectId);
 			List<Block> blocks = blockService.getBlocksBySubjectId(subjectId);
 			Subject subject = subjectService.getSubjectById(subjectId);
+			
+			for (Block block:blocks) {
+				blockSizesArray.put(block.getId(), topicService.getTopicsByBlockId(block.getId()).size());
+			}
 
 			model.addAttribute("topicList", topics);
 			model.addAttribute("blockList", blocks);
 			model.addAttribute("subject", subject);
+			model.addAttribute("blockSizesArray", blockSizesArray);
 		} catch (NullPointerException e) {
 			return "teacher";
 		}

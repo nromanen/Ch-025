@@ -57,5 +57,3 @@ public interface TopicDao {
 	List<Topic> getTopicsBySubjectId(int id);
 }
 
-	List<Topic> getTopicsBySubjectId(int id);
-}
