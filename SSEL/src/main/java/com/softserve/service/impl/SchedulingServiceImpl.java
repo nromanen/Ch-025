@@ -30,9 +30,9 @@ public class SchedulingServiceImpl implements SchedulingService {
 
 	@Autowired
 	private MailService mailService;
-
+	
 	@Override
-	@Scheduled(cron = "0 43 16 * * *")
+	@Scheduled(cron = "${cron.execute.course_begin}")
 	public void courseBegin() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.DATE, BEFORE_COURSE_BEGIN);

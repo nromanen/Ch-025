@@ -8,19 +8,16 @@ import org.springframework.validation.Validator;
 
 import com.softserve.form.Registration;
 import com.softserve.service.UserService;
+import com.softserve.util.Patterns;
 
 /**
  * Class for validation registration form
+ * 
  * @author Khomyshyn Roman
  */
 
 @Component
 public class RegistrationValidator implements Validator {
-
-
-	private static final String NAME_PATTERN = "[A-ZА-ЯІЇЄ]{1}[A-ZА-ЯІЇЄa-zа-яіїє]{1,30}";
-	private static final String EMAIL_PATTERN = "[A-Za-z0-9_\\.-]{1,30}@[A-Za-z0-9_\\.-]{1,30}";
-	private static final String PASSWORD_PATTERN = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[//@/./&/!#/$%/^/*/?])(?!.*\\s).{4,20}$";
 
 	@Autowired
 	private UserService userService;
@@ -42,10 +39,10 @@ public class RegistrationValidator implements Validator {
 				"dataerror.field_required");
 		Registration registration = (Registration) target;
 
-		if (!registration.getFirstName().matches(NAME_PATTERN)) {
+		if (!registration.getFirstName().matches(Patterns.NAME_PATTERN)) {
 			errors.rejectValue("firstName", "dataerror.firstname");
 		}
-		if (!registration.getLastName().matches(NAME_PATTERN)) {
+		if (!registration.getLastName().matches(Patterns.NAME_PATTERN)) {
 			errors.rejectValue("lastName", "dataerror.lastname");
 		}
 
@@ -59,15 +56,15 @@ public class RegistrationValidator implements Validator {
 					"dataerror.passwords_do_not_match");
 		}
 
-		if (!registration.getEmail().matches(EMAIL_PATTERN)) {
+		if (!registration.getEmail().matches(Patterns.EMAIL_PATTERN)) {
 			errors.rejectValue("email", "dataerror.email_example");
 		}
 
-		if (!registration.getPassword().matches(PASSWORD_PATTERN)) {
+		if (!registration.getPassword().matches(Patterns.PASSWORD_PATTERN)) {
 			errors.rejectValue("password", "dataerror.password_pattern");
 		}
 
-		if (registration.getPassword().length() < 4) {
+		if (registration.getPassword().length() < Patterns.PASSWORD_MIN_LENGTH) {
 			errors.rejectValue("password", "dataerror.minimum_4_characters");
 		}
 	}

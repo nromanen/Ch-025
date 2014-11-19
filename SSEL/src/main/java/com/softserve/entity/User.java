@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,6 +27,10 @@ public class User {
 
 	public enum Roles {
 		ADMIN, TEACHER, STUDENT
+	};
+	
+	public enum Social {
+		REGISTRATION, FACEBOOK, TWITTER
 	};
 
 	@Id
@@ -61,7 +67,13 @@ public class User {
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "role", nullable = false)
+	@Enumerated(EnumType.STRING)
 	private Role role;
+	
+	@Column(name = "social", nullable = false)
+	@Enumerated(EnumType.STRING)
+	private Social social;
+	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
 	private List<Subject> subjects = new ArrayList<>();
 
@@ -141,6 +153,14 @@ public class User {
 
 	public void setRole(Role role) {
 		this.role = role;
+	}
+
+	public Social getSocial() {
+		return social;
+	}
+
+	public void setSocial(Social social) {
+		this.social = social;
 	}
 
 	public List<StudentGroup> getGroups() {
