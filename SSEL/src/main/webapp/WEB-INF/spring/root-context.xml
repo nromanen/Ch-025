@@ -26,4 +26,6 @@
 	<import resource="mail.xml" />
 
 	<import resource="security.xml" />
+
+	<!-- <import resource="social.xml" /> -->
 </beans>

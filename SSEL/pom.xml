@@ -292,16 +292,6 @@
             <groupId>org.springframework.social</groupId>
             <artifactId>spring-social-facebook</artifactId>
             <version>${spring.social.facebook.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>spring-social-core</artifactId>
-                    <groupId>org.springframework.social</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>spring-social-config</artifactId>
-                    <groupId>org.springframework.social</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
 	</dependencies>
 	<build>

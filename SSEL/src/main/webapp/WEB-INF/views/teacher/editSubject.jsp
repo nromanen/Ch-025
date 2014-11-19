@@ -6,6 +6,8 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 
 <script src="resources/ckeditor/ckeditor.js"></script>
+<script src="resources/datepicker/js/locales/bootstrap-datepicker.ru.js"></script>
+<script src="resources/datepicker/js/locales/bootstrap-datepicker.ua.js"></script>
 
 <div class="row">
 	<div class="col-lg-12">
@@ -23,21 +25,25 @@
 				<div class="form-group">
 					<label><spring:message code="label.teacher.category"/></label>
 					<form:select class="form-control" items="${catList}" path="category" itemValue="id" itemLabel="name" style="width: 40%"/>
-					<p class="help-block"><spring:message code="label.teacher.selectCategory"/></p>
+					<p class="help-block">
+						<spring:message code="label.teacher.selectCategory"/>
+					</p>
 				</div>
 
 				<div class="form-group">
 					<label><spring:message code="label.teacher.name"/></label>
 					<form:input class="form-control" path="name" style="width: 40%" value="${subject.name}" />
 					<form:errors path="name" cssClass="error" />
-					<p class="help-block"><spring:message code="label.teacher.inputOrEditSubjectName"/></p>
+					<p class="help-block">
+						<spring:message code="label.teacher.inputOrEditSubjectName"/>
+					</p>
 				</div>
 				
-				<label><spring:message code="label.teacher.content"/></label>
+				<label>
+					<spring:message code="label.teacher.content"/>
+				</label>
 				<form:textarea id="description" path="description" rows="15" cols="80"/>
 				
-				
-
 				<script>
 					CKEDITOR.replace('description');
 				</script>
@@ -48,17 +54,21 @@
 
 				<div class="form-group">
 					
-					<label><spring:message code="label.teacher.startDate"/></label>
+					<label>
+						<spring:message code="label.teacher.startDate"/>
+					</label>
 					<br>
+					<c:set value="${pageContext.response.locale}" var="local" />
 					<input name="startDate" class="datepicker" placeholder="DD-MM-YYYY"
-						value="${startDate}" id="startDate">
+						value="${startDate}" id="startDate" data-date-language="${local}" 
+						data-date-autoclose="true" readonly="readonly">
 					<br>
 					<br>
 					<label><spring:message code="label.teacher.endDate"/></label>
 					<br> 
 					<input name="endDate" class="datepicker" placeholder="DD-MM-YYYY" 
-						value="${endDate}" id="endDate">
-						
+						value="${endDate}" id="endDate" data-date-language="${local}"
+						data-date-autoclose="true" readonly="readonly">
 				</div>
 				
 				<br> <input type="submit" class="btn btn-primary btn-lg" value=<spring:message code="label.teacher.save"/>>
