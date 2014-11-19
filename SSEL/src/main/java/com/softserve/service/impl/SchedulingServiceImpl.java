@@ -72,9 +72,9 @@ public class SchedulingServiceImpl implements SchedulingService {
 //	@Scheduled(cron = "45 * * * * *") // every 15 seconds
 	public void deleteOldLogs() {
 		LOG.info("Deleting logs older than a year by SchedulingService");
-		GregorianCalendar calendar = new GregorianCalendar();
-		calendar.set(Calendar.YEAR, (calendar.get(Calendar.YEAR)-1));
-		logService.deleteLogsDueDate(calendar);
+		GregorianCalendar deleteDate = new GregorianCalendar();
+		deleteDate.set(Calendar.YEAR, (deleteDate.get(Calendar.YEAR) - 1));
+		logService.deleteLogsDueDate(deleteDate);
 	}
 
 }

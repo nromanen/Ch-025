@@ -86,32 +86,35 @@
 										code="label.previous" /></a></li>
 						</c:if>
 						<c:if test="${pageNumb > 0}">
-							<li><a
-								href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 1}"><spring:message
+							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 1}"><spring:message
 										code="label.previous" /></a></li>
-							<li><a
-								href="${pageContext.request.contextPath}/viewLogs?pageNumb=0">1</a></li>
+							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=0">1</a></li>
 						</c:if>
-						<c:if test="${pageNumb > 2}">
+						<c:if test="${pageNumb > 3}">
 							<li><a href="#">...</a></li>
 						</c:if>
-						<c:if test="${pageNumb > 1}">
-							<li><a
-								href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 1}">${pageNumb}</a></li>
+						<c:if test="${pageNumb > 2}">
+							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 2}">${pageNumb - 1}</a></li>
 						</c:if>
-						<li class="active"><a href="#">${pageNumb + 1}</a></li>
+						<c:if test="${pageNumb > 1}">
+							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 1}">${pageNumb}</a></li>
+						</c:if>
+							<li class="active"><a href="#">${pageNumb + 1}</a></li>
 						<c:if test="${pageNumb < (numberOfPages - 2)}">
-							<li><a
-								href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 1}">${pageNumb + 2}</a></li>
+							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 1}">${pageNumb + 2}</a></li>
 						</c:if>
 						<c:if test="${pageNumb < (numberOfPages - 3)}">
+							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 2}">${pageNumb + 3}</a></li>
+						</c:if>
+						<c:if test="${pageNumb < (numberOfPages - 4)}">
+							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 3}">${pageNumb + 4}</a></li>
+						</c:if>
+						<c:if test="${pageNumb < (numberOfPages - 5)}">
 							<li><a href="#">...</a></li>
 						</c:if>
 						<c:if test="${pageNumb < (numberOfPages - 1)}">
-							<li><a
-								href="${pageContext.request.contextPath}/viewLogs?pageNumb=${numberOfPages-1}">${numberOfPages}</a></li>
-							<li><a
-								href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 1}"><spring:message
+							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${numberOfPages-1}">${numberOfPages}</a></li>
+							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 1}"><spring:message
 										code="label.next" /></a></li>
 						</c:if>
 						<c:if test="${pageNumb > (numberOfPages - 2)}">
@@ -181,46 +184,50 @@ No exception
 	<!-- Pagination scroll -->
 	<div align="right">
 		<nav>
-			<ul class="pagination">
-				<c:if test="${pageNumb < 1}">
-					<li class="disabled"><a href="#"><spring:message
-								code="label.previous" /></a></li>
-				</c:if>
-				<c:if test="${pageNumb > 0}">
-					<li><a
-						href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 1}"><spring:message
-								code="label.previous" /></a></li>
-					<li><a
-						href="${pageContext.request.contextPath}/viewLogs?pageNumb=0">1</a></li>
-				</c:if>
-				<c:if test="${pageNumb > 2}">
-					<li><a href="#">...</a></li>
-				</c:if>
-				<c:if test="${pageNumb > 1}">
-					<li><a
-						href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 1}">${pageNumb}</a></li>
-				</c:if>
-				<li class="active"><a href="#">${pageNumb + 1}</a></li>
-				<c:if test="${pageNumb < (numberOfPages - 2)}">
-					<li><a
-						href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 1}">${pageNumb + 2}</a></li>
-				</c:if>
-				<c:if test="${pageNumb < (numberOfPages - 3)}">
-					<li><a href="#">...</a></li>
-				</c:if>
-				<c:if test="${pageNumb < (numberOfPages - 1)}">
-					<li><a
-						href="${pageContext.request.contextPath}/viewLogs?pageNumb=${numberOfPages-1}">${numberOfPages}</a></li>
-					<li><a
-						href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 1}"><spring:message
-								code="label.next" /></a></li>
-				</c:if>
-				<c:if test="${pageNumb > (numberOfPages - 2)}">
-					<li class="disabled"><a href="#"><spring:message
-								code="label.next" /></a></li>
-				</c:if>
-			</ul>
-		</nav>
+					<ul class="pagination">
+						<c:if test="${pageNumb < 1}">
+							<li class="disabled"><a href="#"><spring:message
+										code="label.previous" /></a></li>
+						</c:if>
+						<c:if test="${pageNumb > 0}">
+							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 1}"><spring:message
+										code="label.previous" /></a></li>
+							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=0">1</a></li>
+						</c:if>
+						<c:if test="${pageNumb > 3}">
+							<li><a href="#">...</a></li>
+						</c:if>
+						<c:if test="${pageNumb > 2}">
+							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 2}">${pageNumb - 1}</a></li>
+						</c:if>
+						<c:if test="${pageNumb > 1}">
+							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 1}">${pageNumb}</a></li>
+						</c:if>
+							<li class="active"><a href="#">${pageNumb + 1}</a></li>
+						<c:if test="${pageNumb < (numberOfPages - 2)}">
+							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 1}">${pageNumb + 2}</a></li>
+						</c:if>
+						<c:if test="${pageNumb < (numberOfPages - 3)}">
+							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 2}">${pageNumb + 3}</a></li>
+						</c:if>
+						<c:if test="${pageNumb < (numberOfPages - 4)}">
+							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 3}">${pageNumb + 4}</a></li>
+						</c:if>
+						<c:if test="${pageNumb < (numberOfPages - 5)}">
+							<li><a href="#">...</a></li>
+						</c:if>
+						<c:if test="${pageNumb < (numberOfPages - 1)}">
+							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${numberOfPages-1}">${numberOfPages}</a></li>
+							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 1}"><spring:message
+										code="label.next" /></a></li>
+						</c:if>
+						<c:if test="${pageNumb > (numberOfPages - 2)}">
+							<li class="disabled"><a href="#"><spring:message
+										code="label.next" /></a></li>
+						</c:if>
+					</ul>
+				</nav>
+
 	</div>
 </div>
 </div>
