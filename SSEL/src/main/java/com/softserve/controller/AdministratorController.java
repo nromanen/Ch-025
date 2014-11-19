@@ -46,6 +46,13 @@ public class AdministratorController {
 	private static final Logger LOG = LoggerFactory
 			.getLogger(AdministratorController.class);
 	private int activeTeacherRequests;
+	private int elementsOnPage;
+	private int currentPage;
+	private int startPosition;
+	private int limitLength;
+	private String sortBy;
+	private String sortMethod;
+	long count;
 
 	@Autowired
 	private SubjectService subjectService;
@@ -106,19 +113,14 @@ public class AdministratorController {
 	 * @return the string
 	 */
 	@RequestMapping(value = "/viewAllCategories", method = RequestMethod.GET)
-	public String viewAllCategories(
-			@RequestParam(value = "successMessage", required = false) String successMessage,
-			@RequestParam(value = "errorMessage", required = false) String errorMessage,
-			Model model) {
+	public String viewAllCategories(@RequestParam(value = "successMessage", required = false) String successMessage,
+									@RequestParam(value = "errorMessage", required = false) String errorMessage,
+									Model model) {
 		LOG.debug("Visit viewAllCategories page");
 		List<Category> categories = categoryService.getAllCategories();
 		model.addAttribute("categories", categories);
-		if (successMessage != null) {
-			model.addAttribute("successMessage", successMessage);
-		}
-		if (errorMessage != null) {
-			model.addAttribute("errorMessage", errorMessage);
-		}
+		setMessage(model, successMessage, errorMessage);
+
 		activeTeacherRequests = (int) teacherRequestService
 				.getAllActiveTeacherRequestsCount();
 		model.addAttribute("activeTeacherRequests", activeTeacherRequests);
@@ -126,7 +128,7 @@ public class AdministratorController {
 	}
 
 	/**
-	 * Delete category it's method that delete category and redirect to page with categories.
+	 * deleteCategory delete category and redirect to page with categories.
 	 *
 	 * @param categoryId the category id
 	 * @param model the model
@@ -208,52 +210,28 @@ public class AdministratorController {
 			Model model) {
 		LOG.debug("Visit viewAllUsers page");
 		List<User> users = new ArrayList<User>();
-		int startPosition;
-		int limitLength;
-		long count = 0;
-		int pages;
-		if (successMessage != null) {
-			model.addAttribute("successMessage", successMessage);
-		}
 
-		if (errorMessage != null) {
-			model.addAttribute("errorMessage", errorMessage);
-		}
+		setMessage(model, successMessage, errorMessage);
+		setPaginationProperties(model, elementsOnPage, currentPage);
+		setSortParameters (model, sortBy, sortMethod);
 
-		if (elementsOnPage == null) {
-			elementsOnPage = DEFAULT_ELEMENTS_ON_PAGE;
-		}
-
-		if (currentPage == null) {
-			currentPage = 1;
-		}
-		startPosition = (currentPage - 1) * elementsOnPage;
-		limitLength = elementsOnPage;
-
-//		count = userService.getUsersCount();
-//		pages = (int) count / elementsOnPage;
-
-		if (sortBy == null && sortMethod == null) {
-			sortBy = "registration";
-			sortMethod = "desc";
-		}
 		if (searchText != null && !searchText.equals("")
 				&& searchOption != null) {
 			if (searchOption.equals("all")) {
 				users = userService.getUsersByTextVsLimit(searchText,
-						startPosition, limitLength, sortBy, sortMethod);
+						startPosition, limitLength, this.sortBy, this.sortMethod);
 				count = userService.getUsersByTextCount(searchText);
 			} else if (searchOption.equals("userFirstName")) {
 				users = userService.getUsersByFirstNameVsLimit(searchText,
-						startPosition, limitLength, sortBy, sortMethod);
+						startPosition, limitLength, this.sortBy, this.sortMethod);
 				count = userService.getUsersByFirstNameCount(searchText);
 			} else if (searchOption.equals("userLastName")) {
 				users = userService.getUsersByLastNameVsLimit(searchText,
-						startPosition, limitLength, sortBy, sortMethod);
+						startPosition, limitLength, this.sortBy, this.sortMethod);
 				count = userService.getUsersByLastNameCount(searchText);
 			} else if (searchOption.equals("role")) {
 				users = userService.getUsersByRoleVsLimit(searchText,
-						startPosition, limitLength, sortBy, sortMethod);
+						startPosition, limitLength, this.sortBy, this.sortMethod);
 				count = userService.getUsersByRoleCount(searchText);
 			}
 			model.addAttribute("searchText", searchText);
@@ -262,27 +240,14 @@ public class AdministratorController {
 		} else {
 			count = userService.getUsersCount();
 			users = userService.getUsersVsLimit(startPosition, limitLength,
-					sortBy, sortMethod);
+					this.sortBy, this.sortMethod);
 		}
 
-		pages = (int) count / elementsOnPage;
-		if ((count % elementsOnPage) != 0) {
-			pages++;
-		}
+		setPagesCount (model, count);
+		setAactiveTeacherRequests (model);
 
-
-		List<Role> roles = roleService.getAllRoles();
-		int activeTeacherRequests = (int) teacherRequestService
-				.getAllActiveTeacherRequestsCount();
-
-		model.addAttribute("sortBy", sortBy);
-		model.addAttribute("sortMethod", sortMethod);
-		model.addAttribute("activeTeacherRequests", activeTeacherRequests);
 		model.addAttribute("users", users);
-		model.addAttribute("roles", roles);
-		model.addAttribute("pagesCount", pages);
-		model.addAttribute("elementsOnPage", elementsOnPage);
-		model.addAttribute("currentPage", currentPage);
+
 		return "viewAllUsers";
 	}
 
@@ -317,14 +282,14 @@ public class AdministratorController {
 		if (userId != null && roleId != null) {
 			User user = userService.getUserById(userId);
 			Role role = roleService.getRoleById(roleId);
-			redirectAttributes.addAttribute("successMessage",
+			redirectAttributes.addFlashAttribute("successMessage",
 					"You are change <b>" + user.getEmail()
 							+ "</b> role from <b>" + user.getRole().getRole()
 							+ "</b> to <b>" + role.getRole() + "</b>");
 			user.setRole(role);
 			userService.updateUser(user);
 		} else {
-			redirectAttributes.addAttribute("errorMessage",
+			redirectAttributes.addFlashAttribute("errorMessage",
 					"Can't change role, input parameters is invalid!");
 		}
 		redirectAttributes.addAttribute("currentPage", currentPage);
@@ -422,46 +387,25 @@ public class AdministratorController {
 			Model model) {
 		LOG.debug("Visit viewAllSubjects page");
 		List<Subject> subjects = new ArrayList<Subject>();
-		int startPosition;
-		int limitLength;
-		long count = 0;
-		int pages;
-		if (successMessage != null) {
-			model.addAttribute("successMessage", successMessage);
-		}
 
-		if (errorMessage != null) {
-			model.addAttribute("errorMessage", errorMessage);
-		}
-
-		if (elementsOnPage == null) {
-			elementsOnPage = DEFAULT_ELEMENTS_ON_PAGE;
-		}
-
-		if (currentPage == null) {
-			currentPage = 1;
-		}
-
-		startPosition = (currentPage - 1) * elementsOnPage;
-		limitLength = elementsOnPage;
-
-//		count = subjectService.getSubjectsCount();
-//		pages = (int) count / elementsOnPage;
+		setMessage(model, successMessage, errorMessage);
+		setPaginationProperties(model, elementsOnPage, currentPage);
+		setSortParameters (model, sortBy, sortMethod);
 
 		if (searchText != null && !searchText.equals("")
 				&& searchOption != null) {
 			if (searchOption.equals("all")) {
 				subjects = subjectService.getSubjectsByTextVsLimit(searchText,
-						startPosition, limitLength, sortBy, sortMethod);
+						startPosition, limitLength, this.sortBy, this.sortMethod);
 				count = subjectService.getSubjectsByTextCount(searchText);
 			} else if (searchOption.equals("subject")) {
 				subjects = subjectService.getSubjectsByNameVsLimit(searchText,
-						startPosition, limitLength, sortBy, sortMethod);
+						startPosition, limitLength, this.sortBy, this.sortMethod);
 				count = subjectService.getSubjectsByNameCount(searchText);
 			} else if (searchOption.equals("category")) {
 				subjects = subjectService.getSubjectsByCategoryVsLimit(
-						searchText, startPosition, limitLength, sortBy,
-						sortMethod);
+						searchText, startPosition, limitLength, this.sortBy,
+						this.sortMethod);
 				count = subjectService.getSubjectsByCategoryCount(searchText);
 			}
 			model.addAttribute("searchText", searchText);
@@ -471,29 +415,12 @@ public class AdministratorController {
 			count = subjectService.getSubjectsCount();
 
 			subjects = subjectService.getSubjectsVsLimit(startPosition,
-					limitLength, sortBy, sortMethod);
+					limitLength, this.sortBy, this.sortMethod);
 		}
 
-		pages = (int) count / elementsOnPage;
-		if ((count % elementsOnPage) != 0) {
-			pages++;
-		}
+		setPagesCount (model, count);
+		setAactiveTeacherRequests (model);
 
-		//List<Category> categories = categoryService.getAllCategories();
-
-		if (sortBy != null && sortMethod != null) {
-			model.addAttribute("sortBy", sortBy);
-			model.addAttribute("sortMethod", sortMethod);
-		}
-
-		activeTeacherRequests = (int) teacherRequestService
-				.getAllActiveTeacherRequestsCount();
-
-		model.addAttribute("activeTeacherRequests", activeTeacherRequests);
-		model.addAttribute("pagesCount", pages);
-		model.addAttribute("elementsOnPage", elementsOnPage);
-		model.addAttribute("currentPage", currentPage);
-		//model.addAttribute("categories", categories);
 		model.addAttribute("subjects", subjects);
 		return "viewAllSubjects";
 	}
@@ -573,7 +500,7 @@ public class AdministratorController {
 	 * @param model the model
 	 * @return the string
 	 */
-	@RequestMapping(value = "/viewAllRequests", method = RequestMethod.GET)
+	@RequestMapping(value = "/viewAllRequests")
 	public String viewAllRequests(
 			@RequestParam(value = "successMessage", required = false) String successMessage,
 			@RequestParam(value = "errorMessage", required = false) String errorMessage,
@@ -618,12 +545,12 @@ public class AdministratorController {
 					.getTeacherRequestByUserId(userId);
 			teacherRequest.setActive(false);
 			teacherRequestService.updateTeacherRequest(teacherRequest);
-			redirectAttributes.addAttribute("successMessage",
+			redirectAttributes.addFlashAttribute("successMessage",
 					"You allow the user to: <b>" + user.getEmail()
 							+ "</b> become <b>TEACHER</b>");
 
 		} else {
-			redirectAttributes.addAttribute("errorMessage",
+			redirectAttributes.addFlashAttribute("errorMessage",
 					"Can't unblocked user, input parameters is invalid!");
 		}
 		return "redirect:/viewAllRequests";
@@ -643,7 +570,7 @@ public class AdministratorController {
 			Model model, RedirectAttributes redirectAttributes) {
 		LOG.debug("Visit changeUserRoleToAdmin page");
 		if (userId != null) {
-			redirectAttributes.addAttribute("successMessage",
+			redirectAttributes.addFlashAttribute("successMessage",
 					"Request is delete");
 			TeacherRequest teacherRequest = teacherRequestService
 					.getTeacherRequestByUserId(userId);
@@ -651,7 +578,7 @@ public class AdministratorController {
 			teacherRequestService.updateTeacherRequest(teacherRequest);
 
 		} else {
-			redirectAttributes.addAttribute("errorMessage",
+			redirectAttributes.addFlashAttribute("errorMessage",
 					"Can't delete request, input parameters is invalid!");
 		}
 		return "redirect:/viewAllRequests";
@@ -696,4 +623,80 @@ public class AdministratorController {
 		jsonObject.put("categories", jsonCategories);
 		return jsonObject.toString();
     }
+
+	/**
+	 * Get roles it's method get all roles without one.
+	 *
+	 * @param roleId the role id
+	 * @return the string
+	 */
+	@RequestMapping(value = "/getRole", method=RequestMethod.POST)
+    public @ResponseBody String getRole(@RequestParam(value = "roleId", required = false) Integer roleId) {
+		JSONObject jsonObject;
+		JSONArray jsonRoles = new JSONArray();
+		for (Role role : roleService.getAllRoles()) {
+			if (!roleId.equals(role.getId())) {
+			jsonObject = new JSONObject();
+			jsonObject.put("roleId", role.getId());
+			jsonObject.put("roleName", role.getRole());
+			jsonRoles.put(jsonObject);
+			}
+		}
+		jsonObject = new JSONObject();
+		jsonObject.put("roles", jsonRoles);
+		return jsonObject.toString();
+    }
+
+	private void setMessage (Model model, String successMessage, String errorMessage) {
+		if (successMessage != null) {
+			model.addAttribute("successMessage", successMessage);
+		}
+		if (errorMessage != null) {
+			model.addAttribute("errorMessage", errorMessage);
+		}
+	}
+
+	private void setPaginationProperties (Model model, Integer elementsOnPage, Integer currentPage) {
+		if (elementsOnPage == null || elementsOnPage < 1 || elementsOnPage > 100) {
+			this.elementsOnPage = DEFAULT_ELEMENTS_ON_PAGE;
+		} else {
+			this.elementsOnPage = elementsOnPage;
+		}
+
+		if (currentPage == null) {
+			this.currentPage = 1;
+		} else {
+			this.currentPage = currentPage;
+		}
+		this.startPosition = (this.currentPage - 1) * this.elementsOnPage;
+		this.limitLength = this.elementsOnPage;
+		model.addAttribute("elementsOnPage", this.elementsOnPage);
+		model.addAttribute("currentPage", this.currentPage);
+	}
+
+	private void setSortParameters (Model model, String sortBy, String sortMethod) {
+		if (sortBy == null && sortMethod == null) {
+			this.sortBy = "registration";
+			this.sortMethod = "desc";
+		} else {
+			this.sortBy = sortBy;
+			this.sortMethod = sortMethod;
+		}
+		model.addAttribute("sortBy", sortBy);
+		model.addAttribute("sortMethod", sortMethod);
+	}
+
+	private void setPagesCount (Model model, long count) {
+		int pages = (int) count / this.elementsOnPage;
+		if ((count % this.elementsOnPage) != 0) {
+			pages++;
+		}
+		model.addAttribute("pagesCount", pages);
+	}
+
+	private void setAactiveTeacherRequests (Model model) {
+		activeTeacherRequests = (int) teacherRequestService
+				.getAllActiveTeacherRequestsCount();
+		model.addAttribute("activeTeacherRequests", activeTeacherRequests);
+	}
 }

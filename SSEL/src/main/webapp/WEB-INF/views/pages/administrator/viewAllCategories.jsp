@@ -13,7 +13,7 @@
 						var deleteCategory = $(this).data('id');
 						//document.getElementById("demo").innerHTML = deleteCategory;
 
-						categoryId = $(this).data('id');
+						var categoryId = $(this).data('id');
 						//alert(categoryId);
 						$
 								.ajax({
