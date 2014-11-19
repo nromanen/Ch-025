@@ -41,8 +41,14 @@
 
 	<!-- dataSource bean settings will be stored in a separate file -->
 	<bean id="propertyConfigurer"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
-		p:location="classpath:jdbc.properties" />
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:jdbc.properties</value>
+				<value>classpath:application.properties</value>
+			</list>
+		</property>
+	</bean>
 
 	<!-- dataSource bean -->
 	<bean id="dataSource"
@@ -54,6 +60,7 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="changeLog" value="classpath:liquibase/changelog-master.xml" />
 	</bean> -->
+
 
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

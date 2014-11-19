@@ -5,7 +5,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -103,7 +105,7 @@ public class TeacherController {
 		sdf.setLenient(true);
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
 	}
-	
+
 	@InitBinder
 	public void userInitBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
 		binder.registerCustomEditor(User.class, "user", new PropertyEditorSupport() {
@@ -125,7 +127,7 @@ public class TeacherController {
 			}
 		});
 	}
-	
+
 	@InitBinder
 	public void subjectInitBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
 		binder.registerCustomEditor(Subject.class, "subject", new PropertyEditorSupport() {
@@ -136,7 +138,7 @@ public class TeacherController {
 			}
 		});
 	}
-	
+
 	@InitBinder
 	public void categoryInitBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
 		binder.registerCustomEditor(Category.class, "category", new PropertyEditorSupport() {
@@ -174,6 +176,7 @@ public class TeacherController {
 	public String teacherCourse(@RequestParam(value = "subjectId", required = false) Integer subjectId, Model model) {
 		List<Subject> subjects = subjectService.getAllSubjects();
 		List<Category> categories = categoryService.getAllCategories();
+		Map<Integer, Integer> blockSizesArray = new HashMap<Integer, Integer>();
 
 		model.addAttribute("subList", subjects);
 		model.addAttribute("catList", categories);
@@ -181,10 +184,15 @@ public class TeacherController {
 			List<Topic> topics = topicService.getTopicsBySubjectId(subjectId);
 			List<Block> blocks = blockService.getBlocksBySubjectId(subjectId);
 			Subject subject = subjectService.getSubjectById(subjectId);
+			
+			for (Block block:blocks) {
+				blockSizesArray.put(block.getId(), topicService.getTopicsByBlockId(block.getId()).size());
+			}
 
 			model.addAttribute("topicList", topics);
 			model.addAttribute("blockList", blocks);
 			model.addAttribute("subject", subject);
+			model.addAttribute("blockSizesArray", blockSizesArray);
 		} catch (NullPointerException e) {
 			return "teacher";
 		}
@@ -219,17 +227,17 @@ public class TeacherController {
 		topicService.updateTopic(topic);
 		return "redirect:/teacher";
 	}
-	
+
 	@RequestMapping(value = "/saveTopic", method = RequestMethod.GET)
 	public String saveTopic(@ModelAttribute("topic") Topic topic, Model model) {
-	
+
 		List<Block> blocks = blockService.getAllBlocks();
 		model.addAttribute("blockList", blocks);
 		List<Category> categories = categoryService.getAllCategories();
 		model.addAttribute("catList", categories);
 		return "editTopic";
 	}
-	
+
 	@RequestMapping(value = "/saveBlock", method = RequestMethod.POST)
 	public String saveBlock(@Valid @ModelAttribute("block") Block block, BindingResult result, Model model) {
 		if (result.hasErrors()) {
@@ -242,13 +250,13 @@ public class TeacherController {
 		blockService.updateBlock(block);
 		return "redirect:/teacher";
 	}
-	
+
 	@RequestMapping(value = "/saveSubject", method = RequestMethod.POST)
-	public String saveSubject(
-			@RequestParam(value = "user", required = false) String userId,
+	public String saveSubject(@RequestParam(value = "user", required = false) String userId,
 			@RequestParam(value = "startDate", required = false) String startDate,
-			@RequestParam(value = "endDate", required = false) String endDate, 
-			@Valid @ModelAttribute("subject") Subject subject, BindingResult result, Model model, HttpSession session) throws ParseException {
+			@RequestParam(value = "endDate", required = false) String endDate,
+			@Valid @ModelAttribute("subject") Subject subject, BindingResult result, Model model, HttpSession session)
+			throws ParseException {
 		SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
 		List<Category> categories = categoryService.getAllCategories();
 		model.addAttribute("catList", categories);
@@ -257,31 +265,29 @@ public class TeacherController {
 		if (result.hasErrors()) {
 			return "editSubject";
 		} else {
-			
-		
 
-		if (subject.getId() < 1) {
-			
-			CourseScheduler scheduler = new CourseScheduler();
-			scheduler.setStart(format.parse(startDate));
-			scheduler.setEnd(format.parse(endDate));
-			//subjectService.updateSubject(subject);
-			scheduler.setSubject(subject);
-			
-			subjectService.addSubject(subject);
+			if (subject.getId() < 1) {
 
-			courseSchedulerService.addCourseScheduler(scheduler);
-			Group group = new Group();
-			group.setCourse(scheduler);
-			group.setActive(true);
-			groupService.addGroup(group);
+				CourseScheduler scheduler = new CourseScheduler();
+				scheduler.setStart(format.parse(startDate));
+				scheduler.setEnd(format.parse(endDate));
+				// subjectService.updateSubject(subject);
+				scheduler.setSubject(subject);
+
+				subjectService.addSubject(subject);
+
+				courseSchedulerService.addCourseScheduler(scheduler);
+				Group group = new Group();
+				group.setCourse(scheduler);
+				group.setActive(true);
+				groupService.addGroup(group);
+			}
+
+			subjectService.updateSubject(subject);
+			return "redirect:/teacher";
 		}
-		
-		subjectService.updateSubject(subject);
-		return "redirect:/teacher";
 	}
-	}
-	
+
 	@RequestMapping(value = "/saveSubject", method = RequestMethod.GET)
 	public String saveSubjectold(@RequestParam(value = "subjectId", required = false) Integer subjectId,
 			@RequestParam(value = "subjectName", required = true) String subjectName,
@@ -318,10 +324,8 @@ public class TeacherController {
 	@RequestMapping(value = "/editSubject", method = RequestMethod.GET)
 	public String editSubject(@RequestParam(value = "subjectId", required = false) Integer subjectId, Model model) {
 		Subject subject = subjectId != null ? subjectService.getSubjectById(subjectId) : new Subject();
-		
+
 		if (subjectId != null) {
-			
-			
 
 			List<CourseScheduler> courseSchedulerList = courseSchedulerService
 					.getCourseScheduleresBySubjectId(subjectId);
@@ -423,12 +427,12 @@ public class TeacherController {
 		return "redirect:/teacherCourse";
 
 	}
-	
+
 	@RequestMapping(value = "/deleteBlock", method = RequestMethod.GET)
 	public String deleteBlock(@RequestParam(value = "blockId", required = true) Integer blockId,
 			@RequestParam(value = "subjectId", required = true) Integer subjectId, Model model) {
-		List<Topic> topics = topicService.getTopicsByBlockId(blockId); 
-		for (Topic topic:topics) {
+		List<Topic> topics = topicService.getTopicsByBlockId(blockId);
+		for (Topic topic : topics) {
 			topicService.deleteTopic(topic);
 		}
 		Block block = blockService.getBlockById(blockId);
@@ -477,12 +481,12 @@ public class TeacherController {
 			Model model) {
 
 		for (String idInStr : categoriesIds.split(",")) {
-			try {
+			//try {
 				Integer id = Integer.parseInt(idInStr);
 				Category category = categoryService.getCategoryById(id);
 				categoryService.deleteCategory(category);
-			} catch (Exception e) {
-			}
+			//} catch (Exception e) {
+			//}
 		}
 		return "redirect:/categories";
 	}
