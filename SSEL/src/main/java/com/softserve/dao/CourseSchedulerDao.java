@@ -7,14 +7,13 @@ import com.softserve.entity.CourseScheduler;
 
 /**
  * Specify CourseScheduler data access object functionality
- * 
- * @author Анатолій
+ *
  * @author Roma Khomyshyn
  */
 public interface CourseSchedulerDao {
 	/**
 	 * Add new scheduler
-	 * 
+	 *
 	 * @param courseScheduler
 	 *            new scheduler
 	 * @return added object
@@ -23,7 +22,7 @@ public interface CourseSchedulerDao {
 
 	/**
 	 * Delete course scheduler
-	 * 
+	 *
 	 * @param courseScheduler
 	 *            scheduler that was removed
 	 * @param deleted true - mark as deleted, false - restore
@@ -32,7 +31,7 @@ public interface CourseSchedulerDao {
 
 	/**
 	 * Update course scheduler
-	 * 
+	 *
 	 * @param courseScheduler
 	 *            scheduler that'll be update
 	 * @return updated object
@@ -41,7 +40,7 @@ public interface CourseSchedulerDao {
 
 	/**
 	 * Return course scheduler by id
-	 * 
+	 *
 	 * @param id
 	 *            unique course scheduler identifier
 	 * @return course scheduler if exists, and null otherwise
@@ -50,7 +49,7 @@ public interface CourseSchedulerDao {
 
 	/**
 	 * Returns list of course schedulers
-	 * 
+	 *
 	 * @return list of course schedulers
 	 */
 	List<CourseScheduler> getAllCourseScheduleres();
@@ -62,7 +61,7 @@ public interface CourseSchedulerDao {
 	List<CourseScheduler> getAllDeletedCourseSchedulers();
 	/**
 	 * Return course schedulers for some subject
-	 * 
+	 *
 	 * @param id
 	 *            unique subject identifier
 	 * @return list of course schedulers
@@ -71,7 +70,7 @@ public interface CourseSchedulerDao {
 
 	/**
 	 * Return course schedulers which is active at the moment, for user
-	 * 
+	 *
 	 * @param id
 	 *            unique user identifier
 	 * @return list of course schedulers
@@ -80,7 +79,7 @@ public interface CourseSchedulerDao {
 
 	/**
 	 * Return course schedulers which is will active in future, for user
-	 * 
+	 *
 	 * @param id
 	 *            unique user identifier
 	 * @return list of course schedulers
@@ -90,7 +89,7 @@ public interface CourseSchedulerDao {
 
 	/**
 	 * Return course schedulers which is finished at the moment, for user
-	 * 
+	 *
 	 * @param id
 	 *            unique user identifier
 	 * @return list of course schedulers
@@ -100,7 +99,7 @@ public interface CourseSchedulerDao {
 
 	/**
 	 * Return course schedulers for user that is author for them
-	 * 
+	 *
 	 * @param id
 	 *            unique user identifier
 	 * @return list of course schedulers

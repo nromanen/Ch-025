@@ -5,12 +5,12 @@ import java.util.List;
 import com.softserve.entity.Category;
 /**
  * Specify category service functionality
- * @author 
+ * @author Roma Khomyshyn
  *
  */
 public interface CategoryService {
 	/**
-	 * Add new category 
+	 * Add new category
 	 * @param category new category
 	 * @return added category
 	 */
