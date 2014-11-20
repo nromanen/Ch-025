@@ -19,9 +19,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-
 @Entity
-@Table(name = "subject", indexes = {@Index(columnList = "name, description", name = "name_index")})
+@Table(name = "subject", indexes = { @Index(columnList = "name, description", name = "name_index") })
 public class Subject {
 
 	@Id
@@ -30,9 +29,9 @@ public class Subject {
 	private int id;
 
 	@Column(name = "name", nullable = false)
-	@NotNull 
-	@Size(min=4, max=30)
-	@Pattern(regexp="^[A-Za-z0-9.,:_ ]{4,30}$")
+	@NotNull
+	@Size(min = 4, max = 30)
+	@Pattern(regexp = "^[A-Za-z0-9.,:_ ]{4,30}$")
 	private String name;
 
 	@Column(name = "description")
@@ -40,11 +39,11 @@ public class Subject {
 
 	@Column(name = "deleted")
 	private boolean isDeleted;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "id_category", nullable = false)
 	private Category category;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "id_user", nullable = false)
 	private User user;
@@ -114,7 +113,8 @@ public class Subject {
 	}
 
 	/**
-	 * @param user the user to set
+	 * @param user
+	 *            the user to set
 	 */
 	public void setUser(User user) {
 		this.user = user;

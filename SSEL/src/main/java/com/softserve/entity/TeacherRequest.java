@@ -21,19 +21,19 @@ public class TeacherRequest {
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@Column(name = "request_date")
 	private Date requestDate;
-	
+
 	@Column(name = "active", nullable = false)
 	private boolean active;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "id_user", nullable = false, unique = true)
 	private User user;
-	
+
 	public TeacherRequest() {
-		
+
 	}
 
 	public int getId() {
@@ -67,5 +67,5 @@ public class TeacherRequest {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-	
+
 }

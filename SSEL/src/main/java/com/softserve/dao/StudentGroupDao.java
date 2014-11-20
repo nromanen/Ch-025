@@ -20,5 +20,5 @@ public interface StudentGroupDao {
 
 	List<StudentGroup> getAllStudentGroups();
 
+	List<StudentGroup> getStudentGroupsByCourseSheduledId(int id);
 }
-

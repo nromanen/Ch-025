@@ -16,6 +16,7 @@ import com.softserve.dao.UserDao;
 import com.softserve.entity.TeacherRequest;
 import com.softserve.entity.User;
 import com.softserve.entity.User.Roles;
+import com.softserve.entity.User.Social;
 import com.softserve.form.Registration;
 import com.softserve.form.ResetPassword;
 import com.softserve.service.MailService;
@@ -103,6 +104,7 @@ public class UserServiceImpl implements UserService {
 		user.setExpired(calendar.getTime());
 		user.setVerificationKey(passwordEncoder.encode(registration.getEmail()));
 		user.setRole(roleService.getRoleByName(Roles.STUDENT.toString()));
+		user.setSocial(Social.REGISTRATION);
 
 		url = url + "/confirm?key=" + user.getVerificationKey();
 		message += " <a href=\"" + url + "\">" + url + "</a>";
@@ -128,6 +130,7 @@ public class UserServiceImpl implements UserService {
 		user.setExpired(calendar.getTime());
 		user.setVerificationKey(passwordEncoder.encode(registration.getEmail()));
 		user.setRole(roleService.getRoleByName(Roles.TEACHER.toString()));
+		user.setSocial(Social.REGISTRATION);
 		user = userDao.addUser(user);
 
 		TeacherRequest teacherRequest = new TeacherRequest();

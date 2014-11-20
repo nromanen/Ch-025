@@ -20,7 +20,7 @@ public interface CategoryDao {
 	 *            new category
 	 * @return added category
 	 */
-	public Category addCategory(Category category);
+	Category addCategory(Category category);
 
 	/**
 	 * Update category information
@@ -29,26 +29,32 @@ public interface CategoryDao {
 	 *            updated into database
 	 * @return updated category
 	 */
-	public Category updateCategory(Category category);
+	Category updateCategory(Category category);
 
 	/**
-	 *  Manage category delete
-	 * @param category some category
-	 * @param deleted true - mark as deleted, false - restore
+	 * Manage category delete
+	 * 
+	 * @param category
+	 *            some category
+	 * @param deleted
+	 *            true - mark as deleted, false - restore
 	 */
-	public void setCategoryDeleted(Category category, boolean deleted);
+	void setCategoryDeleted(Category category, boolean deleted);
 
 	/**
 	 * Return all categories from database
 	 * 
 	 * @return list of category object if exists or empty list
 	 */
-	public List<Category> getAllCategories();
+	List<Category> getAllCategories();
+
 	/**
 	 * Return all deleted categories
+	 * 
 	 * @return list of categories
 	 */
 	List<Category> getAllDeletedCategories();
+
 	/**
 	 * Return category record by category id
 	 * 
@@ -56,7 +62,7 @@ public interface CategoryDao {
 	 *            is a id of record in database
 	 * @return category object if exists or null otherwise
 	 */
-	public Category getCategoryById(int id);
+	Category getCategoryById(int id);
 
 	/**
 	 * Return all categories from database, where category name like namePart
@@ -65,7 +71,8 @@ public interface CategoryDao {
 	 *            is a name part of record in database
 	 * @return list of category object if exists or empty list
 	 */
-	List<Category> getCategoriesByNamePart(String namePart, int pageNumber, int pageSize);
-	
+	List<Category> getCategoriesByNamePart(String namePart, int pageNumber,
+			int pageSize);
+
 	Long getCategoriesQuantityByNamePart(String namePart);
 }

@@ -5,29 +5,29 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 /**
- * Entity implementation class for Entity: Group
- * Encapsulate course groups information
+ * Entity implementation class for Entity: Group Encapsulate course groups
+ * information
  */
 @Entity
 @Table(name = "groups")
 public class Group implements Serializable {
-	
+
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int groupId;
-	
-	@ManyToOne (fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinColumn (name = "id_course_scheduler")
+
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@JoinColumn(name = "id_course_scheduler")
 	private CourseScheduler course;
-	
+
 	@Column(name = "isActive")
 	private boolean isActive;
-	
+
 	@Column(name = "deleted")
 	private boolean isDeleted;
-	
-	private static final long serialVersionUID = 1L;
 
 	public Group() {
 
@@ -64,7 +64,5 @@ public class Group implements Serializable {
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
-	
-	
-   
+
 }

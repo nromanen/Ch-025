@@ -68,5 +68,5 @@ public interface TopicService {
 	 * @param id unique subject identifier
 	 * @return list of topics
 	 */
-	public List<Topic> getTopicsBySubjectId(int id);
+	List<Topic> getTopicsBySubjectId(int id);
 }

@@ -19,12 +19,12 @@ import org.springframework.validation.BindingResult;
 
 import com.softserve.form.ResetPassword;
 import com.softserve.service.UserService;
-import com.softserve.validator.ResetPasswordValidation;
+import com.softserve.validator.ResetPasswordValidator;
 
 @RunWith(Parameterized.class)
 public class ResetPasswordValidationNegativeTest {
 	
-	private ResetPasswordValidation resetPasswordValidation = new ResetPasswordValidation();
+	private ResetPasswordValidator resetPasswordValidation = new ResetPasswordValidator();
 	private ResetPassword resetPassword = new ResetPassword();
 	private UserService userService;
 	

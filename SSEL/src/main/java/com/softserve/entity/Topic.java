@@ -38,7 +38,7 @@ public class Topic {
 
 	@Column(name = "deleted")
 	private boolean isDeleted;
-	
+
 	@Column(name = "topic_order", nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int order;
