@@ -151,8 +151,11 @@
 </script>
 
 <script type="text/javascript">
-	function searchTextFunction(page) {
+	function searchTextFunction() {
 		var searchText = document.getElementById("searchText").value;
+		var div = document.createElement("div");
+		div.innerHTML = searchText;
+		searchText = div.textContent || div.innerText || "";
 		var checkedSearchRadio = $('input:radio[name=searchOption]:checked')
 				.val();
 		window.location.href = "viewAllUsers?searchText=" + searchText
@@ -268,6 +271,7 @@
 		<div class="col-md-12">
 			<br>
 			<div class="row">
+
 				<!-- search block -->
 				<div class="col-md-5" align="left">
 					<div class="input-group admTopM">
@@ -292,8 +296,17 @@
 								</label></li>
 							</ul>
 						</div>
-						<input type="text" class="form-control" id="searchText"
-							placeholder="<spring:message code='label.search_text' />">
+						<c:choose>
+							<c:when test="${not empty searchText}">
+								<input type="text" class="form-control" id="searchText"
+									value="${searchText}"
+									placeholder="<spring:message code='label.search_text' />">
+							</c:when>
+							<c:otherwise>
+								<input type="text" class="form-control" id="searchText"
+									placeholder="<spring:message code='label.search_text' />">
+							</c:otherwise>
+						</c:choose>
 						<a href="#" class="input-group-addon"
 							onclick="searchTextFunction()"><span
 							class="glyphicon glyphicon-search"></span></a>

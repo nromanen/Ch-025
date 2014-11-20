@@ -21,13 +21,6 @@
 	</div>
 	<!-- /.navbar-header -->
 
-	<!--
-	<ul class="nav navbar-top-links navbar-right">
-		<li><a href="logout"><i class="fa fa-sign-out fa-fw"></i>
-				Logout</a></li>
-	</ul>
- -->
-
 	<ul class="nav navbar-top-links navbar-right">
 		<li>
 			<div>
@@ -58,6 +51,9 @@
 				</c:choose> <i class="fa fa-caret-down"></i>
 		</a>
 			<ul class="dropdown-menu dropdown-user">
+			<li><a href="profile"><i
+						class="fa fa-user fa-fw"></i> <spring:message code="label.admin_profile" /></a></li>
+				<li class="divider"></li>
 				<li><a href="logout"><i class="fa fa-sign-out fa-fw"></i> <spring:message
 							code="label.logout" /></a></li>
 			</ul> <!-- /.dropdown-user --></li>
@@ -80,11 +76,10 @@
 				<li><a href="viewAllUsers"><spring:message
 							code="label.admin.users" /></a></li>
 				<li><a href="viewAllRequests"><spring:message
-							code="label.requests" />
-							<c:if test="${activeTeacherRequests ne 0}">
-							<span class="badge">   ${activeTeacherRequests}</span>
-							</c:if>
-							</a></li>
+							code="label.requests" /> <c:if
+							test="${activeTeacherRequests ne 0}">
+							<span class="badge"> ${activeTeacherRequests}</span>
+						</c:if> </a></li>
 				<li><a href="viewLogs"><spring:message
 							code="label.admin.logs" /></a></li>
 			</ul>

@@ -157,6 +157,9 @@
 <script type="text/javascript">
 	function searchTextFunction(page) {
 		var searchText = document.getElementById("searchText").value;
+		var div = document.createElement("div");
+		div.innerHTML = searchText;
+		searchText = div.textContent || div.innerText || "";
 		var checkedSearchRadio = $('input:radio[name=searchOption]:checked')
 				.val();
 		window.location.href = "viewAllSubjects?searchText=" + searchText
@@ -244,6 +247,7 @@
 	<div class="col-md-10 col-md-offset-1">
 
 		<div class="row">
+
 			<!-- search block -->
 			<div class="col-md-5" align="left">
 				<div class="input-group admTopM">
