@@ -86,35 +86,44 @@
 										code="label.previous" /></a></li>
 						</c:if>
 						<c:if test="${pageNumb > 0}">
-							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 1}"><spring:message
+							<li><a
+								href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 1}"><spring:message
 										code="label.previous" /></a></li>
-							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=0">1</a></li>
+							<li><a
+								href="${pageContext.request.contextPath}/viewLogs?pageNumb=0">1</a></li>
 						</c:if>
 						<c:if test="${pageNumb > 3}">
 							<li><a href="#">...</a></li>
 						</c:if>
 						<c:if test="${pageNumb > 2}">
-							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 2}">${pageNumb - 1}</a></li>
+							<li><a
+								href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 2}">${pageNumb - 1}</a></li>
 						</c:if>
 						<c:if test="${pageNumb > 1}">
-							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 1}">${pageNumb}</a></li>
+							<li><a
+								href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 1}">${pageNumb}</a></li>
 						</c:if>
-							<li class="active"><a href="#">${pageNumb + 1}</a></li>
+						<li class="active"><a href="#">${pageNumb + 1}</a></li>
 						<c:if test="${pageNumb < (numberOfPages - 2)}">
-							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 1}">${pageNumb + 2}</a></li>
+							<li><a
+								href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 1}">${pageNumb + 2}</a></li>
 						</c:if>
 						<c:if test="${pageNumb < (numberOfPages - 3)}">
-							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 2}">${pageNumb + 3}</a></li>
+							<li><a
+								href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 2}">${pageNumb + 3}</a></li>
 						</c:if>
+						<%-- <c:if test="${pageNumb < (numberOfPages - 4)}">
+							<li><a
+								href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 3}">${pageNumb + 4}</a></li>
+						</c:if> --%>
 						<c:if test="${pageNumb < (numberOfPages - 4)}">
-							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 3}">${pageNumb + 4}</a></li>
-						</c:if>
-						<c:if test="${pageNumb < (numberOfPages - 5)}">
 							<li><a href="#">...</a></li>
 						</c:if>
 						<c:if test="${pageNumb < (numberOfPages - 1)}">
-							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${numberOfPages-1}">${numberOfPages}</a></li>
-							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 1}"><spring:message
+							<li><a
+								href="${pageContext.request.contextPath}/viewLogs?pageNumb=${numberOfPages-1}">${numberOfPages}</a></li>
+							<li><a
+								href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 1}"><spring:message
 										code="label.next" /></a></li>
 						</c:if>
 						<c:if test="${pageNumb > (numberOfPages - 2)}">
@@ -132,30 +141,113 @@
 		</c:when>
 		<c:otherwise>
 			<!-- Table with logs -->
-			<table class="table table-striped table-bordered table-hover">
+			<table
+				class="table table-striped table-bordered table-hover centerTh">
 				<thead>
-					<tr>
+					<tr class="info">
 						<!-- Head of table also includes sorting parameters -->
-						<th><spring:message code="label.t_date" /><br> <font
-							size="+2"> <a
-								href="${pageContext.request.contextPath}/getParameters?orderBy=date-asc">&#x21e7;</a>
-								<a
-								href="${pageContext.request.contextPath}/getParameters?orderBy=date-desc">&#x21e9;</a>
-						</font></th>
-						<th><spring:message code="label.t_level" /> <br> <font
-							size="+2"> <a
-								href="${pageContext.request.contextPath}/getParameters?orderBy=level-asc">&#x21e7;</a>
-								<a
-								href="${pageContext.request.contextPath}/getParameters?orderBy=level-desc">&#x21e9;</a>
-						</font></th>
-						<th><spring:message code="label.t_logger" /></th>
-						<th><spring:message code="label.t_message" /><br /></th>
-						<th><spring:message code="label.t_exception" /><br> <font
-							size="+2"> <a
-								href="${pageContext.request.contextPath}/getParameters?orderBy=exception-asc">&#x21e7;</a>
-								<a
-								href="${pageContext.request.contextPath}/getParameters?orderBy=exception-desc">&#x21e9;</a>
-						</font></th>
+						<th>
+
+							<table class="col-md-12 centerTh">
+								<thead>
+									<tr>
+										<th class="col-md-10"><spring:message
+												code="label.t_date" /></th>
+										<th class="col-md-2"><c:choose>
+												<c:when test="${orderBy eq 'eventDate ASC'}">
+													<a
+														href="${pageContext.request.contextPath}/getParameters?orderBy=date-desc"><span
+														class="fa fa-sort-numeric-asc fa-lg"></span></a>
+												</c:when>
+												<c:when test="${orderBy eq 'eventDate DESC'}">
+													<a
+														href="${pageContext.request.contextPath}/getParameters?orderBy=date-asc"><span
+														class="fa fa-sort-numeric-desc fa-lg"></span></a>
+												</c:when>
+												<c:otherwise>
+													<a
+														href="${pageContext.request.contextPath}/getParameters?orderBy=date-asc"><span
+														class="fa fa-sort fa-lg"></span></a>
+												</c:otherwise>
+											</c:choose></th>
+									</tr>
+								</thead>
+							</table>
+						</th>
+						<th>
+
+							<table class="col-md-12 centerTh">
+								<thead>
+									<tr>
+										<th class="col-md-10"><spring:message
+												code="label.t_level" /></th>
+										<th class="col-md-2"><c:choose>
+												<c:when test="${orderBy eq 'level ASC'}">
+													<a
+														href="${pageContext.request.contextPath}/getParameters?orderBy=level-desc"><span
+														class="fa fa-sort-alpha-asc fa-lg"></span></a>
+												</c:when>
+												<c:when test="${orderBy eq 'level DESC'}">
+													<a
+														href="${pageContext.request.contextPath}/getParameters?orderBy=level-asc"><span
+														class="fa fa-sort-alpha-desc fa-lg"></span></a>
+												</c:when>
+												<c:otherwise>
+													<a
+														href="${pageContext.request.contextPath}/getParameters?orderBy=level-asc"><span
+														class="fa fa-sort fa-lg"></span></a>
+												</c:otherwise>
+											</c:choose></th>
+									</tr>
+								</thead>
+							</table>
+						</th>
+						<th>
+							<table class="col-md-12 centerTh">
+								<thead>
+									<tr>
+										<th class="col-md-12" ><spring:message
+												code="label.t_logger" /></th>
+									</tr>
+								</thead>
+							</table>
+						</th>
+						<th>
+							<table class="col-md-12 centerTh">
+								<thead>
+									<tr>
+										<th class="col-md-12"><spring:message
+												code="label.t_message" /></th>
+									</tr>
+								</thead>
+							</table>
+						<th>
+							<table class="col-md-12 centerTh">
+								<thead>
+									<tr>
+										<th class="col-md-10"><spring:message
+												code="label.t_exception" /></th>
+										<th class="col-md-2"><c:choose>
+												<c:when test="${orderBy eq 'exception ASC'}">
+													<a
+														href="${pageContext.request.contextPath}/getParameters?orderBy=exception-desc"><span
+														class="fa fa-sort-alpha-desc fa-lg"></span></a>
+												</c:when>
+												<c:when test="${orderBy eq 'exception DESC'}">
+													<a
+														href="${pageContext.request.contextPath}/getParameters?orderBy=exception-asc"><span
+														class="fa fa-sort-alpha-asc fa-lg"></span></a>
+												</c:when>
+												<c:otherwise>
+													<a
+														href="${pageContext.request.contextPath}/getParameters?orderBy=exception-asc"><span
+														class="fa fa-sort fa-lg"></span></a>
+												</c:otherwise>
+											</c:choose></th>
+									</tr>
+								</thead>
+							</table>
+						</th>
 					</tr>
 				</thead>
 				<c:forEach items="${logs}" var="log">
@@ -184,49 +276,58 @@ No exception
 	<!-- Pagination scroll -->
 	<div align="right">
 		<nav>
-					<ul class="pagination">
-						<c:if test="${pageNumb < 1}">
-							<li class="disabled"><a href="#"><spring:message
-										code="label.previous" /></a></li>
-						</c:if>
-						<c:if test="${pageNumb > 0}">
-							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 1}"><spring:message
-										code="label.previous" /></a></li>
-							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=0">1</a></li>
-						</c:if>
-						<c:if test="${pageNumb > 3}">
-							<li><a href="#">...</a></li>
-						</c:if>
-						<c:if test="${pageNumb > 2}">
-							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 2}">${pageNumb - 1}</a></li>
-						</c:if>
-						<c:if test="${pageNumb > 1}">
-							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 1}">${pageNumb}</a></li>
-						</c:if>
-							<li class="active"><a href="#">${pageNumb + 1}</a></li>
-						<c:if test="${pageNumb < (numberOfPages - 2)}">
-							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 1}">${pageNumb + 2}</a></li>
-						</c:if>
-						<c:if test="${pageNumb < (numberOfPages - 3)}">
-							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 2}">${pageNumb + 3}</a></li>
-						</c:if>
-						<c:if test="${pageNumb < (numberOfPages - 4)}">
-							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 3}">${pageNumb + 4}</a></li>
-						</c:if>
-						<c:if test="${pageNumb < (numberOfPages - 5)}">
-							<li><a href="#">...</a></li>
-						</c:if>
-						<c:if test="${pageNumb < (numberOfPages - 1)}">
-							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${numberOfPages-1}">${numberOfPages}</a></li>
-							<li><a href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 1}"><spring:message
-										code="label.next" /></a></li>
-						</c:if>
-						<c:if test="${pageNumb > (numberOfPages - 2)}">
-							<li class="disabled"><a href="#"><spring:message
-										code="label.next" /></a></li>
-						</c:if>
-					</ul>
-				</nav>
+			<ul class="pagination">
+				<c:if test="${pageNumb < 1}">
+					<li class="disabled"><a href="#"><spring:message
+								code="label.previous" /></a></li>
+				</c:if>
+				<c:if test="${pageNumb > 0}">
+					<li><a
+						href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 1}"><spring:message
+								code="label.previous" /></a></li>
+					<li><a
+						href="${pageContext.request.contextPath}/viewLogs?pageNumb=0">1</a></li>
+				</c:if>
+				<c:if test="${pageNumb > 3}">
+					<li><a href="#">...</a></li>
+				</c:if>
+				<c:if test="${pageNumb > 2}">
+					<li><a
+						href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 2}">${pageNumb - 1}</a></li>
+				</c:if>
+				<c:if test="${pageNumb > 1}">
+					<li><a
+						href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb - 1}">${pageNumb}</a></li>
+				</c:if>
+				<li class="active"><a href="#">${pageNumb + 1}</a></li>
+				<c:if test="${pageNumb < (numberOfPages - 2)}">
+					<li><a
+						href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 1}">${pageNumb + 2}</a></li>
+				</c:if>
+				<c:if test="${pageNumb < (numberOfPages - 3)}">
+					<li><a
+						href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 2}">${pageNumb + 3}</a></li>
+				</c:if>
+				<%-- <c:if test="${pageNumb < (numberOfPages - 4)}">
+					<li><a
+						href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 3}">${pageNumb + 4}</a></li>
+				</c:if> --%>
+				<c:if test="${pageNumb < (numberOfPages - 4)}">
+					<li><a href="#">...</a></li>
+				</c:if>
+				<c:if test="${pageNumb < (numberOfPages - 1)}">
+					<li><a
+						href="${pageContext.request.contextPath}/viewLogs?pageNumb=${numberOfPages-1}">${numberOfPages}</a></li>
+					<li><a
+						href="${pageContext.request.contextPath}/viewLogs?pageNumb=${pageNumb + 1}"><spring:message
+								code="label.next" /></a></li>
+				</c:if>
+				<c:if test="${pageNumb > (numberOfPages - 2)}">
+					<li class="disabled"><a href="#"><spring:message
+								code="label.next" /></a></li>
+				</c:if>
+			</ul>
+		</nav>
 
 	</div>
 </div>

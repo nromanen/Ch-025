@@ -17,10 +17,14 @@ import org.mockito.runners.MockitoJUnitRunner;
 import com.softserve.controller.LogController;
 import com.softserve.entity.Log;
 import com.softserve.service.LogService;
+import com.softserve.service.impl.LogServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -31,9 +35,25 @@ import org.springframework.web.context.WebApplicationContext;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(locations = "classpath:root-context.xml")
+//@ContextConfiguration(loader=AnnotationConfigContextLoader.class)
 public class LogControllerTest {
+	
+/*	 @Configuration
+	    static class ContextConfiguration {
+
+	        // this bean will be injected into the OrderServiceTest class
+	        @Bean
+	        public LogService LogService() {
+	        	LogService LogService =  mock(LogService.class);
+	            // set properties, etc.
+	            return LogService;
+	        }
+	       
+	    }
+	*/
+	
 	private Log log = new Log();
-	private List<Log> logList = new ArrayList<Log>();
+//	private List<Log> logList = new ArrayList<Log>();
 	private MockMvc mockMvc;
 	// private LogController logController;
 	@Autowired
@@ -43,7 +63,7 @@ public class LogControllerTest {
 
 	@Before
 	public void setUp() {
-		logService = mock(LogService.class);
+	//	logService = mock(LogService.class);
 		// logController = new LogController();
 		// logController.setLogService(logService);
 		log.setId(25);
