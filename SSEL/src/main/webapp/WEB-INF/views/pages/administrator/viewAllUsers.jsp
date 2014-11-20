@@ -6,9 +6,9 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <script>
-$(function() {
-	//$(".sidebar").find("a").addClass("active");
-	$(".sidebar").find($('a[href="viewAllUsers"]')).addClass("active");
+	$(function() {
+		//$(".sidebar").find("a").addClass("active");
+		$(".sidebar").find($('a[href="viewAllUsers"]')).addClass("active");
 	});
 </script>
 
@@ -19,6 +19,30 @@ $(function() {
 					".openModalWindow",
 					function() {
 						var userId = $(this).data('id');
+
+						var roleId = $(this).data('role-id');
+						//alert(categoryId);
+						$.ajax({
+							type : "POST",
+							url : "getRole",
+							data : {
+								"roleId" : roleId
+							},
+							error : function(xhr) {
+								alert(xhr.statusText);
+							},
+							success : function(str) {
+
+								obj = JSON.parse(str);
+								$("#newRole").empty();
+								for (i = 0; i < obj.roles.length; i++) {
+									$("#newRole").append(
+											'<option value="'+obj.roles[i].roleId+'">'
+													+ obj.roles[i].roleName
+													+ '</option>');
+								}
+							}
+						});
 
 						document.getElementById("mybtn").onclick = function() {
 							var newRole = document.getElementById("newRole").value;
@@ -127,8 +151,11 @@ $(function() {
 </script>
 
 <script type="text/javascript">
-	function searchTextFunction(page) {
+	function searchTextFunction() {
 		var searchText = document.getElementById("searchText").value;
+		var div = document.createElement("div");
+		div.innerHTML = searchText;
+		searchText = div.textContent || div.innerText || "";
 		var checkedSearchRadio = $('input:radio[name=searchOption]:checked')
 				.val();
 		window.location.href = "viewAllUsers?searchText=" + searchText
@@ -184,7 +211,6 @@ $(function() {
 	}
 </script>
 
-
 <!-- Modal window -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel" aria-hidden="true">
@@ -199,13 +225,7 @@ $(function() {
 				<h4 class="modal-title" align="center">
 					<spring:message code="label.choose_role" />
 				</h4>
-				<select multiple class="form-control" id="newRole">
-
-					<c:forEach items="${roles}" var="role">
-						<option value="${role.id}">${role.role}</option>
-					</c:forEach>
-
-				</select>
+				<select multiple class="form-control" id="newRole"></select>
 			</div>
 			<div class="modal-footer">
 				<p align="center">
@@ -250,186 +270,305 @@ $(function() {
 
 		<div class="col-md-12">
 			<br>
+			<div class="row">
 
-			<!-- search block -->
-			<div class="col-md-12">
-				<div class="input-group col-md-4">
-					<div class="input-group-addon">
-						<a href="#" data-toggle="dropdown" class="dropdown"> <span
-							class="glyphicon glyphicon-cog"></span>
-						</a>
-						<ul class="dropdown-menu">
-							<li><label> <input type="radio" name="searchOption"
-									value="all" checked> <spring:message code="label.all" />
-							</label></li>
-							<li><label> <input type="radio" name="searchOption"
-									value="userFirstName"> <spring:message
-										code="label.user_name" />
-							</label></li>
-							<li><label> <input type="radio" name="searchOption"
-									value="userLastName"> <spring:message
-										code="label.user_last_name" />
-							</label></li>
-							<li><label> <input type="radio" name="searchOption"
-									value="role"> <spring:message code="label.role" />
-							</label></li>
-						</ul>
+				<!-- search block -->
+				<div class="col-md-5" align="left">
+					<div class="input-group admTopM">
+						<div class="input-group-addon">
+							<a href="#" data-toggle="dropdown" class="dropdown"> <span
+								class="glyphicon glyphicon-cog"></span>
+							</a>
+							<ul class="dropdown-menu">
+								<li><label> <input type="radio" name="searchOption"
+										value="all" checked> <spring:message code="label.all" />
+								</label></li>
+								<li><label> <input type="radio" name="searchOption"
+										value="userFirstName"> <spring:message
+											code="label.user_name" />
+								</label></li>
+								<li><label> <input type="radio" name="searchOption"
+										value="userLastName"> <spring:message
+											code="label.user_last_name" />
+								</label></li>
+								<li><label> <input type="radio" name="searchOption"
+										value="role"> <spring:message code="label.role" />
+								</label></li>
+							</ul>
+						</div>
+						<c:choose>
+							<c:when test="${not empty searchText}">
+								<input type="text" class="form-control" id="searchText"
+									value="${searchText}"
+									placeholder="<spring:message code='label.search_text' />">
+							</c:when>
+							<c:otherwise>
+								<input type="text" class="form-control" id="searchText"
+									placeholder="<spring:message code='label.search_text' />">
+							</c:otherwise>
+						</c:choose>
+						<a href="#" class="input-group-addon"
+							onclick="searchTextFunction()"><span
+							class="glyphicon glyphicon-search"></span></a>
 					</div>
-					<input type="text" class="form-control" id="searchText"
-						placeholder="<spring:message code='label.search_text' />">
-					<a href="#" class="input-group-addon"
-						onclick="searchTextFunction()"><span
-						class="glyphicon glyphicon-search"></span></a>
 				</div>
 				<!-- /search block-->
 
-				<!-- Elements on page block -->
-				<div align="right">
-					<label>On page <c:set var="onPage">1,3,5,10,25,50,100</c:set>
-						<select id="elementsOnPage"
-						onchange="changeElementsPerPageFunction(this)">
-							<c:forTokens items="${onPage}" delims="," var="element">
-								<option value="${element}"
-									<c:if test="${elementsOnPage eq element}">
-				selected
-				</c:if>>${element}</option>
-							</c:forTokens>
-					</select>
-					</label>
-				</div>
-				<!-- /Elements on page block -->
+				<!-- Pagination block -->
+				<div class="col-md-7" align="right">
+					<c:if test="${pagesCount gt 1}">
+						<c:set var="paginationLarge" value="1" />
+						<nav>
+							<ul class="pagination">
+								<c:choose>
+									<c:when test="${currentPage eq 1}">
+										<li class="disabled"><a href="#"><spring:message
+													code="label.previous" /></a></li>
+									</c:when>
+									<c:otherwise>
+										<li><a href="#"
+											onclick="changePageFunction('${currentPage - 1}')"><spring:message
+													code="label.previous" /></a></li>
+									</c:otherwise>
+								</c:choose>
+								<c:forEach var="pageNumber" begin="1" end="${pagesCount}">
+									<c:choose>
+										<c:when
+											test="${(currentPage-paginationLarge) le pageNumber and (currentPage + paginationLarge) ge pageNumber}">
+											<c:choose>
+												<c:when test="${pageNumber eq currentPage}">
+													<li class="active"><a href="#">${pageNumber}</a></li>
+												</c:when>
+												<c:otherwise>
+													<li><a href="#"
+														onclick="changePageFunction('${pageNumber}')">${pageNumber}</a>
+													</li>
+												</c:otherwise>
+											</c:choose>
+										</c:when>
+										<c:when test="${pageNumber eq 1}">
+											<li><a href="#"
+												onclick="changePageFunction('${pageNumber}')">${pageNumber}</a>
+											</li>
+										</c:when>
+										<c:when test="${pageNumber eq pagesCount}">
+											<li><a href="#"
+												onclick="changePageFunction('${pageNumber}')">${pageNumber}</a>
+											</li>
+										</c:when>
+										<c:when
+											test="${pageNumber eq 2 and currentPage gt (paginationLarge + 2)}">
+											<li><a href="#">...</a></li>
+										</c:when>
+										<c:when
+											test="${pageNumber eq (pagesCount - 1) and currentPage lt (pagesCount -paginationLarge)}">
+											<li><a href="#">...</a></li>
+										</c:when>
+									</c:choose>
 
+								</c:forEach>
+								<c:choose>
+									<c:when test="${currentPage eq pagesCount}">
+										<li class="disabled"><a href="#"><spring:message
+													code="label.next" /></a></li>
+									</c:when>
+									<c:otherwise>
+										<li><a href="#"
+											onclick="changePageFunction('${currentPage+1}')"><spring:message
+													code="label.next" /></a></li>
+									</c:otherwise>
+								</c:choose>
+							</ul>
+						</nav>
+					</c:if>
+				</div>
+				<!-- /Pagination block -->
 			</div>
-			<div class="col-md-12" align="center">
+
+			<!-- Elements on page block -->
+			<div class="row">
+				<div class="col-md-12" align="right">
+					<c:if test="${not empty users}">
+						<label>On page <c:set var="onPage">1,3,5,10,25,50,100</c:set>
+							<select id="elementsOnPage"
+							onchange="changeElementsPerPageFunction(this)">
+								<c:forTokens items="${onPage}" delims="," var="element">
+									<c:choose>
+										<c:when test="${elementsOnPage eq element}">
+											<option value="${element}" selected>${element}</option>
+										</c:when>
+										<c:otherwise>
+											<option value="${element}">${element}</option>
+										</c:otherwise>
+									</c:choose>
+								</c:forTokens>
+						</select>
+						</label>
+					</c:if>
+				</div>
+			</div>
+			<!-- /Elements on page block -->
+
+		</div>
+		<div class="col-md-12 centerTh" align="center">
+			<c:if test="${not empty users}">
 				<table class="table table-bordered">
-					<tr align="center" class="info">
-						<td class="col-md-3">
-							<table class="col-md-12">
-								<tr align="right">
-									<td rowspan="2" align="center"><spring:message
-											code="label.user_email" /></td>
-									<td><c:if
-											test="${sortBy ne 'email' or sortMethod ne 'desc'}">
-											<a href="#" onclick="changeSortFunction('email','desc')"><span
-												data-id="user" data-method="ASC"
-												class="glyphicon glyphicon-chevron-up"></span></a>
-										</c:if></td>
-								</tr>
-								<tr align="right">
-									<td><c:if
-											test="${sortBy ne 'email' or sortMethod ne 'asc'}">
-											<a href="#" onclick="changeSortFunction('email','asc')"><span
-												class="glyphicon glyphicon-chevron-down"></span></a>
-										</c:if></td>
-								</tr>
+					<tr class="info" valign="middle">
+						<th class="col-md-3" valign="middle">
+							<table class="col-md-12 centerTh">
+								<thead>
+									<tr>
+										<th class="col-md-10" align="center"><spring:message
+												code="label.user_email" /></th>
+										<th class="col-md-2" align="center"><c:choose>
+												<c:when test="${sortBy eq 'email' and sortMethod eq 'asc'}">
+													<a href="#" onclick="changeSortFunction('email','desc')"><span
+														class="fa fa-sort-alpha-asc fa-lg"></span></a>
+												</c:when>
+												<c:when test="${sortBy eq 'email' and sortMethod eq 'desc'}">
+													<a href="#" onclick="changeSortFunction('email','asc')"><span
+														class="fa fa-sort-alpha-desc fa-lg"></span></a>
+												</c:when>
+												<c:otherwise>
+													<a href="#" onclick="changeSortFunction('email','asc')"><span
+														class="fa fa-sort fa-lg"></span></a>
+												</c:otherwise>
+											</c:choose></th>
+									</tr>
+								</thead>
 							</table>
-						</td>
-						<td class="col-md-2">
-							<table class="col-md-12">
-								<tr align="right">
-									<td rowspan="2" align="center"><spring:message
-											code="label.user_name" /></td>
-									<td><c:if
-											test="${sortBy ne 'userName' or sortMethod ne 'desc'}">
-											<a href="#" onclick="changeSortFunction('userName','desc')"><span
-												data-id="user" data-method="ASC"
-												class="glyphicon glyphicon-chevron-up"></span></a>
-										</c:if></td>
-								</tr>
-								<tr align="right">
-									<td><c:if
-											test="${sortBy ne 'userName' or sortMethod ne 'asc'}">
-											<a href="#" onclick="changeSortFunction('userName','asc')"><span
-												class="glyphicon glyphicon-chevron-down"></span></a>
-										</c:if></td>
-								</tr>
+						</th>
+						<th class="col-md-2">
+							<table class="col-md-12 centerTh">
+								<thead>
+									<tr>
+										<th class="col-md-10" align="center"><spring:message
+												code="label.user_name" /></th>
+										<th class="col-md-2" align="center"><c:choose>
+												<c:when
+													test="${sortBy eq 'userName' and sortMethod eq 'asc'}">
+													<a href="#" onclick="changeSortFunction('userName','desc')"><span
+														class="fa fa-sort-alpha-asc fa-lg"></span></a>
+												</c:when>
+												<c:when
+													test="${sortBy eq 'userName' and sortMethod eq 'desc'}">
+													<a href="#" onclick="changeSortFunction('userName','asc')"><span
+														class="fa fa-sort-alpha-desc fa-lg"></span></a>
+												</c:when>
+												<c:otherwise>
+													<a href="#" onclick="changeSortFunction('userName','asc')"><span
+														class="fa fa-sort fa-lg"></span></a>
+												</c:otherwise>
+											</c:choose></th>
+									</tr>
+								</thead>
 							</table>
-						</td>
-						<td class="col-md-2">
-							<table class="col-md-12">
-								<tr align="right">
-									<td rowspan="2" align="center"><spring:message
-											code="label.user_last_name" /></td>
-									<td><c:if
-											test="${sortBy ne 'userLastName' or sortMethod ne 'desc'}">
-											<a href="#"
-												onclick="changeSortFunction('userLastName','desc')"><span
-												data-id="user" data-method="ASC"
-												class="glyphicon glyphicon-chevron-up"></span></a>
-										</c:if></td>
-								</tr>
-								<tr align="right">
-									<td><c:if
-											test="${sortBy ne 'userLastName' or sortMethod ne 'asc'}">
-											<a href="#"
-												onclick="changeSortFunction('userLastName','asc')"><span
-												class="glyphicon glyphicon-chevron-down"></span></a>
-										</c:if></td>
-								</tr>
+						</th>
+						<th class="col-md-2">
+							<table class="col-md-12 centerTh">
+								<thead>
+									<tr>
+										<th class="col-md-10" align="center"><spring:message
+												code="label.user_last_name" /></th>
+										<th class="col-md-2" align="center"><c:choose>
+												<c:when
+													test="${sortBy eq 'userLastName' and sortMethod eq 'asc'}">
+													<a href="#"
+														onclick="changeSortFunction('userLastName','desc')"><span
+														class="fa fa-sort-alpha-asc fa-lg"></span></a>
+												</c:when>
+												<c:when
+													test="${sortBy eq 'userLastName' and sortMethod eq 'desc'}">
+													<a href="#"
+														onclick="changeSortFunction('userLastName','asc')"><span
+														class="fa fa-sort-alpha-desc fa-lg"></span></a>
+												</c:when>
+												<c:otherwise>
+													<a href="#"
+														onclick="changeSortFunction('userLastName','asc')"><span
+														class="fa fa-sort fa-lg"></span></a>
+												</c:otherwise>
+											</c:choose></th>
+									</tr>
+								</thead>
 							</table>
-						</td>
-						<td class="col-md-2">
-							<table class="col-md-12">
-								<tr align="right">
-									<td rowspan="2" align="center"><spring:message
-											code="label.expired" /></td>
-									<td><c:if
-											test="${sortBy ne 'expired' or sortMethod ne 'desc'}">
-											<a href="#" onclick="changeSortFunction('expired','desc')"><span
-												data-id="user" data-method="ASC"
-												class="glyphicon glyphicon-chevron-up"></span></a>
-										</c:if></td>
-								</tr>
-								<tr align="right">
-									<td><c:if
-											test="${sortBy ne 'expired' or sortMethod ne 'asc'}">
-											<a href="#" onclick="changeSortFunction('expired','asc')"><span
-												class="glyphicon glyphicon-chevron-down"></span></a>
-										</c:if></td>
-								</tr>
+						</th>
+						<th class="col-md-2">
+							<table class="col-md-12 centerTh">
+								<thead>
+									<tr align="center">
+										<th class="col-md-10" align="center"><spring:message
+												code="label.expired" /></th>
+										<th class="col-md-2" align="center"><c:choose>
+												<c:when
+													test="${sortBy eq 'expired' and sortMethod eq 'asc'}">
+													<a href="#" onclick="changeSortFunction('expired','desc')"><span
+														class="fa fa-sort-alpha-asc fa-lg"></span></a>
+												</c:when>
+												<c:when
+													test="${sortBy eq 'expired' and sortMethod eq 'desc'}">
+													<a href="#" onclick="changeSortFunction('expired','asc')"><span
+														class="fa fa-sort-alpha-desc fa-lg"></span></a>
+												</c:when>
+												<c:otherwise>
+													<a href="#" onclick="changeSortFunction('expired','asc')"><span
+														class="fa fa-sort fa-lg"></span></a>
+												</c:otherwise>
+											</c:choose></th>
+									</tr>
+								</thead>
 							</table>
-						</td>
-						<td class="col-md-2">
-							<table class="col-md-12">
-								<tr align="right">
-									<td rowspan="2" align="center"><spring:message
-											code="label.role" /></td>
-									<td><c:if
-											test="${sortBy ne 'role' or sortMethod ne 'desc'}">
-											<a href="#" onclick="changeSortFunction('role','desc')"><span
-												class="glyphicon glyphicon-chevron-up"></span></a>
-										</c:if></td>
-								</tr>
-								<tr align="right">
-									<td><c:if
-											test="${sortBy ne 'role' or sortMethod ne 'asc'}">
-											<a href="#" onclick="changeSortFunction('role','asc')"><span
-												class="glyphicon glyphicon-chevron-down"></span></a>
-										</c:if></td>
-								</tr>
+						</th>
+						<th class="col-md-2">
+							<table class="col-md-12 centerTh">
+								<thead>
+									<tr>
+										<th class="col-md-10" align="center"><spring:message
+												code="label.role" /></th>
+										<th class="col-md-2" align="center"><c:choose>
+												<c:when test="${sortBy eq 'role' and sortMethod eq 'asc'}">
+													<a href="#" onclick="changeSortFunction('role','desc')"><span
+														class="fa fa-sort-alpha-asc fa-lg"></span></a>
+												</c:when>
+												<c:when test="${sortBy eq 'role' and sortMethod eq 'desc'}">
+													<a href="#" onclick="changeSortFunction('role','asc')"><span
+														class="fa fa-sort-alpha-desc fa-lg"></span></a>
+												</c:when>
+												<c:otherwise>
+													<a href="#" onclick="changeSortFunction('role','asc')"><span
+														class="fa fa-sort fa-lg"></span></a>
+												</c:otherwise>
+											</c:choose></th>
+									</tr>
+								</thead>
 							</table>
-						</td>
-						<td class="col-md-1">
-							<table class="col-md-12">
-								<tr align="right">
-									<td rowspan="2" align="center"><spring:message
-											code="label.blocked" /></td>
-									<td><c:if
-											test="${sortBy ne 'blocked' or sortMethod ne 'desc'}">
-											<a href="#" onclick="changeSortFunction('blocked','desc')"><span
-												data-id="user" data-method="ASC"
-												class="glyphicon glyphicon-chevron-up"></span></a>
-										</c:if></td>
-								</tr>
-								<tr align="right">
-									<td><c:if
-											test="${sortBy ne 'blocked' or sortMethod ne 'asc'}">
-											<a href="#" onclick="changeSortFunction('blocked','asc')"><span
-												class="glyphicon glyphicon-chevron-down"></span></a>
-										</c:if></td>
-								</tr>
+						</th>
+						<th class="col-md-1">
+							<table class="col-md-12 centerTh">
+								<thead>
+									<tr>
+										<th class="col-md-10" align="center"><spring:message
+												code="label.blocked" /></th>
+										<th class="col-md-2" align="center"><c:choose>
+												<c:when
+													test="${sortBy eq 'blocked' and sortMethod eq 'asc'}">
+													<a href="#" onclick="changeSortFunction('blocked','desc')"><span
+														class="fa fa-sort-alpha-asc fa-lg"></span></a>
+												</c:when>
+												<c:when
+													test="${sortBy eq 'blocked' and sortMethod eq 'desc'}">
+													<a href="#" onclick="changeSortFunction('blocked','asc')"><span
+														class="fa fa-sort-alpha-desc fa-lg"></span></a>
+												</c:when>
+												<c:otherwise>
+													<a href="#" onclick="changeSortFunction('blocked','asc')"><span
+														class="fa fa-sort fa-lg"></span></a>
+												</c:otherwise>
+											</c:choose></th>
+									</tr>
+								</thead>
 							</table>
-						</td>
+						</th>
 					</tr>
 					<c:forEach items="${users}" var="user">
 						<tr>
@@ -439,15 +578,18 @@ $(function() {
 							<td align="center"><fmt:formatDate pattern="dd-MM-yyyy"
 									value="${user.expired}" /></td>
 							<td>
-								<div id="category-${user.id}">
-									${user.role.role} <a type="button" data-toggle="modal"
-										data-id="changeUserRole?userId=${user.id}"
-										data-category-id="${user.role.id}"
-										class="btn btn-default openModalWindow" data-toggle="dropdown"
-										href="#myModal"> <span class="caret"></span>
-									</a>
-								</div>
-
+								<table class="col-md-12">
+									<tr>
+										<td>${user.role.role}</td>
+										<td class="col-md-2"><a type="button" data-toggle="modal"
+											data-id="changeUserRole?userId=${user.id}"
+											data-user-id="${user.id}" data-role-id="${user.role.id}"
+											class="btn btn-default openModalWindow"
+											data-toggle="dropdown" href="#myModal"> <span
+												class="caret"></span>
+										</a></td>
+									</tr>
+								</table>
 							</td>
 							<td align="center"><c:if test="${user.blocked eq false}">
 									<a href="#" onclick="changeStatusFunction('${user.id}')"><span
@@ -459,48 +601,80 @@ $(function() {
 						</tr>
 					</c:forEach>
 				</table>
-
-				<!-- Pagination block -->
-				<c:if test="${pagesCount gt 1}">
-					<nav>
-						<ul class="pagination">
-							<c:choose>
-								<c:when test="${currentPage eq 1}">
-									<li class="disabled"><a href="#">|&laquo;</a></li>
-								</c:when>
-								<c:otherwise>
-									<li><a href="#" onclick="changePageFunction('1')">|&laquo;</a></li>
-								</c:otherwise>
-							</c:choose>
-							<c:forEach var="pageNumber" begin="1" end="${pagesCount}">
-								<c:if
-									test="${(currentPage-5) le pageNumber and (currentPage + 5) ge pageNumber}">
+			</c:if>
+			<!-- Pagination block -->
+			<div class="row">
+				<div class="col-md-12" align="right">
+					<c:if test="${pagesCount gt 1}">
+						<c:set var="paginationLarge" value="1" />
+						<nav>
+							<ul class="pagination">
+								<c:choose>
+									<c:when test="${currentPage eq 1}">
+										<li class="disabled"><a href="#"><spring:message
+													code="label.previous" /></a></li>
+									</c:when>
+									<c:otherwise>
+										<li><a href="#"
+											onclick="changePageFunction('${currentPage - 1}')"><spring:message
+													code="label.previous" /></a></li>
+									</c:otherwise>
+								</c:choose>
+								<c:forEach var="pageNumber" begin="1" end="${pagesCount}">
 									<c:choose>
-										<c:when test="${pageNumber eq currentPage}">
-											<li class="active"><a href="#">${pageNumber}</a></li>
+										<c:when
+											test="${(currentPage-paginationLarge) le pageNumber and (currentPage + paginationLarge) ge pageNumber}">
+											<c:choose>
+												<c:when test="${pageNumber eq currentPage}">
+													<li class="active"><a href="#">${pageNumber}</a></li>
+												</c:when>
+												<c:otherwise>
+													<li><a href="#"
+														onclick="changePageFunction('${pageNumber}')">${pageNumber}</a>
+													</li>
+												</c:otherwise>
+											</c:choose>
 										</c:when>
-										<c:otherwise>
+										<c:when test="${pageNumber eq 1}">
 											<li><a href="#"
 												onclick="changePageFunction('${pageNumber}')">${pageNumber}</a>
 											</li>
-										</c:otherwise>
+										</c:when>
+										<c:when test="${pageNumber eq pagesCount}">
+											<li><a href="#"
+												onclick="changePageFunction('${pageNumber}')">${pageNumber}</a>
+											</li>
+										</c:when>
+										<c:when
+											test="${pageNumber eq 2 and currentPage gt (paginationLarge + 2)}">
+											<li><a href="#">...</a></li>
+										</c:when>
+										<c:when
+											test="${pageNumber eq (pagesCount - 1) and currentPage lt (pagesCount -paginationLarge)}">
+											<li><a href="#">...</a></li>
+										</c:when>
 									</c:choose>
-								</c:if>
-							</c:forEach>
-							<c:choose>
-								<c:when test="${currentPage eq pagesCount}">
-									<li class="disabled"><a href="#">&raquo;|</a></li>
-								</c:when>
-								<c:otherwise>
-									<li><a href="#"
-										onclick="changePageFunction('${pagesCount}')">&raquo;|</a></li>
-								</c:otherwise>
-							</c:choose>
-						</ul>
-					</nav>
-				</c:if>
-				<!-- /Pagination block -->
+
+								</c:forEach>
+								<c:choose>
+									<c:when test="${currentPage eq pagesCount}">
+										<li class="disabled"><a href="#"><spring:message
+													code="label.next" /></a></li>
+									</c:when>
+									<c:otherwise>
+										<li><a href="#"
+											onclick="changePageFunction('${currentPage+1}')"><spring:message
+													code="label.next" /></a></li>
+									</c:otherwise>
+								</c:choose>
+							</ul>
+						</nav>
+					</c:if>
+				</div>
 			</div>
+			<!-- /Pagination block -->
+
 		</div>
 	</div>
+</div>
 </div>
