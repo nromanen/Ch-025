@@ -72,16 +72,29 @@
 							<spring:message code="label.registration"/> 
 						</a>
 					</div>
-					<div class="form-group">
-						<a class="btn btn-social btn-twitter" href="#">
-    						<i class="fa fa-twitter"></i> Sign in with Twitter
-  						</a>
-  						<a class="btn btn-social btn-facebook" href="<c:url value="/facebook" />">
-    						<i class="fa fa-facebook"></i> Sign in with Facebook
-  						</a>
-					</div>
 				</form>
 			</div>
 		</div>
+		<div class="panel panel-default">
+	        <div class="panel-body">
+	            <h2>Sign in by using social provider</h2>
+	            <div class="row social-button-row">
+	                <div class="col-lg-4">
+	                	<form action="<c:url value="/auth/facebook" />" method="POST">
+							<button class="btn btn-social-icon btn-facebook" type="submit">
+	                    		<i class="fa fa-facebook"></i>
+	                    	</button>
+							<input type="hidden" name="scope" value="email,publish_stream,offline_access,user_birthday" />
+						</form>
+	                   <!-- 
+	                    <a href="<c:url value="/auth/twitter" />">
+	                    	<button class="btn btn-social-icon btn-twitter">
+	                    		<i class="fa fa-twitter"></i>
+	                    	</button>
+	                    </a> --> 
+	                </div>
+	            </div>
+	        </div>
+	    </div>
 	</div>
 </div>
