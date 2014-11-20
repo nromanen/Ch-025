@@ -5,7 +5,7 @@ import java.util.List;
 import com.softserve.entity.Block;
 /**
  * Specify block service funtionality
- * @author Анатолій
+ * @author  Anatoliy
  *
  */
 public interface BlockService {

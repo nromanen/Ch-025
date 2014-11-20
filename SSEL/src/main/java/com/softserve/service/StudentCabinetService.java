@@ -8,7 +8,7 @@ import com.softserve.entity.User;
 
 /**
  * Specify student cabinet funtionality
- * @author Анатолій
+ * @author Anatoliy
  *
  */
 public interface StudentCabinetService {

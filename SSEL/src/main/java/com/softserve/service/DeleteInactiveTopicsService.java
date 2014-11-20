@@ -1,7 +1,7 @@
 package com.softserve.service;
 /**
  * Specify delete inactive topics service
- * @author Анатолій
+ * @author Anatoliy
  *
  */
 public interface DeleteInactiveTopicsService {

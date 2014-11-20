@@ -12,6 +12,8 @@
 <div class="panel panel-default">
 	<div class="panel-body">
 		<div class="table-responsive">
+		  <c:choose>
+		   <c:when test="${courses.size() eq 0}">
 			<table class="table table-striped table-bordered table-hover"
 				id="dataTables-example">
 				<thead>
@@ -63,7 +65,16 @@
 						</tr>
 					</c:forEach>
 				</tbody>
-			</table>
+			 </table>
+			</c:when>
+			<c:otherwise>
+				<div class="alert alert-info alert-dismissible" role="alert">
+ 				 	<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+  					<spring:message code="label.no_courses" />
+				</div>
+			</c:otherwise>
+		 </c:choose>
+			
 		</div>
 	</div>
 </div>

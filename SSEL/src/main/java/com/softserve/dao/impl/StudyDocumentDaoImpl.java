@@ -120,7 +120,7 @@ public class StudyDocumentDaoImpl implements StudyDocumentDao {
 	public List<StudyDocument> getDocumentsForInactiveTopics() {
 		log.debug("Get all inactive files");
 		return entityManager.createQuery("FROM StudyDocument sd WHERE sd.topic.alive = :val")
-				.setParameter("val", false)
+				.setParameter("val", true)
 				.getResultList();
 	}
 

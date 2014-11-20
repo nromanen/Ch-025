@@ -6,7 +6,7 @@ import com.softserve.entity.Block;
 
 /**
  * Specify block data access object functionality
- * @author Анатолій
+ * @author  Anatoliy
  *
  */
 public interface BlockDao {
