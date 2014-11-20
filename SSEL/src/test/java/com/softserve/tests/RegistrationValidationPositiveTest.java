@@ -18,12 +18,12 @@ import org.springframework.validation.BindingResult;
 
 import com.softserve.form.Registration;
 import com.softserve.service.UserService;
-import com.softserve.validator.RegistrationValidation;
+import com.softserve.validator.RegistrationValidator;
 
 @RunWith(Parameterized.class)
 public class RegistrationValidationPositiveTest {
 
-	private RegistrationValidation registrationValidation = new RegistrationValidation();
+	private RegistrationValidator registrationValidation = new RegistrationValidator();
 	private Registration registration = new Registration();
 	private UserService userService;
 
@@ -52,10 +52,10 @@ public class RegistrationValidationPositiveTest {
     				"Fsd", "Fdsfsd", "gdfgf.dg@i.ua", "12fdsF//d54fd*&", "12fdsF//d54fd*&"
     			},
     			{
-    				"¬‡Òˇ", "œÛÔÍ≥Ì", "vasya.pupkin@mail.ru", "fdsFd54fd*&", "fdsFd54fd*&"
+    				"–í–∞—Å—è", "–ü—É–ø–∫—ñ–Ω", "vasya.pupkin@mail.ru", "fdsFd54fd*&", "fdsFd54fd*&"
     			},
     			{
-    				"≤‚‡Ì", "≤‚‡ÌÂÌÍÓ", "vanya@yahoo.com", "QweFrty34*&", "QweFrty34*&"
+    				"–û–ª–µ–≥", "–°–∫—Ä–∏–ø–∫–∞", "vanya@yahoo.com", "QweFrty34*&", "QweFrty34*&"
     			},
     			{
     				"Fdsds", "Brbrbf", "VasYa@gmail.com", "f--dsfdFd54fd*&", "f--dsfdFd54fd*&"

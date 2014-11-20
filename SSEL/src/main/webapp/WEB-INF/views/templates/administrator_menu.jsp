@@ -1,5 +1,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+
+<script type="text/javascript">
+	window.setTimeout(function() {
+		$(".alert-dismissible").alert('close');
+	}, 3000);
+</script>
+
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-static-top" role="navigation"
 	style="margin-bottom: 0">
@@ -13,13 +20,6 @@
 			src="resources/img/logo.png"></a>
 	</div>
 	<!-- /.navbar-header -->
-
-	<!--
-	<ul class="nav navbar-top-links navbar-right">
-		<li><a href="logout"><i class="fa fa-sign-out fa-fw"></i>
-				Logout</a></li>
-	</ul>
- -->
 
 	<ul class="nav navbar-top-links navbar-right">
 		<li>
@@ -51,6 +51,9 @@
 				</c:choose> <i class="fa fa-caret-down"></i>
 		</a>
 			<ul class="dropdown-menu dropdown-user">
+			<li><a href="profile"><i
+						class="fa fa-user fa-fw"></i> <spring:message code="label.admin_profile" /></a></li>
+				<li class="divider"></li>
 				<li><a href="logout"><i class="fa fa-sign-out fa-fw"></i> <spring:message
 							code="label.logout" /></a></li>
 			</ul> <!-- /.dropdown-user --></li>
@@ -63,7 +66,7 @@
 			<p align="center" class="alert alert-success">
 				<strong><spring:message code="label.admin.panel" /></strong>
 			</p>
-			<ul class="nav">
+			<ul class="nav admin">
 				<li><a href="administrator"><spring:message
 							code="label.admin.home" /></a></li>
 				<li><a href="viewAllCategories"><spring:message
@@ -73,11 +76,10 @@
 				<li><a href="viewAllUsers"><spring:message
 							code="label.admin.users" /></a></li>
 				<li><a href="viewAllRequests"><spring:message
-							code="label.requests" />
-							<c:if test="${activeTeacherRequests ne 0}">
-							<span class="badge">   ${activeTeacherRequests}</span>
-							</c:if>
-							</a></li>
+							code="label.requests" /> <c:if
+							test="${activeTeacherRequests ne 0}">
+							<span class="badge"> ${activeTeacherRequests}</span>
+						</c:if> </a></li>
 				<li><a href="viewLogs"><spring:message
 							code="label.admin.logs" /></a></li>
 			</ul>

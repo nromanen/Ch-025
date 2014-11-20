@@ -14,24 +14,23 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "category", indexes = {@Index(columnList = "name", name = "name_index_cat")})
+@Table(name = "category", indexes = { @Index(columnList = "name", name = "name_index_cat") })
 public class Category {
 
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@Column(name = "name", nullable = false)
-	private  String name;
-	
+	private String name;
+
 	@Column(name = "deleted")
 	private boolean isDeleted;
-	
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "category")
 	private List<Subject> subjects = new ArrayList<>();
-	
+
 	public Category() {
 	}
 
@@ -72,5 +71,5 @@ public class Category {
 		return "Category [id=" + id + ", name=" + name + ", subjects="
 				+ subjects + "]";
 	}
-	
+
 }

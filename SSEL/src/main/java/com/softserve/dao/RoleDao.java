@@ -20,7 +20,7 @@ public interface RoleDao {
 	 *            is a id of record in database
 	 * @return role object if exists or null otherwise
 	 */
-	public Role getRoleById(int id);
+	Role getRoleById(int id);
 
 	/**
 	 * Add new role into database
@@ -29,7 +29,7 @@ public interface RoleDao {
 	 *            new role
 	 * @return added role
 	 */
-	public Role addRole(Role role);
+	Role addRole(Role role);
 
 	/**
 	 * Update role information
@@ -38,7 +38,7 @@ public interface RoleDao {
 	 *            updated into database
 	 * @return updated role
 	 */
-	public Role updateRole(Role role);
+	Role updateRole(Role role);
 
 	/**
 	 * Delete role record from database
@@ -46,14 +46,14 @@ public interface RoleDao {
 	 * @param role
 	 *            record to delete
 	 */
-	public void deleteRole(Role role);
+	void deleteRole(Role role);
 
 	/**
 	 * Return all roles from database
 	 * 
 	 * @return list of role object if exists or empty list
 	 */
-	public List<Role> getAllRoles();
+	List<Role> getAllRoles();
 
 	/**
 	 * Return role record by role name
@@ -62,5 +62,5 @@ public interface RoleDao {
 	 *            of role record in database
 	 * @return role object if exists or null otherwise
 	 */
-	public Role getRoleByName(String name);
+	Role getRoleByName(String name);
 }

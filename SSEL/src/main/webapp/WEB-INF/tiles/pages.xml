@@ -16,33 +16,32 @@
 
 	<!-- Profile -->
 	<definition name="profile" extends="sign-template">
-		<put-attribute name="title" value="SSEL SoftServeAcademy Profile" />
+		<put-attribute name="title" value="title.profile" />
 		<put-attribute name="content" value="/WEB-INF/views/profile.jsp" />
 	</definition>
 
 	<!-- Registration -->
 	<definition name="registration" extends="sign-template">
-		<put-attribute name="title" value="SSEL SoftServeAcademy Registration" />
+		<put-attribute name="title" value="title.registration" />
 		<put-attribute name="content"
 			value="/WEB-INF/views/pages/registration.jsp" />
 	</definition>
 
 	<!-- Login -->
 	<definition name="login" extends="sign-template">
-		<put-attribute name="title" value="SSEL SoftServeAcademy Login" />
+		<put-attribute name="title" value="title.sign_in" />
 		<put-attribute name="content" value="/WEB-INF/views/pages/login.jsp" />
 	</definition>
 
 	<!-- Remind -->
 	<definition name="remind" extends="sign-template">
-		<put-attribute name="title" value="SSEL SoftServeAcademy Remind" />
+		<put-attribute name="title" value="title.remind_password" />
 		<put-attribute name="content" value="/WEB-INF/views/remind.jsp" />
 	</definition>
 
 	<!-- Restore -->
 	<definition name="restore" extends="sign-template">
-		<put-attribute name="title"
-			value="SSEL SoftServeAcademy Reset Password" />
+		<put-attribute name="title" value="title.reset_password" />
 		<put-attribute name="content" value="/WEB-INF/views/restore.jsp" />
 	</definition>
 
@@ -155,6 +154,7 @@
 		<put-attribute name="menu"
 			value="/WEB-INF/views/templates/administrator_menu.jsp"></put-attribute>
 	</definition>
+
 	<definition name="viewAllCategories" extends="administrator">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
 		<put-attribute name="content"
@@ -162,6 +162,7 @@
 		<put-attribute name="menu"
 			value="/WEB-INF/views/templates/administrator_menu.jsp"></put-attribute>
 	</definition>
+
 	<definition name="viewAllUsers" extends="administrator">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
 		<put-attribute name="content"
@@ -169,6 +170,7 @@
 		<put-attribute name="menu"
 			value="/WEB-INF/views/templates/administrator_menu.jsp"></put-attribute>
 	</definition>
+
 	<definition name="viewAllSubjects" extends="administrator">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
 		<put-attribute name="content"
@@ -176,6 +178,7 @@
 		<put-attribute name="menu"
 			value="/WEB-INF/views/templates/administrator_menu.jsp"></put-attribute>
 	</definition>
+
 	<definition name="viewAllRequests" extends="administrator">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
 		<put-attribute name="content"
@@ -183,12 +186,15 @@
 		<put-attribute name="menu"
 			value="/WEB-INF/views/templates/administrator_menu.jsp"></put-attribute>
 	</definition>
+
 	<definition name="viewAllLogs" extends="administrator">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
-		<put-attribute name="content" value="/WEB-INF/views/pages/administrator/viewAllLogs.jsp"></put-attribute>
+		<put-attribute name="content"
+			value="/WEB-INF/views/pages/administrator/viewAllLogs.jsp"></put-attribute>
 		<put-attribute name="menu"
 			value="/WEB-INF/views/templates/administrator_menu.jsp"></put-attribute>
 	</definition>
+
 	<definition name="logDetails" extends="administrator">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
 		<put-attribute name="content"
@@ -196,6 +202,7 @@
 		<put-attribute name="menu"
 			value="/WEB-INF/views/templates/administrator_menu.jsp"></put-attribute>
 	</definition>
+
 	<definition name="logDetails" extends="administrator">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
 		<put-attribute name="content"
@@ -204,5 +211,3 @@
 			value="/WEB-INF/views/templates/administrator_menu.jsp"></put-attribute>
 	</definition>
 </tiles-definitions>
-
-

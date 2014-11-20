@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.softserve.entity.User;
 import com.softserve.service.UserService;
+import com.softserve.util.Patterns;
 
 /**
  * Handle user profile request
@@ -36,7 +37,6 @@ public class UserProfileController {
 	private static final Logger LOG = LoggerFactory
 			.getLogger(UserProfileController.class);
 
-	private static final String NAME_PATTERN = "[A-ZÀ-ß²¯ª]{1}[A-ZÀ-ß²¯ªa-zà-ÿ³¿º]{1,30}";
 	private static final String ATTRIBUTE_VALID = "valid";
 	private static final String ATTRIBUTE_IMAGE = "image";
 	private static final String ATTRIBUTE_USER = "user";
@@ -99,7 +99,7 @@ public class UserProfileController {
 			@RequestBody Map<String, Object> map, HttpSession session) {
 		String firstName = map.get(KEY_FIRSTNAME).toString();
 		String lastName = map.get(KEY_LASTNAME).toString();
-		if (firstName.matches(NAME_PATTERN) && lastName.matches(NAME_PATTERN)) {
+		if (firstName.matches(Patterns.NAME_PATTERN) && lastName.matches(Patterns.NAME_PATTERN)) {
 			User user = userService
 					.getUserByEmail(userService.getCurrentUser());
 			user.setFirstName(firstName);

@@ -27,7 +27,7 @@ public class CourseScheduler {
 
 	@Column(name = "end", nullable = false)
 	private Date end;
-	
+
 	@Column(name = "deleted")
 	private boolean isDeleted;
 
@@ -74,6 +74,5 @@ public class CourseScheduler {
 	public void setEnd(Date end) {
 		this.end = end;
 	}
-
 
 }

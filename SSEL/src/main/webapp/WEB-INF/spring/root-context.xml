@@ -11,12 +11,15 @@
 		configuration) -->
 	<context:annotation-config />
 	
+	<task:annotation-driven />
+
 	<task:scheduler id="taskScheduler" />
 	<task:executor id="taskExecutor" pool-size="1" />
 	<task:annotation-driven executor="taskExecutor"
 		scheduler="taskScheduler" />
 	
 	
+
 	<context:component-scan base-package="com.softserve.dao" />
 	<context:component-scan base-package="com.softserve.service" />
 	<context:component-scan base-package="com.softserve" />
@@ -27,8 +30,8 @@
 
 	<!-- Mail sender configurations -->
 	<import resource="mail.xml" />
-	
+
 	<import resource="security.xml" />
 	
-	
+	<!-- <import resource="social.xml" /> -->
 </beans>

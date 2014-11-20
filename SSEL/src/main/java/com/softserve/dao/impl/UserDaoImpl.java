@@ -103,7 +103,6 @@ public class UserDaoImpl implements UserDao {
 		}
 	}
 
-	//----------------------------------------------------------
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -189,6 +188,9 @@ public class UserDaoImpl implements UserDao {
 				break;
 			case "blocked":
 				sortBy = "ORDER BY u.blocked";
+				break;
+			case "registration":
+				sortBy = "ORDER BY u.registration";
 				break;
 			}
 

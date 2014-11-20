@@ -23,7 +23,7 @@ public class MailServiceImpl implements MailService {
 	@Autowired
 	private JavaMailSender mailSender;
 
-	private ExecutorService executorService = Executors.newFixedThreadPool(5);
+	private ExecutorService executorService = Executors.newFixedThreadPool(1);
 
 	@Override
 	public void sendMail(String to, String subject, String body) {

@@ -19,15 +19,15 @@ public class StudentGroup {
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "id_group")
 	private Group group;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "id_user")
 	private User user;
-	
+
 	public StudentGroup() {
 	}
 
@@ -55,5 +55,4 @@ public class StudentGroup {
 		this.group = groupNumber;
 	}
 
-	
 }

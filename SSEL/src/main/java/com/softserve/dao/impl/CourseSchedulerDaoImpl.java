@@ -1,10 +1,12 @@
 package com.softserve.dao.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TemporalType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -113,7 +115,6 @@ public class CourseSchedulerDaoImpl implements CourseSchedulerDao {
 	/**
 	 * @see com.softserve.dao.CourseSchedulerDao#getCourseSchedulersBySubjectUserId(int)
 	 */
-	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<CourseScheduler> getCourseSchedulersBySubjectUserId(int id) {
@@ -164,6 +165,16 @@ public class CourseSchedulerDaoImpl implements CourseSchedulerDao {
 		LOG.debug("Get all deleted course scheduler");
 		Query query = entityManager.createQuery("FROM CourseScheduler c WHERE c.isDeleted = :val");
 		query.setParameter("val",true);
+		return query.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<CourseScheduler> getCourseSchedulersByStartDate(Date date) {
+		LOG.debug("Get all course schedulers by start date = {}", date);
+		Query query = entityManager
+				.createQuery("FROM CourseScheduler c WHERE c.start = :date");
+		query.setParameter("date", date, TemporalType.DATE);
 		return query.getResultList();
 	}
 

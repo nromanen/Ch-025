@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+	<changeSet id="2014-11-14-add-column-table-block" author="Roma">
+		<comment>Add column deleted to table block</comment>
+		<addColumn tableName="block">
+			<column name="deleted" type="boolean" defaultValueBoolean="false">
+				<constraints nullable="false" />
+			</column>
+		</addColumn>
+	</changeSet>
+
+	<changeSet id="2014-11-14-add-column-table-category" author="Roma">
+		<comment>Add column deleted to table category</comment>
+		<addColumn tableName="category">
+			<column name="deleted" type="boolean" defaultValueBoolean="false">
+				<constraints nullable="false" />
+			</column>
+		</addColumn>
+	</changeSet>
+
+	<changeSet id="2014-11-14-add-column-table-course_scheduler"
+		author="Roma">
+		<comment>Add column deleted to table course_scheduler</comment>
+		<addColumn tableName="course_scheduler">
+			<column name="deleted" type="boolean" defaultValueBoolean="false">
+				<constraints nullable="false" />
+			</column>
+		</addColumn>
+	</changeSet>
+
+	<changeSet id="2014-11-14-add-column-table-groups" author="Roma">
+		<comment>Add column deleted to table groups</comment>
+		<addColumn tableName="groups">
+			<column name="deleted" type="boolean" defaultValueBoolean="false">
+				<constraints nullable="false" />
+			</column>
+		</addColumn>
+	</changeSet>
+
+	<changeSet id="2014-11-14-add-column-table-files" author="Roma">
+		<comment>Add column deleted to table files</comment>
+		<addColumn tableName="files">
+			<column name="deleted" type="boolean" defaultValueBoolean="false">
+				<constraints nullable="false" />
+			</column>
+		</addColumn>
+	</changeSet>
+	
+	<changeSet id="2014-11-14-add-column-table-subject" author="Roma">
+		<comment>Add column deleted to table subject</comment>
+		<addColumn tableName="subject">
+			<column name="deleted" type="boolean" defaultValueBoolean="false">
+				<constraints nullable="false" />
+			</column>
+		</addColumn>
+	</changeSet>
+	
+	<changeSet id="2014-11-14-add-column-table-topic" author="Roma">
+		<comment>Add column deleted to table topic</comment>
+		<addColumn tableName="topic">
+			<column name="deleted" type="boolean" defaultValueBoolean="false">
+				<constraints nullable="false" />
+			</column>
+		</addColumn>
+	</changeSet>
+
+	<changeSet id="2014-11-16-add-column-table-user" author="Roma">
+		<comment>Add column social to table user</comment>
+		<addColumn tableName="user">
+			<column name="social" type="varchar(20)" defaultValue="REGISTRATION">
+				<constraints nullable="false"/>
+			</column>
+		</addColumn>
+	</changeSet>
+
+</databaseChangeLog>
