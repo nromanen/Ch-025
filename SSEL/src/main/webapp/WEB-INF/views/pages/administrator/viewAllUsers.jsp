@@ -317,7 +317,7 @@
 				<!-- Pagination block -->
 				<div class="col-md-7" align="right">
 					<c:if test="${pagesCount gt 1}">
-						<c:set var="paginationLarge" value="1" />
+						<c:set var="paginationLarge" value="2" />
 						<nav>
 							<ul class="pagination">
 								<c:choose>
@@ -387,9 +387,9 @@
 
 			<!-- Elements on page block -->
 			<div class="row">
-				<div class="col-md-12" align="right">
+				<div class="col-md-12" align="left">
 					<c:if test="${not empty users}">
-						<label>On page <c:set var="onPage">1,3,5,10,25,50,100</c:set>
+						<label><spring:message code="label.records_per_page" /><c:set var="onPage">1,3,5,10,25,50,100</c:set>
 							<select id="elementsOnPage"
 							onchange="changeElementsPerPageFunction(this)">
 								<c:forTokens items="${onPage}" delims="," var="element">
@@ -603,10 +603,10 @@
 				</table>
 			</c:if>
 			<!-- Pagination block -->
+			<%-- <c:set var="paginationLarge" value="2" /> --%>
 			<div class="row">
 				<div class="col-md-12" align="right">
 					<c:if test="${pagesCount gt 1}">
-						<c:set var="paginationLarge" value="1" />
 						<nav>
 							<ul class="pagination">
 								<c:choose>

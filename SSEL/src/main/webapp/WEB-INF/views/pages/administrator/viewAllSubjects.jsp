@@ -289,7 +289,7 @@
 			<!-- Pagination block -->
 			<div class="col-md-7" align="right">
 				<c:if test="${pagesCount gt 1}">
-					<c:set var="paginationLarge" value="1" />
+					<c:set var="paginationLarge" value="2" />
 					<nav>
 						<ul class="pagination">
 							<c:choose>
@@ -359,9 +359,9 @@
 
 		<!-- Elements on page block -->
 		<div class="row">
-			<div class="col-md-3" align="left">
+			<div class="col-md-12" align="left">
 				<c:if test="${not empty subjects}">
-					<label>On page <c:set var="onPage">1,3,5,10,25,50,100</c:set>
+					<label><spring:message code="label.records_per_page" /><c:set var="onPage">1,3,5,10,25,50,100</c:set>
 						<select id="elementsOnPage"
 						onchange="changeElementsPerPageFunction(this)">
 							<c:forTokens items="${onPage}" delims="," var="element">
@@ -392,7 +392,8 @@
 											<tr>
 												<th class="col-md-10" align="center"><spring:message
 														code="label.subject_name" /></th>
-												<th class="col-md-2" align="center"><c:choose>
+												<th class="col-md-2" align="center">
+												<c:choose>
 														<c:when
 															test="${sortBy eq 'subject' and sortMethod eq 'asc'}">
 															<a href="#"
@@ -408,7 +409,8 @@
 															<a href="#" onclick="changeSortFunction('subject','asc')"><span
 																class="fa fa-sort fa-lg"></span></a>
 														</c:otherwise>
-													</c:choose></th>
+												</c:choose>
+													</th>
 											</tr>
 										</thead>
 									</table>
@@ -469,10 +471,10 @@
 		</div>
 
 		<!-- Pagination block -->
+		<%-- <c:set var="paginationLarge" value="2" /> --%>
 		<div class="row">
 			<div class="col-md-12" align="right">
 				<c:if test="${pagesCount gt 1}">
-					<c:set var="paginationLarge" value="1" />
 					<nav>
 						<ul class="pagination">
 							<c:choose>
