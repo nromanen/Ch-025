@@ -147,11 +147,14 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public void registrateFacebookUser(Facebook facebook) {
+	public void registrateFacebookUser(Facebook facebook, String url,
+			String message) {
 		UserOperations operations = facebook.userOperations();
 		FacebookProfile profile = operations.getUserProfile();
 		if (!userDao.isExist(profile.getEmail())) {
 			Calendar calendar = Calendar.getInstance();
+			PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(
+					PASSWORD_STRENGTH);
 			User user = new User();
 			user.setBlocked(false);
 			user.setEmail(profile.getEmail());
@@ -164,8 +167,13 @@ public class UserServiceImpl implements UserService {
 			user.setPassword(getEncoderPassword(DEFAULT_PASSWORD));
 			user.setRole(roleService.getRoleByName(Roles.STUDENT.toString()));
 			user.setSocial(Social.FACEBOOK);
+			user.setVerificationKey(passwordEncoder.encode(profile.getEmail()));
 			userDao.addUser(user);
-			// TODO send email
+			url = url.replace("/social",
+					"/remind/pass?key=" + user.getVerificationKey());
+			message += " <a href=\"" + url + "\">" + url + "</a>";
+			mailService.sendMail(user.getEmail(), "SSEL create new password",
+					message);
 		}
 	}
 

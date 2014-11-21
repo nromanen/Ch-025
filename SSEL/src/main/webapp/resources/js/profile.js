@@ -14,7 +14,7 @@ jQuery(document).ready(function($) {
 	}).mouseout(function() {
 		$("#old_password").attr('type', 'password');
 	});
-
+	
 	$("#btn_change_email").click(function() {
 		$('#modal_change_email').modal();
 	});
@@ -23,6 +23,10 @@ jQuery(document).ready(function($) {
 		$('#modal_load_photo').modal();
 	});
 
+	$('#modal_change_password').on('shown.bs.modal', function() {
+	    $('#form_change_password').bootstrapValidator('resetForm', true);
+	});
+	
 	$('[data-toggle="tooltip"]').tooltip();
 
 	$("#form_change_user_information").submit(function() {

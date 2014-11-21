@@ -1,14 +1,16 @@
 package com.softserve.controller;
 
-import java.util.Date;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.social.connect.Connection;
-import org.springframework.social.connect.UserProfile;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.stereotype.Controller;
@@ -19,9 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 
 import com.softserve.entity.User;
-import com.softserve.entity.User.Roles;
-import com.softserve.entity.User.Social;
-import com.softserve.service.RoleService;
 import com.softserve.service.UserService;
 import com.softserve.util.SecurityUtil;
 
@@ -38,6 +37,9 @@ public class LoginController {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private MessageSource messageSource;
+
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String loginPage(
 			@RequestParam(value = "error", required = false) String error,
@@ -52,11 +54,14 @@ public class LoginController {
 		return "login";
 	}
 
+	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "/social", method = RequestMethod.GET)
-	public String showRegistrationForm(WebRequest request, Model model) {
+	public String showRegistrationForm(WebRequest webRequest, Model model,
+			HttpServletRequest request) {
 		LOG.debug("Rendering registration page.");
 
-		Connection<?> connection = ProviderSignInUtils.getConnection(request);
+		Connection<?> connection = ProviderSignInUtils
+				.getConnection(webRequest);
 
 		if (connection.getApi() == null) {
 			return "redirect:/";
@@ -64,11 +69,15 @@ public class LoginController {
 
 		if (connection.getApi() instanceof Facebook) {
 			Facebook facebook = (Facebook) connection.getApi();
-			userService.registrateFacebookUser(facebook);
+			String url = request.getRequestURL().toString();
+			String message = new String(messageSource.getMessage(
+					"message.user.chage_password", new Object[] {},
+					LocaleContextHolder.getLocale()));
+			userService.registrateFacebookUser(facebook, url, message);
 			User user = userService.getUserByEmail(facebook.userOperations()
 					.getUserProfile().getEmail());
 			SecurityUtil.logInUser(user);
-			return "redirect:/student";
+			return "redirect:/profile";
 		}
 		return "redirect:/";
 	}

@@ -75,9 +75,13 @@
 				</form>
 			</div>
 		</div>
-		<div class="panel panel-default">
-	        <div class="panel-body">
-	            <h2>Sign in by using social provider</h2>
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+        		<h3 class="panel-title">
+        			<spring:message code="label.sign_in_via_social" />
+        		</h3>
+      		</div>
+	        <div class="panel-body">   
 	            <div class="row social-button-row">
 	                <div class="col-lg-4">
 	                	<form action="<c:url value="/auth/facebook" />" method="POST">
@@ -86,12 +90,6 @@
 	                    	</button>
 							<input type="hidden" name="scope" value="email,publish_stream,offline_access,user_birthday" />
 						</form>
-	                   <!-- 
-	                    <a href="<c:url value="/auth/twitter" />">
-	                    	<button class="btn btn-social-icon btn-twitter">
-	                    		<i class="fa fa-twitter"></i>
-	                    	</button>
-	                    </a> --> 
 	                </div>
 	            </div>
 	        </div>
