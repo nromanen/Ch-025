@@ -49,7 +49,7 @@
 			</column>
 		</addColumn>
 	</changeSet>
-	
+
 	<changeSet id="2014-11-14-add-column-table-subject" author="Roma">
 		<comment>Add column deleted to table subject</comment>
 		<addColumn tableName="subject">
@@ -58,7 +58,7 @@
 			</column>
 		</addColumn>
 	</changeSet>
-	
+
 	<changeSet id="2014-11-14-add-column-table-topic" author="Roma">
 		<comment>Add column deleted to table topic</comment>
 		<addColumn tableName="topic">
@@ -72,7 +72,7 @@
 		<comment>Add column social to table user</comment>
 		<addColumn tableName="user">
 			<column name="social" type="varchar(20)" defaultValue="REGISTRATION">
-				<constraints nullable="false"/>
+				<constraints nullable="false" />
 			</column>
 		</addColumn>
 	</changeSet>

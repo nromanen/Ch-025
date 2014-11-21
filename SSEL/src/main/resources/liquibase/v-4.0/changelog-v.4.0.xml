@@ -195,4 +195,34 @@
 		</sql>
 	</changeSet>
 	
+	<changeSet id="2014-11-21-create-table-userconnection" author="Roma">
+		<comment>Create table userconnection</comment>
+		<createTable tableName="UserConnection">
+			<column name="userId" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="providerId" type="varchar(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="providerUserId" type="varchar(255)" />
+			<column name="rank" type="int">
+				<constraints nullable="false"/>
+			</column>
+			<column name="displayName" type="varchar(255)" />
+			<column name="profileUrl" type="varchar(512)" />
+			<column name="imageUrl" type="varchar(512)" />
+			<column name="accessToken" type="varchar(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="secret" type="varchar(255)" />
+			<column name="refreshToken" type="varchar(255)" />
+			<column name="expireTime" type="bigint" />
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="2014-11-21-create-primary-key" author="Roma">
+		<comment>Create primary key userconnection</comment>
+		<addPrimaryKey tableName="UserConnection" columnNames="userId, providerId, providerUserId" />
+	</changeSet>
+	
 </databaseChangeLog>
