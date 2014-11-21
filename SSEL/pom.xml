@@ -264,7 +264,7 @@
 			<version>1.3</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		 <!-- Spring Social -->
         <dependency>
             <groupId>org.springframework.social</groupId>
@@ -286,13 +286,19 @@
             <artifactId>spring-social-web</artifactId>
             <version>${spring.social.version}</version>
         </dependency>
-        
+
         <!-- Spring Social Facebook -->
         <dependency>
             <groupId>org.springframework.social</groupId>
             <artifactId>spring-social-facebook</artifactId>
             <version>${spring.social.facebook.version}</version>
         </dependency>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20140107</version>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<plugins>

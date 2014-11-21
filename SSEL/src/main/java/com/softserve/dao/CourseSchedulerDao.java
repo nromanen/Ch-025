@@ -8,7 +8,6 @@ import com.softserve.entity.CourseScheduler;
 /**
  * Specify CourseScheduler data access object functionality
  * 
- * @author
  * @author Roma Khomyshyn
  */
 public interface CourseSchedulerDao {

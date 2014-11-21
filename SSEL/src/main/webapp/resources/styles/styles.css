@@ -137,3 +137,27 @@ body {
 .slct {
 	height: 30px;
 }
+
+.table .glyphicon-chevron-down{
+	margin-right:1px;
+}
+
+.table td{
+	height:20px;
+}
+
+.admin span{
+	background-color:#0080ff;
+	float:right;
+}
+
+.admTopM {
+    margin-top:20px;
+    margin-bottom:10px;
+}
+
+.centerTh th {
+	text-align: center;
+	vertical-align: middle;
+	height:50px;
+}
