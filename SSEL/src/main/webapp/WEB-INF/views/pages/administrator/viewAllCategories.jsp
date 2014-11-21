@@ -5,19 +5,89 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <script type="text/javascript">
-	$(document).on("click", ".openModalWindow", function() {
-		var deleteCategory = $(this).data('id');
-		document.getElementById("mybtn").onclick = function() {
-			window.location.href = deleteCategory;
-		}
-	});
+	$(document)
+			.on(
+					"click",
+					".openModalWindow",
+					function() {
+						var deleteCategory = $(this).data('id');
+						//document.getElementById("demo").innerHTML = deleteCategory;
+
+						var categoryId = $(this).data('id');
+						//alert(categoryId);
+						$
+								.ajax({
+									type : "POST",
+									url : "checkCategory",
+									data : {
+										"categoryId" : categoryId
+									},
+									error : function(xhr) {
+										$("#demo").text(xhr.statusText);
+									},
+									success : function(str) {
+										var json = JSON.parse(str);
+
+										count = json["count"];
+										//document.getElementById("demo").innerHTML = JSON.parse(count);
+										if (count != null && count > 0) {
+											$("#labelDeleteInf")
+													.html(
+															'<spring:message code="label.admin.delete_because"/>'
+																	+ ' ('
+																	+ '<spring:message code="label.admin.subjects_number"/>'
+																	+ ': '
+																	+ json["count"]
+																	+ ')');
+											$("#mybtn")
+													.html(
+															'<spring:message code="label.details"/>');
+											$("#mybtn")
+													.attr(
+															"href",
+															"viewAllSubjects?searchText="
+																	+ json["categoryName"]
+																	+ "&searchOption=category");
+										} else {
+											$("#labelDeleteInf")
+													.html(
+															'<spring:message code="label.admin_delete_record" />');
+											$("#mybtn")
+													.html(
+															'<spring:message code="label.delete" />');
+											$("#mybtn")
+													.attr(
+															"href",
+															"deleteCategory?categoryId="
+																	+ json["categoryId"]);
+										}
+									}
+								});
+					});
 </script>
 
 <script>
-$(function() {
-	//$(".sidebar").find("a").addClass("active");
-	$(".sidebar").find($('a[href="viewAllCategories"]')).addClass("active");
+	$(function() {
+		$(".sidebar").find($('a[href="viewAllCategories"]')).addClass("active");
 	});
+</script>
+
+<script type="text/javascript">
+	function validCategoryFunction() {
+		categoryId = $("#demo").text();
+		//alert(categoryId);
+		$.ajax({
+			type : "POST",
+			url : "checkCategory",
+			data : {
+				"categoryId" : categoryId
+			},
+			success : function(text) {
+				document.getElementById("demo").innerHTML = text;
+			}
+		});
+
+	}
 </script>
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
@@ -29,16 +99,12 @@ $(function() {
 					<span aria-hidden="true">&times;</span><span class="sr-only"><spring:message
 							code="label.close" /></span>
 				</button>
-				<h4 class="modal-title" align="center">
-					<spring:message code="label.admin_delete_record" />
-				</h4>
+				<h4 class="modal-title" align="center" id="labelDeleteInf"></h4>
 			</div>
 			<div class="modal-footer">
 				<p align="center">
-					<button type="button" id="mybtn" id="mybtn" class="btn btn-primary"
-						onClick="">
-						<spring:message code="label.delete" />
-					</button>
+					<a type="button" id="mybtn" id="mybtn" class="btn btn-primary"
+						onClick=""></a>
 					<button type="button" class="btn btn-default" data-dismiss="modal">
 						<spring:message code="label.cancel" />
 					</button>
@@ -85,7 +151,7 @@ $(function() {
 			</form>
 		</div>
 		<div class="col-md-6">
-		<br>
+			<br>
 			<table class="table table-bordered">
 				<tr align="center" class="info">
 					<td class="col-md-5"><spring:message
@@ -96,8 +162,7 @@ $(function() {
 					<tr>
 						<td>${category.name}</td>
 						<td align="center"><a data-toggle="modal"
-							data-id="deleteCategory?categoryId=${category.id}"
-							class="openModalWindow" href="#myModal"><span
+							data-id="${category.id}" class="openModalWindow" href="#myModal"><span
 								class="glyphicon glyphicon-remove red"></span></a>
 					</tr>
 				</c:forEach>

@@ -84,18 +84,18 @@
 																	<button type="button"
 																		class="btn btn-outline btn-primary btn-xs"
 																		onclick="location.href='changeTopicOrder?updown=down&topicId=${topic.id}&subjectId=${subject.id}'">
-																		<spring:message code="label.teacher.down" />
+																		<i class="glyphicon glyphicon-arrow-down"></i>
 																	</button>
 																	<c:set var="counter" value="${counter + 1}" />
 																	<c:set var="count" value="${fn:length(topicList)}" />
 
 																</c:when>
 
-																<c:when test="${counter == fn:length(topicList)-1}">
+																<c:when test="${counter == blockSizesArray[block.id]-1}">
 																	<button type="button"
 																		class="btn btn-outline btn-primary btn-xs"
 																		onclick="location.href='changeTopicOrder?updown=up&topicId=${topic.id}&subjectId=${subject.id}'">
-																		<spring:message code="label.teacher.up" />
+																		<i class="glyphicon glyphicon-arrow-up"></i>
 																	</button>
 																	<c:set var="counter" value="${counter + 1}" />
 																</c:when>
@@ -105,12 +105,12 @@
 																	<button type="button"
 																		class="btn btn-outline btn-primary btn-xs"
 																		onclick="location.href='changeTopicOrder?updown=up&topicId=${topic.id}&subjectId=${subject.id}'">
-																		<spring:message code="label.teacher.up" />
+																		<i class="glyphicon glyphicon-arrow-up"></i>
 																	</button>
 																	<button type="button"
 																		class="btn btn-outline btn-primary btn-xs"
 																		onclick="location.href='changeTopicOrder?updown=down&topicId=${topic.id}&subjectId=${subject.id}'">
-																		<spring:message code="label.teacher.down" />
+																		<i class="glyphicon glyphicon-arrow-down"></i>
 																	</button>
 
 																	<c:set var="counter" value="${counter + 1}" />

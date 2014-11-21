@@ -215,6 +215,7 @@
 			<column name="id_subject" type="int">
 				<constraints nullable="false" />
 			</column>
+			
 		</createTable>
 	</changeSet>
 

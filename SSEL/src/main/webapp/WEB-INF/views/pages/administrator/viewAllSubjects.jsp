@@ -7,7 +7,6 @@
 
 <script>
 	$(function() {
-		//$(".sidebar").find("a").addClass("active");
 		$(".sidebar").find($('a[href="viewAllSubjects"]')).addClass("active");
 	});
 </script>
@@ -19,6 +18,31 @@
 					".openModalWindow",
 					function() {
 						var subjectId = $(this).data('id');
+						var categoryId = $(this).data('category-id');
+
+						$
+								.ajax({
+									type : "POST",
+									url : "getCategory",
+									data : {
+										"categoryId" : categoryId
+									},
+									error : function(xhr) {
+										alert(xhr.statusText);
+									},
+									success : function(str) {
+
+										obj = JSON.parse(str);
+										$("#newCategory").empty();
+										for (i = 0; i < obj.categories.length; i++) {
+											$("#newCategory")
+													.append(
+															'<option value="'+obj.categories[i].categoryId+'">'
+																	+ obj.categories[i].categoryName
+																	+ '</option>');
+										}
+									}
+								});
 
 						document.getElementById("mybtn").onclick = function() {
 							var newCategory = document
@@ -73,25 +97,6 @@
 	function changeElementsPerPageFunction(sel) {
 		var elements = document.getElementById("elementsOnPage");
 		var newPage = elements.options[elements.selectedIndex].value;
-
-		/*
-		//$.get( "viewAllSubjects?elementsOnPage=5");
-		$.post( "viewAllSubjects?elementsOnPage="+newPage );
-		echo("${elementsOnPage}");
-		//$.get( "viewAllSubjects", {elementsOnPage: "3"} );
-
-
-		var saveData = $.ajax({
-		type: 'POST',
-		url: "changeSubjectAjax",
-		data: { elementsOnPage: newPage},
-		success: function(resultData) {
-			json = JSON.stringify(resultData)
-			document.getElementById("demo").innerHTML=json;
-
-		}
-		});
-		 */
 
 		if ('${searchText}' != "" && '${searchOption}' != "") {
 			if ('${sortBy}' != "" && '${sortMethod}' != "") {
@@ -152,6 +157,9 @@
 <script type="text/javascript">
 	function searchTextFunction(page) {
 		var searchText = document.getElementById("searchText").value;
+		var div = document.createElement("div");
+		div.innerHTML = searchText;
+		searchText = div.textContent || div.innerText || "";
 		var checkedSearchRadio = $('input:radio[name=searchOption]:checked')
 				.val();
 		window.location.href = "viewAllSubjects?searchText=" + searchText
@@ -175,6 +183,7 @@
 	}
 </script>
 
+
 <!-- Modal window -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel" aria-hidden="true">
@@ -188,13 +197,8 @@
 				<h4 class="modal-title" align="center">
 					<spring:message code="label.choose_category" />
 				</h4>
-				<select multiple class="form-control" id="newCategory">
-
-					<c:forEach items="${categories}" var="category">
-						<option value="${category.id}">${category.name}</option>
-					</c:forEach>
-
-				</select>
+				<p id="demo"></p>
+				<select multiple class="form-control" id="newCategory"></select>
 			</div>
 			<div class="modal-footer">
 				<p align="center">
@@ -213,8 +217,7 @@
 <!-- /Modal window -->
 
 <div class="row">
-	<div class="col-lg-12">
-
+	<div class="col-md-12">
 		<!-- Message block -->
 		<c:if test="${not empty successMessage}">
 			<div class="alert alert-success alert-dismissible" role="alert">
@@ -236,13 +239,18 @@
 			</div>
 		</c:if>
 		<!-- /Message block -->
+	</div>
+</div>
 
-		<div class="col-md-2"></div>
-		<div class="col-md-8">
-			<br>
+<br>
+<div class="row">
+	<div class="col-md-10 col-md-offset-1">
+
+		<div class="row">
+
 			<!-- search block -->
-			<div class="col-md-12">
-				<div class="input-group col-md-6">
+			<div class="col-md-5" align="left">
+				<div class="input-group admTopM">
 					<div class="input-group-addon">
 						<a href="#" data-toggle="dropdown" class="dropdown"> <span
 							class="glyphicon glyphicon-cog"></span>
@@ -260,137 +268,279 @@
 							</label></li>
 						</ul>
 					</div>
-					<input type="text" class="form-control" id="searchText"
-						placeholder="<spring:message code='label.search_text' />">
+					<c:choose>
+						<c:when test="${not empty searchText}">
+							<input type="text" class="form-control" id="searchText"
+								value="${searchText}"
+								placeholder="<spring:message code='label.search_text' />">
+						</c:when>
+						<c:otherwise>
+							<input type="text" class="form-control" id="searchText"
+								placeholder="<spring:message code='label.search_text' />">
+						</c:otherwise>
+					</c:choose>
 					<a href="#" class="input-group-addon"
 						onclick="searchTextFunction()"><span
 						class="glyphicon glyphicon-search"></span></a>
 				</div>
-				<!-- /search block-->
-
-				<!-- Elements on page block -->
-				<div align="right">
-					<label>On page <c:set var="onPage">1,3,5,10,25,50,100</c:set>
-						<select id="elementsOnPage"
-						onchange="changeElementsPerPageFunction(this)">
-							<c:forTokens items="${onPage}" delims="," var="element">
-								<option value="${element}"
-									<c:if test="${elementsOnPage eq element}">
-				selected
-				</c:if>>${element}</option>
-							</c:forTokens>
-					</select>
-					</label>
-				</div>
-				<!-- /Elements on page block -->
-
 			</div>
-			<div class="col-md-12" align="center">
-				<table class="table table-bordered">
-					<tr align="center" class="info">
-						<td class="col-md-6">
-							<table class="col-md-12">
-								<tr align="right">
-									<td rowspan="2" align="center"><spring:message
-											code="label.subject_name" /></td>
-									<td><c:if
-											test="${sortBy ne 'subject' or sortMethod ne 'desc'}">
-											<a href="#" onclick="changeSortFunction('subject','desc')"><span
-												data-id="subject" data-method="ASC"
-												class="glyphicon glyphicon-chevron-up"></span></a>
-										</c:if></td>
-								</tr>
-								<tr align="right">
-									<td><c:if
-											test="${sortBy ne 'subject' or sortMethod ne 'asc'}">
-											<a href="#" onclick="changeSortFunction('subject','asc')"><span
-												class="glyphicon glyphicon-chevron-down"></span></a>
-										</c:if></td>
-								</tr>
-							</table>
-						</td>
-						<td class="col-md-4">
-							<table class="col-md-12">
-								<tr align="right">
-									<td rowspan="2" align="center"><spring:message
-											code="label.admin_category" /></td>
-									<td><c:if
-											test="${sortBy ne 'category' or sortMethod ne 'desc'}">
-											<a href="#" onclick="changeSortFunction('category','desc')"><span
-												class="glyphicon glyphicon-chevron-up"></span></a>
-										</c:if></td>
-								</tr>
-								<tr align="right">
-									<td><c:if
-											test="${sortBy ne 'category' or sortMethod ne 'asc'}">
-											<a href="#" onclick="changeSortFunction('category','asc')"><span
-												class="glyphicon glyphicon-chevron-down"></span></a>
-										</c:if></td>
-								</tr>
-							</table>
-						</td>
-					</tr>
-					<c:forEach items="${subjects}" var="subject">
-						<tr>
-							<td>${subject.name}</td>
-							<td>
-								<div id="category-${subject.id}">
-									${subject.category.name} <a type="button" data-toggle="modal"
-										data-id="changeSubjectCategory?subjectId=${subject.id}"
-										data-category-id="${subject.category.id}"
-										class="btn btn-default openModalWindow" data-toggle="dropdown"
-										href="#myModal"> <span class="caret"></span>
-									</a>
-								</div>
+			<!-- /search block-->
 
-							</td>
-						</tr>
-					</c:forEach>
-				</table>
-
-				<!-- Pagination block -->
+			<!-- Pagination block -->
+			<div class="col-md-7" align="right">
 				<c:if test="${pagesCount gt 1}">
+					<c:set var="paginationLarge" value="2" />
 					<nav>
 						<ul class="pagination">
 							<c:choose>
 								<c:when test="${currentPage eq 1}">
-									<li class="disabled"><a href="#">|&laquo;</a></li>
-								</c:when>
-								<c:otherwise>
-									<li><a href="#" onclick="changePageFunction('1')">|&laquo;</a></li>
-								</c:otherwise>
-							</c:choose>
-							<c:forEach var="pageNumber" begin="1" end="${pagesCount}">
-								<c:if
-									test="${(currentPage-5) le pageNumber and (currentPage + 5) ge pageNumber}">
-									<c:choose>
-										<c:when test="${pageNumber eq currentPage}">
-											<li class="active"><a href="#">${pageNumber}</a></li>
-										</c:when>
-										<c:otherwise>
-											<li><a href="#"
-												onclick="changePageFunction('${pageNumber}')">${pageNumber}</a>
-											</li>
-										</c:otherwise>
-									</c:choose>
-								</c:if>
-							</c:forEach>
-							<c:choose>
-								<c:when test="${currentPage eq pagesCount}">
-									<li class="disabled"><a href="#">&raquo;|</a></li>
+									<li class="disabled"><a href="#"><spring:message
+												code="label.previous" /></a></li>
 								</c:when>
 								<c:otherwise>
 									<li><a href="#"
-										onclick="changePageFunction('${pagesCount}')">&raquo;|</a></li>
+										onclick="changePageFunction('${currentPage - 1}')"><spring:message
+												code="label.previous" /></a></li>
+								</c:otherwise>
+							</c:choose>
+							<c:forEach var="pageNumber" begin="1" end="${pagesCount}">
+								<c:choose>
+									<c:when
+										test="${(currentPage-paginationLarge) le pageNumber and (currentPage + paginationLarge) ge pageNumber}">
+										<c:choose>
+											<c:when test="${pageNumber eq currentPage}">
+												<li class="active"><a href="#">${pageNumber}</a></li>
+											</c:when>
+											<c:otherwise>
+												<li><a href="#"
+													onclick="changePageFunction('${pageNumber}')">${pageNumber}</a>
+												</li>
+											</c:otherwise>
+										</c:choose>
+									</c:when>
+									<c:when test="${pageNumber eq 1}">
+										<li><a href="#"
+											onclick="changePageFunction('${pageNumber}')">${pageNumber}</a>
+										</li>
+									</c:when>
+									<c:when test="${pageNumber eq pagesCount}">
+										<li><a href="#"
+											onclick="changePageFunction('${pageNumber}')">${pageNumber}</a>
+										</li>
+									</c:when>
+									<c:when
+										test="${pageNumber eq 2 and currentPage gt (paginationLarge + 2)}">
+										<li><a href="#">...</a></li>
+									</c:when>
+									<c:when
+										test="${pageNumber eq (pagesCount - 1) and currentPage lt (pagesCount -paginationLarge)}">
+										<li><a href="#">...</a></li>
+									</c:when>
+								</c:choose>
+
+							</c:forEach>
+							<c:choose>
+								<c:when test="${currentPage eq pagesCount}">
+									<li class="disabled"><a href="#"><spring:message
+												code="label.next" /></a></li>
+								</c:when>
+								<c:otherwise>
+									<li><a href="#"
+										onclick="changePageFunction('${currentPage+1}')"><spring:message
+												code="label.next" /></a></li>
 								</c:otherwise>
 							</c:choose>
 						</ul>
 					</nav>
 				</c:if>
-				<!-- /Pagination block -->
+			</div>
+			<!-- /Pagination block -->
+		</div>
+
+		<!-- Elements on page block -->
+		<div class="row">
+			<div class="col-md-12" align="left">
+				<c:if test="${not empty subjects}">
+					<label><spring:message code="label.records_per_page" /><c:set var="onPage">1,3,5,10,25,50,100</c:set>
+						<select id="elementsOnPage"
+						onchange="changeElementsPerPageFunction(this)">
+							<c:forTokens items="${onPage}" delims="," var="element">
+								<c:choose>
+									<c:when test="${elementsOnPage eq element}">
+										<option value="${element}" selected>${element}</option>
+									</c:when>
+									<c:otherwise>
+										<option value="${element}">${element}</option>
+									</c:otherwise>
+								</c:choose>
+							</c:forTokens>
+					</select>
+					</label>
+				</c:if>
 			</div>
 		</div>
-		<div class="col-md-2"></div>
+		<!-- /Elements on page block -->
+		<div class="row">
+			<div class="col-md-12" align="center">
+				<c:if test="${not empty subjects}">
+					<table class="table table-bordered">
+						<thead>
+							<tr align="center" class="info">
+								<th class="col-md-7">
+									<table class="col-md-12 centerTh">
+										<thead>
+											<tr>
+												<th class="col-md-10" align="center"><spring:message
+														code="label.subject_name" /></th>
+												<th class="col-md-2" align="center">
+												<c:choose>
+														<c:when
+															test="${sortBy eq 'subject' and sortMethod eq 'asc'}">
+															<a href="#"
+																onclick="changeSortFunction('subject','desc')"><span
+																class="fa fa-sort-alpha-asc fa-lg"></span></a>
+														</c:when>
+														<c:when
+															test="${sortBy eq 'subject' and sortMethod eq 'desc'}">
+															<a href="#" onclick="changeSortFunction('subject','asc')"><span
+																class="fa fa-sort-alpha-desc fa-lg"></span></a>
+														</c:when>
+														<c:otherwise>
+															<a href="#" onclick="changeSortFunction('subject','asc')"><span
+																class="fa fa-sort fa-lg"></span></a>
+														</c:otherwise>
+												</c:choose>
+													</th>
+											</tr>
+										</thead>
+									</table>
+								</th>
+								<th class="col-md-5">
+									<table class="col-md-12 centerTh">
+										<thead>
+											<tr>
+												<th class="col-md-10" align="center"><spring:message
+														code="label.admin_category" /></th>
+												<th class="col-md-2" align="center"><c:choose>
+														<c:when
+															test="${sortBy eq 'category' and sortMethod eq 'asc'}">
+															<a href="#"
+																onclick="changeSortFunction('category','desc')"><span
+																class="fa fa-sort-alpha-asc fa-lg"></span></a>
+														</c:when>
+														<c:when
+															test="${sortBy eq 'category' and sortMethod eq 'desc'}">
+															<a href="#"
+																onclick="changeSortFunction('category','asc')"><span
+																class="fa fa-sort-alpha-desc fa-lg"></span></a>
+														</c:when>
+														<c:otherwise>
+															<a href="#"
+																onclick="changeSortFunction('category','asc')"><span
+																class="fa fa-sort fa-lg"></span></a>
+														</c:otherwise>
+													</c:choose></th>
+											</tr>
+										</thead>
+									</table>
+								</th>
+							</tr>
+						</thead>
+						<c:forEach items="${subjects}" var="subject">
+							<tr>
+								<td>${subject.name}</td>
+								<td class="leftBorder">
+									<table class="col-md-12">
+										<tr>
+											<td>${subject.category.name}</td>
+											<td class="col-md-2"><a type="button"
+												data-toggle="modal"
+												data-id="changeSubjectCategory?subjectId=${subject.id}"
+												data-category-id="${subject.category.id}"
+												class="btn btn-default openModalWindow"
+												data-toggle="dropdown" href="#myModal"> <span
+													class="caret"></span></a></td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</c:forEach>
+					</table>
+				</c:if>
+			</div>
+		</div>
+
+		<!-- Pagination block -->
+		<%-- <c:set var="paginationLarge" value="2" /> --%>
+		<div class="row">
+			<div class="col-md-12" align="right">
+				<c:if test="${pagesCount gt 1}">
+					<nav>
+						<ul class="pagination">
+							<c:choose>
+								<c:when test="${currentPage eq 1}">
+									<li class="disabled"><a href="#"><spring:message
+												code="label.previous" /></a></li>
+								</c:when>
+								<c:otherwise>
+									<li><a href="#"
+										onclick="changePageFunction('${currentPage - 1}')"><spring:message
+												code="label.previous" /></a></li>
+								</c:otherwise>
+							</c:choose>
+							<c:forEach var="pageNumber" begin="1" end="${pagesCount}">
+								<c:choose>
+									<c:when
+										test="${(currentPage-paginationLarge) le pageNumber and (currentPage + paginationLarge) ge pageNumber}">
+										<c:choose>
+											<c:when test="${pageNumber eq currentPage}">
+												<li class="active"><a href="#">${pageNumber}</a></li>
+											</c:when>
+											<c:otherwise>
+												<li><a href="#"
+													onclick="changePageFunction('${pageNumber}')">${pageNumber}</a>
+												</li>
+											</c:otherwise>
+										</c:choose>
+									</c:when>
+									<c:when test="${pageNumber eq 1}">
+										<li><a href="#"
+											onclick="changePageFunction('${pageNumber}')">${pageNumber}</a>
+										</li>
+									</c:when>
+									<c:when test="${pageNumber eq pagesCount}">
+										<li><a href="#"
+											onclick="changePageFunction('${pageNumber}')">${pageNumber}</a>
+										</li>
+									</c:when>
+									<c:when
+										test="${pageNumber eq 2 and currentPage gt (paginationLarge + 2)}">
+										<li><a href="#">...</a></li>
+									</c:when>
+									<c:when
+										test="${pageNumber eq (pagesCount - 1) and currentPage lt (pagesCount -paginationLarge)}">
+										<li><a href="#">...</a></li>
+									</c:when>
+								</c:choose>
+
+							</c:forEach>
+							<c:choose>
+								<c:when test="${currentPage eq pagesCount}">
+									<li class="disabled"><a href="#"><spring:message
+												code="label.next" /></a></li>
+								</c:when>
+								<c:otherwise>
+									<li><a href="#"
+										onclick="changePageFunction('${currentPage+1}')"><spring:message
+												code="label.next" /></a></li>
+								</c:otherwise>
+							</c:choose>
+						</ul>
+					</nav>
+				</c:if>
+			</div>
+		</div>
+		<!-- /Pagination block -->
+
 	</div>
 </div>
-
