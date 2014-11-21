@@ -32,9 +32,7 @@
 	<form method="GET" action="course">
 		<div class="blocks">
 			<c:forEach items="${subList}" var="subj">
-				<c:forEach items="${schedule}" var="schedule">
-					<c:if test="${schedule.subject.id eq subj.id}">
-						<c:if test="${schedule.start gt now}">
+						<c:if test="${subj.schedulers[0].start gt now}">
 						<div class="inline">
 							<div class="title">
 								<button value="${subj.id}" name="subjectId" class="btn btn-link"
@@ -46,15 +44,12 @@
 							</div>
 							<div>
 								<spring:message code="label.start_date" />
-								<fmt:formatDate pattern='dd-MM-yyyy' value='${schedule.start}' />
+								<fmt:formatDate pattern='dd-MM-yyyy' value='${subj.schedulers[0].start}' />
 							</div>
 						</div>
 						</c:if>
-					</c:if>
 				</c:forEach>
-			</c:forEach>
 		</div>
-
 	</form>
 </div>
 

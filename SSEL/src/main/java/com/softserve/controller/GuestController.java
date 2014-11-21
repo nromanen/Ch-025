@@ -101,12 +101,10 @@ public class GuestController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index(Model model) {
 		LOG.debug("Visit index page as guest");
-		subjects = subjectService.getAllSubjects();
+		subjects = subjectService.getAllSubjectsWithSchedulers();
 		categories = categoryService.getAllCategories();
-		List<CourseScheduler> schedule = cSchedulerService.getAllCourseScheduleres();
 		model.addAttribute("subList", subjects);
 		model.addAttribute("catList", categories);
-		model.addAttribute("schedule", schedule);
 		return "index";
 	}
 
@@ -120,17 +118,14 @@ public class GuestController {
 		model.addAttribute("subList", subjects);
 		model.addAttribute("catList", categories);
 		model.addAttribute("isSubscribed", isSubscribed);
-		Subject subject = subjectService.getSubjectById(subjectId);
-		schedulers = cSchedulerService
-				.getCourseScheduleresBySubjectId(subject.getId());
+		Subject subject = subjectService.getSubjectByIdWithScheduler(subjectId);
 		User user = (User) httpSession.getAttribute("user");
 		if (user != null) {
 			StudentGroup row = studentGroupService.getStudentGroupByUserAndGroupId(user.getId(), 
-					groupService.getGroupByScheduler(schedulers.get(0).getId()).getGroupId());
+					groupService.getGroupByScheduler(subject.getSchedulers().get(0).getId()).getGroupId());
 			boolean isSubscribe = row == null;
 			model.addAttribute("isSubscribe", isSubscribe);
 		}
-		model.addAttribute("schedule", schedulers.get(0));
 		model.addAttribute("subject", subject);
 		return "course";
 	}
@@ -169,6 +164,7 @@ public class GuestController {
 			@RequestParam (value = "pageSize", required = false, defaultValue = PAGE_SIZE + "") Integer pageSize,
 			@RequestParam (value = "sortBy", required = false, defaultValue = "id") String sortBy,
 			@RequestParam (value = "isReverse", required = false, defaultValue = "false") Boolean isReverse) {
+		LOG.debug("Search by subjects with {0} query", search);
 		pageNumber = pageNumber > 0 ? pageNumber : START_PAGE;
 		pageSize = pageSize > 0 ? pageSize : PAGE_SIZE;
 		Long numberOfPages = 0l;
@@ -201,6 +197,7 @@ public class GuestController {
 				searchService.getSubjectsByCategoryIdWithLimit(categoryId, pageNumber, 
 						pageSize, sortBy, isReverse);
 		Category category = categoryService.getCategoryById(categoryId);
+		LOG.debug("View all subjects in {0} category", category.getName());
 		Long count = subjectService.getSubjectsByCategoryCount(category.getName());
 		numberOfPages = (count % pageSize > 0) ? count / pageSize + 1 : count / pageSize;
 		model.addAttribute("numberOfPages", numberOfPages);

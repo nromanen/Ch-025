@@ -44,4 +44,8 @@ public interface SubjectService {
 	long getSubjectsByCategoryCount(String searchCategory);
 	
 	long getSubjectsByTextCount(String searchText);
+	
+	List<Subject> getAllSubjectsWithSchedulers();
+	
+	Subject getSubjectByIdWithScheduler(int id);
 }

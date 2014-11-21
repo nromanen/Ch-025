@@ -133,3 +133,7 @@ body {
 .rightArrow {
 	float:right;
 }
+
+.slct {
+	height: 30px;
+}

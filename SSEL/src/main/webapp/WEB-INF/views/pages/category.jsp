@@ -30,14 +30,15 @@
 	<div>
 		<form action="category" method="get">
 			<label for="sel1" style="margin-left:20px;"> <spring:message code="label.records_per_page"/></label> 
-			<select	class="form-control" id="sel1" name="pageSize" onchange="this.form.submit()">
+			<select	class="form-control slct" id="sel1" name="pageSize" onchange="this.form.submit()">
+				<option value="3" <c:if test="${pageSize eq 3}"> selected </c:if> > 3</option>
 				<option value="5" <c:if test="${pageSize eq 5}"> selected </c:if> > 5</option>
 				<option value="10" <c:if test="${pageSize eq 10}"> selected </c:if> >10</option>
 				<option value="20" <c:if test="${pageSize eq 20}"> selected </c:if> >20</option>
 				<option value="50" <c:if test="${pageSize eq 50}"> selected </c:if> >50</option>
 				<option value="100" <c:if test="${pageSize eq 100}"> selected </c:if> >100</option>
 			</select>
-			<div class="btn-group" style="float: right;">
+			<div class="btn-group " style="float: right;">
 					<c:if test="${pageNumber eq 1}">
 						<button name="pageNumber" class="btn btn-default clrnoact" disabled="disabled"><spring:message code="label.prev"/></button>
 					</c:if>
@@ -49,13 +50,20 @@
 						<button class="btn btn-default" disabled="disabled">...</button>
 						
 					</c:if>
-					<c:if test="${pageNumber gt 2}">
+					<c:if test="${pageNumber eq 3}">
+						<button name="pageNumber" value="${pageNumber - 1}" type="submit" class="btn btn-default clrnoact">${pageNumber - 1}</button>
+					</c:if>
+					<c:if test="${pageNumber ge 4}">
+					<button name="pageNumber" value="${pageNumber - 2}" type="submit" class="btn btn-default clrnoact">${pageNumber - 2}</button>
 						<button name="pageNumber" value="${pageNumber - 1}" type="submit" class="btn btn-default clrnoact">${pageNumber - 1}</button>
 					</c:if>
 					<button class="btn btn-default clr">${pageNumber}</button>
-					
-					<c:if test="${pageNumber lt (numberOfPages - 1)}">
+					<c:if test="${pageNumber eq (numberOfPages - 2)}">
 						<button name="pageNumber" value="${pageNumber + 1}"  type="submit" class="btn btn-default clrnoact">${pageNumber + 1}</button>
+					</c:if>
+					<c:if test="${pageNumber lt (numberOfPages - 2)}">
+						<button name="pageNumber" value="${pageNumber + 1}"  type="submit" class="btn btn-default clrnoact">${pageNumber + 1}</button>
+						<button name="pageNumber" value="${pageNumber + 2}"  type="submit" class="btn btn-default clrnoact">${pageNumber + 2}</button>
 					</c:if>
 					<c:if test="${pageNumber lt (numberOfPages - 2)}">
 						<button class="btn btn-default" disabled="disabled">...</button>
@@ -111,7 +119,7 @@
 									</c:if>
 									<c:if test="${isReverse eq true}">
 								<a href="category?pageSize=${pageSize}&pageNumber=${pageNumber}
-									&categoryId=${categoryId}&sortBy=dates&isReverse=false"><span class="fa fa-sort-alpha-desc"> </span>  </a>
+									&categoryId=${categoryId}&sortBy=date&isReverse=false"><span class="fa fa-sort-alpha-desc"> </span>  </a>
 								</c:if>
 								</div>
 							</th>
@@ -139,14 +147,15 @@
 	<div>
 		<form action="category" method="get">
 			<label for="sel1" style="margin-left:20px;"> <spring:message code="label.records_per_page"/></label> 
-			<select	class="form-control" id="sel1" name="pageSize" onchange="this.form.submit()">
+			<select	class="form-control slct" id="sel1" name="pageSize" onchange="this.form.submit()">
+				<option value="3" <c:if test="${pageSize eq 3}"> selected </c:if> > 3</option>
 				<option value="5" <c:if test="${pageSize eq 5}"> selected </c:if> > 5</option>
 				<option value="10" <c:if test="${pageSize eq 10}"> selected </c:if> >10</option>
 				<option value="20" <c:if test="${pageSize eq 20}"> selected </c:if> >20</option>
 				<option value="50" <c:if test="${pageSize eq 50}"> selected </c:if> >50</option>
 				<option value="100" <c:if test="${pageSize eq 100}"> selected </c:if> >100</option>
 			</select>
-			<div class="btn-group" style="float: right;">
+			<div class="btn-group " style="float: right;">
 					<c:if test="${pageNumber eq 1}">
 						<button name="pageNumber" class="btn btn-default clrnoact" disabled="disabled"><spring:message code="label.prev"/></button>
 					</c:if>
@@ -158,13 +167,20 @@
 						<button class="btn btn-default" disabled="disabled">...</button>
 						
 					</c:if>
-					<c:if test="${pageNumber gt 2}">
+					<c:if test="${pageNumber eq 3}">
+						<button name="pageNumber" value="${pageNumber - 1}" type="submit" class="btn btn-default clrnoact">${pageNumber - 1}</button>
+					</c:if>
+					<c:if test="${pageNumber ge 4}">
+					<button name="pageNumber" value="${pageNumber - 2}" type="submit" class="btn btn-default clrnoact">${pageNumber - 2}</button>
 						<button name="pageNumber" value="${pageNumber - 1}" type="submit" class="btn btn-default clrnoact">${pageNumber - 1}</button>
 					</c:if>
 					<button class="btn btn-default clr">${pageNumber}</button>
-					
-					<c:if test="${pageNumber lt (numberOfPages - 1)}">
+					<c:if test="${pageNumber eq (numberOfPages - 2)}">
 						<button name="pageNumber" value="${pageNumber + 1}"  type="submit" class="btn btn-default clrnoact">${pageNumber + 1}</button>
+					</c:if>
+					<c:if test="${pageNumber lt (numberOfPages - 2)}">
+						<button name="pageNumber" value="${pageNumber + 1}"  type="submit" class="btn btn-default clrnoact">${pageNumber + 1}</button>
+						<button name="pageNumber" value="${pageNumber + 2}"  type="submit" class="btn btn-default clrnoact">${pageNumber + 2}</button>
 					</c:if>
 					<c:if test="${pageNumber lt (numberOfPages - 2)}">
 						<button class="btn btn-default" disabled="disabled">...</button>

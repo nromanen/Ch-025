@@ -68,4 +68,8 @@ public interface SubjectDao {
 	
 	List<Subject> getDeletedSubjects();
 	
+	List<Subject> getAllSubjectsWithSchedulers();
+	
+	Subject getSubjectByIdWithScheduler(int id);
+	
 }

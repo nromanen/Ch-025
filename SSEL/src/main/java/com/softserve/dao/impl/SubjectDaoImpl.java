@@ -266,8 +266,7 @@ public class SubjectDaoImpl implements SubjectDao {
 		Join<Subject, CourseScheduler> scheduler = root.join("schedulers");
 		criteriaQuery.select(root).distinct(true);
 		List<Predicate> predicates = new ArrayList<Predicate>();
-		Predicate predicate = criteriaBuilder.equal(root.<Integer>get("category"), categoryId);
-		criteriaQuery.where(predicate);
+		Predicate predicate = criteriaBuilder.equal(category.get("id"), categoryId);
 		Predicate predicateJoin = criteriaBuilder.equal(scheduler.get("subject"), root.get("id"));
 		Predicate predicateDeleted = criteriaBuilder.equal(root.get("isDeleted"), false); 
 		predicates.add(predicate);
@@ -281,7 +280,8 @@ public class SubjectDaoImpl implements SubjectDao {
 			sort = category.<String>get("name");
 		} else if (sortBy.equals("date")) {
 			sort = scheduler.<Date>get("start");
-		}
+		} 
+		criteriaQuery.orderBy(criteriaBuilder.desc(sort));
 		if (isReverse) {
 			criteriaQuery.orderBy(criteriaBuilder.desc(sort));
 		} else {
@@ -300,6 +300,43 @@ public class SubjectDaoImpl implements SubjectDao {
 		return entityManager.createQuery("FROM Subject s WHERE s.isDeleted = :val")
 				.setParameter("val", false)
 				.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Subject> getAllSubjectsWithSchedulers() {
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Subject> criteriaQuery = criteriaBuilder.createQuery(Subject.class);
+		Root<Subject> root = criteriaQuery.from(Subject.class);
+		Join<Subject, CourseScheduler> scheduler = root.join("schedulers");
+		criteriaQuery.select(root).distinct(true);
+		List<Predicate> predicates = new ArrayList<Predicate>();
+		Predicate predicateJoin = criteriaBuilder.equal(scheduler.get("subject"), root.get("id"));
+		Predicate predicateDeleted = criteriaBuilder.equal(root.get("isDeleted"), false); 
+		predicates.add(predicateJoin);
+		predicates.add(predicateDeleted);
+		criteriaQuery.where(predicates.toArray(new Predicate[] {}));
+		Query query = entityManager.createQuery(criteriaQuery);
+		return query.getResultList();
+	}
+
+	@Override
+	public Subject getSubjectByIdWithScheduler(int id) {
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Subject> criteriaQuery = criteriaBuilder.createQuery(Subject.class);
+		Root<Subject> root = criteriaQuery.from(Subject.class);
+		Join<Subject, CourseScheduler> scheduler = root.join("schedulers");
+		criteriaQuery.select(root);
+		List<Predicate> predicates = new ArrayList<Predicate>();
+		Predicate predicateId = criteriaBuilder.equal(root.get("id"), id);
+		Predicate predicateJoin = criteriaBuilder.equal(scheduler.get("subject"), root.get("id"));
+		Predicate predicateDeleted = criteriaBuilder.equal(root.get("isDeleted"), false);
+		predicates.add(predicateId);
+		predicates.add(predicateJoin);
+		predicates.add(predicateDeleted);
+		criteriaQuery.where(predicates.toArray(new Predicate[] {}));
+		Query query = entityManager.createQuery(criteriaQuery);
+		return (Subject) query.getSingleResult();
 	}
 
 }
