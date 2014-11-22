@@ -6,15 +6,12 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import com.softserve.controller.AdministratorController;
 import com.softserve.entity.CourseScheduler;
 import com.softserve.entity.StudentGroup;
 import com.softserve.entity.User;
@@ -30,7 +27,7 @@ public class SchedulingServiceImpl implements SchedulingService {
 	private static final int BEFORE_COURSE_BEGIN = 1;
 
 	private static final Logger LOG = LoggerFactory
-			.getLogger(AdministratorController.class);
+			.getLogger(SchedulingServiceImpl.class);
 
 	@Autowired
 	private CourseSchedulerService courseSchedulerService;
@@ -41,11 +38,11 @@ public class SchedulingServiceImpl implements SchedulingService {
 	@Autowired
 	private MailService mailService;
 
-	@Resource(name = "LogService")
+	@Autowired
 	private LogService logService;
 
 	@Override
-	@Scheduled(cron = "0 43 16 * * *")
+	@Scheduled(cron = "${cron.execute.course_begin}")
 	public void courseBegin() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.DATE, BEFORE_COURSE_BEGIN);
@@ -69,7 +66,6 @@ public class SchedulingServiceImpl implements SchedulingService {
 
 	@Override
 	@Scheduled(cron = "0 0 4 * * 1")	// every Monday in 04:00 AM
-//	@Scheduled(cron = "45 * * * * *") // every 15 seconds
 	public void deleteOldLogs() {
 		LOG.info("Deleting logs older than a year by SchedulingService");
 		GregorianCalendar deleteDate = new GregorianCalendar();

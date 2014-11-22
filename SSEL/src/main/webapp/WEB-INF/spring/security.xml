@@ -12,20 +12,22 @@
 	<http pattern="/upload/**" security="none" />
 
 	<http auto-config="true" use-expressions="true">
-		<intercept-url pattern="/registration" access="isAnonymous()" />
-		<intercept-url pattern="/login" access="isAnonymous()" />
+		<intercept-url pattern="/registration/**" access="isAnonymous()" />
+		<intercept-url pattern="/auth/**" access="isAnonymous()" />
+		<intercept-url pattern="/login/**" access="isAnonymous()" />
 		<intercept-url pattern="/profile/**" access="isAuthenticated()" />
 		<intercept-url pattern="/student/**" access="hasRole('STUDENT')" />
-		<intercept-url pattern="/ratings/**" access="hasRole('STUDENT')"/>
-		<intercept-url pattern="/topicView/**" access="hasRole('STUDENT')"/>
-		<intercept-url pattern="/modules/**" access="hasRole('STUDENT')"/>
-		
+		<intercept-url pattern="/ratings/**" access="hasRole('STUDENT')" />
+		<intercept-url pattern="/topicView/**" access="hasRole('STUDENT')" />
+		<intercept-url pattern="/modules/**" access="hasRole('STUDENT')" />
+
 		<intercept-url pattern="/teacher/teacher/**" access="hasRole('TEACHER')" />
 		<intercept-url pattern="/teacher/teacherCourse" access="hasRole('TEACHER')" />
 		<intercept-url pattern="/teacher/editTopic/**" access="hasRole('TEACHER')" />
 		<intercept-url pattern="/teacher/editBlock/**" access="hasRole('TEACHER')" />
 		<intercept-url pattern="/teacher/editSubject/**" access="hasRole('TEACHER')" />
-		<intercept-url pattern="/teacher/editCategory/**" access="hasRole('TEACHER')" />
+		<intercept-url pattern="/teacher/editCategory/**"
+			access="hasRole('TEACHER')" />
 		<intercept-url pattern="/teacher/categories/**" access="hasRole('TEACHER')" />
 		<intercept-url pattern="/teacher/**" access="hasRole('TEACHER')" />
 
@@ -36,37 +38,75 @@
 		<intercept-url pattern="/viewAllSubjects/**" access="hasRole('ADMIN')" />
 		<intercept-url pattern="/viewAllRequests/**" access="hasRole('ADMIN')" />
 
-
-		<form-login login-page="/login" default-target-url="/enter"
+		<form-login login-page="/login" default-target-url="/enter" 
 			authentication-failure-handler-ref="exceptionFilter" />
 
 		<logout delete-cookies="true" invalidate-session="true"
 			logout-success-url="/" logout-url="/logout" />
 
 		<remember-me key="userKey" token-validity-seconds="2419200" />
+
+		<custom-filter ref="socialAuthenticationFilter" before="PRE_AUTH_FILTER" />
 	</http>
 
 	<beans:bean id="exceptionFilter"
-                class="org.springframework.security.web.authentication.ExceptionMappingAuthenticationFailureHandler">
-        <beans:property name="exceptionMappings">
-            <beans:props>
-                <beans:prop key="org.springframework.security.authentication.DisabledException">
-                    /login?error=userDisabled
-                </beans:prop>
-                <beans:prop key="org.springframework.security.authentication.BadCredentialsException">
-                    /login?error=BadCredentialsException
-                </beans:prop>
-            </beans:props>
-        </beans:property>
-    </beans:bean>
-
-	<beans:bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
-		<beans:constructor-arg index="0" value="10"/>
+		class="org.springframework.security.web.authentication.ExceptionMappingAuthenticationFailureHandler">
+		<beans:property name="exceptionMappings">
+			<beans:props>
+				<beans:prop
+					key="org.springframework.security.authentication.DisabledException">
+					/login?error=userDisabled
+				</beans:prop>
+				<beans:prop
+					key="org.springframework.security.authentication.BadCredentialsException">
+					/login?error=BadCredentialsException
+				</beans:prop>
+			</beans:props>
+		</beans:property>
 	</beans:bean>
 
-	<authentication-manager>
+	<beans:bean id="passwordEncoder"
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+		<beans:constructor-arg index="0" value="10" />
+	</beans:bean>
+
+	<authentication-manager alias="authenticationManager">
 		<authentication-provider user-service-ref="userDetailsServiceImpl">
-			<password-encoder ref="passwordEncoder"  />
+			<password-encoder ref="passwordEncoder" />
 		</authentication-provider>
+
+		<authentication-provider ref="socialAuthenticationProvider" />
 	</authentication-manager>
+
+	<beans:bean id="socialAuthenticationFilter"
+		class="org.springframework.social.security.SocialAuthenticationFilter">
+		<beans:constructor-arg index="0"
+			ref="authenticationManager" />
+		<beans:constructor-arg index="1" ref="userIdSource" />
+		<beans:constructor-arg index="2"
+			ref="usersConnectionRepository" />
+		<beans:constructor-arg index="3"
+			ref="connectionFactoryLocator" />
+
+		<!-- Sets the url of the registration form. -->
+		<beans:property name="signupUrl" value="/social" />
+	</beans:bean>
+
+	<beans:bean id="socialAuthenticationProvider"
+		class="org.springframework.social.security.SocialAuthenticationProvider">
+		<beans:constructor-arg index="0"
+			ref="usersConnectionRepository" />
+		<beans:constructor-arg index="1"
+			ref="socialUserDetailsService" />
+	</beans:bean>
+
+	<beans:bean id="socialUserDetailsService"
+		class="com.softserve.service.impl.SocialUserDetailsServiceImpl" />
+
+	<beans:bean id="textEncryptor"
+		class="org.springframework.security.crypto.encrypt.Encryptors"
+		factory-method="noOpText" />
+
+	<beans:bean id="userIdSource"
+		class="org.springframework.social.security.AuthenticationNameUserIdSource" />
 </beans:beans>

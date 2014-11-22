@@ -4,7 +4,8 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
-
+<script src="resources/datepicker/js/locales/bootstrap-datepicker.ru.js"></script>
+<script src="resources/datepicker/js/locales/bootstrap-datepicker.ua.js"></script>
 
 <div class="row">
 	<div class="col-lg-12">
@@ -48,8 +49,10 @@
 			<div class="form-group">
 				<label><spring:message code="label.teacher.startDate" /></label>
 				<br>
+				<c:set value="${pageContext.response.locale}" var="local" />
 				<form:input class="datepicker" path="startTime" style="width: 20%"
-					value="${startTime}" placeholder="DD-MM-YYYY" />
+					value="${startTime}" placeholder="DD-MM-YYYY" data-date-language="${local}" 
+						data-date-autoclose="true" readonly="readonly" />
 				<form:errors path="startTime" cssClass="error" />
 
 				<br> 
@@ -57,7 +60,8 @@
 				<label><spring:message code="label.teacher.endDate" /></label>
 				<br>
 				<form:input class="datepicker" path="endTime" style="width: 20%"
-					value="${endTime}" placeholder="DD-MM-YYYY" />
+					value="${endTime}" placeholder="DD-MM-YYYY" data-date-language="${local}" 
+						data-date-autoclose="true" readonly="readonly"/>
 				<form:errors path="endTime" cssClass="error" />
 			</div>
 

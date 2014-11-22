@@ -5,18 +5,18 @@ import java.util.List;
 import com.softserve.entity.Block;
 /**
  * Specify block service funtionality
- * @author Анатолій
+ * @author Roma Khomyshyn
  *
  */
 public interface BlockService {
 	/**
 	 * Add new block into block list
-	 * @param block new block 
+	 * @param block new block
 	 * @return added block
 	 */
 	Block addBlock(Block block);
 	/**
-	 * Update some block 
+	 * Update some block
 	 * @param block updated block
 	 * @return updated block
 	 */
@@ -34,7 +34,7 @@ public interface BlockService {
 	/**
 	 * Return block by id
 	 * @param id unique block identifier
-	 * @return block 
+	 * @return block
 	 */
 	Block getBlockById(int id);
 	/**

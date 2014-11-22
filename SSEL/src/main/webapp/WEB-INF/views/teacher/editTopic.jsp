@@ -8,7 +8,16 @@
 
 <div class="row">
 	<div class="col-lg-12">
-		<h1 class="page-header"><spring:message code="label.teacher.editTopic"/></h1>
+		<h1 class="page-header">
+		
+		                	<button type="button" class="btn btn-outline btn-primary" data-toggle="modal" 
+                			data-target="#modal_load_photo" style="margin-bottom: 15px">
+							<i class="glyphicon glyphicon-eye-open"></i>
+						</button>
+		<spring:message code="label.teacher.editTopic"/>
+		
+		
+</h1>
 	</div>
 </div>
 
@@ -56,16 +65,12 @@
 		</form:form>
 
 
-
-
-		<!-- The file upload form used as target for the file upload widget -->
 		<form id="fileupload" action='<s:url value="upload"/>' method="POST"
 			enctype="multipart/form-data">
 
-			<!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
 			<div class="row fileupload-buttonbar">
 				<div class="col-lg-7">
-					<!-- The fileinput-button span is used to style the file input field as button -->
+
 					<span class="btn btn-success fileinput-button"> <i
 						class="glyphicon glyphicon-plus"></i> <span><spring:message code="label.teacher.addFiles"/></span> <input
 						type="file" id="btnAdd" name="files[]" multiple>
@@ -153,6 +158,12 @@
         <td>
             <span class="size">{%=o.formatFileSize(file.size)%}</span>
         </td>
+		<td>
+				<button class="btn btn-info" onClick="prepereModal('<c:url value="/" />resources/tmp/${doc.name}','${doc.name}')">
+                    <i class="glyphicon glyphicon-eye-open"></i>
+                    <span><spring:message code="label.teacher.preview"/></span>
+                </button>
+		</td>
         <td>
             {% if (file.deleteUrl) { %}
                 <button class="btn btn-danger delete" data-type="DELETE" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
@@ -195,6 +206,8 @@
 <!-- The main application script -->
 <script src="resources/js/main.js"></script>
 
+
+
 <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
 <link rel="stylesheet" href="resources/css/jquery.fileupload.css">
 <link rel="stylesheet" href="resources/css/jquery.fileupload-ui.css">
@@ -230,4 +243,32 @@
 	color: red;
 }
 </style>
+
+
+<!-- Modal window for load photo -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" 
+    id="modal_load_photo" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+				    <span aria-hidden="true">&times;</span>
+				    <span class="sr-only">Close</span>
+				</button>
+				<h4 class="modal-title">
+					<spring:message code="label.teacher.preview" />
+				</h4>
+			</div>
+			<div class="modal-body">	
+	
+
+			<iframe seamless="seamless" width="570" height="700" id="remote_site" src="teacherCourse"></iframe>
+  
+
+
+			</div>
+		</div>		
+	</div> 
+</div>
+
 

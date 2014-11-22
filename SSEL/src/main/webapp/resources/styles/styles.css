@@ -1,7 +1,6 @@
 html {
-	overflow-y: scroll !important;
+	overflow-y:scroll !important;
 }
-
 body {
 	margin: 0px;
 	padding: 0px;
@@ -52,7 +51,7 @@ body {
 	width: 30%;
 	height: 100px;
 	margin-left: 20px;
-	margin-bottom: 10px;
+	margin-bottom : 10px;
 }
 
 .title {
@@ -63,23 +62,23 @@ body {
 }
 
 .link {
-	padding-left: 35px;
+	padding-left:35px;
 	padding-bottom: 5px;
 }
 
-.courceInformation p {
+.courceInformation p{
 	padding-left: 30px;
 }
 
-.courceInformation td {
+.courceInformation td{
 	padding-left: 60px;
 }
 
-.courceInformation .topic {
+.courceInformation .topic{
 	padding-left: 90px;
 }
 
-.courceInformation .btn-success {
+.courceInformation .btn-success{
 	border-radius: 5px;
 	margin-top: 8px;
 }
@@ -93,15 +92,15 @@ body {
 }
 
 .flag_icon {
-	
+
 }
 
 .language_toggle {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 .clear {
-	clear: both;
+	clear:both;
 }
 
 .fix-height {
@@ -109,17 +108,35 @@ body {
 }
 
 .inp {
-	width: 300px !important;
-	display: inline-block !important;
+	width:300px !important;
+	display:inline-block !important;
 }
 
 #sel1 {
 	width: auto !important;
-	display: inline-block !important;
+	display:inline-block !important;
+}
+
+.table .glyphicon-chevron-down{
+	margin-right:1px;
+}
+
+.table td{
+	height:20px;
+}
+
+.admin span{
+	background-color:#0080ff;
+	float:right;
+}
+
+.admTopM {
+    margin-top:20px;
+    margin-bottom:10px;
 }
 
 .centerTh th {
 	text-align: center;
 	vertical-align: middle;
-	height: 50px;
+	height:50px;
 }

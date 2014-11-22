@@ -67,6 +67,15 @@
 			</column>
 		</addColumn>
 	</changeSet>
+				
+	<changeSet id="2014-11-16-add-column-table-user" author="Roma">
+		<comment>Add column social to table user</comment>
+		<addColumn tableName="user">
+			<column name="social" type="varchar(20)" defaultValue="REGISTRATION">
+				<constraints nullable="false" />
+			</column>
+		</addColumn>
+	</changeSet>
 
 	<changeSet id="2014-11-19-update-table-logging" author="Vitalik">
 		<comment>Add month-partitioning of table</comment>
@@ -90,10 +99,9 @@
 		</sql>
 	</changeSet>
 
-<changeSet id="2014-11-19-insert-in-table-logging" author="Vitalik">
-		<comment>Inserting logs in table</comment>
+	<changeSet id="2014-11-19-insert-in-table-logging" author="Vitalik">
+			<comment>Inserting logs in table</comment>
 		<sql>
-TRUNCATE ssel.logging;
 INSERT INTO `logging` VALUES ('1', '2014-01-01 13:39:13', 'WARN', 'org.apache.tiles.request.locale.PostfixedApplicationResource', 'No supported matching language for locale \"ua\". Using file:/C:/Users/hash/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps/SSEL/WEB-INF/tiles/templates_ua.xml as a non-localized resource path. see TILES-571', '');
 INSERT INTO `logging` VALUES ('2', '2014-01-05 13:39:13', 'WARN', 'org.apache.tiles.request.locale.PostfixedApplicationResource', 'No supported matching language for locale \"ua\". Using file:/C:/Users/hash/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps/SSEL/WEB-INF/tiles/pages_ua.xml as a non-localized resource path. see TILES-571', '');
 INSERT INTO `logging` VALUES ('3', '2014-01-07 13:41:39', 'WARN', 'org.apache.tiles.request.locale.PostfixedApplicationResource', 'No supported matching language for locale \"ua\". Using file:/C:/Users/hash/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps/SSEL/WEB-INF/tiles/templates_ua.xml as a non-localized resource path. see TILES-571', '');
@@ -241,14 +249,7 @@ INSERT INTO `logging` VALUES ('150', '2014-11-02 16:50:04', 'WARN', 'org.apache.
 INSERT INTO `logging` VALUES ('151', '2014-11-02 17:00:21', 'WARN', 'org.apache.tiles.request.locale.PostfixedApplicationResource', 'No supported matching language for locale \"ua\". Using file:/C:/Users/hash/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps/SSEL/WEB-INF/tiles/templates_ua.xml as a non-localized resource path. see TILES-571', '');
 INSERT INTO `logging` VALUES ('152', '2014-11-02 17:00:21', 'WARN', 'org.apache.tiles.request.locale.PostfixedApplicationResource', 'No supported matching language for locale \"ua\". Using file:/C:/Users/hash/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps/SSEL/WEB-INF/tiles/pages_ua.xml as a non-localized resource path. see TILES-571', '');
 INSERT INTO `logging` VALUES ('153', '2014-11-02 17:00:29', 'WARN', 'org.springframework.web.servlet.PageNotFound', 'No mapping found for HTTP request with URI [/SSEL/error] in DispatcherServlet with name \'appServlet\'', '');
-INSERT INTO `logging` VALUES ('154', '2014-12-02 17:01:10', 'WARN', 'org.apache.tiles.request.locale.PostfixedApplicationResource', 'No supported matching language for locale \"ua\". Using file:/C:/Users/hash/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps/SSEL/WEB-INF/tiles/templates_ua.xml as a non-localized resource path. see TILES-571', '');
-INSERT INTO `logging` VALUES ('155', '2014-12-02 17:01:10', 'WARN', 'org.apache.tiles.request.locale.PostfixedApplicationResource', 'No supported matching language for locale \"ua\". Using file:/C:/Users/hash/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps/SSEL/WEB-INF/tiles/pages_ua.xml as a non-localized resource path. see TILES-571', '');
-INSERT INTO `logging` VALUES ('156', '2014-12-02 17:01:20', 'WARN', 'org.springframework.web.servlet.PageNotFound', 'No mapping found for HTTP request with URI [/SSEL/error] in DispatcherServlet with name \'appServlet\'', '');
-INSERT INTO `logging` VALUES ('157', '2014-12-02 17:02:43', 'WARN', 'org.springframework.web.servlet.PageNotFound', 'No mapping found for HTTP request with URI [/SSEL/error] in DispatcherServlet with name \'appServlet\'', '');
-INSERT INTO `logging` VALUES ('158', '2014-12-02 17:02:45', 'WARN', 'org.springframework.web.servlet.PageNotFound', 'No mapping found for HTTP request with URI [/SSEL/error] in DispatcherServlet with name \'appServlet\'', '');
-INSERT INTO `logging` VALUES ('159', '2014-12-02 17:03:17', 'WARN', 'org.apache.tiles.request.locale.PostfixedApplicationResource', 'No supported matching language for locale \"ua\". Using file:/C:/Users/hash/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps/SSEL/WEB-INF/tiles/templates_ua.xml as a non-localized resource path. see TILES-571', '');
-INSERT INTO `logging` VALUES ('160', '2014-12-02 17:03:17', 'WARN', 'org.apache.tiles.request.locale.PostfixedApplicationResource', 'No supported matching language for locale \"ua\". Using file:/C:/Users/hash/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps/SSEL/WEB-INF/tiles/pages_ua.xml as a non-localized resource path. see TILES-571', '');
 			</sql>
-	</changeSet>
-
+		</changeSet>
+		
 </databaseChangeLog>

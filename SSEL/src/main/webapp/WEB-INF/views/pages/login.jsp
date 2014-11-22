@@ -48,7 +48,7 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<div style="margin-bottom: 10px" class="input-group">
+						<div class="input-group">
 							<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
 							<input class="form-control" placeholder="<spring:message code="placeholder.password"/>"
 								name="j_password" type="password" required="required" id="password"
@@ -64,7 +64,7 @@
 							</label>
 						</div>
 					</div>
-					<div style="margin-top:10px" class="form-group">
+					<div class="form-group">
 						<button type="submit" class="btn btn-success" id="submit_btn">
 							<spring:message code="label.sing_in" />
 						</button>
@@ -75,5 +75,24 @@
 				</form>
 			</div>
 		</div>
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+        		<h3 class="panel-title">
+        			<spring:message code="label.sign_in_via_social" />
+        		</h3>
+      		</div>
+	        <div class="panel-body">   
+	            <div class="row social-button-row">
+	                <div class="col-lg-4">
+	                	<form action="<c:url value="/auth/facebook" />" method="POST">
+							<button class="btn btn-social-icon btn-facebook" type="submit">
+	                    		<i class="fa fa-facebook"></i>
+	                    	</button>
+							<input type="hidden" name="scope" value="email,publish_stream,offline_access,user_birthday" />
+						</form>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
 	</div>
 </div>
