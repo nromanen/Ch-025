@@ -124,8 +124,8 @@
 										</button>
 		                    		</c:when>
 		                    		<c:otherwise>
-		                    			<button type="button" id="btn_new_password" class="btn btn-info" data-toggle="modal" 
-		                    				data-target="#modal_new_password">
+		                    			<button type="button" id="btn_new_password" class="btn btn-info"  
+		                    				data-target="#modal_new_password" data-toggle="modal">
 											<spring:message code="label.change_password"/>
 										</button>
 		                    		</c:otherwise>
@@ -142,7 +142,7 @@
 	</div>
 </div>
 
-<!-- Modal window for change passwords -->
+<!-- Modal window for new password -->
 <div class="modal animated bounce bs-example-modal-lg" tabindex="-1" role="dialog" 
     id="modal_new_password" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
@@ -195,6 +195,8 @@
 								<div class="col-md-6">
 									<input type="password" class="form-control" id="confirm_password" name="confirm_password"
 										placeholder="<spring:message code="placeholder.confirm_password"/>" 
+										data-bv-notempty="true"
+                						data-bv-notempty-message="<spring:message code="dataerror.field_required" />"
 										data-bv-identical="true"
                 						data-bv-identical-field="new_password"
                			 				data-bv-identical-message="<spring:message code="dataerror.passwords_do_not_match" />" 
@@ -332,6 +334,8 @@
 								<div class="col-md-6">
 									<input type="password" class="form-control" id="confirm_password" name="confirm_password"
 										placeholder="<spring:message code="placeholder.confirm_password"/>" 
+										data-bv-notempty="true"
+                						data-bv-notempty-message="<spring:message code="dataerror.field_required" />"
 										data-bv-identical="true"
                 						data-bv-identical-field="new_password"
                			 				data-bv-identical-message="<spring:message code="dataerror.passwords_do_not_match" />" 
