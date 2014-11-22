@@ -129,7 +129,9 @@
 			<column name="id" autoIncrement="true" type="int">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
-			<column name="eventDate" type="datetime" />
+			<column name="eventDate" type="datetime" >
+				<constraints primaryKey="true" nullable="false" /><!-- Need for table partitioning -->
+			</column>
 			<column name="level" type="varchar(255)" />
 			<column name="logger" type="text" />
 			<column name="message" type="${longtext}" />
