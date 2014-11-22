@@ -5,6 +5,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+
+<script src="resources/datepicker/js/locales/bootstrap-datepicker.ru.js"></script>
+<script src="resources/datepicker/js/locales/bootstrap-datepicker.ua.js"></script>
+
 <div class="row">
 	<script type="text/javascript">
 		function deleteFunction() {
@@ -12,6 +16,8 @@
 			window.location.href = "deleteOldLogs?deleteDate=" + deleteDate;
 		}
 	</script>
+	
+	<c:set value="${pageContext.response.locale}" var="local" />
 	
 	<!-- Modal window -->
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
@@ -65,13 +71,17 @@
 					<spring:message code="label.show_logs_from_date" />
 					<input type="text" name="startDate" class="datepicker"
 						placeholder="<spring:message code="label.placeholder" />"
-						readonly="readonly" />
+						readonly="readonly"  
+						data-date-language="${local}" 
+						data-date-autoclose="true" />
 					<spring:message code="label.to" />
 					<input type="text" name="endDate" class="datepicker"
 						placeholder="<spring:message code="label.placeholder" />"
 						readonly="readonly" /> <input type="submit"
 						class="btn btn-primary"
-						value="<spring:message code="label.show" />" />
+						value="<spring:message code="label.show" />" 
+						data-date-language="${local}" 
+						data-date-autoclose="true" />
 				</form>
 			</div>
 
@@ -80,7 +90,9 @@
 				<spring:message code="label.delete_old_logs_to_date" />
 				<input type="text" name="deleteDate" class="datepicker"
 					placeholder="<spring:message code="label.placeholder" />"
-					readonly="readonly" id="deleteDate" />
+					readonly="readonly" id="deleteDate" 
+					data-date-language="${local}" 
+					data-date-autoclose="true"/>
 				<button type="button" class="btn btn-danger" data-toggle="modal"
 					data-target="#myModal">
 					<spring:message code="label.l_delete" />
