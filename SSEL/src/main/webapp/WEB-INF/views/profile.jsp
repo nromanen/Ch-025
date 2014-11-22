@@ -116,9 +116,20 @@
 		                     	</div>
 		                  	</div>
 		                    <div class="form-group">
-		              			<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal_change_password">
-									<spring:message code="label.change_password"/>
-								</button>
+		                    	<c:choose>
+		                    		<c:when test="${sessionScope.user.social eq 'REGISTRATION'}">
+		                    			<button type="button" class="btn btn-info" data-toggle="modal" 
+		                    				data-target="#modal_change_password">
+											<spring:message code="label.change_password"/>
+										</button>
+		                    		</c:when>
+		                    		<c:otherwise>
+		                    			<button type="button" id="btn_new_password" class="btn btn-info" data-toggle="modal" 
+		                    				data-target="#modal_new_password">
+											<spring:message code="label.change_password"/>
+										</button>
+		                    		</c:otherwise>
+		                    	</c:choose>
 								<button type="submit" class="btn btn-success">
 									<spring:message code="label.save_changes" />
 								</button>
@@ -129,6 +140,84 @@
             </div>
 		</div>
 	</div>
+</div>
+
+<!-- Modal window for change passwords -->
+<div class="modal animated bounce bs-example-modal-lg" tabindex="-1" role="dialog" 
+    id="modal_new_password" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+				    <span aria-hidden="true">&times;</span>
+				    <span class="sr-only">Close</span>
+				</button>
+				<h4 class="modal-title">
+					<spring:message code="label.change_password"/>
+				</h4>
+			</div>
+			<form id="form_new_password" class="form-horizontal" method="POST" role="form" 
+				action="<c:url value="/newPassword" />" 
+				data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+      			data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+      			data-bv-feedbackicons-validating="glyphicon glyphicon-refresh"
+      			data-bv-submitbuttons='button[type="submit"]'
+      			data-bv-live="enabled">
+				<div class="modal-body">				
+					<div class="panel panel-info">
+        				<div class="panel-body">
+							<div class="form-group">
+								<label class="col-md-3 control-label" for="new_password">
+									<spring:message code="label.new_password" />
+								</label>
+								<div class="col-md-6">
+									<input type="password" id="new_password" class="form-control" name="new_password"
+										placeholder="<spring:message code="placeholder.new_password"/>" 
+										data-bv-notempty="true"
+                						data-bv-notempty-message="<spring:message code="dataerror.field_required" />"
+                						pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[/@/./&/!#/$%/^/*/?])(?!.*\s).{4,20}$"
+                						data-bv-regexp-message="<spring:message code="dataerror.password_pattern" />"
+                						data-bv-stringlength="true"
+                						data-bv-stringlength-min="4"
+                						data-bv-stringlength-message="<spring:message code="dataerror.minimum_4_characters" />"
+                						data-bv-different="true"
+                						data-bv-different-field="old_password"
+                						data-bv-different-message="The old password and new password cannot be the same as each other"  
+                						data-toggle="tooltip" 
+										data-placement="top"
+										title="<spring:message code="placeholder.new_password" />" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-3 control-label" for="confirm_password">
+									<spring:message code="label.confirm_password" />
+								</label>
+								<div class="col-md-6">
+									<input type="password" class="form-control" id="confirm_password" name="confirm_password"
+										placeholder="<spring:message code="placeholder.confirm_password"/>" 
+										data-bv-identical="true"
+                						data-bv-identical-field="new_password"
+               			 				data-bv-identical-message="<spring:message code="dataerror.passwords_do_not_match" />" 
+               			 				data-toggle="tooltip" 
+										data-placement="top"
+										title="<spring:message code="placeholder.confirm_password" />" />
+								</div>
+							</div>
+	        			</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" id="btn_change_password_submit"  
+						class="btn btn-success" >
+						<spring:message code="label.accept"/>
+					</button>
+					<button type="reset" id="btn_form_close" class="btn btn-info" data-dismiss="modal">
+						<spring:message code="label.cancel" />
+					</button>
+				</div>
+			</form>
+		</div>		
+	</div> 
 </div>
 
 <!-- Modal window for load photo -->

@@ -226,6 +226,7 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public void changePassword(User user, String password) {
 		user.setPassword(getEncoderPassword(password));
+		user.setSocial(Social.REGISTRATION);
 		userDao.updateUser(user);
 	}
 
