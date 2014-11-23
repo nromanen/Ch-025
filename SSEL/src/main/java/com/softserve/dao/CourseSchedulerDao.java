@@ -2,7 +2,6 @@ package com.softserve.dao;
 
 import java.util.Date;
 import java.util.List;
-
 import com.softserve.entity.CourseScheduler;
 
 /**

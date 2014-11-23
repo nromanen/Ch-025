@@ -74,7 +74,26 @@
 					</ul> <!-- /.nav-second-level -->
 			</ul>
 		</div>
+		<br>
+		<c:if test="${not empty nearest}">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Incoming
+					<button class="btn btn-info" onClick="$('.alert').hide()" style="position: relative"> <div class="glyphicon glyphicon-hand-down"></div></button>
+					<button class="btn btn-info" onClick="$('.alert').show()"><div class="glyphicon glyphicon-hand-up"></div></button>
+				</h3>
+				
+			</div>
+			<div class="alert alert-info alert-dismissible" role="alert">
+			<p><h4>${nearest.name}</h4></p>
+			<p><h4>${nearest.startTime}</h4></p>
+			</div>
+			
+			</div>
+		</c:if>
+			
 		<!-- /.sidebar-collapse -->
 	</div>
 	<!-- /.navbar-static-side -->
+
 </nav>

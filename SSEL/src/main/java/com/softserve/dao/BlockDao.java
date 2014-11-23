@@ -51,4 +51,9 @@ public interface BlockDao {
 	 * @return list of blocks
 	 */
 	List<Block> getBlocksBySubjectId(int id);
+	/**
+	 * Return nearest inactive block
+	 * @return
+	 */
+	Block getNearestInactiveBlockBySubject(int subjectId);
 }

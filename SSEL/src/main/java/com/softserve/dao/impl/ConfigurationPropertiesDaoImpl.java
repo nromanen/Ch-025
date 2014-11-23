@@ -29,7 +29,7 @@ public class ConfigurationPropertiesDaoImpl implements ConfigurationPropertiesDa
 	@Override
 	public ConfigurationProperty getPropertyById(int id) {
 		LOG.debug("get property by id {}", id);
-		Query query = entityManager.createQuery("FROM ConfigurationProperties cp WHERE cp.id = :id")
+		Query query = entityManager.createQuery("FROM ConfigurationProperty cp WHERE cp.id = :id")
 				.setParameter("id", id);
 		List<ConfigurationProperty> list = query.getResultList();
 		return (list.size() > 0) ? list.get(0) : null;
@@ -41,7 +41,7 @@ public class ConfigurationPropertiesDaoImpl implements ConfigurationPropertiesDa
 	@Override
 	public ConfigurationProperty getPropertyByKey(String key) {
 		LOG.debug("get property by key {}", key);
-		Query query = entityManager.createQuery("FROM ConfigurationProperties cp WHERE cp.key = :key")
+		Query query = entityManager.createQuery("FROM ConfigurationProperty cp WHERE cp.key = :key")
 				.setParameter("key", key);
 		List<ConfigurationProperty> list = query.getResultList();
 		return (list.size() >0) ? list.get(0) : null;

@@ -9,7 +9,7 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 <script src="resources/js/student/donouts.js"></script>
 <div class="row">
-	<div class="panel panel-default">
+	
 		<div class="row">
 			<div class="col-lg-8">
 				<h1>${subject.name}</h1>

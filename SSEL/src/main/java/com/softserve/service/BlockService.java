@@ -54,4 +54,10 @@ public interface BlockService {
 	 * @return list of blocks
 	 */
 	List<Block> getDeletedBlocks();
+	/**
+	 * Return nearest inactive block
+	 * @param subjectId unique subject identifier
+	 * @return block
+	 */
+	Block getNearestInactiveBlockBySubject(int subjectId);
 }

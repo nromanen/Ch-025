@@ -55,6 +55,7 @@ public class StudentCabinetController {
 	private MessageSource messageSource; 
 	@Autowired
 	private StudentCabinetService studentCabinetService;
+	
 	/**
 	 * Handle subscribe requests
 	 * @param subjectId subject id to subscribe/unsubscribe
@@ -136,11 +137,13 @@ public class StudentCabinetController {
 		Subject subject = subjectService.getSubjectById(courseId);
 		int courseSchedulerId = courseService.getCourseScheduleresBySubjectId(courseId).get(0).getId();
 		int groupId = groupService.getGroupByScheduler(courseSchedulerId).getGroupId();
+		Block nearest = blockService.getNearestInactiveBlockBySubject(subject.getId());
 		model.addAttribute("rating", ratingService.getAverageRatingByUserAndGroup(userId, groupId));
 		model.addAttribute("progress", ratingService.getProgressByGroupAndUser(groupId, userId));
 		model.addAttribute("blockList", blocks);
 		model.addAttribute("subject", subject);
 		model.addAttribute("table", "active");
+		model.addAttribute("nearest", nearest);
 		model.addAttribute("courseId", courseId);
 		return "modules";
 	}

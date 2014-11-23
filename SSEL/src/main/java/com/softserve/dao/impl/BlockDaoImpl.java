@@ -88,4 +88,15 @@ public class BlockDaoImpl implements BlockDao {
 		return query.getResultList();
 	}
 
+	@Override
+	public Block getNearestInactiveBlockBySubject(int subjectId) {
+		Query query = entityManager.createQuery("SELECT b FROM Block b WHERE b.startTime = "
+				+ "(SELECT min(b.startTime) FROM Block b where b.subject.id = :sid and b.startTime > current_timestamp()"
+				+ " and b.isDeleted = :val)")
+				.setParameter("sid", subjectId)
+				.setParameter("val", false);
+		List<Block> list = query.getResultList();
+		return (list.size() > 0) ? list.get(0): null;
+	}
+
 }

@@ -9,9 +9,11 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
+import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Service;
 
-import com.softserve.controller.StudentCabinetController;
+import com.softserve.dao.ConfigurationPropertiesDao;
 import com.softserve.dao.GroupDao;
 import com.softserve.dao.StudentGroupDao;
 import com.softserve.dao.StudyDocumentDao;
@@ -22,10 +24,11 @@ import com.softserve.entity.StudyDocument;
 import com.softserve.entity.User;
 import com.softserve.service.MailService;
 import com.softserve.service.StudentCabinetService;
+import com.softserve.util.DeleteInactiveTopicsScheduler;
 
 @Service
 public class StudentCabinetServiceImpl implements StudentCabinetService{
-	//private static final Logger LOG = LoggerFactory.getLogger(StudentCabinetController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(StudentCabinetService.class);
 	@Autowired
 	private GroupDao groupDao;
 	@Autowired
@@ -34,6 +37,10 @@ public class StudentCabinetServiceImpl implements StudentCabinetService{
 	private MailService mailService;
 	@Autowired
 	private StudyDocumentDao studyDocumentDao;
+	@Autowired
+	private ThreadPoolTaskScheduler taskScheduler;
+	@Autowired
+	private ConfigurationPropertiesDao configDao;
 	
 	public StudentCabinetServiceImpl() {
 
@@ -56,7 +63,7 @@ public class StudentCabinetServiceImpl implements StudentCabinetService{
 				try(FileOutputStream fout = new FileOutputStream(dirname+doc.getName());){
 					fout.write(doc.getData());
 				} catch (IOException e) {
-				//	LOG.error("Cannot write topic temp files");
+					LOG.error("Cannot write topic temp files");
 				}
 			}
 		}
@@ -91,10 +98,10 @@ public class StudentCabinetServiceImpl implements StudentCabinetService{
 				mailService.sendMail(user.getEmail(), "ssel subscribe", "You've subscribed on course "+
 						course.getSubject().getName()+
 						".Course started: "+course.getStart()+"Good luck");
-			//	LOG.debug("User {} subscribe on course {}", user.getEmail(), course.getSubject().getName());
+				LOG.debug("User {} subscribe on course {}", user.getEmail(), course.getSubject().getName());
 			} 
 		}
-		//LOG.debug("User has already subscribed on this course");
+		LOG.debug("User has already subscribed on this course");
 	}
 	/**
 	 * Perform unsubscribe from course
@@ -109,10 +116,16 @@ public class StudentCabinetServiceImpl implements StudentCabinetService{
 			mailService.sendMail(user.getEmail(), "ssel unsubscribe", "You've unsubscribed from course "+
 			course.getSubject().getName()+
 					".You cannot subscribe on this course till it finished and start again.Good luck");
-			//LOG.debug("User {} has unsubscribed from course {}", user.getEmail(), course.getSubject().getName());
+			LOG.debug("User {} has unsubscribed from course {}", user.getEmail(), course.getSubject().getName());
 		}
-		//LOG.debug("User {} try to unsubscribe from course {} which isn't subscribed!", user.getEmail(),
-			//	course.getSubject().getName());
+		LOG.debug("User {} try to unsubscribe from course {} which isn't subscribed!", user.getEmail(),
+				course.getSubject().getName());
 	}
 	
+	@Override
+	public void rescheduleDeleteInactive() {
+		String cronPatern = configDao.getPropertyByKey("schedule.delete").getValue();
+		CronTrigger newCron = new CronTrigger(cronPatern);
+		taskScheduler.schedule(DeleteInactiveTopicsScheduler.getInstance(studyDocumentDao, configDao), newCron);
+	}
 }

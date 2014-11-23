@@ -26,4 +26,8 @@ public interface StudentCabinetService {
 	 * @return list of attached files for topic
 	 */
 	List<StudyDocument> updateTopicFilesOnServer(String directoryName, int topicId);
+	/**
+	 * Reschedule deleteInactiveTopicsScheduler
+	 */
+	void rescheduleDeleteInactive();
 }
