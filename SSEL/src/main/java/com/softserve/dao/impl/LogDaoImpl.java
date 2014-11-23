@@ -32,9 +32,9 @@ public class LogDaoImpl implements LogDao {
 				.createQuery("DELETE FROM Log l WHERE l.eventDate < :date");
 		query.setParameter("date", date);
 		if (query.executeUpdate() != 0) {
-			LOG.debug("Deleted logs older than = {} ", date);
+			LOG.info("Deleted logs older than = {} ", date);
 		} else {
-			LOG.debug("Tried to delete logs older than = {} ", date);
+			LOG.info("Tried to delete logs older than = {} ", date);
 		}
 	}
 
@@ -90,6 +90,7 @@ public class LogDaoImpl implements LogDao {
 	 */
 	@Override
 	public Long countLogsInQuery(Date startDate, Date endDate) {
+		LOG.debug("Counted logs in query");
 		Query query = entityManager
 				.createQuery("SELECT COUNT(*) FROM Log l WHERE l.eventDate > :startDate AND l.eventDate <= :endDate");
 		query.setParameter("startDate", startDate);

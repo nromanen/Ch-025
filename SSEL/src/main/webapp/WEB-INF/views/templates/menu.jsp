@@ -11,10 +11,13 @@
 		</button>
 		<c:choose>
 			<c:when test="${sessionScope.user.role.role eq 'STUDENT'}">
-				<c:set var="url" value="student" ></c:set>
+				<c:set var="url" value="/student" ></c:set>
 			</c:when>
 			<c:when test="${sessionScope.user.role.role eq 'TEACHER'}">
-				<c:set var="url" value="teacher" ></c:set>
+				<c:set var="url" value="/teacher" ></c:set>
+			</c:when>
+			<c:when test="${sessionScope.user.role.role eq 'ADMIN'}">
+				<c:set var="url" value="/administrator" ></c:set>
 			</c:when>
 			<c:otherwise>
 				<c:set var="url" value="/" ></c:set>
@@ -58,13 +61,6 @@
 							<spring:message code="label.teacher_cabinet"/> 
 						</a>
 					</li>
-					<li class="divider"></li>
-					<li>
-						<a href="<c:url value="/logout" />" >
-							<i class="fa fa-sign-out fa-fw"></i>
-							<spring:message code="label.logout"/> 
-						</a>
-					</li>
 				</c:if>
 				<c:if test="${sessionScope.user.role.role eq 'STUDENT'}">
 					<li>
@@ -73,6 +69,17 @@
 							<spring:message code="label.student_cabinet"/>
 						</a>
 					</li>
+				</c:if>
+				<c:if test="${sessionScope.user.role.role eq 'ADMIN'}">
+					<li>
+						<a href="<c:url value="/administrator" />" > 
+							<i class="fa fa-user fa-fw"></i> 
+							<spring:message code="label.student_cabinet"/>
+						</a>
+					</li>
+				</c:if>
+				<c:if test="${sessionScope.user.role.role eq 'TEACHER'
+					|| sessionScope.user.role.role eq 'STUDENT' || sessionScope.user.role.role eq 'ADMIN'}">
 					<li class="divider"></li>
 					<li>
 						<a href="<c:url value="/logout" />">
@@ -84,13 +91,13 @@
 				<c:if test="${sessionScope.user.role.role ne 'TEACHER'
 					 && sessionScope.user.role.role ne 'STUDENT' && sessionScope.user.role.role ne 'ADMIN'}">
 					<li>
-						<a href="login">
+						<a href="<c:url value="/login" />">
 							<i class="fa fa-sign-in fa-fw"></i>
 							<spring:message code="label.sing_in" />	
 						</a>
 					</li>
 					<li>
-						<a href="registration">
+						<a href="<c:url value="/registration" />">
 							<i class="fa fa-sign-in fa-fw"></i>
 							<spring:message code="label.registration"/> 
 						</a>

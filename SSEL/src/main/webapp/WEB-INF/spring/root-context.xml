@@ -31,5 +31,5 @@
 
 	<import resource="security.xml" />
 
-	<!-- <import resource="social.xml" /> -->
+	<import resource="social.xml" />
 </beans>
