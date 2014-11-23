@@ -2,7 +2,12 @@ jQuery(document).ready(function($) {
 
 	$('#form_change_password').bootstrapValidator();
 	$('#form_change_user_information').bootstrapValidator();
+	$('#form_new_password').bootstrapValidator();
 
+	$(window).load(function(){
+		$('#btn_new_password').click();
+	});
+	
 	$("#fileupload").click(function() {
 		$("#photo").remove();
 	});
@@ -15,14 +20,18 @@ jQuery(document).ready(function($) {
 		$("#old_password").attr('type', 'password');
 	});
 
-	$("#btn_change_email").click(function() {
-		$('#modal_change_email').modal();
-	});
-
 	$("#btn_load_photo").click(function() {
 		$('#modal_load_photo').modal();
 	});
 
+	$('#modal_change_password').on('shown.bs.modal', function() {
+	    $('#form_change_password').bootstrapValidator('resetForm', true);
+	});
+	
+	$('#modal_new_password').on('shown.bs.modal', function() {
+	    $('#form_new_password').bootstrapValidator('resetForm', true);
+	});
+	
 	$('[data-toggle="tooltip"]').tooltip();
 
 	$("#form_change_user_information").submit(function() {
@@ -70,6 +79,31 @@ jQuery(document).ready(function($) {
 				success : function(response) {
 					if (response == "success") {
 						$("#modal_change_password").modal("hide");
+					} else {
+						//bootbox alert
+					}
+				}
+			});
+		}
+		return false;
+	});
+	
+	$("#form_new_password").submit(function() {
+		var new_password = $("#new_password").val();
+		if (new_password != "") {
+			var url = $(this).attr("action");
+			var json = {
+				"newPassword" : new_password
+			};
+			$.ajax({
+				url : url,
+				data : JSON.stringify(json),
+				contentType : 'application/json',
+				type : "POST",
+				success : function(response) {
+					if (response == "success") {
+						$("#modal_new_password").modal("hide");
+						location.reload();
 					} else {
 						//bootbox alert
 					}
@@ -172,5 +206,6 @@ jQuery(document).ready(function($) {
 	    }).prop('disabled', !$.support.fileInput)
 	        .parent().addClass($.support.fileInput ? undefined : 'disabled');
 	});
+	
 
 });

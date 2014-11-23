@@ -12,27 +12,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.dao.ConfigurationPropertiesDao;
-import com.softserve.dao.GroupDao;
-import com.softserve.dao.StudentGroupDao;
 import com.softserve.dao.StudyDocumentDao;
 import com.softserve.entity.CourseScheduler;
 import com.softserve.entity.Group;
 import com.softserve.entity.StudentGroup;
 import com.softserve.entity.StudyDocument;
 import com.softserve.entity.User;
+import com.softserve.service.GroupService;
 import com.softserve.service.MailService;
 import com.softserve.service.StudentCabinetService;
+import com.softserve.service.StudentGroupService;
 import com.softserve.util.DeleteInactiveTopicsScheduler;
 
 @Service
 public class StudentCabinetServiceImpl implements StudentCabinetService{
 	private static final Logger LOG = LoggerFactory.getLogger(StudentCabinetService.class);
 	@Autowired
-	private GroupDao groupDao;
+	private GroupService groupService;
 	@Autowired
-	private StudentGroupDao studentGroupDao;
+	private StudentGroupService studentGroupService;
 	@Autowired
 	private MailService mailService;
 	@Autowired
@@ -86,15 +87,15 @@ public class StudentCabinetServiceImpl implements StudentCabinetService{
 	 * @param user user which is subscribe
 	 */
 	private void subscribeOnCourse(CourseScheduler course, User user) {
-		Group subscribedGroup = groupDao.getGroupByScheduler(course.getId());
+		Group subscribedGroup = groupService.getGroupByScheduler(course.getId());
 		int groupId = subscribedGroup.getGroupId();
-		StudentGroup row = studentGroupDao.getStudentGroupByGroupAndUser(groupId, user.getId());
+		StudentGroup row = studentGroupService.getStudentGroupByUserAndGroupId(user.getId(), groupId);
 		if (row == null) { //check if student hasn't subscribed
 			if (course.getStart().after(new Date()) && subscribedGroup.isActive()) { // check if course hasn't started
 				row = new StudentGroup();
 				row.setGroupNumber(subscribedGroup);
 				row.setUser(user);
-				studentGroupDao.addStudentGroup(row);
+				studentGroupService.addStudentGroup(row);
 				mailService.sendMail(user.getEmail(), "ssel subscribe", "You've subscribed on course "+
 						course.getSubject().getName()+
 						".Course started: "+course.getStart()+"Good luck");
@@ -109,10 +110,10 @@ public class StudentCabinetServiceImpl implements StudentCabinetService{
 	 * @param user user which is unsubscribe
 	 */
 	private void unsubscribeFromCourse(CourseScheduler course, User user) {
-		int groupId = groupDao.getGroupByScheduler(course.getId()).getGroupId();
-		StudentGroup row = studentGroupDao.getStudentGroupByGroupAndUser(groupId, user.getId());
+		int groupId = groupService.getGroupByScheduler(course.getId()).getGroupId();
+		StudentGroup row = studentGroupService.getStudentGroupByUserAndGroupId(user.getId(), groupId);
 		if (row != null) {
-			studentGroupDao.deleteStudentGroup(row);
+			studentGroupService.deleteStudentGroup(row);
 			mailService.sendMail(user.getEmail(), "ssel unsubscribe", "You've unsubscribed from course "+
 			course.getSubject().getName()+
 					".You cannot subscribe on this course till it finished and start again.Good luck");

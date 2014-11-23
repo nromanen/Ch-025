@@ -78,15 +78,17 @@
 		<c:if test="${not empty nearest}">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3 class="panel-title">Incoming
-					<button class="btn btn-info" onClick="$('.alert').hide()" style="position: relative"> <div class="glyphicon glyphicon-hand-down"></div></button>
-					<button class="btn btn-info" onClick="$('.alert').show()"><div class="glyphicon glyphicon-hand-up"></div></button>
+				<h3 class="panel-title"> <spring:message code="label.student.incoming" />
+					<button class="btn btn-info" onClick="$('.alert').hide()" style="position: relative"> <div class="glyphicon glyphicon-minus-sign"></div></button>
+					<button class="btn btn-info" onClick="$('.alert').show()"><div class="glyphicon glyphicon-plus-sign"></div></button>
 				</h3>
 				
 			</div>
-			<div class="alert alert-info alert-dismissible" role="alert">
-			<p><h4>${nearest.name}</h4></p>
-			<p><h4>${nearest.startTime}</h4></p>
+			<div class="alert alert-dismissible" role="alert">
+			<p><h5><spring:message code="label.student.open_module" />:</h5></p>
+			<p>${nearest.name}</p>
+			<p><h5><spring:message code="label.student.open_date" />:</h5></p>
+			<p>${nearest.startTime}</p>
 			</div>
 			
 			</div>

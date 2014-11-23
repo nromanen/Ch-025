@@ -94,12 +94,30 @@ public class UserProfileController {
 		return "success";
 	}
 
+	@RequestMapping(value = "/newPassword", method = RequestMethod.POST, headers = { "content-type=application/json" })
+	public @ResponseBody String newPasswordAction(
+			@RequestBody Map<String, Object> map) {
+		String newPassword = map.get(KEY_NEW_PASSWORD).toString();
+		String email = userService.getCurrentUser();
+		User user = userService.getUserByEmail(email);
+		if (StringUtils.isBlank(newPassword)) {
+			LOG.debug(
+					"{} trying to change their password but incorrectly entered new password",
+					email);
+			return "error";
+		}
+		userService.changePassword(user, newPassword);
+		LOG.debug("{} has successfuly changed their password", email);
+		return "success";
+	}
+
 	@RequestMapping(value = "/changeUserInformation", method = RequestMethod.POST, headers = { "content-type=application/json" })
 	public @ResponseBody String changeFirstNameAction(
 			@RequestBody Map<String, Object> map, HttpSession session) {
 		String firstName = map.get(KEY_FIRSTNAME).toString();
 		String lastName = map.get(KEY_LASTNAME).toString();
-		if (firstName.matches(Patterns.NAME_PATTERN) && lastName.matches(Patterns.NAME_PATTERN)) {
+		if (firstName.matches(Patterns.NAME_PATTERN)
+				&& lastName.matches(Patterns.NAME_PATTERN)) {
 			User user = userService
 					.getUserByEmail(userService.getCurrentUser());
 			user.setFirstName(firstName);

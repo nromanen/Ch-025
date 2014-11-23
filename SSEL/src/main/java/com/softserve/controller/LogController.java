@@ -89,6 +89,7 @@ public class LogController {
 		Date endPeriod = endDate.getTime();
 		int activeTeacherRequests = (int) teacherRequestService
 				.getAllActiveTeacherRequestsCount();
+		model.addAttribute("orderBy", orderBy);
 		model.addAttribute("activeTeacherRequests", activeTeacherRequests);
 		model.addAttribute("numberOfPages", numberOfPages);
 		model.addAttribute("pageNumb", pageNumb);

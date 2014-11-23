@@ -129,7 +129,9 @@
 			<column name="id" autoIncrement="true" type="int">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
-			<column name="eventDate" type="datetime" />
+			<column name="eventDate" type="datetime" >
+				<constraints primaryKey="true" nullable="false" /><!-- Need for table partitioning -->
+			</column>
 			<column name="level" type="varchar(255)" />
 			<column name="logger" type="text" />
 			<column name="message" type="${longtext}" />
@@ -184,7 +186,8 @@
 			referencedColumnNames="id" onDelete="CASCADE" onUpdate="CASCADE" />
 		<addForeignKeyConstraint constraintName="fk_subject_category"
 			referencedTableName="category" baseColumnNames="id_category"
-			baseTableName="subject" referencedColumnNames="id" onDelete="CASCADE" onUpdate="CASCADE" />
+			baseTableName="subject" referencedColumnNames="id" onDelete="CASCADE"
+			onUpdate="CASCADE" />
 	</changeSet>
 
 	<changeSet id="2014-11-11-create-index-table-subject" author="Roma">
@@ -215,6 +218,7 @@
 			<column name="id_subject" type="int">
 				<constraints nullable="false" />
 			</column>
+
 		</createTable>
 	</changeSet>
 
@@ -363,13 +367,14 @@
 			referencedTableName="block" baseColumnNames="id_block" baseTableName="rating"
 			referencedColumnNames="id" onDelete="CASCADE" onUpdate="CASCADE" />
 		<addForeignKeyConstraint constraintName="fk_rating_group"
-			referencedTableName="groups" baseColumnNames="id_group" baseTableName="rating"
-			referencedColumnNames="id" onDelete="CASCADE" onUpdate="CASCADE" />
+			referencedTableName="groups" baseColumnNames="id_group"
+			baseTableName="rating" referencedColumnNames="id" onDelete="CASCADE"
+			onUpdate="CASCADE" />
 		<addForeignKeyConstraint constraintName="fk_rating_user"
 			referencedTableName="user" baseColumnNames="id_user" baseTableName="rating"
 			referencedColumnNames="id" onDelete="CASCADE" onUpdate="CASCADE" />
 	</changeSet>
-	
+
 	<changeSet id="2014-11-11-create-table-student_group" author="Roma">
 		<comment>Create table student_group</comment>
 		<createTable tableName="student_group">
@@ -377,19 +382,32 @@
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="id_group" type="int">
-				 <constraints nullable="false"/>
+				<constraints nullable="false" />
 			</column>
 			<column name="id_user" type="int">
-				<constraints nullable="false"/>
+				<constraints nullable="false" />
 			</column>
 		</createTable>
 	</changeSet>
+
+	<changeSet id="2014-11-23-create-table-config" author="Anatoliy">
+	<comment>Create table configuration properties</comment>
+		<createTable tableName="config">
+			<column name="id" type="int" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="key" type="varchar(255)" defaultValue="null" />
+			<column name="value" type="varchar(255)" defaultValue="null" />
+		</createTable>
+	</changeSet>
 	
-	<changeSet id="2014-11-11-foreign-key-table-student_group-1" author="Roma">
+	<changeSet id="2014-11-11-foreign-key-table-student_group-1"
+		author="Roma">
 		<comment>Create foreign key rating</comment>
 		<addForeignKeyConstraint constraintName="fk_student_group_groups"
-			referencedTableName="groups" baseColumnNames="id_group" baseTableName="student_group"
-			referencedColumnNames="id" onDelete="CASCADE" onUpdate="CASCADE" />
+			referencedTableName="groups" baseColumnNames="id_group"
+			baseTableName="student_group" referencedColumnNames="id" onDelete="CASCADE"
+			onUpdate="CASCADE" />
 		<addForeignKeyConstraint constraintName="fk_student_group_user"
 			referencedTableName="user" baseColumnNames="id_user" baseTableName="student_group"
 			referencedColumnNames="id" onDelete="CASCADE" onUpdate="CASCADE" />
