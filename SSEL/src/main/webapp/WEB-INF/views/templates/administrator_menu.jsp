@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<script src="<c:url value="/resources/js/bootstrapValidator.js" />" ></script>
 
 <script type="text/javascript">
 	window.setTimeout(function() {

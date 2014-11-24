@@ -148,12 +148,25 @@
 			});
 			</script>
 
-			<form id="addNewCategoryForm" role="form" action="addCategory">
+			<script type="text/javascript">
+			$(document).ready(function() {
+			    $('#addNewCategoryForm').bootstrapValidator();
+			});
+			</script>
+
+			<form id="addNewCategoryForm" role="form" action="addCategory"
+			data-bv-regexp="true"
+			data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+    data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+    data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
 				<div class="form-group" align="center">
 					<label for="addNewCategory"><spring:message
-							code="label.admin_add_category" /></label> <input type="text"
+							code="label.admin_add_category" /></label>
+							<input type="text"
 						class="form-control" id="addNewCategory" name="category"
-						placeholder="<spring:message code='label.input_category' />">
+						placeholder="<spring:message code='label.input_category' />"
+						pattern="^[A-ZА-ЯІЇЄ]{1}[a-zа-яіїє_-\s]{1,30}$"
+                data-bv-regexp-message="First letter is big and text large < 30">
 				</div>
 				<button type="submit" class="btn btn-primary btn-sm btn-block">
 					<spring:message code="label.add" />
