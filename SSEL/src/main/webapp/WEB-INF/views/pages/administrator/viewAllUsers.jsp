@@ -211,6 +211,82 @@
 	}
 </script>
 
+<script type="text/javascript">
+function changeRoleFunction(userId,newRole) {
+	var elements = document
+	.getElementById("elementsOnPage");
+
+	if ('${searchText}' != ""
+			&& '${searchOption}' != "") {
+		if ('${sortBy}' != "" && '${sortMethod}' != "") {
+			window.location.href = "changeUserRole?userId=" + userId
+					+ "&roleId="
+					+ newRole
+					+ "&currentPage=${currentPage}"
+					+ "&elementsOnPage="
+					+ elements.options[elements.selectedIndex].value
+					+ "&searchText=${searchText}&searchOption=${searchOption}"
+					+ "&sortBy=${sortBy}&sortMethod=${sortMethod}";
+		} else {
+			window.location.href = "changeUserRole?userId=" + userId
+					+ "&roleId="
+					+ newRole
+					+ "&currentPage=${currentPage}"
+					+ "&elementsOnPage="
+					+ elements.options[elements.selectedIndex].value
+					+ "&searchText=${searchText}&searchOption=${searchOption}";
+		}
+	} else {
+		if ('${sortBy}' != "" && '${sortMethod}' != "") {
+			window.location.href = "changeUserRole?userId=" + userId
+					+ "&roleId="
+					+ newRole
+					+ "&currentPage=${currentPage}"
+					+ "&elementsOnPage="
+					+ elements.options[elements.selectedIndex].value
+					+ "&sortBy=${sortBy}&sortMethod=${sortMethod}";
+		} else {
+			window.location.href = "changeUserRole?userId=" + userId
+					+ "&roleId="
+					+ newRole
+					+ "&currentPage=${currentPage}"
+					+ "&elementsOnPage="
+					+ elements.options[elements.selectedIndex].value;
+		}
+	}
+}
+
+	$(document)
+			.on(
+					"click",
+					".openRolesBlock",
+					function() {
+						var userId = $(this).data('id');
+
+						var roleId = $(this).data('role-id');
+						$.ajax({
+							type : "POST",
+							url : "getRole",
+							data : {
+								"roleId" : roleId
+							},
+							error : function(xhr) {
+								alert(xhr.statusText);
+							},
+							success : function(str) {
+
+								obj = JSON.parse(str);
+								$(".changeUlRole ul").empty();
+								for (i = 0; i < obj.roles.length; i++) {
+									$(".changeUlRole ul").append('<li><a href="#" onclick="changeRoleFunction('+userId+','
+											+ obj.roles[i].roleId+')">'
+											+ obj.roles[i].roleName + '</a></li>');
+								}
+							}
+						});
+					});
+</script>
+
 <!-- Modal window -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel" aria-hidden="true">
@@ -245,10 +321,9 @@
 
 <div class="row">
 	<div class="col-lg-12">
-
 		<!-- Message block -->
 		<c:if test="${not empty successMessage}">
-			<div class="alert alert-success alert-dismissible" role="alert">
+			<div class="alert alert-success alert-dismissible alertBlock" role="alert">
 				<button type="button" class="close" data-dismiss="alert">
 					<span aria-hidden="true">&times;</span><span class="sr-only"><spring:message
 							code="label.close" /></span>
@@ -258,7 +333,7 @@
 		</c:if>
 
 		<c:if test="${not empty errorMessage}">
-			<div class="alert alert-danger alert-dismissible" role="alert">
+			<div class="alert alert-danger alert-dismissible alertBlock" role="alert">
 				<button type="button" class="close" data-dismiss="alert">
 					<span aria-hidden="true">&times;</span><span class="sr-only"><spring:message
 							code="label.close" /></span>
@@ -267,10 +342,9 @@
 			</div>
 		</c:if>
 		<!-- /Message block -->
-
 		<div class="col-md-12">
-			<br>
 			<div class="row">
+			<br>
 
 				<!-- search block -->
 				<div class="col-md-5" align="left">
@@ -389,8 +463,9 @@
 			<div class="row">
 				<div class="col-md-12" align="left">
 					<c:if test="${not empty users}">
-						<label><spring:message code="label.records_per_page" /><c:set var="onPage">1,3,5,10,25,50,100</c:set>
-							<select id="elementsOnPage"
+						<label><spring:message code="label.records_per_page" />
+							<c:set var="onPage">1,3,5,10,25,50,100</c:set> <select
+							id="elementsOnPage"
 							onchange="changeElementsPerPageFunction(this)">
 								<c:forTokens items="${onPage}" delims="," var="element">
 									<c:choose>
@@ -402,8 +477,7 @@
 										</c:otherwise>
 									</c:choose>
 								</c:forTokens>
-						</select>
-						</label>
+						</select> </label>
 					</c:if>
 				</div>
 			</div>
@@ -503,12 +577,12 @@
 												<c:when
 													test="${sortBy eq 'expired' and sortMethod eq 'asc'}">
 													<a href="#" onclick="changeSortFunction('expired','desc')"><span
-														class="fa fa-sort-alpha-asc fa-lg"></span></a>
+														class="fa fa-sort-numeric-asc fa-lg"></span></a>
 												</c:when>
 												<c:when
 													test="${sortBy eq 'expired' and sortMethod eq 'desc'}">
 													<a href="#" onclick="changeSortFunction('expired','asc')"><span
-														class="fa fa-sort-alpha-desc fa-lg"></span></a>
+														class="fa fa-sort-numeric-desc fa-lg"></span></a>
 												</c:when>
 												<c:otherwise>
 													<a href="#" onclick="changeSortFunction('expired','asc')"><span
@@ -581,13 +655,26 @@
 								<table class="col-md-12">
 									<tr>
 										<td>${user.role.role}</td>
-										<td class="col-md-2"><a type="button" data-toggle="modal"
+										<td class="col-md-2">
+										<%-- Previus change role variant
+										<a type="button" data-toggle="modal"
 											data-id="changeUserRole?userId=${user.id}"
 											data-user-id="${user.id}" data-role-id="${user.role.id}"
 											class="btn btn-default openModalWindow"
 											data-toggle="dropdown" href="#myModal"> <span
 												class="caret"></span>
-										</a></td>
+										</a>
+										--%>
+  <div class="dropdown changeUlRole">
+   <a id="button" class="btn btn-default openRolesBlock" data-id="${user.id}"
+											data-user-id="${user.id}" data-role-id="${user.role.id}"
+											data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+  <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu changeToRole" role="menu" aria-labelledby="dLabel">
+  </ul>
+</div>
+										</td>
 									</tr>
 								</table>
 							</td>
@@ -673,8 +760,6 @@
 				</div>
 			</div>
 			<!-- /Pagination block -->
-
 		</div>
 	</div>
-</div>
 </div>

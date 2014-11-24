@@ -119,7 +119,7 @@
 <div class="row">
 	<div class="col-lg-12">
 		<c:if test="${not empty successMessage}">
-			<div class="alert alert-success alert-dismissible" role="alert">
+			<div class="alert alert-success alert-dismissible alertBlock" role="alert">
 				<button type="button" class="close" data-dismiss="alert">
 					<span aria-hidden="true">&times;</span><span class="sr-only"><spring:message
 							code="label.close" /></span>
@@ -128,7 +128,7 @@
 			</div>
 		</c:if>
 		<c:if test="${not empty errorMessage}">
-			<div class="alert alert-danger alert-dismissible" role="alert">
+			<div class="alert alert-danger alert-dismissible alertBlock" role="alert">
 				<button type="button" class="close" data-dismiss="alert">
 					<span aria-hidden="true">&times;</span><span class="sr-only"><spring:message
 							code="label.close" /></span>

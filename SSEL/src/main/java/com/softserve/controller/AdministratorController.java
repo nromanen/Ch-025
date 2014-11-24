@@ -830,6 +830,7 @@ public class AdministratorController {
 	}
 
 	private String beforeSearch(String str) {
+		str = str.trim();
 		str = str.replaceAll("\\<.*?>", "");
 		str = str.replaceAll("\'", "\'\'");
 		return str;

@@ -92,7 +92,7 @@ public class SubjectDaoImpl implements SubjectDao {
 		query.setParameter("id", id);
 		return query.getResultList();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Subject> getSubjectsByNamePart(String namePart, int pageNumber, int pageSize) {
@@ -100,7 +100,7 @@ public class SubjectDaoImpl implements SubjectDao {
 		CriteriaQuery<Subject> criteriaQuery = criteriaBuilder.createQuery(Subject.class);
 		Root<Subject> root = criteriaQuery.from(Subject.class);
 		criteriaQuery.select(root);
-		Predicate predicate = 
+		Predicate predicate =
 				criteriaBuilder.like(criteriaBuilder.upper(root.<String>get("name")), "%" + namePart.toUpperCase() + "%");
 		criteriaQuery.where(predicate, criteriaBuilder.equal(root.get("isDeleted"), false));
 		Query query = entityManager.createQuery(criteriaQuery);
@@ -108,7 +108,7 @@ public class SubjectDaoImpl implements SubjectDao {
 		query.setMaxResults(pageSize);
 		return query.getResultList();
 	}
-	
+
 	public Long getSubjectsQuantityByNamePart(String namePart) {
 		Query query = entityManager
 				.createQuery("SELECT COUNT (*) FROM Subject s WHERE name LIKE :namepart And s.isDeleted = :val");
@@ -122,7 +122,7 @@ public class SubjectDaoImpl implements SubjectDao {
 	public List<Subject> getSubjectsByNameVsLimit(String searchText,
 			int startPosition, int limitLength, String sortBy, String sortMethod) {
 		LOG.debug("Get all subjects vs limit searchText = {}", searchText);
-		String textQuery = "FROM Subject s WHERE s.isDeleted = :val and s.name = '" + searchText + "'";
+		String textQuery = "FROM Subject s WHERE s.isDeleted = :val and s.name LIKE '%" + searchText + "%'";
 		Query query = setQueryParameters(textQuery, startPosition, limitLength, sortBy,
 				sortMethod);
 		query.setParameter("val", false);
@@ -135,7 +135,7 @@ public class SubjectDaoImpl implements SubjectDao {
 			int startPosition, int limitLength, String sortBy, String sortMethod) {
 		LOG.debug("Get all subjects vs limit searchText = {}", searchText);
 
-		String textQuery = "FROM Subject s WHERE s.isDeleted = :val and s.category.name = '" + searchText + "'";
+		String textQuery = "FROM Subject s WHERE s.isDeleted = :val and s.category.name LIKE '%" + searchText + "%'";
 		Query query = setQueryParameters(textQuery, startPosition, limitLength, sortBy,
 				sortMethod);
 		query.setParameter("val", false);
@@ -154,14 +154,14 @@ public class SubjectDaoImpl implements SubjectDao {
 		query.setParameter("val", false);
 		return query.getResultList();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Subject> getSubjectsByTextVsLimit(String searchText,
 			int startPosition, int limitLength, String sortBy, String sortMethod) {
 		LOG.debug("Get all subjects by searchText = {}", searchText);
-		String textQuery = "FROM Subject s WHERE s.isDeleted = :val and s.name = '" + searchText
-				+ "' or s.category.name = '" + searchText + "'";
+		String textQuery = "FROM Subject s WHERE s.isDeleted = :val and s.name LIKE '%" + searchText
+				+ "%' or s.category.name LIKE '%" + searchText + "%'";
 		Query query = setQueryParameters(textQuery, startPosition, limitLength, sortBy,
 				sortMethod);
 		query.setParameter("val", false);
@@ -209,8 +209,8 @@ public class SubjectDaoImpl implements SubjectDao {
 		LOG.debug("Get subjects by name count");
 		Query query = entityManager
 				.createQuery("SELECT COUNT (*) FROM Subject s "
-						+ "WHERE s.name = :name and s.isDeleted = :val");
-		query.setParameter("name", searchName);
+						+ "WHERE s.name LIKE :name and s.isDeleted = :val");
+		query.setParameter("name", "%" + searchName + "%");
 		query.setParameter("val", false);
 		return (Long) query.getSingleResult();
 	}
@@ -220,8 +220,8 @@ public class SubjectDaoImpl implements SubjectDao {
 		LOG.debug("Get subjects by category count");
 		Query query = entityManager
 				.createQuery("SELECT COUNT (*) FROM Subject s "
-						+ "WHERE s.category.name = :name and s.isDeleted = :val");
-		query.setParameter("name", searchCategory);
+						+ "WHERE s.category.name LIKE :name and s.isDeleted = :val");
+		query.setParameter("name", "%" + searchCategory + "%");
 		query.setParameter("val", false);
 		return (Long) query.getSingleResult();
 	}
@@ -231,8 +231,8 @@ public class SubjectDaoImpl implements SubjectDao {
 		LOG.debug("Get subjects count");
 		Query query = entityManager
 				.createQuery("SELECT COUNT (*) FROM Subject s "
-						+ "WHERE s.name = :searchText or s.category.name = :searchText and s.isDeleted = :val");
-		query.setParameter("searchText", searchText);
+						+ "WHERE s.name LIKE :searchText or s.category.name LIKE :searchText and s.isDeleted = :val");
+		query.setParameter("searchText", "%" + searchText + "%");
 		query.setParameter("val", false);
 		return (Long) query.getSingleResult();
 	}
