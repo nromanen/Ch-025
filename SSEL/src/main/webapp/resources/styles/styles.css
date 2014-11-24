@@ -145,3 +145,6 @@ body {
     position: absolute;
 	z-index: 10;
 }
+#searchIcon {
+	text-decoration: none;
+}

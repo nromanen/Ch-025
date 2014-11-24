@@ -86,6 +86,49 @@
 	}
 </script>
 
+<script type="text/javascript">
+	$(function() {
+		$('#addNewCategoryForm').submit(function() {
+			var categoryName = document.getElementById("addNewCategory").value;
+			var div = document.createElement("div");
+			div.innerHTML = categoryName;
+			categoryName = div.textContent || div.innerText || "";
+			document.getElementById("addNewCategory").value = categoryName;
+			return true;
+		});
+	});
+</script>
+
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#addNewCategoryForm').bootstrapValidator({
+			feedbackIcons : {
+				valid : 'glyphicon glyphicon-ok',
+				invalid : 'glyphicon glyphicon-remove',
+				validating : 'glyphicon glyphicon-refresh'
+			},
+			fields : {
+				category : {
+					validators : {
+						notEmpty : {
+							message : "<spring:message code='label.category_name_empty'/>"
+						},
+						regexp : {
+							regexp : /^[A-ZА-ЯІЇЄ]{1}[a-zа-яіїє0-9_-\s]{3,30}$/i,
+							message : "<spring:message code='label.category_name_invalid'/>"
+						}
+					}
+				}
+			}
+		}).on('success.field.bv', function(e, data) {
+			if (data.bv.isValid()) {
+				data.bv.disableSubmitButtons(false);
+			}
+		});
+	});
+</script>
+
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
@@ -115,7 +158,8 @@
 <div class="row">
 	<div class="col-lg-12">
 		<c:if test="${not empty successMessage}">
-			<div class="alert alert-success alert-dismissible alertBlock" role="alert">
+			<div class="alert alert-success alert-dismissible alertBlock"
+				role="alert">
 				<button type="button" class="close" data-dismiss="alert">
 					<span aria-hidden="true">&times;</span><span class="sr-only"><spring:message
 							code="label.close" /></span>
@@ -124,7 +168,8 @@
 			</div>
 		</c:if>
 		<c:if test="${not empty errorMessage}">
-			<div class="alert alert-danger alert-dismissible alertBlock" role="alert">
+			<div class="alert alert-danger alert-dismissible alertBlock"
+				role="alert">
 				<button type="button" class="close" data-dismiss="alert">
 					<span aria-hidden="true">&times;</span><span class="sr-only"><spring:message
 							code="label.close" /></span>
@@ -135,40 +180,19 @@
 		<div class="col-md-3">
 			<br>
 
-			<script type="text/javascript">
-			$(function() {
-			    $('#addNewCategoryForm').submit(function() {
-			    	var categoryName = document.getElementById("addNewCategory").value;
-					var div = document.createElement("div");
-					div.innerHTML = categoryName;
-					categoryName = div.textContent || div.innerText || "";
-					document.getElementById("addNewCategory").value = categoryName;
-			        return true;
-			    });
-			});
-			</script>
-
-			<script type="text/javascript">
-			$(document).ready(function() {
-			    $('#addNewCategoryForm').bootstrapValidator();
-			});
-			</script>
-
-			<form id="addNewCategoryForm" role="form" action="addCategory"
-			data-bv-regexp="true"
-			data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
-    data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
-    data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+			<form id="addNewCategoryForm" method="post" role="form"
+				action="addCategory" class="form-horizontal">
 				<div class="form-group" align="center">
-					<label for="addNewCategory"><spring:message
+					<label class="control-label" for="addNewCategory"><spring:message
 							code="label.admin_add_category" /></label>
-							<input type="text"
-						class="form-control" id="addNewCategory" name="category"
-						placeholder="<spring:message code='label.input_category' />"
-						pattern="^[A-ZА-ЯІЇЄ]{1}[a-zа-яіїє_-\s]{1,30}$"
-                data-bv-regexp-message="First letter is big and text large < 30">
+					<div class="col-md-12">
+						<input type="text" class="form-control" id="addNewCategory"
+							name="category"
+							placeholder="<spring:message code='label.input_category' />">
+					</div>
 				</div>
-				<button type="submit" class="btn btn-primary btn-sm btn-block">
+				<button type="submit" class="btn btn-primary btn-sm btn-block"
+					disabled>
 					<spring:message code="label.add" />
 				</button>
 			</form>

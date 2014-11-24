@@ -287,6 +287,18 @@ function changeRoleFunction(userId,newRole) {
 					});
 </script>
 
+<script type="text/javascript">
+$(document).ready(function () {
+    $('#searchText').on('input',function () {
+if (('${searchText}' == "") || ('${searchText}' != $("#searchText").val())) {
+	setIconClassFunction("search");
+} else {
+	setIconClassFunction("delete");
+}
+    });
+});
+</script>
+
 <!-- Modal window -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel" aria-hidden="true">
@@ -371,19 +383,22 @@ function changeRoleFunction(userId,newRole) {
 							</ul>
 						</div>
 						<c:choose>
-							<c:when test="${not empty searchText}">
-								<input type="text" class="form-control" id="searchText"
-									value="${searchText}"
-									placeholder="<spring:message code='label.search_text' />">
-							</c:when>
-							<c:otherwise>
-								<input type="text" class="form-control" id="searchText"
-									placeholder="<spring:message code='label.search_text' />">
-							</c:otherwise>
-						</c:choose>
-						<a href="#" class="input-group-addon"
-							onclick="searchTextFunction()"><span
-							class="glyphicon glyphicon-search"></span></a>
+						<c:when test="${not empty searchText}">
+							<input type="text" maxlength="30" class="form-control" id="searchText"
+								value="${searchText}"
+								placeholder="<spring:message code='label.search_text' />">
+								<div class="input-group-addon"><a href="#" id="searchIcon" class="glyphicon glyphicon-remove red"
+						onclick="clearTextFunction()"></a></div>
+						</c:when>
+						<c:otherwise>
+							<input type="text" maxlength="30" class="form-control" id="searchText" name="searchText"
+								placeholder="<spring:message code='label.search_text' />">
+								<div class="input-group-addon">
+								<a href="#" id="searchIcon" class="glyphicon glyphicon-search"
+									onclick="searchTextFunction()"></a>
+							</div>
+						</c:otherwise>
+					</c:choose>
 					</div>
 				</div>
 				<!-- /search block-->
