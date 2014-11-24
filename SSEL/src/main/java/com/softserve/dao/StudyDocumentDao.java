@@ -47,5 +47,10 @@ public interface StudyDocumentDao {
      * @param id unique file identifier
      */
     void delete(Long id);
+    /**
+     * Return attachments to inactive topics
+     * @return list of files
+     */
+    List<StudyDocument> getDocumentsForInactiveTopics();
     
 }

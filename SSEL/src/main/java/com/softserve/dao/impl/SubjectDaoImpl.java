@@ -1,6 +1,7 @@
 package com.softserve.dao.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -8,6 +9,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -16,6 +19,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.softserve.dao.SubjectDao;
+import com.softserve.entity.Category;
+import com.softserve.entity.CourseScheduler;
 import com.softserve.entity.Subject;
 
 @Repository
@@ -95,14 +100,36 @@ public class SubjectDaoImpl implements SubjectDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Subject> getSubjectsByNamePart(String namePart, int pageNumber, int pageSize) {
+	public List<Subject> getSubjectsByNamePart(String namePart, int pageNumber, int pageSize,
+			String sortBy, boolean isReverse) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Subject> criteriaQuery = criteriaBuilder.createQuery(Subject.class);
 		Root<Subject> root = criteriaQuery.from(Subject.class);
-		criteriaQuery.select(root);
+		Join<Subject, Category> category = root.join("category");
+		Join<Subject, CourseScheduler> scheduler = root.join("schedulers");
+		criteriaQuery.select(root).distinct(true);
+		List<Predicate> predicates = new ArrayList<Predicate>();
 		Predicate predicate =
 				criteriaBuilder.like(criteriaBuilder.upper(root.<String>get("name")), "%" + namePart.toUpperCase() + "%");
-		criteriaQuery.where(predicate, criteriaBuilder.equal(root.get("isDeleted"), false));
+		Predicate predicateJoin = criteriaBuilder.equal(scheduler.get("subject"), root.get("id"));
+		Predicate predicateDeleted = criteriaBuilder.equal(root.get("isDeleted"), false);
+		predicates.add(predicate);
+		predicates.add(predicateJoin);
+		predicates.add(predicateDeleted);
+		criteriaQuery.where(predicates.toArray(new Predicate[] {}));
+		Expression<?> sort = root.<String>get("id");
+		if (sortBy.equals("name")) {
+			sort = root.<String>get(sortBy);
+		} else if (sortBy.equals("category")) {
+			sort = category.<String>get("name");
+		} else if (sortBy.equals("date")) {
+			sort = scheduler.<Date>get("start");
+		}
+		if (isReverse) {
+			criteriaQuery.orderBy(criteriaBuilder.desc(sort));
+		} else {
+			criteriaQuery.orderBy(criteriaBuilder.asc(sort));
+		}
 		Query query = entityManager.createQuery(criteriaQuery);
 		query.setFirstResult((pageNumber - 1) * pageSize);
 		query.setMaxResults(pageSize);
@@ -111,8 +138,7 @@ public class SubjectDaoImpl implements SubjectDao {
 
 	public Long getSubjectsQuantityByNamePart(String namePart) {
 		Query query = entityManager
-				.createQuery("SELECT COUNT (*) FROM Subject s WHERE name LIKE :namepart And s.isDeleted = :val");
-		query.setParameter("val", false);
+				.createQuery("SELECT COUNT (*) FROM Subject s WHERE name LIKE :namepart");
 		query.setParameter("namepart", "%" + namePart + "%");
 		return (Long) query.getSingleResult();
 	}
@@ -125,7 +151,6 @@ public class SubjectDaoImpl implements SubjectDao {
 		String textQuery = "FROM Subject s WHERE s.isDeleted = :val and s.name LIKE '%" + searchText + "%'";
 		Query query = setQueryParameters(textQuery, startPosition, limitLength, sortBy,
 				sortMethod);
-		query.setParameter("val", false);
 		return query.getResultList();
 	}
 
@@ -134,11 +159,9 @@ public class SubjectDaoImpl implements SubjectDao {
 	public List<Subject> getSubjectsByCategoryVsLimit(String searchText,
 			int startPosition, int limitLength, String sortBy, String sortMethod) {
 		LOG.debug("Get all subjects vs limit searchText = {}", searchText);
-
 		String textQuery = "FROM Subject s WHERE s.isDeleted = :val and s.category.name LIKE '%" + searchText + "%'";
 		Query query = setQueryParameters(textQuery, startPosition, limitLength, sortBy,
 				sortMethod);
-		query.setParameter("val", false);
 		return query.getResultList();
 	}
 
@@ -148,10 +171,9 @@ public class SubjectDaoImpl implements SubjectDao {
 	public List<Subject> getSubjectsVsLimit(int startPosition, int limitLength,
 			String sortBy, String sortMethod) {
 		LOG.debug("Get subjects from - to = {} {}", startPosition, limitLength);
-		String textQuery = "FROM Subject s WHERE s.isDeleted = :val";
+		String textQuery = "FROM Subject s";
 		Query query = setQueryParameters(textQuery, startPosition, limitLength, sortBy,
 				sortMethod);
-		query.setParameter("val", false);
 		return query.getResultList();
 	}
 
@@ -164,7 +186,6 @@ public class SubjectDaoImpl implements SubjectDao {
 				+ "%' or s.category.name LIKE '%" + searchText + "%'";
 		Query query = setQueryParameters(textQuery, startPosition, limitLength, sortBy,
 				sortMethod);
-		query.setParameter("val", false);
 		return query.getResultList();
 	}
 
@@ -199,8 +220,7 @@ public class SubjectDaoImpl implements SubjectDao {
 	public long getSubjectsCount() {
 		LOG.debug("Get all subjects count");
 		Query query = entityManager
-				.createQuery("SELECT COUNT (*) FROM Subject s WHERE s.isDeleted = :val");
-		query.setParameter("val", false);
+				.createQuery("SELECT COUNT (*) FROM Subject s ");
 		return (Long) query.getSingleResult();
 	}
 
@@ -239,13 +259,36 @@ public class SubjectDaoImpl implements SubjectDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Subject> getSubjectsByCategoryIdWithLimit(int categoryId, int pageNumber, int pageSize) {
+	public List<Subject> getSubjectsByCategoryIdWithLimit(int categoryId, int pageNumber, int pageSize,
+			String sortBy, boolean isReverse) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Subject> criteriaQuery = criteriaBuilder.createQuery(Subject.class);
 		Root<Subject> root = criteriaQuery.from(Subject.class);
-		criteriaQuery.select(root);
-		Predicate predicate = criteriaBuilder.equal(root.<Integer>get("category"), categoryId);
-		criteriaQuery.where(predicate, criteriaBuilder.equal(root.get("isDeleted"), false));
+		Join<Subject, Category> category = root.join("category");
+		Join<Subject, CourseScheduler> scheduler = root.join("schedulers");
+		criteriaQuery.select(root).distinct(true);
+		List<Predicate> predicates = new ArrayList<Predicate>();
+		Predicate predicate = criteriaBuilder.equal(category.get("id"), categoryId);
+		Predicate predicateJoin = criteriaBuilder.equal(scheduler.get("subject"), root.get("id"));
+		Predicate predicateDeleted = criteriaBuilder.equal(root.get("isDeleted"), false);
+		predicates.add(predicate);
+		predicates.add(predicateJoin);
+		predicates.add(predicateDeleted);
+		criteriaQuery.where(predicates.toArray(new Predicate[] {}));
+		Expression<?> sort = root.<String>get("id");
+		if (sortBy.equals("name")) {
+			sort = root.<String>get(sortBy);
+		} else if (sortBy.equals("category")) {
+			sort = category.<String>get("name");
+		} else if (sortBy.equals("date")) {
+			sort = scheduler.<Date>get("start");
+		}
+		criteriaQuery.orderBy(criteriaBuilder.desc(sort));
+		if (isReverse) {
+			criteriaQuery.orderBy(criteriaBuilder.desc(sort));
+		} else {
+			criteriaQuery.orderBy(criteriaBuilder.asc(sort));
+		}
 		Query query = entityManager.createQuery(criteriaQuery);
 		query.setFirstResult((pageNumber - 1) * pageSize);
 		query.setMaxResults(pageSize);
@@ -259,6 +302,43 @@ public class SubjectDaoImpl implements SubjectDao {
 		return entityManager.createQuery("FROM Subject s WHERE s.isDeleted = :val")
 				.setParameter("val", false)
 				.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Subject> getAllSubjectsWithSchedulers() {
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Subject> criteriaQuery = criteriaBuilder.createQuery(Subject.class);
+		Root<Subject> root = criteriaQuery.from(Subject.class);
+		Join<Subject, CourseScheduler> scheduler = root.join("schedulers");
+		criteriaQuery.select(root).distinct(true);
+		List<Predicate> predicates = new ArrayList<Predicate>();
+		Predicate predicateJoin = criteriaBuilder.equal(scheduler.get("subject"), root.get("id"));
+		Predicate predicateDeleted = criteriaBuilder.equal(root.get("isDeleted"), false);
+		predicates.add(predicateJoin);
+		predicates.add(predicateDeleted);
+		criteriaQuery.where(predicates.toArray(new Predicate[] {}));
+		Query query = entityManager.createQuery(criteriaQuery);
+		return query.getResultList();
+	}
+
+	@Override
+	public Subject getSubjectByIdWithScheduler(int id) {
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Subject> criteriaQuery = criteriaBuilder.createQuery(Subject.class);
+		Root<Subject> root = criteriaQuery.from(Subject.class);
+		Join<Subject, CourseScheduler> scheduler = root.join("schedulers");
+		criteriaQuery.select(root);
+		List<Predicate> predicates = new ArrayList<Predicate>();
+		Predicate predicateId = criteriaBuilder.equal(root.get("id"), id);
+		Predicate predicateJoin = criteriaBuilder.equal(scheduler.get("subject"), root.get("id"));
+		Predicate predicateDeleted = criteriaBuilder.equal(root.get("isDeleted"), false);
+		predicates.add(predicateId);
+		predicates.add(predicateJoin);
+		predicates.add(predicateDeleted);
+		criteriaQuery.where(predicates.toArray(new Predicate[] {}));
+		Query query = entityManager.createQuery(criteriaQuery);
+		return (Subject) query.getSingleResult();
 	}
 
 }

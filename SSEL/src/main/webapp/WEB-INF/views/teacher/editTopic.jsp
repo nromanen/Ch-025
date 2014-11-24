@@ -65,16 +65,12 @@
 		</form:form>
 
 
-
-
-		<!-- The file upload form used as target for the file upload widget -->
 		<form id="fileupload" action='<s:url value="upload"/>' method="POST"
 			enctype="multipart/form-data">
 
-			<!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
 			<div class="row fileupload-buttonbar">
 				<div class="col-lg-7">
-					<!-- The fileinput-button span is used to style the file input field as button -->
+
 					<span class="btn btn-success fileinput-button"> <i
 						class="glyphicon glyphicon-plus"></i> <span><spring:message code="label.teacher.addFiles"/></span> <input
 						type="file" id="btnAdd" name="files[]" multiple>
