@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <div class="row">
 	<div class="col-lg-12">
 		<h1 class="page-header">${title}</h1>
@@ -13,7 +14,7 @@
 	<div class="panel-body">
 		<div class="table-responsive">
 		  <c:choose>
-		   <c:when test="${courses.size() gt 0}">
+		   <c:when test="${fn:length(courses) gt 0}">
 			<table class="table table-striped table-bordered table-hover"
 				id="dataTables-example">
 				<thead>
