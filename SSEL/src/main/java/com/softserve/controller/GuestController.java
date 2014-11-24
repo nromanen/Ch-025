@@ -180,6 +180,7 @@ public class GuestController {
 		model.addAttribute("pageSize", pageSize);
 		model.addAttribute("pageNumber", pageNumber);
 		model.addAttribute("isReverse", isReverse);
+		model.addAttribute("sortBy", sortBy);
 
 		return "search";
 	}
@@ -206,6 +207,7 @@ public class GuestController {
 		model.addAttribute("pageNumber", pageNumber);
 		model.addAttribute("categoryId", categoryId);
 		model.addAttribute("isReverse", isReverse);
+		model.addAttribute("sortBy", sortBy);
 		return "category";
 	}
 	

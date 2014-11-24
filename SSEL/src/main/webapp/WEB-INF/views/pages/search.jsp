@@ -59,6 +59,7 @@
 		<p>
 			<spring:message code="label.courses" />
 		</p>
+		<c:if test="${fn:length(subjList) gt 0}">
 		<form action="search" method="get">
 			<label for="sel1" style="margin-left:20px;"> <spring:message code="label.records_per_page"/></label> 
 			<select	class="form-control slct" id="sel1" name="pageSize" onchange="this.form.submit()">
@@ -109,6 +110,7 @@
 		</div>
 			<input type="hidden" value="${search}" name="search">
 		</form>
+		</c:if>
 		<form method="GET" action="course">
 			<div class="blocks">
 				<c:if test="${fn:length(subjList) gt 0}">
@@ -117,19 +119,30 @@
 							<th>
 								<spring:message code="label.course_name" />
 								<div class="rightArrow">
-								<c:if test="${isReverse eq 'false'}">
+								<c:if test="${sortBy ne 'name'}">
+								<a href="search?pageSize=${pageSize}&pageNumber=${pageNumber}
+									&search=${search}&sortBy=name&isReverse=true"><span class="fa fa-sort"></span> </a>
+								</c:if>
+								<c:if test="${sortBy eq 'name'}">
+								<c:if test="${isReverse eq false}">
 								<a href="search?pageSize=${pageSize}&pageNumber=${pageNumber}
 									&search=${search}&sortBy=name&isReverse=true"><span class="fa fa-sort-alpha-asc"></span> </a>
 									</c:if>
-									<c:if test="${isReverse eq 'true'}">
+									<c:if test="${isReverse eq true}">
 								<a href="search?pageSize=${pageSize}&pageNumber=${pageNumber}
 									&search=${search}&sortBy=name&isReverse=false"><span class="fa fa-sort-alpha-desc"> </span></a>
+								</c:if>
 								</c:if>
 								</div>
 							</th>
 							<th>
 								<spring:message code="label.category" />
 								<div class="rightArrow">
+								<c:if test="${sortBy ne 'category'}">
+								<a href="search?pageSize=${pageSize}&pageNumber=${pageNumber}
+									&search=${search}&sortBy=category&isReverse=true"><span class="fa fa-sort"></span> </a>
+								</c:if>
+								<c:if test="${sortBy eq 'category'}">
 								<c:if test="${isReverse eq false}">
 								<a href="search?pageSize=${pageSize}&pageNumber=${pageNumber}
 									&search=${search}&sortBy=category&isReverse=true"><span class="fa fa-sort-alpha-asc"></span> </a>
@@ -138,10 +151,16 @@
 								<a href="search?pageSize=${pageSize}&pageNumber=${pageNumber}
 									&search=${search}&sortBy=category&isReverse=false"><span class="fa fa-sort-alpha-desc"> </span>  </a>
 									</c:if>
+								</c:if>
 									</div>
 							</th>
 							<th><spring:message code="label.start_date" />
 							<div class="rightArrow">
+							<c:if test="${sortBy ne 'date'}">
+							<a href="search?pageSize=${pageSize}&pageNumber=${pageNumber}
+									&search=${search}&sortBy=date&isReverse=true"><span class="fa fa-sort"></span> </a>
+							</c:if>
+							<c:if test="${sortBy eq 'date'}">
 							<c:if test="${isReverse eq false}">
 								<a href="search?pageSize=${pageSize}&pageNumber=${pageNumber}
 									&search=${search}&sortBy=date&isReverse=true"><span class="fa fa-sort-alpha-asc"></span> </a>
@@ -149,7 +168,9 @@
 									<c:if test="${isReverse eq true}">
 								<a href="search?pageSize=${pageSize}&pageNumber=${pageNumber}
 									&search=${search}&sortBy=date&isReverse=false"><span class="fa fa-sort-alpha-desc"> </span> </a>
-									</c:if></div></th>
+									</c:if>
+							</c:if>
+							</div></th>
 						</tr>
 							<c:forEach items="${subjList}" var="subj">
 								<tr>
@@ -173,6 +194,7 @@
 			</c:if>
 	</div>
 	<div>
+		<c:if test="${fn:length(subjList) gt 0}">
 		<form action="search" method="get">
 			<label for="sel1" style="margin-left:20px;"> <spring:message code="label.records_per_page"/></label> 
 			<select	class="form-control slct" id="sel1" name="pageSize" onchange="this.form.submit()">
@@ -223,6 +245,7 @@
 		</div>
 			<input type="hidden" value="${search}" name="search">
 		</form>
+		</c:if>
 	</div>
 </div>
 
