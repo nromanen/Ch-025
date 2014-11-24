@@ -11,10 +11,8 @@
 					".openModalWindow",
 					function() {
 						var deleteCategory = $(this).data('id');
-						//document.getElementById("demo").innerHTML = deleteCategory;
 
 						var categoryId = $(this).data('id');
-						//alert(categoryId);
 						$
 								.ajax({
 									type : "POST",
@@ -29,7 +27,6 @@
 										var json = JSON.parse(str);
 
 										count = json["count"];
-										//document.getElementById("demo").innerHTML = JSON.parse(count);
 										if (count != null && count > 0) {
 											$("#labelDeleteInf")
 													.html(
@@ -75,7 +72,6 @@
 <script type="text/javascript">
 	function validCategoryFunction() {
 		categoryId = $("#demo").text();
-		//alert(categoryId);
 		$.ajax({
 			type : "POST",
 			url : "checkCategory",
@@ -138,7 +134,21 @@
 		</c:if>
 		<div class="col-md-3">
 			<br>
-			<form role="form" action="addCategory">
+
+			<script type="text/javascript">
+			$(function() {
+			    $('#addNewCategoryForm').submit(function() {
+			    	var categoryName = document.getElementById("addNewCategory").value;
+					var div = document.createElement("div");
+					div.innerHTML = categoryName;
+					categoryName = div.textContent || div.innerText || "";
+					document.getElementById("addNewCategory").value = categoryName;
+			        return true;
+			    });
+			});
+			</script>
+
+			<form id="addNewCategoryForm" role="form" action="addCategory">
 				<div class="form-group" align="center">
 					<label for="addNewCategory"><spring:message
 							code="label.admin_add_category" /></label> <input type="text"

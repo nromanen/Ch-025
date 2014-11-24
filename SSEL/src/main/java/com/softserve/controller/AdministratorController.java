@@ -186,6 +186,7 @@ public class AdministratorController {
 		LOG.debug("Visit viewAllCategories page");
 		if (categoryName != null && categoryName != "") {
 			if (categoryName.length() < 35) {
+				categoryName = categoryName.trim();
 				if (!administratorService.addCategory(categoryName)) {
 					redirectAttributes.addFlashAttribute("successMessage",
 							"You are add category: <strong>" + categoryName
