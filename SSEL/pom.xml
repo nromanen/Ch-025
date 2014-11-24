@@ -15,9 +15,9 @@
 		<org.slf4j-version>1.7.7</org.slf4j-version>
 		<log4j.version>2.0-rc1</log4j.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spring.social.version>1.1.0.RELEASE</spring.social.version>
-        <spring.social.facebook.version>1.1.1.RELEASE</spring.social.facebook.version>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<spring.social.version>1.1.0.RELEASE</spring.social.version>
+		<spring.social.facebook.version>1.1.1.RELEASE</spring.social.facebook.version>
 	</properties>
 	<dependencies>
 		<!-- Spring -->
@@ -120,6 +120,13 @@
 		</dependency>
 
 		<!-- Servlet -->
+		<!--  -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+		<!--  -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
@@ -156,6 +163,25 @@
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
 			<version>1.9.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>4.1.2.RELEASE</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- spring db unit -->
+		<dependency>
+			<groupId>com.github.springtestdbunit</groupId>
+			<artifactId>spring-test-dbunit</artifactId>
+			<version>1.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.dbunit</groupId>
+			<artifactId>dbunit</artifactId>
+			<version>2.5.0</version>
+			<scope>test</scope>
 		</dependency>
 
 		<!-- JPA -->
@@ -265,34 +291,34 @@
 			<scope>test</scope>
 		</dependency>
 
-		 <!-- Spring Social -->
-        <dependency>
-            <groupId>org.springframework.social</groupId>
-            <artifactId>spring-social-config</artifactId>
-            <version>${spring.social.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.social</groupId>
-            <artifactId>spring-social-core</artifactId>
-            <version>${spring.social.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.social</groupId>
-            <artifactId>spring-social-security</artifactId>
-            <version>${spring.social.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.social</groupId>
-            <artifactId>spring-social-web</artifactId>
-            <version>${spring.social.version}</version>
-        </dependency>
+		<!-- Spring Social -->
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-config</artifactId>
+			<version>${spring.social.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-core</artifactId>
+			<version>${spring.social.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-security</artifactId>
+			<version>${spring.social.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-web</artifactId>
+			<version>${spring.social.version}</version>
+		</dependency>
 
-        <!-- Spring Social Facebook -->
-        <dependency>
-            <groupId>org.springframework.social</groupId>
-            <artifactId>spring-social-facebook</artifactId>
-            <version>${spring.social.facebook.version}</version>
-        </dependency>
+		<!-- Spring Social Facebook -->
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-facebook</artifactId>
+			<version>${spring.social.facebook.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>

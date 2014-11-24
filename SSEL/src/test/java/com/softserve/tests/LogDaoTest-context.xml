@@ -6,17 +6,16 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
-	<bean id="logService" class="org.mockito.Mockito" factory-method="mock">
-		<constructor-arg value="com.softserve.service.logService" />
-	</bean>
-
-	<bean id="transactionManager"
-		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-		<property name="sessionFactory" ref="mySessionFactory" />
-	</bean>
+	<!-- Includes an option to use configuration annotations (@Annotation-based 
+		configuration) -->
+	<context:annotation-config />
 
 	<context:component-scan base-package="com.softserve.dao" />
 	<context:component-scan base-package="com.softserve.service" />
 	<context:component-scan base-package="com.softserve" />
+
+	<!-- Configuration file resources for data (Data Access Resources) -->
+	<import resource="testData.xml" />
+
 
 </beans>
