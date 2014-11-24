@@ -23,7 +23,7 @@
 		class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
 		<property name="persistenceXmlLocations">
 			<list>
-				<value>classpath*:META-INF/persistence_test.xml</value>
+				<value>classpath*:persistence_test.xml</value>
 			</list>
 		</property>
 		<property name="defaultDataSource" ref="dataSource" />
