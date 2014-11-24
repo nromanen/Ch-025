@@ -2,12 +2,15 @@ package com.softserve.dao;
 
 import java.util.Date;
 import java.util.List;
-
 import com.softserve.entity.CourseScheduler;
 
 /**
  * Specify CourseScheduler data access object functionality
+<<<<<<< HEAD
  * 
+=======
+ * @author  Anatoliy
+>>>>>>> 6444fb7b6315b490d37f5e383c73873ec90628a6
  * @author Roma Khomyshyn
  */
 public interface CourseSchedulerDao {

@@ -12,7 +12,7 @@ import com.softserve.service.GroupService;
 
 /**
  * Implements functionality specified in GroupService
- * @author 
+ * @author Anatoliy
  *
  */
 @Service

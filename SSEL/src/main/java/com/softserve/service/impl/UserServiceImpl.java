@@ -9,6 +9,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.social.facebook.api.Facebook;
+import org.springframework.social.facebook.api.FacebookProfile;
+import org.springframework.social.facebook.api.UserOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -144,6 +147,38 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
+	public void registrateFacebookUser(Facebook facebook, String url,
+			String message) {
+		UserOperations operations = facebook.userOperations();
+		FacebookProfile profile = operations.getUserProfile();
+		if (!userDao.isExist(profile.getEmail())) {
+			Calendar calendar = Calendar.getInstance();
+			PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(
+					PASSWORD_STRENGTH);
+			User user = new User();
+			user.setBlocked(false);
+			user.setEmail(profile.getEmail());
+			user.setRegistration(calendar.getTime());
+			calendar.add(Calendar.YEAR, ONE_YEAR);
+			user.setExpired(calendar.getTime());
+			user.setFirstName(profile.getFirstName());
+			user.setLastName(profile.getLastName());
+			user.setImage(operations.getUserProfileImage());
+			user.setPassword(getEncoderPassword(DEFAULT_PASSWORD));
+			user.setRole(roleService.getRoleByName(Roles.STUDENT.toString()));
+			user.setSocial(Social.FACEBOOK);
+			user.setVerificationKey(passwordEncoder.encode(profile.getEmail()));
+			userDao.addUser(user);
+			url = url.replace("/social",
+					"/remind/pass?key=" + user.getVerificationKey());
+			message += " <a href=\"" + url + "\">" + url + "</a>";
+			mailService.sendMail(user.getEmail(), "SSEL create new password",
+					message);
+		}
+	}
+
+	@Override
+	@Transactional
 	public User getUserByKey(String key) {
 		return userDao.getUserByKey(key);
 	}
@@ -191,6 +226,7 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public void changePassword(User user, String password) {
 		user.setPassword(getEncoderPassword(password));
+		user.setSocial(Social.REGISTRATION);
 		userDao.updateUser(user);
 	}
 
@@ -204,8 +240,10 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public List<User> getUsersVsLimit(int startPosition, int limitLength, String sortBy, String sortMethod) {
-		return userDao.getUsersVsLimit(startPosition, limitLength, sortBy, sortMethod);
+	public List<User> getUsersVsLimit(int startPosition, int limitLength,
+			String sortBy, String sortMethod) {
+		return userDao.getUsersVsLimit(startPosition, limitLength, sortBy,
+				sortMethod);
 	}
 
 	@Override
@@ -228,15 +266,16 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public List<User> getUsersByRoleVsLimit(String searchText,
 			int startPosition, int limitLength, String sortBy, String sortMethod) {
-		return userDao.getUsersByRoleVsLimit(searchText,
-				startPosition, limitLength, sortBy, sortMethod);
+		return userDao.getUsersByRoleVsLimit(searchText, startPosition,
+				limitLength, sortBy, sortMethod);
 	}
 
 	@Override
 	@Transactional
 	public List<User> getUsersByTextVsLimit(String searchText,
 			int startPosition, int limitLength, String sortBy, String sortMethod) {
-		return userDao.getUsersByTextVsLimit(searchText, startPosition, limitLength, sortBy, sortMethod);
+		return userDao.getUsersByTextVsLimit(searchText, startPosition,
+				limitLength, sortBy, sortMethod);
 	}
 
 	@Override

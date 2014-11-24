@@ -9,7 +9,7 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 <script src="resources/js/student/donouts.js"></script>
 <div class="row">
-	<div class="panel panel-default">
+	
 		<div class="row">
 			<div class="col-lg-8">
 				<h1>${subject.name}</h1>
@@ -34,12 +34,12 @@
 				        
 			</div>
 			<div class="col-lg-12">
-			<form method="GET" action="subscribe">
+					<a data-href="subscribe?subjectId=${subject.id}&op=false" data-toggle="modal" 
+						data-target="#confirm-delete" href="#">
 					<button value="${subject.id}" name="subjectId"
 							class="btn btn-warning" style="width: 200px; margin-top: 8px;">
-							<spring:message code="label.unsubscribe" /></button>
-					<input type="hidden" name="op" value="false">
-			</form>
+							<spring:message code="label.unsubscribe" /></button> </a>
+					<!-- input type="hidden" name="op" value="false"> -->
 			<form action="ratings" method="GET">
 					<button  type="submit" class="btn btn-success" <c:if test="${rating == 0}" >disabled="true"</c:if> >
 					<spring:message code="label.course_statistic" />
@@ -115,9 +115,32 @@
 	</div>
 	<!-- /.panel -->
 </div>
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    		<div class="modal-dialog">
+        	<div class="modal-content">
+            	<div class="modal-header">
+                	<spring:message code="label.unsubscribe" />
+            	</div>
+            	<div class="modal-body">
+                	<spring:message code="label.unsubscribe_message"/>
+            	</div>
+            	<div class="modal-footer">
+                	<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                	<a href="subscribe?subjectId=${subject.id}&op=false" class="btn btn-danger danger" >
+                	<spring:message code="label.unsubscribe" /></a>
+            	</div>
+        	</div>
+    </div>
+</div>	
 </div>
 <!-- /.col-lg-12 -->
-<<script>
+<script>
+	
+		$('#confirm-delete').on('show.bs.modal', function(e) {
+    	$(this).find('.danger').attr('href', $(e.relatedTarget).data('href'));});
+	
+</script>
+<script>
 /**
  * Donouts for rating and progress 
  */

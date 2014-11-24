@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
+<link href="<c:url value="/resources/img/favicon.ico" />" rel="shortcut icon" type="image/x-icon" />
 <link href="resources/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 <link href="resources/css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet" type="text/css">
 <link href="resources/css/sb-admin-2.css" rel="stylesheet" type="text/css">
