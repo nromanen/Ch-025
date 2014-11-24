@@ -163,11 +163,11 @@
 							<c:if test="${sortBy eq 'date'}">
 							<c:if test="${isReverse eq false}">
 								<a href="search?pageSize=${pageSize}&pageNumber=${pageNumber}
-									&search=${search}&sortBy=date&isReverse=true"><span class="fa fa-sort-alpha-asc"></span> </a>
+									&search=${search}&sortBy=date&isReverse=true"><span class="fa fa-sort-numeric-asc"></span> </a>
 									</c:if>
 									<c:if test="${isReverse eq true}">
 								<a href="search?pageSize=${pageSize}&pageNumber=${pageNumber}
-									&search=${search}&sortBy=date&isReverse=false"><span class="fa fa-sort-alpha-desc"> </span> </a>
+									&search=${search}&sortBy=date&isReverse=false"><span class="fa fa-sort-numeric-desc"> </span> </a>
 									</c:if>
 							</c:if>
 							</div></th>

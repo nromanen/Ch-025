@@ -79,6 +79,23 @@
 						</a>
 					</li>
 				</c:if>
+				<c:if test="${sessionScope.user.role.role eq 'ADMIN'}">
+					<li>
+						<a href="administrator"> <i
+							class="fa fa-user fa-fw"></i> <spring:message code="label.admin.panel"/>
+						</a>
+					</li>
+					<li><a href="<c:url value="/profile" />"> <i
+							class="fa fa-user fa-fw"></i> <spring:message code="label.admin_profile"/>
+					</a></li>
+					<li class="divider"></li>
+					<li>
+						<a href="logout">
+							<i class="fa fa-sign-out fa-fw"></i>
+							<spring:message code="label.logout"/> 
+						</a>
+					</li>
+				</c:if>
 				<c:if test="${sessionScope.user.role.role ne 'TEACHER'
 					 && sessionScope.user.role.role ne 'STUDENT' && sessionScope.user.role.role ne 'ADMIN'}">
 				<!-- <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a></li>  -->

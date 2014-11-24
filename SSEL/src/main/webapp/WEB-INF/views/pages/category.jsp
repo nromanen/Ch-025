@@ -133,11 +133,11 @@
 							<c:if test="${sortBy eq 'date'}">
 							<c:if test="${isReverse eq false}">
 								<a href="category?pageSize=${pageSize}&pageNumber=${pageNumber}
-									&categoryId=${categoryId}&sortBy=date&isReverse=true"><span class="fa fa-sort-alpha-asc"></span> </a>
+									&categoryId=${categoryId}&sortBy=date&isReverse=true"><span class="fa fa-sort-numeric-asc"></span> </a>
 									</c:if>
 									<c:if test="${isReverse eq true}">
 								<a href="category?pageSize=${pageSize}&pageNumber=${pageNumber}
-									&categoryId=${categoryId}&sortBy=date&isReverse=false"><span class="fa fa-sort-alpha-desc"> </span> </a>
+									&categoryId=${categoryId}&sortBy=date&isReverse=false"><span class="fa fa-sort-numeric-desc"> </span> </a>
 									</c:if>
 							</c:if>
 							</div>
