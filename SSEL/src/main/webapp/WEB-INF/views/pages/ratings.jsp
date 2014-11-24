@@ -73,11 +73,11 @@
                    			<td>
                    				<c:choose>
                    					<c:when test="${ratings[index].mark >= 60}">
-                   						<div class="alert alert-success"><spring:message code="label.test_success" />
+                   						<div class="alert alert-success"><span class="glyphicon glyphicon-ok" ></span>
                    						</div>
                    					</c:when>
                    					<c:otherwise>
-                   						<div class="alert alert-danger"><spring:message code="label.test_failed" />
+                   						<div class="alert alert-danger"><span class="glyphicon glyphicon-remove" ></span>
                    						</div>
                    					</c:otherwise>
                    				</c:choose>

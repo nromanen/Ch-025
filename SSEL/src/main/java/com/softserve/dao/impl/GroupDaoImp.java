@@ -31,8 +31,7 @@ public class GroupDaoImp implements GroupDao{
 	@Override
 	public Group addGroup(Group newGroup) {
 		LOG.debug("Add studentGroup (number = {})", newGroup.getGroupId());
-		entityManager.persist(newGroup);
-		return newGroup;
+		return entityManager.merge(newGroup);
 	}
 	/**
 	 * @see com.softserve.dao.GroupDao#updateGroup(Group)
@@ -88,8 +87,8 @@ public class GroupDaoImp implements GroupDao{
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Group> getGroupsByStudent(int userId) {
-		Query query = entityManager.createQuery("SELECT g FROM Group g, StudentGroup sg WHERE g.groupId = sg.group.groupId"
-				+ " and sg.user.id = :id and g.isDeleted = :val");
+		Query query = entityManager.createQuery("SELECT sg.group FROM StudentGroup sg WHERE "
+				+ "sg.user.id = :id and sg.group.isDeleted = :val");
 		query.setParameter("id", userId);
 		query.setParameter("val",false);
 		return query.getResultList();
@@ -112,7 +111,7 @@ public class GroupDaoImp implements GroupDao{
 	@Override
 	public List<Group> getAllDeletedGroups() {
 		LOG.debug("Get all groups mark as deleted");
-		return entityManager.createQuery("FROM Group g WHERE g.deleted = :val")
+		return entityManager.createQuery("FROM Group g WHERE g.isDeleted = :val")
 				.setParameter("val",true)
 				.getResultList();
 	}
