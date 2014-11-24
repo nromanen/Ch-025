@@ -1,94 +1,37 @@
 package com.softserve.tests;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
-import com.softserve.dao.RoleDao;
-import com.softserve.entity.Role;
-import com.softserve.service.impl.RoleServiceImpl;
+import com.github.springtestdbunit.DbUnitTestExecutionListener;
+import com.github.springtestdbunit.annotation.DatabaseOperation;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.github.springtestdbunit.annotation.DatabaseTearDown;
+import com.softserve.service.RoleService;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {
+		"file:src/main/webapp/WEB-INF/spring/fortest/root-context.xml",
+		"file:src/main/webapp/WEB-INF/spring/fortest/servlet-context.xml",
+		"file:src/main/webapp/WEB-INF/spring/fortest/data.xml" })
+@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
+		DbUnitTestExecutionListener.class })
 public class RoleServiceTest {
 
-	@Mock
-	private RoleDao roleDao;
-	@InjectMocks
-	private RoleServiceImpl roleServiceImpl;
-
-	@Before
-	public void setUp() {
-		MockitoAnnotations.initMocks(this);
-	}
+	@Autowired
+	private RoleService roleService;
 
 	@Test
-	public void testGetRoleById() {
-		Role role = new Role();
-		role.setRole("ADMIN");
-		role.setId(1);
-		when(roleServiceImpl.getRoleById(1)).thenReturn(role);
+	@DatabaseSetup("classpath:role.xml")
+	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:role.xml")
+	public void testNotEmpty() {
+		assertEquals(2, roleService.getAllRoles().size());
 	}
-
-	@Test
-	public void testAddRole() {
-		Role role = new Role();
-		role.setRole("ADMIN");
-		role.setId(1);
-		roleServiceImpl.addRole(role);
-		verify(roleDao).addRole(role);
-	}
-
-	@Test
-	public void checkTimes() {
-		Role role = new Role();
-		role.setRole("ADMIN");
-		role.setId(1);
-		roleServiceImpl.addRole(role);
-		roleServiceImpl.addRole(role);
-		roleServiceImpl.addRole(role);
-
-		verify(roleDao, times(3)).addRole(role);
-	}
-
-	@Test
-	public void testUpdateRole() {
-		Role role = new Role();
-		role.setRole("ADMIN");
-		role.setId(1);
-		roleServiceImpl.addRole(role);
-		role.setRole("TEACHER");
-		roleServiceImpl.updateRole(role);
-
-		verify(roleDao, times(1)).updateRole(role);
-	}
-
-	@Test
-	public void testGetRoleByName() {
-		Role role = new Role();
-		role.setRole("ADMIN");
-		role.setId(1);
-		roleServiceImpl.addRole(role);
-
-		when(roleServiceImpl.getRoleByName("ADMIN")).thenReturn(role);
-	}
-
-	@Test
-	public void testDeleteRole() {
-		Role role = new Role();
-		role.setRole("ADMIN");
-		role.setId(1);
-		roleServiceImpl.addRole(role);
-		roleServiceImpl.deleteRole(role);
-		assertEquals(0, roleServiceImpl.getAllRoles().size());
-	}
-
 }
