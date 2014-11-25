@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<dataset>
-	<user id="1" blocked="0" email="hash.cv@gmail.com" expired="2015-11-13 00:24:28"
-		firstName="Student" lastName="Studentovich"
-		password="$10$U76KpoHpYRrfb17R/eNi5OM/ncgHDw8i.IBhO9BmSFweu1aNsN2UG"
-		registration="2014-11-13 00:24:28" role="3" verificationkey=" " image=" "
-		social="REGISTRATION" />
-</dataset>

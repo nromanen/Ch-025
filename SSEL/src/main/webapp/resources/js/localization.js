@@ -1,6 +1,7 @@
 function localization(lang) {
 	var currentUrl = window.location.href;
 	var isLangParam = false;
+	currentUrl = currentUrl.replace("#_=_","");
 	if (window.location.search.substr(1) == "") {
 		window.location.replace(currentUrl + "?lang=" + lang);
 	} else {

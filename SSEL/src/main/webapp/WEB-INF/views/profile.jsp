@@ -11,7 +11,7 @@
 	
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-xs-offset-0 col-sm-offset-0 col-md-offset-2 col-lg-offset-2 toppad">
-			<c:if test="${sessionScope.user.social eq 'REGISTRATION'}">
+			<c:if test="${sessionScope.user.social ne 'REGISTRATION'}">
 				<div class="alert alert-info alert-dismissible" role="alert">
 	  				<button type="button" class="close" data-dismiss="alert">
 	  					<span aria-hidden="true">&times;</span>
