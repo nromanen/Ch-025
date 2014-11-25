@@ -3,7 +3,6 @@ package com.softserve.tests;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -33,46 +32,35 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
 		DbUnitTestExecutionListener.class })
 public class LogDaoTest {
-	
-	
+
 	@Autowired
 	private LogDao logDao;
 
-	
 	@Test
 	@DatabaseSetup("classpath:logsData.xml")
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:logsData.xml")
 	public void testGetLogById() {
 		Log log = logDao.getLogById(1);
-		assertTrue((log.getId() == 1) && (log.getLevel().equals("ERROR")));
+		assertTrue((log.getId() == 1) && (log.getLevel().equals("ERROR1")));
 	}
 
-		
 	@Test
 	@DatabaseSetup("classpath:logsData.xml")
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:logsData.xml")
 	public void testCountLogsInQuery() {
-		GregorianCalendar calendar = new GregorianCalendar();
-		calendar.set(Calendar.YEAR, (calendar.get(Calendar.YEAR) - 5));
-		Date startDate = calendar.getTime();
-		calendar.set(Calendar.YEAR, (calendar.get(Calendar.YEAR) + 10));
-		Date endDate = calendar.getTime();
-			long allLogsNumb = logDao.countLogsInQuery(startDate, endDate);
-			
-		calendar.set(Calendar.YEAR, 2014);
-		calendar.set(Calendar.MONTH, 0);
-		calendar.set(Calendar.DATE, 2);
-		startDate = calendar.getTime();
-		calendar.set(Calendar.YEAR, 2014);
-		calendar.set(Calendar.MONTH, 3);
-		calendar.set(Calendar.DATE, 1);
-		endDate = calendar.getTime();
-			long partOfLogsNumb = logDao.countLogsInQuery(startDate, endDate);
-						
+		Date startDate = (new GregorianCalendar(2013, 0, 1)).getTime();
+		Date endDate = (new GregorianCalendar(2015, 0, 1)).getTime();
+		long allLogsNumb = logDao.countLogsInQuery(startDate, endDate);
+
+		startDate = (new GregorianCalendar(2014, 0, 2)).getTime();
+
+		endDate = (new GregorianCalendar(2014, 3, 1)).getTime();
+		long partOfLogsNumb = logDao.countLogsInQuery(startDate, endDate);
+
 		assertTrue((allLogsNumb == 10) && (partOfLogsNumb == 5));
-			
+
 	}
-	
+
 	@Test
 	@DatabaseSetup("classpath:logsData.xml")
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:logsData.xml")
@@ -80,63 +68,50 @@ public class LogDaoTest {
 		GregorianCalendar calendar = new GregorianCalendar(2014, 6, 1);
 		logDao.deleteLogsDueDate((calendar.getTime()));
 		int firstResult = countAllLogsInDatabase();
-		System.out.println("***************************************");
-		System.out.println("перше видалення " + firstResult);
-		System.out.println("***************************************");
 		calendar = new GregorianCalendar(2014, 10, 2);
 		logDao.deleteLogsDueDate((calendar.getTime()));
 		int secondResult = countAllLogsInDatabase();
-		System.out.println("***************************************");
-		System.out.println("друге видалення " + secondResult);
-		System.out.println("***************************************");
 		assertTrue((firstResult == 4) && (secondResult == 1));
 	}
-	
+
 	@Test
 	@DatabaseSetup("classpath:logsData.xml")
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:logsData.xml")
 	public void testGetRangeOfLogs() {
-		GregorianCalendar calendar = new GregorianCalendar();
-		calendar.set(Calendar.YEAR, (calendar.get(Calendar.YEAR) - 5));
-		Date startDate = calendar.getTime();
-		calendar.set(Calendar.YEAR, (calendar.get(Calendar.YEAR) + 10));
-		Date endDate = calendar.getTime();
+		Date startDate = (new GregorianCalendar(2013, 0, 1)).getTime();
+		Date endDate = (new GregorianCalendar(2015, 0, 1)).getTime();
 		int logsPerPage = 10;
 		int pageNumb = 0;
 		String orderBy = "eventDate ASC";
-				
-		ArrayList <Log> logList1 = (ArrayList <Log>)logDao.getRangeOfLogs(startDate, endDate, logsPerPage, pageNumb, orderBy);
-		System.out.println("***************************************");
-		System.out.println(logList1.get(0).getId());
-		System.out.println(logList1.get(0).getLevel());
-		System.out.println("***************************************");
-		assertTrue(logList1.get(0).getLevel().equals("ERROR"));
+		ArrayList<Log> logList1 = (ArrayList<Log>) logDao.getRangeOfLogs(
+				startDate, endDate, logsPerPage, pageNumb, orderBy);
+		logsPerPage = 3;
+		pageNumb = 3;
+		orderBy = "eventDate DESC";
+		ArrayList<Log> logList2 = (ArrayList<Log>) logDao.getRangeOfLogs(
+				startDate, endDate, logsPerPage, pageNumb, orderBy);
+
+		startDate = (new GregorianCalendar(2014, 1, 1)).getTime();
+		endDate = (new GregorianCalendar(2014, 10, 2)).getTime();
+		logsPerPage = 7;
+		pageNumb = 0;
+		ArrayList<Log> logList3 = (ArrayList<Log>) logDao.getRangeOfLogs(
+				startDate, endDate, logsPerPage, pageNumb, orderBy);
 		
+		assertTrue(logList1.get(0).getLevel().equals("ERROR1")
+				&& (logList1.size() == 10)
+				&& logList2.get(0).getLevel().equals("ERROR1")
+				&& (logList2.size() == 1)
+				&& logList3.get(0).getLevel().equals("WARN1")
+				&& (logList3.size() == 6));
 	}
-	
-	 
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	private int countAllLogsInDatabase() {
-		GregorianCalendar calendar = new GregorianCalendar();
-		calendar.set(Calendar.YEAR, (calendar.get(Calendar.YEAR) - 5));
-		Date startDate = calendar.getTime();
-		calendar.set(Calendar.YEAR, (calendar.get(Calendar.YEAR) + 10));
-		Date endDate = calendar.getTime();
-			long allLogsNumb = logDao.countLogsInQuery(startDate, endDate);		
+		Date startDate = (new GregorianCalendar(2013, 0, 1)).getTime();
+		Date endDate = (new GregorianCalendar(2015, 0, 1)).getTime();
+		long allLogsNumb = logDao.countLogsInQuery(startDate, endDate);
 		return (int) allLogsNumb;
 	}
-	
-	
-	
-	
-	
+
 }

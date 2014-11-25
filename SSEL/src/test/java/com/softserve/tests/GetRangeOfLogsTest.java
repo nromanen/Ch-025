@@ -3,6 +3,7 @@ package com.softserve.tests;
 import static org.junit.Assert.*;
 
 import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 import org.junit.runners.Suite;
 
 import java.util.ArrayList;
@@ -12,7 +13,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import junitparams.JUnitParamsRunner;
-import junitparams.Parameters;
 import junitparams.converters.ConvertParam;
 
 import org.junit.Test;
@@ -34,6 +34,7 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
+
 @RunWith(Suite.class)
 @SuiteClasses({ SpringJUnit4ClassRunner.class, Parameterized.class})
 
@@ -43,6 +44,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 		"file:src/main/webapp/WEB-INF/spring/fortest/data.xml" })
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
 		DbUnitTestExecutionListener.class })
+
 public class GetRangeOfLogsTest {
 	private Date startDate; 
 	private Date endDate; 
@@ -51,12 +53,12 @@ public class GetRangeOfLogsTest {
 	private String orderBy;
 	private int numbOfLogsInResult;
 	private String expectedLevel;
-	
+
 	
 	@Autowired
 	private LogDao logDao;
 
-/*	public GetRangeOfLogsTest() {}*/
+	public GetRangeOfLogsTest() {}
 		public GetRangeOfLogsTest(Date startDate, Date endDate, int logsPerPage,
 			int pageNumb, String orderBy, int numbOfLogsInResult,
 			String expectedLevel) {
