@@ -62,21 +62,25 @@ public class GroupDaoImp implements GroupDao{
 	/**
 	 * @see com.softserve.dao.GroupDao#getGroupById(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public Group getGroupById(int groupId) {
 		Query query = entityManager.createQuery("SELECT g FROM Group g WHERE g.groupId = :id");
 		query.setParameter("id", groupId);
-		return (query.getResultList().size() == 0) ? null : (Group) query.getSingleResult();
+		List<Group> result = query.getResultList();
+		return (result.size() == 0) ? null : result.get(0);
 	}
 	/**
 	 * @see com.softserve.dao.GroupDao#getGroupByScheduler(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public Group getGroupByScheduler(int schedulerId) {
 		Query query = entityManager.createQuery("SELECT g FROM Group g WHERE g.course.id = :id and g.isDeleted = :val");
 		query.setParameter("id", schedulerId);
 		query.setParameter("val",false);
-		return (query.getResultList().size() == 0) ? null : (Group) query.getSingleResult();
+		List<Group> result = query.getResultList();
+		return (result.size() == 0) ? null : result.get(0);
 	}
 	/**
 	 * @see com.softserve.dao.GroupDao#getGroupsByStudent(int)

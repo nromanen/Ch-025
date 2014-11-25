@@ -11,10 +11,8 @@
 					".openModalWindow",
 					function() {
 						var deleteCategory = $(this).data('id');
-						//document.getElementById("demo").innerHTML = deleteCategory;
 
 						var categoryId = $(this).data('id');
-						//alert(categoryId);
 						$
 								.ajax({
 									type : "POST",
@@ -29,7 +27,6 @@
 										var json = JSON.parse(str);
 
 										count = json["count"];
-										//document.getElementById("demo").innerHTML = JSON.parse(count);
 										if (count != null && count > 0) {
 											$("#labelDeleteInf")
 													.html(
@@ -75,7 +72,6 @@
 <script type="text/javascript">
 	function validCategoryFunction() {
 		categoryId = $("#demo").text();
-		//alert(categoryId);
 		$.ajax({
 			type : "POST",
 			url : "checkCategory",
@@ -88,6 +84,49 @@
 		});
 
 	}
+</script>
+
+<script type="text/javascript">
+	$(function() {
+		$('#addNewCategoryForm').submit(function() {
+			var categoryName = document.getElementById("addNewCategory").value;
+			var div = document.createElement("div");
+			div.innerHTML = categoryName;
+			categoryName = div.textContent || div.innerText || "";
+			document.getElementById("addNewCategory").value = categoryName;
+			return true;
+		});
+	});
+</script>
+
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#addNewCategoryForm').bootstrapValidator({
+			feedbackIcons : {
+				valid : 'glyphicon glyphicon-ok',
+				invalid : 'glyphicon glyphicon-remove',
+				validating : 'glyphicon glyphicon-refresh'
+			},
+			fields : {
+				category : {
+					validators : {
+						notEmpty : {
+							message : "<spring:message code='label.category_name_empty'/>"
+						},
+						regexp : {
+							regexp : /^[A-ZА-ЯІЇЄ]{1}[a-zа-яіїє0-9_-\s]{1,30}$/i,
+							message : "<spring:message code='label.category_name_invalid'/>"
+						}
+					}
+				}
+			}
+		}).on('success.field.bv', function(e, data) {
+			if (data.bv.isValid()) {
+				data.bv.disableSubmitButtons(false);
+			}
+		});
+	});
 </script>
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
@@ -119,7 +158,8 @@
 <div class="row">
 	<div class="col-lg-12">
 		<c:if test="${not empty successMessage}">
-			<div class="alert alert-success alert-dismissible" role="alert">
+			<div class="alert alert-success alert-dismissible alertBlock"
+				role="alert">
 				<button type="button" class="close" data-dismiss="alert">
 					<span aria-hidden="true">&times;</span><span class="sr-only"><spring:message
 							code="label.close" /></span>
@@ -128,7 +168,8 @@
 			</div>
 		</c:if>
 		<c:if test="${not empty errorMessage}">
-			<div class="alert alert-danger alert-dismissible" role="alert">
+			<div class="alert alert-danger alert-dismissible alertBlock"
+				role="alert">
 				<button type="button" class="close" data-dismiss="alert">
 					<span aria-hidden="true">&times;</span><span class="sr-only"><spring:message
 							code="label.close" /></span>
@@ -138,14 +179,20 @@
 		</c:if>
 		<div class="col-md-3">
 			<br>
-			<form role="form" action="addCategory">
+
+			<form id="addNewCategoryForm" method="post" role="form"
+				action="addCategory" class="form-horizontal">
 				<div class="form-group" align="center">
-					<label for="addNewCategory"><spring:message
-							code="label.admin_add_category" /></label> <input type="text"
-						class="form-control" id="addNewCategory" name="category"
-						placeholder="<spring:message code='label.input_category' />">
+					<label class="control-label" for="addNewCategory"><spring:message
+							code="label.admin_add_category" /></label>
+					<div class="col-md-12">
+						<input type="text" class="form-control" id="addNewCategory"
+							name="category"
+							placeholder="<spring:message code='label.input_category' />">
+					</div>
 				</div>
-				<button type="submit" class="btn btn-primary btn-sm btn-block">
+				<button type="submit" class="btn btn-primary btn-sm btn-block"
+					disabled>
 					<spring:message code="label.add" />
 				</button>
 			</form>

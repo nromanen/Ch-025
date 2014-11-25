@@ -63,8 +63,7 @@
 			INSERT INTO `block` VALUES (20, '2014-01-31', 'Some module7', '7', '2014-01-01', '9', 0);
 			INSERT INTO `block` VALUES (21, '2014-01-31', 'Some module8', '8', '2014-01-01', '9', 0);
 			INSERT INTO `block` VALUES (22, '2014-01-31', 'Some module9', '9', '2014-01-01', '8', 0);
-			INSERT INTO `block` VALUES (23, '2014-01-31', 'Some module10', '10', '2014-01-01', '8', 0);
-			INSERT INTO `block` VALUES (25, '2014-12-12', 'Some module2', '1', '2013-12-22', '5', 0);
+			INSERT INTO `block` VALUES (23, '2014-01-31', 'Some module10', '10', '2014-12-01', '8', 0);
 		</sql>
 	</changeSet>
 	
@@ -106,6 +105,7 @@
 	<changeSet id="2014-11-19-insert-data-into-table-groups" author="Hash">
 		<comment>Insert sample data into table groups</comment>
 		<sql splitStatements="true">
+			INSERT INTO `groups` VALUES (2, 1, 4, 0);
 			INSERT INTO `groups` VALUES (3, 1, 3, 0);
 			INSERT INTO `groups` VALUES (4, 1, 6, 0);
 			INSERT INTO `groups` VALUES (5, 1, 7, 0);
@@ -142,6 +142,7 @@
 			INSERT INTO `rating` VALUES (4, 60, 15, 3, 7);
 			INSERT INTO `rating` VALUES (5, 90, 16, 3, 7);
 			INSERT INTO `rating` VALUES (6, 57, 17, 3, 7);
+			INSERT INTO `rating` VALUES (7, 93, 21, 2, 7);
 		</sql>
 	</changeSet>
 	
@@ -149,7 +150,7 @@
 	<changeSet id="2014-11-19-insert-data-into-table-student_group" author="Hash">
 		<comment>Insert sample data into table student_group</comment>
 		<sql splitStatements="true">
-			INSERT INTO `student_group` VALUES (1, 11, 7);
+			INSERT INTO `student_group` VALUES (1,11,7),(2,3,7),(3,9,7),(4,2,7);
 		</sql>
 	</changeSet>
 	

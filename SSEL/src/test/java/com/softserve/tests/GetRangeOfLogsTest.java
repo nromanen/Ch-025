@@ -12,8 +12,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import junitparams.JUnitParamsRunner;
-import junitparams.converters.ConvertParam;
+//import junitparams.JUnitParamsRunner;
+//import junitparams.converters.ConvertParam;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,7 +35,7 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
 
-@RunWith(Suite.class)
+/*@RunWith(Suite.class)
 @SuiteClasses({ SpringJUnit4ClassRunner.class, Parameterized.class})
 
 @ContextConfiguration(locations = {
@@ -44,9 +44,9 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 		"file:src/main/webapp/WEB-INF/spring/fortest/data.xml" })
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
 		DbUnitTestExecutionListener.class })
-
+*/
 public class GetRangeOfLogsTest {
-	private Date startDate; 
+	/*private Date startDate; 
 	private Date endDate; 
 	private int logsPerPage; 
 	private int pageNumb; 
@@ -98,7 +98,7 @@ public class GetRangeOfLogsTest {
 	    	return Arrays.asList(data);
 	    }
 	    
-/*	    @Test
+	    @Test
 		@DatabaseSetup("classpath:logsData.xml")
 		@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:logsData.xml")
 	    @Parameters({"10,0,eventDate ASC,10,ERROR"})
@@ -112,7 +112,7 @@ public class GetRangeOfLogsTest {
 	    	assertTrue((logList.size() == numbOfLogsInResult) && (logList.get(0).getLevel().equals(expectedLevel)));
 	    
 	    
-	    }*/
+	    }
 	    
 	
 	    @Test
@@ -126,5 +126,5 @@ public class GetRangeOfLogsTest {
 	    }
 	
 	
-
+*/
 }

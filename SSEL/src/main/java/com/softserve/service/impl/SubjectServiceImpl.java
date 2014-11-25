@@ -112,4 +112,14 @@ public class SubjectServiceImpl implements SubjectService {
 		subjectDao.setSubjectDeleted(subject, false);
 	}
 
+	@Override
+	public List<Subject> getAllSubjectsWithSchedulers() {
+		return subjectDao.getAllSubjectsWithSchedulers();
+	}
+
+	@Override
+	public Subject getSubjectByIdWithScheduler(int id) {
+		return subjectDao.getSubjectByIdWithScheduler(id);
+	}
+
 }

@@ -92,11 +92,14 @@ public class CategoryDaoImpl implements CategoryDao {
 				.createQuery(Category.class);
 		Root<Category> root = criteriaQuery.from(Category.class);
 		criteriaQuery.select(root);
+		List<Predicate> predicates = new ArrayList<Predicate>();
 		Predicate predicate = criteriaBuilder.like(
 				criteriaBuilder.upper(root.<String> get("name")), "%"
 						+ namePart.toUpperCase() + "%");
-
-		criteriaQuery.where(predicate, criteriaBuilder.equal(root.get("isDeleted"), true));
+		Predicate predicateDeleted = criteriaBuilder.equal(root.get("isDeleted"), false); 
+		predicates.add(predicate);
+		predicates.add(predicateDeleted);
+		criteriaQuery.where(predicates.toArray(new Predicate[] {}));
 		Query query = entityManager.createQuery(criteriaQuery);
 		query.setFirstResult((pageNumber - 1) * pageSize);
 		query.setMaxResults(pageSize);

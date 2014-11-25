@@ -28,7 +28,7 @@ public class LogDaoImpl implements LogDao {
 	 * Deletes all logs older than inputed date. (Not including it)
 	 */
 	@Override
-	@Transactional // temporary
+	@Transactional
 	public void deleteLogsDueDate(Date date) {
 		Query query = entityManager
 				.createQuery("DELETE FROM Log l WHERE l.eventDate < :date");

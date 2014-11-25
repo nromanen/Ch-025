@@ -97,7 +97,7 @@ public class LogDaoTest {
 		pageNumb = 0;
 		ArrayList<Log> logList3 = (ArrayList<Log>) logDao.getRangeOfLogs(
 				startDate, endDate, logsPerPage, pageNumb, orderBy);
-		
+
 		assertTrue(logList1.get(0).getLevel().equals("ERROR1")
 				&& (logList1.size() == 10)
 				&& logList2.get(0).getLevel().equals("ERROR1")
@@ -106,7 +106,6 @@ public class LogDaoTest {
 				&& (logList3.size() == 6));
 	}
 
-	
 	private int countAllLogsInDatabase() {
 		Date startDate = (new GregorianCalendar(2013, 0, 1)).getTime();
 		Date endDate = (new GregorianCalendar(2015, 0, 1)).getTime();

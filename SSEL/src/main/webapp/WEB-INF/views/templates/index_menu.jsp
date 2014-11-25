@@ -21,7 +21,7 @@
 				<c:set var="url" value="/" ></c:set>
 			</c:otherwise>
 		</c:choose>
-		
+
 		<a class="navbar-brand" href="<c:url value="${url}" />">
 			<img src="resources/img/logo.png">
 		</a>
@@ -30,24 +30,24 @@
 	<ul class="nav navbar-top-links navbar-right">
 		<li>
 			<div>
-				<img style="width: 20px; height: 20px; cursor: pointer;" src='<c:url value="/resources/img/ua.png" />' 
-					onclick="localization('ua')"> 
-				<img style="width: 20px; height: 20px; cursor: pointer;" src='<c:url value="/resources/img/en.png" />' 
-					onclick="localization('en')"> 
-				<img style="width: 20px; height: 20px; cursor: pointer;" src='<c:url value="/resources/img/ru.png" />' 
-					onclick="localization('ru')"> 
+				<img style="width: 20px; height: 20px; cursor: pointer;" src='<c:url value="/resources/img/ua.png" />'
+					onclick="localization('ua')">
+				<img style="width: 20px; height: 20px; cursor: pointer;" src='<c:url value="/resources/img/en.png" />'
+					onclick="localization('en')">
+				<img style="width: 20px; height: 20px; cursor: pointer;" src='<c:url value="/resources/img/ru.png" />'
+					onclick="localization('ru')">
 			</div>
 		</li>
 		<li class="dropdown">
-			<a class="dropdown-toggle" data-toggle="dropdown" href="#"> 
+			<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 				<c:choose>
 	            	<c:when test="${empty sessionScope.image}">
 	              		<img alt="User Pic" class="img-circle" style="height: 30px; width: 30px"
-                			src="<c:url value="/resources/img/user_photo.png" />" > 
+                			src="<c:url value="/resources/img/user_photo.png" />" >
 	              	</c:when>
 	              	<c:otherwise>
 	              		<img alt="User Pic" class="img-circle" style="height: 30px; width: 30px"
-                			src="data:image/png;base64,<c:out value="${sessionScope.image}" />" > 		
+                			src="data:image/png;base64,<c:out value="${sessionScope.image}" />" >
 	              	</c:otherwise>
               	</c:choose>
 				<i class="fa fa-caret-down"></i>
@@ -75,7 +75,24 @@
 					<li>
 						<a href="logout">
 							<i class="fa fa-sign-out fa-fw"></i>
-							<spring:message code="label.logout"/> 
+							<spring:message code="label.logout"/>
+						</a>
+					</li>
+				</c:if>
+				<c:if test="${sessionScope.user.role.role eq 'ADMIN'}">
+					<li>
+						<a href="administrator"> <i
+							class="fa fa-user fa-fw"></i> <spring:message code="label.admin_cabinet"/>
+						</a>
+					</li>
+					<li><a href="<c:url value="/profile" />"> <i
+							class="fa fa-user fa-fw"></i> <spring:message code="label.admin_profile"/>
+					</a></li>
+					<li class="divider"></li>
+					<li>
+						<a href="logout">
+							<i class="fa fa-sign-out fa-fw"></i>
+							<spring:message code="label.logout"/>
 						</a>
 					</li>
 				</c:if>
@@ -85,18 +102,18 @@
 				<li>
 					<a href="login">
 						<i class="fa fa-sign-in fa-fw" ></i>
-						<spring:message code="label.sing_in" />	
+						<spring:message code="label.sing_in" />
 					</a>
 				</li>
 				<li>
 					<a href="registration">
 						<i class="fa fa-sign-in fa-fw"></i>
-						<spring:message code="label.registration"/> 
+						<spring:message code="label.registration"/>
 					</a>
 				</li>
 				</c:if>
 			</ul> <!-- /.dropdown-user -->
-		</li>	
+		</li>
 	</ul>
 	<!-- /.navbar-top-links -->
 	<div class="navbar-default sidebar" role="navigation">

@@ -179,13 +179,14 @@ public class AdministratorController {
 	 *            the redirect attributes
 	 * @return the string
 	 */
-	@RequestMapping(value = "/addCategory", method = RequestMethod.GET)
+	@RequestMapping(value = "/addCategory")
 	public String addCategory(
 			@RequestParam(value = "category", required = false) String categoryName,
 			Model model, RedirectAttributes redirectAttributes) {
 		LOG.debug("Visit viewAllCategories page");
 		if (categoryName != null && categoryName != "") {
 			if (categoryName.length() < 35) {
+				categoryName = categoryName.trim();
 				if (!administratorService.addCategory(categoryName)) {
 					redirectAttributes.addFlashAttribute("successMessage",
 							"You are add category: <strong>" + categoryName
@@ -830,6 +831,7 @@ public class AdministratorController {
 	}
 
 	private String beforeSearch(String str) {
+		str = str.trim();
 		str = str.replaceAll("\\<.*?>", "");
 		str = str.replaceAll("\'", "\'\'");
 		return str;

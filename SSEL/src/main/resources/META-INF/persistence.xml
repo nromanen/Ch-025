@@ -17,13 +17,13 @@
 		<class>com.softserve.entity.StudyDocument</class>
 		<class>com.softserve.entity.Rating</class>
 		<class>com.softserve.entity.Group</class>
+		<class>com.softserve.entity.ConfigurationProperty</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<validation-mode>NONE</validation-mode>
 		<properties>
 			<property name="hibernate.archive.autodetection" value="class" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
 			<property name="hibernate.show_sql" value="true" />
-			 <!-- <property name="hibernate.hbm2ddl.auto" value="update" />  -->
 		</properties>
 	</persistence-unit>
 </persistence>
