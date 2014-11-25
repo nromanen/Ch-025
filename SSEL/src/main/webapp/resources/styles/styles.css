@@ -161,3 +161,11 @@ body {
 	vertical-align: middle;
 	height:50px;
 }
+.alertBlock {
+	width: 100%;
+    position: absolute;
+	z-index: 10;
+}
+#searchIcon {
+	text-decoration: none;
+}

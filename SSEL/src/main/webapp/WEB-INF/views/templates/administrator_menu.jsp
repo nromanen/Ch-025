@@ -1,5 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<script src="<c:url value="/resources/js/bootstrapValidator.js" />" ></script>
+<script src="<c:url value="/resources/js/admin.js" />" ></script>
 
 <script type="text/javascript">
 	window.setTimeout(function() {
@@ -51,6 +53,8 @@
 				</c:choose> <i class="fa fa-caret-down"></i>
 		</a>
 			<ul class="dropdown-menu dropdown-user">
+			<li><a href="${pageContext.request.contextPath}/"><i
+						class="fa fa-files-o fa-fw"></i> <spring:message code="label.all_courses" /></a></li>
 			<li><a href="profile"><i
 						class="fa fa-user fa-fw"></i> <spring:message code="label.admin_profile" /></a></li>
 				<li class="divider"></li>
