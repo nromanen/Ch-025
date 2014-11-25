@@ -1,4 +1,4 @@
-package com.softserve.tests;
+package com.softserve.service.tests;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,8 +21,8 @@ import com.softserve.service.UserService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-		"file:src/main/webapp/WEB-INF/spring/testConfig/root-context.xml",
-		"file:src/main/webapp/WEB-INF/spring/testConfig/data.xml" })
+		"file:src/main/webapp/WEB-INF/spring/forTest/root-context.xml",
+		"file:src/main/webapp/WEB-INF/spring/forTest/data.xml" })
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
 		DbUnitTestExecutionListener.class })
 
@@ -41,8 +41,8 @@ public class StudentCabinetServiceTest {
 	private CourseSchedulerService courseScheduler;
 	
 	@Test
-	@DatabaseSetup("classpath:dbunit_datasets/studentCabinetTestDataset.xml")
-	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value="classpath:dbunit_datasets/studentCabinetTestDataset.xml")
+	@DatabaseSetup("classpath:studentCabinetTestDataset.xml")
+	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value="classpath:studentCabinetTestDataset.xml")
 	public void testSubscribeOnFinishedCourse() {
 		User user = userService.getUserById(1);
 		System.out.println(user);
@@ -56,8 +56,8 @@ public class StudentCabinetServiceTest {
 	}
 	
 	@Test
-	@DatabaseSetup("classpath:dbunit_datasets/studentCabinetTestDataset.xml")
-	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value="classpath:dbunit_datasets/studentCabinetTestDataset.xml")
+	@DatabaseSetup("classpath:studentCabinetTestDataset.xml")
+	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value="classpath:studentCabinetTestDataset.xml")
 	public void testSubscribeOnActiveCourse() {
 		User user = userService.getUserById(1);
 		CourseScheduler cs = courseScheduler.getCourseSchedulerById(2);
@@ -68,8 +68,8 @@ public class StudentCabinetServiceTest {
 	}
 	
 	@Test
-	@DatabaseSetup("classpath:dbunit_datasets/studentCabinetTestDataset.xml")
-	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:dbunit_datasets/studentCabinetTestDataset.xml")
+	@DatabaseSetup("classpath:studentCabinetTestDataset.xml")
+	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:studentCabinetTestDataset.xml")
 	public void testSubscribeOnFutureCourse() {
 		User user = userService.getUserById(1);
 		CourseScheduler cs = courseScheduler.getCourseSchedulerById(3);
@@ -81,8 +81,8 @@ public class StudentCabinetServiceTest {
 	}
 	
 	@Test
-	@DatabaseSetup("classpath:dbunit_datasets/studentCabinetTestDataset.xml")
-	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value="classpath:dbunit_datasets/studentCabinetTestDataset.xml")
+	@DatabaseSetup("classpath:studentCabinetTestDataset.xml")
+	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value="classpath:studentCabinetTestDataset.xml")
 	public void testUnsubscribeFromCourse() {
 		User user = userService.getUserById(1);
 		CourseScheduler cs = courseScheduler.getCourseSchedulerById(3);

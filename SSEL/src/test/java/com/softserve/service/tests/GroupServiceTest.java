@@ -1,4 +1,4 @@
-package com.softserve.tests;
+package com.softserve.service.tests;
 
 import static org.junit.Assert.*;
 
@@ -22,8 +22,8 @@ import com.softserve.service.GroupService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-		"file:src/main/webapp/WEB-INF/spring/testConfig/root-context.xml",
-		"file:src/main/webapp/WEB-INF/spring/testConfig/data.xml" })
+		"file:src/main/webapp/WEB-INF/spring/forTest/root-context.xml",
+		"file:src/main/webapp/WEB-INF/spring/forTest/data.xml" })
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
 		DbUnitTestExecutionListener.class })
 
@@ -35,8 +35,8 @@ public class GroupServiceTest {
 	private CourseSchedulerService courseSchedulerService;
 	
 	@Test
-	@DatabaseSetup("classpath:dbunit_datasets/studentCabinetTestDataset.xml")
-	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:dbunit_datasets/studentCabinetTestDataset.xml")
+	@DatabaseSetup("classpath:studentCabinetTestDataset.xml")
+	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:studentCabinetTestDataset.xml")
 	public void testAddGroup() {
 		Group group = new Group();
 		group.setGroupId(4);
@@ -49,8 +49,8 @@ public class GroupServiceTest {
 	}
 	
 	@Test
-	@DatabaseSetup("classpath:dbunit_datasets/studentCabinetTestDataset.xml")
-	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:dbunit_datasets/studentCabinetTestDataset.xml")
+	@DatabaseSetup("classpath:studentCabinetTestDataset.xml")
+	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:studentCabinetTestDataset.xml")
 	public void testUpdateGroup() {
 		Group group = groupService.getGroupById(3);
 		group.setActive(false);
@@ -59,8 +59,8 @@ public class GroupServiceTest {
 	}
 
 	@Test
-	@DatabaseSetup("classpath:dbunit_datasets/studentCabinetTestDataset.xml")
-	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:dbunit_datasets/studentCabinetTestDataset.xml")
+	@DatabaseSetup("classpath:studentCabinetTestDataset.xml")
+	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:studentCabinetTestDataset.xml")
 	public void testDeleteRestore() {
 		Group group = groupService.getGroupById(3);
 		int before = groupService.getDeletedGroups().size();
@@ -74,8 +74,8 @@ public class GroupServiceTest {
 	}
 	
 	@Test
-	@DatabaseSetup("classpath:dbunit_datasets/studentCabinetTestDataset.xml")
-	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:dbunit_datasets/studentCabinetTestDataset.xml")
+	@DatabaseSetup("classpath:studentCabinetTestDataset.xml")
+	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:studentCabinetTestDataset.xml")
 	public void testgetGroupByScheduler() {
 		Group group = groupService.getGroupByScheduler(2);
 		assertNotNull(group);
@@ -84,8 +84,8 @@ public class GroupServiceTest {
 	}
 	
 	@Test
-	@DatabaseSetup("classpath:dbunit_datasets/studentCabinetTestDataset.xml")
-	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:dbunit_datasets/studentCabinetTestDataset.xml")
+	@DatabaseSetup("classpath:studentCabinetTestDataset.xml")
+	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:studentCabinetTestDataset.xml")
 	public void testgetGroupByStudent() {
 		List<Group> groups = groupService.getGroupsByStudent(1);
 		assertTrue(groups.size() > 0);

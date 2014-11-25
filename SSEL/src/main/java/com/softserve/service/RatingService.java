@@ -6,13 +6,16 @@ import com.softserve.entity.Rating;
 
 public interface RatingService {
 	
-	public Rating addService(Rating rating);
+	Rating addRating(Rating rating);
 	
-	public Rating getRatingById(int id);
+	Rating updateRating(Rating rating);
 	
-	public List<Rating> getRatingByGroupAndUser(int groupId, int userId);
+	Rating getRatingById(int id);
 	
-	public double getAverageRatingByUserAndGroup(int userId, int groupId);
+	List<Rating> getRatingByGroupAndUser(int groupId, int userId);
+	
+	double getAverageRatingByUserAndGroup(int userId, int groupId);
 
-	public double getProgressByGroupAndUser(int groupId, int userId);
+	double getProgressByGroupAndUser(int groupId, int userId);
+	
 }
