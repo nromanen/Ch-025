@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<logging eventDate="2014-01-01 13:39:13" level="ERROR" logger="org.apache.tiles.request.locale.PostfixedApplicationResource" message="No supported matching language for locale \ua\." exception="java.lang.IllegalStateException:" /> 
+	<logging eventDate="2014-01-05 13:39:13" level="WARN" logger="org.springframework.web.servlet.PageNotFound" message="No mapping found for HTTP request with URI [/SSEL/error] in DispatcherServlet with name" /> <!-- exception="" -->
+	<logging eventDate="2014-01-07 13:41:39" level="WARN" logger="org.springframework.web.servlet.PageNotFound" message="No mapping found for HTTP request with URI [/SSEL/error] in DispatcherServlet with name" />
+	<logging eventDate="2014-02-02 13:43:00" level="ERROR" logger="org.springframework.web.servlet.PageNotFound" message="No mapping found for HTTP request with URI [/SSEL/error] in DispatcherServlet with name" exception="java.lang.IllegalStateException: Cannot call sendError()" />
+	<logging eventDate="2014-02-04 13:43:10" level="WARN" logger="org.springframework.web.servlet.PageNotFound" message="No mapping found for HTTP request with URI [/SSEL/error] in DispatcherServlet with name" />
+	<logging eventDate="2014-02-08 13:45:02" level="WARN" logger="org.springframework.web.servlet.PageNotFound" message="No mapping found for HTTP request with URI [/SSEL/error] in DispatcherServlet with name" />
+	<logging eventDate="2014-11-01 09:17:29" level="WARN" logger="org.springframework.web.servlet.PageNotFound" message="No mapping found for HTTP request with URI [/SSEL/error] in DispatcherServlet with name" />
+	<logging eventDate="2014-11-01 09:18:41" level="WARN" logger="org.springframework.web.servlet.PageNotFound" message="No mapping found for HTTP request with URI [/SSEL/error] in DispatcherServlet with name" />
+	<logging eventDate="2014-11-01 09:18:41" level="WARN" logger="org.springframework.web.servlet.PageNotFound" message="No mapping found for HTTP request with URI [/SSEL/error] in DispatcherServlet with name" />
+	<logging eventDate="2014-11-02 10:57:55" level="ERROR2" logger="org.springframework.web.servlet.PageNotFound" message="No mapping found for HTTP request with URI [/SSEL/error] in DispatcherServlet with name" exception="java.lang.IllegalStateException: Cannot call sendError() after" /> 
+</dataset>

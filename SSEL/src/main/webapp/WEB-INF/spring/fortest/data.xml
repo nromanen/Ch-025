@@ -23,7 +23,7 @@
 		class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
 		<property name="persistenceXmlLocations">
 			<list>
-				<value>classpath*:META-INF/persistence.xml</value>
+				<value>classpath*:persistence_test.xml</value>
 			</list>
 		</property>
 		<property name="defaultDataSource" ref="dataSource" />
@@ -44,7 +44,7 @@
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
-				<value>classpath:jdbc.properties</value>
+				<value>classpath:jdbc_test.properties</value>
 				<value>classpath:application.properties</value>
 			</list>
 		</property>
@@ -56,15 +56,10 @@
 		p:driverClassName="${jdbc.driverClassName}" p:url="${jdbc.databaseurl}"
 		p:username="${jdbc.username}" p:password="${jdbc.password}" />
 
-<!--	 <bean id="liquibase" class="liquibase.integration.spring.SpringLiquibase">
-		<property name="dataSource" ref="dataSource" />
-		<property name="changeLog" value="classpath:liquibase/changelog-master.xml" />
-	</bean>
-
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		one of the properties available; the maximum file size in bytes
+		<!-- one of the properties available; the maximum file size in bytes -->
 		<property name="maxUploadSize" value="30000000" />
 	</bean>
- -->
+
 </beans>

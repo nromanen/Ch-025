@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,7 @@ public class LogDaoImpl implements LogDao {
 	 * Deletes all logs older than inputed date. (Not including it)
 	 */
 	@Override
+	@Transactional // temporary
 	public void deleteLogsDueDate(Date date) {
 		Query query = entityManager
 				.createQuery("DELETE FROM Log l WHERE l.eventDate < :date");
