@@ -2,14 +2,17 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
 	<!-- SET default mail properties -->
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<!-- SMTP settings for gmail -->
 		<property name="host" value="smtp.gmail.com" />
 		<property name="port" value="587" />
-		<property name="username" value="" />
-		<property name="password" value="" />
+		<property name="username" value="sselcourse@gmail.com" />
+		<property name="password" value="123456789Ssel" />
+
 		<property name="javaMailProperties">
 			<!-- additional properties specific to JavaMail -->
 			<props>
@@ -19,5 +22,7 @@ http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 				<prop key="mail.debug">true</prop>
 			</props>
 		</property>
+
 	</bean>
+
 </beans>

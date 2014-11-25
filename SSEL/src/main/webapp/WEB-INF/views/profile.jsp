@@ -11,6 +11,18 @@
 	
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-xs-offset-0 col-sm-offset-0 col-md-offset-2 col-lg-offset-2 toppad">
+			<c:if test="${sessionScope.user.social eq 'REGISTRATION'}">
+				<div class="alert alert-info alert-dismissible" role="alert">
+	  				<button type="button" class="close" data-dismiss="alert">
+	  					<span aria-hidden="true">&times;</span>
+	  					<span class="sr-only">Close</span>
+	  				</button>
+	  				Go to
+	  				<a href="<c:url value="/student" />" class="alert-link">
+	  					<spring:message code="label.student_cabinet"/>
+	  				</a>
+				</div>
+			</c:if>
             <div class="panel-body">
             	<div class="row">
               		<div class="col-md-4 col-lg-4 " align="center"> 

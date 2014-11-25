@@ -19,7 +19,7 @@ public class Group implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int groupId;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_course_scheduler")
 	private CourseScheduler course;
 

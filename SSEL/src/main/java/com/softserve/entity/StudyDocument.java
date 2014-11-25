@@ -17,7 +17,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+//import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  *
@@ -31,7 +32,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
  * @NamedQuery(name = "files", query =
  * "select sd from StudyDocument sd order by sd.id") })
  */
-@JsonIgnoreProperties({"id", "newFilename", "data", "contentType", "dateCreated", "lastUpdated", "topic" })
+@JsonIgnoreProperties({"id", "newFilename", "data", "contentType", "dateCreated", "lastUpdated", "topic", "deleted" })
 public class StudyDocument implements Serializable {
 
 	private static final long serialVersionUID = 1L;

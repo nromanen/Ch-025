@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+
+
+	<category id="1" name="Category1" deleted="false" />
+	<category id="2" name="Category2" deleted="false" />
+	<category id="3" name="Category3" deleted="false" />
+	<category id="4" name="Category4" deleted="true" />
+</dataset>

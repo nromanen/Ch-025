@@ -1,4 +1,4 @@
-package com.softserve.tests;
+package com.softserve.service.tests;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
