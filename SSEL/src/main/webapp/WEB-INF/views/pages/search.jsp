@@ -35,12 +35,17 @@
 	<div class="clear"></div>
 	<div style="margin-left: 20px; margin-top: 10px;">
 		<div>
-			<p>
-				<spring:message code="label.categories" />
-			</p>
+			<c:if test="${fn:length(catList) eq 0 && fn:length(subjList) eq 0}">
+						<p style="margin-left: 30px;">
+							<spring:message code="label.no_result" />
+						</p>
+					</c:if>
 			<form method="get" action="category">
 				<div>
 					<c:if test="${fn:length(catList) gt 0}">
+					<p>
+						<spring:message code="label.categories" />
+					</p>
 						<c:forEach var="cat" items="${catList}">
 							<div style="padding-left: 20px;">
 								<button value="${cat.id}" name="categoryId" class="btn btn-link"
@@ -48,18 +53,13 @@
 							</div>
 						</c:forEach>
 					</c:if>
-					<c:if test="${fn:length(catList) eq 0}">
-						<p style="margin-left: 30px;">
-							<spring:message code="label.no_categories" />
-						</p>
-					</c:if>
 				</div>
 			</form>
 		</div>
+		<c:if test="${fn:length(subjList) gt 0}">
 		<p>
 			<spring:message code="label.courses" />
 		</p>
-		<c:if test="${fn:length(subjList) gt 0}">
 		<form action="search" method="get">
 			<label for="sel1" style="margin-left:20px;"> <spring:message code="label.records_per_page"/></label> 
 			<select	class="form-control slct" id="sel1" name="pageSize" onchange="this.form.submit()">
@@ -187,11 +187,6 @@
 				</c:if>
 			</div>
 			</form>
-			<c:if test="${fn:length(subjList) eq 0}">
-				<p style="margin-left: 30px;">
-					<spring:message code="label.no_subjects" />
-				</p>
-			</c:if>
 	</div>
 	<div>
 		<c:if test="${fn:length(subjList) gt 0}">
