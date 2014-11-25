@@ -38,6 +38,8 @@ public class GuestController {
 
 	private static final Logger LOG = LoggerFactory
 			.getLogger(GuestController.class);
+	private static final int START_PAGE = 1;
+	private static final int PAGE_SIZE = 10;
 
 	@Autowired
 	private SubjectService subjectService;
@@ -99,12 +101,10 @@ public class GuestController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index(Model model) {
 		LOG.debug("Visit index page as guest");
-		subjects = subjectService.getAllSubjects();
+		subjects = subjectService.getAllSubjectsWithSchedulers();
 		categories = categoryService.getAllCategories();
-		List<CourseScheduler> schedule = cSchedulerService.getAllCourseScheduleres();
 		model.addAttribute("subList", subjects);
 		model.addAttribute("catList", categories);
-		model.addAttribute("schedule", schedule);
 		return "index";
 	}
 
@@ -118,17 +118,14 @@ public class GuestController {
 		model.addAttribute("subList", subjects);
 		model.addAttribute("catList", categories);
 		model.addAttribute("isSubscribed", isSubscribed);
-		Subject subject = subjectService.getSubjectById(subjectId);
-		schedulers = cSchedulerService
-				.getCourseScheduleresBySubjectId(subject.getId());
+		Subject subject = subjectService.getSubjectByIdWithScheduler(subjectId);
 		User user = (User) httpSession.getAttribute("user");
 		if (user != null) {
 			StudentGroup row = studentGroupService.getStudentGroupByUserAndGroupId(user.getId(), 
-					groupService.getGroupByScheduler(schedulers.get(0).getId()).getGroupId());
+					groupService.getGroupByScheduler(subject.getSchedulers().get(0).getId()).getGroupId());
 			boolean isSubscribe = row == null;
 			model.addAttribute("isSubscribe", isSubscribe);
 		}
-		model.addAttribute("schedule", schedulers.get(0));
 		model.addAttribute("subject", subject);
 		return "course";
 	}
@@ -163,61 +160,54 @@ public class GuestController {
 	
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public String search(@RequestParam String search, Model model, 
-			@RequestParam (value = "pageNumber", required = false) Integer pageNumber,
-			@RequestParam (value = "pageSize", required = false) Integer pageSize) {
-		if (pageNumber == null) {
-			pageNumber = 1;
-		}
-		if (pageSize == null) {
-			pageSize = 10;
-		}
-		Long numberOfPages = 0L;
+			@RequestParam (value = "pageNumber", required = false, defaultValue = START_PAGE + "") Integer pageNumber,
+			@RequestParam (value = "pageSize", required = false, defaultValue = PAGE_SIZE + "") Integer pageSize,
+			@RequestParam (value = "sortBy", required = false, defaultValue = "id") String sortBy,
+			@RequestParam (value = "isReverse", required = false, defaultValue = "false") Boolean isReverse) {
+		LOG.debug("Search by subjects with {0} query", search);
+		pageNumber = pageNumber > 0 ? pageNumber : START_PAGE;
+		pageSize = pageSize > 0 ? pageSize : PAGE_SIZE;
+		Long numberOfPages = 0l;
 		List<Category> categories = searchService.getCategoriesByNamePart(search, pageNumber, pageSize);
-		List<Subject> subjects = searchService.getSubjectsByNamePart(search, pageNumber, pageSize);
-		List<CourseScheduler> schedule = cSchedulerService.getAllCourseScheduleres();
+		List<Subject> subjects = searchService.getSubjectsByNamePart(search, pageNumber, 
+				pageSize, sortBy, isReverse);
+		Long count = searchService.getSubjectsQuantityByNamePart(search);
+		numberOfPages = (count % pageSize > 0) ? count / pageSize + 1 : count / pageSize;
+		model.addAttribute("numberOfPages", numberOfPages);
 		model.addAttribute("catList", categories);
 		model.addAttribute("subjList", subjects);
 		model.addAttribute("search", search);
 		model.addAttribute("pageSize", pageSize);
 		model.addAttribute("pageNumber", pageNumber);
-		model.addAttribute("schedule", schedule);
-		Long count = searchService.getSubjectsQuantityByNamePart(search);
-		if ((count % pageSize) > 0) {
-			numberOfPages =  count / pageSize + 1;
-		} else {
-			numberOfPages =  count / pageSize;
-		}
-		model.addAttribute("numberOfPages", numberOfPages);
+		model.addAttribute("isReverse", isReverse);
+		model.addAttribute("sortBy", sortBy);
+
 		return "search";
 	}
 	
 	@RequestMapping(value = "/category", method = RequestMethod.GET)
 	public String category(@RequestParam Integer categoryId, Model model,
-			@RequestParam (value = "pageNumber", required = false) Integer pageNumber,
-			@RequestParam (value = "pageSize", required = false) Integer pageSize) {
-		if (pageNumber == null) {
-			pageNumber = 1;
-		}
-		if (pageSize == null) {
-			pageSize = 10;
-		}
-		Long numberOfPages = 0L;
+			@RequestParam (value = "pageNumber", required = false, defaultValue = START_PAGE + "") Integer pageNumber,
+			@RequestParam (value = "pageSize", required = false, defaultValue = PAGE_SIZE + "") Integer pageSize,
+			@RequestParam (value = "sortBy", required = false, defaultValue = "id") String sortBy,
+			@RequestParam (value = "isReverse", required = false, defaultValue = "false") Boolean isReverse) {
+		pageNumber = pageNumber > 0 ? pageNumber : START_PAGE;
+		pageSize = pageSize > 0 ? pageSize : PAGE_SIZE;
+		Long numberOfPages = 0l;
 		List<Subject> subjects = 
-				searchService.getSubjectsByCategoryIdWithLimit(categoryId, pageNumber, pageSize);
+				searchService.getSubjectsByCategoryIdWithLimit(categoryId, pageNumber, 
+						pageSize, sortBy, isReverse);
 		Category category = categoryService.getCategoryById(categoryId);
-		List<CourseScheduler> schedule = cSchedulerService.getAllCourseScheduleres();
+		LOG.debug("View all subjects in {0} category", category.getName());
 		Long count = subjectService.getSubjectsByCategoryCount(category.getName());
-		if ((count % pageSize) > 0) {
-			numberOfPages =  count / pageSize + 1;
-		} else {
-			numberOfPages =  count / pageSize;
-		}
+		numberOfPages = (count % pageSize > 0) ? count / pageSize + 1 : count / pageSize;
 		model.addAttribute("numberOfPages", numberOfPages);
 		model.addAttribute("subjList", subjects);
 		model.addAttribute("pageSize", pageSize);
 		model.addAttribute("pageNumber", pageNumber);
 		model.addAttribute("categoryId", categoryId);
-		model.addAttribute("schedule", schedule);
+		model.addAttribute("isReverse", isReverse);
+		model.addAttribute("sortBy", sortBy);
 		return "category";
 	}
 	

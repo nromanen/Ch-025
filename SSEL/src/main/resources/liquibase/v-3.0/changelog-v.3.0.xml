@@ -251,5 +251,12 @@ INSERT INTO `logging` VALUES ('152', '2014-11-02 17:00:21', 'WARN', 'org.apache.
 INSERT INTO `logging` VALUES ('153', '2014-11-02 17:00:29', 'WARN', 'org.springframework.web.servlet.PageNotFound', 'No mapping found for HTTP request with URI [/SSEL/error] in DispatcherServlet with name \'appServlet\'', '');
 			</sql>
 		</changeSet>
-		
+		<changeSet id="2014-11-23-insert-in-table-config" author="Anatoliy">
+			<comment>
+				Insert properties into config table
+			</comment>
+			<sql>
+				INSERT INTO `config` VALUES (1,'attachmentsPath','C:\\Tomcat7\\webapps\\SSEL-demo\\resources\\tmp\\'),(2,'schedule.delete','3 * * * * *');
+			</sql>
+		</changeSet>
 </databaseChangeLog>

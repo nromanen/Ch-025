@@ -6,4 +6,4 @@
 /app_log-10-24-2014.log
 /app_log.log
 /.apt_generated/
-/*.log
+/app_log*
