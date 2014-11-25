@@ -7,5 +7,11 @@
 	<user id="1" blocked="false" email="roma1sk@mail.ru" expired="2015-11-24 17:00:03"
 		firstName="Roma" lastName="Homyshyn"
 		password="$2a$10$vg4zM/lxJTit54JYefcr3uz5PRZrOFqCvMB/KX5KFoEhprrZ86ed2"
-		registration="2014-11-24 17:00:03" role="2" social="FACEBOOK" />
+		registration="2014-11-24 17:00:03" role="2" social="FACEBOOK"
+		verificationkey="$2a$10$dEDCNJbD9vOU0HTMAxqbo.mygQOPuFWJQZDgrOIk1g4f/hooby6g6" />
+
+	<user id="2" blocked="false" email="vasya@mail.ru" expired="2015-11-24 17:00:03"
+		firstName="Vasya" lastName="Homyshyn"
+		password="$2a$10$vg4zM/lxJTit54JYefcr3uz5PRZrOFqCvMB/KX5KFoEhprrZ86ed2"
+		registration="2014-11-24 17:00:03" role="2" social="REGISTRATION" />
 </dataset>

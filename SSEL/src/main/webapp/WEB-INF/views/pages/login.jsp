@@ -75,7 +75,7 @@
 				</form>
 			</div>
 		</div>
-		<div class="panel panel-primary">
+		<div class="panel panel-primary col-md-6 col-md-offset-3" style="padding: 0">
 			<div class="panel-heading">
         		<h3 class="panel-title">
         			<spring:message code="label.sign_in_via_social" />

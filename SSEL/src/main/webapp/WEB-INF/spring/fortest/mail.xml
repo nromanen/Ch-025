@@ -10,8 +10,8 @@
 		<!-- SMTP settings for gmail -->
 		<property name="host" value="smtp.gmail.com" />
 		<property name="port" value="587" />
-		<property name="username" value="sselcourse@gmail.com" />
-		<property name="password" value="123456789Ssel" />
+		<property name="username" value="" />
+		<property name="password" value="" />
 
 		<property name="javaMailProperties">
 			<!-- additional properties specific to JavaMail -->
