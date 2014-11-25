@@ -75,6 +75,7 @@ public class StudyDocumentController {
 		Map<String, Object> files = new HashMap<>();
 		files.put("files", list);
 		log.debug("Returning: {}", files);
+		files.remove("topic");
 		return files;
 	}
 
@@ -109,8 +110,10 @@ public class StudyDocumentController {
 
 		}
 
+		
 		Map<String, Object> files = new HashMap<>();
 		files.put("files", list);
+		files.remove("topic");
 		return files;
 	}
 

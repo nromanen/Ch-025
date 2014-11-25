@@ -10,10 +10,10 @@
 	<div class="col-lg-12">
 		<h1 class="page-header">
 		
-		                	<button type="button" class="btn btn-outline btn-primary" data-toggle="modal" 
+		                	<!-- <button type="button" class="btn btn-outline btn-primary" data-toggle="modal" 
                 			data-target="#modal_load_photo" style="margin-bottom: 15px">
 							<i class="glyphicon glyphicon-eye-open"></i>
-						</button>
+						</button> -->
 		<spring:message code="label.teacher.editTopic"/>
 		
 		
@@ -158,12 +158,7 @@
         <td>
             <span class="size">{%=o.formatFileSize(file.size)%}</span>
         </td>
-		<td>
-				<button class="btn btn-info" onClick="prepereModal('<c:url value="/" />resources/tmp/${doc.name}','${doc.name}')">
-                    <i class="glyphicon glyphicon-eye-open"></i>
-                    <span><spring:message code="label.teacher.preview"/></span>
-                </button>
-		</td>
+
         <td>
             {% if (file.deleteUrl) { %}
                 <button class="btn btn-danger delete" data-type="DELETE" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
