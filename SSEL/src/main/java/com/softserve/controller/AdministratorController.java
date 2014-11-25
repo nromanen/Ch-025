@@ -179,7 +179,7 @@ public class AdministratorController {
 	 *            the redirect attributes
 	 * @return the string
 	 */
-	@RequestMapping(value = "/addCategory", method = RequestMethod.GET)
+	@RequestMapping(value = "/addCategory")
 	public String addCategory(
 			@RequestParam(value = "category", required = false) String categoryName,
 			Model model, RedirectAttributes redirectAttributes) {

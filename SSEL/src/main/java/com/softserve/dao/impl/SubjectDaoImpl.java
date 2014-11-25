@@ -148,7 +148,7 @@ public class SubjectDaoImpl implements SubjectDao {
 	public List<Subject> getSubjectsByNameVsLimit(String searchText,
 			int startPosition, int limitLength, String sortBy, String sortMethod) {
 		LOG.debug("Get all subjects vs limit searchText = {}", searchText);
-		String textQuery = "FROM Subject s WHERE s.isDeleted = :val and s.name LIKE '%" + searchText + "%'";
+		String textQuery = "FROM Subject s WHERE s.isDeleted = 'false' and s.name LIKE '%" + searchText + "%'";
 		Query query = setQueryParameters(textQuery, startPosition, limitLength, sortBy,
 				sortMethod);
 		return query.getResultList();
@@ -159,7 +159,7 @@ public class SubjectDaoImpl implements SubjectDao {
 	public List<Subject> getSubjectsByCategoryVsLimit(String searchText,
 			int startPosition, int limitLength, String sortBy, String sortMethod) {
 		LOG.debug("Get all subjects vs limit searchText = {}", searchText);
-		String textQuery = "FROM Subject s WHERE s.isDeleted = :val and s.category.name LIKE '%" + searchText + "%'";
+		String textQuery = "FROM Subject s WHERE s.isDeleted = 'false' and s.category.name LIKE '%" + searchText + "%'";
 		Query query = setQueryParameters(textQuery, startPosition, limitLength, sortBy,
 				sortMethod);
 		return query.getResultList();
@@ -182,7 +182,7 @@ public class SubjectDaoImpl implements SubjectDao {
 	public List<Subject> getSubjectsByTextVsLimit(String searchText,
 			int startPosition, int limitLength, String sortBy, String sortMethod) {
 		LOG.debug("Get all subjects by searchText = {}", searchText);
-		String textQuery = "FROM Subject s WHERE s.isDeleted = :val and s.name LIKE '%" + searchText
+		String textQuery = "FROM Subject s WHERE s.isDeleted = 'false' and s.name LIKE '%" + searchText
 				+ "%' or s.category.name LIKE '%" + searchText + "%'";
 		Query query = setQueryParameters(textQuery, startPosition, limitLength, sortBy,
 				sortMethod);

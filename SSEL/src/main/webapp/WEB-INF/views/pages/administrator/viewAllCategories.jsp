@@ -115,7 +115,7 @@
 							message : "<spring:message code='label.category_name_empty'/>"
 						},
 						regexp : {
-							regexp : /^[A-ZА-ЯІЇЄ]{1}[a-zа-яіїє0-9_-\s]{3,30}$/i,
+							regexp : /^[A-ZА-ЯІЇЄ]{1}[a-zа-яіїє0-9_-\s]{1,30}$/i,
 							message : "<spring:message code='label.category_name_invalid'/>"
 						}
 					}
