@@ -7,20 +7,21 @@ import com.softserve.entity.Log;
 
 public interface LogService {
 
-	public Log getLogById(int id);
-	
-	public List<Log> getRangeOfLogs(GregorianCalendar startCalendar,
-			GregorianCalendar endCalendar, int logsPerPage, int pageNumb, String orderBy);
-	
-	public void deleteLogsDueDate(GregorianCalendar calendar);
+	Log getLogById(int id);
 
-	public Long countLogsInQuery(GregorianCalendar startCalendar,
+	List<Log> getRangeOfLogs(GregorianCalendar startCalendar,
+			GregorianCalendar endCalendar, int logsPerPage, int pageNumb,
+			String orderBy);
+
+	void deleteLogsDueDate(GregorianCalendar calendar);
+
+	Long countLogsInQuery(GregorianCalendar startCalendar,
 			GregorianCalendar endCalendar);
-	
-	public int getNumberOfPages(Long logsInQuery, int logsPerPage);
-	
-	public GregorianCalendar parseDate(String dateString);
-	
-	public String createOrderByPart(String orderByParameter);
+
+	int getNumberOfPages(Long logsInQuery, int logsPerPage);
+
+	GregorianCalendar parseDate(String dateString);
+
+	String createOrderByPart(String orderByParameter);
 
 }
