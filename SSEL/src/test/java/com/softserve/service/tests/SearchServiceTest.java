@@ -1,8 +1,7 @@
 package com.softserve.service.tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
@@ -74,6 +73,7 @@ public class SearchServiceTest {
 		assertEquals("Mathematics", listActual.get(0).getName());
 		assertEquals(1, listActual.size());
 	}
+	
 	@Test
 	@DatabaseSetup("classpath:subjects.xml")
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:subjects.xml")

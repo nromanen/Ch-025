@@ -17,8 +17,8 @@
 	
 	<subject id="1" name="Mathematics" description="Mathematics" id_category="2" id_user="1" deleted="false" />
 	<subject id="2" name="Java EE" description="Java" id_category="1" id_user="1" deleted="false" />
-	<subject id="3" name="Java SE" description="Java" id_category="1" id_user="1" deleted="false" />
-	<subject id="4" name="JavaScript" description="js" id_category="1" id_user="1" deleted="false" />
+	<subject id="3" name="Java SE" description="Java2" id_category="1" id_user="1" deleted="false" />
+	<subject id="4" name="Java Script" description="js" id_category="1" id_user="1" deleted="false" />
 	<subject id="5" name="Spring Java" description="Spring" id_category="1" id_user="1" deleted="false" />
 	<subject id="6" name="Java JUnit" description="Tests" id_category="1" id_user="1" deleted="false" />
 	<subject id="7" name="Quality control" description="QC" id_category="4" id_user="1" deleted="false" />
