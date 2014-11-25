@@ -156,7 +156,7 @@ public class UserServiceTest {
 		user = userService.getUserByEmail("roma1sk@mail.ru");
 		assertTrue(user.getSocial().equals(Social.REGISTRATION));
 	}
-	
+
 	@Test
 	@DatabaseSetup("classpath:users.xml")
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:users.xml")
@@ -169,5 +169,13 @@ public class UserServiceTest {
 		userService.restorePassword(user, resetPassword);
 		user = userService.getUserByEmail("roma1sk@mail.ru");
 		assertFalse(user.isBlocked());
+	}
+
+	@Test
+	@DatabaseSetup("classpath:users.xml")
+	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:users.xml")
+	public void testGetUserCount() {
+		assertEquals(userService.getAllUsers().size(),
+				userService.getUsersCount());
 	}
 }

@@ -193,8 +193,6 @@
                 						data-bv-stringlength-min="4"
                 						data-bv-stringlength-message="<spring:message code="dataerror.minimum_4_characters" />"
                 						data-bv-different="true"
-                						data-bv-different-field="old_password"
-                						data-bv-different-message="The old password and new password cannot be the same as each other"  
                 						data-toggle="tooltip" 
 										data-placement="top"
 										title="<spring:message code="placeholder.new_password" />" />
@@ -333,7 +331,7 @@
                 						data-bv-stringlength-message="<spring:message code="dataerror.minimum_4_characters" />"
                 						data-bv-different="true"
                 						data-bv-different-field="old_password"
-                						data-bv-different-message="The old password and new password cannot be the same as each other"  
+                						data-bv-different-message="<spring:message code="dataerror.password_same" />"   
                 						data-toggle="tooltip" 
 										data-placement="top"
 										title="<spring:message code="placeholder.new_password" />" />

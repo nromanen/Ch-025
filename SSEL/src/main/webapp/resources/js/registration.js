@@ -32,4 +32,8 @@ jQuery(document).ready(function ($) {
 	
 	$('[data-toggle="tooltip"]').tooltip();
 	
+	$("#btnreset").click(function() {
+		 $('#registration_form').bootstrapValidator('resetForm', true);
+	});
+	
 });

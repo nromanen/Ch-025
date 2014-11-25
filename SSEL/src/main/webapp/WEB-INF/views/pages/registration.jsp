@@ -137,7 +137,7 @@
 							<button type="submit" class="btn btn-success" id="btnsumbmit">
 								<spring:message code="label.registration"/>
 							</button>
-							<button type="reset" class="btn btn-primary">
+							<button type="reset" class="btn btn-primary" id="btnreset">
 								<spring:message code="label.cancel" />
 							</button>
 						</div>
