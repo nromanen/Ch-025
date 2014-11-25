@@ -14,26 +14,10 @@
 <div class="panel panel-default">
 	<div class="panel-body">
 		<div class="row">
-			<div class="col-lg-8">
+			<div class="col-lg-16">
 				<h1>${name}</h1>
 			</div>
-			<div class="col-lg-2">
-				<div id="morris-donut-rating"
-                            		style="width: 100; height: 100; position: float"></div>
-                <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i> <spring:message code="label.student.current_rating" />
-                </div>
-				  
-					
-			</div>
-			<div class="col-lg-2">
-				<div id="morris-donut-progress"
-                            		style="width: 100; height: 100; position: float"></div>
-                <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i> <spring:message code="label.student.current_progress" />
-                </div>
-				        
-			</div>
+		
 		
 		</div>
 		<input type="hidden" value="${avgRating}" id="rating" />
@@ -41,9 +25,11 @@
    		<input type="hidden" id="failed" value="<spring:message code="label.student.failed" />" />
 		<input type="hidden" value="${progress}" id="progress" />
 		<div class="panel-body">
-            <div class="col-lg-8">
-                 <div id="morris-bar-chart"></div>
-            </div>
+		<div align="center">
+		<table border="0" > 
+			<tr>
+			<td style="vertical-align:top">
+			<div class="col-lg-12">
             <div class="table-responsive">
                 <table class="table" id="data">
                    <thead>
@@ -54,25 +40,24 @@
                    		<td>
                    			<spring:message code="label.module_rating" />
                    		</td>
-                   		<td>
+                   		<td style="width:10%">
                    			<spring:message code="label.module_pass" />
                    		</td>
                    		</tr>
                    </thead> 
                    <tbody>
                    		
-                   		<c:set var="index" value="0"></c:set>
-                   		<c:forEach items="${blocks}" var="block">
+                   		<c:forEach items="${ratings}" var="rating">
                    		<tr>
                    			<td >
-                   				${block.name}
+                   				${rating.block.name}
                    			</td>
                    			<td>
-                   				${ratings[index].mark}
+                   				${rating.mark}
                    			</td>
                    			<td>
                    				<c:choose>
-                   					<c:when test="${ratings[index].mark >= 60}">
+                   					<c:when test="${rating.mark >= 60}">
                    						<div class="alert alert-success" style="width: 50">
                    							<span class="glyphicon glyphicon-ok" ></span>
                    						</div>
@@ -84,13 +69,33 @@
                    					</c:otherwise>
                    				</c:choose>
                    			</td>
-                   			<c:set var="index" value="${index+1}"></c:set>
                    		</tr>
                    		</c:forEach>
                    		
                    </tbody>              
                 </table>
             </div>	
+            </div>
+            </td>
+            <td>
+				<div id="morris-donut-rating" align="right"
+                            		style="width: 170; height: 130; position: float"></div>
+                <div class="panel-heading">
+                            <i class="fa fa-bar-chart-o fa-fw"></i> <spring:message code="label.student.current_rating" />
+                </div>
+				  
+					
+		
+				<div id="morris-donut-progress" 
+                            		style="width: 170; height: 130; position: float"></div>
+                <div class="panel-heading">
+                            <i class="fa fa-bar-chart-o fa-fw"></i> <spring:message code="label.student.current_progress" />
+                </div>
+				        
+			</td>
+			</tr>
+		</table>
+		</div>
 	</div>
 </div>
 </div>

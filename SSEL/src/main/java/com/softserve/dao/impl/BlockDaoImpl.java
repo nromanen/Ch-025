@@ -88,6 +88,7 @@ public class BlockDaoImpl implements BlockDao {
 		return query.getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Block getNearestInactiveBlockBySubject(int subjectId) {
 		Query query = entityManager.createQuery("SELECT b FROM Block b WHERE b.startTime = "
@@ -98,5 +99,6 @@ public class BlockDaoImpl implements BlockDao {
 		List<Block> list = query.getResultList();
 		return (list.size() > 0) ? list.get(0): null;
 	}
+
 
 }

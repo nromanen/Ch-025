@@ -37,11 +37,12 @@
 					<a data-href="subscribe?subjectId=${subject.id}&op=false" data-toggle="modal" 
 						data-target="#confirm-delete" href="#">
 					<button value="${subject.id}" name="subjectId"
-							class="btn btn-warning" style="width: 200px; margin-top: 8px;">
+							class="btn btn-warning" style="width: 230px; margin-top: 8px;">
 							<spring:message code="label.unsubscribe" /></button> </a>
 					<!-- input type="hidden" name="op" value="false"> -->
 			<form action="ratings" method="GET">
-					<button  type="submit" class="btn btn-success" <c:if test="${rating == 0}" >disabled="true"</c:if> >
+					<button  type="submit" class="btn btn-success" style="width:230"
+						<c:if test="${rating == 0}" >disabled="true"</c:if> >
 					<spring:message code="label.course_statistic" />
 					</button>
 					<input type="hidden" name="courseId" value="${courseId}" />

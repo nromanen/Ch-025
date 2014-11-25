@@ -25,7 +25,7 @@ public class Rating implements Serializable {
 	@JoinColumn(name = "id_user")
 	private User user;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_block")
 	private Block block;
 	

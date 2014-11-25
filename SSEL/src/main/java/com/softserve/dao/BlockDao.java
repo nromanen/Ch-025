@@ -56,4 +56,6 @@ public interface BlockDao {
 	 * @return
 	 */
 	Block getNearestInactiveBlockBySubject(int subjectId);
+	
+	//Block getBlocksWithRatingByUserAndGroup(int userId, int groupId);
 }
