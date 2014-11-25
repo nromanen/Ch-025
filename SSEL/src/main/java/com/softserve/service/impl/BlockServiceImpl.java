@@ -76,5 +76,13 @@ public class BlockServiceImpl implements BlockService {
 	public List<Block> getDeletedBlocks() {
 		return blockDao.getAllDeletedBlocks();
 	}
+	/**
+	 * @see Comparable.softserve.service.BlockService#getNearestInactiveBlock()
+	 */
+	@Transactional
+	@Override
+	public Block getNearestInactiveBlockBySubject(int subjectId) {
+		return blockDao.getNearestInactiveBlockBySubject(subjectId);
+	}
 
 }

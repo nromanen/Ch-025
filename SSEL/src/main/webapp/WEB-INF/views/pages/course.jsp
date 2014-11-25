@@ -15,7 +15,7 @@
 				${subject.description}</div>
 			<c:set var="now" value="<%=new java.util.Date()%>" />
 			<c:if test="${sessionScope.user.role.role eq 'STUDENT'}">
-				<c:if test="${schedule.start >= now}">
+				<c:if test="${subject.schedulers[0].start >= now}">
 				<form method="GET" action="subscribe">
 					<c:if test="${isSubscribe eq true}">
 						<button value="${subject.id}" name="subjectId"
@@ -36,7 +36,7 @@
 					</c:if>
 				</form>
 				</c:if>
-				<c:if test="${schedule.start < now }">
+				<c:if test="${subject.schedulers[0].start < now }">
 					<p><spring:message code="label.time_is_out" /></p>
 				</c:if>
 			</c:if>

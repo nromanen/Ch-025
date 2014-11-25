@@ -26,6 +26,8 @@ public class LogController {
 
 	private static final Logger LOG = LoggerFactory
 			.getLogger(AdministratorController.class);
+	
+	private static final int DEFAULT_LOGS_PER_PAGE = 10;
 
 	@Autowired
 	private TeacherRequestService teacherRequestService;
@@ -47,7 +49,7 @@ public class LogController {
 	public String viewLogs(Model model, HttpSession session,
 			@RequestParam(value = "pageNumb", required = false) Integer pageNumb) {
 		LOG.debug("Visit viewLogs page");
-		int logsPerPage = 10;
+		int logsPerPage = DEFAULT_LOGS_PER_PAGE;
 		GregorianCalendar startDate = null;
 		GregorianCalendar endDate;
 
@@ -89,6 +91,7 @@ public class LogController {
 		Date endPeriod = endDate.getTime();
 		int activeTeacherRequests = (int) teacherRequestService
 				.getAllActiveTeacherRequestsCount();
+		model.addAttribute("orderBy", orderBy);
 		model.addAttribute("activeTeacherRequests", activeTeacherRequests);
 		model.addAttribute("numberOfPages", numberOfPages);
 		model.addAttribute("pageNumb", pageNumb);
@@ -116,7 +119,7 @@ public class LogController {
 			return "redirect:/viewLogs";
 		} else {
 			GregorianCalendar endCalendar = logService.parseDate(endDateString);
-			session.setAttribute("logsPerPage", 10);
+			session.setAttribute("logsPerPage", DEFAULT_LOGS_PER_PAGE);
 			if (endCalendar == null) {
 				endCalendar = new GregorianCalendar(); // show logs "by now"
 			}

@@ -155,7 +155,7 @@
 </script>
 
 <script type="text/javascript">
-	function searchTextFunction(page) {
+	function searchTextFunction() {
 		var searchText = document.getElementById("searchText").value;
 		var div = document.createElement("div");
 		div.innerHTML = searchText;
@@ -183,6 +183,17 @@
 	}
 </script>
 
+<script type="text/javascript">
+$(document).ready(function () {
+    $('#searchText').on('input',function () {
+if (('${searchText}' == "") || ('${searchText}' != $("#searchText").val())) {
+	setIconClassFunction("search");
+} else {
+	setIconClassFunction("delete");
+}
+    });
+});
+</script>
 
 <!-- Modal window -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
@@ -197,7 +208,6 @@
 				<h4 class="modal-title" align="center">
 					<spring:message code="label.choose_category" />
 				</h4>
-				<p id="demo"></p>
 				<select multiple class="form-control" id="newCategory"></select>
 			</div>
 			<div class="modal-footer">
@@ -220,7 +230,7 @@
 	<div class="col-md-12">
 		<!-- Message block -->
 		<c:if test="${not empty successMessage}">
-			<div class="alert alert-success alert-dismissible" role="alert">
+			<div class="alert alert-success alert-dismissible alertBlock" role="alert">
 				<button type="button" class="close" data-dismiss="alert">
 					<span aria-hidden="true">&times;</span><span class="sr-only"><spring:message
 							code="label.close" /></span>
@@ -230,7 +240,7 @@
 		</c:if>
 
 		<c:if test="${not empty errorMessage}">
-			<div class="alert alert-danger alert-dismissible" role="alert">
+			<div class="alert alert-danger alert-dismissible alertBlock" role="alert">
 				<button type="button" class="close" data-dismiss="alert">
 					<span aria-hidden="true">&times;</span><span class="sr-only"><spring:message
 							code="label.close" /></span>
@@ -270,18 +280,21 @@
 					</div>
 					<c:choose>
 						<c:when test="${not empty searchText}">
-							<input type="text" class="form-control" id="searchText"
+							<input type="text" maxlength="30" class="form-control" id="searchText"
 								value="${searchText}"
 								placeholder="<spring:message code='label.search_text' />">
+								<div class="input-group-addon"><a href="#" id="searchIcon" class="glyphicon glyphicon-remove red"
+						onclick="clearTextFunction()"></a></div>
 						</c:when>
 						<c:otherwise>
-							<input type="text" class="form-control" id="searchText"
+							<input type="text" maxlength="30" class="form-control" id="searchText" name="searchText"
 								placeholder="<spring:message code='label.search_text' />">
+								<div class="input-group-addon">
+								<a href="#" id="searchIcon" class="glyphicon glyphicon-search"
+									onclick="searchTextFunction()"></a>
+							</div>
 						</c:otherwise>
 					</c:choose>
-					<a href="#" class="input-group-addon"
-						onclick="searchTextFunction()"><span
-						class="glyphicon glyphicon-search"></span></a>
 				</div>
 			</div>
 			<!-- /search block-->
@@ -541,6 +554,5 @@
 			</div>
 		</div>
 		<!-- /Pagination block -->
-
 	</div>
 </div>

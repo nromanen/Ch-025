@@ -5,7 +5,7 @@ import java.util.List;
 import com.softserve.entity.Subject;
 /**
  * Specify subject functionality
- * @author Анатолій
+ * @author Anatoliy
  *
  */
 public interface SubjectService {
@@ -44,4 +44,8 @@ public interface SubjectService {
 	long getSubjectsByCategoryCount(String searchCategory);
 	
 	long getSubjectsByTextCount(String searchText);
+	
+	List<Subject> getAllSubjectsWithSchedulers();
+	
+	Subject getSubjectByIdWithScheduler(int id);
 }

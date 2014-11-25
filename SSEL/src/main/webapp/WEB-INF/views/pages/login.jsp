@@ -72,16 +72,27 @@
 							<spring:message code="label.registration"/> 
 						</a>
 					</div>
-					<div class="form-group">
-						<a class="btn btn-social btn-twitter" href="#">
-    						<i class="fa fa-twitter"></i> Sign in with Twitter
-  						</a>
-  						<a class="btn btn-social btn-facebook" href="<c:url value="/facebook" />">
-    						<i class="fa fa-facebook"></i> Sign in with Facebook
-  						</a>
-					</div>
 				</form>
 			</div>
 		</div>
+		<div class="panel panel-primary col-md-6 col-md-offset-3" style="padding: 0">
+			<div class="panel-heading">
+        		<h3 class="panel-title">
+        			<spring:message code="label.sign_in_via_social" />
+        		</h3>
+      		</div>
+	        <div class="panel-body">   
+	            <div class="row social-button-row">
+	                <div class="col-lg-4">
+	                	<form action="<c:url value="/auth/facebook" />" method="POST">
+							<button class="btn btn-social-icon btn-facebook" type="submit">
+	                    		<i class="fa fa-facebook"></i>
+	                    	</button>
+							<input type="hidden" name="scope" value="email,publish_stream,offline_access,user_birthday" />
+						</form>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
 	</div>
 </div>

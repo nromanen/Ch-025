@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,14 +28,15 @@ public class LogDaoImpl implements LogDao {
 	 * Deletes all logs older than inputed date. (Not including it)
 	 */
 	@Override
+	@Transactional
 	public void deleteLogsDueDate(Date date) {
 		Query query = entityManager
 				.createQuery("DELETE FROM Log l WHERE l.eventDate < :date");
 		query.setParameter("date", date);
 		if (query.executeUpdate() != 0) {
-			LOG.debug("Deleted logs older than = {} ", date);
+			LOG.info("Deleted logs older than = {} ", date);
 		} else {
-			LOG.debug("Tried to delete logs older than = {} ", date);
+			LOG.info("Tried to delete logs older than = {} ", date);
 		}
 	}
 
@@ -90,6 +92,7 @@ public class LogDaoImpl implements LogDao {
 	 */
 	@Override
 	public Long countLogsInQuery(Date startDate, Date endDate) {
+		LOG.debug("Counted logs in query");
 		Query query = entityManager
 				.createQuery("SELECT COUNT(*) FROM Log l WHERE l.eventDate > :startDate AND l.eventDate <= :endDate");
 		query.setParameter("startDate", startDate);

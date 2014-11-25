@@ -52,10 +52,10 @@ public class RegistrationValidationPositiveTest {
     				"Fsd", "Fdsfsd", "gdfgf.dg@i.ua", "12fdsF//d54fd*&", "12fdsF//d54fd*&"
     			},
     			{
-    				"Вася", "Пупкін", "vasya.pupkin@mail.ru", "fdsFd54fd*&", "fdsFd54fd*&"
+    				"Іван", "Пупкін", "vasya.pupkin@mail.ru", "fdsFd54fd*&", "fdsFd54fd*&"
     			},
     			{
-    				"Олег", "Скрипка", "vanya@yahoo.com", "QweFrty34*&", "QweFrty34*&"
+    				"Ваня", "Іванов", "vanya@yahoo.com", "QweFrty34*&", "QweFrty34*&"
     			},
     			{
     				"Fdsds", "Brbrbf", "VasYa@gmail.com", "f--dsfdFd54fd*&", "f--dsfdFd54fd*&"

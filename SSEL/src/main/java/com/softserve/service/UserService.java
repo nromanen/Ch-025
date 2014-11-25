@@ -2,6 +2,8 @@ package com.softserve.service;
 
 import java.util.List;
 
+import org.springframework.social.facebook.api.Facebook;
+
 import com.softserve.entity.User;
 import com.softserve.form.Registration;
 import com.softserve.form.ResetPassword;
@@ -25,6 +27,8 @@ public interface UserService {
 	void registrateStudent(Registration registration, String url, String message);
 
 	void registrateTeacher(Registration registration, String message);
+
+	void registrateFacebookUser(Facebook facebook, String url, String message);
 
 	User getUserByKey(String key);
 
