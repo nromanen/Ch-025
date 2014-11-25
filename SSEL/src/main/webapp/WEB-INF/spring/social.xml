@@ -7,11 +7,6 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
 		http://www.springframework.org/schema/social http://www.springframework.org/schema/social/spring-social-1.1.xsd">
 
-	<facebook:config app-id="${facebook.app.id}" 
-		app-secret="${facebook.app.secret}" />
-
-	<social:jdbc-connection-repository />
-
 	<bean id="connectController"
 		class="org.springframework.social.connect.web.ConnectController"
 		autowire="constructor" />
