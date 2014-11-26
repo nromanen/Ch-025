@@ -446,8 +446,9 @@ public class TeacherController {
 	public String deleteSubject(@RequestParam(value = "subjectIds", required = true) String subjectIds, Model model) {
 
 		for (String idInStr : subjectIds.split(",")) {
-			try {
+			
 				Integer id = Integer.parseInt(idInStr);
+				//try {
 				Subject subject = subjectService.getSubjectById(id);
 				List<Block> blocks = blockService.getBlocksBySubjectId(subject.getId());
 				List<Topic> topics = topicService.getTopicsBySubjectId(subject.getId());
@@ -470,8 +471,9 @@ public class TeacherController {
 				}
 
 				subjectService.deleteSubject(subject);
-			} catch (Exception e) {
-			}
+		//	} catch (Exception e) {
+			//	e.printStackTrace();
+			//}
 		}
 		return "redirect:/teacher";
 	}

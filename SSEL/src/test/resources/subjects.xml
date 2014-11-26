@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>		
+	<category id="1" name="Programming" deleted="false" />
+	<category id="2" name="Mathematics" deleted="false" />
+	<category id="3" name="Foreign languages" deleted="false" />
+	<category id="4" name="Quality control" deleted="false" />
+	<category id="5" name="Physics" deleted="false" />
+	<role id="1" role="ADMIN" />
+	<role id="2" role="STUDENT" />
+	<role id="3" role="TEACHER" />
+
+	<user id="1" blocked="false" email="roma1sk@mail.ru" expired="2015-11-24 17:00:03"
+		firstName="Roma" lastName="Homyshyn"
+		password="$2a$10$vg4zM/lxJTit54JYefcr3uz5PRZrOFqCvMB/KX5KFoEhprrZ86ed2"
+		registration="2014-11-24 17:00:03" role="3" social="FACEBOOK"
+		verificationkey="$2a$10$dEDCNJbD9vOU0HTMAxqbo.mygQOPuFWJQZDgrOIk1g4f/hooby6g6" />
+	
+	<subject id="1" name="Mathematics" description="Mathematics" id_category="2" id_user="1" deleted="false" />
+	<subject id="2" name="Java EE" description="Java" id_category="1" id_user="1" deleted="false" />
+	<subject id="3" name="Java SE" description="Java2" id_category="1" id_user="1" deleted="false" />
+	<subject id="4" name="Java Script" description="js" id_category="1" id_user="1" deleted="false" />
+	<subject id="5" name="Spring Java" description="Spring" id_category="1" id_user="1" deleted="false" />
+	<subject id="6" name="Java JUnit" description="Tests" id_category="1" id_user="1" deleted="false" />
+	<subject id="7" name="Quality control" description="QC" id_category="4" id_user="1" deleted="false" />
+	<subject id="8" name="English" description="English course" id_category="3" id_user="1" deleted="false" />
+	<subject id="9" name="French" description="French course" id_category="3" id_user="1" deleted="false" />
+	
+	<course_scheduler id="1" start="2014-01-01" end="2014-03-03" id_subject="1" deleted="false" />
+	<course_scheduler id="2" start="2014-01-01" end="2014-03-03" id_subject="2" deleted="false" />
+	<course_scheduler id="3" start="2014-01-01" end="2014-03-03" id_subject="3" deleted="false" />
+	<course_scheduler id="4" start="2014-01-01" end="2014-03-03" id_subject="4" deleted="false" />
+	<course_scheduler id="5" start="2014-01-01" end="2014-03-03" id_subject="5" deleted="false" />
+	<course_scheduler id="6" start="2014-01-01" end="2014-03-03" id_subject="6" deleted="false" />
+	<course_scheduler id="7" start="2014-01-01" end="2014-03-03" id_subject="7" deleted="false" />
+	<course_scheduler id="8" start="2014-01-01" end="2014-03-03" id_subject="8" deleted="false" />
+	<course_scheduler id="9" start="2014-01-01" end="2014-03-03" id_subject="9" deleted="false" />
+</dataset>

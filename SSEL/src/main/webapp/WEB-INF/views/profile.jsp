@@ -11,16 +11,17 @@
 	
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-xs-offset-0 col-sm-offset-0 col-md-offset-2 col-lg-offset-2 toppad">
-			<c:if test="${sessionScope.user.social eq 'REGISTRATION'}">
+			<c:if test="${sessionScope.user.social ne 'REGISTRATION'}">
 				<div class="alert alert-info alert-dismissible" role="alert">
 	  				<button type="button" class="close" data-dismiss="alert">
 	  					<span aria-hidden="true">&times;</span>
 	  					<span class="sr-only">Close</span>
 	  				</button>
-	  				Go to
+	  				Перейти у 
 	  				<a href="<c:url value="/student" />" class="alert-link">
-	  					<spring:message code="label.student_cabinet"/>
+	  					<spring:message code="label.student_cabinet"/> 
 	  				</a>
+	  				або створіть пароль, щоб мати доступ не тільки через соціальні мережі.
 				</div>
 			</c:if>
             <div class="panel-body">
@@ -192,9 +193,9 @@
                 						data-bv-stringlength="true"
                 						data-bv-stringlength-min="4"
                 						data-bv-stringlength-message="<spring:message code="dataerror.minimum_4_characters" />"
-                						data-bv-different="true"
                 						data-bv-different-field="old_password"
-                						data-bv-different-message="The old password and new password cannot be the same as each other"  
+                						data-bv-different-message="<spring:message code="dataerror.password_same" />"   
+                						data-bv-different="true"
                 						data-toggle="tooltip" 
 										data-placement="top"
 										title="<spring:message code="placeholder.new_password" />" />
@@ -333,7 +334,7 @@
                 						data-bv-stringlength-message="<spring:message code="dataerror.minimum_4_characters" />"
                 						data-bv-different="true"
                 						data-bv-different-field="old_password"
-                						data-bv-different-message="The old password and new password cannot be the same as each other"  
+                						data-bv-different-message="<spring:message code="dataerror.password_same" />"   
                 						data-toggle="tooltip" 
 										data-placement="top"
 										title="<spring:message code="placeholder.new_password" />" />
