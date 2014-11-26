@@ -19,10 +19,7 @@ import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import com.softserve.entity.Category;
-import com.softserve.entity.User;
-import com.softserve.form.Registration;
 import com.softserve.service.CategoryService;
-import com.softserve.service.UserService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -50,7 +47,7 @@ public class CategoryServiceTest {
 	public void testGetAllCategories() {
 		assertEquals(3, categoryService.getAllCategories().size());
 	}
-	
+
 	@Test
 	@DatabaseSetup("classpath:category.xml")
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:category.xml")
@@ -60,8 +57,8 @@ public class CategoryServiceTest {
 		assertEquals(2, categoryService.getAllCategories().size());
 		assertTrue(categoryService.getCategoryById(1).isDeleted());
 
-	}	
-	
+	}
+
 	@Test
 	@DatabaseSetup("classpath:category.xml")
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:category.xml")
@@ -73,8 +70,7 @@ public class CategoryServiceTest {
 		categoryService.restoreCategory(categoryService.getCategoryById(1));
 		assertFalse(categoryService.getCategoryById(1).isDeleted());
 		assertEquals(3, categoryService.getAllCategories().size());
-	}	
-	
+	}
 
 	@Test
 	@DatabaseSetup("classpath:category.xml")
@@ -82,20 +78,20 @@ public class CategoryServiceTest {
 	public void testGetDeletedCategories() {
 		assertEquals(1, categoryService.getDeletedCategories().size());
 	}
-	
+
 	@Test
 	@DatabaseSetup("classpath:category.xml")
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:category.xml")
 	public void testAddCategory() {
 		assertEquals(3, categoryService.getAllCategories().size());
 		Category category = new Category();
-		//category.setId(5);
+		// category.setId(5);
 		category.setName("Category5");
 		category.setDeleted(false);
 		categoryService.addCategory(category);
 		assertEquals(4, categoryService.getAllCategories().size());
 	}
-	
+
 	@Test
 	@DatabaseSetup("classpath:category.xml")
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:category.xml")
@@ -104,8 +100,9 @@ public class CategoryServiceTest {
 		Category category = categoryService.getCategoryById(1);
 		category.setName("Category999");
 		categoryService.updateCategory(category);
-		assertEquals("Category999", categoryService.getCategoryById(1).getName());
-		
+		assertEquals("Category999", categoryService.getCategoryById(1)
+				.getName());
+
 	}
 
 }

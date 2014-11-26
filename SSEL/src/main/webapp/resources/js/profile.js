@@ -2,7 +2,6 @@ jQuery(document).ready(function($) {
 
 	$('#form_change_password').bootstrapValidator();
 	$('#form_change_user_information').bootstrapValidator();
-	$('#form_new_password').bootstrapValidator();
 	
 	$("#fileupload").click(function() {
 		$("#photo").remove();

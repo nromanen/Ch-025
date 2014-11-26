@@ -65,7 +65,7 @@ public class SchedulingServiceImpl implements SchedulingService {
 	}
 
 	@Override
-	@Scheduled(cron = "0 0 4 * * 1")	// every Monday in 04:00 AM
+	@Scheduled(cron = "${cron.execute.delete_logs}")	// every Monday in 04:00 AM
 	public void deleteOldLogs() {
 		LOG.info("Deleting logs older than a year by SchedulingService");
 		GregorianCalendar deleteDate = new GregorianCalendar();
