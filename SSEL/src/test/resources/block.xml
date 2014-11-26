@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<category id="1" name="Programming" deleted="false" />
+
+	<role id="1" role="TEACHER" />
+
+	<user id="1" blocked="false" email="roma1sk@mail.ru" expired="2015-11-24 17:00:03"
+		firstName="Roma" lastName="Homyshyn"
+		password="$2a$10$vg4zM/lxJTit54JYefcr3uz5PRZrOFqCvMB/KX5KFoEhprrZ86ed2"
+		registration="2014-11-24 17:00:03" role="1" social="FACEBOOK"
+		verificationkey="$2a$10$dEDCNJbD9vOU0HTMAxqbo.mygQOPuFWJQZDgrOIk1g4f/hooby6g6" />
+
+	<subject id="1" name="Java SE" description="Java2" id_category="1"
+		id_user="1" deleted="false" />
+
+	<block id="1" block_order="1" start_time="2014-11-01" end_time="2014-11-07"
+		name="Why java?" deleted="false" id_subject="1" />
+	<block id="2" block_order="2" start_time="2014-11-08" end_time="2014-11-15"
+		name="Class is java" deleted="false" id_subject="1" />
+	<block id="3" block_order="3" start_time="2014-11-16" end_time="2014-11-25"
+		name="Interface in java" deleted="false" id_subject="1" />
+	<block id="4" block_order="4" start_time="2014-12-20" end_time="2014-12-30"
+		name="Abstract class in java" deleted="false" id_subject="1" />
+	<block id="5" block_order="5" start_time="2014-11-26" end_time="2014-11-30"
+		name="class in java" deleted="true" id_subject="1" />
+</dataset>

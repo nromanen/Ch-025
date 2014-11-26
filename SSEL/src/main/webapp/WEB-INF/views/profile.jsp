@@ -17,11 +17,11 @@
 	  					<span aria-hidden="true">&times;</span>
 	  					<span class="sr-only">Close</span>
 	  				</button>
-	  				Перейти у 
+	  				<spring:message code="label.go_to" />
 	  				<a href="<c:url value="/student" />" class="alert-link">
 	  					<spring:message code="label.student_cabinet"/> 
 	  				</a>
-	  				або створіть пароль, щоб мати доступ не тільки через соціальні мережі.
+	  				<spring:message code="message.social_network_password" />
 				</div>
 			</c:if>
             <div class="panel-body">
@@ -139,7 +139,7 @@
 		                    		<c:otherwise>
 		                    			<button type="button" id="btn_new_password" class="btn btn-info"  
 		                    				data-target="#modal_new_password" data-toggle="modal">
-											<spring:message code="label.change_password"/>
+											<spring:message code="label.create_password"/>
 										</button>
 		                    		</c:otherwise>
 		                    	</c:choose>

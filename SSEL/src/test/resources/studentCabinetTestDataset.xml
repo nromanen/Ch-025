@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
 	<role id="1" role="STUDENT" />
-	<user id="1" blocked="0" expired="2015-11-12" email="bla" firstName="Anatoliy" lastName="Vacaliuck" password="1234" 
-	registration="2014-11-10" social="REGISTRATION" role="1" />
-	<category id="1" name="Some category" deleted="0"/>
-	<subject id="1" name="subject1" description="some description" id_category="1" id_user="1" deleted="0" />
-	<subject id="2" name="subject2" description="some description" id_category="1" id_user="1" deleted="0" />
-	<subject id="3" name="subject3" description="some description" id_category="1" id_user="1" deleted="0" />
-	<course_scheduler id="1" end="2014-10-11" start="2014-09-14" id_subject="1" deleted="0" />
-	<course_scheduler id="2" end="2014-12-11" start="2014-09-19" id_subject="2" deleted="0" />
-	<course_scheduler id="3" end="2014-12-11" start="2014-12-01" id_subject="3" deleted="0" />
+	<user id="1" blocked="0" expired="2015-11-12" email="bla"
+		firstName="Anatoliy" lastName="Vacaliuck" password="1234"
+		registration="2014-11-10" social="REGISTRATION" role="1" />
+	<category id="1" name="Some category" deleted="0" />
+	<subject id="1" name="subject1" description="some description"
+		id_category="1" id_user="1" deleted="0" />
+	<subject id="2" name="subject2" description="some description"
+		id_category="1" id_user="1" deleted="0" />
+	<subject id="3" name="subject3" description="some description"
+		id_category="1" id_user="1" deleted="0" />
+	<course_scheduler id="1" end="2014-10-11" start="2014-09-14"
+		id_subject="1" deleted="0" />
+	<course_scheduler id="2" end="2014-12-11" start="2014-09-19"
+		id_subject="2" deleted="0" />
+	<course_scheduler id="3" end="2014-12-11" start="2014-12-01"
+		id_subject="3" deleted="0" />
 	<groups id="1" isActive="1" deleted="0" id_course_scheduler="1" />
 	<groups id="2" isActive="1" deleted="0" id_course_scheduler="2" />
 	<groups id="3" isActive="1" deleted="0" id_course_scheduler="3" />

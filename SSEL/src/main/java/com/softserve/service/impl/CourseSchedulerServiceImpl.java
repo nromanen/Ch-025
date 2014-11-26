@@ -16,6 +16,7 @@ public class CourseSchedulerServiceImpl implements CourseSchedulerService {
 
 	@Autowired
 	private CourseSchedulerDao courseSchedulerDao;
+
 	/**
 	 * @see com.softserve.service.CourseSchedulerService#addCourseScheduler(CourseScheduler)
 	 */
@@ -24,14 +25,17 @@ public class CourseSchedulerServiceImpl implements CourseSchedulerService {
 	public CourseScheduler addCourseScheduler(CourseScheduler courseScheduler) {
 		return courseSchedulerDao.addCourseScheduler(courseScheduler);
 	}
+
 	/**
 	 * @see com.softserve.service.CourseSchedulerService#deleteCourseScheduler(CourseScheduler)
 	 */
 	@Override
 	@Transactional
 	public void deleteCourseScheduler(CourseScheduler courseScheduler) {
-		courseSchedulerDao.setCourseSchedulerDeleted(courseScheduler, true);;
+		courseSchedulerDao.setCourseSchedulerDeleted(courseScheduler, true);
+		;
 	}
+
 	/**
 	 * @see com.softserve.service.CourseSchedulerService#updateCourseScheduler(CourseScheduler)
 	 */
@@ -40,6 +44,7 @@ public class CourseSchedulerServiceImpl implements CourseSchedulerService {
 	public CourseScheduler updateCourseScheduler(CourseScheduler courseScheduler) {
 		return courseSchedulerDao.updateCourseScheduler(courseScheduler);
 	}
+
 	/**
 	 * @see com.softserve.service.CourseSchedulerService#getCourseSchedulerById(int)
 	 */
@@ -48,6 +53,7 @@ public class CourseSchedulerServiceImpl implements CourseSchedulerService {
 	public CourseScheduler getCourseSchedulerById(int id) {
 		return courseSchedulerDao.getCourseSchedulerById(id);
 	}
+
 	/**
 	 * @see com.softserve.service.CourseSchedulerService#getAllCourseScheduleres()
 	 */
@@ -56,6 +62,7 @@ public class CourseSchedulerServiceImpl implements CourseSchedulerService {
 	public List<CourseScheduler> getAllCourseScheduleres() {
 		return courseSchedulerDao.getAllCourseScheduleres();
 	}
+
 	/**
 	 * @see com.softserve.service.CourseSchedulerService#getCourseScheduleresBySubjectId(int)
 	 */
@@ -64,6 +71,7 @@ public class CourseSchedulerServiceImpl implements CourseSchedulerService {
 	public List<CourseScheduler> getCourseScheduleresBySubjectId(int id) {
 		return courseSchedulerDao.getCourseScheduleresBySubjectId(id);
 	}
+
 	/**
 	 * @see com.softserve.service.CourseSchedulerService#getCourseSchedulersBySubjectUserId(int)
 	 */
@@ -72,6 +80,7 @@ public class CourseSchedulerServiceImpl implements CourseSchedulerService {
 	public List<CourseScheduler> getCourseSchedulersBySubjectUserId(int id) {
 		return courseSchedulerDao.getCourseSchedulersBySubjectUserId(id);
 	}
+
 	/**
 	 * @see com.softserve.service.CourseSchedulerService#getActiveSubscribedCoursesByUserId(int)
 	 */
@@ -80,6 +89,7 @@ public class CourseSchedulerServiceImpl implements CourseSchedulerService {
 	public List<CourseScheduler> getActiveSubscribedCoursesByUserId(int id) {
 		return courseSchedulerDao.getActiveSubscribedCoursesByUserId(id);
 	}
+
 	/**
 	 * @see com.softserve.service.CourseSchedulerService#getFutureSubscribedCoursesByUserId(int)
 	 */
@@ -88,6 +98,7 @@ public class CourseSchedulerServiceImpl implements CourseSchedulerService {
 	public List<CourseScheduler> getFutureSubscribedCoursesByUserId(int id) {
 		return courseSchedulerDao.getFutureSubscribedCoursesByUserId(id);
 	}
+
 	/**
 	 * @see com.softserve.service.CourseSchedulerService#getFinishedSubscribedCoursesByUserId(int)
 	 */
@@ -96,7 +107,8 @@ public class CourseSchedulerServiceImpl implements CourseSchedulerService {
 	public List<CourseScheduler> getFinishedSubscribedCoursesByUserId(int id) {
 		return courseSchedulerDao.getFinishedSubscribedCoursesByUserId(id);
 	}
-/**
+
+	/**
 	 * @see com.softserve.service.CourseSchedulerService#getDeletedCourses()
 	 */
 	@Transactional
@@ -104,15 +116,16 @@ public class CourseSchedulerServiceImpl implements CourseSchedulerService {
 	public List<CourseScheduler> getDeletedCourses() {
 		return courseSchedulerDao.getAllDeletedCourseSchedulers();
 	}
+
 	/**
 	 * @see com.softserve.service.CourseSchedulerService#restoreCourseScheduler(CourseScheduler)
 	 */
 	@Transactional
 	@Override
 	public void restoreCourseScheduler(CourseScheduler course) {
-		courseSchedulerDao.setCourseSchedulerDeleted(course, false);	
+		courseSchedulerDao.setCourseSchedulerDeleted(course, false);
 	}
-	
+
 	@Override
 	@Transactional
 	public List<CourseScheduler> getCourseSchedulersByStartDate(Date date) {
