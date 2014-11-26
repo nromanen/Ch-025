@@ -17,10 +17,11 @@
 	  					<span aria-hidden="true">&times;</span>
 	  					<span class="sr-only">Close</span>
 	  				</button>
-	  				Go to
+	  				Перейти у 
 	  				<a href="<c:url value="/student" />" class="alert-link">
-	  					<spring:message code="label.student_cabinet"/>
+	  					<spring:message code="label.student_cabinet"/> 
 	  				</a>
+	  				або створіть пароль, щоб мати доступ не тільки через соціальні мережі.
 				</div>
 			</c:if>
             <div class="panel-body">
@@ -192,6 +193,8 @@
                 						data-bv-stringlength="true"
                 						data-bv-stringlength-min="4"
                 						data-bv-stringlength-message="<spring:message code="dataerror.minimum_4_characters" />"
+                						data-bv-different-field="old_password"
+                						data-bv-different-message="<spring:message code="dataerror.password_same" />"   
                 						data-bv-different="true"
                 						data-toggle="tooltip" 
 										data-placement="top"
