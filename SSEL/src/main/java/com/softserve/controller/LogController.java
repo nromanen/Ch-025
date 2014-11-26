@@ -174,9 +174,9 @@ public class LogController {
 			Model model) {
 		LOG.debug("Visit logDetails page");
 		Log log = logService.getLogById(logId);
-		model.addAttribute("log", log);
 		int activeTeacherRequests = (int) teacherRequestService
 				.getAllActiveTeacherRequestsCount();
+		model.addAttribute("log", log);
 		model.addAttribute("activeTeacherRequests", activeTeacherRequests);
 		return "logDetails";
 	}
