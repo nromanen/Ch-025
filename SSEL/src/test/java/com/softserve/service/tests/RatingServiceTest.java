@@ -95,7 +95,7 @@ public class RatingServiceTest {
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:ratingTestDataset.xml")
 	public void testGetRatingByGroupAndUser() {
 		List<Rating> list = ratingService.getRatingByGroupAndUser(1, 1);
-		assertTrue(list.size() > 0);
+		assertNotNull(list.get(0));
 		list = ratingService.getRatingByGroupAndUser(1, 5);
 		assertNull(list);
 	}
@@ -105,8 +105,14 @@ public class RatingServiceTest {
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:ratingTestDataset.xml")
 	public void testGetAvgRatingByGroupAndUser() {
 		double res = ratingService.getAverageRatingByUserAndGroup(1, 1);
-		assertTrue(res > 0);
-		res = ratingService.getAverageRatingByUserAndGroup(2, 1);
-		assertTrue(res == 0.0);
+		assertTrue(res >= 0);
+	}
+	
+	@Test
+	@DatabaseSetup("classpath:ratingTestDataset.xml")
+	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:ratingTestDataset.xml")
+	public void testGetProgressByGroupAndUser() {
+		double res = ratingService.getProgressByGroupAndUser(1, 1);
+		assertTrue(res >= 0);
 	}
 }

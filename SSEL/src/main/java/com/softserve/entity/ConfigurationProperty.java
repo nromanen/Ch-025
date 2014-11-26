@@ -20,10 +20,10 @@ public class ConfigurationProperty {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Column (name = "key")
+	@Column (name = "ke_y")
 	private String key;
 	
-	@Column (name = "value" )
+	@Column (name = "valu_e" )
 	private String value;
 	
 	public ConfigurationProperty() {
