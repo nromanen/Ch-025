@@ -186,12 +186,10 @@ public class StudentCabinetController {
 		User user = userService.getUserByEmail(userService.getCurrentUser());//(User) session.getAttribute("user");
 		double avgRating = ratingService.getAverageRatingByUserAndGroup(user.getId(), group.getGroupId());
 		double progress = ratingService.getProgressByGroupAndUser(group.getGroupId(), user.getId());
-		List<Block> blocks = blockService.getBlocksBySubjectId(cs.getSubject().getId());
 		List<Rating> ratings = ratingService.getRatingByGroupAndUser(group.getGroupId(), user.getId());
 		model.addAttribute("ratings", ratings);
 		model.addAttribute("avgRating", avgRating);
 		model.addAttribute("progress", progress);
-		model.addAttribute("blocks",blocks);
 		model.addAttribute("name", cs.getSubject().getName());
 		model.addAttribute("startEnd", "(" + cs.getStart()+"-"+cs.getEnd()+ ")");
 		model.addAttribute("showType", "table");
