@@ -66,6 +66,14 @@ public class SubjectServiceTest {
 	@Test
 	@DatabaseSetup("classpath:subjects.xml")
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:subjects.xml")
+	public void testGetSubjectByUserId() {
+		List<Subject> list = subjectService.getSubjectsByUserId(1);
+		assertEquals(9l, list.size());
+	}
+	
+	@Test
+	@DatabaseSetup("classpath:subjects.xml")
+	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:subjects.xml")
 	public void testGetSubjectByIdNull() {
 		Subject subject = subjectService.getSubjectById(100500);
 		assertNull(subject);
@@ -109,6 +117,17 @@ public class SubjectServiceTest {
 	@Test
 	@DatabaseSetup("classpath:subjects.xml")
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:subjects.xml")
+	public void testUpdateSubject() {
+		Subject subject = subjectService.getSubjectById(9);
+		subject.setName("German");
+		subjectService.updateSubject(subject);
+		List<Subject> listActual = subjectService.getAllSubjects();
+		assertEquals("German", listActual.get(8).getName());
+	}
+	
+	@Test
+	@DatabaseSetup("classpath:subjects.xml")
+	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:subjects.xml")
 	public void testSearchSubjectsByCategoryCount() {
 		Long size = subjectService.getSubjectsByCategoryCount("Programming");
 		assertEquals(5l, size.longValue());
@@ -119,6 +138,22 @@ public class SubjectServiceTest {
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:subjects.xml")
 	public void testSearchSubjectsByNameCount() {
 		Long size = subjectService.getSubjectsByNameCount("Java");
+		assertEquals(5l, size.longValue());
+	}
+	
+	@Test
+	@DatabaseSetup("classpath:subjects.xml")
+	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:subjects.xml")
+	public void testGetSubjectCount() {
+		Long size = subjectService.getSubjectsCount();
+		assertEquals(9l, size.longValue());
+	}
+	
+	@Test
+	@DatabaseSetup("classpath:subjects.xml")
+	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:subjects.xml")
+	public void testGetSubjectByTextCount() {
+		Long size = subjectService.getSubjectsByTextCount("ja");
 		assertEquals(5l, size.longValue());
 	}
 	

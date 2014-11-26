@@ -77,6 +77,15 @@ public class SearchServiceTest {
 	@Test
 	@DatabaseSetup("classpath:subjects.xml")
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:subjects.xml")
+	public void testGetSubjectByCategory() {
+		List<Subject> listActual = searchService.getSubjectsByCategoryIdWithLimit(2, 1, 3, "name", false);
+		assertEquals("Mathematics", listActual.get(0).getName());
+		assertEquals(1, listActual.size());
+	}
+	
+	@Test
+	@DatabaseSetup("classpath:subjects.xml")
+	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:subjects.xml")
 	public void testSearchSubjectsPageSize() {
 		List<Subject> listActual = searchService.getSubjectsByNamePart("ja", 1, 3, "name", true);
 		assertEquals(3, listActual.size());
