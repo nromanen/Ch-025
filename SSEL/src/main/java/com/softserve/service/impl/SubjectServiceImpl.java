@@ -108,6 +108,7 @@ public class SubjectServiceImpl implements SubjectService {
 	}
 
 	@Override
+	@Transactional
 	public void restoreSubject(Subject subject) {
 		subjectDao.setSubjectDeleted(subject, false);
 	}

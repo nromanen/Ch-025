@@ -54,16 +54,21 @@
 	<changeSet id="2014-11-19-insert-data-into-table-block" author="Hash">
 		<comment>Insert sample data into table block</comment>
 		<sql splitStatements="true">
-			INSERT INTO `block` VALUES (6, '2014-08-07', 'Some module2', '1', '2013-12-22', '5', 0);
-			INSERT INTO `block` VALUES (15, '2014-01-31', 'Some module2', '2', '2014-01-01', '5', 0);
-			INSERT INTO `block` VALUES (16, '2014-01-31', 'Some module3', '3', '2014-01-01', '5', 0);
-			INSERT INTO `block` VALUES (17, '2014-01-31', 'Some module4', '4', '2014-01-01', '5', 0);
-			INSERT INTO `block` VALUES (18, '2014-01-31', 'Some module', '5', '2014-01-01', '11', 0);
-			INSERT INTO `block` VALUES (19, '2014-01-31', 'Some module6', '6', '2014-01-01', '11', 0);
-			INSERT INTO `block` VALUES (20, '2014-01-31', 'Some module7', '7', '2014-01-01', '9', 0);
-			INSERT INTO `block` VALUES (21, '2014-01-31', 'Some module8', '8', '2014-01-01', '9', 0);
-			INSERT INTO `block` VALUES (22, '2014-01-31', 'Some module9', '9', '2014-01-01', '8', 0);
-			INSERT INTO `block` VALUES (23, '2014-01-31', 'Some module10', '10', '2014-12-01', '8', 0);
+			INSERT INTO `block` VALUES (6, '2014-08-07', 'Introduction to QC', '1', '2013-12-22', '5', 0);
+			INSERT INTO `block` VALUES (15, '2014-01-31', 'Basic of quality control', '2', '2014-01-01', '5', 0);
+			INSERT INTO `block` VALUES (16, '2014-01-31', 'Testing techniques', '3', '2014-01-01', '5', 0);
+			INSERT INTO `block` VALUES (17, '2014-01-31', 'Finish', '4', '2014-01-01', '5', 0);
+			INSERT INTO `block` VALUES (18, '2014-01-31', 'Why java?', '5', '2014-01-01', '11', 0);
+			INSERT INTO `block` VALUES (19, '2014-01-31', 'OOP in java', '6', '2014-01-01', '11', 0);
+			INSERT INTO `block` VALUES (20, '2014-01-31', 'Linear dimensions', '7', '2014-01-01', '9', 0);
+			INSERT INTO `block` VALUES (21, '2014-01-31', 'Vector dimensions', '8', '2014-01-01', '9', 0);
+			INSERT INTO `block` VALUES (22, '2014-01-31', 'Basic grammar', '9', '2014-01-01', '8', 0);
+			INSERT INTO `block` VALUES (23, '2014-01-31', 'Speaking training', '10', '2014-12-01', '8', 0);
+			INSERT INTO `block` VALUES (24, '2014-01-31', 'Angular', '10', '2014-12-01', '18', 0);
+			INSERT INTO `block` VALUES (25, '2014-01-31', 'JQuery', '10', '2014-12-01', '18', 0);
+			INSERT INTO `block` VALUES (26, '2014-01-31', 'Spring', '10', '2014-12-01', '22', 0);
+			INSERT INTO `block` VALUES (27, '2014-01-31', 'Hibernate', '10', '2014-12-01', '22', 0);
+			INSERT INTO `block` VALUES (28, '2014-01-31', 'Java core is cool!', '10', '2014-12-01', '16', 0);
 		</sql>
 	</changeSet>
 	
@@ -176,7 +181,9 @@
 			INSERT INTO `topic` VALUES (19, 1, 'Some content', 'Lection 16', '16', '19', 0);
 			INSERT INTO `topic` VALUES (20, 1, 'Some content', 'Lection 17', '17', '20', 0);
 			INSERT INTO `topic` VALUES (21, 1, 'Some content', 'Lection 18', '18', '21', 0);
-			INSERT INTO `topic` VALUES (22, 1, 'Some content', 'Lection 19', '19', '22', 0);
+			INSERT INTO `topic` VALUES (22, 1, 'Gramar rules', 'Basic grammar', '19', '22', 0);
+			INSERT INTO `topic` VALUES (25, 1, 'Practice sentences', 'Gramar practice', '19', '22', 0);
+			INSERT INTO `topic` VALUES (26, 1, 'Practice sentences', 'Synchronous translating', '19', '23', 0);
 			INSERT INTO `topic` VALUES (23, 1, 'Some content', 'Lection 6', '3', '6', 0);
 			INSERT INTO `topic` VALUES (24, 1, 'Some content', 'Lection 6', '20', '6', 0);
 		</sql>

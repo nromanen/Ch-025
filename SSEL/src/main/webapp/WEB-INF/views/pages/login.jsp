@@ -82,16 +82,26 @@
         		</h3>
       		</div>
 	        <div class="panel-body">   
-	            <div class="row social-button-row">
-	                <div class="col-lg-4">
-	                	<form action="<c:url value="/auth/facebook" />" method="POST">
-							<button class="btn btn-social-icon btn-facebook" type="submit">
-	                    		<i class="fa fa-facebook"></i>
-	                    	</button>
-							<input type="hidden" name="scope" value="email,publish_stream,offline_access,user_birthday" />
-						</form>
-	                </div>
-	            </div>
+	        	<div class="form-inline" role="form">
+	        	<div class="row social-button-row" align="center">
+	            	<form class="form-group" action="<c:url value="/auth/facebook" />" method="POST" role="form" >
+						<button class="btn btn-social-icon btn-facebook" type="submit">
+		                    <i class="fa fa-facebook"></i>
+		                </button>
+	             	</form>
+	             	<!-- <form class="form-group" action="<c:url value="/auth/facebook" />" method="POST" role="form" >
+	                    <button class="btn btn-social-icon btn-twitter" type="submit">
+	                    	<i class="fa fa-twitter"></i>
+	                    </button>
+	                </form>
+	                <form class="form-group" action="<c:url value="/auth/facebook" />" method="POST" role="form" >
+	                    <button class="btn btn-social-icon btn-vk" type="submit">
+	                    	<i class="fa fa-vk"></i>
+	                    </button>
+						<input type="hidden" name="scope" value="email,publish_stream,offline_access,user_birthday" />
+					</form> -->
+				</div>
+				</div>
 	        </div>
 	    </div>
 	</div>

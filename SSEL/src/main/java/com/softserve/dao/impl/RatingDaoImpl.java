@@ -26,8 +26,7 @@ public class RatingDaoImpl implements RatingDao {
 	@Override
 	public Rating addRating(Rating newRating) {
 		LOG.debug("Add rating (number = {})", newRating.getRatingId());
-		entityManager.persist(newRating);
-		return newRating;
+		return entityManager.merge(newRating);
 	}
 
 	@Override
@@ -78,9 +77,9 @@ public class RatingDaoImpl implements RatingDao {
 				+ "r.user.id = :ui ");
 		query.setParameter("gi", groupId);
 		query.setParameter("ui", userId);
-		try {
+		try { 
 			List<Double> resultList = query.getResultList();
-		return resultList.get(0);
+			return (resultList.size() == 0 ) ? 0.0 : resultList.get(0); 
 		} catch (NullPointerException e) {
 			return 0.0;
 		}

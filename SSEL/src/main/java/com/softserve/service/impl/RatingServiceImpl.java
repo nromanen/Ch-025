@@ -18,7 +18,7 @@ public class RatingServiceImpl implements RatingService{
 
 	@Transactional
 	@Override
-	public Rating addService(Rating rating) {
+	public Rating addRating(Rating rating) {
 		return ratingDao.addRating(rating);
 	}
 
@@ -45,5 +45,12 @@ public class RatingServiceImpl implements RatingService{
 	public double getProgressByGroupAndUser(int groupId, int userId) {
 		return ratingDao.getProgressByGroupAndUser(groupId, userId);
 	}
+
+	@Transactional
+	@Override
+	public Rating updateRating(Rating rating) {
+		return ratingDao.updateRating(rating);
+	}
+
 	
 }

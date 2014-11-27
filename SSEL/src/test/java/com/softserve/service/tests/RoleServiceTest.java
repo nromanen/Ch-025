@@ -2,6 +2,8 @@ package com.softserve.service.tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,6 +44,7 @@ public class RoleServiceTest {
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:role.xml")
 	public void testGetRoleByName() {
 		assertNotNull(roleService.getRoleByName("ADMIN"));
+		assertNull(roleService.getRoleByName("ROLE"));
 	}
 
 	@Test
@@ -65,6 +68,17 @@ public class RoleServiceTest {
 		admin.setRole("ADMIN");
 		roleService.addRole(admin);
 		assertEquals(3, roleService.getAllRoles().size());
+	}
+	
+	@Test
+	@DatabaseSetup("classpath:role.xml")
+	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:role.xml")
+	public void testUpdateRole() {
+		Role role = roleService.getRoleById(1);
+		assertTrue(role.getRole().equals("ADMIN"));
+		role.setRole("admin");
+		role = roleService.updateRole(role);
+		assertTrue(role.getRole().equals("admin"));
 	}
 
 }

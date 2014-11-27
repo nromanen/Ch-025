@@ -78,9 +78,8 @@
 					<input type="text" name="endDate" class="datepicker"
 						placeholder="<spring:message code="label.placeholder" />"
 						readonly="readonly" 
-						data-date-language="${local}"
-						data-date-autoclose="true" /> 
-						<input type="submit"
+						data-date-language="${local}" 
+						data-date-autoclose="true" /> <input type="submit"
 						class="btn btn-primary"
 						value="<spring:message code="label.show" />" />
 				</form>

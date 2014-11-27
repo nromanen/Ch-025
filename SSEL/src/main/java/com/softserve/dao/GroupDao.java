@@ -2,7 +2,6 @@ package com.softserve.dao;
 
 import java.util.List;
 
-import com.softserve.entity.CourseScheduler;
 import com.softserve.entity.Group;
 /**
  * Specify group data access object

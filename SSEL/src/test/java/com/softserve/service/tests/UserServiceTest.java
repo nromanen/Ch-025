@@ -19,7 +19,10 @@ import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import com.softserve.entity.User;
+import com.softserve.entity.User.Social;
 import com.softserve.form.Registration;
+import com.softserve.form.ResetPassword;
+import com.softserve.service.TeacherRequestService;
 import com.softserve.service.UserService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -33,6 +36,9 @@ public class UserServiceTest {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private TeacherRequestService teacherRequestService;
 
 	@Test
 	@DatabaseSetup("classpath:users.xml")
@@ -107,5 +113,69 @@ public class UserServiceTest {
 		assertEquals(3, userService.getAllUsers().size());
 		userService.deleteUser(userService
 				.getUserByEmail("roma.homyshyn@gmail.com"));
+	}
+
+	@Test
+	@DatabaseSetup("classpath:users.xml")
+	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:users.xml")
+	public void testRegistrationTeacher() {
+		assertEquals(2, userService.getAllUsers().size());
+		Registration registration = new Registration();
+		registration.setConfirmPassword("1234");
+		registration.setEmail("roma@gmail.com");
+		registration.setFirstName("Roma");
+		registration.setLastName("Homyshyn");
+		registration.setPassword("1234");
+		registration.setTeacher(true);
+		userService.registrateTeacher(registration, "message");
+		assertEquals(3, userService.getAllUsers().size());
+		teacherRequestService.deleteTeacherRequest(teacherRequestService
+				.getTeacherRequestById(1));
+		userService.deleteUser(userService.getUserByEmail("roma@gmail.com"));
+	}
+
+	@Test
+	@DatabaseSetup("classpath:users.xml")
+	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:users.xml")
+	public void testRemindPassword() {
+		User user = userService.getUserByEmail("roma1sk@mail.ru");
+		assertFalse(user.isBlocked());
+		userService.remindPassword(user, "url", "message");
+		user = userService.getUserByEmail("roma1sk@mail.ru");
+		assertTrue(user.isBlocked());
+	}
+
+	@Test
+	@DatabaseSetup("classpath:users.xml")
+	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:users.xml")
+	public void testChangePassword() {
+		User user = userService.getUserByEmail("roma1sk@mail.ru");
+		assertTrue(user.getSocial().equals(Social.FACEBOOK));
+		userService.updateUser(user);
+		userService.changePassword(user, "1234");
+		user = userService.getUserByEmail("roma1sk@mail.ru");
+		assertTrue(user.getSocial().equals(Social.REGISTRATION));
+	}
+
+	@Test
+	@DatabaseSetup("classpath:users.xml")
+	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:users.xml")
+	public void testRestorePassword() {
+		User user = userService.getUserByEmail("roma1sk@mail.ru");
+		user.setBlocked(true);
+		userService.updateUser(user);
+		ResetPassword resetPassword = new ResetPassword();
+		resetPassword.setPassword("1234");
+		userService.restorePassword(user, resetPassword);
+		user = userService.getUserByEmail("roma1sk@mail.ru");
+		assertFalse(user.isBlocked());
+	}
+
+	@Test
+	@DatabaseSetup("classpath:users.xml")
+	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:users.xml")
+	public void testGetUserCount() {
+		assertEquals(userService.getAllUsers().size(),
+				userService.getUsersCount());
 	}
 }

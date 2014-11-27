@@ -43,4 +43,16 @@ public interface GroupService {
 	 * @return list of groups
 	 */
 	List<Group> getDeletedGroups();
+	/**
+	 * Return group by id
+	 * @param groupId unique group identifier
+	 * @return group
+	 */
+	Group getGroupById(int groupId);
+	/**
+	 * Update group
+	 * @param group updated group
+	 * @return updated group
+	 */
+	Group updateGroup(Group group);
 }
