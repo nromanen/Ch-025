@@ -7,6 +7,7 @@
 	<name>SSEL</name>
 	<packaging>war</packaging>
 	<version>1</version>
+	
 	<properties>
 		<java-version>1.7</java-version>
 		<org.springframework-version>4.0.2.RELEASE</org.springframework-version>
@@ -18,7 +19,9 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<spring.social.version>1.1.0.RELEASE</spring.social.version>
 		<spring.social.facebook.version>1.1.1.RELEASE</spring.social.facebook.version>
+		<spring.social.linkedin.version>1.0.1.RELEASE</spring.social.linkedin.version>
 	</properties>
+	
 	<dependencies>
 		<!-- Spring -->
 		<dependency>
@@ -294,12 +297,20 @@
 			<artifactId>spring-social-facebook</artifactId>
 			<version>${spring.social.facebook.version}</version>
 		</dependency>
+		<!-- Spring Social LinkedIn -->
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-linkedin</artifactId>
+			<version>${spring.social.linkedin.version}</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
 			<version>20140107</version>
 		</dependency>
 	</dependencies>
+	
 	<build>
 		<plugins>
 			<plugin>

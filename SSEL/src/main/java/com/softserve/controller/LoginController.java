@@ -8,11 +8,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.social.facebook.api.Facebook;
+import org.springframework.social.linkedin.api.LinkedIn;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,9 +36,6 @@ public class LoginController {
 	@Autowired
 	private UserService userService;
 
-	@Autowired
-	private MessageSource messageSource;
-
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String loginPage(
 			@RequestParam(value = "error", required = false) String error,
@@ -63,22 +59,22 @@ public class LoginController {
 		Connection<?> connection = ProviderSignInUtils
 				.getConnection(webRequest);
 
-		if (connection.getApi() == null) {
-			return "redirect:/";
-		}
-
 		if (connection.getApi() instanceof Facebook) {
 			Facebook facebook = (Facebook) connection.getApi();
-			String url = request.getRequestURL().toString();
-			String message = new String(messageSource.getMessage(
-					"message.user.chage_password", new Object[] {},
-					LocaleContextHolder.getLocale()));
-			userService.registrateFacebookUser(facebook, url, message);
+			userService.registrateFacebookUser(facebook);
 			User user = userService.getUserByEmail(facebook.userOperations()
 					.getUserProfile().getEmail());
 			SecurityUtil.logInUser(user);
 			return "redirect:/profile";
 		}
+		
+		if (connection.getApi() instanceof LinkedIn) {
+			LinkedIn linkedIn = (LinkedIn) connection.getApi();
+			LOG.warn(linkedIn.profileOperations().getUserProfile().getEmailAddress());
+			LOG.warn(linkedIn.profileOperations().getUserProfile().getFirstName());
+			LOG.warn(linkedIn.profileOperations().getUserProfile().getLastName());
+		}
+		
 		return "redirect:/";
 	}
 

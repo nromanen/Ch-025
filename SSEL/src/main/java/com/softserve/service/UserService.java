@@ -28,7 +28,7 @@ public interface UserService {
 
 	void registrateTeacher(Registration registration, String message);
 
-	void registrateFacebookUser(Facebook facebook, String url, String message);
+	void registrateFacebookUser(Facebook facebook);
 
 	User getUserByKey(String key);
 
