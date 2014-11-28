@@ -67,14 +67,16 @@ public class LoginController {
 			SecurityUtil.logInUser(user);
 			return "redirect:/profile";
 		}
-		
+
 		if (connection.getApi() instanceof LinkedIn) {
 			LinkedIn linkedIn = (LinkedIn) connection.getApi();
-			LOG.warn(linkedIn.profileOperations().getUserProfile().getEmailAddress());
-			LOG.warn(linkedIn.profileOperations().getUserProfile().getFirstName());
-			LOG.warn(linkedIn.profileOperations().getUserProfile().getLastName());
+			userService.registrateLinkedInUser(linkedIn);
+			User user = userService.getUserByEmail(linkedIn.profileOperations()
+					.getUserProfile().getEmailAddress());
+			SecurityUtil.logInUser(user);
+			return "redirect:/profile";
 		}
-		
+
 		return "redirect:/";
 	}
 

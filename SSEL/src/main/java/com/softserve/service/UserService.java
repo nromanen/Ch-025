@@ -3,6 +3,7 @@ package com.softserve.service;
 import java.util.List;
 
 import org.springframework.social.facebook.api.Facebook;
+import org.springframework.social.linkedin.api.LinkedIn;
 
 import com.softserve.entity.User;
 import com.softserve.form.Registration;
@@ -29,6 +30,8 @@ public interface UserService {
 	void registrateTeacher(Registration registration, String message);
 
 	void registrateFacebookUser(Facebook facebook);
+	
+	void registrateLinkedInUser(LinkedIn linkedIn);
 
 	User getUserByKey(String key);
 

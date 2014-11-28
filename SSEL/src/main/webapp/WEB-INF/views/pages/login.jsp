@@ -90,17 +90,11 @@
 		                </button>
 		                <input type="hidden" name="scope" value="email,publish_stream,offline_access,user_birthday" />
 	             	</form>
-	             	<!-- <form class="form-group" action="<c:url value="/auth/facebook" />" method="POST" role="form" >
-	                    <button class="btn btn-social-icon btn-twitter" type="submit">
-	                    	<i class="fa fa-twitter"></i>
+	             	<form class="form-group" action="<c:url value="/auth/linkedin" />" method="POST" role="form" >
+	                    <button class="btn btn-social-icon btn-linkedin" type="submit">
+	                    	<i class="fa fa-linkedin"></i>
 	                    </button>
-	                </form>-->
-	                <form class="form-group" action="<c:url value="/auth/vkontakte" />" method="POST" role="form" >
-	                    <button class="btn btn-social-icon btn-vk" type="submit">
-	                    	<i class="fa fa-vk"></i>
-	                    </button>
-						<input type="hidden" name="scope" value="email,offline" />
-					</form> 
+	                </form>
 				</div>
 				</div>
 	        </div>
