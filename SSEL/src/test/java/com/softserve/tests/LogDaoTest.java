@@ -39,7 +39,7 @@ public class LogDaoTest {
 	@Test
 	@DatabaseSetup("classpath:logsData.xml")
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:logsData.xml")
-	public void testGetLogById() {
+	public void testGetLogById01() {
 		Log log = logDao.getLogById(1);
 		assertTrue((log.getId() == 1) && (log.getLevel().equals("ERROR1")));
 	}
@@ -58,13 +58,12 @@ public class LogDaoTest {
 		long partOfLogsNumb = logDao.countLogsInQuery(startDate, endDate);
 
 		assertTrue((allLogsNumb == 10) && (partOfLogsNumb == 5));
-
 	}
 
 	@Test
 	@DatabaseSetup("classpath:logsData.xml")
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:logsData.xml")
-	public void testdeleteLogsDueDate() {
+	public void testDeleteLogsDueDate() {
 		GregorianCalendar calendar = new GregorianCalendar(2014, 6, 1);
 		logDao.deleteLogsDueDate((calendar.getTime()));
 		int firstResult = countAllLogsInDatabase();
@@ -77,7 +76,7 @@ public class LogDaoTest {
 	@Test
 	@DatabaseSetup("classpath:logsData.xml")
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:logsData.xml")
-	public void testGetRangeOfLogs() {
+	public void testGetRangeOfLogs01() {
 		Date startDate = (new GregorianCalendar(2013, 0, 1)).getTime();
 		Date endDate = (new GregorianCalendar(2015, 0, 1)).getTime();
 		int logsPerPage = 10;
@@ -85,24 +84,37 @@ public class LogDaoTest {
 		String orderBy = "eventDate ASC";
 		ArrayList<Log> logList1 = (ArrayList<Log>) logDao.getRangeOfLogs(
 				startDate, endDate, logsPerPage, pageNumb, orderBy);
-		logsPerPage = 3;
-		pageNumb = 3;
-		orderBy = "eventDate DESC";
+		assertTrue(logList1.get(0).getLevel().equals("ERROR1")
+				&& (logList1.size() == 10));
+	}
+
+	@Test
+	@DatabaseSetup("classpath:logsData.xml")
+	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:logsData.xml")
+	public void testGetRangeOfLogs02() {
+		Date startDate = (new GregorianCalendar(2013, 0, 1)).getTime();
+		Date endDate = (new GregorianCalendar(2015, 0, 1)).getTime();
+		int logsPerPage = 3;
+		int pageNumb = 3;
+		String orderBy = "eventDate DESC";
 		ArrayList<Log> logList2 = (ArrayList<Log>) logDao.getRangeOfLogs(
 				startDate, endDate, logsPerPage, pageNumb, orderBy);
+		assertTrue(logList2.get(0).getLevel().equals("ERROR1")
+				&& (logList2.size() == 1));
+	}
 
-		startDate = (new GregorianCalendar(2014, 1, 1)).getTime();
-		endDate = (new GregorianCalendar(2014, 10, 2)).getTime();
-		logsPerPage = 7;
-		pageNumb = 0;
+	@Test
+	@DatabaseSetup("classpath:logsData.xml")
+	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:logsData.xml")
+	public void testGetRangeOfLogs03() {
+		Date startDate = (new GregorianCalendar(2014, 1, 1)).getTime();
+		Date endDate = (new GregorianCalendar(2014, 10, 2)).getTime();
+		int logsPerPage = 7;
+		int pageNumb = 0;
+		String orderBy = "eventDate DESC";
 		ArrayList<Log> logList3 = (ArrayList<Log>) logDao.getRangeOfLogs(
 				startDate, endDate, logsPerPage, pageNumb, orderBy);
-
-		assertTrue(logList1.get(0).getLevel().equals("ERROR1")
-				&& (logList1.size() == 10)
-				&& logList2.get(0).getLevel().equals("ERROR1")
-				&& (logList2.size() == 1)
-				&& logList3.get(0).getLevel().equals("WARN1")
+		assertTrue(logList3.get(0).getLevel().equals("WARN1")
 				&& (logList3.size() == 6));
 	}
 
