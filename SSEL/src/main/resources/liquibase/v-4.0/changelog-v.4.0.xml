@@ -102,11 +102,6 @@
 		</sql>
 	</changeSet>
 	
-	
-	
-	
-	
-	
 	<changeSet id="2014-11-19-insert-data-into-table-groups" author="Hash">
 		<comment>Insert sample data into table groups</comment>
 		<sql splitStatements="true">
@@ -134,12 +129,7 @@
 			INSERT INTO `groups` VALUES (23, 1, 25, 0);
 		</sql>
 	</changeSet>
-	
-	
-	
-	
-	
-	
+		
 	<changeSet id="2014-11-19-insert-data-into-table-rating" author="Hash">
 		<comment>Insert sample data into table rating</comment>
 		<sql splitStatements="true">
@@ -150,7 +140,6 @@
 			INSERT INTO `rating` VALUES (7, 93, 21, 2, 7);
 		</sql>
 	</changeSet>
-	
 		
 	<changeSet id="2014-11-19-insert-data-into-table-student_group" author="Hash">
 		<comment>Insert sample data into table student_group</comment>
@@ -158,7 +147,6 @@
 			INSERT INTO `student_group` VALUES (1,11,7),(2,3,7),(3,9,7),(4,2,7);
 		</sql>
 	</changeSet>
-	
 	
 	<changeSet id="2014-11-19-insert-data-into-table-topic" author="Hash">
 		<comment>Insert sample data into table topic</comment>
@@ -230,7 +218,8 @@
 	
 	<changeSet id="2014-11-21-create-primary-key" author="Roma">
 		<comment>Create primary key userconnection</comment>
-		<addPrimaryKey tableName="UserConnection" columnNames="userId, providerId, providerUserId" />
+		<addPrimaryKey tableName="UserConnection"
+			columnNames="userId, providerId, providerUserId" />
 	</changeSet>
 	
 </databaseChangeLog>

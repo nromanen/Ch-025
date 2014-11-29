@@ -30,7 +30,7 @@ public class User {
 	};
 	
 	public enum Social {
-		REGISTRATION, FACEBOOK, TWITTER
+		REGISTRATION, FACEBOOK, LINKEDIN
 	};
 
 	@Id
