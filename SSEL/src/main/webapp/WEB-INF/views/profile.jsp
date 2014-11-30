@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script src="<c:url value="/resources/js/bootstrapValidator.js" />" ></script>
-<script src="<c:url value="/resources/js/jasny-bootstrap.min.js" />" ></script>
+<script src="<c:url value="/resources/js/jquery.inputmask.js" />" ></script>
 <div class="container">
 	<spring:message code="label.processing" var="processing"/>
 	<spring:message code="label.cancel" var="cancel"/>
@@ -285,7 +285,7 @@
 										data-toggle="tooltip" 
 										data-placement="top"
 										placeholder="+__(___)___-__-__"
-										data-mask="+99(999)999-99-99"
+										data-inputmask="'mask': '+99(999)999-99-99'"
 										title="phone number" 
 										data-bv-notempty="true"
 		                				data-bv-notempty-message="<spring:message code="dataerror.field_required" />"

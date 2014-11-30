@@ -36,8 +36,12 @@ jQuery(document).ready(function($) {
 		$('#modal_edit_phone').modal('show');
 	});
 	
-	$('#phone').keypress(function(){
-		$('#form_edit_phone').bootstrapValidator('revalidateField', '#phone');
+	$(":input").inputmask();
+	
+	$('#phone').keyup(function(e){
+		if(e.keyCode == 8) {
+			$('#form_edit_phone').bootstrapValidator('revalidateField', 'phone');
+		}
 	});
 	
 	$('[data-toggle="tooltip"]').tooltip();
@@ -88,7 +92,7 @@ jQuery(document).ready(function($) {
 					} else {
 						// bootbox alert
 						$("#phone").val('');
-						$('#form_edit_phone').bootstrapValidator('revalidateField', '#phone');
+						$('#form_edit_phone').bootstrapValidator('revalidateField', 'phone');
 					}
 				}
 			});
