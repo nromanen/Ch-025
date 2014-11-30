@@ -28,7 +28,7 @@ public class User {
 	public enum Roles {
 		ADMIN, TEACHER, STUDENT
 	};
-	
+
 	public enum Social {
 		REGISTRATION, FACEBOOK, LINKEDIN
 	};
@@ -69,11 +69,14 @@ public class User {
 	@JoinColumn(name = "role", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Role role;
-	
+
 	@Column(name = "social", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Social social;
-	
+
+	@Column(name = "phone", unique = true)
+	private String phone;
+
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
 	private List<Subject> subjects = new ArrayList<>();
 
@@ -163,6 +166,14 @@ public class User {
 		this.social = social;
 	}
 
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
 	public List<StudentGroup> getGroups() {
 		return groups;
 	}
@@ -193,7 +204,7 @@ public class User {
 
 	public void setImage(byte[] image) {
 		this.image = image;
-	}
+	}	
 
 	@Override
 	public String toString() {

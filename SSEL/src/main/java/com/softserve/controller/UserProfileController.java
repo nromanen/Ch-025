@@ -129,6 +129,22 @@ public class UserProfileController {
 		return "error";
 	}
 
+	@RequestMapping(value = "/editPhone", method = RequestMethod.POST, headers = { "content-type=application/json" })
+	public @ResponseBody String changePhone(
+			@RequestBody Map<String, Object> map, HttpSession session) {
+		String phone = map.get("phone").toString();
+		if (phone.matches(Patterns.PHONE_PATTERN)) {
+			User user = userService
+					.getUserByEmail(userService.getCurrentUser());
+			phone = StringUtils.replaceChars(phone, "()-", "");
+			user.setPhone(phone);
+			user = userService.updateUser(user);
+			session.setAttribute("user", user);
+			return "success";
+		}
+		return "error";
+	}
+
 	@RequestMapping(value = "/uploadPhoto", method = RequestMethod.POST)
 	public @ResponseBody String upload(MultipartHttpServletRequest request,
 			HttpServletResponse response, HttpSession session) {

@@ -4,6 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script src="<c:url value="/resources/js/bootstrapValidator.js" />" ></script>
+<script src="<c:url value="/resources/js/jasny-bootstrap.min.js" />" ></script>
 <div class="container">
 	<spring:message code="label.processing" var="processing"/>
 	<spring:message code="label.cancel" var="cancel"/>
@@ -128,6 +129,22 @@
 		                      		</div>
 		                     	</div>
 		                  	</div>
+		                  	<div class="form-group">
+	                			<label class="col-md-3 control-label">
+	                        		Phone:
+	                        	</label>
+	                        	<div class="col-md-7">		
+	                        		<div class="input-group">
+	                        			<label>
+	                       					<c:out value="${sessionScope.user.phone}" />
+		                        		</label>	
+		                      		</div>                        	
+	                        	</div>
+	                        	<button title="Edit phone" data-toggle="tooltip" class="btn btn-sm btn-warning"
+	                        		data-target="#modal_edit_phone" type="button" id="btn_phone_edit">
+	                        		<i class="glyphicon glyphicon-edit"></i>
+	                        	</button>
+	                        </div>
 		                    <div class="form-group">
 		                    	<c:choose>
 		                    		<c:when test="${sessionScope.user.social eq 'REGISTRATION'}">
@@ -218,6 +235,64 @@
 										title="<spring:message code="placeholder.confirm_password" />" />
 								</div>
 							</div>
+	        			</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" id="btn_change_password_submit"  
+						class="btn btn-success" >
+						<spring:message code="label.accept"/>
+					</button>
+					<button type="reset" id="btn_form_close" class="btn btn-info" data-dismiss="modal">
+						<spring:message code="label.cancel" />
+					</button>
+				</div>
+			</form>
+		</div>		
+	</div> 
+</div>
+
+<!-- Modal window for edit phone -->
+<div class="modal animated bounce bs-example-modal-lg" tabindex="-1" role="dialog" 
+    id="modal_edit_phone" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+				    <span aria-hidden="true">&times;</span>
+				    <span class="sr-only">Close</span>
+				</button>
+				<h4 class="modal-title">
+					Edit phone number
+				</h4>
+			</div>
+			<form id="form_edit_phone" class="form-horizontal" method="POST" role="form" 
+				action="<c:url value="/editPhone" />" 
+				data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+      			data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+      			data-bv-feedbackicons-validating="glyphicon glyphicon-refresh"
+      			data-bv-submitbuttons='button[type="submit"]'
+      			data-bv-live="enabled">
+				<div class="modal-body">				
+					<div class="panel panel-info">
+        				<div class="panel-body">
+							<div class="form-group">
+								<label class="col-md-3 control-label" for="phone">
+									Phone:
+								</label>
+								<div class="col-md-6">
+			                    	<input type="text" id="phone" class="form-control" name="phone"
+										data-toggle="tooltip" 
+										data-placement="top"
+										placeholder="+__(___)___-__-__"
+										data-mask="+99(999)999-99-99"
+										title="phone number" 
+										data-bv-notempty="true"
+		                				data-bv-notempty-message="<spring:message code="dataerror.field_required" />"
+		                				pattern="^\+(\d{1,2})(\(\d{1,3}\))(\d{3}-\d{2}-\d{2})$"
+		                				data-bv-regexp-message="bad phone number" >
+	                			</div>
+                			</div>
 	        			</div>
 					</div>
 				</div>
