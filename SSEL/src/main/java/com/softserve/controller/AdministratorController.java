@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.softserve.entity.Category;
-import com.softserve.entity.CourseScheduler;
 import com.softserve.entity.Role;
 import com.softserve.entity.Subject;
 import com.softserve.entity.TeacherRequest;
@@ -101,6 +100,7 @@ public class AdministratorController {
 		long subjectsCount = subjectService.getSubjectsCount();
 		int categoriesCount = categoryService.getAllCategories().size();
 		long usersCount = userService.getUsersCount();
+		String supportEmail = administratorService.getSupportEmail();
 
 		activeTeacherRequests = (int) teacherRequestService
 				.getAllActiveTeacherRequestsCount();
@@ -108,6 +108,7 @@ public class AdministratorController {
 		model.addAttribute("subjectsCount", subjectsCount);
 		model.addAttribute("categoriesCount", categoriesCount);
 		model.addAttribute("usersCount", usersCount);
+		model.addAttribute("supportEmail", supportEmail);
 
 		return "administrator";
 	}
