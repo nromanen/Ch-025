@@ -12,6 +12,10 @@ $(function() {
 </script>
 
 <div class="row">
-	<div class="col-lg-12">
+	<div class="col-md-12">
+	<h3>Всього предметів ${subjects} </h3>
+	<h3></h3>
+	<h3></h3>
+	<h3></h3>
 	</div>
 </div>

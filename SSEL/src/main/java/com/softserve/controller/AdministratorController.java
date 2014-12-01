@@ -222,6 +222,37 @@ public class AdministratorController {
 		return "redirect:/viewAllCategories";
 	}
 
+	@RequestMapping(value = "/changeCategory", method = RequestMethod.POST)
+	public String changeCategory(
+			@RequestParam(value = "categoryId", required = false) Integer categoryId,
+			@RequestParam(value = "category", required = false) String category,
+			Model model, RedirectAttributes redirectAttributes) {
+		LOG.debug("Visit changeSubjectCategory page");
+		if (categoryId != null && category != null && category != "") {
+			Category myCategory = categoryService.getCategoryById(categoryId);
+			if (myCategory != null) {
+				String oldName = myCategory.getName();
+				myCategory.setName(category);
+				categoryService.updateCategory(myCategory);
+					redirectAttributes.addFlashAttribute(
+							"successMessage",
+							getSpringMessage("label.category") + "<b>"
+									+ oldName + "</b> "
+									+ getSpringMessage("message.admin.was_changed")
+									+ " <b>" + myCategory.getName()
+									+ "</b>");
+			} else {
+				redirectAttributes.addFlashAttribute("errorMessage",
+						getSpringMessage("message.admin.no_categoty") + " "
+								+ categoryId);
+			}
+		} else {
+			redirectAttributes.addFlashAttribute("errorMessage",
+					getSpringMessage("message.admin.invalid_parameters"));
+		}
+		return "redirect:/viewAllCategories";
+	}
+
 	/**
 	 * View all users it's method set parameters and redirect to page with
 	 * users.
