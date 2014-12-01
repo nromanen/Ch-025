@@ -12,14 +12,14 @@ import com.softserve.service.AdministratorService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AdministratorServiceTest {
-	
+
 	AdministratorService administratorService;
-	
+
 	@Before
 	public void setUp() {
 		administratorService = mock(AdministratorService.class);
 	}
-	
+
 	@Test
 	public void testAddCategory() {
 		when(administratorService.addCategory(anyString())).thenReturn(false);
