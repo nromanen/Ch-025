@@ -75,6 +75,23 @@
 </div>
 
 <script type="text/javascript">
+
+
+jQuery.validator.addMethod("greaterThan", 
+		function(value, element, params) {
+
+		    if (!/Invalid|NaN/.test(new Date(value))) {
+		        return new Date(value) > new Date($(params).val());
+		    }
+
+		    return isNaN(value) && isNaN($(params).val()) 
+		        || (Number(value) > Number($(params).val())); 
+		},'Must be greater than {0}.');
+
+
+
+
+
 	$(document).ready(function() {
 
 		$.validator.addMethod('regexp', function(value, element, regexp) {
@@ -100,14 +117,15 @@
 					regexp : "^[0-9]{1,2}$"
 				},
 
-				startDate : {
+				startTime : {
 					required : true,
 					regexp : "^[0-9]{2}\-[0-9]{2}\-[0-9]{4}"
 				},
 
-				endDate : {
+				endTime : {
 					required : true,
-					regexp : "^[0-9]{2}\-[0-9]{2}\-[0-9]{4}"
+					regexp : "^[0-9]{2}\-[0-9]{2}\-[0-9]{4}",
+					greaterThan: "#startTime"
 				},
 			}
 

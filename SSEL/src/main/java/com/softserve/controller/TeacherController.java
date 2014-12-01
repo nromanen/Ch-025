@@ -1,6 +1,7 @@
 package com.softserve.controller;
 
 import java.beans.PropertyEditorSupport;
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,9 +10,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -33,6 +38,7 @@ import com.softserve.entity.Category;
 import com.softserve.entity.CourseScheduler;
 import com.softserve.entity.Group;
 import com.softserve.entity.StudentGroup;
+import com.softserve.entity.StudyDocument;
 import com.softserve.entity.Subject;
 import com.softserve.entity.Topic;
 import com.softserve.entity.User;
@@ -40,6 +46,7 @@ import com.softserve.service.BlockService;
 import com.softserve.service.CategoryService;
 import com.softserve.service.CourseSchedulerService;
 import com.softserve.service.RoleService;
+import com.softserve.service.StudentCabinetService;
 import com.softserve.service.StudentGroupService;
 import com.softserve.service.SubjectService;
 import com.softserve.service.TopicService;
@@ -56,6 +63,8 @@ import com.softserve.service.GroupService;
  */
 @Controller
 public class TeacherController {
+	
+
 
 	@Autowired
 	private RoleService roleService;
@@ -74,6 +83,9 @@ public class TeacherController {
 
 	@Autowired
 	private BlockService blockService;
+	
+	@Autowired
+	private StudentCabinetService studentCabinetService;
 
 	@Autowired
 	private CourseSchedulerService courseSchedulerService;
@@ -201,7 +213,7 @@ public class TeacherController {
 
 	@RequestMapping(value = "/editTopic", method = RequestMethod.GET)
 	public String editTopic(@RequestParam(value = "topicId", required = false) Integer topicId,
-			@RequestParam(value = "subjectId", required = false) Integer subjectId, Model model) {
+			@RequestParam(value = "subjectId", required = false) Integer subjectId, Model model, HttpServletRequest request) {
 		Topic topic = topicId != null ? topicService.getTopicById(topicId) : new Topic();
 
 		model.addAttribute("topic", topic);
@@ -210,6 +222,20 @@ public class TeacherController {
 		model.addAttribute("blockList", blocks);
 		List<Category> categories = categoryService.getAllCategories();
 		model.addAttribute("catList", categories);
+		
+		
+		
+		String dirname = request.getSession().getServletContext().getRealPath("resources");
+		boolean isSupported = true;//isSupportedBrowserForPlugin(request.getHeader("User-Agent"));
+		List<StudyDocument> documents = studentCabinetService.updateTopicFilesOnServer(dirname, topic.getId());
+		model.addAttribute("isSupported", isSupported);
+		model.addAttribute("docs", documents);
+		model.addAttribute("block_name", topic.getBlock().getName());
+		model.addAttribute("topic order", topic.getOrder());
+		model.addAttribute("name", topic.getName());
+		model.addAttribute("content", topic.getContent());
+		model.addAttribute("table", "active");
+		model.addAttribute("path", dirname);
 
 		return "editTopic";
 	}

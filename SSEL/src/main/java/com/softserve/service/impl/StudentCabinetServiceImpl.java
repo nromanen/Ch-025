@@ -59,6 +59,7 @@ public class StudentCabinetServiceImpl implements StudentCabinetService{
 		List<StudyDocument> documents = studyDocumentDao.listByTopicId(topicId);
 		for (StudyDocument doc : documents) {
 			File file = new File(dirname+doc.getName());
+			System.out.println(dirname+""+file.getName());
 			if(!file.exists()) {
 				try(FileOutputStream fout = new FileOutputStream(dirname+doc.getName());){
 					fout.write(doc.getData());
