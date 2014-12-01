@@ -33,14 +33,14 @@ public class Answer implements Serializable {
 	@Column(name = "answer")
 	private String answer;
 	
-	@Column(name = "right")
+	@Column(name = "is_right")
 	private boolean isRight;
 	
 	@Column (name = "mark")
 	private double mark;
 	
 	@Column(name = "deleted")
-	private int isDeleted;
+	private boolean isDeleted;
 	
 	
 	public Answer() {
@@ -55,11 +55,11 @@ public class Answer implements Serializable {
 		this.id = id;
 	}
 
-	public int getIsDeleted() {
+	public boolean getIsDeleted() {
 		return isDeleted;
 	}
 
-	public void setIsDeleted(int isDeleted) {
+	public void setIsDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
 
@@ -79,11 +79,11 @@ public class Answer implements Serializable {
 		this.answer = answer;
 	}
 
-	public boolean isRight() {
+	public boolean getIsRight() {
 		return isRight;
 	}
 
-	public void setRight(boolean isRight) {
+	public void setIsRight(boolean isRight) {
 		this.isRight = isRight;
 	}
 

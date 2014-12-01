@@ -45,11 +45,11 @@ public class Test {
 		
 	}
 
-	public boolean isDeleted() {
+	public boolean getIsDeleted() {
 		return isDeleted;
 	}
 
-	public void setDeleted(boolean isDeleted) {
+	public void setIsDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
 
@@ -85,11 +85,11 @@ public class Test {
 		this.block = block;
 	}
 
-	public boolean isAlive() {
+	public boolean getIsAlive() {
 		return isAlive;
 	}
 
-	public void setAlive(boolean isAlive) {
+	public void setIsAlive(boolean isAlive) {
 		this.isAlive = isAlive;
 	}
 	

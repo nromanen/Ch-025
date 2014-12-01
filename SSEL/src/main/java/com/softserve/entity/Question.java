@@ -33,11 +33,14 @@ public class Question implements Serializable {
 	@Column(name = "question")
 	private String question;
 	
-	@Column(name = "answers_count")
+	@Column(name = "mark")
+	private double mark;
+	
+	@Column(name = "answer_count")
 	private int answersCount;
 	
 	@Column(name = "deleted")
-	private int isDeleted;
+	private boolean isDeleted;
 	
 	public Question() {
 		super();
@@ -76,13 +79,20 @@ public class Question implements Serializable {
 		this.answersCount = answersCount;
 	}
 
-	public int getIsDeleted() {
+	public boolean getIsDeleted() {
 		return isDeleted;
 	}
 
-	public void setIsDeleted(int isDeleted) {
+	public void setIsDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
+	
+	public double getMark() {
+		return mark;
+	}
 
+	public void setMark(double mark) {
+		this.mark = mark;
+	}
 	
 }

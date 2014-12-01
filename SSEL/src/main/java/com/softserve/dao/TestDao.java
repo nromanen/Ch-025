@@ -45,6 +45,12 @@ public interface TestDao {
 	 */
 	List<Test> getAliveTests();
 	/**
+	 * Return all tests by subject
+	 * @param subjectId unique subject identifier
+	 * @return list of tests
+	 */
+	List<Test> getTestsBySubject(int subjectId);
+	/**
 	 * Mark test as deleted
 	 * @param testId unique test identifier
 	 * @param deleted true - mark as deleted, false - restore

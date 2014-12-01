@@ -24,11 +24,12 @@ public class TestDaoImpl implements TestDao{
 	public TestDaoImpl() {
 		
 	}
-
+	
 	@Override
 	public Test addTest(Test newTest) {
 		LOG.debug("Add new test with id {}", newTest.getId());
-		return entityManager.merge(newTest);
+		entityManager.persist(newTest);
+		return newTest;
 	}
 
 	@Override
@@ -84,6 +85,16 @@ public class TestDaoImpl implements TestDao{
 		} else {
 			LOG.debug("Update failed {}",testId);
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Test> getTestsBySubject(int subjectId) {
+		Query query = entityManager.createQuery("SELECT t FROM Test t INNER JOIN FETCH t.block "
+				+ "WHERE t.block.subject.id = :id and t.isDeleted = :val")
+				.setParameter("id", subjectId)
+				.setParameter("val", false);
+		return query.getResultList();
 	}
 	
 	

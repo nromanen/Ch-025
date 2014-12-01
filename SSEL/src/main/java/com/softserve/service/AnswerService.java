@@ -1,43 +1,27 @@
-package com.softserve.dao;
+package com.softserve.service;
 
 import java.util.List;
 
 import com.softserve.entity.Answer;
+import com.softserve.entity.Question;
 
-/**
- * 
- * @author Anatoliy
- *
- */
-public interface AnswerDao {
+public interface AnswerService {
 	/**
 	 * Add new answer
-	 * @param answer answer to add
+	 * @param newAnswer answer to add
 	 * @return added answer
 	 */
 	Answer addAnswer(Answer newAnswer);
 	/**
-	 * Update existing answer
-	 * @param updatedAnswer updated answer
+	 * Update answer
+	 * @param updateAnswer updated answer
 	 * @return updated answer
 	 */
-	Answer updateAnswer(Answer updatedAnswer);
+	Answer updateAnswer(Answer updateAnswer);
 	/**
-	 * Mark answer as deleted
+	 * Return answer by id 
 	 * @param answerId unique answer identifier
-	 * @param deleted true - mark as deleted, false - restore
-	 */
-	void setDeleted(int answerId, boolean deleted);
-	/**
-	 * Set answer right/wrong
-	 * @param answerId unique answer identifier
-	 * @param right true - answer is right, false - otherwise
-	 */
-	void setAnswerRight(int answerId, boolean right);
-	/**
-	 * Returns answer by id
-	 * @param answerId unique answer identifier
-	 * @return answer if exists, null otherwise
+	 * @return
 	 */
 	Answer getAnswerById(int answerId);
 	/**
@@ -58,5 +42,5 @@ public interface AnswerDao {
 	 * @param questionValue mark for question
 	 * @return value of mark
 	 */
-	void setMarkForEachAnswer(int questionId, double answerMarkValue);
+	void setMarkForEachAnswer(Question question);
 }

@@ -94,13 +94,17 @@ public class AnswerDaoImpl implements AnswerDao{
 	}
 
 	@Override
-	public double getMarkForEachAnswer(int questionId, double questionMarkValue) {
-		Query query = entityManager.createQuery("SELECT count(a.id) FROM Answer a WHERE "
+	public void setMarkForEachAnswer(int questionId, double questionMarkValue) {
+		Query query = entityManager.createQuery("UPDATE Answer a SET a.mark = :mark WHERE a.test.id = :id"
 				+ "a.question.id = :id and a.isRight = :right")
 				.setParameter("id", questionId)
+				.setParameter("mark", questionMarkValue)
 				.setParameter("right", true);
-		Double count = (Double) query.getSingleResult();
-		return (count != null) ? questionMarkValue/count : 0.0;
+		if(query.executeUpdate() != 0) {
+			LOG.debug("Update answers mark success for test {}", questionId);
+		} else {
+			LOG.debug("Update answers mark failed for test {}", questionId);
+		}
 	}
 	
 }

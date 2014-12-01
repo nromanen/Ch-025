@@ -389,7 +389,108 @@
 			</column>
 		</createTable>
 	</changeSet>
+	
+	<!-- table for tests -->
+	<changeSet id="2014-11-27-create-table-test" author="Anatoliy">
+		<comment>Create table test</comment>
+		<createTable tableName="tests">
+			<column name="id_test" type="int" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="name" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="description" type="varchar(255)">
+			</column>
+			<column name="id_block" type="int">
+				<constraints nullable="false" />
+			</column>
+			<column name="alive" type="boolean">
+				<constraints nullable="false" />
+			</column>
+			<column name="deleted" type="boolean">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="2014-11-27-foreign-key-table-test-1"
+		author="Anatoliy">
+		<comment>Create foreign key block</comment>
+		<addForeignKeyConstraint constraintName="fk_test_block"
+			referencedTableName="block" baseColumnNames="id_block"
+			baseTableName="tests" referencedColumnNames="id" onDelete="CASCADE"
+			onUpdate="CASCADE" />
+	</changeSet>
 
+	<!--Table for question -->
+	<changeSet id="2014-11-27-create-table-questions" author="Anatoliy">
+		<comment>Create table questions</comment>
+		<createTable tableName="questions">
+			<column name="id_question" type="int" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="id_test" type="int">
+				<constraints nullable="false" />
+			</column>
+			<column name="question" type="varchar(255)">
+			</column>
+			<column name="mark" type="double">
+				<constraints nullable="false" />
+			</column>
+			<column name="answer_count" type="int">
+				<constraints nullable="false" />
+			</column>
+			<column name="deleted" type="boolean">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="2014-11-27-foreign-key-question-test-1"
+		author="Anatoliy">
+		<comment>Create foreign key to test</comment>
+		<addForeignKeyConstraint constraintName="fk_question_test"
+			referencedTableName="tests" baseColumnNames="id_test"
+			baseTableName="questions" referencedColumnNames="id_test" onDelete="CASCADE"
+			onUpdate="CASCADE" />
+	</changeSet>
+	
+	<!--Table for answers -->
+	<changeSet id="2014-11-27-create-table-answers" author="Anatoliy">
+		<comment>Create table questions</comment>
+		<createTable tableName="answers">
+			<column name="id_answer" type="int" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="id_question" type="int">
+				<constraints nullable="false" />
+			</column>
+			<column name="answer" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="is_right" type="boolean">
+				<constraints nullable="false" />
+			</column>
+			<column name="mark" type="double">
+				<constraints nullable="false" />
+			</column>
+			<column name="deleted" type="boolean">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="2014-11-27-foreign-key-answer-test-1"
+		author="Anatoliy">
+		<comment>Create foreign key to question</comment>
+		<addForeignKeyConstraint constraintName="fk_answer_question"
+			referencedTableName="questions" baseColumnNames="id_question"
+			baseTableName="answers" referencedColumnNames="id_question" onDelete="CASCADE"
+			onUpdate="CASCADE" />
+	</changeSet>
+	
+	<!-- Table for properties -->
 	<changeSet id="2014-11-23-create-table-config" author="Anatoliy">
 	<comment>Create table configuration properties</comment>
 		<createTable tableName="config">
