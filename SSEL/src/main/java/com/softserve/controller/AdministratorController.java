@@ -98,16 +98,16 @@ public class AdministratorController {
 	@RequestMapping(value = "/administrator", method = RequestMethod.GET)
 	public String administrator(Model model) {
 		LOG.debug("Visit administrator page");
-		List<Subject> subjects = subjectService.getAllSubjects();
-		List<CourseScheduler> courceScheduler = courceSchedulerService
-				.getAllCourseScheduleres();
-		List<User> users = userService.getAllUsers();
+		long subjectsCount = subjectService.getSubjectsCount();
+		int categoriesCount = categoryService.getAllCategories().size();
+		long usersCount = userService.getUsersCount();
+
 		activeTeacherRequests = (int) teacherRequestService
 				.getAllActiveTeacherRequestsCount();
 		model.addAttribute("activeTeacherRequests", activeTeacherRequests);
-		model.addAttribute("subjects", subjects.size());
-		model.addAttribute("courceScheduler", courceScheduler.size());
-		model.addAttribute("users", users.size());
+		model.addAttribute("subjectsCount", subjectsCount);
+		model.addAttribute("categoriesCount", categoriesCount);
+		model.addAttribute("usersCount", usersCount);
 
 		return "administrator";
 	}
