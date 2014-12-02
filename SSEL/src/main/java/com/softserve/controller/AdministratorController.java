@@ -95,12 +95,17 @@ public class AdministratorController {
 	 * @return the string
 	 */
 	@RequestMapping(value = "/administrator", method = RequestMethod.GET)
-	public String administrator(Model model) {
+	public String administrator(
+			@RequestParam(value = "successMessage", required = false) String successMessage,
+			@RequestParam(value = "errorMessage", required = false) String errorMessage,
+			Model model) {
 		LOG.debug("Visit administrator page");
 		long subjectsCount = subjectService.getSubjectsCount();
 		int categoriesCount = categoryService.getAllCategories().size();
 		long usersCount = userService.getUsersCount();
 		String supportEmail = administratorService.getSupportEmail();
+
+		setMessage(model, successMessage, errorMessage);
 
 		activeTeacherRequests = (int) teacherRequestService
 				.getAllActiveTeacherRequestsCount();
@@ -776,6 +781,22 @@ public class AdministratorController {
 					getSpringMessage("message.admin.invalid_parameters"));
 		}
 		return "redirect:/viewAllRequests";
+	}
+
+	@RequestMapping(value = "/changeSupportEmail")
+	public String changeSupportEmail(
+			@RequestParam(value = "email", required = false) String email,
+			Model model, RedirectAttributes redirectAttributes) {
+		LOG.debug("Visit changeUserRoleToAdmin page");
+		if (email != null & email !="") {
+			administratorService.setSupportEmail(email);
+			redirectAttributes.addFlashAttribute("successMessage",
+					getSpringMessage("label.support_email") + " " + getSpringMessage("message.admin.was_changed") + " " + email );
+		} else {
+			redirectAttributes.addFlashAttribute("errorMessage",
+					getSpringMessage("message.admin.invalid_parameters"));
+		}
+		return "redirect:/administrator";
 	}
 
 	/**

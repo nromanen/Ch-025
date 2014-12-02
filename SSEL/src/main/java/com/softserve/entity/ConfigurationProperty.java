@@ -19,15 +19,15 @@ public class ConfigurationProperty {
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
-	@Column (name = "key")
+
+	@Column (name = "propertyKey")
 	private String key;
-	
+
 	@Column (name = "value" )
 	private String value;
-	
+
 	public ConfigurationProperty() {
-		
+
 	}
 
 	public int getId() {
@@ -52,5 +52,11 @@ public class ConfigurationProperty {
 
 	public void setValue(String value) {
 		this.value = value;
+	}
+
+	@Override
+	public String toString() {
+		return "ConfigurationProperty [id=" + id + ", key=" + key + ", value="
+				+ value + "]";
 	}
 }
