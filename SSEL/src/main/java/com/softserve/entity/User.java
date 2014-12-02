@@ -27,11 +27,11 @@ public class User {
 
 	public enum Roles {
 		ADMIN, TEACHER, STUDENT
-	};
+	}
 
 	public enum Social {
 		REGISTRATION, FACEBOOK, LINKEDIN
-	};
+	}
 
 	@Id
 	@Column(name = "id")
@@ -76,6 +76,9 @@ public class User {
 
 	@Column(name = "phone", unique = true)
 	private String phone;
+
+	@Column(name = "account_non_expired", nullable = false)
+	private boolean accountNonExpired;
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
 	private List<Subject> subjects = new ArrayList<>();
@@ -174,6 +177,14 @@ public class User {
 		this.phone = phone;
 	}
 
+	public boolean isAccountNonExpired() {
+		return accountNonExpired;
+	}
+
+	public void setAccountNonExpired(boolean accountNonExpired) {
+		this.accountNonExpired = accountNonExpired;
+	}
+
 	public List<StudentGroup> getGroups() {
 		return groups;
 	}
@@ -204,7 +215,7 @@ public class User {
 
 	public void setImage(byte[] image) {
 		this.image = image;
-	}	
+	}
 
 	@Override
 	public String toString() {

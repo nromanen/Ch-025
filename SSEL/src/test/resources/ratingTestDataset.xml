@@ -3,10 +3,10 @@
 	<role id="1" role="STUDENT" />
 	<user id="1" blocked="0" expired="2015-11-12" email="bla"
 		firstName="Anatoliy" lastName="Vacaliuck" password="1234"
-		registration="2014-11-10" social="REGISTRATION" role="1" />
+		registration="2014-11-10" social="REGISTRATION" role="1" account_non_expired="true"/>
 	<user id="2" blocked="0" expired="2015-11-12" email="bla@gmail.com"
 		firstName="Bla" lastName="Blayovich" password="12378" registration="2014-11-10"
-		social="REGISTRATION" role="1" />
+		social="REGISTRATION" role="1" account_non_expired="true"/>
 	<category id="1" name="Some category" deleted="0" />
 	<subject id="1" name="subject1" description="some description"
 		id_category="1" id_user="1" deleted="0" />

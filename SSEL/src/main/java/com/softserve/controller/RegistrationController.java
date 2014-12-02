@@ -90,8 +90,8 @@ public class RegistrationController {
 	}
 
 	@RequestMapping(value = "/isExistsEmail", method = RequestMethod.GET)
-	public @ResponseBody Map<String, String> isExistsEmail(
-			@RequestParam String email) {
+	@ResponseBody
+	public Map<String, String> isExistsEmail(@RequestParam String email) {
 		Map<String, String> map = new HashMap<>();
 		map.put(KEY_VALID, Boolean.toString(!userService.isExist(email)));
 		return map;

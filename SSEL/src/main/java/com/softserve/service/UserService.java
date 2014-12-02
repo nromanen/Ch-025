@@ -1,5 +1,6 @@
 package com.softserve.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.social.facebook.api.Facebook;
@@ -44,6 +45,8 @@ public interface UserService {
 	void changePassword(User user, String password);
 
 	boolean isEqualsPasswords(String password, User user);
+	
+	List<User> getUsersByExpiredDate(Date date);
 
 	String getCurrentUser();
 

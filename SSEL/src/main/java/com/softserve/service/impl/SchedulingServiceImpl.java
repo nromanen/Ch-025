@@ -20,6 +20,7 @@ import com.softserve.service.LogService;
 import com.softserve.service.MailService;
 import com.softserve.service.SchedulingService;
 import com.softserve.service.StudentGroupService;
+import com.softserve.service.UserService;
 
 @Service
 public class SchedulingServiceImpl implements SchedulingService {
@@ -40,6 +41,9 @@ public class SchedulingServiceImpl implements SchedulingService {
 
 	@Autowired
 	private LogService logService;
+
+	@Autowired
+	private UserService userService;
 
 	@Override
 	@Scheduled(cron = "${cron.execute.course_begin}")
@@ -65,12 +69,23 @@ public class SchedulingServiceImpl implements SchedulingService {
 	}
 
 	@Override
-	@Scheduled(cron = "${cron.execute.delete_logs}")	// every Monday in 04:00 AM
+	@Scheduled(cron = "${cron.execute.delete_logs}")
 	public void deleteOldLogs() {
 		LOG.info("Deleting logs older than a year by SchedulingService");
 		GregorianCalendar deleteDate = new GregorianCalendar();
 		deleteDate.set(Calendar.YEAR, (deleteDate.get(Calendar.YEAR) - 1));
 		logService.deleteLogsDueDate(deleteDate);
+	}
+
+	@Override
+	@Scheduled(cron = "${cron.execute.disabled_users}")
+	public void disableUser() {
+		LOG.info("Disabled users");
+		List<User> users = userService.getUsersByExpiredDate(new Date());
+		for (User user : users) {
+			user.setAccountNonExpired(false);
+			userService.updateUser(user);
+		}
 	}
 
 }

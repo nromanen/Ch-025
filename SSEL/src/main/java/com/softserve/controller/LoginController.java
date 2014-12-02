@@ -13,7 +13,6 @@ import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.linkedin.api.LinkedIn;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,6 +29,7 @@ public class LoginController {
 			.getLogger(LoginController.class);
 
 	private static final String BAD_CREDENTIALS_EXCEPTION = "BadCredentialsException";
+	private static final String ACCOUNT_EXPIRED_EXCEPTION = "AccountExpiredException";
 	private static final String USER_DISABLED = "userDisabled";
 	private static final String KEY_ERROR = "error";
 
@@ -46,13 +46,16 @@ public class LoginController {
 			map.put(KEY_ERROR, BAD_CREDENTIALS_EXCEPTION);
 		} else if (StringUtils.isNotBlank(error) && error.equals(USER_DISABLED)) {
 			map.put(KEY_ERROR, USER_DISABLED);
+		} else if (StringUtils.isNotBlank(error)
+				&& error.equals(ACCOUNT_EXPIRED_EXCEPTION)) {
+			map.put(KEY_ERROR, ACCOUNT_EXPIRED_EXCEPTION);
 		}
 		return "login";
 	}
 
 	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "/social", method = RequestMethod.GET)
-	public String showRegistrationForm(WebRequest webRequest, Model model,
+	public String showRegistrationForm(WebRequest webRequest,
 			HttpServletRequest request) {
 		LOG.debug("Rendering registration page.");
 

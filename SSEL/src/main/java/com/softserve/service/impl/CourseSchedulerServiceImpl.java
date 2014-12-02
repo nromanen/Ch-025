@@ -33,7 +33,6 @@ public class CourseSchedulerServiceImpl implements CourseSchedulerService {
 	@Transactional
 	public void deleteCourseScheduler(CourseScheduler courseScheduler) {
 		courseSchedulerDao.setCourseSchedulerDeleted(courseScheduler, true);
-		;
 	}
 
 	/**

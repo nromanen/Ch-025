@@ -131,17 +131,17 @@
 		                  	</div>
 		                  	<div class="form-group">
 	                			<label class="col-md-3 control-label">
-	                        		Phone:
+	                        		<spring:message code="label.phone_number" />
 	                        	</label>
-	                        	<div class="col-md-7">		
+	                        	<div class="col-md-5 control-label">		
 	                        		<div class="input-group">
 	                        			<label>
 	                       					<c:out value="${sessionScope.user.phone}" />
 		                        		</label>	
 		                      		</div>                        	
 	                        	</div>
-	                        	<button title="Edit phone" data-toggle="tooltip" class="btn btn-sm btn-warning"
-	                        		data-target="#modal_edit_phone" type="button" id="btn_phone_edit">
+	                        	<button title="<spring:message code="label.edit_phone_number" />" data-toggle="tooltip" 
+	                        		class="btn btn-sm btn-warning" data-target="#modal_edit_phone" type="button" id="btn_phone_edit">
 	                        		<i class="glyphicon glyphicon-edit"></i>
 	                        	</button>
 	                        </div>
@@ -263,7 +263,7 @@
 				    <span class="sr-only">Close</span>
 				</button>
 				<h4 class="modal-title">
-					Edit phone number
+					<spring:message code="label.edit_phone_number" />
 				</h4>
 			</div>
 			<form id="form_edit_phone" class="form-horizontal" method="POST" role="form" 
@@ -278,7 +278,7 @@
         				<div class="panel-body">
 							<div class="form-group">
 								<label class="col-md-3 control-label" for="phone">
-									Phone:
+									<spring:message code="label.phone_number" />
 								</label>
 								<div class="col-md-6">
 			                    	<input type="text" id="phone" class="form-control" name="phone"
@@ -286,11 +286,11 @@
 										data-placement="top"
 										placeholder="+__(___)___-__-__"
 										data-inputmask="'mask': '+99(999)999-99-99'"
-										title="phone number" 
+										title="<spring:message code="label.phone_number" />" 
 										data-bv-notempty="true"
 		                				data-bv-notempty-message="<spring:message code="dataerror.field_required" />"
 		                				pattern="^\+(\d{1,2})(\(\d{1,3}\))(\d{3}-\d{2}-\d{2})$"
-		                				data-bv-regexp-message="bad phone number" >
+		                				data-bv-regexp-message="<spring:message code="dataerror.phone_number" />" >
 	                			</div>
                 			</div>
 	        			</div>

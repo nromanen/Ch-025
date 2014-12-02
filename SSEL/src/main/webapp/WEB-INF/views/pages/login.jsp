@@ -30,6 +30,12 @@
 						<spring:message code="label.user_disabled" />
 					</div>
 				</c:if>
+				<c:if test="${error eq 'AccountExpiredException'}">
+					<div class="alert alert-warning">
+						<strong><spring:message code="label.warning" /></strong>
+						<spring:message code="label.account_expired_exception" />
+					</div>
+				</c:if>
 				<form role="form" action="<c:url value="/j_spring_security_check" />" method="POST"
 					accept-charset="UTF-8" id ="login_form"
 					data-bv-feedbackicons-valid="glyphicon glyphicon-ok"

@@ -6,12 +6,14 @@
 		firstName="Roma" lastName="Homyshyn"
 		password="$2a$10$vg4zM/lxJTit54JYefcr3uz5PRZrOFqCvMB/KX5KFoEhprrZ86ed2"
 		registration="2014-11-24 17:00:03" role="1" social="FACEBOOK"
-		verificationkey="$2a$10$dEDCNJbD9vOU0HTMAxqbo.mygQOPuFWJQZDgrOIk1g4f/hooby6g6" />
+		verificationkey="$2a$10$dEDCNJbD9vOU0HTMAxqbo.mygQOPuFWJQZDgrOIk1g4f/hooby6g6"
+		account_non_expired="true" />
 
 	<user id="2" blocked="false" email="vasya@mail.ru" expired="2015-11-24 17:00:03"
 		firstName="Vasya" lastName="Homyshyn"
 		password="$2a$10$vg4zM/lxJTit54JYefcr3uz5PRZrOFqCvMB/KX5KFoEhprrZ86ed2"
-		registration="2014-11-24 17:00:03" role="1" social="REGISTRATION" />
+		registration="2014-11-24 17:00:03" role="1" social="REGISTRATION"
+		account_non_expired="true" />
 
 	<teacher_request id="1" active="true" request_date="2014-11-24 17:00:03"
 		id_user="1" />

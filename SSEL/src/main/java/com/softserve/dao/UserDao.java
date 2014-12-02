@@ -1,5 +1,6 @@
 package com.softserve.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import com.softserve.entity.User;
@@ -19,6 +20,8 @@ public interface UserDao {
 	User getUserByKey(String key);
 
 	boolean isExist(String email);
+	
+	List<User> getUsersByExpiredDate(Date date);
 
 	List<User> getAllUsers();
 

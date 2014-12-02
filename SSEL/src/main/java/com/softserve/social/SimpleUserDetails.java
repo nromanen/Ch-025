@@ -20,8 +20,10 @@ public class SimpleUserDetails extends SocialUser {
 	private Social social;
 
 	public SimpleUserDetails(String username, String password, boolean enabled,
+			boolean accountNonExpired,
 			Collection<? extends GrantedAuthority> authorities) {
-		super(username, password, enabled, true, true, true, authorities);
+		super(username, password, enabled, accountNonExpired, true, true,
+				authorities);
 	}
 
 	public int getId() {
@@ -64,6 +66,7 @@ public class SimpleUserDetails extends SocialUser {
 		private Role role;
 		private Social social;
 		private boolean enabled;
+		private boolean accountNonExpired;
 		private Set<GrantedAuthority> authorities;
 
 		public Builder() {
@@ -117,9 +120,14 @@ public class SimpleUserDetails extends SocialUser {
 			return this;
 		}
 
+		public Builder accountNonExpired(boolean accountNonExpired) {
+			this.accountNonExpired = accountNonExpired;
+			return this;
+		}
+
 		public SimpleUserDetails build() {
 			SimpleUserDetails user = new SimpleUserDetails(username, password,
-					enabled, authorities);
+					enabled, accountNonExpired, authorities);
 
 			user.id = id;
 			user.firstName = firstName;

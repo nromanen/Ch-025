@@ -105,6 +105,7 @@ public class UserServiceImpl implements UserService {
 		user.setRegistration(calendar.getTime());
 		calendar.add(Calendar.YEAR, ONE_YEAR);
 		user.setExpired(calendar.getTime());
+		user.setAccountNonExpired(true);
 		user.setVerificationKey(getEncoderPassword(registration.getEmail()));
 		user.setRole(roleService.getRoleByName(Roles.STUDENT.toString()));
 		user.setSocial(Social.REGISTRATION);
@@ -129,6 +130,7 @@ public class UserServiceImpl implements UserService {
 		user.setRegistration(calendar.getTime());
 		calendar.add(Calendar.YEAR, ONE_YEAR);
 		user.setExpired(calendar.getTime());
+		user.setAccountNonExpired(true);
 		user.setVerificationKey(getEncoderPassword(registration.getEmail()));
 		user.setRole(roleService.getRoleByName(Roles.TEACHER.toString()));
 		user.setSocial(Social.REGISTRATION);
@@ -156,6 +158,7 @@ public class UserServiceImpl implements UserService {
 			user.setRegistration(calendar.getTime());
 			calendar.add(Calendar.YEAR, ONE_YEAR);
 			user.setExpired(calendar.getTime());
+			user.setAccountNonExpired(true);
 			user.setFirstName(profile.getFirstName());
 			user.setLastName(profile.getLastName());
 			user.setImage(operations.getUserProfileImage());
@@ -179,6 +182,7 @@ public class UserServiceImpl implements UserService {
 			user.setRegistration(calendar.getTime());
 			calendar.add(Calendar.YEAR, ONE_YEAR);
 			user.setExpired(calendar.getTime());
+			user.setAccountNonExpired(true);
 			user.setFirstName(profile.getFirstName());
 			user.setLastName(profile.getLastName());
 			user.setPassword(getEncoderPassword(DEFAULT_PASSWORD));
@@ -245,6 +249,12 @@ public class UserServiceImpl implements UserService {
 		Authentication authentication = SecurityContextHolder.getContext()
 				.getAuthentication();
 		return authentication.getName();
+	}
+
+	@Override
+	@Transactional
+	public List<User> getUsersByExpiredDate(Date date) {
+		return userDao.getUsersByExpiredDate(date);
 	}
 
 	@Override

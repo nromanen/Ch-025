@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
@@ -61,8 +60,8 @@ public class UserProfileController {
 	}
 
 	@RequestMapping(value = "/checkOldPassword")
-	public @ResponseBody Map<String, String> checkOldPassword(
-			@RequestParam String oldPassword) {
+	@ResponseBody
+	public Map<String, String> checkOldPassword(@RequestParam String oldPassword) {
 		String email = userService.getCurrentUser();
 		User user = userService.getUserByEmail(email);
 		Map<String, String> map = new HashMap<>();
@@ -76,8 +75,8 @@ public class UserProfileController {
 	}
 
 	@RequestMapping(value = "/changePassword", method = RequestMethod.POST, headers = { "content-type=application/json" })
-	public @ResponseBody String changePasswordAction(
-			@RequestBody Map<String, Object> map) {
+	@ResponseBody
+	public String changePasswordAction(@RequestBody Map<String, Object> map) {
 		String oldPassword = map.get(KEY_OLD_PASSWORD).toString();
 		String newPassword = map.get(KEY_NEW_PASSWORD).toString();
 		String email = userService.getCurrentUser();
@@ -95,8 +94,8 @@ public class UserProfileController {
 	}
 
 	@RequestMapping(value = "/newPassword", method = RequestMethod.POST, headers = { "content-type=application/json" })
-	public @ResponseBody String newPasswordAction(
-			@RequestBody Map<String, Object> map) {
+	@ResponseBody
+	public String newPasswordAction(@RequestBody Map<String, Object> map) {
 		String newPassword = map.get(KEY_NEW_PASSWORD).toString();
 		String email = userService.getCurrentUser();
 		User user = userService.getUserByEmail(email);
@@ -112,8 +111,9 @@ public class UserProfileController {
 	}
 
 	@RequestMapping(value = "/changeUserInformation", method = RequestMethod.POST, headers = { "content-type=application/json" })
-	public @ResponseBody String changeFirstNameAction(
-			@RequestBody Map<String, Object> map, HttpSession session) {
+	@ResponseBody
+	public String changeFirstNameAction(@RequestBody Map<String, Object> map,
+			HttpSession session) {
 		String firstName = map.get(KEY_FIRSTNAME).toString();
 		String lastName = map.get(KEY_LASTNAME).toString();
 		if (firstName.matches(Patterns.NAME_PATTERN)
@@ -130,8 +130,9 @@ public class UserProfileController {
 	}
 
 	@RequestMapping(value = "/editPhone", method = RequestMethod.POST, headers = { "content-type=application/json" })
-	public @ResponseBody String changePhone(
-			@RequestBody Map<String, Object> map, HttpSession session) {
+	@ResponseBody
+	public String changePhone(@RequestBody Map<String, Object> map,
+			HttpSession session) {
 		String phone = map.get("phone").toString();
 		if (phone.matches(Patterns.PHONE_PATTERN)) {
 			User user = userService
@@ -146,8 +147,9 @@ public class UserProfileController {
 	}
 
 	@RequestMapping(value = "/uploadPhoto", method = RequestMethod.POST)
-	public @ResponseBody String upload(MultipartHttpServletRequest request,
-			HttpServletResponse response, HttpSession session) {
+	@ResponseBody
+	public String upload(MultipartHttpServletRequest request,
+			HttpSession session) {
 		Iterator<String> itr = request.getFileNames();
 		MultipartFile mpf = null;
 
@@ -158,7 +160,7 @@ public class UserProfileController {
 			try {
 				user.setImage(mpf.getBytes());
 			} catch (IOException e) {
-				e.printStackTrace();
+				LOG.error(e.toString());
 			}
 			user = userService.updateUser(user);
 			String encodedImage = new String(Base64.encode(user.getImage()));
