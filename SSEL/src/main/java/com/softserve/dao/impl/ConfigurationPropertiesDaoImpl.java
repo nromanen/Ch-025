@@ -50,7 +50,7 @@ public class ConfigurationPropertiesDaoImpl implements ConfigurationPropertiesDa
 	@Override
 	public ConfigurationProperty addproperty(ConfigurationProperty newProperty) {
 		LOG.debug("add property with id {}", newProperty.getId());
-		entityManager.persist(newProperty);
+		entityManager.merge(newProperty);
 		return newProperty;
 	}
 	/**

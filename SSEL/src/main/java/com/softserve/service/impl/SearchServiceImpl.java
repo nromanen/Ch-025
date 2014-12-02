@@ -24,8 +24,8 @@ public class SearchServiceImpl implements SearchService {
 
 	@Override
 	@Transactional
-	public List<Category> getCategoriesByNamePart(String namePart, int pageNumber, int pageSize) {
-		return categoryDao.getCategoriesByNamePart(namePart, pageNumber, pageSize);
+	public List<Category> getCategoriesByNamePart(String namePart) {
+		return categoryDao.getCategoriesByNamePart(namePart);
 	}
 	
 

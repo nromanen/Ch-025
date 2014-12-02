@@ -55,6 +55,7 @@ public class GroupServiceImp implements GroupService{
 	/**
 	 * @see com.softserve.service.GroupService#restoreGroup(Group)
 	 */
+	@Transactional
 	@Override
 	public void restoreGroup(Group group) {
 		groupDao.setGroupDeleted(group, false);		
@@ -62,9 +63,26 @@ public class GroupServiceImp implements GroupService{
 	/**
 	 * @see com.softserve.service.GroupService#getDeletedGroups()
 	 */
+	@Transactional
 	@Override
 	public List<Group> getDeletedGroups() {
 		return groupDao.getAllDeletedGroups();
+	}
+	/**
+	 * @see com.softserve.service.GroupService#getGroupById(int)
+	 */
+	@Transactional
+	@Override
+	public Group getGroupById(int groupId) {
+		return groupDao.getGroupById(groupId);
+	}
+	/**
+	 * @see com.softserve.service.GroupService#updateGroup(Group)
+	 */
+	@Transactional
+	@Override
+	public Group updateGroup(Group group) {
+		return groupDao.updateGroup(group);
 	}
 
 }

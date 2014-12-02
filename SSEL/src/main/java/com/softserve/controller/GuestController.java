@@ -168,7 +168,7 @@ public class GuestController {
 		pageNumber = pageNumber > 0 ? pageNumber : START_PAGE;
 		pageSize = pageSize > 0 ? pageSize : PAGE_SIZE;
 		Long numberOfPages = 0l;
-		List<Category> categories = searchService.getCategoriesByNamePart(search, pageNumber, pageSize);
+		List<Category> categories = searchService.getCategoriesByNamePart(search);
 		List<Subject> subjects = searchService.getSubjectsByNamePart(search, pageNumber, 
 				pageSize, sortBy, isReverse);
 		Long count = searchService.getSubjectsQuantityByNamePart(search);

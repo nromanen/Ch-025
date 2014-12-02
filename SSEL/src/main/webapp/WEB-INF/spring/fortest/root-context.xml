@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.0.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+	<!-- Includes an option to use configuration annotations (@Annotation-based 
+		configuration) -->
+	<context:annotation-config />
+	<task:scheduler id="taskScheduler" />
+	<task:executor id="taskExecutor" pool-size="1" />
+	<task:annotation-driven executor="taskExecutor"
+		scheduler="taskScheduler" />
+	<context:component-scan base-package="com.softserve.dao" />
+	<context:component-scan base-package="com.softserve.service" />
+	<context:component-scan base-package="com.softserve" />
+	<!-- Configuration file resources for data (Data Access Resources) -->
+	<import resource="data.xml" />
+	<import resource="mail.xml" />
+</beans>

@@ -86,7 +86,7 @@ public class CategoryDaoImpl implements CategoryDao {
 	 */
 @SuppressWarnings("unchecked")
 	@Override
-	public List<Category> getCategoriesByNamePart(String namePart, int pageNumber, int pageSize) {
+	public List<Category> getCategoriesByNamePart(String namePart) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Category> criteriaQuery = criteriaBuilder
 				.createQuery(Category.class);
@@ -101,8 +101,6 @@ public class CategoryDaoImpl implements CategoryDao {
 		predicates.add(predicateDeleted);
 		criteriaQuery.where(predicates.toArray(new Predicate[] {}));
 		Query query = entityManager.createQuery(criteriaQuery);
-		query.setFirstResult((pageNumber - 1) * pageSize);
-		query.setMaxResults(pageSize);
 		return query.getResultList();
 	}
 	/**

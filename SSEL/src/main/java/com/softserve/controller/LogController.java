@@ -27,19 +27,22 @@ public class LogController {
 	private static final Logger LOG = LoggerFactory
 			.getLogger(AdministratorController.class);
 
+	private static final int DEFAULT_LOGS_PER_PAGE = 10;
+
 	@Autowired
 	private TeacherRequestService teacherRequestService;
-	
+
 	@Resource(name = "LogService")
 	private LogService logService;
 
 	public void setLogService(LogService logService) {
 		this.logService = logService;
 	}
-	
+
 	/**
 	 * Operates with viewAllLogs page. Checks for required parameters in session
 	 * and used it. And if some of them doesn't exists - takes default values.
+	 * 
 	 * @param pageNumb
 	 *            - number of page for query.
 	 */
@@ -47,19 +50,7 @@ public class LogController {
 	public String viewLogs(Model model, HttpSession session,
 			@RequestParam(value = "pageNumb", required = false) Integer pageNumb) {
 		LOG.debug("Visit viewLogs page");
-		int logsPerPage = 10;
-		GregorianCalendar startDate = null;
-		GregorianCalendar endDate;
-
-		// defines type of sorting
-		String preOrderBy;
-		if (session.getAttribute("preOrderBy") != null) {
-			preOrderBy = (String) session.getAttribute("preOrderBy");
-		} else {
-			preOrderBy = "date-desc"; // default value
-		}
-		String orderBy = logService.createOrderByPart(preOrderBy);
-		// end of defining sorting type
+		int logsPerPage = DEFAULT_LOGS_PER_PAGE;
 
 		if (pageNumb == null || pageNumb < 0) {
 			pageNumb = 0;
@@ -67,18 +58,10 @@ public class LogController {
 		if (session.getAttribute("logsPerPage") != null) {
 			logsPerPage = (int) session.getAttribute("logsPerPage");
 		}
-
-		// operating with start and end dates for range query
-		if (session.getAttribute("startDate") != null) {
-			startDate = (GregorianCalendar) session.getAttribute("startDate");
-			endDate = (GregorianCalendar) session.getAttribute("endDate");
-		} else { // if date wasn't chosen yet,user will see logs for last 24 hours
-			endDate = new GregorianCalendar();
-			startDate = new GregorianCalendar();
-			startDate.set(Calendar.DATE, (endDate.get(Calendar.DATE) - 1)); // *
-			// * making "yesterday" for start date
-		}
-		// end of operating with dates
+		GregorianCalendar[] dateRange = getDates(session);
+		GregorianCalendar startDate = dateRange[0];
+		GregorianCalendar endDate = dateRange[1];
+		String orderBy = getTypeOfSorting(session);
 
 		List<Log> logList = logService.getRangeOfLogs(startDate, endDate,
 				logsPerPage, pageNumb, orderBy);
@@ -117,7 +100,7 @@ public class LogController {
 			return "redirect:/viewLogs";
 		} else {
 			GregorianCalendar endCalendar = logService.parseDate(endDateString);
-			session.setAttribute("logsPerPage", 10);
+			session.setAttribute("logsPerPage", DEFAULT_LOGS_PER_PAGE);
 			if (endCalendar == null) {
 				endCalendar = new GregorianCalendar(); // show logs "by now"
 			}
@@ -172,11 +155,47 @@ public class LogController {
 			Model model) {
 		LOG.debug("Visit logDetails page");
 		Log log = logService.getLogById(logId);
-		model.addAttribute("log", log);
 		int activeTeacherRequests = (int) teacherRequestService
 				.getAllActiveTeacherRequestsCount();
+		model.addAttribute("log", log);
 		model.addAttribute("activeTeacherRequests", activeTeacherRequests);
 		return "logDetails";
+	}
+
+	/**
+	 * Operates with range of date in which logs should be shown. If this range
+	 * is not in session, it takes last 24 hours.
+	 */
+	private GregorianCalendar[] getDates(HttpSession session) {
+		GregorianCalendar startDate;
+		GregorianCalendar endDate;
+		if (session.getAttribute("startDate") != null) {
+			startDate = (GregorianCalendar) session.getAttribute("startDate");
+			endDate = (GregorianCalendar) session.getAttribute("endDate");
+		} else { // if date wasn't chosen yet,user will see logs for last 24
+					// hours
+			endDate = new GregorianCalendar();
+			startDate = new GregorianCalendar();
+			startDate.set(Calendar.DATE, (endDate.get(Calendar.DATE) - 1)); // *
+			// * making "yesterday" for start date
+		}
+		GregorianCalendar[] dateRange = { startDate, endDate };
+		return dateRange;
+	}
+
+	/**
+	 * Operates with type of sorting by parsing proper String from session, or
+	 * taking default value.
+	 */
+	private String getTypeOfSorting(HttpSession session) {
+		String preOrderBy;
+		if (session.getAttribute("preOrderBy") != null) {
+			preOrderBy = (String) session.getAttribute("preOrderBy");
+		} else {
+			preOrderBy = "date-desc"; // default value
+		}
+		String orderBy = logService.createOrderByPart(preOrderBy);
+		return orderBy;
 	}
 
 }
