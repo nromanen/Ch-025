@@ -391,7 +391,7 @@ public class AdministratorController {
 
 			Model model, RedirectAttributes redirectAttributes) {
 		LOG.debug("Visit changeSubjectCategory page");
-		if (userId != null && roleId != null) {
+		if (userId != null && roleId != null && userId != 1) {
 			User user = userService.getUserById(userId);
 			if (user != null) {
 				Role role = roleService.getRoleById(roleId);
@@ -464,7 +464,7 @@ public class AdministratorController {
 
 			Model model, RedirectAttributes redirectAttributes) {
 		LOG.debug("Visit changeUserStatus page");
-		if (userId != null) {
+		if (userId != null && userId != 1) {
 			User user = userService.getUserById(userId);
 			if (user != null) {
 				if (user.isBlocked()) {
@@ -720,7 +720,7 @@ public class AdministratorController {
 			@RequestParam(value = "userId", required = false) Integer userId,
 			Model model, RedirectAttributes redirectAttributes) {
 		LOG.debug("Visit changeUserRoleToTeacher page");
-		if (userId != null) {
+		if (userId != null && userId != 1) {
 			User user = userService.getUserById(userId);
 			if (user != null) {
 				user.setBlocked(false);
