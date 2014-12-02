@@ -60,51 +60,51 @@ public class SubjectServiceImpl implements SubjectService {
 
 	@Override
 	@Transactional
-	public List<Subject> getSubjectsVsLimit(int startPosition, int limitLength, String sortBy, String sortMethod) {
-		return subjectDao.getSubjectsVsLimit(startPosition, limitLength, sortBy, sortMethod);
+	public List<Subject> getSubjectsByPage(int startPosition, int limitLength, String sortBy, String sortMethod) {
+		return subjectDao.getSubjectsByPage(startPosition, limitLength, sortBy, sortMethod);
 	}
 
 	@Override
 	@Transactional
-	public List<Subject> getSubjectsByNameVsLimit(String searchText,
+	public List<Subject> getSubjectsByNameByPage(String searchText,
 			int startPosition, int limitLength, String sortBy, String sortMethod) {
-		return subjectDao.getSubjectsByNameVsLimit(searchText, startPosition,
+		return subjectDao.getSubjectsByNameByPage(searchText, startPosition,
 				limitLength, sortBy, sortMethod);
 	}
 
 	@Override
 	@Transactional
-	public List<Subject> getSubjectsByCategoryVsLimit(String searchText,
+	public List<Subject> getSubjectsByCategoryByPage(String searchText,
 			int startPosition, int limitLength, String sortBy, String sortMethod) {
-		return subjectDao.getSubjectsByCategoryVsLimit(searchText,
+		return subjectDao.getSubjectsByCategoryByPage(searchText,
 				startPosition, limitLength, sortBy, sortMethod);
 	}
 
 	@Override
 	@Transactional
-	public List<Subject> getSubjectsByTextVsLimit(String searchText,
+	public List<Subject> getSubjectsByTextByPage(String searchText,
 			int startPosition, int limitLength, String sortBy, String sortMethod) {
-		return subjectDao.getSubjectsByTextVsLimit(searchText, startPosition, limitLength, sortBy, sortMethod);
-	}
-	
-	@Override
-	public long getSubjectsCount() {
-		return subjectDao.getSubjectsCount();
+		return subjectDao.getSubjectsByTextByPage(searchText, startPosition, limitLength, sortBy, sortMethod);
 	}
 
 	@Override
-	public long getSubjectsByNameCount(String searchName) {
-		return subjectDao.getSubjectsByNameCount(searchName);
+	public long getCountOfSubjects() {
+		return subjectDao.getCountOfSubjects();
 	}
 
 	@Override
-	public long getSubjectsByCategoryCount(String searchCategory) {
-		return subjectDao.getSubjectsByCategoryCount(searchCategory);
+	public long getCountOfSubjectsByName(String searchName) {
+		return subjectDao.getCountOfSubjectsByName(searchName);
 	}
 
 	@Override
-	public long getSubjectsByTextCount(String searchText) {
-		return subjectDao.getSubjectsByTextCount(searchText);
+	public long getCountOfSubjectsByCategory(String searchCategory) {
+		return subjectDao.getCountOfSubjectsByCategory(searchCategory);
+	}
+
+	@Override
+	public long getCountOfSubjectsByText(String searchText) {
+		return subjectDao.getCountOfSubjectsByText(searchText);
 	}
 
 	@Override

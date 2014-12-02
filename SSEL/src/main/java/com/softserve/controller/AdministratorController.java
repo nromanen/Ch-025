@@ -100,9 +100,9 @@ public class AdministratorController {
 			@RequestParam(value = "errorMessage", required = false) String errorMessage,
 			Model model) {
 		LOG.debug("Visit administrator page");
-		long subjectsCount = subjectService.getSubjectsCount();
+		long subjectsCount = subjectService.getCountOfSubjects();
 		int categoriesCount = categoryService.getAllCategories().size();
-		long usersCount = userService.getUsersCount();
+		long usersCount = userService.getCountOfUsers();
 		String supportEmail = administratorService.getSupportEmail();
 
 		setMessage(model, successMessage, errorMessage);
@@ -308,28 +308,28 @@ public class AdministratorController {
 
 			switch (searchOption) {
 			case "all":
-				users = userService.getUsersByTextVsLimit(searchText,
+				users = userService.getUsersByTextByPage(searchText,
 						startPosition, limitLength, this.sortBy,
 						this.sortMethod);
-				count = userService.getUsersByTextCount(searchText);
+				count = userService.getCountOfUsersByText(searchText);
 				break;
 			case "userFirstName":
-				users = userService.getUsersByFirstNameVsLimit(searchText,
+				users = userService.getUsersByFirstNameByPage(searchText,
 						startPosition, limitLength, this.sortBy,
 						this.sortMethod);
-				count = userService.getUsersByFirstNameCount(searchText);
+				count = userService.getCountOfUsersByFirstName(searchText);
 				break;
 			case "userLastName":
-				users = userService.getUsersByLastNameVsLimit(searchText,
+				users = userService.getUsersByLastNameByPage(searchText,
 						startPosition, limitLength, this.sortBy,
 						this.sortMethod);
-				count = userService.getUsersByLastNameCount(searchText);
+				count = userService.getCountOfUsersByLastName(searchText);
 				break;
 			case "role":
-				users = userService.getUsersByRoleVsLimit(searchText,
+				users = userService.getUsersByRoleByPage(searchText,
 						startPosition, limitLength, this.sortBy,
 						this.sortMethod);
-				count = userService.getUsersByRoleCount(searchText);
+				count = userService.getCountOfUsersByRole(searchText);
 				break;
 			}
 
@@ -339,8 +339,8 @@ public class AdministratorController {
 			model.addAttribute("searchOption", searchOption);
 
 		} else {
-			count = userService.getUsersCount();
-			users = userService.getUsersVsLimit(startPosition, limitLength,
+			count = userService.getCountOfUsers();
+			users = userService.getUsersByPage(startPosition, limitLength,
 					this.sortBy, this.sortMethod);
 		}
 
@@ -561,22 +561,22 @@ public class AdministratorController {
 			searchOption = beforeSearch(searchOption);
 			switch (searchOption) {
 			case "all":
-				subjects = subjectService.getSubjectsByTextVsLimit(searchText,
+				subjects = subjectService.getSubjectsByTextByPage(searchText,
 						startPosition, limitLength, this.sortBy,
 						this.sortMethod);
-				count = subjectService.getSubjectsByTextCount(searchText);
+				count = subjectService.getCountOfSubjectsByText(searchText);
 				break;
 			case "subject":
-				subjects = subjectService.getSubjectsByNameVsLimit(searchText,
+				subjects = subjectService.getSubjectsByNameByPage(searchText,
 						startPosition, limitLength, this.sortBy,
 						this.sortMethod);
-				count = subjectService.getSubjectsByNameCount(searchText);
+				count = subjectService.getCountOfSubjectsByName(searchText);
 				break;
 			case "category":
-				subjects = subjectService.getSubjectsByCategoryVsLimit(
+				subjects = subjectService.getSubjectsByCategoryByPage(
 						searchText, startPosition, limitLength, this.sortBy,
 						this.sortMethod);
-				count = subjectService.getSubjectsByCategoryCount(searchText);
+				count = subjectService.getCountOfSubjectsByCategory(searchText);
 				break;
 			}
 			searchText = afterSearch(searchText);
@@ -585,9 +585,9 @@ public class AdministratorController {
 			model.addAttribute("searchOption", searchOption);
 
 		} else {
-			count = subjectService.getSubjectsCount();
+			count = subjectService.getCountOfSubjects();
 
-			subjects = subjectService.getSubjectsVsLimit(startPosition,
+			subjects = subjectService.getSubjectsByPage(startPosition,
 					limitLength, this.sortBy, this.sortMethod);
 		}
 
@@ -810,7 +810,7 @@ public class AdministratorController {
 	public @ResponseBody String checkCategory(
 			@RequestParam(value = "categoryId", required = false) Integer categoryId) {
 		Category category = categoryService.getCategoryById(categoryId);
-		int count = (int) subjectService.getSubjectsByCategoryCount(category
+		int count = (int) subjectService.getCountOfSubjectsByCategory(category
 				.getName());
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("count", count);
