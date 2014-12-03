@@ -256,16 +256,19 @@ public class UserServiceImpl implements UserService {
 	public List<User> getUsersByExpiredDate(Date date) {
 		return userDao.getUsersByExpiredDate(date);
 	}
-public List<User> getUsersByPage(int startPosition, int limitLength,
+
+	@Override
+	@Transactional
+	public List<User> getUsersByPage(int startPosition, int limitLength,
 			String sortBy, String sortMethod) {
 		return userDao.getUsersByPage(startPosition, limitLength, sortBy,
 				sortMethod);
 	}
 
 	@Override
-	@Transactional,
+	@Transactional
 	public List<User> getUsersByFirstNameByPage(String searchText,
-			int startPosition, int limitLength, String sortBy, String sortMethod) {,
+			int startPosition, int limitLength, String sortBy, String sortMethod) {
 		return userDao.getUsersByFirstNameByPage(searchText, startPosition,
 				limitLength, sortBy, sortMethod);
 	}
@@ -281,7 +284,7 @@ public List<User> getUsersByPage(int startPosition, int limitLength,
 	@Override
 	@Transactional
 	public List<User> getUsersByRoleByPage(String searchText,
-			int startPosition, int limitLength, String sortBy, String sortMethod) {,
+			int startPosition, int limitLength, String sortBy, String sortMethod) {
 		return userDao.getUsersByRoleByPage(searchText, startPosition,
 				limitLength, sortBy, sortMethod);
 	}
