@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="debug">
+	<!-- Appenders -->
+	<Appenders>
+		<!-- CONSOLE appender -->
+		<Console name="console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%-5p: [%l] - %m%n" />
+			<Filters>
+				<ThresholdFilter level="TRACE" />
+				<ThresholdFilter level="FATAL" onMatch="DENY"
+					onMismatch="NEUTRAL" />
+			</Filters>
+		</Console>
+		
+		<!-- FILE appender -->
+		<RollingFile name="developer" fileName="test_app_log.log"
+			filePattern="app_log-%d{MM-dd-yyyy}.log">
+			<PatternLayout pattern="%d{ISO8601} %-5p [%l] - %m%n" />
+			<ThresholdFilter level="TRACE" onMatch="ACCEPT"
+				onMismatch="DENY" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="2048 KB" />
+			</Policies>
+			<DefaultRolloverStrategy max="4" />
+		</RollingFile>
+		
+		<!-- JDBC appender 
+		<Jdbc name="DBAppender" tableName="ssel.logging" >
+			<ConnectionFactory
+				class="com.softserve.util.ConnectionFactory" method="getDatabaseConnection" />
+			<ThresholdFilter level="WARN" onMatch="ACCEPT"
+				onMismatch="DENY" />
+			<Column name="eventDate" isEventTimestamp="true" />
+			<Column name="level" pattern="%level" />
+			<Column name="logger" pattern="%logger" />
+			<Column name="message" pattern="%message" />
+			<Column name="exception" pattern="%ex{full}" />
+		</Jdbc>-->
+	</Appenders> 
+	<Loggers>
+		<!-- Root Logger -->
+		<Root level="info">
+			<AppenderRef ref="console" />
+			<AppenderRef ref="developer" />
+			<!-- <AppenderRef ref="DBAppender" /> -->
+		</Root>
+	</Loggers>
+</Configuration>

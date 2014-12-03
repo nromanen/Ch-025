@@ -197,7 +197,10 @@ public class StudentCabinetController {
 		model.addAttribute("courseId", courseId);
 		return "ratings";
 	}
-	
+	@RequestMapping("/bla")
+	void testScheduler() {
+		studentCabinetService.rescheduleDeleteInactive();
+	}
 	/**
 	 * Check if browser is supported for plugin
 	 * @param userAgent http header with browser info

@@ -256,69 +256,66 @@ public class UserServiceImpl implements UserService {
 	public List<User> getUsersByExpiredDate(Date date) {
 		return userDao.getUsersByExpiredDate(date);
 	}
-
-	@Override
-	@Transactional
-	public List<User> getUsersVsLimit(int startPosition, int limitLength,
+public List<User> getUsersByPage(int startPosition, int limitLength,
 			String sortBy, String sortMethod) {
-		return userDao.getUsersVsLimit(startPosition, limitLength, sortBy,
+		return userDao.getUsersByPage(startPosition, limitLength, sortBy,
 				sortMethod);
 	}
 
 	@Override
-	@Transactional
-	public List<User> getUsersByFirstNameVsLimit(String searchText,
-			int startPosition, int limitLength, String sortBy, String sortMethod) {
-		return userDao.getUsersByFirstNameVsLimit(searchText, startPosition,
+	@Transactional,
+	public List<User> getUsersByFirstNameByPage(String searchText,
+			int startPosition, int limitLength, String sortBy, String sortMethod) {,
+		return userDao.getUsersByFirstNameByPage(searchText, startPosition,
 				limitLength, sortBy, sortMethod);
 	}
 
 	@Override
 	@Transactional
-	public List<User> getUsersByLastNameVsLimit(String searchText,
+	public List<User> getUsersByLastNameByPage(String searchText,
 			int startPosition, int limitLength, String sortBy, String sortMethod) {
-		return userDao.getUsersByLastNameVsLimit(searchText, startPosition,
+		return userDao.getUsersByLastNameByPage(searchText, startPosition,
 				limitLength, sortBy, sortMethod);
 	}
 
 	@Override
 	@Transactional
-	public List<User> getUsersByRoleVsLimit(String searchText,
-			int startPosition, int limitLength, String sortBy, String sortMethod) {
-		return userDao.getUsersByRoleVsLimit(searchText, startPosition,
+	public List<User> getUsersByRoleByPage(String searchText,
+			int startPosition, int limitLength, String sortBy, String sortMethod) {,
+		return userDao.getUsersByRoleByPage(searchText, startPosition,
 				limitLength, sortBy, sortMethod);
 	}
 
 	@Override
 	@Transactional
-	public List<User> getUsersByTextVsLimit(String searchText,
+	public List<User> getUsersByTextByPage(String searchText,
 			int startPosition, int limitLength, String sortBy, String sortMethod) {
-		return userDao.getUsersByTextVsLimit(searchText, startPosition,
+		return userDao.getUsersByTextByPage(searchText, startPosition,
 				limitLength, sortBy, sortMethod);
 	}
 
 	@Override
-	public long getUsersCount() {
-		return userDao.getUsersCount();
+	public long getCountOfUsers() {
+		return userDao.getCountOfUsers();
 	}
 
 	@Override
-	public long getUsersByFirstNameCount(String searchName) {
-		return userDao.getUsersByFirstNameCount(searchName);
+	public long getCountOfUsersByFirstName(String searchName) {
+		return userDao.getCountOfUsersByFirstName(searchName);
 	}
 
 	@Override
-	public long getUsersByLastNameCount(String searchName) {
-		return userDao.getUsersByLastNameCount(searchName);
+	public long getCountOfUsersByLastName(String searchName) {
+		return userDao.getCountOfUsersByLastName(searchName);
 	}
 
 	@Override
-	public long getUsersByRoleCount(String searchRole) {
-		return userDao.getUsersByRoleCount(searchRole);
+	public long getCountOfUsersByRole(String searchRole) {
+		return userDao.getCountOfUsersByRole(searchRole);
 	}
 
 	@Override
-	public long getUsersByTextCount(String searchText) {
-		return userDao.getUsersByTextCount(searchText);
+	public long getCountOfUsersByText(String searchText) {
+		return userDao.getCountOfUsersByText(searchText);
 	}
 }

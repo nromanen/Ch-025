@@ -83,7 +83,7 @@ public class LogServiceTest {
 				orderBy);
 		verifyNoMoreInteractions(logDao);
 		assertTrue((testLogList.size() == 2)
-				& (testLogList.get(0).getId() == 25));
+				&& (testLogList.get(0).getId() == 25));
 	}
 
 	@Test

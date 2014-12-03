@@ -118,7 +118,7 @@ public class UserDaoImpl implements UserDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<User> getUsersByFirstNameVsLimit(String searchText,
+	public List<User> getUsersByFirstNameByPage(String searchText,
 			int startPosition, int limitLength, String sortBy, String sortMethod) {
 		LOG.debug("Get all Users vs firstName = {}", searchText);
 		String textQuery = "FROM User u WHERE u.firstName LIKE '%" + searchText
@@ -130,7 +130,7 @@ public class UserDaoImpl implements UserDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<User> getUsersByLastNameVsLimit(String searchText,
+	public List<User> getUsersByLastNameByPage(String searchText,
 			int startPosition, int limitLength, String sortBy, String sortMethod) {
 		LOG.debug("Get all Users vs limit last = {}", searchText);
 		String textQuery = "FROM User u WHERE u.lastName LIKE '%" + searchText
@@ -142,7 +142,7 @@ public class UserDaoImpl implements UserDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<User> getUsersByRoleVsLimit(String searchText,
+	public List<User> getUsersByRoleByPage(String searchText,
 			int startPosition, int limitLength, String sortBy, String sortMethod) {
 		LOG.debug("Get all Users vs limit searchText = {}", searchText);
 
@@ -155,7 +155,7 @@ public class UserDaoImpl implements UserDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<User> getUsersVsLimit(int startPosition, int limitLength,
+	public List<User> getUsersByPage(int startPosition, int limitLength,
 			String sortBy, String sortMethod) {
 		LOG.debug("Get Users from - to = {} {}", startPosition, limitLength);
 		String textQuery = "FROM User u";
@@ -166,7 +166,7 @@ public class UserDaoImpl implements UserDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<User> getUsersByTextVsLimit(String searchText,
+	public List<User> getUsersByTextByPage(String searchText,
 			int startPosition, int limitLength, String sortBy, String sortMethod) {
 		LOG.debug("Get all Users by searchText = {}", searchText);
 		searchText = "%" + searchText + "%";
@@ -226,7 +226,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public long getUsersCount() {
+	public long getCountOfUsers() {
 		LOG.debug("Get all Users count");
 		Query query = entityManager
 				.createQuery("SELECT COUNT (*) FROM User u ");
@@ -234,7 +234,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public long getUsersByFirstNameCount(String searchName) {
+	public long getCountOfUsersByFirstName(String searchName) {
 		LOG.debug("Get Users by firstName count");
 		Query query = entityManager.createQuery("SELECT COUNT (*) FROM User u "
 				+ "WHERE u.firstName LIKE :name");
@@ -243,7 +243,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public long getUsersByLastNameCount(String searchName) {
+	public long getCountOfUsersByLastName(String searchName) {
 		LOG.debug("Get Users by lastName count");
 		Query query = entityManager.createQuery("SELECT COUNT (*) FROM User u "
 				+ "WHERE u.lastName LIKE :name");
@@ -252,7 +252,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public long getUsersByRoleCount(String searchRole) {
+	public long getCountOfUsersByRole(String searchRole) {
 		LOG.debug("Get Users by category count");
 		Query query = entityManager.createQuery("SELECT COUNT (*) FROM User u "
 				+ "WHERE u.role.role LIKE :name");
@@ -261,7 +261,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public long getUsersByTextCount(String searchText) {
+	public long getCountOfUsersByText(String searchText) {
 		LOG.debug("Get Users count");
 		searchText = "%" + searchText + "%";
 		Query query = entityManager.createQuery("SELECT COUNT (*) FROM User u "

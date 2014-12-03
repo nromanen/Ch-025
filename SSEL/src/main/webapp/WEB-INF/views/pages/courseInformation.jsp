@@ -12,13 +12,15 @@
 					<span><spring:message code="label.course_subscribe" /> <c:if
 							test="${sessionScope.user.role.role eq 'TEACHER'}">
 							<spring:message code="label.as_student" />
-						</c:if> <c:if
+						</c:if>
+						<c:if test="${sessionScope.user.role.role eq 'ADMIN'}">
+							<spring:message code="label.as_student" />
+						</c:if>
+						 <c:if
 							test="${sessionScope.user.role.role ne 'TEACHER' && sessionScope.user.role.role ne 'ADMIN' }">
 							<a href="login" class="btn btn-primary"><spring:message
 									code="label.sing_in" /></a>
-						</c:if> <c:if test="${sessionScope.user.role.role eq 'ADMIN'}">
-							<spring:message code="label.as_student" />
-						</c:if> </span>
+						</c:if>  </span>
 				</div>
 			</c:if>
 			<h2 align="center">${subject.name}</h2>

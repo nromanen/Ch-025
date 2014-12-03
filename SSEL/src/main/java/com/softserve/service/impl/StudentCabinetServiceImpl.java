@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.softserve.dao.ConfigurationPropertiesDao;
 import com.softserve.dao.StudyDocumentDao;
+import com.softserve.entity.ConfigurationProperty;
 import com.softserve.entity.CourseScheduler;
 import com.softserve.entity.Group;
 import com.softserve.entity.StudentGroup;
@@ -124,8 +125,11 @@ public class StudentCabinetServiceImpl implements StudentCabinetService{
 	
 	@Override
 	public void rescheduleDeleteInactive() {
-		String cronPatern = configDao.getPropertyByKey("schedule.delete").getValue();
-		CronTrigger newCron = new CronTrigger(cronPatern);
+		
+		ConfigurationProperty cronPatern = configDao.getPropertyByKey("schedule.delete");
+		cronPatern.setValue("* 10 * * * *");
+		configDao.updateProperty(cronPatern);
+		CronTrigger newCron = new CronTrigger(cronPatern.getValue());
 		taskScheduler.schedule(DeleteInactiveTopicsScheduler.getInstance(studyDocumentDao, configDao), newCron);
 	}
 }

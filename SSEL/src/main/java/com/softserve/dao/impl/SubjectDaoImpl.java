@@ -145,7 +145,7 @@ public class SubjectDaoImpl implements SubjectDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Subject> getSubjectsByNameVsLimit(String searchText,
+	public List<Subject> getSubjectsByNameByPage(String searchText,
 			int startPosition, int limitLength, String sortBy, String sortMethod) {
 		LOG.debug("Get all subjects vs limit searchText = {}", searchText);
 		String textQuery = "FROM Subject s WHERE s.isDeleted = 'false' and s.name LIKE '%" + searchText + "%'";
@@ -156,7 +156,7 @@ public class SubjectDaoImpl implements SubjectDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Subject> getSubjectsByCategoryVsLimit(String searchText,
+	public List<Subject> getSubjectsByCategoryByPage(String searchText,
 			int startPosition, int limitLength, String sortBy, String sortMethod) {
 		LOG.debug("Get all subjects vs limit searchText = {}", searchText);
 		String textQuery = "FROM Subject s WHERE s.isDeleted = 'false' and s.category.name LIKE '%" + searchText + "%'";
@@ -168,7 +168,7 @@ public class SubjectDaoImpl implements SubjectDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Subject> getSubjectsVsLimit(int startPosition, int limitLength,
+	public List<Subject> getSubjectsByPage(int startPosition, int limitLength,
 			String sortBy, String sortMethod) {
 		LOG.debug("Get subjects from - to = {} {}", startPosition, limitLength);
 		String textQuery = "FROM Subject s";
@@ -179,7 +179,7 @@ public class SubjectDaoImpl implements SubjectDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Subject> getSubjectsByTextVsLimit(String searchText,
+	public List<Subject> getSubjectsByTextByPage(String searchText,
 			int startPosition, int limitLength, String sortBy, String sortMethod) {
 		LOG.debug("Get all subjects by searchText = {}", searchText);
 		String textQuery = "FROM Subject s WHERE s.isDeleted = 'false' and s.name LIKE '%" + searchText
@@ -217,7 +217,7 @@ public class SubjectDaoImpl implements SubjectDao {
 	}
 
 	@Override
-	public long getSubjectsCount() {
+	public long getCountOfSubjects() {
 		LOG.debug("Get all subjects count");
 		Query query = entityManager
 				.createQuery("SELECT COUNT (*) FROM Subject s ");
@@ -225,7 +225,7 @@ public class SubjectDaoImpl implements SubjectDao {
 	}
 
 	@Override
-	public long getSubjectsByNameCount(String searchName) {
+	public long getCountOfSubjectsByName(String searchName) {
 		LOG.debug("Get subjects by name count");
 		Query query = entityManager
 				.createQuery("SELECT COUNT (*) FROM Subject s "
@@ -236,7 +236,7 @@ public class SubjectDaoImpl implements SubjectDao {
 	}
 
 	@Override
-	public long getSubjectsByCategoryCount(String searchCategory) {
+	public long getCountOfSubjectsByCategory(String searchCategory) {
 		LOG.debug("Get subjects by category count");
 		Query query = entityManager
 				.createQuery("SELECT COUNT (*) FROM Subject s "
@@ -247,7 +247,7 @@ public class SubjectDaoImpl implements SubjectDao {
 	}
 
 	@Override
-	public long getSubjectsByTextCount(String searchText) {
+	public long getCountOfSubjectsByText(String searchText) {
 		LOG.debug("Get subjects count");
 		Query query = entityManager
 				.createQuery("SELECT COUNT (*) FROM Subject s "

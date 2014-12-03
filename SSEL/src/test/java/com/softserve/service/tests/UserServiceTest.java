@@ -176,6 +176,6 @@ public class UserServiceTest {
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:users.xml")
 	public void testGetUserCount() {
 		assertEquals(userService.getAllUsers().size(),
-				userService.getUsersCount());
+				userService.getCountOfUsers());
 	}
 }
