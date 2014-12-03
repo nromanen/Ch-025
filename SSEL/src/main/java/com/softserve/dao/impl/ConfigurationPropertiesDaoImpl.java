@@ -18,12 +18,9 @@ public class ConfigurationPropertiesDaoImpl implements ConfigurationPropertiesDa
 	private static Logger LOG = LoggerFactory.getLogger(ConfigurationPropertiesDaoImpl.class);
 	@PersistenceContext (unitName="entityManager")
 	private EntityManager entityManager;
-	
-	public ConfigurationPropertiesDaoImpl() {
-		
-	}
+
 	/**
-	 * @see com.softserve.dao.ConfigurationPropertiesDao#getPropertyById(int) 
+	 * @see com.softserve.dao.ConfigurationPropertiesDao#getPropertyById(int)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -46,7 +43,7 @@ public class ConfigurationPropertiesDaoImpl implements ConfigurationPropertiesDa
 		List<ConfigurationProperty> list = query.getResultList();
 		return (list.size() >0) ? list.get(0) : null;
 	}
-	
+
 	/**
 	 * @see com.softserve.dao.ConfigurationPropertiesDao#addproperty(com.softserve.entity.ConfigurationProperty)
 	 */
@@ -61,7 +58,7 @@ public class ConfigurationPropertiesDaoImpl implements ConfigurationPropertiesDa
 	 */
 	@Override
 	public ConfigurationProperty updateProperty(ConfigurationProperty updatedProperty) {
-		LOG.debug("add property with id {}", updatedProperty.getId());
+		LOG.debug("update property with id {}", updatedProperty.getId());
 		entityManager.merge(updatedProperty);
 		return updatedProperty;
 	}

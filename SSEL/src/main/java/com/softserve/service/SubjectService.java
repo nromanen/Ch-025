@@ -26,24 +26,24 @@ public interface SubjectService {
 
 	List<Subject> getSubjectsByUserId(int id);
 
-	List<Subject> getSubjectsVsLimit(int startPosition, int limitLength, String sortBy, String sortMethod);
+	List<Subject> getSubjectsByPage(int startPosition, int limitLength, String sortBy, String sortMethod);
 
-	List<Subject> getSubjectsByNameVsLimit(String searchText,
+	List<Subject> getSubjectsByNameByPage(String searchText,
 			int startPosition, int limitLength, String sortBy, String sortMethod);
 
-	List<Subject> getSubjectsByCategoryVsLimit(String searchText,
+	List<Subject> getSubjectsByCategoryByPage(String searchText,
 			int startPosition, int limitLength, String sortBy, String sortMethod);
 	
-	List<Subject> getSubjectsByTextVsLimit(String searchText,
+	List<Subject> getSubjectsByTextByPage(String searchText,
 			int startPosition, int limitLength, String sortBy, String sortMethod);
 
-	long getSubjectsCount();
+	long getCountOfSubjects();
 
-	long getSubjectsByNameCount(String searchName);
+	long getCountOfSubjectsByName(String searchName);
 
-	long getSubjectsByCategoryCount(String searchCategory);
+	long getCountOfSubjectsByCategory(String searchCategory);
 	
-	long getSubjectsByTextCount(String searchText);
+	long getCountOfSubjectsByText(String searchText);
 	
 	List<Subject> getAllSubjectsWithSchedulers();
 	

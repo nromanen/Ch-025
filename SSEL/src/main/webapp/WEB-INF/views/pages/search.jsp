@@ -19,7 +19,7 @@
 		</p>
 		<div class="input-group custom-search-form">
 			<form method="get" action="search">
-				<input type="text" class="form-control inp" name="search" id="search"
+				<input type="text" class="form-control inp" name="search" id="search" value="${search}"
 					placeholder="<spring:message code="placeholder.search"/>">
 				<span class="input-group-btn" style="display: inherit;">
 					<button class="btn btn-default fix-height" type="submit">

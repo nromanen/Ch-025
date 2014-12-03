@@ -17,7 +17,7 @@
 				<constraints nullable="false" />
 			</column>
 		</createTable>
-	</changeSet> 
+	</changeSet>
 
 	<changeSet id="2014-11-08-insert-into-table-role-1" author="Roma">
 		<comment>Insert role admin into table</comment>
@@ -396,11 +396,11 @@
 			<column name="id" type="int" autoIncrement="true">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
-			<column name="key" type="varchar(255)" defaultValue="null" />
+			<column name="propertyKey" type="varchar(255)" defaultValue="null" />
 			<column name="value" type="varchar(255)" defaultValue="null" />
 		</createTable>
 	</changeSet>
-	
+
 	<changeSet id="2014-11-11-foreign-key-table-student_group-1"
 		author="Roma">
 		<comment>Create foreign key rating</comment>
