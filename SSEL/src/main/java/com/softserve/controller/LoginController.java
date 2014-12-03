@@ -1,9 +1,6 @@
 package com.softserve.controller;
 
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
-
 import com.softserve.entity.User;
 import com.softserve.service.UserService;
 import com.softserve.util.SecurityUtil;
@@ -55,8 +51,7 @@ public class LoginController {
 
 	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "/social", method = RequestMethod.GET)
-	public String showRegistrationForm(WebRequest webRequest,
-			HttpServletRequest request) {
+	public String showRegistrationForm(WebRequest webRequest) {
 		LOG.debug("Rendering registration page.");
 
 		Connection<?> connection = ProviderSignInUtils

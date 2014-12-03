@@ -13,7 +13,8 @@ public class SecurityUtil {
 				.firstName(user.getFirstName()).lastName(user.getLastName())
 				.id(user.getId()).role(user.getRole())
 				.password(user.getPassword()).username(user.getEmail())
-				.social(user.getSocial()).enabled(!user.isBlocked()).build();
+				.social(user.getSocial()).enabled(!user.isBlocked())
+				.accountNonExpired(user.isAccountNonExpired()).build();
 		
 		Authentication authentication = new UsernamePasswordAuthenticationToken(
 				userDetails, null, userDetails.getAuthorities());

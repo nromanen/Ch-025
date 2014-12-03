@@ -90,9 +90,10 @@ public class SimpleUserDetails extends SocialUser {
 
 		public Builder password(String password) {
 			if (password == null) {
-				password = "SocialUser";
+				this.password = "SocialUser";
+			} else {
+				this.password = password;
 			}
-			this.password = password;
 			return this;
 		}
 

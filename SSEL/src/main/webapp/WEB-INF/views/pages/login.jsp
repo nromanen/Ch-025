@@ -34,6 +34,9 @@
 					<div class="alert alert-warning">
 						<strong><spring:message code="label.warning" /></strong>
 						<spring:message code="label.account_expired_exception" />
+						<button class="btn btn-info" type="button" data-toggle="modal" data-target="#modal_expired_account">
+							Continue 
+						</button>
 					</div>
 				</c:if>
 				<form role="form" action="<c:url value="/j_spring_security_check" />" method="POST"
@@ -106,4 +109,24 @@
 	        </div>
 	    </div>
 	</div>
+</div>
+
+<!-- Modal window for load photo -->
+<div class="modal animated bounce bs-example-modal-sm" tabindex="-1" role="dialog" 
+    id="modal_expired_account" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+				    <span aria-hidden="true">&times;</span>
+				    <span class="sr-only">Close</span>
+				</button>
+				<h4 class="modal-title">
+					Title
+				</h4>
+			</div>
+			<div class="modal-body">	
+			</div>
+		</div>		
+	</div> 
 </div>

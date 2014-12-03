@@ -73,7 +73,7 @@ public class SchedulingServiceImpl implements SchedulingService {
 	public void deleteOldLogs() {
 		LOG.info("Deleting logs older than a year by SchedulingService");
 		GregorianCalendar deleteDate = new GregorianCalendar();
-		deleteDate.set(Calendar.YEAR, (deleteDate.get(Calendar.YEAR) - 1));
+		deleteDate.set(Calendar.YEAR, deleteDate.get(Calendar.YEAR) - 1);
 		logService.deleteLogsDueDate(deleteDate);
 	}
 

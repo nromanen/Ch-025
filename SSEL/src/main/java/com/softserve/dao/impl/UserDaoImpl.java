@@ -64,8 +64,7 @@ public class UserDaoImpl implements UserDao {
 				.createQuery("FROM User WHERE email= :email").setParameter(
 						"email", email);
 		try {
-			User user = (User) query.getSingleResult();
-			return user;
+			return (User) query.getSingleResult();
 		} catch (NoResultException exception) {
 			LOG.error("Tried to get user(email = {})", email, exception);
 			return null;
@@ -97,8 +96,7 @@ public class UserDaoImpl implements UserDao {
 				.createQuery("FROM User u WHERE u.verificationKey = :key");
 		query.setParameter("key", key);
 		try {
-			User user = (User) query.getSingleResult();
-			return user;
+			return (User) query.getSingleResult();
 		} catch (NoResultException exception) {
 			LOG.error("Tried to get user(key = {})", key, exception);
 			return null;
