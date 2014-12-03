@@ -49,6 +49,8 @@ public interface UserService {
 	List<User> getUsersByExpiredDate(Date date);
 
 	String getCurrentUser();
+	
+	void changeExpiredDate(String email);
 
 	public List<User> getUsersByPage(int startPosition, int limitLength,
 			String sortBy, String sortMethod);

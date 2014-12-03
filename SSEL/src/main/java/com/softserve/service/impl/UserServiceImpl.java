@@ -253,6 +253,26 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
+	public void changeExpiredDate(String email) {
+		User user = userDao.getUserByEmail(email);
+		if (!user.isAccountNonExpired()) {
+			user.setAccountNonExpired(true);
+			user.setBlocked(true);
+			Calendar calendar = Calendar.getInstance();
+			calendar.add(Calendar.YEAR, ONE_YEAR);
+			user.setExpired(calendar.getTime());
+			user = userDao.updateUser(user);
+
+			TeacherRequest teacherRequest = new TeacherRequest();
+			teacherRequest.setActive(true);
+			teacherRequest.setRequestDate(new Date());
+			teacherRequest.setUser(user);
+			teacherRequestService.addTeacherRequest(teacherRequest);
+		}
+	}
+
+	@Override
+	@Transactional
 	public List<User> getUsersByExpiredDate(Date date) {
 		return userDao.getUsersByExpiredDate(date);
 	}

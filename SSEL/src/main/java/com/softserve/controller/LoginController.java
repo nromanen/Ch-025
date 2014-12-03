@@ -1,6 +1,7 @@
 package com.softserve.controller;
 
 import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,10 +11,13 @@ import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.linkedin.api.LinkedIn;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
+
 import com.softserve.entity.User;
 import com.softserve.service.UserService;
 import com.softserve.util.SecurityUtil;
@@ -78,4 +82,14 @@ public class LoginController {
 		return "redirect:/";
 	}
 
+	@RequestMapping(value = "/expiredAccount", method = RequestMethod.POST, headers = { "content-type=application/json" })
+	@ResponseBody
+	public String expiredAccount(@RequestBody Map<String, Object> map) {
+		String email = map.get("email").toString();
+		if (StringUtils.isBlank(email) || !userService.isExist(email)) {
+			return "error";
+		}
+		userService.changeExpiredDate(email);
+		return "success";
+	}
 }
