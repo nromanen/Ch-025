@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +33,7 @@ public class ConfigurationPropertiesDaoImpl implements ConfigurationPropertiesDa
 		Query query = entityManager.createQuery("FROM ConfigurationProperty cp WHERE cp.id = :id")
 				.setParameter("id", id);
 		List<ConfigurationProperty> list = query.getResultList();
-		return (list.size() > 0) ? list.get(0) : null;
+		return (!list.isEmpty()) ? list.get(0) : null;
 	}
 	/**
 	 * @see com.softserve.dao.ConfigurationPropertiesDao#getPropertyByKey(String)
@@ -44,12 +45,13 @@ public class ConfigurationPropertiesDaoImpl implements ConfigurationPropertiesDa
 		Query query = entityManager.createQuery("FROM ConfigurationProperty cp WHERE cp.key = :key")
 				.setParameter("key", key);
 		List<ConfigurationProperty> list = query.getResultList();
-		return (list.size() >0) ? list.get(0) : null;
+		return (!list.isEmpty()) ? list.get(0) : null;
 	}
 	
 	/**
 	 * @see com.softserve.dao.ConfigurationPropertiesDao#addproperty(com.softserve.entity.ConfigurationProperty)
 	 */
+	@Transactional
 	@Override
 	public ConfigurationProperty addproperty(ConfigurationProperty newProperty) {
 		LOG.debug("add property with id {}", newProperty.getId());
@@ -59,6 +61,7 @@ public class ConfigurationPropertiesDaoImpl implements ConfigurationPropertiesDa
 	/**
 	 * @see com.softserve.dao.ConfigurationPropertiesDao#updateProperty(com.softserve.entity.ConfigurationProperty)
 	 */
+	@Transactional
 	@Override
 	public ConfigurationProperty updateProperty(ConfigurationProperty updatedProperty) {
 		LOG.debug("add property with id {}", updatedProperty.getId());

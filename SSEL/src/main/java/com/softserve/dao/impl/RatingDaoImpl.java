@@ -63,7 +63,6 @@ public class RatingDaoImpl implements RatingDao {
 		query.setParameter("gi", groupId);
 		query.setParameter("ui", userId);
 		if (query.getResultList().size() == 0) {
-			System.out.println("Not records for select");
 			return null;
 		} else {
 			return query.getResultList();
@@ -79,7 +78,7 @@ public class RatingDaoImpl implements RatingDao {
 		query.setParameter("ui", userId);
 		try { 
 			List<Double> resultList = query.getResultList();
-			return (resultList.size() == 0 ) ? 0.0 : resultList.get(0); 
+			return (resultList.isEmpty()) ? 0.0 : resultList.get(0); 
 		} catch (NullPointerException e) {
 			return 0.0;
 		}

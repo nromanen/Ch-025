@@ -26,6 +26,7 @@ import com.softserve.service.AnswerService;
 import com.softserve.service.BlockService;
 import com.softserve.service.QuestionService;
 import com.softserve.service.TestService;
+import com.softserve.validator.QuestionFormValidator;
 import com.softserve.validator.TestValidator;
 
 @Controller
@@ -45,7 +46,15 @@ public class AddTestController {
 	@Autowired
 	private AnswerService answerService;
 	
+	@Autowired
+	private QuestionFormValidator questionFormValidator;
 	
+	/**
+	 * Handle tests list for subject 
+	 * @param subjectId unique subject identifier
+	 * @param model data model for view
+	 * @return logical view name
+	 */
 	@RequestMapping(value = "/tests", method = RequestMethod.GET)
 	public String printTestList(@RequestParam(value = "subjectId", required=true) Integer subjectId, Model model) {
 		List<Test> tests = testService.getTestBySubject(subjectId);
@@ -54,7 +63,12 @@ public class AddTestController {
 		model.addAttribute("blocks", blocks);
 		return "tests";
 	}
-	
+	/**
+	 * Binder for block 
+	 * @param request
+	 * @param binder
+	 * @throws Exception
+	 */
 	@InitBinder
 	public void blockInitBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
 		binder.registerCustomEditor(Block.class, "block", new PropertyEditorSupport() {
@@ -65,7 +79,12 @@ public class AddTestController {
 			}
 		});
 	}
-	
+	/**
+	 * Binder for tests
+	 * @param request
+	 * @param binder
+	 * @throws Exception
+	 */
 	@InitBinder
 	public void testInitBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
 		binder.registerCustomEditor(Test.class, "test", new PropertyEditorSupport() {
@@ -76,7 +95,12 @@ public class AddTestController {
 			}
 		});
 	}
-	
+	/**
+	 * Binder for question
+	 * @param request
+	 * @param binder
+	 * @throws Exception
+	 */
 	@InitBinder
 	public void questionInitBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
 		binder.registerCustomEditor(Question.class, "question", new PropertyEditorSupport() {
@@ -87,7 +111,13 @@ public class AddTestController {
 			}
 		});
 	}
-	
+	/**
+	 * Handle edit/add test form 
+	 * @param subjectId unique subject indetifier
+	 * @param testId unique test identifier. if missing - add test, else - edit existing test
+	 * @param model data model for view
+	 * @return logical name for view
+	 */
 	@RequestMapping(value = "/editTest", method = RequestMethod.GET)
 	public String addTestRender(@RequestParam(value = "subjectId", required = true) Integer subjectId,
 								@RequestParam(value = "testId", required = false) Integer testId,
@@ -97,28 +127,46 @@ public class AddTestController {
 		model.addAttribute("test", test);
 		model.addAttribute("blocks", blocks);
 		model.addAttribute("subjectId", subjectId);
+		model.addAttribute("op", (testId == null) ? true : false);
 		return "editTest";
 	}
-	
+	/**
+	 * Validate and insert/update test
+	 * @param test test form
+	 * @param model data for view
+	 * @param result result binder
+	 * @return logical name of view
+	 */
 	@RequestMapping(value = "/saveTest", method = RequestMethod.POST)
-	public String processTestSubmit(@ModelAttribute("test")Test newTest,
-			Model model, BindingResult result) {
-		testValidator.validate(newTest, result);
-		Integer subjectId = newTest.getBlock().getSubject().getId();
-		Integer testId = newTest.getId();
+	public String processTestSubmit(@ModelAttribute("test") Test test,
+									@RequestParam("op") Boolean op,
+									Model model,
+									BindingResult result) {
+		testValidator.validate(test, result);
+		Integer subjectId = test.getBlock().getSubject().getId();
+		Integer testId = test.getId();
 		if (result.hasErrors()) {
-			System.out.println("Has errors");
 			List<Block> blocks = blockService.getBlocksBySubjectId(subjectId);
-			model.addAttribute("test", newTest);
+			model.addAttribute("test", test);
 			model.addAttribute("blocks", blocks);
 			model.addAttribute("error", "has errors");
 			return "redirect:editTest?subjectId="+subjectId+"&testId="+testId;
 		}
-		testService.updateTest(newTest);
+		if (op) {
+			testService.addTest(test);
+		} else {
+			testService.updateTest(test);
+		}
 		return "redirect:tests?subjectId="+subjectId;
 	}
 	
-	
+	/**
+	 * Edit/add question
+	 * @param testId unique test identifier. 
+	 * @param questionId unique question identifier. If missing add, else - edit 
+	 * @param model data for view
+	 * @return logical name for view
+	 */
 	@RequestMapping(value="/editQuestion", method = RequestMethod.GET)
 	public String addQuestionRender(@RequestParam(value = "testId", required = true) Integer testId,
 									@RequestParam(value = "questionId", required = false) Integer questionId,
@@ -154,26 +202,39 @@ public class AddTestController {
 		model.addAttribute("testName", test.getName());
 		return "editQuestion";		
 	}
-	
+	/**
+	 * Validate and insert/update question
+	 * @param form form with question and answers
+	 * @param result binder for form
+	 * @param model data for view
+	 * @return logical name for view
+	 */
 	@RequestMapping(value="/saveQuestion", method = RequestMethod.POST)
 	public String processSubmitaddQuestion(@ModelAttribute QuestionForm form, BindingResult result,Model model) {
 		int testId = form.getQuestion().getTest().getId();
 		int questionId = form.getQuestion().getId();
+		questionFormValidator.validate(form, result);
 		if (result.hasErrors()) {
 			return "editQuestion?testId="+testId+"&questionId="+questionId;
 		}
 		Test test = testService.getTestById(form.getTestId()); 
 		form.getQuestion().setTest(test);
 		Question question = questionService.addQuestion(form.getQuestion());
+		double answerMark = question.getMark()/question.getAnswersCount();
 		for(Answer answer : form.getAnswers()) {
-			double answerMark = question.getMark()/question.getAnswersCount();
+			answer.setMark((answer.getIsRight()) ? answerMark: 0.0); // for right question mark equals answerMark
 			answer.setQuestion(question);
 			answer.setMark(answerMark);
 			answerService.addAnswer(answer);
 		}
 		return "redirect:testInfo?testId="+testId;		
 	}
-
+	/**
+	 * Render test info page
+	 * @param testId unique test identifier
+	 * @param model data for view
+	 * @return logical name of view
+	 */
 	@RequestMapping(value = "/testInfo", method = RequestMethod.GET)
 	public String printTestInfo(@RequestParam(value = "testId", required = true) Integer testId, Model model) {
 		Test test = testService.getTestById(testId);

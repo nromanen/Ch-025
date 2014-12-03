@@ -5,7 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <div>
-   <form:form method="POST" action="saveTest" commandName="test">
+   <form:form method="POST" action="saveTest?op=${op}" commandName="test">
    <table>
     <tr>
         <td><form:label path="name">Name</form:label></td>

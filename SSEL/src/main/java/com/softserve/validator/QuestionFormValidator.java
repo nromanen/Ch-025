@@ -28,12 +28,12 @@ public class QuestionFormValidator implements Validator{
 		if (qf.getQuestion().getAnswersCount() <= 0) {
 			errors.reject("question.answersCount", "question.answers_count");
 		}
-		
+		answersValidation(qf.getAnswers(), errors);
 	}
 	
 	private void answersValidation(List<Answer> answers, Errors errors) {
 		for (int i = 0; i < answers.size(); i++) {
-			//ValidationUtils.rejectIfEmptyOrWhitespace(errors, "a", errorCode, errorArgs);
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "answers[i].answer", "answer.required");
 		}
 	}
 

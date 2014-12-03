@@ -70,7 +70,7 @@ public class QuestionDaoImpl implements QuestionDao {
 		Query query = entityManager.createQuery("FROM Question q WHERE q.id = :id")
 				.setParameter("id", questionId);
 		List<Question> question = query.getResultList();
-		return (question.size() == 0) ? null : question.get(0);
+		return (question.isEmpty()) ? null : question.get(0);
 	}
 	/**
 	 * @see com.softserve.dao.QuestionDao#getAllQuestionsByTest(int)

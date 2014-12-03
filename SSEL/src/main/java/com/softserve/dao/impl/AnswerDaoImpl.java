@@ -73,7 +73,7 @@ public class AnswerDaoImpl implements AnswerDao{
 		Query query = entityManager.createQuery("FROM Answer a WHERE a.id = :id")
 				.setParameter("id", answerId);
 		List<Answer> answer = query.getResultList();
-		return (answer.size() == 0) ? null : answer.get(0); 
+		return (answer.isEmpty()) ? null : answer.get(0); 
 	}
 
 	@SuppressWarnings("unchecked")

@@ -5,6 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <div class="row">
+	<button><a href="editTest?subjectId=${param.subjectId}">Add new test</a></button>
 	<c:choose>
 	<c:when test="${fn:length(testList) ne 0}">
 		<table class="table table-striped table-bordered table-hover">
