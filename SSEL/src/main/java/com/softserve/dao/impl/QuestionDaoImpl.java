@@ -28,19 +28,27 @@ public class QuestionDaoImpl implements QuestionDao {
 
 	public QuestionDaoImpl() {
 	}
-	
+	/**
+	 * @see com.softserve.dao.QuestionDao#addQuestion(Question)
+	 */
 	@Override
 	public Question addQuestion(Question newQuestion) {
 		LOG.debug("Add new question {}", newQuestion.getId());
-		return entityManager.merge(newQuestion);
+		entityManager.persist(newQuestion);
+		return newQuestion;
 	}
-
+	/**
+	 * @see com.softserve.dao.QuestionDao#updateQuestion(Question)
+	 */
 	@Override
 	public Question updateQuestion(Question updatedQuestion) {
 		LOG.debug("Update new question {}", updatedQuestion.getId());
 		return entityManager.merge(updatedQuestion);
 	}
 
+	/**
+	 * @see com.softserve.dao.QuestionDao#setDeleted(int, boolean)
+	 */
 	@Override
 	public void setDeleted(int questionId, boolean deleted) {
 		Query query = entityManager.createQuery("UPDATE Question q SET q.isDeleted = :deleted WHERE q.id = :id")
@@ -54,32 +62,28 @@ public class QuestionDaoImpl implements QuestionDao {
 		
 	}
 
+	/**
+	 * @see com.softserve.dao.QuestionDao#getQuestionById(int)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public Question getQuestionById(int questionId) {
 		Query query = entityManager.createQuery("FROM Question q WHERE q.id = :id")
 				.setParameter("id", questionId);
 		List<Question> question = query.getResultList();
-		return (question.size() == 0) ? null : question.get(0);
+		return (question.isEmpty()) ? null : question.get(0);
 	}
-
+	/**
+	 * @see com.softserve.dao.QuestionDao#getAllQuestionsByTest(int)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Question> getAllQuestionsByTest(int testId) {
-		Query query = entityManager.createQuery("FROM Question q WHERE q.test.id = :id and q.isDeleted = :del")
+		Query query = entityManager.createQuery("FROM Question q INNER JOIN FETCH q.test "
+				+ "WHERE q.test.id = :id and q.isDeleted = :del")
 				.setParameter("id", testId)
 				.setParameter("del", false);
 		return query.getResultList();
-	}
-
-	@Override
-	public double getMarkForEachQuestion(int testId) {
-		Query query = entityManager.createQuery("SELECT count(q.id) FROM Question q WHERE "
-				+ "q.test.id = :id and q.isDeleted = :del")
-				.setParameter("del", false)
-				.setParameter("id", testId);
-		Double d = (Double) query.getSingleResult();
-		return (d != null) ? 100/d : 0;
 	}
 
 }

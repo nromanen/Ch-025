@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 /**
  * Application config entity
- * @author Анатолій
+ * @author Anatoliy
  *
  */
 @Entity
@@ -19,7 +19,6 @@ public class ConfigurationProperty {
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-
 	@Column (name = "propertyKey")
 	private String key;
 

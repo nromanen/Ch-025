@@ -1,34 +1,33 @@
-package com.softserve.dao;
+package com.softserve.service;
 
 import java.util.List;
 
 import com.softserve.entity.Question;
 
-
-/**
- * Specify question data access object
- * @author Anatoliy
- *
- */
-public interface QuestionDao {
+public interface QuestionService {
 	/**
-	 * Add new question into test
+	 * Add question 
 	 * @param newQuestion question to add
 	 * @return added question
 	 */
 	Question addQuestion(Question newQuestion);
 	/**
 	 * Update question
-	 * @param updatedQuestion question to update
+	 * @param updatedQuestion updated question 
 	 * @return updated question
 	 */
 	Question updateQuestion(Question updatedQuestion);
 	/**
 	 * Mark question as deleted
-	 * @param questionId unique question identifier
-	 * @param deleted true - mark as deleted, false - restore
+	 * @param question question to mark
 	 */
-	void setDeleted(int questionId, boolean deleted);
+	void deleteQuestion(Question question);
+	/**
+	 * Restore deleted question
+	 * @param question deleted question
+	 */
+	void restoreQuestion(Question question);
+	
 	/**
 	 * Return question by id
 	 * @param questionId unique question identifier
@@ -40,5 +39,4 @@ public interface QuestionDao {
 	 * @return list of questions
 	 */
 	List<Question> getAllQuestionsByTest(int testId);
-	
 }
