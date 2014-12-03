@@ -43,7 +43,7 @@ public interface UserService {
 	boolean isEqualsPasswords(String password, User user);
 
 	String getCurrentUser();
-//by paging info
+
 	public List<User> getUsersByPage(int startPosition, int limitLength,
 			String sortBy, String sortMethod);
 
