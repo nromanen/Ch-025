@@ -3,6 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<script src="resources/ckeditor/ckeditor.js"></script>
+
 <div class="row">
 	<div class="col-lg-12">
 		<h1 class="page-header">
@@ -13,32 +15,41 @@
 </div>
 <div class="panel panel-default">
 	<div class="panel-body">
-	<form:form action="saveQuestion" method="POST" commandName="questionForm">
-		<h3>${testName}</h3>
-		<div class="form-group">
-			<p>Question</p>
-			<form:label path="question.question" />
-			<form:input path="question.question" />
+	<form:form action="saveQuestion?op=${op}" method="POST" commandName="questionForm">
+		<div class="page-header">
+			<h3>${testName}</h3>
 		</div>
 		<div class="form-group">
-		<p>Mark</p>
-			<form:label path="question.mark" />
-			<form:input path="question.mark" />
+        	<form:label path="question.question"><h4>Question</h4></form:label>
+        	<form:errors path="question.question" cssClass="alert alert-warning" cssStyle="position:float" />
+        	<form:textarea id="question" path="question.question" rows="15" cols="80"/>
+				<script>
+					CKEDITOR.replace('question');
+				</script>
+    	</div>
+     	<div class="form-group">
+		
+			<form:label path="question.mark" ><h4>Mark</h4></form:label>
+			<form:input path="question.mark" cssClass="form-control" style="width:30%" />
 		</div>
-		<table>
+		<div class="list-group">
+		<h3>Answers</h3>
 		<c:forEach items="${questionForm.answers}" var="answer" varStatus="status">
-			<tr>
-				<td>
-				<div class="form-group">
-					<p>Answer${status.index}</p>
-					<form:label path="answers[${status.index}].answer" itemValue="id" itemLabel="name"/>
-					<form:input path="answers[${status.index}].answer" />
-					<form:checkbox path="answers[${status.index}].isRight" />
+				<div class="list-group-item">
+					<h4 class="list-group-item-heading" >Answer${status.index}</h4>
+					<div class="list-group-item-text">
+						<form:label path="answers[${status.index}].answer" itemValue="id" itemLabel="name"/>
+						<div class="input-group" style="width:30%">
+						<form:input path="answers[${status.index}].answer" cssClass="form-control" />
+						<span class="input-group-addon" style="horizontal-align:left">	
+							<form:checkbox path="answers[${status.index}].isRight" />
+						</span>
+						
+						</div>
+					</div>
 				</div>
-				</td>
-			</tr>
 		</c:forEach>
-		</table>
+		</div>
 		<form:hidden path="testId"/>
 		<form:hidden path="question.answersCount" />
 		

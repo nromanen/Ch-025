@@ -20,11 +20,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.softserve.entity.Answer;
 import com.softserve.entity.Block;
 import com.softserve.entity.Question;
+import com.softserve.entity.Subject;
 import com.softserve.entity.Test;
 import com.softserve.form.QuestionForm;
 import com.softserve.service.AnswerService;
 import com.softserve.service.BlockService;
 import com.softserve.service.QuestionService;
+import com.softserve.service.SubjectService;
 import com.softserve.service.TestService;
 import com.softserve.validator.QuestionFormValidator;
 import com.softserve.validator.TestValidator;
@@ -49,6 +51,8 @@ public class AddTestController {
 	@Autowired
 	private QuestionFormValidator questionFormValidator;
 	
+	@Autowired
+	private SubjectService subjectService;
 	/**
 	 * Handle tests list for subject 
 	 * @param subjectId unique subject identifier
@@ -58,8 +62,10 @@ public class AddTestController {
 	@RequestMapping(value = "/tests", method = RequestMethod.GET)
 	public String printTestList(@RequestParam(value = "subjectId", required=true) Integer subjectId, Model model) {
 		List<Test> tests = testService.getTestBySubject(subjectId);
+		Subject sub = subjectService.getSubjectById(subjectId);
 		List<Block> blocks = blockService.getBlocksBySubjectId(subjectId);
 		model.addAttribute("testList", tests);
+		model.addAttribute("subName", sub.getName());
 		model.addAttribute("blocks", blocks);
 		return "tests";
 	}
@@ -149,14 +155,10 @@ public class AddTestController {
 			List<Block> blocks = blockService.getBlocksBySubjectId(subjectId);
 			model.addAttribute("test", test);
 			model.addAttribute("blocks", blocks);
-			model.addAttribute("error", "has errors");
-			return "redirect:editTest?subjectId="+subjectId+"&testId="+testId;
+			model.addAttribute("op", (testId == null) ? true : false);
+			return "editTest";
 		}
-		if (op) {
-			testService.addTest(test);
-		} else {
-			testService.updateTest(test);
-		}
+		test = (op) ? testService.addTest(test):testService.updateTest(test);
 		return "redirect:tests?subjectId="+subjectId;
 	}
 	
@@ -200,6 +202,7 @@ public class AddTestController {
 		}
 		model.addAttribute("questionForm", testForm);
 		model.addAttribute("testName", test.getName());
+		model.addAttribute("op", (questionId == null) ? true: false);
 		return "editQuestion";		
 	}
 	/**
@@ -210,22 +213,26 @@ public class AddTestController {
 	 * @return logical name for view
 	 */
 	@RequestMapping(value="/saveQuestion", method = RequestMethod.POST)
-	public String processSubmitaddQuestion(@ModelAttribute QuestionForm form, BindingResult result,Model model) {
-		int testId = form.getQuestion().getTest().getId();
-		int questionId = form.getQuestion().getId();
+	public String processSubmitaddQuestion(@ModelAttribute QuestionForm form,
+											BindingResult result,
+											@RequestParam("op") Boolean op,
+											Model model) {
+		int testId = form.getTestId();
 		questionFormValidator.validate(form, result);
 		if (result.hasErrors()) {
-			return "editQuestion?testId="+testId+"&questionId="+questionId;
+			return "editQuestion";
 		}
 		Test test = testService.getTestById(form.getTestId()); 
 		form.getQuestion().setTest(test);
-		Question question = questionService.addQuestion(form.getQuestion());
+		Question question = (op) ? questionService.addQuestion(form.getQuestion()): 
+								   questionService.updateQuestion(form.getQuestion());
 		double answerMark = question.getMark()/question.getAnswersCount();
+		List<Answer> answers = answerService.getAnswersByQuestion(question.getId());
 		for(Answer answer : form.getAnswers()) {
 			answer.setMark((answer.getIsRight()) ? answerMark: 0.0); // for right question mark equals answerMark
 			answer.setQuestion(question);
 			answer.setMark(answerMark);
-			answerService.addAnswer(answer);
+			answer = (answers.contains(answer)) ? answerService.updateAnswer(answer): answerService.addAnswer(answer);
 		}
 		return "redirect:testInfo?testId="+testId;		
 	}

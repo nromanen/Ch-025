@@ -42,7 +42,7 @@ public class TestDaoImpl implements TestDao{
 	@Override
 	public Test getTestById(int testId) {
 		LOG.debug("Get test by id {}", testId);
-		Query query = entityManager.createQuery("FROM Test t WHERE t.id = :id")
+		Query query = entityManager.createQuery("FROM Test t INNER JOIN FETCH t.block WHERE t.id = :id")
 				.setParameter("id", testId);
 		List<Test> test = query.getResultList();
 		return (test.size() == 0) ? null : test.get(0);

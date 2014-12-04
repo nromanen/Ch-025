@@ -4,34 +4,47 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<div>
-   <form:form method="POST" action="saveTest?op=${op}" commandName="test">
-   <table>
-    <tr>
-        <td><form:label path="name">Name</form:label></td>
-        <td><form:input path="name" /></td>
-    </tr>
-    <tr>
-    	<td><form:select path="block" items="${blocks}" itemValue="id" itemLabel="name" /></td>
-    </tr>
-    <tr>
-        <td><form:label path="description">Description</form:label></td>
-        <td><form:input path="description" /></td>
-    </tr>
-     <tr>
-     	<td><form:label path="isAlive"> Active </form:label></td>
-     	<td><form:input path="isAlive" /></td>
-     </tr>  
-      <tr>
-     	<td><form:label path="isDeleted"> Deleted </form:label></td>
-     	<td><form:input path="isDeleted" /></td>
-     </tr>  
-    <tr>
+<script src="resources/ckeditor/ckeditor.js"></script>
+
+<div class="row">
+	<div class="panel panel-default">
+		<div class="panel-body">
+		<h1 class="page-header">
+		<c:choose>
+			<c:when test="${op}">
+				Add new test
+			</c:when>
+			<c:otherwise>
+				Edit test
+			</c:otherwise>
+		</c:choose>
+		</h1>
+   			<form:form method="POST" action="saveTest?op=${op}" cssClass="form-horizontal" commandName="test">
+        		<div class="form-group">
+        			<form:label path="name">Test name</form:label>
+        			<form:errors path="name" cssClass="control-label" />		
+        			<form:input path="name" cssClass="form-control" cssStyle="width:30%"/>
+        			
+        		</div>
+    	<div class="form-group">
+    		<div class="dropdown-menu">
+    		<form:select path="block" items="${blocks}" itemValue="id" itemLabel="name" />
+    		</div>
+    	</div>
+    	<div class="form-group">
+        	<form:label path="description">Description</form:label>
+        	<form:errors path="description" cssClass="alert alert-warning" cssStyle="position:float" />
+        	<form:textarea id="description" path="description" rows="15" cols="80"/>
+				<script>
+					CKEDITOR.replace('description');
+				</script>
+    	</div>
+     	<form:hidden path="isAlive" />
+     	<form:hidden path="isDeleted" />
         <td colspan="2">
-            <input type="submit" value="Submit"/>
+            <input type="submit" value="<spring:message code="label.teacher.save"/>" class="btn btn-primary btn-lg" />
         </td>
-        
-    </tr>
-</table> 
-</form:form>
+			</form:form>
+		</div>
+	</div>
 </div>
