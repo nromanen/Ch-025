@@ -50,7 +50,7 @@ public interface UserService {
 
 	String getCurrentUser();
 	
-	void changeExpiredDate(String email);
+	void changeExpiredDate(String email, String message);
 
 	public List<User> getUsersByPage(int startPosition, int limitLength,
 			String sortBy, String sortMethod);

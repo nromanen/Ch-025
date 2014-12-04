@@ -36,7 +36,7 @@
 						<spring:message code="label.account_expired_exception" />
 						<button class="btn btn-info" type="button" data-toggle="modal" 
 							data-target="#modal_expired_account" id="btn_open_expired_modal">
-							Continue 
+							<spring:message code="label.continue" />
 						</button>
 					</div>
 				</c:if>
@@ -123,7 +123,7 @@
 				    <span class="sr-only">Close</span>
 				</button>
 				<h4 class="modal-title">
-					Continue your account
+					<spring:message code="label.continue_account_date" />
 				</h4>
 			</div>
 			<div class="modal-body">	
@@ -151,6 +151,14 @@
 											title="<spring:message code="placeholder.email" />" >
 		                			</div>
 	                			</div>
+		        			</div>
+		        			<div class="form-group">
+		        				<c:set value="${pageContext.response.locale}" var="local" />
+		        				<div class="col-md-offset-1 col-md-10"> <spring:message code="label.message" />
+		                			<textarea rows="3" id="message" class="form-control" placeholder="<spring:message code="label.message" />"
+		                				style="resize: none" data-toggle="tooltip" title="<spring:message code="label.message" />"
+		                				lang="${local}" ><spring:message code="message.please_continue_term"/></textarea> 
+		                		</div>
 		        			</div>
 						</div>
 					</div>

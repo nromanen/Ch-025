@@ -86,10 +86,12 @@ public class LoginController {
 	@ResponseBody
 	public String expiredAccount(@RequestBody Map<String, Object> map) {
 		String email = map.get("email").toString();
+		String message = StringUtils.trimToEmpty(map.get("message").toString());
+
 		if (StringUtils.isBlank(email) || !userService.isExist(email)) {
 			return "error";
 		}
-		userService.changeExpiredDate(email);
+		userService.changeExpiredDate(email, message);
 		return "success";
 	}
 }

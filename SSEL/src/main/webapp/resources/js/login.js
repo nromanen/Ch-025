@@ -12,10 +12,12 @@ jQuery(document).ready(function($) {
 
 	$("#form_expired_account").submit(function() {
 		var email = $("#email_send").val();
+		var message = $("#message").val();
 		if (email != "") {
 			var url = $(this).attr("action");
 			var json = {
-				"email" : email
+				"email" : email,
+				"message" : message
 			};
 			$.ajax({
 				url : url,

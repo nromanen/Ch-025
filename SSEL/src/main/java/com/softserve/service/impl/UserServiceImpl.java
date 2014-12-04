@@ -253,7 +253,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public void changeExpiredDate(String email) {
+	public void changeExpiredDate(String email, String message) {
 		User user = userDao.getUserByEmail(email);
 		if (!user.isAccountNonExpired()) {
 			user.setAccountNonExpired(true);
@@ -267,6 +267,7 @@ public class UserServiceImpl implements UserService {
 			teacherRequest.setActive(true);
 			teacherRequest.setRequestDate(new Date());
 			teacherRequest.setUser(user);
+			teacherRequest.setMessage(message);
 			teacherRequestService.addTeacherRequest(teacherRequest);
 		}
 	}
