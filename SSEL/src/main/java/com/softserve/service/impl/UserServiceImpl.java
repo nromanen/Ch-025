@@ -302,4 +302,9 @@ public class UserServiceImpl implements UserService {
 	public long getCountOfUsersByText(String searchText) {
 		return userDao.getCountOfUsersByText(searchText);
 	}
+
+	@Override
+	public long getCountOfUsersByRegistrationDate(Date startDate, Date endDate) {
+		return userDao.getCountOfUsersByRegistrationDate(startDate, endDate);
+	}
 }

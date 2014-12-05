@@ -1,5 +1,6 @@
 package com.softserve.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.social.facebook.api.Facebook;
@@ -68,4 +69,6 @@ public interface UserService {
 	long getCountOfUsersByText(String searchText);
 
 	long getCountOfUsersByLastName(String searchText);
+
+	long getCountOfUsersByRegistrationDate(Date startDate, Date endDate);
 }

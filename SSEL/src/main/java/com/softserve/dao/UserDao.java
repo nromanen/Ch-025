@@ -1,5 +1,6 @@
 package com.softserve.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import com.softserve.entity.User;
@@ -46,5 +47,7 @@ public interface UserDao {
 	long getCountOfUsersByText(String searchText);
 
 	long getCountOfUsersByLastName(String searchText);
+
+	long getCountOfUsersByRegistrationDate(Date startDate, Date endDate);
 
 }

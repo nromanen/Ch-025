@@ -2,8 +2,7 @@ package com.softserve.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.Resource;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -27,10 +26,7 @@ import com.softserve.entity.TeacherRequest;
 import com.softserve.entity.User;
 import com.softserve.service.AdministratorService;
 import com.softserve.service.CategoryService;
-import com.softserve.service.CourseSchedulerService;
-import com.softserve.service.LogService;
 import com.softserve.service.RoleService;
-import com.softserve.service.StudentGroupService;
 import com.softserve.service.SubjectService;
 import com.softserve.service.TeacherRequestService;
 import com.softserve.service.UserService;
@@ -43,7 +39,19 @@ import com.softserve.service.UserService;
 @Controller
 public class AdministratorController {
 
+	private static final int MIN_ELEMENTS_ON_PAGE = 1;
+
+	private static final int MAX_ELEMENTS_ON_PAGE = 100;
+
+	private static final int MAX_CATEGORY_NAME_LENGTH = 35;
+
+	private static final String ERROR_MESSAGE = "errorMessage";
+
+	private static final String SUCCESS_MESSAGE = "successMessage";
+
 	public static final int DEFAULT_ELEMENTS_ON_PAGE = 10;
+
+	public static final int DEFAULT_LAST_REGISTRED_DAYS = 8;
 
 	private static final Logger LOG = LoggerFactory
 			.getLogger(AdministratorController.class);
@@ -60,13 +68,7 @@ public class AdministratorController {
 	private SubjectService subjectService;
 
 	@Autowired
-	private StudentGroupService studentGroupService;
-
-	@Autowired
 	private UserService userService;
-
-	@Autowired
-	private CourseSchedulerService courceSchedulerService;
 
 	@Autowired
 	private CategoryService categoryService;
@@ -83,9 +85,6 @@ public class AdministratorController {
 	@Autowired
 	private MessageSource messageSource;
 
-	@Resource(name = "LogService")
-	private LogService logService;
-
 	/**
 	 * Administrator it's method that set parameters and redirect to start admin
 	 * page.
@@ -96,20 +95,33 @@ public class AdministratorController {
 	 */
 	@RequestMapping(value = "/administrator", method = RequestMethod.GET)
 	public String administrator(
-			@RequestParam(value = "successMessage", required = false) String successMessage,
-			@RequestParam(value = "errorMessage", required = false) String errorMessage,
+			@RequestParam(value = SUCCESS_MESSAGE, required = false) String successMessage,
+			@RequestParam(value = ERROR_MESSAGE, required = false) String errorMessage,
 			Model model) {
 		LOG.debug("Visit administrator page");
 		long subjectsCount = subjectService.getCountOfSubjects();
 		int categoriesCount = categoryService.getAllCategories().size();
 		long usersCount = userService.getCountOfUsers();
 		String supportEmail = administratorService.getSupportEmail();
+		Map<String, Long> listMap = administratorService.getCountOfLastRegistredUsers(DEFAULT_LAST_REGISTRED_DAYS);
+		List<String> lastRegDates = new ArrayList<String>();
+		List<Long> lastRegUsers = new ArrayList<Long>();
+		for (String date : listMap.keySet()) {
+			lastRegDates.add(date);
+		}
+		System.out.println(lastRegDates.toString());
+
+		for (Long count : listMap.values()) {
+			lastRegUsers.add(count);
+		}
+
+//		List<Long> lastRegUsers = administratorService.getCountOfLastRegistredUsers(DEFAULT_LAST_REGISTRED_DAYS);
+		model.addAttribute("lastRegDates", lastRegDates);
+		model.addAttribute("lastRegUsers", lastRegUsers);
 
 		setMessage(model, successMessage, errorMessage);
+		setAactiveTeacherRequests(model);
 
-		activeTeacherRequests = (int) teacherRequestService
-				.getAllActiveTeacherRequestsCount();
-		model.addAttribute("activeTeacherRequests", activeTeacherRequests);
 		model.addAttribute("subjectsCount", subjectsCount);
 		model.addAttribute("categoriesCount", categoriesCount);
 		model.addAttribute("usersCount", usersCount);
@@ -132,8 +144,8 @@ public class AdministratorController {
 	 */
 	@RequestMapping(value = "/viewAllCategories", method = RequestMethod.GET)
 	public String viewAllCategories(
-			@RequestParam(value = "successMessage", required = false) String successMessage,
-			@RequestParam(value = "errorMessage", required = false) String errorMessage,
+			@RequestParam(value = SUCCESS_MESSAGE, required = false) String successMessage,
+			@RequestParam(value = ERROR_MESSAGE, required = false) String errorMessage,
 			Model model) {
 		LOG.debug("Visit viewAllCategories page");
 		List<Category> categories = categoryService.getAllCategories();
@@ -160,15 +172,15 @@ public class AdministratorController {
 	@RequestMapping(value = "/deleteCategory", method = RequestMethod.GET)
 	public String deleteCategory(
 			@RequestParam(value = "categoryId", required = false) Integer categoryId,
-			Model model, RedirectAttributes redirectAttributes) {
-		LOG.debug("Visit viewAllCategories page");
+			RedirectAttributes redirectAttributes) {
+		LOG.debug("Visit deleteCategory page");
 		if (categoryId != null) {
 			Category category = categoryService.getCategoryById(categoryId);
 			if (category != null) {
 
 				redirectAttributes
 						.addFlashAttribute(
-								"successMessage",
+								SUCCESS_MESSAGE,
 								getSpringMessage("label.category")
 										+ " <strong>"
 										+ category.getName()
@@ -176,7 +188,7 @@ public class AdministratorController {
 										+ getSpringMessage("message.admin.delete_category"));
 				categoryService.deleteCategory(category);
 			} else {
-				redirectAttributes.addFlashAttribute("errorMessage",
+				redirectAttributes.addFlashAttribute(ERROR_MESSAGE,
 						getSpringMessage("message.admin.no_categoty") + " "
 								+ categoryId);
 			}
@@ -199,28 +211,28 @@ public class AdministratorController {
 	@RequestMapping(value = "/addCategory")
 	public String addCategory(
 			@RequestParam(value = "category", required = false) String categoryName,
-			Model model, RedirectAttributes redirectAttributes) {
-		LOG.debug("Visit viewAllCategories page");
+			RedirectAttributes redirectAttributes) {
+		LOG.debug("Visit addCategory page");
 		if (categoryName != null && categoryName != "") {
-			if (categoryName.length() < 35) {
+			if (categoryName.length() < MAX_CATEGORY_NAME_LENGTH) {
 				categoryName = categoryName.trim();
 				if (!administratorService.addCategory(categoryName)) {
 					redirectAttributes
 							.addFlashAttribute(
-									"successMessage",
+									SUCCESS_MESSAGE,
 									getSpringMessage("label.category")
 											+ " <strong>"
 											+ categoryName
 											+ "</strong> "
 											+ getSpringMessage("message.admin.category_added"));
 				} else {
-					redirectAttributes.addFlashAttribute("errorMessage",
+					redirectAttributes.addFlashAttribute(ERROR_MESSAGE,
 							getSpringMessage("label.category") + " <strong>"
 									+ categoryName + "</strong> "
 									+ getSpringMessage("message.admin.exist"));
 				}
 			} else {
-				redirectAttributes.addFlashAttribute("errorMessage", "<strong>"
+				redirectAttributes.addFlashAttribute(ERROR_MESSAGE, "<strong>"
 						+ categoryName + "</strong> - "
 						+ getSpringMessage("message.admin.long_name"));
 			}
@@ -232,7 +244,7 @@ public class AdministratorController {
 	public String changeCategory(
 			@RequestParam(value = "categoryId", required = false) Integer categoryId,
 			@RequestParam(value = "category", required = false) String category,
-			Model model, RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes) {
 		LOG.debug("Visit changeSubjectCategory page");
 		if (categoryId != null && category != null && category != "") {
 			Category myCategory = categoryService.getCategoryById(categoryId);
@@ -240,20 +252,18 @@ public class AdministratorController {
 				String oldName = myCategory.getName();
 				myCategory.setName(category);
 				categoryService.updateCategory(myCategory);
-					redirectAttributes.addFlashAttribute(
-							"successMessage",
-							getSpringMessage("label.category") + "<b>"
-									+ oldName + "</b> "
-									+ getSpringMessage("message.admin.was_changed")
-									+ " <b>" + myCategory.getName()
-									+ "</b>");
+				redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE,
+						getSpringMessage("label.category") + "<b>" + oldName
+								+ "</b> "
+								+ getSpringMessage("message.admin.was_changed")
+								+ " <b>" + myCategory.getName() + "</b>");
 			} else {
-				redirectAttributes.addFlashAttribute("errorMessage",
+				redirectAttributes.addFlashAttribute(ERROR_MESSAGE,
 						getSpringMessage("message.admin.no_categoty") + " "
 								+ categoryId);
 			}
 		} else {
-			redirectAttributes.addFlashAttribute("errorMessage",
+			redirectAttributes.addFlashAttribute(ERROR_MESSAGE,
 					getSpringMessage("message.admin.invalid_parameters"));
 		}
 		return "redirect:/viewAllCategories";
@@ -285,8 +295,8 @@ public class AdministratorController {
 	 */
 	@RequestMapping(value = "/viewAllUsers", method = RequestMethod.GET)
 	public String viewAllUsers(
-			@RequestParam(value = "successMessage", required = false) String successMessage,
-			@RequestParam(value = "errorMessage", required = false) String errorMessage,
+			@RequestParam(value = SUCCESS_MESSAGE, required = false) String successMessage,
+			@RequestParam(value = ERROR_MESSAGE, required = false) String errorMessage,
 			@RequestParam(value = "searchText", required = false) String searchText,
 			@RequestParam(value = "searchOption", required = false) String searchOption,
 			@RequestParam(value = "elementsOnPage", required = false) Integer elementsOnPage,
@@ -388,8 +398,7 @@ public class AdministratorController {
 			@RequestParam(value = "searchOption", required = false) String searchOption,
 			@RequestParam(value = "sortBy", required = false) String sortBy,
 			@RequestParam(value = "sortMethod", required = false) String sortMethod,
-
-			Model model, RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes) {
 		LOG.debug("Visit changeSubjectCategory page");
 		if (userId != null && roleId != null && userId != 1) {
 			User user = userService.getUserById(userId);
@@ -398,25 +407,28 @@ public class AdministratorController {
 				if (role != null) {
 					user.setRole(role);
 					userService.updateUser(user);
-					redirectAttributes.addFlashAttribute(
-							"successMessage",
-							getSpringMessage("label.user") + "<b>"
-									+ user.getEmail() + "</b> "
-									+ getSpringMessage("message.admin.change_role")
-									+ " <b>" + user.getRole().getRole()
-									+ "</b>");
+					redirectAttributes
+							.addFlashAttribute(
+									SUCCESS_MESSAGE,
+									getSpringMessage("label.user")
+											+ "<b>"
+											+ user.getEmail()
+											+ "</b> "
+											+ getSpringMessage("message.admin.change_role")
+											+ " <b>" + user.getRole().getRole()
+											+ "</b>");
 				} else {
-					redirectAttributes.addFlashAttribute("errorMessage",
+					redirectAttributes.addFlashAttribute(ERROR_MESSAGE,
 							getSpringMessage("message.admin.no_role") + " "
 									+ roleId);
 				}
 			} else {
-				redirectAttributes.addFlashAttribute("errorMessage",
+				redirectAttributes.addFlashAttribute(ERROR_MESSAGE,
 						getSpringMessage("message.admin.no_user") + " "
 								+ userId);
 			}
 		} else {
-			redirectAttributes.addFlashAttribute("errorMessage",
+			redirectAttributes.addFlashAttribute(ERROR_MESSAGE,
 					getSpringMessage("message.admin.invalid_parameters"));
 		}
 		redirectAttributes.addAttribute("currentPage", currentPage);
@@ -461,8 +473,7 @@ public class AdministratorController {
 			@RequestParam(value = "searchOption", required = false) String searchOption,
 			@RequestParam(value = "sortBy", required = false) String sortBy,
 			@RequestParam(value = "sortMethod", required = false) String sortMethod,
-
-			Model model, RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes) {
 		LOG.debug("Visit changeUserStatus page");
 		if (userId != null && userId != 1) {
 			User user = userService.getUserById(userId);
@@ -478,7 +489,7 @@ public class AdministratorController {
 					}
 					redirectAttributes
 							.addAttribute(
-									"successMessage",
+									SUCCESS_MESSAGE,
 									getSpringMessage("label.user")
 											+ " <b>"
 											+ user.getEmail()
@@ -488,7 +499,7 @@ public class AdministratorController {
 					user.setBlocked(true);
 					redirectAttributes
 							.addFlashAttribute(
-									"successMessage",
+									SUCCESS_MESSAGE,
 									getSpringMessage("label.user")
 											+ " <b>"
 											+ user.getEmail()
@@ -497,12 +508,12 @@ public class AdministratorController {
 				}
 				userService.updateUser(user);
 			} else {
-				redirectAttributes.addFlashAttribute("errorMessage",
+				redirectAttributes.addFlashAttribute(ERROR_MESSAGE,
 						getSpringMessage("message.admin.no_user") + " "
 								+ userId);
 			}
 		} else {
-			redirectAttributes.addFlashAttribute("errorMessage",
+			redirectAttributes.addFlashAttribute(ERROR_MESSAGE,
 					getSpringMessage("message.admin.invalid_parameters"));
 		}
 		redirectAttributes.addAttribute("currentPage", currentPage);
@@ -539,8 +550,8 @@ public class AdministratorController {
 	 */
 	@RequestMapping(value = "/viewAllSubjects")
 	public String viewAllSubjects(
-			@RequestParam(value = "successMessage", required = false) String successMessage,
-			@RequestParam(value = "errorMessage", required = false) String errorMessage,
+			@RequestParam(value = SUCCESS_MESSAGE, required = false) String successMessage,
+			@RequestParam(value = ERROR_MESSAGE, required = false) String errorMessage,
 			@RequestParam(value = "searchText", required = false) String searchText,
 			@RequestParam(value = "searchOption", required = false) String searchOption,
 			@RequestParam(value = "elementsOnPage", required = false) Integer elementsOnPage,
@@ -633,8 +644,7 @@ public class AdministratorController {
 			@RequestParam(value = "searchOption", required = false) String searchOption,
 			@RequestParam(value = "sortBy", required = false) String sortBy,
 			@RequestParam(value = "sortMethod", required = false) String sortMethod,
-
-			Model model, RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes) {
 		LOG.debug("Visit changeSubjectCategory page");
 		if (subjectId != null && categoryId != null) {
 			Subject subject = subjectService.getSubjectById(subjectId);
@@ -645,7 +655,7 @@ public class AdministratorController {
 					subjectService.updateSubject(subject);
 					redirectAttributes
 							.addFlashAttribute(
-									"successMessage",
+									SUCCESS_MESSAGE,
 									getSpringMessage("message.admin.category_subject")
 											+ " "
 											+ subject.getName()
@@ -655,16 +665,16 @@ public class AdministratorController {
 											+ subject.getCategory().getName()
 											+ "</b>");
 				} else {
-					redirectAttributes.addFlashAttribute("errorMessage",
+					redirectAttributes.addFlashAttribute(ERROR_MESSAGE,
 							"No category with id " + categoryId);
 				}
 			} else {
-				redirectAttributes.addFlashAttribute("errorMessage",
+				redirectAttributes.addFlashAttribute(ERROR_MESSAGE,
 						getSpringMessage("message.admin.no_subject") + " "
 								+ subjectId);
 			}
 		} else {
-			redirectAttributes.addFlashAttribute("errorMessage",
+			redirectAttributes.addFlashAttribute(ERROR_MESSAGE,
 					getSpringMessage("message.admin.invalid_parameters"));
 		}
 		redirectAttributes.addAttribute("currentPage", currentPage);
@@ -690,8 +700,8 @@ public class AdministratorController {
 	 */
 	@RequestMapping(value = "/viewAllRequests")
 	public String viewAllRequests(
-			@RequestParam(value = "successMessage", required = false) String successMessage,
-			@RequestParam(value = "errorMessage", required = false) String errorMessage,
+			@RequestParam(value = SUCCESS_MESSAGE, required = false) String successMessage,
+			@RequestParam(value = ERROR_MESSAGE, required = false) String errorMessage,
 			Model model) {
 		LOG.debug("Visit viewAllRequests page");
 		setMessage(model, successMessage, errorMessage);
@@ -718,7 +728,7 @@ public class AdministratorController {
 	@RequestMapping(value = "/changeUserRoleToTeacher")
 	public String changeUserRoleToTeacher(
 			@RequestParam(value = "userId", required = false) Integer userId,
-			Model model, RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes) {
 		LOG.debug("Visit changeUserRoleToTeacher page");
 		if (userId != null && userId != 1) {
 			User user = userService.getUserById(userId);
@@ -730,18 +740,18 @@ public class AdministratorController {
 				teacherRequest.setActive(false);
 				teacherRequestService.updateTeacherRequest(teacherRequest);
 				redirectAttributes.addFlashAttribute(
-						"successMessage",
+						SUCCESS_MESSAGE,
 						getSpringMessage("label.user") + " <b>"
 								+ user.getEmail() + "</b> "
 								+ getSpringMessage("message.admin.to_teacher"));
 			} else {
-				redirectAttributes.addFlashAttribute("errorMessage",
+				redirectAttributes.addFlashAttribute(ERROR_MESSAGE,
 						getSpringMessage("message.admin.no_user") + " "
 								+ userId);
 			}
 
 		} else {
-			redirectAttributes.addFlashAttribute("errorMessage",
+			redirectAttributes.addFlashAttribute(ERROR_MESSAGE,
 					getSpringMessage("message.admin.invalid_parameters"));
 		}
 		return "redirect:/viewAllRequests";
@@ -761,7 +771,7 @@ public class AdministratorController {
 	@RequestMapping(value = "/deleteTeacherRequest")
 	public String deleteTeacherRequest(
 			@RequestParam(value = "userId", required = false) Integer userId,
-			Model model, RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes) {
 		LOG.debug("Visit changeUserRoleToAdmin page");
 		if (userId != null) {
 			TeacherRequest teacherRequest = teacherRequestService
@@ -769,15 +779,15 @@ public class AdministratorController {
 			if (teacherRequest != null) {
 				teacherRequest.setActive(false);
 				teacherRequestService.updateTeacherRequest(teacherRequest);
-				redirectAttributes.addFlashAttribute("successMessage",
+				redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE,
 						getSpringMessage("message.admin.delete_request"));
 			} else {
-				redirectAttributes.addFlashAttribute("errorMessage",
+				redirectAttributes.addFlashAttribute(ERROR_MESSAGE,
 						getSpringMessage("message.admin.no_user_request") + " "
 								+ userId);
 			}
 		} else {
-			redirectAttributes.addFlashAttribute("errorMessage",
+			redirectAttributes.addFlashAttribute(ERROR_MESSAGE,
 					getSpringMessage("message.admin.invalid_parameters"));
 		}
 		return "redirect:/viewAllRequests";
@@ -786,14 +796,16 @@ public class AdministratorController {
 	@RequestMapping(value = "/changeSupportEmail")
 	public String changeSupportEmail(
 			@RequestParam(value = "email", required = false) String email,
-			Model model, RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes) {
 		LOG.debug("Visit changeUserRoleToAdmin page");
-		if (email != null & email !="") {
+		if (email != null & email != "") {
 			administratorService.setSupportEmail(email);
-			redirectAttributes.addFlashAttribute("successMessage",
-					getSpringMessage("label.support_email") + " " + getSpringMessage("message.admin.was_changed") + " " + email );
+			redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE,
+					getSpringMessage("label.support_email") + " "
+							+ getSpringMessage("message.admin.was_changed")
+							+ " " + email);
 		} else {
-			redirectAttributes.addFlashAttribute("errorMessage",
+			redirectAttributes.addFlashAttribute(ERROR_MESSAGE,
 					getSpringMessage("message.admin.invalid_parameters"));
 		}
 		return "redirect:/administrator";
@@ -810,8 +822,7 @@ public class AdministratorController {
 	public @ResponseBody String checkCategory(
 			@RequestParam(value = "categoryId", required = false) Integer categoryId) {
 		Category category = categoryService.getCategoryById(categoryId);
-		int count = (int) subjectService.getCountOfSubjectsByCategory(category
-				.getName());
+		count = subjectService.getCountOfSubjectsByCategory(category.getName());
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("count", count);
 		jsonObject.put("categoryId", categoryId);
@@ -872,17 +883,17 @@ public class AdministratorController {
 	private void setMessage(Model model, String successMessage,
 			String errorMessage) {
 		if (successMessage != null) {
-			model.addAttribute("successMessage", successMessage);
+			model.addAttribute(SUCCESS_MESSAGE, successMessage);
 		}
 		if (errorMessage != null) {
-			model.addAttribute("errorMessage", errorMessage);
+			model.addAttribute(ERROR_MESSAGE, errorMessage);
 		}
 	}
 
 	private void setPaginationProperties(Model model, Integer elementsOnPage,
 			Integer currentPage) {
-		if (elementsOnPage == null || elementsOnPage < 1
-				|| elementsOnPage > 100) {
+		if (elementsOnPage == null || elementsOnPage < MIN_ELEMENTS_ON_PAGE
+				|| elementsOnPage > MAX_ELEMENTS_ON_PAGE) {
 			this.elementsOnPage = DEFAULT_ELEMENTS_ON_PAGE;
 		} else {
 			this.elementsOnPage = elementsOnPage;
@@ -925,6 +936,7 @@ public class AdministratorController {
 		model.addAttribute("activeTeacherRequests", activeTeacherRequests);
 	}
 
+	// change try catch bla bla foreach...
 	private String beforeSearch(String str) {
 		str = str.trim();
 		str = str.replaceAll("\\<.*?>", "");

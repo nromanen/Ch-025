@@ -1,5 +1,6 @@
 package com.softserve.dao.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -103,15 +104,15 @@ public class UserDaoImpl implements UserDao {
 		}
 	}
 
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<User> getUsersByFirstNameByPage(String searchText,
 			int startPosition, int limitLength, String sortBy, String sortMethod) {
 		LOG.debug("Get all Users vs firstName = {}", searchText);
-		String textQuery = "FROM User u WHERE u.firstName LIKE '%" + searchText + "%'";
-		Query query = setQueryParameters(textQuery, startPosition, limitLength, sortBy,
-				sortMethod);
+		String textQuery = "FROM User u WHERE u.firstName LIKE '%" + searchText
+				+ "%'";
+		Query query = setQueryParameters(textQuery, startPosition, limitLength,
+				sortBy, sortMethod);
 		return query.getResultList();
 	}
 
@@ -120,9 +121,10 @@ public class UserDaoImpl implements UserDao {
 	public List<User> getUsersByLastNameByPage(String searchText,
 			int startPosition, int limitLength, String sortBy, String sortMethod) {
 		LOG.debug("Get all Users vs limit last = {}", searchText);
-		String textQuery = "FROM User u WHERE u.lastName LIKE '%" + searchText + "%'";
-		Query query = setQueryParameters(textQuery, startPosition, limitLength, sortBy,
-				sortMethod);
+		String textQuery = "FROM User u WHERE u.lastName LIKE '%" + searchText
+				+ "%'";
+		Query query = setQueryParameters(textQuery, startPosition, limitLength,
+				sortBy, sortMethod);
 		return query.getResultList();
 	}
 
@@ -132,12 +134,12 @@ public class UserDaoImpl implements UserDao {
 			int startPosition, int limitLength, String sortBy, String sortMethod) {
 		LOG.debug("Get all Users vs limit searchText = {}", searchText);
 
-		String textQuery = "FROM User u WHERE u.role.role LIKE '%" + searchText + "%'";
-		Query query = setQueryParameters(textQuery, startPosition, limitLength, sortBy,
-				sortMethod);
+		String textQuery = "FROM User u WHERE u.role.role LIKE '%" + searchText
+				+ "%'";
+		Query query = setQueryParameters(textQuery, startPosition, limitLength,
+				sortBy, sortMethod);
 		return query.getResultList();
 	}
-
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -145,8 +147,8 @@ public class UserDaoImpl implements UserDao {
 			String sortBy, String sortMethod) {
 		LOG.debug("Get Users from - to = {} {}", startPosition, limitLength);
 		String textQuery = "FROM User u";
-		Query query = setQueryParameters(textQuery, startPosition, limitLength, sortBy,
-				sortMethod);
+		Query query = setQueryParameters(textQuery, startPosition, limitLength,
+				sortBy, sortMethod);
 		return query.getResultList();
 	}
 
@@ -160,9 +162,9 @@ public class UserDaoImpl implements UserDao {
 				+ "' or u.email LIKE '" + searchText
 				+ "' or u.firstName LIKE '" + searchText
 				+ "' or u.lastName LIKE '" + searchText
-				+ "' or u.role.role LIKE '" + searchText+ "'";
-		Query query = setQueryParameters(textQuery, startPosition, limitLength, sortBy,
-				sortMethod);
+				+ "' or u.role.role LIKE '" + searchText + "'";
+		Query query = setQueryParameters(textQuery, startPosition, limitLength,
+				sortBy, sortMethod);
 		return query.getResultList();
 	}
 
@@ -222,9 +224,8 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public long getCountOfUsersByFirstName(String searchName) {
 		LOG.debug("Get Users by firstName count");
-		Query query = entityManager
-				.createQuery("SELECT COUNT (*) FROM User u "
-						+ "WHERE u.firstName LIKE :name");
+		Query query = entityManager.createQuery("SELECT COUNT (*) FROM User u "
+				+ "WHERE u.firstName LIKE :name");
 		query.setParameter("name", "%" + searchName + "%");
 		return (Long) query.getSingleResult();
 	}
@@ -232,9 +233,8 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public long getCountOfUsersByLastName(String searchName) {
 		LOG.debug("Get Users by lastName count");
-		Query query = entityManager
-				.createQuery("SELECT COUNT (*) FROM User u "
-						+ "WHERE u.lastName LIKE :name");
+		Query query = entityManager.createQuery("SELECT COUNT (*) FROM User u "
+				+ "WHERE u.lastName LIKE :name");
 		query.setParameter("name", "%" + searchName + "%");
 		return (Long) query.getSingleResult();
 	}
@@ -242,9 +242,8 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public long getCountOfUsersByRole(String searchRole) {
 		LOG.debug("Get Users by category count");
-		Query query = entityManager
-				.createQuery("SELECT COUNT (*) FROM User u "
-						+ "WHERE u.role.role LIKE :name");
+		Query query = entityManager.createQuery("SELECT COUNT (*) FROM User u "
+				+ "WHERE u.role.role LIKE :name");
 		query.setParameter("name", "%" + searchRole + "%");
 		return (Long) query.getSingleResult();
 	}
@@ -253,14 +252,21 @@ public class UserDaoImpl implements UserDao {
 	public long getCountOfUsersByText(String searchText) {
 		LOG.debug("Get Users count");
 		searchText = "%" + searchText + "%";
-		Query query = entityManager
-				.createQuery("SELECT COUNT (*) FROM User u "
-						+ "WHERE u.id LIKE '" + searchText
-						+ "' or u.email LIKE '" + searchText
-						+ "' or u.firstName LIKE '" + searchText
-						+ "' or u.lastName LIKE '" + searchText
-						+ "' or u.role.role LIKE '" + searchText+ "'");
+		Query query = entityManager.createQuery("SELECT COUNT (*) FROM User u "
+				+ "WHERE u.id LIKE '" + searchText + "' or u.email LIKE '"
+				+ searchText + "' or u.firstName LIKE '" + searchText
+				+ "' or u.lastName LIKE '" + searchText
+				+ "' or u.role.role LIKE '" + searchText + "'");
 		return (Long) query.getSingleResult();
 	}
 
+	public long getCountOfUsersByRegistrationDate(Date startDate, Date endDate) {
+		LOG.debug("Get Users by registration day count");
+		Query query = entityManager
+				.createQuery("SELECT COUNT (*) FROM User u WHERE u.registration >= :startDate "
+						+ "AND u.registration < :endDate");
+		query.setParameter("startDate", startDate);
+		query.setParameter("endDate", endDate);
+		return (Long) query.getSingleResult();
+	}
 }
