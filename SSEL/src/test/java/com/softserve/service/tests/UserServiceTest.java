@@ -127,7 +127,7 @@ public class UserServiceTest {
 		registration.setLastName("Homyshyn");
 		registration.setPassword("1234");
 		registration.setTeacher(true);
-		userService.registrateTeacher(registration, "message");
+		userService.registrateTeacher(registration, "email message", "request message");
 		assertEquals(3, userService.getAllUsers().size());
 		teacherRequestService.deleteTeacherRequest(teacherRequestService
 				.getTeacherRequestById(1));

@@ -64,10 +64,13 @@ public class RegistrationController {
 			return "registration";
 		}
 		if (registration.isTeacher()) {
-			String message = messageSource.getMessage(
+			String emailmessage = messageSource.getMessage(
 					"message.teacher.confirm_registration", new Object[] {},
 					LocaleContextHolder.getLocale());
-			userService.registrateTeacher(registration, message);
+			String requestMessage = messageSource.getMessage(
+					"message.teacher.request_message", new Object[] {},
+					LocaleContextHolder.getLocale());
+			userService.registrateTeacher(registration, emailmessage, requestMessage);
 		} else {
 			String message = messageSource.getMessage(
 					"message.user.confirm_registration", new Object[] {},

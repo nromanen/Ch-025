@@ -28,10 +28,11 @@ public interface UserService {
 
 	void registrateStudent(Registration registration, String url, String message);
 
-	void registrateTeacher(Registration registration, String message);
+	void registrateTeacher(Registration registration, String emailMessage,
+			String requestMessage);
 
 	void registrateFacebookUser(Facebook facebook);
-	
+
 	void registrateLinkedInUser(LinkedIn linkedIn);
 
 	User getUserByKey(String key);
@@ -45,11 +46,11 @@ public interface UserService {
 	void changePassword(User user, String password);
 
 	boolean isEqualsPasswords(String password, User user);
-	
+
 	List<User> getUsersByExpiredDate(Date date);
 
 	String getCurrentUser();
-	
+
 	void changeExpiredDate(String email, String message);
 
 	public List<User> getUsersByPage(int startPosition, int limitLength,

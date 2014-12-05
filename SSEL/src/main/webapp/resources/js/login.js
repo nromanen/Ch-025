@@ -27,7 +27,6 @@ jQuery(document).ready(function($) {
 				success : function(response) {
 					if (response == "success") {
 						$("#modal_expired_account").modal("hide");
-						//window.location = "/login";
 					} else {
 						// bootbox alert
 						$("#email_send").val('');

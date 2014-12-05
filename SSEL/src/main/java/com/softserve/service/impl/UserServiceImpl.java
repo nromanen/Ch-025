@@ -118,7 +118,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public void registrateTeacher(Registration registration, String message) {
+	public void registrateTeacher(Registration registration,
+			String emailMessage, String requestMessage) {
 		Calendar calendar = Calendar.getInstance();
 
 		User user = new User();
@@ -140,9 +141,11 @@ public class UserServiceImpl implements UserService {
 		teacherRequest.setActive(true);
 		teacherRequest.setRequestDate(new Date());
 		teacherRequest.setUser(user);
+		teacherRequest.setMessage(requestMessage);
 		teacherRequestService.addTeacherRequest(teacherRequest);
 
-		mailService.sendMail(user.getEmail(), "SSEL registration", message);
+		mailService
+				.sendMail(user.getEmail(), "SSEL registration", emailMessage);
 	}
 
 	@Override

@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -80,8 +79,8 @@ public class TeacherController {
 	}
 
 	@InitBinder
-	public void userInitBinder(HttpServletRequest request,
-			ServletRequestDataBinder binder) throws Exception {
+	public void userInitBinder(ServletRequestDataBinder binder)
+			throws Exception {
 		binder.registerCustomEditor(User.class, "user",
 				new PropertyEditorSupport() {
 					@Override
@@ -94,8 +93,8 @@ public class TeacherController {
 	}
 
 	@InitBinder
-	public void blockInitBinder(HttpServletRequest request,
-			ServletRequestDataBinder binder) throws Exception {
+	public void blockInitBinder(ServletRequestDataBinder binder)
+			throws Exception {
 		binder.registerCustomEditor(Block.class, "block",
 				new PropertyEditorSupport() {
 					@Override
@@ -108,8 +107,8 @@ public class TeacherController {
 	}
 
 	@InitBinder
-	public void subjectInitBinder(HttpServletRequest request,
-			ServletRequestDataBinder binder) throws Exception {
+	public void subjectInitBinder(ServletRequestDataBinder binder)
+			throws Exception {
 		binder.registerCustomEditor(Subject.class, "subject",
 				new PropertyEditorSupport() {
 					@Override
@@ -122,8 +121,8 @@ public class TeacherController {
 	}
 
 	@InitBinder
-	public void categoryInitBinder(HttpServletRequest request,
-			ServletRequestDataBinder binder) throws Exception {
+	public void categoryInitBinder(ServletRequestDataBinder binder)
+			throws Exception {
 		binder.registerCustomEditor(Category.class, "category",
 				new PropertyEditorSupport() {
 					@Override
