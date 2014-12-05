@@ -49,6 +49,7 @@ import com.softserve.service.RoleService;
 import com.softserve.service.StudentCabinetService;
 import com.softserve.service.StudentGroupService;
 import com.softserve.service.SubjectService;
+import com.softserve.dao.StudyDocumentDao;
 import com.softserve.service.TopicService;
 import com.softserve.service.UserService;
 import com.softserve.validator.BlockValidator;
@@ -108,6 +109,9 @@ public class TeacherController {
 	@Autowired
 	private StudyDocumentValidator studyDocumentValidator;
 
+	@Autowired
+	private StudyDocumentDao studyDocumentService;
+	
 	@Autowired
 	private GroupService groupService;
 
@@ -504,6 +508,57 @@ public class TeacherController {
 		return "redirect:/teacher";
 	}
 
+	@RequestMapping(value = "/deleteTopics", method = RequestMethod.GET)
+	public String deleteTopics(@RequestParam(value = "topicIds", required = true) String topicIds, Model model) {
+
+		for (String idInStr : topicIds.split(",")) {
+			
+				Integer id = Integer.parseInt(idInStr);
+				
+				Topic topic = topicService.getTopicById(id);
+				List<StudyDocument> studyDocumentList = studyDocumentService.listByTopicId(id);
+
+				for (StudyDocument sd: studyDocumentList)
+					studyDocumentService.delete(sd.getId());
+				
+					topicService.deleteTopic(topic);
+
+		}
+		return "redirect:/teacher";
+	}
+	
+	@RequestMapping(value = "/enableTopics", method = RequestMethod.GET)
+	public String enableTopics(@RequestParam(value = "topicIds", required = true) String topicIds, Model model) {
+
+		for (String idInStr : topicIds.split(",")) {
+			
+				Integer id = Integer.parseInt(idInStr);
+				
+				Topic topic = topicService.getTopicById(id);
+				topic.setAlive(true);
+			
+				topicService.updateTopic(topic);
+
+		}
+		return "redirect:/teacher";
+	}
+	
+	@RequestMapping(value = "/disableTopics", method = RequestMethod.GET)
+	public String disableTopics(@RequestParam(value = "topicIds", required = true) String topicIds, Model model) {
+
+		for (String idInStr : topicIds.split(",")) {
+			
+				Integer id = Integer.parseInt(idInStr);
+				
+				Topic topic = topicService.getTopicById(id);
+				topic.setAlive(false);
+				
+				topicService.updateTopic(topic);
+
+		}
+		return "redirect:/teacher";
+	}
+	
 	@RequestMapping(value = "/deleteCategories", method = RequestMethod.GET)
 	public String deleteCategories(@RequestParam(value = "categoriesIds", required = true) String categoriesIds,
 			Model model) {

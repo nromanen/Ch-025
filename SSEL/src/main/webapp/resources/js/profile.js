@@ -2,6 +2,7 @@ jQuery(document).ready(function($) {
 
 	$('#form_change_password').bootstrapValidator();
 	$('#form_change_user_information').bootstrapValidator();
+	$('#form_edit_phone').bootstrapValidator();
 	
 	$("#fileupload").click(function() {
 		$("#photo").remove();
@@ -27,6 +28,22 @@ jQuery(document).ready(function($) {
 	    $('#form_new_password').bootstrapValidator('resetForm', true);
 	});
 	
+	$('#modal_edit_phone').on('shown.bs.modal', function() {
+	    $('#form_edit_phone').bootstrapValidator('resetForm', true);
+	});
+	
+	$('#btn_phone_edit').click(function(){
+		$('#modal_edit_phone').modal('show');
+	});
+	
+	$(":input").inputmask();
+	
+	$('#phone').keyup(function(e){
+		if(e.keyCode == 8) {
+			$('#form_edit_phone').bootstrapValidator('revalidateField', 'phone');
+		}
+	});
+	
 	$('[data-toggle="tooltip"]').tooltip();
 
 	$("#form_change_user_information").submit(function() {
@@ -47,9 +64,35 @@ jQuery(document).ready(function($) {
 					if (response == "success") {
 						location.reload();
 					} else {
-						//bootbox alert
+						// bootbox alert
 						$("#first_name").val('');
 						$("#last_name").val('');
+					}
+				}
+			});
+		}
+		return false;
+	});
+	
+	$("#form_edit_phone").submit(function() {
+		var phone = $("#phone").val();
+		if (phone != "") {
+			var url = $(this).attr("action");
+			var json = {
+				"phone" : phone
+			};
+			$.ajax({
+				url : url,
+				data : JSON.stringify(json),
+				contentType : 'application/json',
+				type : "POST",
+				success : function(response) {
+					if (response == "success") {
+						location.reload();
+					} else {
+						// bootbox alert
+						$("#phone").val('');
+						$('#form_edit_phone').bootstrapValidator('revalidateField', 'phone');
 					}
 				}
 			});
@@ -75,7 +118,7 @@ jQuery(document).ready(function($) {
 					if (response == "success") {
 						$("#modal_change_password").modal("hide");
 					} else {
-						//bootbox alert
+						// bootbox alert
 					}
 				}
 			});
@@ -100,7 +143,7 @@ jQuery(document).ready(function($) {
 						$("#modal_new_password").modal("hide");
 						location.reload();
 					} else {
-						//bootbox alert
+						// bootbox alert
 					}
 				}
 			});
@@ -193,7 +236,9 @@ jQuery(document).ready(function($) {
 	    }).on('fileuploadfail', function (e, data) {
 	        $.each(data.files, function (index) {
 	        	location.reload();
-	            var error = $('<span class="text-danger"/>'); //.text('File upload failed.')
+	            var error = $('<span class="text-danger"/>'); // .text('File
+																// upload
+																// failed.')
 	            $(data.context.children()[index])
 	                .append('<br>')
 	                .append(error);

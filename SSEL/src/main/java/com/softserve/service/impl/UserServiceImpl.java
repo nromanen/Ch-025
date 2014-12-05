@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.FacebookProfile;
 import org.springframework.social.facebook.api.UserOperations;
+import org.springframework.social.linkedin.api.LinkedIn;
+import org.springframework.social.linkedin.api.LinkedInProfile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -92,20 +94,19 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public void registrateStudent(Registration registration, String url,
 			String message) {
-		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(
-				PASSWORD_STRENGTH);
 		Calendar calendar = Calendar.getInstance();
 
 		User user = new User();
 		user.setEmail(registration.getEmail().trim());
-		user.setPassword(passwordEncoder.encode(registration.getPassword()));
+		user.setPassword(getEncoderPassword(registration.getPassword()));
 		user.setBlocked(true);
 		user.setFirstName(registration.getFirstName().trim());
 		user.setLastName(registration.getLastName().trim());
 		user.setRegistration(calendar.getTime());
 		calendar.add(Calendar.YEAR, ONE_YEAR);
 		user.setExpired(calendar.getTime());
-		user.setVerificationKey(passwordEncoder.encode(registration.getEmail()));
+		user.setAccountNonExpired(true);
+		user.setVerificationKey(getEncoderPassword(registration.getEmail()));
 		user.setRole(roleService.getRoleByName(Roles.STUDENT.toString()));
 		user.setSocial(Social.REGISTRATION);
 
@@ -118,20 +119,19 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public void registrateTeacher(Registration registration, String message) {
-		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(
-				PASSWORD_STRENGTH);
 		Calendar calendar = Calendar.getInstance();
 
 		User user = new User();
 		user.setEmail(registration.getEmail().trim());
-		user.setPassword(passwordEncoder.encode(registration.getPassword()));
+		user.setPassword(getEncoderPassword(registration.getPassword()));
 		user.setBlocked(true);
 		user.setFirstName(registration.getFirstName().trim());
 		user.setLastName(registration.getLastName().trim());
 		user.setRegistration(calendar.getTime());
 		calendar.add(Calendar.YEAR, ONE_YEAR);
 		user.setExpired(calendar.getTime());
-		user.setVerificationKey(passwordEncoder.encode(registration.getEmail()));
+		user.setAccountNonExpired(true);
+		user.setVerificationKey(getEncoderPassword(registration.getEmail()));
 		user.setRole(roleService.getRoleByName(Roles.TEACHER.toString()));
 		user.setSocial(Social.REGISTRATION);
 		user = userDao.addUser(user);
@@ -147,33 +147,50 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public void registrateFacebookUser(Facebook facebook, String url,
-			String message) {
+	public void registrateFacebookUser(Facebook facebook) {
 		UserOperations operations = facebook.userOperations();
 		FacebookProfile profile = operations.getUserProfile();
 		if (!userDao.isExist(profile.getEmail())) {
 			Calendar calendar = Calendar.getInstance();
-			PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(
-					PASSWORD_STRENGTH);
 			User user = new User();
 			user.setBlocked(false);
 			user.setEmail(profile.getEmail());
 			user.setRegistration(calendar.getTime());
 			calendar.add(Calendar.YEAR, ONE_YEAR);
 			user.setExpired(calendar.getTime());
+			user.setAccountNonExpired(true);
 			user.setFirstName(profile.getFirstName());
 			user.setLastName(profile.getLastName());
 			user.setImage(operations.getUserProfileImage());
 			user.setPassword(getEncoderPassword(DEFAULT_PASSWORD));
 			user.setRole(roleService.getRoleByName(Roles.STUDENT.toString()));
 			user.setSocial(Social.FACEBOOK);
-			user.setVerificationKey(passwordEncoder.encode(profile.getEmail()));
+			user.setVerificationKey(getEncoderPassword(profile.getEmail()));
 			userDao.addUser(user);
-			url = url.replace("/social",
-					"/remind/pass?key=" + user.getVerificationKey());
-			message += " <a href=\"" + url + "\">" + url + "</a>";
-			mailService.sendMail(user.getEmail(), "SSEL create new password",
-					message);
+		}
+	}
+
+	@Override
+	@Transactional
+	public void registrateLinkedInUser(LinkedIn linkedIn) {
+		LinkedInProfile profile = linkedIn.profileOperations().getUserProfile();
+		if (!userDao.isExist(profile.getEmailAddress())) {
+			Calendar calendar = Calendar.getInstance();
+			User user = new User();
+			user.setBlocked(false);
+			user.setEmail(profile.getEmailAddress());
+			user.setRegistration(calendar.getTime());
+			calendar.add(Calendar.YEAR, ONE_YEAR);
+			user.setExpired(calendar.getTime());
+			user.setAccountNonExpired(true);
+			user.setFirstName(profile.getFirstName());
+			user.setLastName(profile.getLastName());
+			user.setPassword(getEncoderPassword(DEFAULT_PASSWORD));
+			user.setRole(roleService.getRoleByName(Roles.STUDENT.toString()));
+			user.setSocial(Social.LINKEDIN);
+			user.setVerificationKey(getEncoderPassword(profile
+					.getEmailAddress()));
+			userDao.addUser(user);
 		}
 	}
 
@@ -190,18 +207,14 @@ public class UserServiceImpl implements UserService {
 		message += " <a href=\"" + url + "\">" + url + "</a>";
 		mailService.sendMail(user.getEmail(), "SSEL change password", message);
 		user.setBlocked(true);
-		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(
-				PASSWORD_STRENGTH);
-		user.setPassword(passwordEncoder.encode(DEFAULT_PASSWORD));
+		user.setPassword(getEncoderPassword(DEFAULT_PASSWORD));
 		userDao.updateUser(user);
 	}
 
 	@Override
 	@Transactional
 	public void restorePassword(User user, ResetPassword resetPassword) {
-		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(
-				PASSWORD_STRENGTH);
-		user.setPassword(passwordEncoder.encode(resetPassword.getPassword()));
+		user.setPassword(getEncoderPassword(resetPassword.getPassword()));
 		user.setBlocked(false);
 		userDao.updateUser(user);
 	}
@@ -240,66 +253,72 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public List<User> getUsersVsLimit(int startPosition, int limitLength,
+	public List<User> getUsersByExpiredDate(Date date) {
+		return userDao.getUsersByExpiredDate(date);
+	}
+
+	@Override
+	@Transactional
+	public List<User> getUsersByPage(int startPosition, int limitLength,
 			String sortBy, String sortMethod) {
-		return userDao.getUsersVsLimit(startPosition, limitLength, sortBy,
+		return userDao.getUsersByPage(startPosition, limitLength, sortBy,
 				sortMethod);
 	}
 
 	@Override
 	@Transactional
-	public List<User> getUsersByFirstNameVsLimit(String searchText,
+	public List<User> getUsersByFirstNameByPage(String searchText,
 			int startPosition, int limitLength, String sortBy, String sortMethod) {
-		return userDao.getUsersByFirstNameVsLimit(searchText, startPosition,
+		return userDao.getUsersByFirstNameByPage(searchText, startPosition,
 				limitLength, sortBy, sortMethod);
 	}
 
 	@Override
 	@Transactional
-	public List<User> getUsersByLastNameVsLimit(String searchText,
+	public List<User> getUsersByLastNameByPage(String searchText,
 			int startPosition, int limitLength, String sortBy, String sortMethod) {
-		return userDao.getUsersByLastNameVsLimit(searchText, startPosition,
+		return userDao.getUsersByLastNameByPage(searchText, startPosition,
 				limitLength, sortBy, sortMethod);
 	}
 
 	@Override
 	@Transactional
-	public List<User> getUsersByRoleVsLimit(String searchText,
+	public List<User> getUsersByRoleByPage(String searchText,
 			int startPosition, int limitLength, String sortBy, String sortMethod) {
-		return userDao.getUsersByRoleVsLimit(searchText, startPosition,
+		return userDao.getUsersByRoleByPage(searchText, startPosition,
 				limitLength, sortBy, sortMethod);
 	}
 
 	@Override
 	@Transactional
-	public List<User> getUsersByTextVsLimit(String searchText,
+	public List<User> getUsersByTextByPage(String searchText,
 			int startPosition, int limitLength, String sortBy, String sortMethod) {
-		return userDao.getUsersByTextVsLimit(searchText, startPosition,
+		return userDao.getUsersByTextByPage(searchText, startPosition,
 				limitLength, sortBy, sortMethod);
 	}
 
 	@Override
-	public long getUsersCount() {
-		return userDao.getUsersCount();
+	public long getCountOfUsers() {
+		return userDao.getCountOfUsers();
 	}
 
 	@Override
-	public long getUsersByFirstNameCount(String searchName) {
-		return userDao.getUsersByFirstNameCount(searchName);
+	public long getCountOfUsersByFirstName(String searchName) {
+		return userDao.getCountOfUsersByFirstName(searchName);
 	}
 
 	@Override
-	public long getUsersByLastNameCount(String searchName) {
-		return userDao.getUsersByLastNameCount(searchName);
+	public long getCountOfUsersByLastName(String searchName) {
+		return userDao.getCountOfUsersByLastName(searchName);
 	}
 
 	@Override
-	public long getUsersByRoleCount(String searchRole) {
-		return userDao.getUsersByRoleCount(searchRole);
+	public long getCountOfUsersByRole(String searchRole) {
+		return userDao.getCountOfUsersByRole(searchRole);
 	}
 
 	@Override
-	public long getUsersByTextCount(String searchText) {
-		return userDao.getUsersByTextCount(searchText);
+	public long getCountOfUsersByText(String searchText) {
+		return userDao.getCountOfUsersByText(searchText);
 	}
 }

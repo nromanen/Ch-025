@@ -32,8 +32,8 @@ public class TeacherRequestServiceTest {
 	private TeacherRequestService teacherRequestService;
 
 	@Test
-	@DatabaseSetup("classpath:teacherrequest.xml")
-	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:teacherrequest.xml")
+	@DatabaseSetup("classpath:teacher_request.xml")
+	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:teacher_request.xml")
 	public void testGetAllActiveRequest() {
 		assertEquals(2, teacherRequestService.getAllTeacherRequests().size());
 		assertEquals(teacherRequestService.getAllActiveTeacherRequestsCount(),
@@ -41,8 +41,8 @@ public class TeacherRequestServiceTest {
 	}
 
 	@Test
-	@DatabaseSetup("classpath:teacherrequest.xml")
-	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:teacherrequest.xml")
+	@DatabaseSetup("classpath:teacher_request.xml")
+	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:teacher_request.xml")
 	public void testGetRequestByUserId() {
 		TeacherRequest teacherRequest = teacherRequestService
 				.getTeacherRequestByUserId(2);

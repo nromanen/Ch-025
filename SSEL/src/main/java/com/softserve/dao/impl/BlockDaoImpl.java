@@ -48,9 +48,9 @@ public class BlockDaoImpl implements BlockDao {
 	public List<Block> getAllBlocks() {
 		LOG.debug("Get all blocks");
 		List<Block> blocks = new ArrayList<>();
-		blocks.addAll(entityManager.createQuery("FROM Block b WHERE b.isDeleted = :val")
-				.setParameter("val",false)
-				.getResultList());
+		blocks.addAll(entityManager
+				.createQuery("FROM Block b WHERE b.isDeleted = :val")
+				.setParameter("val", false).getResultList());
 		return blocks;
 	}
 
@@ -59,12 +59,12 @@ public class BlockDaoImpl implements BlockDao {
 	public List<Block> getBlocksBySubjectId(int id) {
 		LOG.debug("Get all topics by block id = {}", id);
 		Query query = entityManager.createQuery("FROM Block b "
-				+ "WHERE b.subject.id = :id AND b.isDeleted = :val " + "ORDER BY b.order");
+				+ "WHERE b.subject.id = :id AND b.isDeleted = :val "
+				+ "ORDER BY b.order");
 		query.setParameter("id", id);
-		query.setParameter("val",false);
+		query.setParameter("val", false);
 		return query.getResultList();
 	}
-
 
 	@Override
 	public void setBlockDeleted(int blockId, boolean deleted) {
@@ -76,29 +76,30 @@ public class BlockDaoImpl implements BlockDao {
 			LOG.debug("Deleted block(id = {})", blockId);
 		} else {
 			LOG.warn("Tried to delete block(id = {})", blockId);
-		}	
+		}
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Block> getAllDeletedBlocks() {
 		LOG.debug("Get all deleted blocks");
-		Query query = entityManager.createQuery("SELECT b FROM Block b WHERE b.deleted = :val");
-		query.setParameter("val",true);
+		Query query = entityManager
+				.createQuery("SELECT b FROM Block b WHERE b.isDeleted = :val");
+		query.setParameter("val", true);
 		return query.getResultList();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public Block getNearestInactiveBlockBySubject(int subjectId) {
-		Query query = entityManager.createQuery("SELECT b FROM Block b WHERE b.startTime = "
-				+ "(SELECT min(b.startTime) FROM Block b where b.subject.id = :sid and b.startTime > current_timestamp()"
-				+ " and b.isDeleted = :val)")
-				.setParameter("sid", subjectId)
-				.setParameter("val", false);
+		Query query = entityManager
+				.createQuery(
+						"SELECT b FROM Block b WHERE b.startTime = "
+								+ "(SELECT min(b.startTime) FROM Block b where b.subject.id = :sid and b.startTime > current_timestamp()"
+								+ " and b.isDeleted = :val)")
+				.setParameter("sid", subjectId).setParameter("val", false);
 		List<Block> list = query.getResultList();
-		return (list.size() > 0) ? list.get(0): null;
+		return (list.size() > 0) ? list.get(0) : null;
 	}
-
 
 }

@@ -1,8 +1,10 @@
 package com.softserve.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.social.facebook.api.Facebook;
+import org.springframework.social.linkedin.api.LinkedIn;
 
 import com.softserve.entity.User;
 import com.softserve.form.Registration;
@@ -28,7 +30,9 @@ public interface UserService {
 
 	void registrateTeacher(Registration registration, String message);
 
-	void registrateFacebookUser(Facebook facebook, String url, String message);
+	void registrateFacebookUser(Facebook facebook);
+	
+	void registrateLinkedInUser(LinkedIn linkedIn);
 
 	User getUserByKey(String key);
 
@@ -41,31 +45,33 @@ public interface UserService {
 	void changePassword(User user, String password);
 
 	boolean isEqualsPasswords(String password, User user);
+	
+	List<User> getUsersByExpiredDate(Date date);
 
 	String getCurrentUser();
 
-	public List<User> getUsersVsLimit(int startPosition, int limitLength,
+	public List<User> getUsersByPage(int startPosition, int limitLength,
 			String sortBy, String sortMethod);
 
-	List<User> getUsersByFirstNameVsLimit(String searchText, int startPosition,
+	List<User> getUsersByFirstNameByPage(String searchText, int startPosition,
 			int limitLength, String sortBy, String sortMethod);
 
-	List<User> getUsersByRoleVsLimit(String searchText, int startPosition,
+	List<User> getUsersByRoleByPage(String searchText, int startPosition,
 			int limitLength, String sortBy, String sortMethod);
 
-	List<User> getUsersByTextVsLimit(String searchText, int startPosition,
+	List<User> getUsersByTextByPage(String searchText, int startPosition,
 			int limitLength, String sortBy, String sortMethod);
 
-	List<User> getUsersByLastNameVsLimit(String searchText, int startPosition,
+	List<User> getUsersByLastNameByPage(String searchText, int startPosition,
 			int limitLength, String sortBy, String sortMethod);
 
-	long getUsersCount();
+	long getCountOfUsers();
 
-	long getUsersByFirstNameCount(String searchName);
+	long getCountOfUsersByFirstName(String searchName);
 
-	long getUsersByRoleCount(String searchCategory);
+	long getCountOfUsersByRole(String searchCategory);
 
-	long getUsersByTextCount(String searchText);
+	long getCountOfUsersByText(String searchText);
 
-	long getUsersByLastNameCount(String searchText);
+	long getCountOfUsersByLastName(String searchText);
 }

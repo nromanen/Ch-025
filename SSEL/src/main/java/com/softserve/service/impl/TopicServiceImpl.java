@@ -15,6 +15,7 @@ public class TopicServiceImpl implements TopicService {
 
 	@Autowired
 	private TopicDao topicDao;
+
 	/**
 	 * @see com.softserve.service.TopicService#getTopicById(int)
 	 */
@@ -23,6 +24,7 @@ public class TopicServiceImpl implements TopicService {
 	public Topic getTopicById(int id) {
 		return topicDao.getTopicById(id);
 	}
+
 	/**
 	 * @see com.softserve.service.TopicService#addTopic(Topic)
 	 */
@@ -31,6 +33,7 @@ public class TopicServiceImpl implements TopicService {
 	public Topic addTopic(Topic topic) {
 		return topicDao.addTopic(topic);
 	}
+
 	/**
 	 * @see com.softserve.service.TopicService#updateTopic(Topic)
 	 */
@@ -39,6 +42,7 @@ public class TopicServiceImpl implements TopicService {
 	public Topic updateTopic(Topic topic) {
 		return topicDao.updateTopic(topic);
 	}
+
 	/**
 	 * @see com.softserve.service.TopicService#deleteTopic(Topic)
 	 */
@@ -47,6 +51,7 @@ public class TopicServiceImpl implements TopicService {
 	public void deleteTopic(Topic topic) {
 		topicDao.setTopicDeleted(topic, true);
 	}
+
 	/**
 	 * @see com.softserve.service.TopicService#getAllTopics()
 	 */
@@ -55,6 +60,7 @@ public class TopicServiceImpl implements TopicService {
 	public List<Topic> getAllTopics() {
 		return topicDao.getAllTopics();
 	}
+
 	/**
 	 * @see com.softserve.service.TopicService#getTopicsByBlockId(int)
 	 */
@@ -63,6 +69,7 @@ public class TopicServiceImpl implements TopicService {
 	public List<Topic> getTopicsByBlockId(int id) {
 		return topicDao.getTopicsByBlockId(id);
 	}
+
 	/**
 	 * @see com.softserve.service.TopicService#getTopicsBySubjectId(int)
 	 */
@@ -71,13 +78,15 @@ public class TopicServiceImpl implements TopicService {
 	public List<Topic> getTopicsBySubjectId(int id) {
 		return topicDao.getTopicsBySubjectId(id);
 	}
+
 	/**
 	 * @see com.softserve.service.TopicService#changeOrderUp(Topic)
 	 */
 	@Override
 	@Transactional
 	public void changeOrderUp(Topic topic) {
-		List<Topic> topics = topicDao.getTopicsByBlockId(topic.getBlock().getId());
+		List<Topic> topics = topicDao.getTopicsByBlockId(topic.getBlock()
+				.getId());
 
 		int indexOfTopic = 0;
 
@@ -96,69 +105,16 @@ public class TopicServiceImpl implements TopicService {
 			updateTopic(topic);
 			updateTopic(topic1);
 		}
-
-		/*
-		 * for(int i = topics.size()-1 ; i > 0 ; i--) { for(int j = 0 ; j < i ;
-		 * j++) { if (topics.get(j).getOrder() > topics.get(j + 1).getOrder()) {
-		 * Topic temp = topics.get(j); topics.set(j, topics.get(j + 1));
-		 * topics.set(j + 1, temp); } } }
-		 */
-		/*
-		 * int tempOrder = 0; int tempIndex = topics.indexOf(topic); for (Topic
-		 * t : topics) { if (t.getOrder() < topic.getOrder() && t.getOrder() >
-		 * tempOrder) { tempOrder = t.getOrder(); tempIndex = topics.indexOf(t);
-		 * 
-		 * } } if (tempIndex >= 0 && tempIndex < topics.size()) { Topic t1 =
-		 * topics.get(tempIndex); t1.setOrder(topic.getOrder());
-		 * topic.setOrder(tempOrder); updateTopic(topic); updateTopic(t1);
-		 * 
-		 * }
-		 */
-
-		/*
-		 * int tempIndex = topics.indexOf(topic); if (tempIndex > 0) { int
-		 * tempOrder = topics.get(tempIndex - 1).getOrder();
-		 * topics.get(tempIndex - 1).setOrder(topic.getOrder());
-		 * topics.get(tempIndex).setOrder(tempOrder);
-		 * updateTopic(topics.get(tempIndex - 1));
-		 * updateTopic(topics.get(tempIndex)); }
-		 */
 	}
+
 	/**
 	 * @see com.softserve.service.TopicService#changeOrderDown(Topic)
 	 */
 	@Override
 	@Transactional
 	public void changeOrderDown(Topic topic) {
-		List<Topic> topics = topicDao.getTopicsByBlockId(topic.getBlock().getId());
-
-		// *********************************************************
-		/*
-		 * int tempOrder = 9999999; int tempIndex = topics.indexOf(topic); for
-		 * (Topic t : topics) { if (t.getOrder() > topic.getOrder() &&
-		 * t.getOrder() < tempOrder) { tempOrder = t.getOrder(); tempIndex =
-		 * topics.indexOf(t);
-		 * 
-		 * } }
-		 * 
-		 * if (tempIndex >= 0 && tempIndex < topics.size()) { Topic t1 =
-		 * topics.get(tempIndex); t1.setOrder(topic.getOrder());
-		 * topic.setOrder(tempOrder); updateTopic(topic); updateTopic(t1); }
-		 */
-		// **********************************************************
-
-		/*
-		 * for(int i = topics.size()-1 ; i > 0 ; i--) { for(int j = 0 ; j < i ;
-		 * j++) { if (topics.get(j).getOrder() > topics.get(j + 1).getOrder()) {
-		 * Topic temp = topics.get(j); topics.set(j, topics.get(j + 1));
-		 * topics.set(j + 1, temp); } } }
-		 */
-
-		/*
-		 * Collections.sort(topics, new Comparator<Topic>() { public int
-		 * compare(Topic topic1, Topic topic2) { return topic1.getOrder() -
-		 * topic2.getOrder(); } });
-		 */
+		List<Topic> topics = topicDao.getTopicsByBlockId(topic.getBlock()
+				.getId());
 
 		int indexOfTopic = 0;
 
@@ -166,7 +122,6 @@ public class TopicServiceImpl implements TopicService {
 			if (topics.get(i).getOrder() == topic.getOrder()) {
 				indexOfTopic = i;
 			}
-
 		}
 
 		if (indexOfTopic < topics.size() - 1) {
@@ -177,16 +132,8 @@ public class TopicServiceImpl implements TopicService {
 			updateTopic(topic);
 			updateTopic(topic1);
 		}
-
-		/*
-		 * int tempIndex = topics.indexOf(topic); if (tempIndex < topics.size()
-		 * - 1) { int tempOrder = topics.get(tempIndex + 1).getOrder();
-		 * topics.get(tempIndex + 1).setOrder(topic.getOrder());
-		 * topics.get(tempIndex).setOrder(tempOrder);
-		 * updateTopic(topics.get(tempIndex + 1));
-		 * updateTopic(topics.get(tempIndex)); }
-		 */
 	}
+
 	/**
 	 * @see com.softserve.service.TopicService#restoreTopic(Topic)
 	 */
@@ -194,6 +141,7 @@ public class TopicServiceImpl implements TopicService {
 	public void restoreTopic(Topic topic) {
 		topicDao.setTopicDeleted(topic, false);
 	}
+
 	/**
 	 * @see com.softserve.service.TopicService#getDeletedTopics()
 	 */

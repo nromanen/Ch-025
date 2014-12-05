@@ -35,7 +35,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 				.firstName(user.getFirstName()).lastName(user.getLastName())
 				.username(user.getEmail()).id(user.getId())
 				.password(user.getPassword()).role(user.getRole())
-				.social(user.getSocial()).enabled(!user.isBlocked()).build();
+				.social(user.getSocial()).enabled(!user.isBlocked())
+				.accountNonExpired(user.isAccountNonExpired()).build();
 
 		return principal;
 	}

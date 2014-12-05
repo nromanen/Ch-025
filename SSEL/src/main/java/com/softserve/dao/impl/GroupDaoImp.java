@@ -67,7 +67,7 @@ public class GroupDaoImp implements GroupDao{
 		Query query = entityManager.createQuery("SELECT g FROM Group g WHERE g.groupId = :id");
 		query.setParameter("id", groupId);
 		List<Group> result = query.getResultList();
-		return (result.size() == 0) ? null : result.get(0);
+		return (result.isEmpty()) ? null : result.get(0);
 	}
 	/**
 	 * @see com.softserve.dao.GroupDao#getGroupByScheduler(int)
@@ -79,7 +79,7 @@ public class GroupDaoImp implements GroupDao{
 		query.setParameter("id", schedulerId);
 		query.setParameter("val",false);
 		List<Group> result = query.getResultList();
-		return (result.size() == 0) ? null : result.get(0);
+		return (result.isEmpty()) ? null : result.get(0);
 	}
 	/**
 	 * @see com.softserve.dao.GroupDao#getGroupsByStudent(int)

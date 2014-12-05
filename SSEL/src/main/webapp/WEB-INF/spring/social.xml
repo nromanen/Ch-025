@@ -2,13 +2,18 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:social="http://www.springframework.org/schema/social"
 	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:facebook="http://www.springframework.org/schema/social/facebook"
+	xmlns:linkedin="http://www.springframework.org/schema/social/linkedin"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/social/facebook http://www.springframework.org/schema/social/spring-social-facebook.xsd
+		http://www.springframework.org/schema/social/linkedin http://www.springframework.org/schema/social/spring-social-linkedin.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
 		http://www.springframework.org/schema/social http://www.springframework.org/schema/social/spring-social-1.1.xsd">
 
 	<facebook:config app-id="${facebook.app.id}"
 		app-secret="${facebook.app.secret}" />
+
+	<linkedin:config app-secret="${linkedin.app.secret}"
+		app-id="${linkedin.app.id}" />
 
 	<social:jdbc-connection-repository />
 

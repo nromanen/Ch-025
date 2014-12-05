@@ -13,15 +13,16 @@
 			INSERT INTO `category` VALUES ('4', 'Foreign languages', 0);
 		</sql>
 	</changeSet>
-	
+
 	<changeSet id="2014-11-19-insert-data-into-table-user" author="Hash">
 		<comment>Insert sample data into table user</comment>
 		<sql splitStatements="true">
 			INSERT INTO `user` VALUES (7, 0, 'relyativus@gmail.com', '2015-11-13 00:22:41', 'Anatoliy',  'Vacaliuck', '$2a$10$PAWNZlJTfppldYkUfQ29rOjGEzFMzl/oBNoluegDMAdckIwomUK9m', '2014-11-13 00:22:41', 2, '', '', 'REGISTRATION');
 			INSERT INTO `user` VALUES (8, 0, 'hash.cv@gmail.com', '2015-11-13 00:24:28', 'Student', 'Studentovich', '$2a$10$U76KpoHpYRrfb17R/eNi5OM/ncgHDw8i.IBhO9BmSFweu1aNsN2UG', '2014-11-13 00:24:28', 3, '', '', 'REGISTRATION');
 		</sql>
+		
 	</changeSet>
-	
+
 	<changeSet id="2014-11-19-insert-data-into-table-subject" author="Hash">
 		<comment>Insert sample data into table subject</comment>
 		<sql splitStatements="true">
@@ -50,7 +51,7 @@
 			INSERT INTO `subject` VALUES (30, 'Java : Progressive level', 'Java : Progressive level', '1', '8', 0);
 	</sql>
 	</changeSet>
-	
+
 	<changeSet id="2014-11-19-insert-data-into-table-block" author="Hash">
 		<comment>Insert sample data into table block</comment>
 		<sql splitStatements="true">
@@ -71,8 +72,7 @@
 			INSERT INTO `block` VALUES (28, '2014-01-31', 'Java core is cool!', '10', '2014-12-01', '16', 0);
 		</sql>
 	</changeSet>
-	
-	
+
 	<changeSet id="2014-11-19-insert-data-into-table-course_scheduler" author="Hash">
 		<comment>Insert sample data into table course_scheduler</comment>
 		<sql splitStatements="true">
@@ -101,12 +101,7 @@
 			INSERT INTO `course_scheduler` VALUES (25, '2015-01-05 00:00:00', '2014-11-07 00:00:00', '30', 0);
 		</sql>
 	</changeSet>
-	
-	
-	
-	
-	
-	
+
 	<changeSet id="2014-11-19-insert-data-into-table-groups" author="Hash">
 		<comment>Insert sample data into table groups</comment>
 		<sql splitStatements="true">
@@ -135,11 +130,6 @@
 		</sql>
 	</changeSet>
 	
-	
-	
-	
-	
-	
 	<changeSet id="2014-11-19-insert-data-into-table-rating" author="Hash">
 		<comment>Insert sample data into table rating</comment>
 		<sql splitStatements="true">
@@ -151,14 +141,12 @@
 		</sql>
 	</changeSet>
 	
-		
 	<changeSet id="2014-11-19-insert-data-into-table-student_group" author="Hash">
 		<comment>Insert sample data into table student_group</comment>
 		<sql splitStatements="true">
 			INSERT INTO `student_group` VALUES (1,11,7),(2,3,7),(3,9,7),(4,2,7);
 		</sql>
 	</changeSet>
-	
 	
 	<changeSet id="2014-11-19-insert-data-into-table-topic" author="Hash">
 		<comment>Insert sample data into table topic</comment>
@@ -189,6 +177,34 @@
 		</sql>
 	</changeSet>
 
+	<changeSet id="2014-11-27-insert-into-test" author="Anatoliy">
+		<comment>Insert some answers</comment>
+		<sql splitStatements="true">
+			INSERT INTO `tests` VALUES (1,'Test','This test test =)',16, 1, 0);
+			INSERT INTO `tests` VALUES (2,'Test2','fsdf',24, 0, 0);
+		</sql>
+	</changeSet>
+	
+	<changeSet id="2014-11-27-insert-into-questions" author="Anatoliy">
+		<comment>Insert some questions</comment>
+		<sql splitStatements="true">
+			INSERT INTO `questions` VALUES (1,1,'What is your name?',30,1,0);
+			INSERT INTO `questions` VALUES (2,1,'Next question?',70,2,0);
+			INSERT INTO `questions` VALUES (3,2,'Bla?',100,1,0);
+		</sql>
+	</changeSet>
+	
+	<changeSet id="2014-11-27-insert-into-answers" author="Anatoliy">
+		<comment>Insert some answers</comment>
+		<sql splitStatements="true">
+			INSERT INTO `answers` VALUES (1,1,'Anatoliy',1,0,0);
+			INSERT INTO `answers` VALUES (2,1,'Peter',0,1,0);
+			INSERT INTO `answers` VALUES (3,2,'Bla',1,0.5,0);
+			INSERT INTO `answers` VALUES (4,2,'Non-bla',1,0.5,0);
+			INSERT INTO `answers` VALUES (5,2,'None',0,0,0);
+		</sql>
+	</changeSet>
+	
 	<changeSet id="2014-11-08-create-trigger-table-topic-1" author="Roma">
 		<comment>Create trigger table topic</comment>
 		<sql splitStatements="false">
@@ -202,7 +218,7 @@
 			END
 		</sql>
 	</changeSet>
-	
+
 	<changeSet id="2014-11-21-create-table-userconnection" author="Roma">
 		<comment>Create table userconnection</comment>
 		<createTable tableName="UserConnection">
@@ -227,10 +243,18 @@
 			<column name="expireTime" type="bigint" />
 		</createTable>
 	</changeSet>
-	
+
 	<changeSet id="2014-11-21-create-primary-key" author="Roma">
 		<comment>Create primary key userconnection</comment>
-		<addPrimaryKey tableName="UserConnection" columnNames="userId, providerId, providerUserId" />
+		<addPrimaryKey tableName="UserConnection"
+			columnNames="userId, providerId, providerUserId" />
 	</changeSet>
-	
+
+	<changeSet id="2014-12-01-insert-data-into-table-config" author="Ivan">
+		<comment>Insert sample data into table config</comment>
+		<sql splitStatements="true">
+			INSERT INTO `config` VALUES (3,'supportEmail', 'sselcourse@gmail.com');
+		</sql>
+	</changeSet>
+
 </databaseChangeLog>

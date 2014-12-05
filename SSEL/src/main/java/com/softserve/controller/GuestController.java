@@ -199,7 +199,7 @@ public class GuestController {
 						pageSize, sortBy, isReverse);
 		Category category = categoryService.getCategoryById(categoryId);
 		LOG.debug("View all subjects in {0} category", category.getName());
-		Long count = subjectService.getSubjectsByCategoryCount(category.getName());
+		Long count = subjectService.getCountOfSubjectsByCategory(category.getName());
 		numberOfPages = (count % pageSize > 0) ? count / pageSize + 1 : count / pageSize;
 		model.addAttribute("numberOfPages", numberOfPages);
 		model.addAttribute("subjList", subjects);

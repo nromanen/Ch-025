@@ -30,6 +30,15 @@
 						<spring:message code="label.user_disabled" />
 					</div>
 				</c:if>
+				<c:if test="${error eq 'AccountExpiredException'}">
+					<div class="alert alert-warning">
+						<strong><spring:message code="label.warning" /></strong>
+						<spring:message code="label.account_expired_exception" />
+						<button class="btn btn-info" type="button" data-toggle="modal" data-target="#modal_expired_account">
+							Continue 
+						</button>
+					</div>
+				</c:if>
 				<form role="form" action="<c:url value="/j_spring_security_check" />" method="POST"
 					accept-charset="UTF-8" id ="login_form"
 					data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
@@ -88,21 +97,36 @@
 						<button class="btn btn-social-icon btn-facebook" type="submit">
 		                    <i class="fa fa-facebook"></i>
 		                </button>
+		                <input type="hidden" name="scope" value="email,publish_stream,offline_access,user_birthday" />
 	             	</form>
-	             	<!-- <form class="form-group" action="<c:url value="/auth/facebook" />" method="POST" role="form" >
-	                    <button class="btn btn-social-icon btn-twitter" type="submit">
-	                    	<i class="fa fa-twitter"></i>
+	             	<form class="form-group" action="<c:url value="/auth/linkedin" />" method="POST" role="form" >
+	                    <button class="btn btn-social-icon btn-linkedin" type="submit">
+	                    	<i class="fa fa-linkedin"></i>
 	                    </button>
 	                </form>
-	                <form class="form-group" action="<c:url value="/auth/facebook" />" method="POST" role="form" >
-	                    <button class="btn btn-social-icon btn-vk" type="submit">
-	                    	<i class="fa fa-vk"></i>
-	                    </button>
-						<input type="hidden" name="scope" value="email,publish_stream,offline_access,user_birthday" />
-					</form> -->
 				</div>
 				</div>
 	        </div>
 	    </div>
 	</div>
+</div>
+
+<!-- Modal window for load photo -->
+<div class="modal animated bounce bs-example-modal-sm" tabindex="-1" role="dialog" 
+    id="modal_expired_account" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+				    <span aria-hidden="true">&times;</span>
+				    <span class="sr-only">Close</span>
+				</button>
+				<h4 class="modal-title">
+					Title
+				</h4>
+			</div>
+			<div class="modal-body">	
+			</div>
+		</div>		
+	</div> 
 </div>
