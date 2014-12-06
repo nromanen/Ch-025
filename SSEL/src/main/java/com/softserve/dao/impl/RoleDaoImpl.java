@@ -55,7 +55,7 @@ public class RoleDaoImpl implements RoleDao {
 	 */
 	@Override
 	public Role updateRole(Role role) {
-		LOG.debug("Update role = {}", role.getRole());
+		LOG.debug("Update role = {}", role.getName());
 		entityManager.merge(role);
 		return role;
 	}
@@ -93,8 +93,8 @@ public class RoleDaoImpl implements RoleDao {
 	@Override
 	public Role getRoleByName(String name) {
 		LOG.debug("Get role(name = {})", name);
-		Query query = entityManager.createQuery("FROM Role WHERE role= :role")
-				.setParameter("role", name);
+		Query query = entityManager.createQuery("FROM Role WHERE name= :name")
+				.setParameter("name", name);
 		try {
 			Role role = (Role) query.getSingleResult();
 			return role;

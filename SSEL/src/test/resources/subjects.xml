@@ -5,9 +5,9 @@
 	<category id="3" name="Foreign languages" deleted="false" />
 	<category id="4" name="Quality control" deleted="false" />
 	<category id="5" name="Physics" deleted="false" />
-	<role id="1" role="ADMIN" />
-	<role id="2" role="STUDENT" />
-	<role id="3" role="TEACHER" />
+	<role id="1" name="ADMIN" />
+	<role id="2" name="STUDENT" />
+	<role id="3" name="TEACHER" />
 
 	<user id="1" blocked="false" email="roma1sk@mail.ru" expired="2015-11-24 17:00:03"
 		firstName="Roma" lastName="Homyshyn"

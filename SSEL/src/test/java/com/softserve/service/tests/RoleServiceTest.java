@@ -75,10 +75,10 @@ public class RoleServiceTest {
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:role.xml")
 	public void testUpdateRole() {
 		Role role = roleService.getRoleById(1);
-		assertTrue(role.getRole().equals("ADMIN"));
+		assertTrue(role.getName().equals("ADMIN"));
 		role.setRole("admin");
 		role = roleService.updateRole(role);
-		assertTrue(role.getRole().equals("admin"));
+		assertTrue(role.getName().equals("admin"));
 	}
 
 }

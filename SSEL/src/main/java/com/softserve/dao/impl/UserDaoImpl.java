@@ -109,7 +109,8 @@ public class UserDaoImpl implements UserDao {
 		LOG.debug("Get users by expired date");
 		List<User> users = new ArrayList<>();
 		Query query = entityManager
-				.createQuery("FROM User u WHERE u.expired <= :expired AND u.accountNonExpired = :accountNonExpired");
+				.createQuery("FROM User u WHERE u.expired <= :expired AND "
+						+ "u.accountNonExpired = :accountNonExpired AND u.role.name <> 'ADMIN'");
 		query.setParameter("expired", date);
 		query.setParameter("accountNonExpired", true);
 		users.addAll(query.getResultList());
@@ -146,7 +147,7 @@ public class UserDaoImpl implements UserDao {
 			int startPosition, int limitLength, String sortBy, String sortMethod) {
 		LOG.debug("Get all Users vs limit searchText = {}", searchText);
 
-		String textQuery = "FROM User u WHERE u.role.role LIKE '%" + searchText
+		String textQuery = "FROM User u WHERE u.role.name LIKE '%" + searchText
 				+ "%'";
 		Query query = setQueryParameters(textQuery, startPosition, limitLength,
 				sortBy, sortMethod);
@@ -174,7 +175,7 @@ public class UserDaoImpl implements UserDao {
 				+ "' or u.email LIKE '" + searchText
 				+ "' or u.firstName LIKE '" + searchText
 				+ "' or u.lastName LIKE '" + searchText
-				+ "' or u.role.role LIKE '" + searchText + "'";
+				+ "' or u.role.name LIKE '" + searchText + "'";
 		Query query = setQueryParameters(textQuery, startPosition, limitLength,
 				sortBy, sortMethod);
 		return query.getResultList();
@@ -198,7 +199,7 @@ public class UserDaoImpl implements UserDao {
 				sortBy = "ORDER BY u.expired";
 				break;
 			case "role":
-				sortBy = "ORDER BY u.role.role";
+				sortBy = "ORDER BY u.role.name";
 				break;
 			case "blocked":
 				sortBy = "ORDER BY u.blocked";
@@ -255,7 +256,7 @@ public class UserDaoImpl implements UserDao {
 	public long getCountOfUsersByRole(String searchRole) {
 		LOG.debug("Get Users by category count");
 		Query query = entityManager.createQuery("SELECT COUNT (*) FROM User u "
-				+ "WHERE u.role.role LIKE :name");
+				+ "WHERE u.role.name LIKE :name");
 		query.setParameter("name", "%" + searchRole + "%");
 		return (Long) query.getSingleResult();
 	}
@@ -268,7 +269,7 @@ public class UserDaoImpl implements UserDao {
 				+ "WHERE u.id LIKE '" + searchText + "' or u.email LIKE '"
 				+ searchText + "' or u.firstName LIKE '" + searchText
 				+ "' or u.lastName LIKE '" + searchText
-				+ "' or u.role.role LIKE '" + searchText + "'");
+				+ "' or u.role.name LIKE '" + searchText + "'");
 		return (Long) query.getSingleResult();
 	}
 

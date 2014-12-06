@@ -2,7 +2,7 @@
 <dataset>
 	<category id="1" name="Programming" deleted="false" />
 
-	<role id="1" role="TEACHER" />
+	<role id="1" name="TEACHER" />
 
 	<user id="1" blocked="false" email="roma1sk@mail.ru" expired="2015-11-24 17:00:03"
 		firstName="Roma" lastName="Homyshyn"

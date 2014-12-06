@@ -50,4 +50,9 @@
 		</addColumn>
 	</changeSet>
 
+	<changeSet id="2014-12-06-rename-column-role" author="Roma">
+		<renameColumn tableName="role" oldColumnName="role"
+			newColumnName="name" columnDataType="varchar(20)"  />
+	</changeSet>
+
 </databaseChangeLog>

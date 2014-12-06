@@ -86,11 +86,11 @@ public class GuestController {
 			String encodedImage = new String(Base64.encode(user.getImage()));
 			httpSession.setAttribute("image", encodedImage);
 		}
-		if (user.getRole().getRole().equals(User.Roles.TEACHER.toString())) {
+		if (user.getRole().getName().equals(User.Roles.TEACHER.toString())) {
 			return "redirect:/teacher";
-		} else if (user.getRole().getRole().equals(User.Roles.STUDENT.toString())) {
+		} else if (user.getRole().getName().equals(User.Roles.STUDENT.toString())) {
 			return "redirect:/student";
-		} else if (user.getRole().getRole().equals(User.Roles.ADMIN.toString())){
+		} else if (user.getRole().getName().equals(User.Roles.ADMIN.toString())){
 			return "redirect:/administrator";
 		} 
 		else {
