@@ -25,8 +25,9 @@ jQuery(document).ready(function($) {
 				contentType : 'application/json',
 				type : "POST",
 				success : function(response) {
-					if (response == "success") {
+					if (response["result"] == "success") {
 						$("#modal_expired_account").modal("hide");
+						window.location = response["url"];
 					} else {
 						// bootbox alert
 						$("#email_send").val('');

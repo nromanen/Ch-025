@@ -264,7 +264,7 @@ public class UserServiceImpl implements UserService {
 			Calendar calendar = Calendar.getInstance();
 			calendar.add(Calendar.YEAR, ONE_YEAR);
 			user.setExpired(calendar.getTime());
-			user = userDao.updateUser(user);
+			userDao.updateUser(user);
 
 			TeacherRequest teacherRequest = new TeacherRequest();
 			teacherRequest.setActive(true);

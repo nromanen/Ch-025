@@ -155,7 +155,8 @@
 		        			<div class="form-group">
 		        				<c:set value="${pageContext.response.locale}" var="local" />
 		        				<div class="col-md-offset-1 col-md-10"> <spring:message code="label.message" />
-		                			<textarea rows="3" id="message" class="form-control" placeholder="<spring:message code="label.message" />"
+		                			<textarea rows="3" id="message" class="form-control" 
+		                				placeholder="<spring:message code="label.message" />"
 		                				style="resize: none" data-toggle="tooltip" title="<spring:message code="label.message" />"
 		                				lang="${local}" ><spring:message code="message.please_continue_term"/></textarea> 
 		                		</div>

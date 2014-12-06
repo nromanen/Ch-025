@@ -1,6 +1,5 @@
 package com.softserve.controller;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -87,14 +86,20 @@ public class LoginController {
 
 	@RequestMapping(value = "/expiredAccount", method = RequestMethod.POST, headers = { "content-type=application/json" })
 	@ResponseBody
-	public String expiredAccount(@RequestBody Map<String, Object> map) {
+	public Map<String, Object> expiredAccount(
+			@RequestBody Map<String, Object> map, HttpServletRequest request) {
 		String email = map.get("email").toString();
 		String message = StringUtils.trimToEmpty(map.get("message").toString());
 
 		if (StringUtils.isBlank(email) || !userService.isExist(email)) {
-			return "error";
+			map.put("result", "error");
+			return map;
 		}
 		userService.changeExpiredDate(email, message);
-		return "success";
+		String url = request.getRequestURL().toString()
+				.replace("expiredAccount", "login");
+		map.put("result", "success");
+		map.put("url", url);
+		return map;
 	}
 }

@@ -201,7 +201,7 @@
 									<spring:message code="label.new_password" />
 								</label>
 								<div class="col-md-6">
-									<input type="password" id="new_password" class="form-control" name="new_password"
+									<input type="password" id="new_create_password" class="form-control" name="new_create_password"
 										placeholder="<spring:message code="placeholder.new_password"/>" 
 										data-bv-notempty="true"
                 						data-bv-notempty-message="<spring:message code="dataerror.field_required" />"
@@ -223,12 +223,13 @@
 									<spring:message code="label.confirm_password" />
 								</label>
 								<div class="col-md-6">
-									<input type="password" class="form-control" id="confirm_password" name="confirm_password"
+									<input type="password" class="form-control" id="confirm_create_password" 
+										name="confirm_create_password"
 										placeholder="<spring:message code="placeholder.confirm_password"/>" 
 										data-bv-notempty="true"
                 						data-bv-notempty-message="<spring:message code="dataerror.field_required" />"
 										data-bv-identical="true"
-                						data-bv-identical-field="new_password"
+                						data-bv-identical-field="new_create_password"
                			 				data-bv-identical-message="<spring:message code="dataerror.passwords_do_not_match" />" 
                			 				data-toggle="tooltip" 
 										data-placement="top"
@@ -297,8 +298,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="submit" id="btn_change_password_submit"  
-						class="btn btn-success" >
+					<button type="submit" class="btn btn-success" >
 						<spring:message code="label.accept"/>
 					</button>
 					<button type="reset" id="btn_form_close" class="btn btn-info" data-dismiss="modal">
