@@ -1,6 +1,7 @@
 package com.softserve.controller;
 
 import java.beans.PropertyEditorSupport;
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -8,8 +9,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.ServletContext;
 import javax.validation.Valid;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -29,6 +34,7 @@ import com.softserve.entity.Category;
 import com.softserve.entity.CourseScheduler;
 import com.softserve.entity.Group;
 import com.softserve.entity.StudentGroup;
+import com.softserve.entity.StudyDocument;
 import com.softserve.entity.Subject;
 import com.softserve.entity.Topic;
 import com.softserve.entity.User;
@@ -36,8 +42,10 @@ import com.softserve.service.BlockService;
 import com.softserve.service.CategoryService;
 import com.softserve.service.CourseSchedulerService;
 import com.softserve.service.GroupService;
+import com.softserve.service.StudentCabinetService;
 import com.softserve.service.StudentGroupService;
 import com.softserve.service.SubjectService;
+import com.softserve.dao.StudyDocumentDao;
 import com.softserve.service.TopicService;
 import com.softserve.service.UserService;
 
@@ -46,6 +54,8 @@ import com.softserve.service.UserService;
  */
 @Controller
 public class TeacherController {
+	
+
 
 	@Autowired
 	private UserService userService;
@@ -61,6 +71,9 @@ public class TeacherController {
 
 	@Autowired
 	private BlockService blockService;
+	
+	@Autowired
+	private StudentCabinetService studentCabinetService;
 
 	@Autowired
 	private CourseSchedulerService courseSchedulerService;
@@ -68,6 +81,9 @@ public class TeacherController {
 	@Autowired
 	private StudentGroupService studentGroupService;
 
+	@Autowired
+	private StudyDocumentDao studyDocumentService;
+	
 	@Autowired
 	private GroupService groupService;
 
@@ -187,19 +203,32 @@ public class TeacherController {
 	}
 
 	@RequestMapping(value = "/editTopic", method = RequestMethod.GET)
-	public String editTopic(
+public String editTopic(
 			@RequestParam(value = "topicId", required = false) Integer topicId,
 			@RequestParam(value = "subjectId", required = false) Integer subjectId,
 			Model model) {
 		Topic topic = topicId != null ? topicService.getTopicById(topicId)
 				: new Topic();
-
 		model.addAttribute("topic", topic);
 		model.addAttribute("subjectId", subjectId);
 		List<Block> blocks = blockService.getBlocksBySubjectId(subjectId);
 		model.addAttribute("blockList", blocks);
 		List<Category> categories = categoryService.getAllCategories();
 		model.addAttribute("catList", categories);
+		
+		
+		
+		String dirname = request.getSession().getServletContext().getRealPath("resources");
+		boolean isSupported = true;//isSupportedBrowserForPlugin(request.getHeader("User-Agent"));
+		List<StudyDocument> documents = studentCabinetService.updateTopicFilesOnServer(dirname, topic.getId());
+		model.addAttribute("isSupported", isSupported);
+		model.addAttribute("docs", documents);
+		model.addAttribute("block_name", topic.getBlock().getName());
+		model.addAttribute("topic order", topic.getOrder());
+		model.addAttribute("name", topic.getName());
+		model.addAttribute("content", topic.getContent());
+		model.addAttribute("table", "active");
+		model.addAttribute("path", dirname);
 
 		return "editTopic";
 	}
@@ -462,7 +491,6 @@ public class TeacherController {
 			Model model) {
 
 		for (String idInStr : subjectIds.split(",")) {
-
 			Integer id = Integer.parseInt(idInStr);
 			// try {
 			Subject subject = subjectService.getSubjectById(id);
@@ -495,6 +523,57 @@ public class TeacherController {
 		return "redirect:/teacher";
 	}
 
+	@RequestMapping(value = "/deleteTopics", method = RequestMethod.GET)
+	public String deleteTopics(@RequestParam(value = "topicIds", required = true) String topicIds, Model model) {
+
+		for (String idInStr : topicIds.split(",")) {
+			
+				Integer id = Integer.parseInt(idInStr);
+				
+				Topic topic = topicService.getTopicById(id);
+				List<StudyDocument> studyDocumentList = studyDocumentService.listByTopicId(id);
+
+				for (StudyDocument sd: studyDocumentList)
+					studyDocumentService.delete(sd.getId());
+				
+					topicService.deleteTopic(topic);
+
+		}
+		return "redirect:/teacher";
+	}
+	
+	@RequestMapping(value = "/enableTopics", method = RequestMethod.GET)
+	public String enableTopics(@RequestParam(value = "topicIds", required = true) String topicIds, Model model) {
+
+		for (String idInStr : topicIds.split(",")) {
+			
+				Integer id = Integer.parseInt(idInStr);
+				
+				Topic topic = topicService.getTopicById(id);
+				topic.setAlive(true);
+			
+				topicService.updateTopic(topic);
+
+		}
+		return "redirect:/teacher";
+	}
+	
+	@RequestMapping(value = "/disableTopics", method = RequestMethod.GET)
+	public String disableTopics(@RequestParam(value = "topicIds", required = true) String topicIds, Model model) {
+
+		for (String idInStr : topicIds.split(",")) {
+			
+				Integer id = Integer.parseInt(idInStr);
+				
+				Topic topic = topicService.getTopicById(id);
+				topic.setAlive(false);
+				
+				topicService.updateTopic(topic);
+
+		}
+		return "redirect:/teacher";
+	}
+	
 	@RequestMapping(value = "/deleteCategories", method = RequestMethod.GET)
 	public String deleteCategories(
 			@RequestParam(value = "categoriesIds", required = true) String categoriesIds,

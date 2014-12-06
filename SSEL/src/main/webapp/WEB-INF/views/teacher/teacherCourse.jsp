@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -7,10 +8,7 @@
 
 <div class="row">
 	<div class="col-lg-12">
-		<h1 class="page-header">
-			<spring:message code="label.teacher.subject" />
-			: ${subject.name}
-		</h1>
+		<h1 class="page-header">${subject.name}</h1>
 	</div>
 </div>
 
@@ -40,8 +38,7 @@
 						<div class="panel-heading">
 							<h4 class="panel-title">
 								<a data-toggle="collapse" data-parent="#accordion"
-									href="#s-${subject.id}-${block.order}"><spring:message
-										code="label.teacher.module" /> ${block.name} </a> (
+									href="#s-${subject.id}-${block.order}"> ${block.name} </a> (
 								<fmt:formatDate pattern='dd-MM-yyyy' value='${block.startTime}' />
 								--
 								<fmt:formatDate pattern='dd-MM-yyyy' value='${block.endTime}' />
@@ -63,9 +60,25 @@
 							class="panel-collapse collapse">
 							<div class="panel-body">
 								<div class="table-responsive">
+									<div align=left>
+										<button type="button" id="delButton1"
+											class="btn btn-outline btn-primary btn-xs">
+											<spring:message code="label.teacher.delete" />
+										</button>
+										<button type="button" id="enableButton"
+											class="btn btn-outline btn-primary btn-xs">
+											<spring:message code="label.teacher.enable" />
+										</button>
+										<button type="button" id="disableButton"
+											class="btn btn-outline btn-primary btn-xs">
+											<spring:message code="label.teacher.disable" />
+										</button>
+
+									</div>
 									<table class="table table-hover">
 										<thead>
 											<tr>
+												<th><input type="checkbox" id="selectall" /></th>
 												<th><spring:message code="label.teacher.topicName" /></th>
 												<th><spring:message code="label.teacher.order" /></th>
 												<th><spring:message code="label.teacher.status" /></th>
@@ -77,6 +90,9 @@
 											<c:forEach items="${topicList}" var="topic">
 												<c:if test="${block.id == topic.block.id}">
 													<tr class="odd gradeA">
+														<td><input type="checkbox" class="case" name="case"
+															value="${topic.id}" /></td>
+
 														<td><a
 															href="editTopic?topicId=${topic.id}&subjectId=${subject.id}">${topic.name}</a></td>
 														<td><c:choose>
@@ -156,4 +172,75 @@
 	</div>
 	<!-- /.panel -->
 </div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#delButton1").click(function() {
+
+			var checkeds = $(":checkbox:checked").map(function() {
+				return this.value;
+			}).get();
+			//alert(checkeds);
+			if (confirm('Are you sure?')) {
+				$.ajax({
+					type : "GET",
+					url : "deleteTopics",
+					data : "topicIds=" + checkeds,
+					success : function(msg) {
+						location.reload();
+					}
+				});
+			}
+		});
+
+		$("#enableButton").click(function() {
+
+			var checkeds = $(":checkbox:checked").map(function() {
+				return this.value;
+			}).get();
+			//alert(checkeds);
+			if (confirm('Are you sure?')) {
+				$.ajax({
+					type : "GET",
+					url : "enableTopics",
+					data : "topicIds=" + checkeds,
+					success : function(msg) {
+						location.reload();
+					}
+				});
+			}
+		});
+
+		$("#disableButton").click(function() {
+
+			var checkeds = $(":checkbox:checked").map(function() {
+				return this.value;
+			}).get();
+			//alert(checkeds);
+			if (confirm('Are you sure?')) {
+				$.ajax({
+					type : "GET",
+					url : "disableTopics",
+					data : "topicIds=" + checkeds,
+					success : function(msg) {
+						location.reload();
+					}
+				});
+			}
+		});
+
+		// add multiple select / deselect functionality
+		$("#selectall").click(function() {
+			$('.case').attr('checked', this.checked);
+		});
+		// if all checkbox are selected, check the selectall checkbox  also        
+		$(".case").click(function() {
+			if ($(".case").length == $(".case:checked").length) {
+				$("#selectall").attr("checked", "checked");
+			} else {
+				$("#selectall").removeAttr("checked");
+			}
+		});
+	});
+</script>
 
