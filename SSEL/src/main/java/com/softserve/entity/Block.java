@@ -134,6 +134,83 @@ public class Block implements Comparable<Topic> {
 	public int compareTo(Topic o) {
 		return Integer.compare(order, o.getOrder());
 	}
+	
+	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((endTime == null) ? 0 : endTime.hashCode());
+		result = prime * result + id;
+		result = prime * result + (isDeleted ? 1231 : 1237);
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + order;
+		result = prime * result
+				+ ((startTime == null) ? 0 : startTime.hashCode());
+		result = prime * result + ((subject == null) ? 0 : subject.hashCode());
+		result = prime * result + ((topics == null) ? 0 : topics.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof Block)) {
+			return false;
+		}
+		Block other = (Block) obj;
+		if (endTime == null) {
+			if (other.endTime != null) {
+				return false;
+			}
+		} else if (!endTime.equals(other.endTime)) {
+			return false;
+		}
+		if (id != other.id) {
+			return false;
+		}
+		if (isDeleted != other.isDeleted) {
+			return false;
+		}
+		if (name == null) {
+			if (other.name != null) {
+				return false;
+			}
+		} else if (!name.equals(other.name)) {
+			return false;
+		}
+		if (order != other.order) {
+			return false;
+		}
+		if (startTime == null) {
+			if (other.startTime != null) {
+				return false;
+			}
+		} else if (!startTime.equals(other.startTime)) {
+			return false;
+		}
+		if (subject == null) {
+			if (other.subject != null) {
+				return false;
+			}
+		} else if (!subject.equals(other.subject)) {
+			return false;
+		}
+		if (topics == null) {
+			if (other.topics != null) {
+				return false;
+			}
+		} else if (!topics.equals(other.topics)) {
+			return false;
+		}
+		return true;
+	}
 
 	@Override
 	public String toString() {

@@ -37,8 +37,8 @@ public class Group implements Serializable {
 		return groupId;
 	}
 
-	public void setGroupId(int group_id) {
-		this.groupId = group_id;
+	public void setGroupId(int groupId) {
+		this.groupId = groupId;
 	}
 
 	public boolean isDeleted() {
