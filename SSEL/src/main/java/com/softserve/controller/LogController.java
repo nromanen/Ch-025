@@ -8,6 +8,8 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +18,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.softserve.entity.Log;
+import com.softserve.entity.Role;
 import com.softserve.service.LogService;
 import com.softserve.service.TeacherRequestService;
 
@@ -196,6 +200,18 @@ public class LogController {
 		}
 		String orderBy = logService.createOrderByPart(preOrderBy);
 		return orderBy;
+	}
+	
+	@RequestMapping(value = "/getException", method = RequestMethod.POST)
+	public @ResponseBody String getException(
+			@RequestParam(value = "logId", required = false) Integer logId) {
+		JSONObject jsonObject;
+		
+		Log exceptionId = logService.getLogById(logId);
+		
+				jsonObject = new JSONObject();
+				jsonObject.put("exceptionText", exceptionId.getException());
+		return jsonObject.toString();
 	}
 
 }

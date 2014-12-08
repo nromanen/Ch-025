@@ -15,6 +15,26 @@
 			var deleteDate = document.getElementById("deleteDate").value;
 			window.location.href = "deleteOldLogs?deleteDate=" + deleteDate;
 		}
+		function openModal(logId) {
+			
+			$.ajax({
+				type : "POST",
+				url : "getException",
+				data : {
+					"logId" : logId
+				},
+				error : function(xhr) {
+					alert(xhr.statusText);
+				},
+				success : function(str) {
+					str = str.substring(35,str.length-6);
+					str = str.replace(/\\r\\n\\tat/g, "");
+					//str = str.replace("a", "q");
+					$("#logEx").text(str);
+					$('#myModal2').modal('show');
+				}
+			});
+		}
 	</script>
 	
 	<c:set value="${pageContext.response.locale}" var="local" />
@@ -64,9 +84,9 @@
       </div>
       <div class="modal-body" style="word-wrap: break-word">
         
-<p >
-java.lang.IllegalStateException: Cannot call sendError() after the response has been committed at org.apache.catalina.connector.ResponseFacade.sendError(ResponseFacade.java:478) at javax.servlet.http.HttpServletResponseWrapper.sendError(HttpServletResponseWrapper.java:127) at org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver.sendServerError(DefaultHandlerExceptionResolver.java:313) at org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver.handleHttpMessageNotWritable(DefaultHandlerExceptionResolver.java:370) at org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver.doResolveException(DefaultHandlerExceptionResolver.java:140) at org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver.resolveException(AbstractHandlerExceptionResolver.java:138) at org.springframework.web.servlet.DispatcherServlet.processHandlerException(DispatcherServlet.java:1164) at org.springframework.web.servlet.DispatcherServlet.processDispatchResult(DispatcherServlet.java:1005) at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:959) at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:876) at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:961) at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:852) at javax.servlet.http.HttpServlet.service(HttpServlet.java:618) at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:837) at javax.servlet.http.HttpServlet.service(HttpServlet.java:725) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:291) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206) at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:239) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206) at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:186) at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:160) at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:344) at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:261) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:239) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206) at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:88) at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:108) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:239) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206) at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:219) at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:106) at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:505) at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:142) at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:79) at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:610) at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:88) at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:534) at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1081) at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:658) at org.apache.coyote.http11.Http11NioProtocol$Http11ConnectionHandler.process(Http11NioProtocol.java:222) at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1566) at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.run(NioEndpoint.java:1523) at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) at java.lang.Thread.run(Thread.java:745) 
-</p>
+		<p id="logEx">
+		Uasja
+		</p>
 
       </div>
       <div class="modal-footer">
@@ -227,6 +247,7 @@ java.lang.IllegalStateException: Cannot call sendError() after the response has 
 	<c:choose>
 		<c:when test="${empty logs}">
 			<h1 align="center"><spring:message code="label.no_data" /></h1>
+		
 		</c:when>
 		<c:otherwise>
 		
@@ -343,7 +364,7 @@ java.lang.IllegalStateException: Cannot call sendError() after the response has 
 				</thead>
 				
 				<!-- Table content -->
-				<c:forEach items="${logs}" var="log">
+				<c:forEach items="${logs}" var="log" varStatus="ind">
 					<tr>
 						<td class="col-md-1"><fmt:formatDate
 								pattern="dd-MM-yyyy HH:mm:ss" value="${log.eventDate}" /></td>
@@ -353,10 +374,12 @@ java.lang.IllegalStateException: Cannot call sendError() after the response has 
 						<td class="col-md-6"><textarea class="col-md-12" rows="2"
 								readonly="readonly">${log.message}</textarea></td>
 						<td class="col-md-1">
+						 <!-- data-toggle="modal" data-target="#myModal2"-->
 							<c:choose>
 								<c:when test="${not empty log.exception}">
 									<a href="${pageContext.request.contextPath}/logDetails?LogId=${log.id}">Details</a>
-										<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal2">
+										<button value="${log.id}" type="button" id="${ind.index}" class="btn btn-primary"
+										 onclick="openModal(${log.id});">
 										  Details
 										</button> 						
 								</c:when>

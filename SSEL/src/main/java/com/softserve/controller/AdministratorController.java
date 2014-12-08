@@ -2,9 +2,7 @@ package com.softserve.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.annotation.Resource;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.softserve.entity.Category;
 import com.softserve.entity.CourseScheduler;
 import com.softserve.entity.Role;
@@ -41,9 +38,7 @@ import com.softserve.service.UserService;
  */
 @Controller
 public class AdministratorController {
-
 	public static final int DEFAULT_ELEMENTS_ON_PAGE = 10;
-
 	private static final Logger LOG = LoggerFactory
 			.getLogger(AdministratorController.class);
 	private int activeTeacherRequests;
@@ -54,31 +49,22 @@ public class AdministratorController {
 	private String sortBy;
 	private String sortMethod;
 	long count;
-
 	@Autowired
 	private SubjectService subjectService;
-
 	@Autowired
 	private StudentGroupService studentGroupService;
-
 	@Autowired
 	private UserService userService;
-
 	@Autowired
 	private CourseSchedulerService courceSchedulerService;
-
 	@Autowired
 	private CategoryService categoryService;
-
 	@Autowired
 	private AdministratorService administratorService;
-
 	@Autowired
 	private RoleService roleService;
-
 	@Autowired
 	private TeacherRequestService teacherRequestService;
-
 	@Resource(name = "LogService")
 	private LogService logService;
 
@@ -103,7 +89,6 @@ public class AdministratorController {
 		model.addAttribute("subjects", subjects.size());
 		model.addAttribute("courceScheduler", courceScheduler.size());
 		model.addAttribute("users", users.size());
-
 		return "administrator";
 	}
 
@@ -128,7 +113,6 @@ public class AdministratorController {
 		List<Category> categories = categoryService.getAllCategories();
 		model.addAttribute("categories", categories);
 		setMessage(model, successMessage, errorMessage);
-
 		activeTeacherRequests = (int) teacherRequestService
 				.getAllActiveTeacherRequestsCount();
 		model.addAttribute("activeTeacherRequests", activeTeacherRequests);
@@ -242,16 +226,13 @@ public class AdministratorController {
 			Model model) {
 		LOG.debug("Visit viewAllUsers page");
 		List<User> users = new ArrayList<User>();
-
 		setMessage(model, successMessage, errorMessage);
 		setPaginationProperties(model, elementsOnPage, currentPage);
 		setSortParameters(model, sortBy, sortMethod);
-
 		if (searchText != null && !searchText.equals("")
 				&& searchOption != null && !searchOption.equals("")) {
 			searchText = beforeSearch(searchText);
 			searchOption = beforeSearch(searchOption);
-
 			switch (searchOption) {
 			case "all":
 				users = userService.getUsersByTextVsLimit(searchText,
@@ -278,23 +259,18 @@ public class AdministratorController {
 				count = userService.getUsersByRoleCount(searchText);
 				break;
 			}
-
 			searchText = afterSearch(searchText);
 			searchOption = afterSearch(searchOption);
 			model.addAttribute("searchText", searchText);
 			model.addAttribute("searchOption", searchOption);
-
 		} else {
 			count = userService.getUsersCount();
 			users = userService.getUsersVsLimit(startPosition, limitLength,
 					this.sortBy, this.sortMethod);
 		}
-
 		setPagesCount(model, count);
 		setAactiveTeacherRequests(model);
-
 		model.addAttribute("users", users);
-
 		return "viewAllUsers";
 	}
 
@@ -334,7 +310,6 @@ public class AdministratorController {
 			@RequestParam(value = "searchOption", required = false) String searchOption,
 			@RequestParam(value = "sortBy", required = false) String sortBy,
 			@RequestParam(value = "sortMethod", required = false) String sortMethod,
-
 			Model model, RedirectAttributes redirectAttributes) {
 		LOG.debug("Visit changeSubjectCategory page");
 		if (userId != null && roleId != null) {
@@ -403,7 +378,6 @@ public class AdministratorController {
 			@RequestParam(value = "searchOption", required = false) String searchOption,
 			@RequestParam(value = "sortBy", required = false) String sortBy,
 			@RequestParam(value = "sortMethod", required = false) String sortMethod,
-
 			Model model, RedirectAttributes redirectAttributes) {
 		LOG.debug("Visit changeSubjectCategory page");
 		if (userId != null) {
@@ -481,11 +455,9 @@ public class AdministratorController {
 			Model model) {
 		LOG.debug("Visit viewAllSubjects page");
 		List<Subject> subjects = new ArrayList<Subject>();
-
 		setMessage(model, successMessage, errorMessage);
 		setPaginationProperties(model, elementsOnPage, currentPage);
 		setSortParameters(model, sortBy, sortMethod);
-
 		if (searchText != null && !searchText.equals("")
 				&& searchOption != null && !searchOption.equals("")) {
 			searchText = beforeSearch(searchText);
@@ -514,17 +486,13 @@ public class AdministratorController {
 			searchOption = afterSearch(searchOption);
 			model.addAttribute("searchText", searchText);
 			model.addAttribute("searchOption", searchOption);
-
 		} else {
 			count = subjectService.getSubjectsCount();
-
 			subjects = subjectService.getSubjectsVsLimit(startPosition,
 					limitLength, this.sortBy, this.sortMethod);
 		}
-
 		setPagesCount(model, count);
 		setAactiveTeacherRequests(model);
-
 		model.addAttribute("subjects", subjects);
 		return "viewAllSubjects";
 	}
@@ -564,7 +532,6 @@ public class AdministratorController {
 			@RequestParam(value = "searchOption", required = false) String searchOption,
 			@RequestParam(value = "sortBy", required = false) String sortBy,
 			@RequestParam(value = "sortMethod", required = false) String sortMethod,
-
 			Model model, RedirectAttributes redirectAttributes) {
 		LOG.debug("Visit changeSubjectCategory page");
 		if (subjectId != null && categoryId != null) {
@@ -624,7 +591,6 @@ public class AdministratorController {
 		List<TeacherRequest> teacherRequests = teacherRequestService
 				.getAllActiveTeacherRequests();
 		model.addAttribute("teacherRequests", teacherRequests);
-
 		return "viewAllRequests";
 	}
 
@@ -661,7 +627,6 @@ public class AdministratorController {
 				redirectAttributes.addFlashAttribute("errorMessage",
 						"No user with id " + userId);
 			}
-
 		} else {
 			redirectAttributes.addFlashAttribute("errorMessage",
 					"Can't unblocked user, input parameters is invalid!");
@@ -792,7 +757,6 @@ public class AdministratorController {
 		} else {
 			this.elementsOnPage = elementsOnPage;
 		}
-
 		if (currentPage == null) {
 			this.currentPage = 1;
 		} else {
