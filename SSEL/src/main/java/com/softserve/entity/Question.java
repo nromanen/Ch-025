@@ -18,6 +18,10 @@ import javax.xml.bind.Unmarshaller;
 @Table(name = "questions")
 public class Question {
 
+	static JAXBContext jaxbContext;
+	static Marshaller jaxbMarshaller;
+	static Unmarshaller jaxbUnmarshaller;
+
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +32,9 @@ public class Question {
 
 	@Column(name = "questionText", columnDefinition = "BLOB")
 	private String questionText;
+
+	@Column(name = "mark")
+	private double mark;
 
 	@Column(name = "deleted")
 	private boolean isDeleted;
@@ -61,9 +68,9 @@ public class Question {
 	public QuestionText getQuestion() {
 		QuestionText questionText = new QuestionText();
 		try {
-			JAXBContext jaxbContext = JAXBContext
+			jaxbContext = JAXBContext
 					.newInstance(QuestionText.class);
-			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			questionText = (QuestionText) jaxbUnmarshaller
 					.unmarshal(new StringReader(this.questionText));
 		} catch (JAXBException e) {
@@ -76,15 +83,23 @@ public class Question {
 	public void setQuestionText(QuestionText questionText) {
 		try {
 			StringWriter stringWriter = new StringWriter();
-			JAXBContext jaxbContext = JAXBContext
+			jaxbContext = JAXBContext
 					.newInstance(QuestionText.class);
-			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+			jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			jaxbMarshaller.marshal(questionText, stringWriter);
 			this.questionText = stringWriter.toString();
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public double getMark() {
+		return mark;
+	}
+
+	public void setMark(double mark) {
+		this.mark = mark;
 	}
 
 	public boolean isDeleted() {
