@@ -669,7 +669,7 @@ if (('${searchText}' == "") || ('${searchText}' != $("#searchText").val())) {
 							<td>
 								<table class="col-md-12">
 									<tr>
-										<td>${user.role.role}</td>
+										<td>${user.role.name}</td>
 										<td class="col-md-2">
 										<%-- Previus change role variant
 										<a type="button" data-toggle="modal"

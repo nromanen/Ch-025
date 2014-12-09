@@ -4,10 +4,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.softserve.entity.Log;
 import com.softserve.service.LogService;
@@ -28,6 +29,9 @@ public class LogController {
 			.getLogger(AdministratorController.class);
 
 	private static final int DEFAULT_LOGS_PER_PAGE = 10;
+	private static final String LOGS_PER_PAGE = "logsPerPage";
+	private static final String REDIRECT_TO_VIEWLOGS = "redirect:/viewLogs";
+	private static final String PRE_ORDER_BY = "preOrderBy";
 
 	@Autowired
 	private TeacherRequestService teacherRequestService;
@@ -55,8 +59,8 @@ public class LogController {
 		if (pageNumb == null || pageNumb < 0) {
 			pageNumb = 0;
 		}
-		if (session.getAttribute("logsPerPage") != null) {
-			logsPerPage = (int) session.getAttribute("logsPerPage");
+		if (session.getAttribute(LOGS_PER_PAGE) != null) {
+			logsPerPage = (int) session.getAttribute(LOGS_PER_PAGE);
 		}
 		GregorianCalendar[] dateRange = getDates(session);
 		GregorianCalendar startDate = dateRange[0];
@@ -90,23 +94,23 @@ public class LogController {
 	 */
 	@RequestMapping(value = "/getRangeOfDates", method = RequestMethod.GET)
 	public String getRangeOfDates(
-			Model model,
 			HttpSession session,
 			@RequestParam(value = "startDate", required = false) String startDateString,
 			@RequestParam(value = "endDate", required = false) String endDateString) {
 		LOG.debug("Select other range of dates");
 		GregorianCalendar startCalendar = logService.parseDate(startDateString);
 		if (startCalendar == null) {
-			return "redirect:/viewLogs";
+			return REDIRECT_TO_VIEWLOGS;
 		} else {
 			GregorianCalendar endCalendar = logService.parseDate(endDateString);
-			session.setAttribute("logsPerPage", DEFAULT_LOGS_PER_PAGE);
+			session.setAttribute(LOGS_PER_PAGE, DEFAULT_LOGS_PER_PAGE);
 			if (endCalendar == null) {
-				endCalendar = new GregorianCalendar(); // show logs "by now"
+				// show logs "by now"
+				endCalendar = new GregorianCalendar();
 			}
 			session.setAttribute("startDate", startCalendar);
 			session.setAttribute("endDate", endCalendar);
-			return "redirect:/viewLogs";
+			return REDIRECT_TO_VIEWLOGS;
 		}
 	}
 
@@ -115,18 +119,17 @@ public class LogController {
 	 */
 	@RequestMapping(value = "/getParameters", method = RequestMethod.GET)
 	public String getParameters(
-			Model model,
 			HttpSession session,
 			@RequestParam(value = "orderBy", required = false) String preOrderBy,
-			@RequestParam(value = "logsPerPage", required = false) Integer logsPerPage) {
+			@RequestParam(value = LOGS_PER_PAGE, required = false) Integer logsPerPage) {
 		LOG.debug("Change proper parameter");
 		if (preOrderBy != null) {
-			session.setAttribute("preOrderBy", preOrderBy);
+			session.setAttribute(PRE_ORDER_BY, preOrderBy);
 		}
 		if (logsPerPage != null) {
-			session.setAttribute("logsPerPage", logsPerPage);
+			session.setAttribute(LOGS_PER_PAGE, logsPerPage);
 		}
-		return "redirect:/viewLogs";
+		return REDIRECT_TO_VIEWLOGS;
 	}
 
 	/**
@@ -135,31 +138,28 @@ public class LogController {
 	 */
 	@RequestMapping(value = "/deleteOldLogs", method = RequestMethod.GET)
 	public String deleteOldLogs(
-			Model model,
 			@RequestParam(value = "deleteDate", required = false) String dateString) {
 		LOG.debug("Atempt to delete old logs");
 		GregorianCalendar deleteDate = logService.parseDate(dateString);
 		if (deleteDate == null) {
-			return "redirect:/viewLogs";
+			return REDIRECT_TO_VIEWLOGS;
 		}
 		logService.deleteLogsDueDate(deleteDate);
-		return "redirect:/viewLogs";
+		return REDIRECT_TO_VIEWLOGS;
 	}
 
 	/**
-	 * Shows log details for logs, that has information in the exception field.
+	 * Shows log exception for logs, that has information in the exception field.
 	 */
-	@RequestMapping(value = "/logDetails", method = RequestMethod.GET)
-	public String logDetails(
-			@RequestParam(value = "LogId", required = false) Integer logId,
-			Model model) {
-		LOG.debug("Visit logDetails page");
+	@RequestMapping(value = "/getException", method = RequestMethod.POST)
+	@ResponseBody
+	public String getException(
+			@RequestParam(value = "logId", required = false) Integer logId) {
+		JSONObject jsonObject;
 		Log log = logService.getLogById(logId);
-		int activeTeacherRequests = (int) teacherRequestService
-				.getAllActiveTeacherRequestsCount();
-		model.addAttribute("log", log);
-		model.addAttribute("activeTeacherRequests", activeTeacherRequests);
-		return "logDetails";
+		jsonObject = new JSONObject();
+		jsonObject.put("exception", log.getException());
+		return jsonObject.toString();
 	}
 
 	/**
@@ -172,30 +172,30 @@ public class LogController {
 		if (session.getAttribute("startDate") != null) {
 			startDate = (GregorianCalendar) session.getAttribute("startDate");
 			endDate = (GregorianCalendar) session.getAttribute("endDate");
-		} else { // if date wasn't chosen yet,user will see logs for last 24
-					// hours
+		} else {
+			// if date wasn't chosen yet,user will see logs for last 24 hours
 			endDate = new GregorianCalendar();
 			startDate = new GregorianCalendar();
-			startDate.set(Calendar.DATE, (endDate.get(Calendar.DATE) - 1)); // *
+			startDate.set(Calendar.DATE, endDate.get(Calendar.DATE) - 1); // *
 			// * making "yesterday" for start date
 		}
 		GregorianCalendar[] dateRange = { startDate, endDate };
 		return dateRange;
 	}
-
+	
 	/**
 	 * Operates with type of sorting by parsing proper String from session, or
 	 * taking default value.
 	 */
 	private String getTypeOfSorting(HttpSession session) {
 		String preOrderBy;
-		if (session.getAttribute("preOrderBy") != null) {
-			preOrderBy = (String) session.getAttribute("preOrderBy");
+		if (session.getAttribute(PRE_ORDER_BY) != null) {
+			preOrderBy = (String) session.getAttribute(PRE_ORDER_BY);
 		} else {
 			preOrderBy = "date-desc"; // default value
 		}
-		String orderBy = logService.createOrderByPart(preOrderBy);
-		return orderBy;
+		return logService.createOrderByPart(preOrderBy);
 	}
+
 
 }

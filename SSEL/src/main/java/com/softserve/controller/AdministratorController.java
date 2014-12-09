@@ -403,7 +403,7 @@ public class AdministratorController {
 							getSpringMessage("label.user") + "<b>"
 									+ user.getEmail() + "</b> "
 									+ getSpringMessage("message.admin.change_role")
-									+ " <b>" + user.getRole().getRole()
+									+ " <b>" + user.getRole().getName()
 									+ "</b>");
 				} else {
 					redirectAttributes.addFlashAttribute("errorMessage",
@@ -860,7 +860,7 @@ public class AdministratorController {
 			if (!roleId.equals(role.getId())) {
 				jsonObject = new JSONObject();
 				jsonObject.put("roleId", role.getId());
-				jsonObject.put("roleName", role.getRole());
+				jsonObject.put("roleName", role.getName());
 				jsonRoles.put(jsonObject);
 			}
 		}

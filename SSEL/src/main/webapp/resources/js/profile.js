@@ -127,7 +127,7 @@ jQuery(document).ready(function($) {
 	});
 	
 	$("#form_new_password").submit(function() {
-		var new_password = $("#new_password").val();
+		var new_password = $("#new_create_password").val();
 		if (new_password != "") {
 			var url = $(this).attr("action");
 			var json = {

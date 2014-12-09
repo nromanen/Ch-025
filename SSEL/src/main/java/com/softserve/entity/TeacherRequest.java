@@ -29,8 +29,11 @@ public class TeacherRequest {
 	private boolean active;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinColumn(name = "id_user", nullable = false, unique = true)
+	@JoinColumn(name = "id_user", nullable = false)
 	private User user;
+	
+	@Column(name = "message")
+	private String message;
 
 	public TeacherRequest() {
 
@@ -66,6 +69,14 @@ public class TeacherRequest {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 }

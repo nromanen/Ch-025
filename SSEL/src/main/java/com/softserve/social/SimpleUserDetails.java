@@ -100,7 +100,7 @@ public class SimpleUserDetails extends SocialUser {
 		public Builder role(Role role) {
 			this.role = role;
 			SimpleGrantedAuthority authority = new SimpleGrantedAuthority(
-					role.getRole());
+					role.getName());
 			this.authorities.add(authority);
 
 			return this;

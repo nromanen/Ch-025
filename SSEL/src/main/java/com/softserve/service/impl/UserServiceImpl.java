@@ -118,7 +118,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public void registrateTeacher(Registration registration, String message) {
+	public void registrateTeacher(Registration registration,
+			String emailMessage, String requestMessage) {
 		Calendar calendar = Calendar.getInstance();
 
 		User user = new User();
@@ -140,9 +141,11 @@ public class UserServiceImpl implements UserService {
 		teacherRequest.setActive(true);
 		teacherRequest.setRequestDate(new Date());
 		teacherRequest.setUser(user);
+		teacherRequest.setMessage(requestMessage);
 		teacherRequestService.addTeacherRequest(teacherRequest);
 
-		mailService.sendMail(user.getEmail(), "SSEL registration", message);
+		mailService
+				.sendMail(user.getEmail(), "SSEL registration", emailMessage);
 	}
 
 	@Override
@@ -249,6 +252,27 @@ public class UserServiceImpl implements UserService {
 		Authentication authentication = SecurityContextHolder.getContext()
 				.getAuthentication();
 		return authentication.getName();
+	}
+
+	@Override
+	@Transactional
+	public void changeExpiredDate(String email, String message) {
+		User user = userDao.getUserByEmail(email);
+		if (!user.isAccountNonExpired()) {
+			user.setAccountNonExpired(true);
+			user.setBlocked(true);
+			Calendar calendar = Calendar.getInstance();
+			calendar.add(Calendar.YEAR, ONE_YEAR);
+			user.setExpired(calendar.getTime());
+			userDao.updateUser(user);
+
+			TeacherRequest teacherRequest = new TeacherRequest();
+			teacherRequest.setActive(true);
+			teacherRequest.setRequestDate(new Date());
+			teacherRequest.setUser(user);
+			teacherRequest.setMessage(message);
+			teacherRequestService.addTeacherRequest(teacherRequest);
+		}
 	}
 
 	@Override

@@ -66,11 +66,12 @@ public class TeacherRequestDaoImpl implements TeacherRequestDao {
 	public TeacherRequest getTeacherRequestByUserId(int userId) {
 		LOG.debug("Get teacher request by user id = {}", userId);
 		Query query = entityManager.createQuery("FROM TeacherRequest t "
-				+ "WHERE t.user.id = :id");
+				+ "WHERE t.user.id = :id AND t.active = :active");
 		query.setParameter("id", userId);
+		query.setParameter("active", true);
 		try {
-		return (TeacherRequest) query.getSingleResult();
-		} catch (Exception e){
+			return (TeacherRequest) query.getSingleResult();
+		} catch (Exception e) {
 			return null;
 		}
 	}

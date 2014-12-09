@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
-	<role id="1" role="STUDENT" />
+	<role id="1" name="STUDENT" />
 	<user id="1" blocked="0" expired="2015-11-12" email="bla"
 		firstName="Anatoliy" lastName="Vacaliuck" password="1234"
 		registration="2014-11-10" social="REGISTRATION" role="1" account_non_expired="true"/>
