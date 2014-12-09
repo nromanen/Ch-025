@@ -12,5 +12,5 @@ public interface AdministratorService {
 
 	public ConfigurationProperty setSupportEmail(String email);
 
-	public Map<String, Long> getCountOfLastRegistredUsers(int lastDays);
+	public Map<String, Long> getCountRegistredUsersByLastDays(int lastDays);
 }

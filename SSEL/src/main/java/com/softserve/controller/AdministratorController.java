@@ -20,12 +20,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.softserve.entity.Category;
+import com.softserve.entity.Option;
+import com.softserve.entity.Question;
+import com.softserve.entity.QuestionText;
 import com.softserve.entity.Role;
 import com.softserve.entity.Subject;
 import com.softserve.entity.TeacherRequest;
 import com.softserve.entity.User;
 import com.softserve.service.AdministratorService;
 import com.softserve.service.CategoryService;
+import com.softserve.service.QuestionService;
 import com.softserve.service.RoleService;
 import com.softserve.service.SubjectService;
 import com.softserve.service.TeacherRequestService;
@@ -77,6 +81,9 @@ public class AdministratorController {
 	private AdministratorService administratorService;
 
 	@Autowired
+	private QuestionService questionService;
+
+	@Autowired
 	private RoleService roleService;
 
 	@Autowired
@@ -99,13 +106,42 @@ public class AdministratorController {
 			@RequestParam(value = ERROR_MESSAGE, required = false) String errorMessage,
 			Model model) {
 		LOG.debug("Visit administrator page");
+
+
+		Question question = new Question();
+		question.setTest(33);
+
+		Option o1 = new Option();
+		o1.setCorrect(true);
+		o1.setValue("option1");
+
+		Option o2 = new Option();
+		o2.setCorrect(false);
+		o2.setValue("option2");
+
+		List<Option> options = new ArrayList<Option>();
+		options.add(o1);
+		options.add(o2);
+
+		QuestionText qt = new QuestionText();
+		qt.setValue("some value");
+		qt.setOptions(options);
+
+		question.setQuestionText(qt);
+
+		questionService.addQuestion(question);
+
+		System.out.println(questionService.getQuestionById(5).getQuestion().toString());
+
+
 		long subjectsCount = subjectService.getCountOfSubjects();
 		int categoriesCount = categoryService.getAllCategories().size();
 		long usersCount = userService.getCountOfUsers();
 		String supportEmail = administratorService.getSupportEmail();
-		Map<String, Long> listMap = administratorService.getCountOfLastRegistredUsers(DEFAULT_LAST_REGISTRED_DAYS);
+		Map<String, Long> listMap = administratorService.getCountRegistredUsersByLastDays(DEFAULT_LAST_REGISTRED_DAYS);
 		List<String> lastRegDates = new ArrayList<String>();
 		List<Long> lastRegUsers = new ArrayList<Long>();
+
 		for (String date : listMap.keySet()) {
 			lastRegDates.add(date);
 		}

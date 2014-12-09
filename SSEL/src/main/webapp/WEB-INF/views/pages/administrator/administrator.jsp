@@ -136,7 +136,7 @@ function changeCategoryName(categoryId){
 		var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
 		var lastRegDates = "${lastRegDates}".replace("[","").replace("]","").split(",");
 		var lineChartData = {
-			labels : lastRegDates,
+			labels : lastRegDates.reverse(),
 			datasets : [
 				{
 					label: "My dataset",

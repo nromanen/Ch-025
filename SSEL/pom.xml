@@ -294,11 +294,19 @@
 			<artifactId>spring-social-facebook</artifactId>
 			<version>${spring.social.facebook.version}</version>
 		</dependency>
+		<!-- json -->
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
 			<version>20140107</version>
 		</dependency>
+		<!-- jaxb -->
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.2.11</version>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<plugins>

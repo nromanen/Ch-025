@@ -67,7 +67,7 @@ public class AdministratorServiceImpl implements AdministratorService {
 		return configurationPropertiesDao.updateProperty(emailProperty);
 	}
 
-	public Map<String, Long> getCountOfLastRegistredUsers(int lastDays) {
+	public Map<String, Long> getCountRegistredUsersByLastDays(int lastDays) {
 		Map<String, Long> list = new LinkedHashMap<String, Long>();
 		Date startDate;
 		Date endDate;
@@ -84,7 +84,6 @@ public class AdministratorServiceImpl implements AdministratorService {
 		startDate = calendar.getTime();
 		list.put(sdf.format(startDate), userService.getCountOfUsersByRegistrationDate(startDate, endDate));
 		}
-		System.out.println(list.toString());
 		return list;
 	}
 }
