@@ -244,3 +244,11 @@
 	});
 </script>
 
+<script type="text/javascript">
+$(document).ready(function(){
+   
+        $("#s-${subject.id}-${minBlockOrder}").collapse('show');
+   
+});
+</script>
+

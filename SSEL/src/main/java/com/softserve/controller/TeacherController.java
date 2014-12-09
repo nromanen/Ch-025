@@ -64,8 +64,6 @@ import com.softserve.service.GroupService;
  */
 @Controller
 public class TeacherController {
-	
-
 
 	@Autowired
 	private RoleService roleService;
@@ -84,7 +82,7 @@ public class TeacherController {
 
 	@Autowired
 	private BlockService blockService;
-	
+
 	@Autowired
 	private StudentCabinetService studentCabinetService;
 
@@ -111,7 +109,7 @@ public class TeacherController {
 
 	@Autowired
 	private StudyDocumentDao studyDocumentService;
-	
+
 	@Autowired
 	private GroupService groupService;
 
@@ -200,13 +198,14 @@ public class TeacherController {
 			List<Topic> topics = topicService.getTopicsBySubjectId(subjectId);
 			List<Block> blocks = blockService.getBlocksBySubjectId(subjectId);
 			Subject subject = subjectService.getSubjectById(subjectId);
-			
-			for (Block block:blocks) {
+
+			for (Block block : blocks) {
 				blockSizesArray.put(block.getId(), topicService.getTopicsByBlockId(block.getId()).size());
 			}
 
 			model.addAttribute("topicList", topics);
 			model.addAttribute("blockList", blocks);
+			model.addAttribute("minBlockOrder", blocks.get(0).getOrder());
 			model.addAttribute("subject", subject);
 			model.addAttribute("blockSizesArray", blockSizesArray);
 		} catch (NullPointerException e) {
@@ -217,7 +216,8 @@ public class TeacherController {
 
 	@RequestMapping(value = "/editTopic", method = RequestMethod.GET)
 	public String editTopic(@RequestParam(value = "topicId", required = false) Integer topicId,
-			@RequestParam(value = "subjectId", required = false) Integer subjectId, Model model, HttpServletRequest request) {
+			@RequestParam(value = "subjectId", required = false) Integer subjectId, Model model,
+			HttpServletRequest request) {
 		Topic topic = topicId != null ? topicService.getTopicById(topicId) : new Topic();
 
 		model.addAttribute("topic", topic);
@@ -226,21 +226,22 @@ public class TeacherController {
 		model.addAttribute("blockList", blocks);
 		List<Category> categories = categoryService.getAllCategories();
 		model.addAttribute("catList", categories);
-		
-		
-		
-		String dirname = request.getSession().getServletContext().getRealPath("resources");
-		boolean isSupported = true;//isSupportedBrowserForPlugin(request.getHeader("User-Agent"));
-		List<StudyDocument> documents = studentCabinetService.updateTopicFilesOnServer(dirname, topic.getId());
-		model.addAttribute("isSupported", isSupported);
-		model.addAttribute("docs", documents);
-		model.addAttribute("block_name", topic.getBlock().getName());
-		model.addAttribute("topic order", topic.getOrder());
-		model.addAttribute("name", topic.getName());
-		model.addAttribute("content", topic.getContent());
-		model.addAttribute("table", "active");
-		model.addAttribute("path", dirname);
 
+		if (topicId != null) {
+			String dirname = request.getSession().getServletContext().getRealPath("resources");
+			boolean isSupported = true;// isSupportedBrowserForPlugin(request.getHeader("User-Agent"));
+			List<StudyDocument> documents = studentCabinetService.updateTopicFilesOnServer(dirname, topic.getId());
+			if (documents.size() > 0) {
+				model.addAttribute("isSupported", isSupported);
+				model.addAttribute("docs", documents);
+				model.addAttribute("block_name", topic.getBlock().getName());
+				model.addAttribute("topic order", topic.getOrder());
+				model.addAttribute("name", topic.getName());
+				model.addAttribute("content", topic.getContent());
+				model.addAttribute("table", "active");
+				model.addAttribute("path", dirname);
+			}
+		}
 		return "editTopic";
 	}
 
@@ -476,34 +477,34 @@ public class TeacherController {
 	public String deleteSubject(@RequestParam(value = "subjectIds", required = true) String subjectIds, Model model) {
 
 		for (String idInStr : subjectIds.split(",")) {
-			
-				Integer id = Integer.parseInt(idInStr);
-				//try {
-				Subject subject = subjectService.getSubjectById(id);
-				List<Block> blocks = blockService.getBlocksBySubjectId(subject.getId());
-				List<Topic> topics = topicService.getTopicsBySubjectId(subject.getId());
-				List<CourseScheduler> cs = courseSchedulerService.getCourseScheduleresBySubjectId(subject.getId());
 
-				for (Topic t : topics)
-					topicService.deleteTopic(t);
+			Integer id = Integer.parseInt(idInStr);
+			// try {
+			Subject subject = subjectService.getSubjectById(id);
+			List<Block> blocks = blockService.getBlocksBySubjectId(subject.getId());
+			List<Topic> topics = topicService.getTopicsBySubjectId(subject.getId());
+			List<CourseScheduler> cs = courseSchedulerService.getCourseScheduleresBySubjectId(subject.getId());
 
-				for (Block b : blocks)
-					blockService.deleteBlock(b);
+			for (Topic t : topics)
+				topicService.deleteTopic(t);
 
-				for (CourseScheduler c : cs) {
-					Group courseGroup = groupService.getGroupByScheduler(c.getId());
-					Integer studentGroupNum = courseGroup.getGroupId();
-					List<StudentGroup> sg = studentGroupService.getStudentGroupsByGroupNumber(studentGroupNum);
-					for (StudentGroup ss : sg)
-						studentGroupService.deleteStudentGroup(ss);
-					groupService.deleteGroup(courseGroup);
-					courseSchedulerService.deleteCourseScheduler(c);
-				}
+			for (Block b : blocks)
+				blockService.deleteBlock(b);
 
-				subjectService.deleteSubject(subject);
-		//	} catch (Exception e) {
-			//	e.printStackTrace();
-			//}
+			for (CourseScheduler c : cs) {
+				Group courseGroup = groupService.getGroupByScheduler(c.getId());
+				Integer studentGroupNum = courseGroup.getGroupId();
+				List<StudentGroup> sg = studentGroupService.getStudentGroupsByGroupNumber(studentGroupNum);
+				for (StudentGroup ss : sg)
+					studentGroupService.deleteStudentGroup(ss);
+				groupService.deleteGroup(courseGroup);
+				courseSchedulerService.deleteCourseScheduler(c);
+			}
+
+			subjectService.deleteSubject(subject);
+			// } catch (Exception e) {
+			// e.printStackTrace();
+			// }
 		}
 		return "redirect:/teacher";
 	}
@@ -512,64 +513,64 @@ public class TeacherController {
 	public String deleteTopics(@RequestParam(value = "topicIds", required = true) String topicIds, Model model) {
 
 		for (String idInStr : topicIds.split(",")) {
-			
-				Integer id = Integer.parseInt(idInStr);
-				
-				Topic topic = topicService.getTopicById(id);
-				List<StudyDocument> studyDocumentList = studyDocumentService.listByTopicId(id);
 
-				for (StudyDocument sd: studyDocumentList)
-					studyDocumentService.delete(sd.getId());
-				
-					topicService.deleteTopic(topic);
+			Integer id = Integer.parseInt(idInStr);
+
+			Topic topic = topicService.getTopicById(id);
+			List<StudyDocument> studyDocumentList = studyDocumentService.listByTopicId(id);
+
+			for (StudyDocument sd : studyDocumentList)
+				studyDocumentService.delete(sd.getId());
+
+			topicService.deleteTopic(topic);
 
 		}
 		return "redirect:/teacher";
 	}
-	
+
 	@RequestMapping(value = "/enableTopics", method = RequestMethod.GET)
 	public String enableTopics(@RequestParam(value = "topicIds", required = true) String topicIds, Model model) {
 
 		for (String idInStr : topicIds.split(",")) {
-			
-				Integer id = Integer.parseInt(idInStr);
-				
-				Topic topic = topicService.getTopicById(id);
-				topic.setAlive(true);
-			
-				topicService.updateTopic(topic);
+
+			Integer id = Integer.parseInt(idInStr);
+
+			Topic topic = topicService.getTopicById(id);
+			topic.setAlive(true);
+
+			topicService.updateTopic(topic);
 
 		}
 		return "redirect:/teacher";
 	}
-	
+
 	@RequestMapping(value = "/disableTopics", method = RequestMethod.GET)
 	public String disableTopics(@RequestParam(value = "topicIds", required = true) String topicIds, Model model) {
 
 		for (String idInStr : topicIds.split(",")) {
-			
-				Integer id = Integer.parseInt(idInStr);
-				
-				Topic topic = topicService.getTopicById(id);
-				topic.setAlive(false);
-				
-				topicService.updateTopic(topic);
+
+			Integer id = Integer.parseInt(idInStr);
+
+			Topic topic = topicService.getTopicById(id);
+			topic.setAlive(false);
+
+			topicService.updateTopic(topic);
 
 		}
 		return "redirect:/teacher";
 	}
-	
+
 	@RequestMapping(value = "/deleteCategories", method = RequestMethod.GET)
 	public String deleteCategories(@RequestParam(value = "categoriesIds", required = true) String categoriesIds,
 			Model model) {
 
 		for (String idInStr : categoriesIds.split(",")) {
-			//try {
-				Integer id = Integer.parseInt(idInStr);
-				Category category = categoryService.getCategoryById(id);
-				categoryService.deleteCategory(category);
-			//} catch (Exception e) {
-			//}
+			// try {
+			Integer id = Integer.parseInt(idInStr);
+			Category category = categoryService.getCategoryById(id);
+			categoryService.deleteCategory(category);
+			// } catch (Exception e) {
+			// }
 		}
 		return "redirect:/categories";
 	}
