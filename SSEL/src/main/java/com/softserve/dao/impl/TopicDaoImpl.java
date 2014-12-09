@@ -21,6 +21,7 @@ public class TopicDaoImpl implements TopicDao {
 
 	@PersistenceContext(unitName = "entityManager")
 	private EntityManager entityManager;
+
 	/**
 	 * @see com.softserve.dao.TopicDao#getTopicById(int)
 	 */
@@ -29,6 +30,7 @@ public class TopicDaoImpl implements TopicDao {
 		LOG.debug("Get topic with id = {}", id);
 		return entityManager.find(Topic.class, id);
 	}
+
 	/**
 	 * @see com.softserve.dao.TopicDao#addTopic(Topic)
 	 */
@@ -38,6 +40,7 @@ public class TopicDaoImpl implements TopicDao {
 		entityManager.persist(topic);
 		return topic;
 	}
+
 	/**
 	 * @see com.softserve.dao.TopicDao#updateTopic(Topic)
 	 */
@@ -47,6 +50,7 @@ public class TopicDaoImpl implements TopicDao {
 		entityManager.merge(topic);
 		return topic;
 	}
+
 	/**
 	 * @see com.softserve.dao.TopicDao#setTopicDeleted(Topic, boolean)
 	 */
@@ -62,6 +66,7 @@ public class TopicDaoImpl implements TopicDao {
 			LOG.warn("Tried to delete topic(name = {})", topic.getName());
 		}
 	}
+
 	/**
 	 * @see com.softserve.dao.TopicDao#getAllTopics()
 	 */
@@ -69,10 +74,11 @@ public class TopicDaoImpl implements TopicDao {
 	@Override
 	public List<Topic> getAllTopics() {
 		LOG.debug("Get all topics");
-		return entityManager.createQuery("FROM Topic t WHERE t.isDeleted = :val")
-				.setParameter("val", true)
-				.getResultList();
+		return entityManager
+				.createQuery("FROM Topic t WHERE t.isDeleted = :val")
+				.setParameter("val", true).getResultList();
 	}
+
 	/**
 	 * @see com.softserve.dao.TopicDao#getTopicsByBlockId(int)
 	 */
@@ -81,11 +87,13 @@ public class TopicDaoImpl implements TopicDao {
 	public List<Topic> getTopicsByBlockId(int id) {
 		LOG.debug("Get all topics by block id = {}", id);
 		Query query = entityManager.createQuery("FROM Topic t "
-				+ "WHERE t.block.id = :id and t.isDeleted = :val " + "ORDER BY t.order");
+				+ "WHERE t.block.id = :id and t.isDeleted = :val "
+				+ "ORDER BY t.order");
 		query.setParameter("id", id);
 		query.setParameter("val", false);
 		return query.getResultList();
 	}
+
 	/**
 	 * @see com.softserve.dao.TopicDao#getTopicsBySubjectId(int)
 	 */
@@ -94,30 +102,22 @@ public class TopicDaoImpl implements TopicDao {
 	public List<Topic> getTopicsBySubjectId(int id) {
 		LOG.debug("Get all topics by block id = {}", id);
 		Query query = entityManager.createQuery("FROM Topic t "
-				+ "WHERE t.block.subject.id = :id and t.isDeleted = :val" + " ORDER BY t.order");
+				+ "WHERE t.block.subject.id = :id and t.isDeleted = :val"
+				+ " ORDER BY t.order");
 		query.setParameter("id", id);
 		query.setParameter("val", false);
 		return query.getResultList();
 	}
+
 	/**
 	 * @see com.softserve.dao.TopicDao#getAllDeletedTopics()
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Topic> getAllDeletedTopics() {
-		return entityManager.createQuery("FROM Topic t WHERE t.isDeleted = :val")
-				.setParameter("val", true)
-				.getResultList();
+		return entityManager
+				.createQuery("FROM Topic t WHERE t.isDeleted = :val")
+				.setParameter("val", true).getResultList();
 	}
-
-/*	@SuppressWarnings("unchecked")
-	@Override
-	public Integer getTopicsCountByBlockId(int id) {
-		LOG.debug("Get", id);
-		Query query = entityManager.createQuery("SELECT count(t) FROM Topic t "
-				+ "WHERE t.block.id = :id ");
-		query.setParameter("id", id);
-		return Integer.parseInt((String) query.getResultList().get(0));
-	}*/
 
 }

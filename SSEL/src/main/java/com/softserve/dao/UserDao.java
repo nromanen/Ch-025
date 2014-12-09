@@ -1,5 +1,6 @@
 package com.softserve.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import com.softserve.entity.User;
@@ -19,32 +20,34 @@ public interface UserDao {
 	User getUserByKey(String key);
 
 	boolean isExist(String email);
+	
+	List<User> getUsersByExpiredDate(Date date);
 
 	List<User> getAllUsers();
 
-	List<User> getUsersVsLimit(int startPosition, int limitLength,
+	List<User> getUsersByPage(int startPosition, int limitLength,
 			String sortBy, String sortMethod);
 
-	List<User> getUsersByFirstNameVsLimit(String searchText, int startPosition,
+	List<User> getUsersByFirstNameByPage(String searchText, int startPosition,
 			int limitLength, String sortBy, String sortMethod);
 
-	List<User> getUsersByRoleVsLimit(String searchText, int startPosition,
+	List<User> getUsersByRoleByPage(String searchText, int startPosition,
 			int limitLength, String sortBy, String sortMethod);
 
-	List<User> getUsersByTextVsLimit(String searchText, int startPosition,
+	List<User> getUsersByTextByPage(String searchText, int startPosition,
 			int limitLength, String sortBy, String sortMethod);
 
-	List<User> getUsersByLastNameVsLimit(String searchText, int startPosition,
+	List<User> getUsersByLastNameByPage(String searchText, int startPosition,
 			int limitLength, String sortBy, String sortMethod);
 
-	long getUsersCount();
+	long getCountOfUsers();
 
-	long getUsersByFirstNameCount(String searchName);
+	long getCountOfUsersByFirstName(String searchName);
 
-	long getUsersByRoleCount(String searchCategory);
+	long getCountOfUsersByRole(String searchCategory);
 
-	long getUsersByTextCount(String searchText);
+	long getCountOfUsersByText(String searchText);
 
-	long getUsersByLastNameCount(String searchText);
+	long getCountOfUsersByLastName(String searchText);
 
 }

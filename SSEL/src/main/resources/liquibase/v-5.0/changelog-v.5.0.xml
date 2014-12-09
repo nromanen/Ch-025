@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+	<changeSet id="2014-11-30-add-column-table-user" author="Roma">
+		<comment>Add column phone to table user</comment>
+		<addColumn tableName="user">
+			<column name="phone" type="varchar(20)">
+				<constraints unique="true" />
+			</column>
+		</addColumn>
+	</changeSet>
+
+	<changeSet id="2014-12-02-add-column-NonExpired-table-user"
+		author="Roma">
+		<comment>Add collumn accountNonExpired to table user</comment>
+		<addColumn tableName="user">
+			<column name="account_non_expired" type="boolean"
+				defaultValueBoolean="true">
+				<constraints nullable="false" />
+			</column>
+		</addColumn>
+	</changeSet>
+
+	<changeSet id="2014-12-04-delete-foreign-key-constraints--teacher_request"
+		author="Roma">
+		<dropForeignKeyConstraint baseTableName="teacher_request"
+			constraintName="fk_user_request" />
+	</changeSet>
+
+	<changeSet id="2014-12-04-delete-unique-constraints-table-teacher_request"
+		author="Roma">
+		<dropUniqueConstraint tableName="teacher_request"
+			uniqueColumns="id_user" constraintName="uk_id_user" />
+	</changeSet>
+
+	<changeSet id="2014-12-04-foreign-key-table-teacher_request-1"
+		author="Roma">
+		<addForeignKeyConstraint constraintName="fk_user_request"
+			referencedTableName="user" baseColumnNames="id_user" baseTableName="teacher_request"
+			referencedColumnNames="id" onDelete="CASCADE" onUpdate="CASCADE" />
+	</changeSet>
+
+	<changeSet id="2014-12-04-add-collumn-table-teacher_request"
+		author="Roma">
+		<addColumn tableName="teacher_request">
+			<column name="message" type="varchar(255)" />
+		</addColumn>
+	</changeSet>
+
+	<changeSet id="2014-12-06-rename-column-role" author="Roma">
+		<renameColumn tableName="role" oldColumnName="role"
+			newColumnName="name" columnDataType="varchar(20)"  />
+	</changeSet>
+
+</databaseChangeLog>

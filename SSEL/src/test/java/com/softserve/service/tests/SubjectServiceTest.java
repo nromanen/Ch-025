@@ -30,14 +30,14 @@ import com.softserve.service.UserService;
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
 		DbUnitTestExecutionListener.class })
 public class SubjectServiceTest {
-	
+
 	@Autowired
 	SubjectService subjectService;
 	@Autowired
 	CategoryService categoryService;
 	@Autowired
 	UserService userService;
-	
+
 	@Test
 	@DatabaseSetup("classpath:subjects.xml")
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:subjects.xml")
@@ -54,7 +54,7 @@ public class SubjectServiceTest {
 		assertEquals("Quality control", listActual.get(0).getName());
 		assertEquals(1, listActual.size());
 	}
-	
+
 	@Test
 	@DatabaseSetup("classpath:subjects.xml")
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:subjects.xml")
@@ -62,7 +62,7 @@ public class SubjectServiceTest {
 		Subject subject = subjectService.getSubjectById(2);
 		assertEquals("Java EE", subject.getName());
 	}
-	
+
 	@Test
 	@DatabaseSetup("classpath:subjects.xml")
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:subjects.xml")
@@ -70,7 +70,7 @@ public class SubjectServiceTest {
 		List<Subject> list = subjectService.getSubjectsByUserId(1);
 		assertEquals(9l, list.size());
 	}
-	
+
 	@Test
 	@DatabaseSetup("classpath:subjects.xml")
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:subjects.xml")
@@ -78,7 +78,7 @@ public class SubjectServiceTest {
 		Subject subject = subjectService.getSubjectById(100500);
 		assertNull(subject);
 	}
-	
+
 	@Test
 	@DatabaseSetup("classpath:subjects.xml")
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:subjects.xml")
@@ -93,7 +93,7 @@ public class SubjectServiceTest {
 		List<Subject> listActual = subjectService.getAllSubjects();
 		assertEquals(10, listActual.size());
 	}
-	
+
 	@Test
 	@DatabaseSetup("classpath:subjects.xml")
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:subjects.xml")
@@ -103,7 +103,7 @@ public class SubjectServiceTest {
 		List<Subject> listActual = subjectService.getAllSubjects();
 		assertEquals(8, listActual.size());
 	}
-	
+
 	@Test
 	@DatabaseSetup("classpath:subjects.xml")
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:subjects.xml")
@@ -113,7 +113,7 @@ public class SubjectServiceTest {
 		List<Subject> listActual = subjectService.getAllSubjects();
 		assertEquals(9, listActual.size());
 	}
-	
+
 	@Test
 	@DatabaseSetup("classpath:subjects.xml")
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:subjects.xml")
@@ -124,72 +124,72 @@ public class SubjectServiceTest {
 		List<Subject> listActual = subjectService.getAllSubjects();
 		assertEquals("German", listActual.get(8).getName());
 	}
-	
+
 	@Test
 	@DatabaseSetup("classpath:subjects.xml")
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:subjects.xml")
 	public void testSearchSubjectsByCategoryCount() {
-		Long size = subjectService.getSubjectsByCategoryCount("Programming");
+		Long size = subjectService.getCountOfSubjectsByCategory("Programming");
 		assertEquals(5l, size.longValue());
 	}
-	
+
 	@Test
 	@DatabaseSetup("classpath:subjects.xml")
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:subjects.xml")
 	public void testSearchSubjectsByNameCount() {
-		Long size = subjectService.getSubjectsByNameCount("Java");
+		Long size = subjectService.getCountOfSubjectsByName("Java");
 		assertEquals(5l, size.longValue());
 	}
-	
+
 	@Test
 	@DatabaseSetup("classpath:subjects.xml")
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:subjects.xml")
 	public void testGetSubjectCount() {
-		Long size = subjectService.getSubjectsCount();
+		Long size = subjectService.getCountOfSubjects();
 		assertEquals(9l, size.longValue());
 	}
-	
+
 	@Test
 	@DatabaseSetup("classpath:subjects.xml")
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:subjects.xml")
 	public void testGetSubjectByTextCount() {
-		Long size = subjectService.getSubjectsByTextCount("ja");
+		Long size = subjectService.getCountOfSubjectsByText("ja");
 		assertEquals(5l, size.longValue());
 	}
-	
+
 	@Test
 	@DatabaseSetup("classpath:subjects.xml")
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:subjects.xml")
 	public void testSearchSubjects() {
-		List<Subject> listActual = 
-				subjectService.getSubjectsByNameVsLimit("ja", 0, 10, "name", "asc");
+		List<Subject> listActual =
+				subjectService.getSubjectsByNameByPage("ja", 0, 10, "name", "asc");
 		assertEquals(5, listActual.size());
 	}
-	
+
 	@Test
 	@DatabaseSetup("classpath:subjects.xml")
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:subjects.xml")
 	public void testSearchSubjectsWithPageSize() {
-		List<Subject> listActual = 
-				subjectService.getSubjectsByNameVsLimit("ja", 1, 3, "name", "asc");
+		List<Subject> listActual =
+				subjectService.getSubjectsByNameByPage("ja", 1, 3, "name", "asc");
 		assertEquals(3, listActual.size());
 	}
-	
+
 	@Test
 	@DatabaseSetup("classpath:subjects.xml")
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:subjects.xml")
 	public void testSearchSubjectsByTextWithPage() {
-		List<Subject> listActual = 
-				subjectService.getSubjectsByTextVsLimit("a", 20, 10, "name", "asc");
+		List<Subject> listActual =
+				subjectService.getSubjectsByTextByPage("a", 20, 10, "name", "asc");
 		assertEquals(0, listActual.size());
 	}
-	
+
 	@Test
 	@DatabaseSetup("classpath:subjects.xml")
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:subjects.xml")
 	public void testSearchSubjectsByTextWithPageSize() {
-		List<Subject> listActual = 
-				subjectService.getSubjectsByTextVsLimit("a", 1, 2, "name", "asc");
+		List<Subject> listActual =
+				subjectService.getSubjectsByTextByPage("a", 1, 2, "name", "asc");
 		assertEquals(2, listActual.size());
 	}
 

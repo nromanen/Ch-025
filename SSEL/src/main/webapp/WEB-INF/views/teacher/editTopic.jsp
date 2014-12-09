@@ -159,8 +159,18 @@
             <span class="size">{%=o.formatFileSize(file.size)%}</span>
         </td>
 
+			<td>
+			<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal"
+			onClick="prepereModal('<c:url value="/" />resources/tmp/{%=file.name%}','{%=file.name%}')">
+  				<spring:message code="label.student.view_in" />
+			</button>
+							
+			</td>
+
         <td>
             {% if (file.deleteUrl) { %}
+				
+
                 <button class="btn btn-danger delete" data-type="DELETE" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
                     <i class="glyphicon glyphicon-trash"></i>
                     <span><spring:message code="label.teacher.delete"/></span>
@@ -176,6 +186,19 @@
     </tr>
 {% } %}
 </script>
+
+<script>
+	function prepereModal(documentUrl, documentName)
+        {
+             document.getElementById("dok").href=documentUrl; 
+             document.getElementById("myModalLabel").innerHtml=documentName; 
+			 $('.media').media({width:550, height:800, src: documentUrl});
+        }
+</script>
+
+<script type="text/javascript" src="http://malsup.github.com/chili-1.7.pack.js"></script>
+<script type="text/javascript" src="http://malsup.github.com/jquery.media.js"></script>
+
 
 <script src="resources/js/vendor/jquery.ui.widget.js"></script>
 <!-- The Templates plugin is included to render the upload/download listings -->
@@ -266,4 +289,33 @@
 	</div> 
 </div>
 
-
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+  <div class="modal-dialog" >
+    <div class="modal-content">
+      <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h2 class="modal-title" id="myModalLabel" >
+        	<c:if test="${!isSupported}" >
+        		<spring:message code="label.student.not_supported_title" />
+        	</c:if> 
+        </h2>
+      </div>
+      <div class="modal-body">
+        <c:choose>
+        	<c:when test="${isSupported}" >
+        		<a id="dok" class="media"  href="" ></a> 
+        	</c:when>
+        	<c:otherwise>
+        		<spring:message code="label.student.not_supported_body" />
+        	</c:otherwise>
+        </c:choose>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+			<spring:message code="label.student.close_modal" />
+		</button>
+      </div>
+    </div>
+  </div>
+</div>

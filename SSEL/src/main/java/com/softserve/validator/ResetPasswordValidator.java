@@ -52,5 +52,4 @@ public class ResetPasswordValidator implements Validator {
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
-
 }

@@ -30,6 +30,16 @@
 						<spring:message code="label.user_disabled" />
 					</div>
 				</c:if>
+				<c:if test="${error eq 'AccountExpiredException'}">
+					<div class="alert alert-warning">
+						<strong><spring:message code="label.warning" /></strong>
+						<spring:message code="label.account_expired_exception" />
+						<button class="btn btn-info" type="button" data-toggle="modal" 
+							data-target="#modal_expired_account" id="btn_open_expired_modal">
+							<spring:message code="label.continue" />
+						</button>
+					</div>
+				</c:if>
 				<form role="form" action="<c:url value="/j_spring_security_check" />" method="POST"
 					accept-charset="UTF-8" id ="login_form"
 					data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
@@ -88,21 +98,82 @@
 						<button class="btn btn-social-icon btn-facebook" type="submit">
 		                    <i class="fa fa-facebook"></i>
 		                </button>
+		                <input type="hidden" name="scope" value="email,publish_stream,offline_access,user_birthday" />
 	             	</form>
-	             	<!-- <form class="form-group" action="<c:url value="/auth/facebook" />" method="POST" role="form" >
-	                    <button class="btn btn-social-icon btn-twitter" type="submit">
-	                    	<i class="fa fa-twitter"></i>
+	             	<form class="form-group" action="<c:url value="/auth/linkedin" />" method="POST" role="form" >
+	                    <button class="btn btn-social-icon btn-linkedin" type="submit">
+	                    	<i class="fa fa-linkedin"></i>
 	                    </button>
 	                </form>
-	                <form class="form-group" action="<c:url value="/auth/facebook" />" method="POST" role="form" >
-	                    <button class="btn btn-social-icon btn-vk" type="submit">
-	                    	<i class="fa fa-vk"></i>
-	                    </button>
-						<input type="hidden" name="scope" value="email,publish_stream,offline_access,user_birthday" />
-					</form> -->
 				</div>
 				</div>
 	        </div>
 	    </div>
 	</div>
+</div>
+
+<!-- Modal window for load photo -->
+<div class="modal animated bounce bs-example-modal-sm" tabindex="-1" role="dialog" 
+    id="modal_expired_account" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+				    <span aria-hidden="true">&times;</span>
+				    <span class="sr-only">Close</span>
+				</button>
+				<h4 class="modal-title">
+					<spring:message code="label.continue_account_date" />
+				</h4>
+			</div>
+			<div class="modal-body">	
+				<form id="form_expired_account" class="form-horizontal" method="POST" role="form" 
+					action="<c:url value="/expiredAccount" />" 
+					data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+	      			data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+	      			data-bv-feedbackicons-validating="glyphicon glyphicon-refresh"
+	      			data-bv-submitbuttons='button[type="submit"]'
+	      			data-bv-live="enabled">
+					<div class="modal-body">				
+						<div class="panel panel-info">
+	        				<div class="panel-body">
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="phone">
+										<spring:message code="label.email" />
+									</label>
+									<div class="col-md-6">
+				                    	<input type="email" id="email_send" class="form-control" name="email_send"
+											data-bv-notempty="true"
+					                		data-bv-notempty-message="<spring:message code="dataerror.field_required" />" 
+					                		data-bv-emailaddress-message="<spring:message code="dataerror.email_example" />" 
+					                		data-toggle="tooltip" 
+											data-placement="top"
+											title="<spring:message code="placeholder.email" />" >
+		                			</div>
+	                			</div>
+		        			</div>
+		        			<div class="form-group">
+		        				<c:set value="${pageContext.response.locale}" var="local" />
+		        				<div class="col-md-offset-1 col-md-10"> <spring:message code="label.message" />
+		                			<textarea rows="3" id="message" class="form-control" 
+		                				placeholder="<spring:message code="label.message" />"
+		                				style="resize: none" data-toggle="tooltip" title="<spring:message code="label.message" />"
+		                				lang="${local}" ><spring:message code="message.please_continue_term"/></textarea> 
+		                		</div>
+		        			</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" id="btn_change_password_submit"  
+							class="btn btn-success" >
+							<spring:message code="label.accept"/>
+						</button>
+						<button type="reset" id="btn_form_close" class="btn btn-info" data-dismiss="modal">
+							<spring:message code="label.cancel" />
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>		
+	</div> 
 </div>

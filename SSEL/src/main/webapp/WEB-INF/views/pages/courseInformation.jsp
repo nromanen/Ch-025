@@ -7,18 +7,20 @@
 <div class="row">
 	<div class="col-lg-12">
 		<c:if test="${not empty subject}">
-			<c:if test="${sessionScope.user.role.role ne 'STUDENT'}">
+			<c:if test="${sessionScope.user.role.name ne 'STUDENT'}">
 				<div class="alert alert-danger" role="alert" align="center">
 					<span><spring:message code="label.course_subscribe" /> <c:if
-							test="${sessionScope.user.role.role eq 'TEACHER'}">
+							test="${sessionScope.user.role.name eq 'TEACHER'}">
 							<spring:message code="label.as_student" />
-						</c:if> <c:if
-							test="${sessionScope.user.role.role ne 'TEACHER' && sessionScope.user.role.role ne 'ADMIN' }">
+						</c:if>
+						<c:if test="${sessionScope.user.role.name eq 'ADMIN'}">
+							<spring:message code="label.as_student" />
+						</c:if>
+						 <c:if
+							test="${sessionScope.user.role.name ne 'TEACHER' && sessionScope.user.role.name ne 'ADMIN' }">
 							<a href="login" class="btn btn-primary"><spring:message
 									code="label.sing_in" /></a>
-						</c:if> <c:if test="${sessionScope.user.role.role eq 'ADMIN'}">
-							<spring:message code="label.as_student" />
-						</c:if> </span>
+						</c:if>  </span>
 				</div>
 			</c:if>
 			<h2 align="center">${subject.name}</h2>
@@ -69,7 +71,7 @@
 						</c:forEach>
 					</table>
 				</c:if>
-				<c:if test="${sessionScope.user.role.role eq 'STUDENT'}">
+				<c:if test="${sessionScope.user.role.name eq 'STUDENT'}">
 					<form method="GET" action="subscribe">
 						<c:if test="${isSubscribe eq true}">
 							<button value="${subject.id}" name="subjectId"

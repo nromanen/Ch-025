@@ -4,6 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script src="<c:url value="/resources/js/bootstrapValidator.js" />" ></script>
+<script src="<c:url value="/resources/js/jquery.inputmask.js" />" ></script>
 <div class="container">
 	<spring:message code="label.processing" var="processing"/>
 	<spring:message code="label.cancel" var="cancel"/>
@@ -17,11 +18,11 @@
 	  					<span aria-hidden="true">&times;</span>
 	  					<span class="sr-only">Close</span>
 	  				</button>
-	  				Перейти у 
+	  				<spring:message code="label.go_to" />
 	  				<a href="<c:url value="/student" />" class="alert-link">
 	  					<spring:message code="label.student_cabinet"/> 
 	  				</a>
-	  				або створіть пароль, щоб мати доступ не тільки через соціальні мережі.
+	  				<spring:message code="message.social_network_password" />
 				</div>
 			</c:if>
             <div class="panel-body">
@@ -128,6 +129,22 @@
 		                      		</div>
 		                     	</div>
 		                  	</div>
+		                  	<div class="form-group">
+	                			<label class="col-md-3 control-label">
+	                        		<spring:message code="label.phone_number" />
+	                        	</label>
+	                        	<div class="col-md-5 control-label">		
+	                        		<div class="input-group">
+	                        			<label>
+	                       					<c:out value="${sessionScope.user.phone}" />
+		                        		</label>	
+		                      		</div>                        	
+	                        	</div>
+	                        	<button title="<spring:message code="label.edit_phone_number" />" data-toggle="tooltip" 
+	                        		class="btn btn-sm btn-warning" data-target="#modal_edit_phone" type="button" id="btn_phone_edit">
+	                        		<i class="glyphicon glyphicon-edit"></i>
+	                        	</button>
+	                        </div>
 		                    <div class="form-group">
 		                    	<c:choose>
 		                    		<c:when test="${sessionScope.user.social eq 'REGISTRATION'}">
@@ -139,7 +156,7 @@
 		                    		<c:otherwise>
 		                    			<button type="button" id="btn_new_password" class="btn btn-info"  
 		                    				data-target="#modal_new_password" data-toggle="modal">
-											<spring:message code="label.change_password"/>
+											<spring:message code="label.create_password"/>
 										</button>
 		                    		</c:otherwise>
 		                    	</c:choose>
@@ -184,7 +201,7 @@
 									<spring:message code="label.new_password" />
 								</label>
 								<div class="col-md-6">
-									<input type="password" id="new_password" class="form-control" name="new_password"
+									<input type="password" id="new_create_password" class="form-control" name="new_create_password"
 										placeholder="<spring:message code="placeholder.new_password"/>" 
 										data-bv-notempty="true"
                 						data-bv-notempty-message="<spring:message code="dataerror.field_required" />"
@@ -206,12 +223,13 @@
 									<spring:message code="label.confirm_password" />
 								</label>
 								<div class="col-md-6">
-									<input type="password" class="form-control" id="confirm_password" name="confirm_password"
+									<input type="password" class="form-control" id="confirm_create_password" 
+										name="confirm_create_password"
 										placeholder="<spring:message code="placeholder.confirm_password"/>" 
 										data-bv-notempty="true"
                 						data-bv-notempty-message="<spring:message code="dataerror.field_required" />"
 										data-bv-identical="true"
-                						data-bv-identical-field="new_password"
+                						data-bv-identical-field="new_create_password"
                			 				data-bv-identical-message="<spring:message code="dataerror.passwords_do_not_match" />" 
                			 				data-toggle="tooltip" 
 										data-placement="top"
@@ -224,6 +242,63 @@
 				<div class="modal-footer">
 					<button type="submit" id="btn_change_password_submit"  
 						class="btn btn-success" >
+						<spring:message code="label.accept"/>
+					</button>
+					<button type="reset" id="btn_form_close" class="btn btn-info" data-dismiss="modal">
+						<spring:message code="label.cancel" />
+					</button>
+				</div>
+			</form>
+		</div>		
+	</div> 
+</div>
+
+<!-- Modal window for edit phone -->
+<div class="modal animated bounce bs-example-modal-lg" tabindex="-1" role="dialog" 
+    id="modal_edit_phone" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+				    <span aria-hidden="true">&times;</span>
+				    <span class="sr-only">Close</span>
+				</button>
+				<h4 class="modal-title">
+					<spring:message code="label.edit_phone_number" />
+				</h4>
+			</div>
+			<form id="form_edit_phone" class="form-horizontal" method="POST" role="form" 
+				action="<c:url value="/editPhone" />" 
+				data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+      			data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+      			data-bv-feedbackicons-validating="glyphicon glyphicon-refresh"
+      			data-bv-submitbuttons='button[type="submit"]'
+      			data-bv-live="enabled">
+				<div class="modal-body">				
+					<div class="panel panel-info">
+        				<div class="panel-body">
+							<div class="form-group">
+								<label class="col-md-3 control-label" for="phone">
+									<spring:message code="label.phone_number" />
+								</label>
+								<div class="col-md-6">
+			                    	<input type="text" id="phone" class="form-control" name="phone"
+										data-toggle="tooltip" 
+										data-placement="top"
+										placeholder="+__(___)___-__-__"
+										data-inputmask="'mask': '+99(999)999-99-99'"
+										title="<spring:message code="label.phone_number" />" 
+										data-bv-notempty="true"
+		                				data-bv-notempty-message="<spring:message code="dataerror.field_required" />"
+		                				pattern="^\+(\d{1,2})(\(\d{1,3}\))(\d{3}-\d{2}-\d{2})$"
+		                				data-bv-regexp-message="<spring:message code="dataerror.phone_number" />" >
+	                			</div>
+                			</div>
+	        			</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-success" >
 						<spring:message code="label.accept"/>
 					</button>
 					<button type="reset" id="btn_form_close" class="btn btn-info" data-dismiss="modal">

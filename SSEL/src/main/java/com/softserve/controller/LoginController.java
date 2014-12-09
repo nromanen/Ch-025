@@ -8,16 +8,16 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.social.facebook.api.Facebook;
+import org.springframework.social.linkedin.api.LinkedIn;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 
 import com.softserve.entity.User;
@@ -31,14 +31,12 @@ public class LoginController {
 			.getLogger(LoginController.class);
 
 	private static final String BAD_CREDENTIALS_EXCEPTION = "BadCredentialsException";
+	private static final String ACCOUNT_EXPIRED_EXCEPTION = "AccountExpiredException";
 	private static final String USER_DISABLED = "userDisabled";
 	private static final String KEY_ERROR = "error";
 
 	@Autowired
 	private UserService userService;
-
-	@Autowired
-	private MessageSource messageSource;
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String loginPage(
@@ -50,36 +48,58 @@ public class LoginController {
 			map.put(KEY_ERROR, BAD_CREDENTIALS_EXCEPTION);
 		} else if (StringUtils.isNotBlank(error) && error.equals(USER_DISABLED)) {
 			map.put(KEY_ERROR, USER_DISABLED);
+		} else if (StringUtils.isNotBlank(error)
+				&& error.equals(ACCOUNT_EXPIRED_EXCEPTION)) {
+			map.put(KEY_ERROR, ACCOUNT_EXPIRED_EXCEPTION);
 		}
 		return "login";
 	}
 
 	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "/social", method = RequestMethod.GET)
-	public String showRegistrationForm(WebRequest webRequest, Model model,
-			HttpServletRequest request) {
+	public String showRegistrationForm(WebRequest webRequest) {
 		LOG.debug("Rendering registration page.");
 
 		Connection<?> connection = ProviderSignInUtils
 				.getConnection(webRequest);
 
-		if (connection.getApi() == null) {
-			return "redirect:/";
-		}
-
 		if (connection.getApi() instanceof Facebook) {
 			Facebook facebook = (Facebook) connection.getApi();
-			String url = request.getRequestURL().toString();
-			String message = new String(messageSource.getMessage(
-					"message.user.chage_password", new Object[] {},
-					LocaleContextHolder.getLocale()));
-			userService.registrateFacebookUser(facebook, url, message);
+			userService.registrateFacebookUser(facebook);
 			User user = userService.getUserByEmail(facebook.userOperations()
 					.getUserProfile().getEmail());
 			SecurityUtil.logInUser(user);
 			return "redirect:/profile";
 		}
+
+		if (connection.getApi() instanceof LinkedIn) {
+			LinkedIn linkedIn = (LinkedIn) connection.getApi();
+			userService.registrateLinkedInUser(linkedIn);
+			User user = userService.getUserByEmail(linkedIn.profileOperations()
+					.getUserProfile().getEmailAddress());
+			SecurityUtil.logInUser(user);
+			return "redirect:/profile";
+		}
+
 		return "redirect:/";
 	}
 
+	@RequestMapping(value = "/expiredAccount", method = RequestMethod.POST, headers = { "content-type=application/json" })
+	@ResponseBody
+	public Map<String, Object> expiredAccount(
+			@RequestBody Map<String, Object> map, HttpServletRequest request) {
+		String email = map.get("email").toString();
+		String message = StringUtils.trimToEmpty(map.get("message").toString());
+
+		if (StringUtils.isBlank(email) || !userService.isExist(email)) {
+			map.put("result", "error");
+			return map;
+		}
+		userService.changeExpiredDate(email, message);
+		String url = request.getRequestURL().toString()
+				.replace("expiredAccount", "login");
+		map.put("result", "success");
+		map.put("url", url);
+		return map;
+	}
 }

@@ -20,7 +20,7 @@ import com.softserve.entity.Category;
 
 /**
  * The Class CategoryDaoImpl. This class implement interface {@link CategoryDao}
- * 
+ *
  * @author Roma Khomyshyn
  * @author Andriy Shutka
  * @author Anatoliy Vacaliuck
@@ -96,7 +96,7 @@ public class CategoryDaoImpl implements CategoryDao {
 		Predicate predicate = criteriaBuilder.like(
 				criteriaBuilder.upper(root.<String> get("name")), "%"
 						+ namePart.toUpperCase() + "%");
-		Predicate predicateDeleted = criteriaBuilder.equal(root.get("isDeleted"), false); 
+		Predicate predicateDeleted = criteriaBuilder.equal(root.get("isDeleted"), false);
 		predicates.add(predicate);
 		predicates.add(predicateDeleted);
 		criteriaQuery.where(predicates.toArray(new Predicate[] {}));
@@ -126,7 +126,7 @@ public class CategoryDaoImpl implements CategoryDao {
 			LOG.debug("Deleted = {} category(id = {})", deleted,category.getId());
 		} else {
 			LOG.warn("Tried to delete category(id = {})", category.getId());
-		}		
+		}
 	}
 	/**
 	 * @see com.softserve.dao.CategoryDao#getAllDeletedCategories()
