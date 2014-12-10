@@ -21,12 +21,14 @@
 		<class>com.softserve.entity.Test</class>
 		<class>com.softserve.entity.Question</class>
 		<class>com.softserve.entity.Answer</class>
+		<class>com.softserve.entity.TestStatistic</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<validation-mode>NONE</validation-mode>
 		<properties>
 			<property name="hibernate.archive.autodetection" value="class" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
 			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
 		</properties>
 	</persistence-unit>
 </persistence>
