@@ -16,17 +16,13 @@
 	<div class="panel panel-default">
 		<div class="panel-heading">
 
-			<button type="button" class="btn btn-outline btn-primary btn-xs"
+			<button type="button" class="btn btn-info btn-primary btn-xs"
 				onclick="location.href='editSubject?subjectId=${subject.id}'">
 				<spring:message code="label.teacher.edit" />
 			</button>
-			<button type="button" class="btn btn-outline btn-primary btn-xs"
+			<button type="button" class="btn btn-info btn-primary btn-xs"
 				onclick="location.href='editBlock?subjectId=${subject.id}'">
 				<spring:message code="label.teacher.addModule" />
-			</button>
-			<button type="button" class="btn btn-outline btn-primary btn-xs"
-				onclick="location.href='editTopic?subjectId=${subject.id}'">
-				<spring:message code="label.teacher.addTopic" />
 			</button>
 		</div>
 		<!-- .panel-heading -->
@@ -43,13 +39,13 @@
 								--
 								<fmt:formatDate pattern='dd-MM-yyyy' value='${block.endTime}' />
 								)
-								<button type="button" class="btn btn-outline btn-primary btn-xs"
+								<button type="button" class="btn btn-info btn-primary btn-xs"
 									style="float: right;"
 									onclick="location.href='deleteBlock?blockId=${block.id}&subjectId=${subject.id}'">
 									<spring:message code="label.teacher.delete" />
 								</button>
 
-								<button type="button" class="btn btn-outline btn-primary btn-xs"
+								<button type="button" class="btn btn-info btn-primary btn-xs"
 									style="float: right;"
 									onclick="location.href='editBlock?subjectId=${subject.id}&blockId=${block.id}'">
 									<spring:message code="label.teacher.edit" />
@@ -62,16 +58,22 @@
 								<div class="table-responsive">
 									<div align=left>
 										<button type="button" id="delButton1"
-											class="btn btn-outline btn-primary btn-xs">
+											class="btn btn-info btn-primary btn-xs">
 											<spring:message code="label.teacher.delete" />
 										</button>
 										<button type="button" id="enableButton"
-											class="btn btn-outline btn-primary btn-xs">
+											class="btn btn-info btn-primary btn-xs">
 											<spring:message code="label.teacher.enable" />
 										</button>
 										<button type="button" id="disableButton"
-											class="btn btn-outline btn-primary btn-xs">
+											class="btn btn-info btn-primary btn-xs">
 											<spring:message code="label.teacher.disable" />
+										</button>
+
+										<button type="button"
+											class="btn btn-info btn-primary btn-xs"
+											onclick="location.href='editTopic?subjectId=${subject.id}&blockId=${block.id}'">
+											<spring:message code="label.teacher.addTopic" />
 										</button>
 
 									</div>
@@ -94,11 +96,11 @@
 															value="${topic.id}" /></td>
 
 														<td><a
-															href="editTopic?topicId=${topic.id}&subjectId=${subject.id}">${topic.name}</a></td>
+															href="editTopic?topicId=${topic.id}&subjectId=${subject.id}&blockId=${block.id}">${topic.name}</a></td>
 														<td><c:choose>
 																<c:when test="${counter == 0}">
 																	<button type="button"
-																		class="btn btn-outline btn-primary btn-xs"
+																		class="btn btn-info btn-primary btn-xs"
 																		onclick="location.href='changeTopicOrder?updown=down&topicId=${topic.id}&subjectId=${subject.id}'">
 																		<i class="glyphicon glyphicon-arrow-down"></i>
 																	</button>
@@ -109,7 +111,7 @@
 
 																<c:when test="${counter == blockSizesArray[block.id]-1}">
 																	<button type="button"
-																		class="btn btn-outline btn-primary btn-xs"
+																		class="btn btn-info btn-primary btn-xs"
 																		onclick="location.href='changeTopicOrder?updown=up&topicId=${topic.id}&subjectId=${subject.id}'">
 																		<i class="glyphicon glyphicon-arrow-up"></i>
 																	</button>
@@ -119,12 +121,12 @@
 																<c:otherwise>
 
 																	<button type="button"
-																		class="btn btn-outline btn-primary btn-xs"
+																		class="btn btn-info btn-primary btn-xs"
 																		onclick="location.href='changeTopicOrder?updown=up&topicId=${topic.id}&subjectId=${subject.id}'">
 																		<i class="glyphicon glyphicon-arrow-up"></i>
 																	</button>
 																	<button type="button"
-																		class="btn btn-outline btn-primary btn-xs"
+																		class="btn btn-info btn-primary btn-xs"
 																		onclick="location.href='changeTopicOrder?updown=down&topicId=${topic.id}&subjectId=${subject.id}'">
 																		<i class="glyphicon glyphicon-arrow-down"></i>
 																	</button>
@@ -135,14 +137,14 @@
 														<td><c:choose>
 																<c:when test="${topic.alive == true}">
 																	<button type="button"
-																		class="btn btn-outline btn-success btn-xs"
+																		class="btn btn-info btn-success btn-xs"
 																		onclick="location.href='enableTopic?enable=false&topicId=${topic.id}&subjectId=${subject.id}'">
 																		<spring:message code="label.teacher.enable" />
 																	</button>
 																</c:when>
 																<c:otherwise>
 																	<button type="button"
-																		class="btn btn-outline btn-danger btn-xs"
+																		class="btn btn-info btn-danger btn-xs"
 																		onclick="location.href='enableTopic?enable=true&topicId=${topic.id}&subjectId=${subject.id}'">
 																		<spring:message code="label.teacher.disable" />
 																	</button>
@@ -150,7 +152,7 @@
 															</c:choose></td>
 														<td>
 															<button type="button"
-																class="btn btn-outline btn-primary btn-xs"
+																class="btn btn-info btn-primary btn-xs"
 																onclick="location.href='deleteTopic?topicId=${topic.id}&subjectId=${subject.id}'">
 																<spring:message code="label.teacher.delete" />
 															</button>
@@ -245,10 +247,10 @@
 </script>
 
 <script type="text/javascript">
-$(document).ready(function(){
-   
-        $("#s-${subject.id}-${minBlockOrder}").collapse('show');
-   
-});
+	$(document).ready(function() {
+
+		$("#s-${subject.id}-${minBlockOrder}").collapse('show');
+
+	});
 </script>
 
