@@ -61,23 +61,14 @@ public class TestStatisticDaoImpl implements TestStatisticDao {
 		ArrayList<TestStatistic> tsList = (ArrayList<TestStatistic>) getTestStatisticByUserByTest(
 				userId, testId);
 		if (tsList.size() != 0) {
-			int maxResult = 0;
-			int userResult = 0;
+			int totalMaxResult = 0;
+			int totalUserResult = 0;
 			for (TestStatistic testStat : tsList) {
-				try {
-				String[] marks = testStat.getResult().split("of");
-				userResult += Integer.parseInt(marks[0]);
-				maxResult += Integer.parseInt(marks[1]);
-				} catch (NumberFormatException e1) {
-					LOG.info("Problems with parsing String in getUserResultByTest method");
-					LOG.info(e1.toString());
-				} catch (ArrayIndexOutOfBoundsException e2) {
-					LOG.info("Problems with parsing String in getUserResultByTest method");
-					LOG.info(e2.toString());
-				}
+				totalUserResult += testStat.getUserResult();
+				totalMaxResult += testStat.getMaxResult();
 			}
-			if (maxResult != 0) {
-				return ((float) userResult / (float) maxResult);
+			if (totalMaxResult != 0) {
+				return ((float) totalUserResult / (float) totalMaxResult);
 			}
 		}
 		return 0;

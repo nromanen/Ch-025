@@ -24,5 +24,5 @@ User1 test 2 : ${userRes4} <br>
 </p>
 
 <br>
-${group100Statistic.size()} <br>
-${group100Statistic.get(0)}
+group100Statistic size: ${group100Statistic.size()} <br>
+group100Statistic.get(0): ${group100Statistic.get(0)}

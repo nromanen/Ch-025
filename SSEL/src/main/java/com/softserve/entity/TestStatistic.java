@@ -21,32 +21,34 @@ public class TestStatistic {
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
-//	@ManyToOne (fetch = FetchType.LAZY)
-//	@JoinColumn (name = "id_test", nullable = false)
-	@Column (name = "id_test")
+
+	// @ManyToOne (fetch = FetchType.LAZY)
+	// @JoinColumn (name = "id_test", nullable = false)
+	@Column(name = "id_test")
 	private int testId;
-	
-//	@ManyToOne (fetch = FetchType.LAZY)
-//	@JoinColumn (name = "id_user", nullable = false)
-	@Column (name = "id_user")
+
+	// @ManyToOne (fetch = FetchType.LAZY)
+	// @JoinColumn (name = "id_user", nullable = false)
+	@Column(name = "id_user")
 	private int userId;
-	
-//	@ManyToOne (fetch = FetchType.LAZY)
-//	@JoinColumn(name = "id_group")
+
+	// @ManyToOne (fetch = FetchType.LAZY)
+	// @JoinColumn(name = "id_group")
 	@Column(name = "id_group")
 	private int groupId;
-	
-//	@OneToOne (fetch = FetchType.LAZY)
+
+	// @OneToOne (fetch = FetchType.LAZY)
 	@Column(name = "id_question")
 	private int questionId;
-	
-	@Column(name = "result")
-	private String result;
-	
+
+	@Column(name = "user_result")
+	private int userResult;
+
+	@Column(name = "max_result")
+	private int maxResult;
+
 	@Column(name = "user_answers")
 	private ArrayList<Integer> userAnswers;
-	
 
 	public int getId() {
 		return id;
@@ -88,12 +90,20 @@ public class TestStatistic {
 		this.questionId = questionId;
 	}
 
-	public String getResult() {
-		return result;
+	public int getUserResult() {
+		return userResult;
 	}
 
-	public void setResult(String result) {
-		this.result = result;
+	public void setUserResult(int userResult) {
+		this.userResult = userResult;
+	}
+
+	public int getMaxResult() {
+		return maxResult;
+	}
+
+	public void setMaxResult(int maxResult) {
+		this.maxResult = maxResult;
 	}
 
 	public ArrayList<Integer> getUserAnswers() {
@@ -103,5 +113,5 @@ public class TestStatistic {
 	public void setUserAnswers(ArrayList<Integer> userAnswers) {
 		this.userAnswers = userAnswers;
 	}
-	
+
 }

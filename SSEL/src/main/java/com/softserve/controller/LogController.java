@@ -179,8 +179,7 @@ public class LogController {
 			startDate.set(Calendar.DATE, endDate.get(Calendar.DATE) - 1); // *
 			// * making "yesterday" for start date
 		}
-		GregorianCalendar[] dateRange = { startDate, endDate };
-		return dateRange;
+		return new GregorianCalendar[]{ startDate, endDate };
 	}
 	
 	/**
