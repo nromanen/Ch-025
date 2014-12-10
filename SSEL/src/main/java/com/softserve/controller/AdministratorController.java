@@ -127,6 +127,8 @@ public class AdministratorController {
 		qt.setValue("some value");
 		qt.setOptions(options);
 
+		question.setMark(5);
+
 		question.setQuestionText(qt);
 
 		questionService.addQuestion(question);

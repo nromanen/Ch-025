@@ -62,11 +62,12 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	@Override
-	public double getUserMark(int questionId, List<Option> userOptions) {
+	public double getUserMarkByQuestion(int questionId, List<Option> userOptions) {
 		Question question = getQuestionById(questionId);
 		int correctAnswers = 0;
-		double questionVeight = 0;
+		double answerMark = 0;
 		double mark = 0;
+		boolean f;
 		List<Option> options = question.getQuestion().getOptions();
 
 		for (Option option : options) {
@@ -76,18 +77,18 @@ public class QuestionServiceImpl implements QuestionService {
 		}
 
 		if (correctAnswers > 0) {
-			questionVeight = question.getMark() / correctAnswers;
+			answerMark = question.getMark() / correctAnswers;
 
 			for (Option userOption : userOptions) {
 				if (userOption.isCorrect()) {
-					for (Option option : options) {
-						if (userOption.getValue().equals(option.getValue())) {
-							if (option.isCorrect()) {
-								mark += questionVeight;
-							} else {
-								mark -= questionVeight;
-							}
-						}
+
+					f = checkAnswer(question, userOption.getValue());
+
+					if (f) {
+						mark += answerMark;
+					} else {
+						// When user set wrong answer; 2 is coefficient
+						mark -= answerMark / 2;
 					}
 				}
 			}
@@ -98,6 +99,19 @@ public class QuestionServiceImpl implements QuestionService {
 			mark = 0;
 		}
 		return mark;
+	}
+
+	public boolean checkAnswer(Question question, String answer) {
+		List<Option> options = question.getQuestion().getOptions();
+		for (Option option : options) {
+			if (option.isCorrect()) {
+				if (answer.equals(option.getValue())) {
+					return true;
+				}
+			}
+
+		}
+		return false;
 	}
 
 }
