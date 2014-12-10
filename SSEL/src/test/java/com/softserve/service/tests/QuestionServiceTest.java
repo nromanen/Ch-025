@@ -1,20 +1,27 @@
 package com.softserve.service.tests;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Before;
+import org.junit.Test;
+
+import com.softserve.dao.QuestionDao;
 import com.softserve.entity.Option;
 import com.softserve.entity.Question;
 import com.softserve.entity.QuestionText;
-import com.softserve.service.QuestionService;
+import com.softserve.service.impl.QuestionServiceImpl;
 
 public class QuestionServiceTest {
 
-	private QuestionService questionService;
+	private QuestionServiceImpl questionService = new QuestionServiceImpl();
+	private Question question = new Question();
+	private QuestionDao questionDao;
 
-
-	public QuestionServiceTest() {
-		Question question = new Question();
+	@Before
+	public void initialize() {
 		question.setTest(33);
 
 		Option o1 = new Option();
@@ -35,8 +42,20 @@ public class QuestionServiceTest {
 
 		question.setQuestionText(qt);
 
-		questionService.addQuestion(question);
+//		questionService.addQuestion(question);
+
+//		System.out.println(question.getQuestionText().toString());
+		System.out.println("-------------");
+		System.out.println(questionService.addQuestion(question));
 	}
 
+//	@Test
+//	public void testXML() {
+//		assertEquals(question.toString(), questionService.addQuestion(question).toString());
+//	}
 
+	@Test
+	public void test1() {
+		assertEquals("1","1");
+	}
 }

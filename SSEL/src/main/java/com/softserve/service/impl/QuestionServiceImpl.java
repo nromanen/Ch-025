@@ -1,5 +1,6 @@
 package com.softserve.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,8 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.dao.QuestionDao;
+import com.softserve.dao.impl.QuestionDaoImpl;
 import com.softserve.entity.Option;
 import com.softserve.entity.Question;
+import com.softserve.entity.QuestionText;
 import com.softserve.service.QuestionService;
 
 @Service
@@ -62,43 +65,23 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	@Override
-	public double getUserMarkByQuestion(int questionId, List<Option> userOptions) {
+	public double[] getUserMarkByQuestion(int questionId, List<Option> userOptions) {
 		Question question = getQuestionById(questionId);
-		int correctAnswers = 0;
 		double answerMark = 0;
 		double mark = 0;
-		boolean f;
 		List<Option> options = question.getQuestion().getOptions();
-
-		for (Option option : options) {
-			if (option.isCorrect()) {
-				correctAnswers++;
+		answerMark = question.getMark() / options.size();
+		for (int i = 0; i < userOptions.size(); i++) {
+			if ((userOptions.get(i).isCorrect() ^ options.get(i).isCorrect())) {
+				mark -= answerMark;
+			} else {
+				mark += answerMark;
 			}
 		}
-
-		if (correctAnswers > 0) {
-			answerMark = question.getMark() / correctAnswers;
-
-			for (Option userOption : userOptions) {
-				if (userOption.isCorrect()) {
-
-					f = checkAnswer(question, userOption.getValue());
-
-					if (f) {
-						mark += answerMark;
-					} else {
-						// When user set wrong answer; 2 is coefficient
-						mark -= answerMark / 2;
-					}
-				}
-			}
-			if (mark < 0) {
-				mark = 0;
-			}
-		} else {
+		if (mark < 0) {
 			mark = 0;
 		}
-		return mark;
+		return new double[] {mark, question.getMark()};
 	}
 
 	public boolean checkAnswer(Question question, String answer) {
@@ -112,6 +95,34 @@ public class QuestionServiceImpl implements QuestionService {
 
 		}
 		return false;
+	}
+
+	public static void main(String[] args) {
+		System.out.println("hello");
+		Question question = new Question();
+		question.setTest(33);
+
+		Option o1 = new Option();
+		o1.setCorrect(true);
+		o1.setValue("option1");
+
+		Option o2 = new Option();
+		o2.setCorrect(false);
+		o2.setValue("option2");
+
+		List<Option> options = new ArrayList<Option>();
+		options.add(o1);
+		options.add(o2);
+
+		QuestionText qt = new QuestionText();
+		qt.setValue("some value");
+		qt.setOptions(options);
+
+		question.setQuestionText(qt);
+
+		QuestionDaoImpl questionService = new QuestionDaoImpl();
+
+		System.out.println(questionService.addQuestion(question));
 	}
 
 }

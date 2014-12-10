@@ -23,7 +23,7 @@ public interface QuestionService {
 
 	void restoreQuestion(Question question);
 
-	double getUserMarkByQuestion(int questionId, List<Option> option);
+	double[] getUserMarkByQuestion(int questionId, List<Option> option);
 
 	boolean checkAnswer(Question question, String answer);
 
