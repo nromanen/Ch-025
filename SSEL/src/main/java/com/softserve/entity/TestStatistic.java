@@ -24,6 +24,7 @@ public class TestStatistic {
 
 	// @ManyToOne (fetch = FetchType.LAZY)
 	// @JoinColumn (name = "id_test", nullable = false)
+	// private Test test;
 	@Column(name = "id_test")
 	private int testId;
 
@@ -34,10 +35,13 @@ public class TestStatistic {
 
 	// @ManyToOne (fetch = FetchType.LAZY)
 	// @JoinColumn(name = "id_group")
+	// private Group group;
 	@Column(name = "id_group")
 	private int groupId;
 
-	// @OneToOne (fetch = FetchType.LAZY)
+	// @ManyToOne (fetch = FetchType.LAZY)
+	// @JoinColumn(name = "id_question")
+	// private Question question;  АХТУНГ!!!
 	@Column(name = "id_question")
 	private int questionId;
 

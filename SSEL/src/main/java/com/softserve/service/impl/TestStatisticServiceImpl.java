@@ -20,10 +20,9 @@ public class TestStatisticServiceImpl implements TestStatisticService {
 
 	@Autowired
 	private TestStatisticDao testStatisticDao;
-	
+
 	@Autowired
-	private QuestionService  questionService; // REDOOOOO!!!!!!
-	
+	private QuestionService questionService; // REDOOOOO!!!!!!
 
 	@Override
 	@Transactional
@@ -71,12 +70,14 @@ public class TestStatisticServiceImpl implements TestStatisticService {
 	@Override
 	public List<TestStatisticWithQuestion> getTestStatisticByUserByTestForController(
 			int userId, int testId) {
-		List<TestStatistic> tStatList = testStatisticDao.getTestStatisticByUserByTest(userId, testId);
-		
+		List<TestStatistic> tStatList = testStatisticDao
+				.getTestStatisticByUserByTest(userId, testId);
+
 		ArrayList<TestStatisticWithQuestion> tStatWithQArray = new ArrayList<TestStatisticWithQuestion>();
-		Question question;  // REDOOOOO!!!!!!!!
+		Question question; // REDOOOOO!!!!!!!!
 		for (TestStatistic testStat : tStatList) {
-			question = questionService.getQuestionById(testStat.getQuestionId());
+			question = questionService
+					.getQuestionById(testStat.getQuestionId());
 			TestStatisticWithQuestion tStatWithQ = new TestStatisticWithQuestion();
 			tStatWithQ.setTestStatistic(testStat);
 			tStatWithQ.setQuestion(question);

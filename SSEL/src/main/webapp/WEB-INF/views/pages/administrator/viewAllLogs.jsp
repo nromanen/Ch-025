@@ -353,7 +353,7 @@
 				</thead>
 				
 				<!-- Table content -->
-				<c:forEach items="${logs}" var="log" varStatus="ind">
+				<c:forEach items="${logs}" var="log">
 					<tr>
 						<td class="col-md-1"><fmt:formatDate
 								pattern="dd-MM-yyyy HH:mm:ss" value="${log.eventDate}" /></td>

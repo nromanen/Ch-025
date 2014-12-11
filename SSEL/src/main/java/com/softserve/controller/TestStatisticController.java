@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.softserve.entity.TestStatistic;
 import com.softserve.service.TestStatisticService;
+import com.softserve.util.TestStatisticWithQuestion;
 
 @Controller
 public class TestStatisticController {
@@ -91,8 +92,12 @@ public class TestStatisticController {
 		@RequestParam(value = "userId", required = true) Integer userId,
 		@RequestParam(value = "testId", required = true) Integer testId) {
 		
-		// взяти ліст, який містить всю необхідну інфу (і статистика і питання) і помістити його в сесію
+		List<TestStatisticWithQuestion> testStatWithQList = 
+				testStatisticService.getTestStatisticByUserByTestForController(userId, testId);
+		//testStatWithQList.get(0).getTestStatistic().getUserAnswers().get(4);
 		
+		
+		model.addAttribute("testStatWithQList", testStatWithQList);
 		return "userTestStatistic";		
 	}
 	
