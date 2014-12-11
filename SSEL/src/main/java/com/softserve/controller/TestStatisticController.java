@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.softserve.entity.TestStatistic;
+import com.softserve.service.GroupService;
+import com.softserve.service.TestService;
 import com.softserve.service.TestStatisticService;
+import com.softserve.service.UserService;
 import com.softserve.util.TestStatisticWithQuestion;
 
 @Controller
@@ -22,16 +25,27 @@ public class TestStatisticController {
 	@Resource(name = "TestStatisticService")
 	private TestStatisticService testStatisticService;
 	
+	@Autowired
+	private TestService testService;
+	
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private GroupService groupService;
+	
 	@RequestMapping(value = "/testStatistic", method = RequestMethod.GET)
 	public String testStatistic(Model model) {
-/*
+		
+
 		TestStatistic testStatistic01 = new TestStatistic();
 		TestStatistic testStatistic02 = new TestStatistic();
-		testStatistic01.setTestId(1);
-		testStatistic01.setUserId(1);
-		testStatistic01.setGroupId(102);
+		testStatistic01.setTest(testService.getTestById(1));
+		testStatistic01.setUser(userService.getUserById(1));
+		testStatistic01.setGroup(groupService.getGroupById(3));
 		testStatistic01.setQuestionId(1);
-		testStatistic01.setResult("3of4");
+		testStatistic01.setUserResult(3);
+		testStatistic01.setMaxResult(5);
 		
 		ArrayList<Integer> resultList = new ArrayList<Integer>();
 		resultList.add(1);
@@ -43,11 +57,12 @@ public class TestStatisticController {
 		
 		testStatistic01.setUserAnswers(resultList);
 			
-		testStatistic02.setTestId(1);
-		testStatistic02.setUserId(3);
-		testStatistic02.setGroupId(102);
+		testStatistic02.setTest(testService.getTestById(1));
+		testStatistic02.setUser(userService.getUserById(7));
+		testStatistic02.setGroup(groupService.getGroupById(3));
 		testStatistic02.setQuestionId(2);
-		testStatistic02.setResult("4of5");
+		testStatistic02.setUserResult(4);
+		testStatistic02.setMaxResult(5);
 		
 		ArrayList<Integer> resultList1 = new ArrayList<Integer>();
 		resultList.add(1);
@@ -63,24 +78,24 @@ public class TestStatisticController {
 		testStatisticService.addTestStatistic(testStatistic01);
 		testStatisticService.addTestStatistic(testStatistic02);
 		
-	*/
+	
 		
-		List<TestStatistic> theList = testStatisticService.getTestStatisticByUserByTest(1, 1);
+		List<TestStatistic> theList = testStatisticService.getTestStatisticByUserByTest(2, 1);
 		
 		float userRes1 = (float) testStatisticService.getUserResultByTest(1, 1);
-		float userRes2 = (float) testStatisticService.getUserResultByTest(2, 1);
-		float userRes3 = (float) testStatisticService.getUserResultByTest(3, 1);
-		float userRes4 = (float) testStatisticService.getUserResultByTest(1, 2);
+//		float userRes2 = (float) testStatisticService.getUserResultByTest(7, 1);
+//		float userRes3 = (float) testStatisticService.getUserResultByTest(3, 1);
+//		float userRes4 = (float) testStatisticService.getUserResultByTest(1, 2);
 		
-		ArrayList<Float> group100Statistic = testStatisticService.getGroupResultByTest(101, 1);
+		List<Float> group100Statistic = testStatisticService.getGroupResultByTest(3, 1);
 
 		
 		
 		model.addAttribute("group100Statistic", group100Statistic);
 		model.addAttribute("userRes1", userRes1);
-		model.addAttribute("userRes2", userRes2);
-		model.addAttribute("userRes3", userRes3);
-		model.addAttribute("userRes4", userRes4);
+//		model.addAttribute("userRes2", userRes2);
+//		model.addAttribute("userRes3", userRes3);
+//		model.addAttribute("userRes4", userRes4);
 		
 		model.addAttribute("statisticList", theList);
 		

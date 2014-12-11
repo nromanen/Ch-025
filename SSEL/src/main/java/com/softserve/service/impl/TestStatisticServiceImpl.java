@@ -49,16 +49,16 @@ public class TestStatisticServiceImpl implements TestStatisticService {
 	}
 
 	@Override
-	public ArrayList<Float> getGroupResultByTest(int groupId, int testId) {
+	public List<Float> getGroupResultByTest(int groupId, int testId) {
 		List<TestStatistic> testStatList = testStatisticDao
 				.getTestStatisticByGroupByTest(groupId, testId);
 		ArrayList<Integer> uniqueUserIds = new ArrayList<Integer>();
 		for (TestStatistic tStat : testStatList) {
-			if (!(uniqueUserIds.contains(tStat.getUserId()))) {
-				uniqueUserIds.add(tStat.getUserId());
+			if (!(uniqueUserIds.contains(tStat.getUser().getId()))) {
+				uniqueUserIds.add(tStat.getUser().getId());
 			}
 		}
-		ArrayList<Float> userResults = new ArrayList<Float>();
+		List<Float> userResults = new ArrayList<Float>();
 		for (int userId : uniqueUserIds) {
 			userResults.add(testStatisticDao
 					.getUserResultByTest(userId, testId));
@@ -73,7 +73,7 @@ public class TestStatisticServiceImpl implements TestStatisticService {
 		List<TestStatistic> tStatList = testStatisticDao
 				.getTestStatisticByUserByTest(userId, testId);
 
-		ArrayList<TestStatisticWithQuestion> tStatWithQArray = new ArrayList<TestStatisticWithQuestion>();
+		List<TestStatisticWithQuestion> tStatWithQArray = new ArrayList<TestStatisticWithQuestion>();
 		Question question; // REDOOOOO!!!!!!!!
 		for (TestStatistic testStat : tStatList) {
 			question = questionService

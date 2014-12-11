@@ -1,6 +1,7 @@
 package com.softserve.entity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -22,22 +22,23 @@ public class TestStatistic {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	// @ManyToOne (fetch = FetchType.LAZY)
-	// @JoinColumn (name = "id_test", nullable = false)
-	// private Test test;
-	@Column(name = "id_test")
-	private int testId;
+	 @ManyToOne (fetch = FetchType.EAGER)
+	 @JoinColumn (name = "id_test")
+	 private Test test;
+//	@Column(name = "id_test")
+//	private int testId;
 
-	// @ManyToOne (fetch = FetchType.LAZY)
-	// @JoinColumn (name = "id_user", nullable = false)
-	@Column(name = "id_user")
-	private int userId;
+	 @ManyToOne (fetch = FetchType.EAGER)
+	 @JoinColumn (name = "id_user")
+	 private User user;
+//	@Column(name = "id_user")
+//	private int userId;
 
-	// @ManyToOne (fetch = FetchType.LAZY)
-	// @JoinColumn(name = "id_group")
-	// private Group group;
-	@Column(name = "id_group")
-	private int groupId;
+	 @ManyToOne (fetch = FetchType.EAGER)
+	 @JoinColumn(name = "id_group")
+	 private Group group;
+//	@Column(name = "id_group")
+//	private int groupId;
 
 	// @ManyToOne (fetch = FetchType.LAZY)
 	// @JoinColumn(name = "id_question")
@@ -62,28 +63,28 @@ public class TestStatistic {
 		this.id = id;
 	}
 
-	public int getTestId() {
-		return testId;
+	public Test getTest() {
+		return test;
 	}
 
-	public void setTestId(int testId) {
-		this.testId = testId;
+	public void setTest(Test test) {
+		this.test = test;
 	}
 
-	public int getUserId() {
-		return userId;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
-	public int getGroupId() {
-		return groupId;
+	public Group getGroup() {
+		return group;
 	}
 
-	public void setGroupId(int groupId) {
-		this.groupId = groupId;
+	public void setGroup(Group group) {
+		this.group = group;
 	}
 
 	public int getQuestionId() {
@@ -110,12 +111,15 @@ public class TestStatistic {
 		this.maxResult = maxResult;
 	}
 
-	public ArrayList<Integer> getUserAnswers() {
+	public List<Integer> getUserAnswers() {
 		return userAnswers;
 	}
 
 	public void setUserAnswers(ArrayList<Integer> userAnswers) {
 		this.userAnswers = userAnswers;
 	}
+
+
+
 
 }

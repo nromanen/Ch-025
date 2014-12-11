@@ -30,27 +30,29 @@ public class TestStatisticDaoImpl implements TestStatisticDao {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<TestStatistic> getTestStatisticByUserByTest(int userId,
 			int testId) {
 		LOG.debug("Get TestStatistic by user and by test");
-		String stringQuery = "FROM TestStatistic ts WHERE ts.userId = :userId AND ts.testId = :testId";
+		String stringQuery = "FROM TestStatistic ts WHERE ts.user.id = :userId AND ts.test.id = :testId";
 		Query query = entityManager.createQuery(stringQuery);
 		query.setParameter("userId", userId);
 		query.setParameter("testId", testId);
-		ArrayList<TestStatistic> tsList = (ArrayList<TestStatistic>) query
+		List<TestStatistic> tsList = (List<TestStatistic>) query
 				.getResultList();
 		return tsList;
 	}
-	
+
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<TestStatistic> getTestStatisticByGroupByTest(int groupId,
 			int testId) {
 		LOG.debug("Get TestStatistic by group and by test");
-		String stringQuery = "FROM TestStatistic ts WHERE ts.groupId = :groupId AND ts.testId = :testId";
+		String stringQuery = "FROM TestStatistic ts WHERE ts.group.id = :groupId AND ts.test.id = :testId";
 		Query query = entityManager.createQuery(stringQuery);
 		query.setParameter("groupId", groupId);
 		query.setParameter("testId", testId);
-		ArrayList<TestStatistic> tsList = (ArrayList<TestStatistic>) query
+		List<TestStatistic> tsList = (List<TestStatistic>) query
 				.getResultList();
 		return tsList;
 	}
@@ -71,8 +73,7 @@ public class TestStatisticDaoImpl implements TestStatisticDao {
 				return ((float) totalUserResult / (float) totalMaxResult);
 			}
 		}
-		return 0;
+		return 0f;
 	}
-
 
 }
