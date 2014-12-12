@@ -1,9 +1,12 @@
 package com.softserve.service.tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Before;
@@ -23,6 +26,7 @@ import com.softserve.entity.Option;
 import com.softserve.entity.Question;
 import com.softserve.entity.QuestionText;
 import com.softserve.service.QuestionService;
+import com.softserve.service.TestService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -36,6 +40,9 @@ public class QuestionServiceTest {
 	@Autowired
 	QuestionService questionService;
 
+	@Autowired
+	TestService testService;
+
 	private Question question = new Question();
 	private QuestionText questionText = new QuestionText();
 	private Option option = new Option();
@@ -43,7 +50,7 @@ public class QuestionServiceTest {
 
 	@Before
 	public void initialize() {
-		question.setTest(11);
+		question.setTest(testService.getTestById(1));
 		question.setMark(5);
 		for (int i = 1; i < 6; i++) {
 			option = new Option();
@@ -106,7 +113,7 @@ public class QuestionServiceTest {
 	 public void testUpdateQuestion() {
 	 assertEquals(1, questionService.getQuestionById(1).getTest());
 	 Question question = questionService.getQuestionById(1);
-	 question.setTest(10);
+	 question.setTest(testService.getTestById(2));
 	 questionService.updateQuestion(question);
 	 assertEquals(10, questionService.getQuestionById(1).getTest());
 	 }
