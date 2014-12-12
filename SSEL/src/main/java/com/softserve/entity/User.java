@@ -27,11 +27,11 @@ public class User {
 
 	public enum Roles {
 		ADMIN, TEACHER, STUDENT
-	};
-	
+	}
+
 	public enum Social {
-		REGISTRATION, FACEBOOK, TWITTER
-	};
+		REGISTRATION, FACEBOOK, LINKEDIN
+	}
 
 	@Id
 	@Column(name = "id")
@@ -69,11 +69,17 @@ public class User {
 	@JoinColumn(name = "role", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Role role;
-	
+
 	@Column(name = "social", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Social social;
-	
+
+	@Column(name = "phone", unique = true)
+	private String phone;
+
+	@Column(name = "account_non_expired", nullable = false)
+	private boolean accountNonExpired;
+
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
 	private List<Subject> subjects = new ArrayList<>();
 
@@ -161,6 +167,22 @@ public class User {
 
 	public void setSocial(Social social) {
 		this.social = social;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public boolean isAccountNonExpired() {
+		return accountNonExpired;
+	}
+
+	public void setAccountNonExpired(boolean accountNonExpired) {
+		this.accountNonExpired = accountNonExpired;
 	}
 
 	public List<StudentGroup> getGroups() {

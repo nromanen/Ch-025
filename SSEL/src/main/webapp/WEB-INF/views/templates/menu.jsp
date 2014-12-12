@@ -10,13 +10,13 @@
 			<span class="icon-bar"></span> <span class="icon-bar"></span>
 		</button>
 		<c:choose>
-			<c:when test="${sessionScope.user.role.role eq 'STUDENT'}">
+			<c:when test="${sessionScope.user.role.name eq 'STUDENT'}">
 				<c:set var="url" value="/student" ></c:set>
 			</c:when>
-			<c:when test="${sessionScope.user.role.role eq 'TEACHER'}">
+			<c:when test="${sessionScope.user.role.name eq 'TEACHER'}">
 				<c:set var="url" value="/teacher" ></c:set>
 			</c:when>
-			<c:when test="${sessionScope.user.role.role eq 'ADMIN'}">
+			<c:when test="${sessionScope.user.role.name eq 'ADMIN'}">
 				<c:set var="url" value="/administrator" ></c:set>
 			</c:when>
 			<c:otherwise>
@@ -54,7 +54,7 @@
 				<i class="fa fa-caret-down"></i>
 			</a>
 			<ul class="dropdown-menu dropdown-user">
-				<c:if test="${sessionScope.user.role.role eq 'TEACHER'}">
+				<c:if test="${sessionScope.user.role.name eq 'TEACHER'}">
 					<li>
 						<a href="<c:url value="/teacher" />" >
 							<i class="fa fa-user fa-fw"></i>
@@ -62,7 +62,7 @@
 						</a>
 					</li>
 				</c:if>
-				<c:if test="${sessionScope.user.role.role eq 'STUDENT'}">
+				<c:if test="${sessionScope.user.role.name eq 'STUDENT'}">
 					<li>
 						<a href="<c:url value="/student?table=active" />" >
 							<i class="fa fa-user fa-fw"></i>
@@ -70,7 +70,7 @@
 						</a>
 					</li>
 				</c:if>
-				<c:if test="${sessionScope.user.role.role eq 'ADMIN'}">
+				<c:if test="${sessionScope.user.role.name eq 'ADMIN'}">
 					<li>
 						<a href="<c:url value="/administrator" />" >
 							<i class="fa fa-user fa-fw"></i>
@@ -78,8 +78,8 @@
 						</a>
 					</li>
 				</c:if>
-				<c:if test="${sessionScope.user.role.role eq 'TEACHER'
-					|| sessionScope.user.role.role eq 'STUDENT' || sessionScope.user.role.role eq 'ADMIN'}">
+				<c:if test="${sessionScope.user.role.name eq 'TEACHER'
+					|| sessionScope.user.role.name eq 'STUDENT' || sessionScope.user.role.name eq 'ADMIN'}">
 					<li class="divider"></li>
 					<li>
 						<a href="<c:url value="/logout" />">
@@ -88,8 +88,8 @@
 						</a>
 					</li>
 				</c:if>
-				<c:if test="${sessionScope.user.role.role ne 'TEACHER'
-					 && sessionScope.user.role.role ne 'STUDENT' && sessionScope.user.role.role ne 'ADMIN'}">
+				<c:if test="${sessionScope.user.role.name ne 'TEACHER'
+					 && sessionScope.user.role.name ne 'STUDENT' && sessionScope.user.role.name ne 'ADMIN'}">
 					<li>
 						<a href="<c:url value="/login" />">
 							<i class="fa fa-sign-in fa-fw"></i>

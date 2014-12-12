@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
-	<role id="1" role="ADMIN" />
-	<role id="2" role="STUDENT" />
-	<role id="3" role="TEACHER" />
+	<role id="1" name="ADMIN" />
+	<role id="2" name="STUDENT" />
+	<role id="3" name="TEACHER" />
 </dataset>

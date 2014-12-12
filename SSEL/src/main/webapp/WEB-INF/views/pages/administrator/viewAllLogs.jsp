@@ -15,11 +15,30 @@
 			var deleteDate = document.getElementById("deleteDate").value;
 			window.location.href = "deleteOldLogs?deleteDate=" + deleteDate;
 		}
+		function openModal(logId) {
+			
+			$.ajax({
+				type : "POST",
+				url : "getException",
+				data : {
+					"logId" : logId
+				},
+				error : function(xhr) {
+					alert(xhr.statusText);
+				},
+				success : function(str) {
+					str = str.substring(31,str.length-6);
+					str = str.replace(/\\r\\n\\tat/g, "");
+					$("#logEx").text(str);
+					$('#myModal2').modal('show');
+				}
+			});
+		}
 	</script>
 	
 	<c:set value="${pageContext.response.locale}" var="local" />
 	
-	<!-- Modal window -->
+	<!-- Modal window for deleting logs-->
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
@@ -51,6 +70,31 @@
 		<!-- /.modal-dialog -->
 	</div>
 	<!-- /.modal -->
+	
+	
+
+<!-- Modal for showing Exceptions-->
+	<div class="modal fade bs-example-modal-lg" id="myModal2" tabindex="-1"
+		role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h3 class="modal-title" align="center" id="myModalLabel">Stack
+						trace</h3>
+				</div>
+				<div class="modal-body" style="word-wrap: break-word">
+					<p id="logEx"></p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 
 	<!-- Head -->
 	<div class="col-lg-12">
@@ -192,6 +236,7 @@
 	<c:choose>
 		<c:when test="${empty logs}">
 			<h1 align="center"><spring:message code="label.no_data" /></h1>
+		
 		</c:when>
 		<c:otherwise>
 		
@@ -308,24 +353,27 @@
 				</thead>
 				
 				<!-- Table content -->
-				<c:forEach items="${logs}" var="log">
+				<c:forEach items="${logs}" var="log" varStatus="ind">
 					<tr>
 						<td class="col-md-1"><fmt:formatDate
 								pattern="dd-MM-yyyy HH:mm:ss" value="${log.eventDate}" /></td>
-						<td class="col-md-1">${log.level}</td>
+						<td class="col-md-1"><center>${log.level}</center></td>
 						<td class="col-md-3"><textarea class="col-md-12" rows="2"
 								readonly="readonly">${log.logger}</textarea></td>
 						<td class="col-md-6"><textarea class="col-md-12" rows="2"
 								readonly="readonly">${log.message}</textarea></td>
 						<td class="col-md-1">
-							<c:choose>
-								<c:when test="${not empty log.exception}">
-									<a href="${pageContext.request.contextPath}/logDetails?LogId=${log.id}">Details</a>
-								</c:when>
-								<c:otherwise>
-										No exception
-								</c:otherwise>
-							</c:choose></td>
+						<c:choose>
+							<c:when test="${not empty log.exception}">
+								<%-- <a href="${pageContext.request.contextPath}/logDetails?LogId=${log.id}">Details</a>
+									<button type="button" class="btn btn-primary"
+										onclick="openModal(${log.id});">Details</button>--%>
+									<center><a href="#" onclick="openModal(${log.id});" >Details </a></center>
+							</c:when>
+							<c:otherwise>
+								<center>No exception</center> 
+							</c:otherwise>
+						</c:choose></td>
 					</tr>
 				</c:forEach>
 			</table>

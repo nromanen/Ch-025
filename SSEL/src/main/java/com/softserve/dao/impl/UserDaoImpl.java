@@ -1,5 +1,6 @@
 package com.softserve.dao.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -63,8 +64,7 @@ public class UserDaoImpl implements UserDao {
 				.createQuery("FROM User WHERE email= :email").setParameter(
 						"email", email);
 		try {
-			User user = (User) query.getSingleResult();
-			return user;
+			return (User) query.getSingleResult();
 		} catch (NoResultException exception) {
 			LOG.error("Tried to get user(email = {})", email, exception);
 			return null;
@@ -77,9 +77,9 @@ public class UserDaoImpl implements UserDao {
 		List<User> result = entityManager
 				.createQuery("FROM User WHERE email = :email")
 				.setParameter("email", email).getResultList();
-		LOG.debug("User(email = {}) {} exist", email, (result.size() > 0 ? ""
+		LOG.debug("User(email = {}) {} exist", email, (!result.isEmpty() ? ""
 				: "does not"));
-		return result.size() > 0;
+		return !result.isEmpty();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -96,12 +96,25 @@ public class UserDaoImpl implements UserDao {
 				.createQuery("FROM User u WHERE u.verificationKey = :key");
 		query.setParameter("key", key);
 		try {
-			User user = (User) query.getSingleResult();
-			return user;
+			return (User) query.getSingleResult();
 		} catch (NoResultException exception) {
 			LOG.error("Tried to get user(key = {})", key, exception);
 			return null;
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<User> getUsersByExpiredDate(Date date) {
+		LOG.debug("Get users by expired date");
+		List<User> users = new ArrayList<>();
+		Query query = entityManager
+				.createQuery("FROM User u WHERE u.expired <= :expired AND "
+						+ "u.accountNonExpired = :accountNonExpired AND u.role.name <> 'ADMIN'");
+		query.setParameter("expired", date);
+		query.setParameter("accountNonExpired", true);
+		users.addAll(query.getResultList());
+		return users;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -162,7 +175,7 @@ public class UserDaoImpl implements UserDao {
 				+ "' or u.email LIKE '" + searchText
 				+ "' or u.firstName LIKE '" + searchText
 				+ "' or u.lastName LIKE '" + searchText
-				+ "' or u.role.role LIKE '" + searchText + "'";
+				+ "' or u.role.name LIKE '" + searchText + "'";
 		Query query = setQueryParameters(textQuery, startPosition, limitLength,
 				sortBy, sortMethod);
 		return query.getResultList();
@@ -186,7 +199,7 @@ public class UserDaoImpl implements UserDao {
 				sortBy = "ORDER BY u.expired";
 				break;
 			case "role":
-				sortBy = "ORDER BY u.role.role";
+				sortBy = "ORDER BY u.role.name";
 				break;
 			case "blocked":
 				sortBy = "ORDER BY u.blocked";
@@ -243,7 +256,7 @@ public class UserDaoImpl implements UserDao {
 	public long getCountOfUsersByRole(String searchRole) {
 		LOG.debug("Get Users by category count");
 		Query query = entityManager.createQuery("SELECT COUNT (*) FROM User u "
-				+ "WHERE u.role.role LIKE :name");
+				+ "WHERE u.role.name LIKE :name");
 		query.setParameter("name", "%" + searchRole + "%");
 		return (Long) query.getSingleResult();
 	}
@@ -256,7 +269,7 @@ public class UserDaoImpl implements UserDao {
 				+ "WHERE u.id LIKE '" + searchText + "' or u.email LIKE '"
 				+ searchText + "' or u.firstName LIKE '" + searchText
 				+ "' or u.lastName LIKE '" + searchText
-				+ "' or u.role.role LIKE '" + searchText + "'");
+				+ "' or u.role.name LIKE '" + searchText + "'");
 		return (Long) query.getSingleResult();
 	}
 

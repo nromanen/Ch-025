@@ -16,8 +16,8 @@ public class Role {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column(name = "role", nullable = false, length = 10)
-	private String role;
+	@Column(name = "name", nullable = false, length = 10)
+	private String name;
 
 	public Role() {
 	}
@@ -30,12 +30,12 @@ public class Role {
 		this.id = id;
 	}
 
-	public String getRole() {
-		return role;
+	public String getName() {
+		return name;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
+	public void setRole(String name) {
+		this.name = name;
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class Role {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + id;
-		result = prime * result + ((role == null) ? 0 : role.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
 
@@ -56,17 +56,17 @@ public class Role {
 		if (!(obj instanceof Role))
 			return false;
 		Role other = (Role) obj;
-		if (role == null) {
-			if (other.role != null)
+		if (name == null) {
+			if (other.name != null)
 				return false;
-		} else if (!role.equals(other.role))
+		} else if (!name.equals(other.name))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return role;
+		return name;
 	}
 
 }

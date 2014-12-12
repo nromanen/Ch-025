@@ -14,6 +14,10 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+/**
+ * Entity implementation class for Entity: Question
+ * @author Ivan
+ */
 @Entity
 @Table(name = "questions")
 public class Question {

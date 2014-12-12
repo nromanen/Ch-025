@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.social.facebook.api.Facebook;
+import org.springframework.social.linkedin.api.LinkedIn;
 
 import com.softserve.entity.User;
 import com.softserve.form.Registration;
@@ -27,9 +28,12 @@ public interface UserService {
 
 	void registrateStudent(Registration registration, String url, String message);
 
-	void registrateTeacher(Registration registration, String message);
+	void registrateTeacher(Registration registration, String emailMessage,
+			String requestMessage);
 
-	void registrateFacebookUser(Facebook facebook, String url, String message);
+	void registrateFacebookUser(Facebook facebook);
+
+	void registrateLinkedInUser(LinkedIn linkedIn);
 
 	User getUserByKey(String key);
 
@@ -43,7 +47,11 @@ public interface UserService {
 
 	boolean isEqualsPasswords(String password, User user);
 
+	List<User> getUsersByExpiredDate(Date date);
+
 	String getCurrentUser();
+
+	void changeExpiredDate(String email, String message);
 
 	public List<User> getUsersByPage(int startPosition, int limitLength,
 			String sortBy, String sortMethod);

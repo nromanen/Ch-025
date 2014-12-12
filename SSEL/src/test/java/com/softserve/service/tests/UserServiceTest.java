@@ -6,6 +6,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Calendar;
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -127,7 +130,8 @@ public class UserServiceTest {
 		registration.setLastName("Homyshyn");
 		registration.setPassword("1234");
 		registration.setTeacher(true);
-		userService.registrateTeacher(registration, "message");
+		userService.registrateTeacher(registration, "email message",
+				"request message");
 		assertEquals(3, userService.getAllUsers().size());
 		teacherRequestService.deleteTeacherRequest(teacherRequestService
 				.getTeacherRequestById(1));
@@ -177,5 +181,18 @@ public class UserServiceTest {
 	public void testGetUserCount() {
 		assertEquals(userService.getAllUsers().size(),
 				userService.getCountOfUsers());
+	}
+
+	@Test
+	@DatabaseSetup("classpath:users.xml")
+	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:users.xml")
+	public void testGetUserByExpiredDate() {
+		Calendar calendar = Calendar.getInstance();
+		List<User> users = userService
+				.getUsersByExpiredDate(calendar.getTime());
+		assertEquals(0, users.size());
+		calendar.add(Calendar.YEAR, 1);
+		users = userService.getUsersByExpiredDate(calendar.getTime());
+		assertEquals(2, users.size());
 	}
 }

@@ -7,6 +7,23 @@
 	<name>SSEL</name>
 	<packaging>war</packaging>
 	<version>1</version>
+
+	<profiles>
+		<profile>
+			<id>sonar</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<sonar.jdbc.url>jdbc:mysql://localhost/sonar</sonar.jdbc.url>
+				<sonar.jdbc.username>root</sonar.jdbc.username>
+				<sonar.jdbc.password>root</sonar.jdbc.password>
+				<sonar.jdbc.driver>com.mysql.jdbc.Driver</sonar.jdbc.driver>
+				<sonar.host.url>http://localhost:9000</sonar.host.url>
+			</properties>
+		</profile>
+	</profiles>
+
 	<properties>
 		<java-version>1.7</java-version>
 		<org.springframework-version>4.0.2.RELEASE</org.springframework-version>
@@ -18,7 +35,9 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<spring.social.version>1.1.0.RELEASE</spring.social.version>
 		<spring.social.facebook.version>1.1.1.RELEASE</spring.social.facebook.version>
+		<spring.social.linkedin.version>1.0.1.RELEASE</spring.social.linkedin.version>
 	</properties>
+
 	<dependencies>
 		<!-- Spring -->
 		<dependency>
@@ -294,7 +313,13 @@
 			<artifactId>spring-social-facebook</artifactId>
 			<version>${spring.social.facebook.version}</version>
 		</dependency>
-		<!-- json -->
+		<!-- Spring Social LinkedIn -->
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-linkedin</artifactId>
+			<version>${spring.social.linkedin.version}</version>
+		</dependency>
+	<!-- json -->
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
@@ -308,6 +333,7 @@
 		</dependency>
 
 	</dependencies>
+
 	<build>
 		<plugins>
 			<plugin>

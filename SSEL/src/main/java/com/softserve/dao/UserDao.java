@@ -20,6 +20,8 @@ public interface UserDao {
 	User getUserByKey(String key);
 
 	boolean isExist(String email);
+	
+	List<User> getUsersByExpiredDate(Date date);
 
 	List<User> getAllUsers();
 

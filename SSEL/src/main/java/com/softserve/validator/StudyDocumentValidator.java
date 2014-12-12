@@ -15,7 +15,7 @@ import com.softserve.entity.StudyDocument;
  *
  */
 @Component
-public class StudyDocumentValidator implements Validator{
+public class StudyDocumentValidator implements Validator {
 
 	@Override
 	public boolean supports(Class<?> classObject) {
@@ -24,8 +24,8 @@ public class StudyDocumentValidator implements Validator{
 
 	@Override
 	public void validate(Object object, Errors errors) {
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "name.required", "Name field is missing");
-		
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name",
+				"name.required", "Name field is missing");
 	}
 
 }

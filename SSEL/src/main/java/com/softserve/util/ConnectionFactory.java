@@ -12,12 +12,19 @@ import org.apache.commons.dbcp.DriverManagerConnectionFactory;
 import org.apache.commons.dbcp.PoolableConnectionFactory;
 import org.apache.commons.dbcp.PoolingDataSource;
 import org.apache.commons.pool.impl.GenericObjectPool;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.softserve.dao.impl.TopicDaoImpl;
 
 public class ConnectionFactory {
 	private static interface Singleton {
 		final ConnectionFactory INSTANCE = new ConnectionFactory();
 	}
 
+	private static final Logger LOG = LoggerFactory
+			.getLogger(TopicDaoImpl.class);
+	
 	private final DataSource dataSource;
 
 	private ConnectionFactory() {
@@ -27,7 +34,7 @@ public class ConnectionFactory {
 		try {
 			properties.load(inputStream);
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOG.info(e.toString());
 		}
 
 		String username = properties.getProperty("jdbc.username");
@@ -38,8 +45,7 @@ public class ConnectionFactory {
 		try {
 			Class.forName(driver);
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			System.exit(0);
+			LOG.info(e.toString());
 		}
 
 		GenericObjectPool pool = new GenericObjectPool();

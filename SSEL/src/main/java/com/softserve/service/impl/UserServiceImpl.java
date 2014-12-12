@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.FacebookProfile;
 import org.springframework.social.facebook.api.UserOperations;
+import org.springframework.social.linkedin.api.LinkedIn;
+import org.springframework.social.linkedin.api.LinkedInProfile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -92,20 +94,19 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public void registrateStudent(Registration registration, String url,
 			String message) {
-		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(
-				PASSWORD_STRENGTH);
 		Calendar calendar = Calendar.getInstance();
 
 		User user = new User();
 		user.setEmail(registration.getEmail().trim());
-		user.setPassword(passwordEncoder.encode(registration.getPassword()));
+		user.setPassword(getEncoderPassword(registration.getPassword()));
 		user.setBlocked(true);
 		user.setFirstName(registration.getFirstName().trim());
 		user.setLastName(registration.getLastName().trim());
 		user.setRegistration(calendar.getTime());
 		calendar.add(Calendar.YEAR, ONE_YEAR);
 		user.setExpired(calendar.getTime());
-		user.setVerificationKey(passwordEncoder.encode(registration.getEmail()));
+		user.setAccountNonExpired(true);
+		user.setVerificationKey(getEncoderPassword(registration.getEmail()));
 		user.setRole(roleService.getRoleByName(Roles.STUDENT.toString()));
 		user.setSocial(Social.REGISTRATION);
 
@@ -117,21 +118,21 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public void registrateTeacher(Registration registration, String message) {
-		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(
-				PASSWORD_STRENGTH);
+	public void registrateTeacher(Registration registration,
+			String emailMessage, String requestMessage) {
 		Calendar calendar = Calendar.getInstance();
 
 		User user = new User();
 		user.setEmail(registration.getEmail().trim());
-		user.setPassword(passwordEncoder.encode(registration.getPassword()));
+		user.setPassword(getEncoderPassword(registration.getPassword()));
 		user.setBlocked(true);
 		user.setFirstName(registration.getFirstName().trim());
 		user.setLastName(registration.getLastName().trim());
 		user.setRegistration(calendar.getTime());
 		calendar.add(Calendar.YEAR, ONE_YEAR);
 		user.setExpired(calendar.getTime());
-		user.setVerificationKey(passwordEncoder.encode(registration.getEmail()));
+		user.setAccountNonExpired(true);
+		user.setVerificationKey(getEncoderPassword(registration.getEmail()));
 		user.setRole(roleService.getRoleByName(Roles.TEACHER.toString()));
 		user.setSocial(Social.REGISTRATION);
 		user = userDao.addUser(user);
@@ -140,40 +141,59 @@ public class UserServiceImpl implements UserService {
 		teacherRequest.setActive(true);
 		teacherRequest.setRequestDate(new Date());
 		teacherRequest.setUser(user);
+		teacherRequest.setMessage(requestMessage);
 		teacherRequestService.addTeacherRequest(teacherRequest);
 
-		mailService.sendMail(user.getEmail(), "SSEL registration", message);
+		mailService
+				.sendMail(user.getEmail(), "SSEL registration", emailMessage);
 	}
 
 	@Override
 	@Transactional
-	public void registrateFacebookUser(Facebook facebook, String url,
-			String message) {
+	public void registrateFacebookUser(Facebook facebook) {
 		UserOperations operations = facebook.userOperations();
 		FacebookProfile profile = operations.getUserProfile();
 		if (!userDao.isExist(profile.getEmail())) {
 			Calendar calendar = Calendar.getInstance();
-			PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(
-					PASSWORD_STRENGTH);
 			User user = new User();
 			user.setBlocked(false);
 			user.setEmail(profile.getEmail());
 			user.setRegistration(calendar.getTime());
 			calendar.add(Calendar.YEAR, ONE_YEAR);
 			user.setExpired(calendar.getTime());
+			user.setAccountNonExpired(true);
 			user.setFirstName(profile.getFirstName());
 			user.setLastName(profile.getLastName());
 			user.setImage(operations.getUserProfileImage());
 			user.setPassword(getEncoderPassword(DEFAULT_PASSWORD));
 			user.setRole(roleService.getRoleByName(Roles.STUDENT.toString()));
 			user.setSocial(Social.FACEBOOK);
-			user.setVerificationKey(passwordEncoder.encode(profile.getEmail()));
+			user.setVerificationKey(getEncoderPassword(profile.getEmail()));
 			userDao.addUser(user);
-			url = url.replace("/social",
-					"/remind/pass?key=" + user.getVerificationKey());
-			message += " <a href=\"" + url + "\">" + url + "</a>";
-			mailService.sendMail(user.getEmail(), "SSEL create new password",
-					message);
+		}
+	}
+
+	@Override
+	@Transactional
+	public void registrateLinkedInUser(LinkedIn linkedIn) {
+		LinkedInProfile profile = linkedIn.profileOperations().getUserProfile();
+		if (!userDao.isExist(profile.getEmailAddress())) {
+			Calendar calendar = Calendar.getInstance();
+			User user = new User();
+			user.setBlocked(false);
+			user.setEmail(profile.getEmailAddress());
+			user.setRegistration(calendar.getTime());
+			calendar.add(Calendar.YEAR, ONE_YEAR);
+			user.setExpired(calendar.getTime());
+			user.setAccountNonExpired(true);
+			user.setFirstName(profile.getFirstName());
+			user.setLastName(profile.getLastName());
+			user.setPassword(getEncoderPassword(DEFAULT_PASSWORD));
+			user.setRole(roleService.getRoleByName(Roles.STUDENT.toString()));
+			user.setSocial(Social.LINKEDIN);
+			user.setVerificationKey(getEncoderPassword(profile
+					.getEmailAddress()));
+			userDao.addUser(user);
 		}
 	}
 
@@ -190,18 +210,14 @@ public class UserServiceImpl implements UserService {
 		message += " <a href=\"" + url + "\">" + url + "</a>";
 		mailService.sendMail(user.getEmail(), "SSEL change password", message);
 		user.setBlocked(true);
-		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(
-				PASSWORD_STRENGTH);
-		user.setPassword(passwordEncoder.encode(DEFAULT_PASSWORD));
+		user.setPassword(getEncoderPassword(DEFAULT_PASSWORD));
 		userDao.updateUser(user);
 	}
 
 	@Override
 	@Transactional
 	public void restorePassword(User user, ResetPassword resetPassword) {
-		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(
-				PASSWORD_STRENGTH);
-		user.setPassword(passwordEncoder.encode(resetPassword.getPassword()));
+		user.setPassword(getEncoderPassword(resetPassword.getPassword()));
 		user.setBlocked(false);
 		userDao.updateUser(user);
 	}
@@ -236,6 +252,33 @@ public class UserServiceImpl implements UserService {
 		Authentication authentication = SecurityContextHolder.getContext()
 				.getAuthentication();
 		return authentication.getName();
+	}
+
+	@Override
+	@Transactional
+	public void changeExpiredDate(String email, String message) {
+		User user = userDao.getUserByEmail(email);
+		if (!user.isAccountNonExpired()) {
+			user.setAccountNonExpired(true);
+			user.setBlocked(true);
+			Calendar calendar = Calendar.getInstance();
+			calendar.add(Calendar.YEAR, ONE_YEAR);
+			user.setExpired(calendar.getTime());
+			userDao.updateUser(user);
+
+			TeacherRequest teacherRequest = new TeacherRequest();
+			teacherRequest.setActive(true);
+			teacherRequest.setRequestDate(new Date());
+			teacherRequest.setUser(user);
+			teacherRequest.setMessage(message);
+			teacherRequestService.addTeacherRequest(teacherRequest);
+		}
+	}
+
+	@Override
+	@Transactional
+	public List<User> getUsersByExpiredDate(Date date) {
+		return userDao.getUsersByExpiredDate(date);
 	}
 
 	@Override

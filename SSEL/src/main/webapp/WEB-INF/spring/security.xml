@@ -61,6 +61,10 @@
 					key="org.springframework.security.authentication.BadCredentialsException">
 					/login?error=BadCredentialsException
 				</beans:prop>
+				<beans:prop
+					key="org.springframework.security.authentication.AccountExpiredException">
+					/login?error=AccountExpiredException
+				</beans:prop>
 			</beans:props>
 		</beans:property>
 	</beans:bean>
