@@ -21,12 +21,12 @@ public interface QuestionService {
 	 * Mark question as deleted
 	 * @param question question to mark
 	 */
-	void deleteQuestion(Question question);
+	void deleteQuestion(int questionId);
 	/**
 	 * Restore deleted question
 	 * @param question deleted question
 	 */
-	void restoreQuestion(Question question);
+	void restoreQuestion(int questionId);
 	
 	/**
 	 * Return question by id

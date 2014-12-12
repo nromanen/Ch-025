@@ -19,17 +19,17 @@
 			</c:otherwise>
 		</c:choose>
 		</h1>
-   			<form:form method="POST" action="saveTest?op=${op}" cssClass="form-horizontal" commandName="test">
-        		<div class="form-group">
-        			<form:label path="name">Test name</form:label>
-        			<form:errors path="name" cssClass="control-label" />		
-        			<form:input path="name" cssClass="form-control" cssStyle="width:30%"/>
+   		<form:form method="POST" action="saveTest?op=${op}" cssClass="form-horizontal" commandName="test">
+        <div class="form-group">
+        	<form:label path="name">Test name</form:label>
+        	<form:errors path="name" cssClass="control-label" />		
+        	<form:input path="name" cssClass="form-control" cssStyle="width:30%"/>
         			
-        		</div>
+        </div>
     	<div class="form-group">
-    		<div class="dropdown-menu">
-    		<form:select path="block" items="${blocks}" itemValue="id" itemLabel="name" />
-    		</div>
+    		<form:label path="block" >Block</form:label>
+    		<form:select path="block" items="${blocks}" itemValue="id" itemLabel="name" 
+    		cssClass="form-control" cssStyle="width:30%" />
     	</div>
     	<div class="form-group">
         	<form:label path="description">Description</form:label>
@@ -41,10 +41,8 @@
     	</div>
      	<form:hidden path="isAlive" />
      	<form:hidden path="isDeleted" />
-        <td colspan="2">
             <input type="submit" value="<spring:message code="label.teacher.save"/>" class="btn btn-primary btn-lg" />
-        </td>
-			</form:form>
+		</form:form>
 		</div>
 	</div>
 </div>

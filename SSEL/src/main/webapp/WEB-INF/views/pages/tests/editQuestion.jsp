@@ -35,11 +35,11 @@
 		<div class="list-group">
 		<h3>Answers</h3>
 		<c:forEach items="${questionForm.answers}" var="answer" varStatus="status">
-				<div class="list-group-item">
+				<div class="list-group-item" style="width:40%">
 					<h4 class="list-group-item-heading" >Answer${status.index}</h4>
 					<div class="list-group-item-text">
 						<form:label path="answers[${status.index}].answer" itemValue="id" itemLabel="name"/>
-						<div class="input-group" style="width:30%">
+						<div class="input-group" >
 						<form:input path="answers[${status.index}].answer" cssClass="form-control" />
 						<span class="input-group-addon" style="horizontal-align:left">	
 							<form:checkbox path="answers[${status.index}].isRight" />

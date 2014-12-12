@@ -27,22 +27,27 @@ public interface TestService {
 	 * Mark test as deleted
 	 * @param test test to mark
 	 */
-	void deleteTest(Test test);
+	void deleteTest(int testId);
 	/**
 	 * Restore deleted test
 	 * @param test deleted test
 	 */
-	void restoreTest(Test test);
+	void restoreTest(int testId);
 	/**
 	 * Return tests for some block
 	 * @param blockId unique block identifier
 	 * @return list of tests
 	 */
-	List<Test> getTestByBlock(int blockId);
+	List<Test> getTestsByBlock(int blockId);
 	/**
 	 * Get tests by subject
 	 * @param subjectId unique subject identifier
 	 * @return list of tests
 	 */
 	List<Test> getTestBySubject(int subjectId);
+	/**
+	 * Get active tests
+	 * @return list of tests
+	 */
+	List<Test> getActiveTests();
 }

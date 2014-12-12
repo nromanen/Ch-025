@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.softserve.entity.Answer;
 import com.softserve.entity.Block;
 import com.softserve.entity.Question;
-import com.softserve.entity.Subject;
 import com.softserve.entity.Test;
 import com.softserve.form.QuestionForm;
 import com.softserve.service.AnswerService;
@@ -53,22 +52,7 @@ public class AddTestController {
 	
 	@Autowired
 	private SubjectService subjectService;
-	/**
-	 * Handle tests list for subject 
-	 * @param subjectId unique subject identifier
-	 * @param model data model for view
-	 * @return logical view name
-	 */
-	@RequestMapping(value = "/tests", method = RequestMethod.GET)
-	public String printTestList(@RequestParam(value = "subjectId", required=true) Integer subjectId, Model model) {
-		List<Test> tests = testService.getTestBySubject(subjectId);
-		Subject sub = subjectService.getSubjectById(subjectId);
-		List<Block> blocks = blockService.getBlocksBySubjectId(subjectId);
-		model.addAttribute("testList", tests);
-		model.addAttribute("subName", sub.getName());
-		model.addAttribute("blocks", blocks);
-		return "tests";
-	}
+	
 	/**
 	 * Binder for block 
 	 * @param request
@@ -116,6 +100,24 @@ public class AddTestController {
 				setValue(question);
 			}
 		});
+	}
+	/**
+	 * Handle tests list for subject 
+	 * @param subjectId unique subject identifier
+	 * @param model data model for view
+	 * @return logical view name
+	 */
+	@RequestMapping(value = "/tests", method = RequestMethod.GET)
+	public String printTestList(@RequestParam(value = "blockId", required=true) Integer blockId,
+								@RequestParam(value = "subjectId", required=true) Integer subjectId,
+								Model model) {
+		List<Test> tests = testService.getTestsByBlock(blockId);
+		Block block = blockService.getBlockById(blockId);
+		List<Block> blocks = blockService.getBlocksBySubjectId(subjectId);
+		model.addAttribute("testList", tests);
+		model.addAttribute("blockName", block.getName());
+		model.addAttribute("blocks", blocks);
+		return "tests";
 	}
 	/**
 	 * Handle edit/add test form 
@@ -249,5 +251,30 @@ public class AddTestController {
 		model.addAttribute("test", test);
 		model.addAttribute("questions", questions);
 		return "testInfo";
+	}
+	/**
+	 * Perform delete test
+	 * @param testId unique test identifier
+	 * @param blockId test owner block identifier
+	 * @return logical name of view
+	 */
+	@RequestMapping(value = "deleteTest", method = RequestMethod.POST)
+	public String deleteTest(@RequestParam(value = "testId", required = true) Integer testId,
+							 @RequestParam(value = "blockId", required = true) Integer blockId,
+							 @RequestParam(value = "subjectId", required = true) Integer subjectId) {
+		testService.deleteTest(testId);
+		return "redirect:tests?blockId="+blockId+"&subjectId="+subjectId;
+	}
+	/**
+	 * Perform delete question
+	 * @param testId unique test identifier
+	 * @param blockId
+	 * @return logical name of view
+	 */
+	@RequestMapping(value = "deleteQuestion", method = RequestMethod.POST)
+	public String deleteQuestion(@RequestParam(value = "questionId", required = true) Integer questionId,
+							 @RequestParam(value = "testId", required = true) Integer testId) {
+		questionService.deleteQuestion(questionId);
+		return "redirect:testInfo?testId="+testId;
 	}
 }

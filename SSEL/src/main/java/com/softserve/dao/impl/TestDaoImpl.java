@@ -50,8 +50,9 @@ public class TestDaoImpl implements TestDao{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Test> getTestByBlockId(int blockId) {
-		Query query = entityManager.createQuery("FROM Test t WHERE t.block.id = :id and t.isDeleted = :val")
+	public List<Test> getTestsByBlockId(int blockId) {
+		Query query = entityManager.createQuery("FROM Test t INNER JOIN FETCH t.block "
+				+ "WHERE t.block.id = :id and t.isDeleted = :val")
 				.setParameter("id", blockId)
 				.setParameter("val", false);
 		return query.getResultList();
@@ -74,7 +75,7 @@ public class TestDaoImpl implements TestDao{
 				.setParameter("del", false);
 		return query.getResultList();
 	}
-
+	
 	@Override
 	public void setDeletedTest(int testId, boolean deleted) {
 		Query query = entityManager.createQuery("UPDATE Test t SET t.isDeleted = :deleted WHERE t.id = :id")

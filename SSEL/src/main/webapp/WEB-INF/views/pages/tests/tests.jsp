@@ -6,14 +6,15 @@
 
 <div class="row">
 	<div class="panel-default">
-	<h1 class="page-header">${subName}.Tests</h1>
+	<div class="panel-header">
+		<h1 class="page-header">${blockName}</h1>
 	<form action="editTest" method="GET">
-		<input type="hidden" name="subjectId" value="${param.subjectId}" />
 		<button type="submit" 
 		class="btn btn-outline btn-primary btn-xs">Add new test</button>
+		<input type="hidden" name="subjectId" value="${param.subjectId}" />
 	</form>
-	
-		<div class="panel-body">
+	</div>
+	<div class="panel-body">
 
 	<c:choose>
 	<c:when test="${fn:length(testList) ne 0}">
@@ -28,6 +29,9 @@
 					</td>
 					<td>
 						Block
+					</td>
+					<td>
+						Action
 					</td>
 				</tr>
 			</thead>
@@ -44,7 +48,8 @@
 							${test.block.name}
 						</td>
 						<td>
-							<form action="deleteTest?testId=${test.id}">
+							<form action="deleteTest?testId=${test.id}&blockId=${param.blockId}&subjectId=${param.subjectId}"
+							 method="POST">
 								<button type="submit" class="btn btn-outline btn-primary btn-xs">
 									Delete test</button>
 							</form>
@@ -56,11 +61,10 @@
     </c:when>
     <c:otherwise>
     	<div class="alert alert-info" role="alert">
-    		No test for subject
+    		No test for block
     	</div>
     </c:otherwise>
 	</c:choose>
 		</div>
 	</div>
 	</div>
-</div>

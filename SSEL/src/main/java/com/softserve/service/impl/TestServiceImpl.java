@@ -35,25 +35,32 @@ public class TestServiceImpl implements TestService {
 	public Test getTestById(int testId) {
 		return testDao.getTestById(testId);
 	}
-
+	
+	@Transactional
 	@Override
-	public void deleteTest(Test test) {
-		testDao.setDeletedTest(test.getId(), true);
+	public void deleteTest(int testId) {
+		testDao.setDeletedTest(testId, true);
+	}
+
+	@Transactional
+	@Override
+	public void restoreTest(int testId) {
+		testDao.setDeletedTest(testId, false);
 	}
 
 	@Override
-	public void restoreTest(Test test) {
-		testDao.setDeletedTest(test.getId(), false);
-	}
-
-	@Override
-	public List<Test> getTestByBlock(int blockId) {
-		return testDao.getTestByBlockId(blockId);
+	public List<Test> getTestsByBlock(int blockId) {
+		return testDao.getTestsByBlockId(blockId);
 	}
 
 	@Override
 	public List<Test> getTestBySubject(int subjectId) {
 		return testDao.getTestsBySubject(subjectId);
+	}
+
+	@Override
+	public List<Test> getActiveTests() {
+		return testDao.getAliveTests();
 	}
 
 }
