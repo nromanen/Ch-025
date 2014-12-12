@@ -7,13 +7,14 @@
 <div class="row">
 	<div class="panel-default">
 	<div class="panel-header">
-		<h1 class="page-header">${blockName}</h1>
+	<h1 class="page-header">${blockName}</h1>
+	</div>
 	<form action="editTest" method="GET">
 		<button type="submit" 
 		class="btn btn-outline btn-primary btn-xs">Add new test</button>
 		<input type="hidden" name="subjectId" value="${param.subjectId}" />
 	</form>
-	</div>
+	
 	<div class="panel-body">
 
 	<c:choose>

@@ -8,8 +8,7 @@
 <div class="row">
 	<div class="col-lg-12">
 		<h1 class="page-header">
-			<!--<spring:message code="label.teacher.editQuestion" /> -->
-			Add question
+			<spring:message code="label.test.add_question" /> 
 		</h1>
 	</div>
 </div>
@@ -20,7 +19,7 @@
 			<h3>${testName}</h3>
 		</div>
 		<div class="form-group">
-        	<form:label path="question.question"><h4>Question</h4></form:label>
+        	<form:label path="question.question"><h4><spring:message code="label.test.question" /> </h4></form:label>
         	<form:errors path="question.question" cssClass="alert alert-warning" cssStyle="position:float" />
         	<form:textarea id="question" path="question.question" rows="15" cols="80"/>
 				<script>
@@ -29,11 +28,11 @@
     	</div>
      	<div class="form-group">
 		
-			<form:label path="question.mark" ><h4>Mark</h4></form:label>
+			<form:label path="question.mark" ><h4><spring:message code="label.test.mark" /> </h4></form:label>
 			<form:input path="question.mark" cssClass="form-control" style="width:30%" />
 		</div>
 		<div class="list-group">
-		<h3>Answers</h3>
+		<h3><spring:message code="label.test.answers" /> </h3>
 		<c:forEach items="${questionForm.answers}" var="answer" varStatus="status">
 				<div class="list-group-item" style="width:40%">
 					<h4 class="list-group-item-heading" >Answer${status.index}</h4>

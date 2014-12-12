@@ -12,8 +12,8 @@
 
 <div class="row">
 	<button type="button" id="delButton"
-		class="btn btn-outline btn-primary btn-xs"><spring:message code="label.teacher.delete"/></button>
-	<button type="button" class="btn btn-outline btn-primary btn-xs"
+		class="btn btn-info btn-primary btn-xs"><spring:message code="label.teacher.delete"/></button>
+	<button type="button" class="btn btn-info btn-primary btn-xs"
 		onclick="location.href='editSubject'"><spring:message code="label.teacher.addNewCourse"/></button>
 </div>
 <br>

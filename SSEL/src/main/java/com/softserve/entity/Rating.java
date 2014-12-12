@@ -25,9 +25,9 @@ public class Rating implements Serializable {
 	@JoinColumn(name = "id_user")
 	private User user;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_block")
-	private Block block;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_test")
+	private Test test;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_group")
@@ -61,12 +61,17 @@ public class Rating implements Serializable {
 		this.user = user;
 	}
 
-	public Block getBlock() {
-		return block;
+	
+	public Test getTest() {
+		return test;
 	}
 
-	public void setBlock(Block block) {
-		this.block = block;
+	public void setTest(Test test) {
+		this.test = test;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public Group getGroup() {

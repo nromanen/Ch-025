@@ -76,8 +76,7 @@ public class LogDaoImpl implements LogDao {
 		query.setParameter("endDate", endDate);
 		query.setFirstResult(logsPerPage * pageNumb);
 		query.setMaxResults(logsPerPage);
-		List<Log> logList = (List<Log>) query.getResultList();
-		return logList;
+		return (List<Log>) query.getResultList();
 	}
 
 	/**

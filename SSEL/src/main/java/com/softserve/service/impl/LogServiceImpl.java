@@ -188,7 +188,8 @@ public class LogServiceImpl implements LogService {
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
 			upOrDown = "DESC";
-			LOG.debug(e.toString() + " Error in createOrderByPart method");
+			LOG.debug (e.toString());
+			LOG.debug("Error in createOrderByPart method");
 		}
 		String[] resultParts = { columnName, upOrDown };
 		return resultParts;

@@ -131,7 +131,7 @@ public class StudentCabinetController {
 	@RequestMapping(value = "/modules", method = RequestMethod.GET)
 	public String printModules(
 			@RequestParam(value = "courseId", required = true) Integer courseId, Model model) {
-		User user = userService.getUserByEmail(userService.getCurrentUser());//(User) session.getAttribute("user");
+		User user = userService.getUserByEmail(userService.getCurrentUser());
 		int userId = user.getId();
 		List<Block> blocks = blockService.getBlocksBySubjectId(courseId);
 		Subject subject = subjectService.getSubjectById(courseId);

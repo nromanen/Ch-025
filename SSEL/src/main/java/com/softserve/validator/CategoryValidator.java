@@ -15,7 +15,7 @@ import com.softserve.entity.Category;
  *
  */
 @Component
-public class CategoryValidator implements Validator{
+public class CategoryValidator implements Validator {
 
 	@Override
 	public boolean supports(Class<?> classObject) {
@@ -24,8 +24,8 @@ public class CategoryValidator implements Validator{
 
 	@Override
 	public void validate(Object object, Errors errors) {
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "name.required", "Name field is missing");
-		
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name",
+				"name.required", "Name field is missing");
 	}
 
 }

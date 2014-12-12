@@ -11,10 +11,10 @@
 			<span class="icon-bar"></span> <span class="icon-bar"></span>
 		</button>
 		<c:choose>
-			<c:when test="${sessionScope.user.role.role eq 'STUDENT'}">
+			<c:when test="${sessionScope.user.role.name eq 'STUDENT'}">
 				<c:set var="url" value="student" ></c:set>
 			</c:when>
-			<c:when test="${sessionScope.user.role.role eq 'TEACHER'}">
+			<c:when test="${sessionScope.user.role.name eq 'TEACHER'}">
 				<c:set var="url" value="teacher" ></c:set>
 			</c:when>
 			<c:otherwise>
@@ -53,7 +53,7 @@
 				<i class="fa fa-caret-down"></i>
 			</a>
 			<ul class="dropdown-menu dropdown-user">
-				<c:if test="${sessionScope.user.role.role eq 'TEACHER'}">
+				<c:if test="${sessionScope.user.role.name eq 'TEACHER'}">
 					<li><a href="teacher"><i class="fa fa-user fa-fw"></i>
 							<spring:message code="label.teacher_cabinet"/> </a></li>
 					<li><a href="<c:url value="/profile" />"><i class="fa fa-user fa-fw"></i>
@@ -62,7 +62,7 @@
 					<li><a href="logout"><i class="fa fa-sign-out fa-fw"></i>
 							Logout</a></li>
 				</c:if>
-				<c:if test="${sessionScope.user.role.role eq 'STUDENT'}">
+				<c:if test="${sessionScope.user.role.name eq 'STUDENT'}">
 					<li>
 						<a href="student?table=active"> <i
 							class="fa fa-user fa-fw"></i> <spring:message code="label.student_cabinet"/>
@@ -79,7 +79,7 @@
 						</a>
 					</li>
 				</c:if>
-				<c:if test="${sessionScope.user.role.role eq 'ADMIN'}">
+				<c:if test="${sessionScope.user.role.name eq 'ADMIN'}">
 					<li>
 						<a href="administrator"> <i
 							class="fa fa-user fa-fw"></i> <spring:message code="label.admin_cabinet"/>
@@ -96,8 +96,8 @@
 						</a>
 					</li>
 				</c:if>
-				<c:if test="${sessionScope.user.role.role ne 'TEACHER'
-					 && sessionScope.user.role.role ne 'STUDENT' && sessionScope.user.role.role ne 'ADMIN'}">
+				<c:if test="${sessionScope.user.role.name ne 'TEACHER'
+					 && sessionScope.user.role.name ne 'STUDENT' && sessionScope.user.role.name ne 'ADMIN'}">
 				<!-- <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a></li>  -->
 				<li>
 					<a href="login">

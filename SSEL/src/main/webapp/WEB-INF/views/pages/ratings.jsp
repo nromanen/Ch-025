@@ -17,8 +17,6 @@
 			<div class="col-lg-16">
 				<h1>${name}</h1>
 			</div>
-		
-		
 		</div>
 		<input type="hidden" value="${avgRating}" id="rating" />
 		<input type="hidden" id="success" value="<spring:message code="label.student.success" />" />
@@ -46,11 +44,10 @@
                    		</tr>
                    </thead> 
                    <tbody>
-                   		
                    		<c:forEach items="${ratings}" var="rating">
                    		<tr>
                    			<td >
-                   				${rating.block.name}
+                   				${rating.test.name}
                    			</td>
                    			<td>
                    				${rating.mark}
@@ -71,7 +68,6 @@
                    			</td>
                    		</tr>
                    		</c:forEach>
-                   		
                    </tbody>              
                 </table>
             </div>	
@@ -83,8 +79,6 @@
                 <div class="panel-heading">
                             <i class="fa fa-bar-chart-o fa-fw"></i> <spring:message code="label.student.current_rating" />
                 </div>
-				  
-					
 		
 				<div id="morris-donut-progress" 
                             		style="width: 170; height: 130; position: float"></div>

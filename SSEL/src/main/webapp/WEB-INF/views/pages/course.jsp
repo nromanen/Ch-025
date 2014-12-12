@@ -14,7 +14,7 @@
 			<div style="padding-top: 8px;"><spring:message code="label.description" />
 				${subject.description}</div>
 			<c:set var="now" value="<%=new java.util.Date()%>" />
-			<c:if test="${sessionScope.user.role.role eq 'STUDENT'}">
+			<c:if test="${sessionScope.user.role.name eq 'STUDENT'}">
 				<c:if test="${subject.schedulers[0].start >= now}">
 				<form method="GET" action="subscribe">
 					<c:if test="${isSubscribe eq true}">

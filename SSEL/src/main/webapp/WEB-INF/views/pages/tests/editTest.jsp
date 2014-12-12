@@ -12,10 +12,10 @@
 		<h1 class="page-header">
 		<c:choose>
 			<c:when test="${op}">
-				Add new test
+				<spring:message code="label.test.add_test" />
 			</c:when>
 			<c:otherwise>
-				Edit test
+				<spring:message code="label.test.edit_test" />
 			</c:otherwise>
 		</c:choose>
 		</h1>
@@ -32,7 +32,7 @@
     		cssClass="form-control" cssStyle="width:30%" />
     	</div>
     	<div class="form-group">
-        	<form:label path="description">Description</form:label>
+        	<form:label path="description"><spring:message code="label.description" /></form:label>
         	<form:errors path="description" cssClass="alert alert-warning" cssStyle="position:float" />
         	<form:textarea id="description" path="description" rows="15" cols="80"/>
 				<script>

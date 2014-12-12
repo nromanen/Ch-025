@@ -130,16 +130,6 @@
 		</sql>
 	</changeSet>
 	
-	<changeSet id="2014-11-19-insert-data-into-table-rating" author="Hash">
-		<comment>Insert sample data into table rating</comment>
-		<sql splitStatements="true">
-			INSERT INTO `rating` VALUES (3, 75, 6, 3, 7);
-			INSERT INTO `rating` VALUES (4, 60, 15, 3, 7);
-			INSERT INTO `rating` VALUES (5, 90, 16, 3, 7);
-			INSERT INTO `rating` VALUES (6, 57, 17, 3, 7);
-			INSERT INTO `rating` VALUES (7, 93, 21, 2, 7);
-		</sql>
-	</changeSet>
 	
 	<changeSet id="2014-11-19-insert-data-into-table-student_group" author="Hash">
 		<comment>Insert sample data into table student_group</comment>
@@ -180,8 +170,22 @@
 	<changeSet id="2014-11-27-insert-into-test" author="Anatoliy">
 		<comment>Insert some answers</comment>
 		<sql splitStatements="true">
-			INSERT INTO `tests` VALUES (1,'Test','This test test =)',16, 1, 0);
-			INSERT INTO `tests` VALUES (2,'Test2','fsdf',24, 0, 0);
+			INSERT INTO `tests` VALUES (1,'Test','This test test =)',6, 1, 0);
+			INSERT INTO `tests` VALUES (2,'Test2','fsdf',15, 0, 0);
+			INSERT INTO `tests` VALUES (3,'Test3','gdf',16, 0, 0);
+			INSERT INTO `tests` VALUES (4,'Test4','gfhd',17, 0, 0);
+			INSERT INTO `tests` VALUES (5,'Test5','hfghd',21, 0, 0);
+		</sql>
+	</changeSet>
+	
+	<changeSet id="2014-11-19-insert-data-into-table-rating" author="Hash">
+		<comment>Insert sample data into table rating</comment>
+		<sql splitStatements="true">
+			INSERT INTO `rating` VALUES (3, 75, 1, 3, 7);
+			INSERT INTO `rating` VALUES (4, 60, 2, 3, 7);
+			INSERT INTO `rating` VALUES (5, 90, 3, 3, 7);
+			INSERT INTO `rating` VALUES (6, 57, 4, 3, 7);
+			INSERT INTO `rating` VALUES (7, 93, 5, 2, 7);
 		</sql>
 	</changeSet>
 	
