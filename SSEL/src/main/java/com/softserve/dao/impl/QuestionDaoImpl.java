@@ -1,10 +1,12 @@
 package com.softserve.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,75 +17,101 @@ import com.softserve.entity.Question;
 
 /**
  * Implements QuestionDao
- * @author Anatoliy
+ * @author Ivan
  *
  */
 @Repository
 public class QuestionDaoImpl implements QuestionDao {
+
+	/** The Constant LOG. */
 	private static final Logger LOG = LoggerFactory
-			.getLogger(TestDaoImpl.class);
-	
+			.getLogger(QuestionDaoImpl.class);
+
+	/** The entity manager. */
 	@PersistenceContext(unitName = "entityManager")
 	private EntityManager entityManager;
 
-	public QuestionDaoImpl() {
-	}
 	/**
 	 * @see com.softserve.dao.QuestionDao#addQuestion(Question)
 	 */
 	@Override
-	public Question addQuestion(Question newQuestion) {
-		LOG.debug("Add new question {}", newQuestion.getId());
-		entityManager.persist(newQuestion);
-		return newQuestion;
-	}
-	/**
-	 * @see com.softserve.dao.QuestionDao#updateQuestion(Question)
-	 */
-	@Override
-	public Question updateQuestion(Question updatedQuestion) {
-		LOG.debug("Update new question {}", updatedQuestion.getId());
-		return entityManager.merge(updatedQuestion);
-	}
-
-	/**
-	 * @see com.softserve.dao.QuestionDao#setDeleted(int, boolean)
-	 */
-	@Override
-	public void setDeleted(int questionId, boolean deleted) {
-		Query query = entityManager.createQuery("UPDATE Question q SET q.isDeleted = :deleted WHERE q.id = :id")
-				.setParameter("deleted", deleted)
-				.setParameter("id", questionId);
-		if (query.executeUpdate() != 0) {
-			LOG.debug("Delete successful {}",questionId);
-		} else {
-			LOG.debug("Delete failed {}");
-		}
-		
+	public Question addQuestion(Question question) {
+		LOG.debug("Add question {}", question.getId());
+		entityManager.persist(question);
+		return question;
 	}
 
 	/**
 	 * @see com.softserve.dao.QuestionDao#getQuestionById(int)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
-	public Question getQuestionById(int questionId) {
-		Query query = entityManager.createQuery("FROM Question q WHERE q.id = :id")
-				.setParameter("id", questionId);
-		List<Question> question = query.getResultList();
-		return (question.isEmpty()) ? null : question.get(0);
+	public Question getQuestionById(int id) {
+		LOG.debug("Get question with id = {}", id);
+		return entityManager.find(Question.class, id);
 	}
+
 	/**
-	 * @see com.softserve.dao.QuestionDao#getAllQuestionsByTest(int)
+	 * @see com.softserve.dao.QuestionDao#getQuestionsByTestId(int)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Question> getAllQuestionsByTest(int testId) {
-		Query query = entityManager.createQuery("FROM Question q INNER JOIN FETCH q.test "
-				+ "WHERE q.test.id = :id and q.isDeleted = :del")
-				.setParameter("id", testId)
-				.setParameter("del", false);
-		return query.getResultList();
+	public List<Question> getQuestionsByTestId(int id) {
+		LOG.debug("Get question with test id = {}", id);
+		Query query = entityManager
+				.createQuery("FROM Question q WHERE q.test = :val and q.isDeleted = :del");
+		query.setParameter("val", id);
+		query.setParameter("del", false);
+		return query.getResultList().isEmpty() ? null : query.getResultList();
+	}
+
+	/**
+	 * @see com.softserve.dao.QuestionDao#getAllQuestions()
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Question> getAllQuestions() {
+		LOG.debug("Get all questions");
+		Query query = entityManager.createQuery("FROM Question q WHERE q.isDeleted = :val");
+		query.setParameter("val", false);
+		return query.getResultList().isEmpty() ? null : query.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Question> getAllDeletedQuestions() {
+		LOG.debug("Get all deleted questions");
+		Query query = entityManager
+				.createQuery("FROM Question q WHERE q.isDeleted = :val");
+		query.setParameter("val", true);
+		return query.getResultList().isEmpty() ? null : query.getResultList();
+	}
+
+	/**
+	 * @see com.softserve.dao.QuestionDao#updateQuestion(Question)
+	 */
+	@Override
+	public Question updateQuestion(Question question) {
+		LOG.debug("Update question with id = {}", question.getId());
+		entityManager.merge(question);
+		return question;
+	}
+
+	/**
+	 * @see com.softserve.dao.QuestionDao#setQuestionDeleted(int, boolean)
+	 */
+	@Override
+	public void setQuestionDeleted(Question question, boolean deleted) {
+		Query query = entityManager
+				.createQuery("UPDATE Question q SET q.isDeleted = :del WHERE q.id = :id");
+		query.setParameter("id", question.getId());
+		query.setParameter("del", deleted);
+		if (query.executeUpdate() != 0) {
+			LOG.debug("Deleted = {} question(id = {})", deleted,
+					question.getId());
+		} else {
+			LOG.warn("Tried to delete question(id = {})", question.getId());
+		}
+
 	}
 
 }

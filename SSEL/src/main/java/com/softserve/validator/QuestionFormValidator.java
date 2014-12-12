@@ -26,9 +26,9 @@ public class QuestionFormValidator implements Validator {
 		if (qf.getQuestion().getMark() == 0) {
 			errors.reject("question.mark", "question.mark");
 		}
-		if (qf.getQuestion().getAnswersCount() <= 0) {
-			errors.reject("question.answersCount", "question.answers_count");
-		}
+//		if (qf.getQuestion().getAnswersCount() <= 0) {
+//			errors.reject("question.answersCount", "question.answers_count");
+//		}
 		answersValidation(qf.getAnswers(), errors);
 	}
 

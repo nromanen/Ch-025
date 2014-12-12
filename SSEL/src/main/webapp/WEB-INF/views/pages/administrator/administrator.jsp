@@ -134,18 +134,19 @@ function changeCategoryName(categoryId){
 
 <script>
 		var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
+		var lastRegDates = "${lastRegDates}".replace("[","").replace("]","").split(",");
 		var lineChartData = {
-			labels : ["January","February","March","April","May","June","July"],
+			labels : lastRegDates.reverse(),
 			datasets : [
 				{
-					label: "My Second dataset",
+					label: "My dataset",
 					fillColor : "rgba(151,187,205,0.2)",
 					strokeColor : "rgba(151,187,205,1)",
 					pointColor : "rgba(151,187,205,1)",
 					pointStrokeColor : "#fff",
 					pointHighlightFill : "#fff",
 					pointHighlightStroke : "rgba(151,187,205,1)",
-					data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
+					data : ${lastRegUsers}.reverse()
 				}
 			]
 		}

@@ -58,10 +58,8 @@ public class RatingServiceTest {
 		newRecord.setMark(95.0);
 		User user = userService.getUserById(2);
 		Group group = studentGroupService.getStudentGroupById(2).getGroupNumber();
-		Block block = blockService.getBlockById(1);
 		newRecord.setGroup(group);
 		newRecord.setUser(user);
-		newRecord.setBlock(block);
 		Rating rating = ratingService.addRating(newRecord);
 		assertNotNull(rating);		
 	}
@@ -77,7 +75,6 @@ public class RatingServiceTest {
 		Block block = blockService.getBlockById(1);
 		newRecord.setGroup(group);
 		newRecord.setUser(user);
-		newRecord.setBlock(block);
 		Rating rating = ratingService.updateRating(newRecord);
 		assertEquals(rating, newRecord);		
 	}
