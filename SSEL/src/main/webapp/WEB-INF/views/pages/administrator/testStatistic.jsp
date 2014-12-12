@@ -21,4 +21,4 @@ User1 test 2 : ${userRes4} <br> --%>
 
 <br>
 group100Statistic size: ${fn:length(group100Statistic)} <br>
-group100Statistic.get(0) (result) : ${group100Statistic[0]}
+group100Statistic.get(0) (result) : ${group100Statistic[1]}

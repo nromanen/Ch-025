@@ -34,7 +34,7 @@
 	<changeSet id="2014-12-11-foreign-key-table-test_statistic-1"
 		author="Vitalik">
 		<comment>Create foreign key test_statistic</comment>
-		<sql>
+	 	<sql>
 			ALTER TABLE `test_statistic` ADD
 			CONSTRAINT fk_test_statistic_tests FOREIGN KEY (id_test)
 			REFERENCES ssel.tests (id_test) ON DELETE CASCADE ON UPDATE CASCADE;
@@ -48,9 +48,9 @@
 			REFERENCES ssel.groups (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 		</sql>
+ 
 
-
-		<!-- <addForeignKeyConstraint constraintName="fk_test_statistic_user" referencedTableName="user" 
+		<!--  <addForeignKeyConstraint constraintName="fk_test_statistic_user" referencedTableName="user" 
 			baseColumnNames="id_user" baseTableName="test_statistic" referencedColumnNames="id" 
 			onDelete="SET NULL" onUpdate="CASCADE" /> 
 			
@@ -60,7 +60,7 @@
 			
 			<addForeignKeyConstraint constraintName="fk_test_statistic_group" referencedTableName="groups" 
 			baseColumnNames="id_group" baseTableName="test_statistic" referencedColumnNames="id" 
-			onDelete="SET NULL" onUpdate="CASCADE" /> -->
+			onDelete="SET NULL" onUpdate="CASCADE" />  -->
 	</changeSet>
 <!-- 
 	<changeSet id="2014-12-11-create-index-table-test_statistic"
