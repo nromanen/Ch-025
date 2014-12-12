@@ -26,6 +26,7 @@ import com.softserve.entity.QuestionText;
 import com.softserve.entity.Role;
 import com.softserve.entity.Subject;
 import com.softserve.entity.TeacherRequest;
+import com.softserve.entity.Test;
 import com.softserve.entity.User;
 import com.softserve.service.AdministratorService;
 import com.softserve.service.CategoryService;
@@ -33,6 +34,7 @@ import com.softserve.service.QuestionService;
 import com.softserve.service.RoleService;
 import com.softserve.service.SubjectService;
 import com.softserve.service.TeacherRequestService;
+import com.softserve.service.TestService;
 import com.softserve.service.UserService;
 
 /**
@@ -92,6 +94,9 @@ public class AdministratorController {
 	@Autowired
 	private MessageSource messageSource;
 
+	@Autowired
+	private TestService testService;
+
 	/**
 	 * Administrator it's method that set parameters and redirect to start admin
 	 * page.
@@ -108,32 +113,35 @@ public class AdministratorController {
 		LOG.debug("Visit administrator page");
 
 
-		Question question = new Question();
-		question.setTest(53);
+//		Question question = new Question();
+//
+//		question.setTest(testService.getTestById(2));
+//
+//		Option o1 = new Option();
+//		o1.setCorrect(true);
+//		o1.setValue("option1");
+//
+//		Option o2 = new Option();
+//		o2.setCorrect(false);
+//		o2.setValue("option2");
+//
+//		List<Option> options = new ArrayList<Option>();
+//		options.add(o1);
+//		options.add(o2);
+//
+//		QuestionText qt = new QuestionText();
+//		qt.setValue("some value");
+//		qt.setOptions(options);
+//
+//		question.setMark(5);
+//
+//		question.setQuestionText(qt);
+//
+//		questionService.addQuestion(question);
 
-		Option o1 = new Option();
-		o1.setCorrect(true);
-		o1.setValue("option1");
-
-		Option o2 = new Option();
-		o2.setCorrect(false);
-		o2.setValue("option2");
-
-		List<Option> options = new ArrayList<Option>();
-		options.add(o1);
-		options.add(o2);
-
-		QuestionText qt = new QuestionText();
-		qt.setValue("some value");
-		qt.setOptions(options);
-
-		question.setMark(5);
-
-		question.setQuestionText(qt);
-
-		questionService.addQuestion(question);
-
-		System.out.println(questionService.getQuestionById(5).getQuestion().toString());
+//		System.out.println(questionService.getQuestionById(1).getQuestion().toString());
+//		System.out.println("--->" + questionService.getQuestionById(1).getQuestionText());
+//		System.out.println("--->" + questionService.getQuestionById(1).getQuestionText());
 
 
 		long subjectsCount = subjectService.getCountOfSubjects();

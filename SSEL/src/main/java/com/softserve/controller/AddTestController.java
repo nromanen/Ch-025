@@ -36,21 +36,21 @@ public class AddTestController {
 
 	@Autowired
 	private BlockService blockService;
-	
+
 	@Autowired
 	private TestValidator testValidator;
-	
+
 	@Autowired
 	private QuestionService questionService;
-	
+
 	@Autowired
 	private AnswerService answerService;
-	
+
 	@Autowired
 	private QuestionFormValidator questionFormValidator;
-	
+
 	/**
-	 * Handle tests list for subject 
+	 * Handle tests list for subject
 	 * @param subjectId unique subject identifier
 	 * @param model data model for view
 	 * @return logical view name
@@ -64,7 +64,7 @@ public class AddTestController {
 		return "tests";
 	}
 	/**
-	 * Binder for block 
+	 * Binder for block
 	 * @param request
 	 * @param binder
 	 * @throws Exception
@@ -112,7 +112,7 @@ public class AddTestController {
 		});
 	}
 	/**
-	 * Handle edit/add test form 
+	 * Handle edit/add test form
 	 * @param subjectId unique subject indetifier
 	 * @param testId unique test identifier. if missing - add test, else - edit existing test
 	 * @param model data model for view
@@ -159,49 +159,49 @@ public class AddTestController {
 		}
 		return "redirect:tests?subjectId="+subjectId;
 	}
-	
+
 	/**
 	 * Edit/add question
-	 * @param testId unique test identifier. 
-	 * @param questionId unique question identifier. If missing add, else - edit 
+	 * @param testId unique test identifier.
+	 * @param questionId unique question identifier. If missing add, else - edit
 	 * @param model data for view
 	 * @return logical name for view
 	 */
-	@RequestMapping(value="/editQuestion", method = RequestMethod.GET)
-	public String addQuestionRender(@RequestParam(value = "testId", required = true) Integer testId,
-									@RequestParam(value = "questionId", required = false) Integer questionId,
-									Model model) {
-		QuestionForm testForm = new QuestionForm();
-		Question question;
-		List<Answer> answers;
-		Test test = testService.getTestById(testId);
-		if (questionId == null) {
-			question = new Question();
-			question.setQuestion("Input question here");
-			question.setTest(test);
-			question.setAnswersCount(1);
-			answers = new ArrayList<>();
-			for(int i=0; i < 4; i++) {
-				Answer ans = new Answer();
-				ans.setQuestion(question);
-				ans.setAnswer("Bla bla");
-				ans.setIsDeleted(false);
-				ans.setIsRight(false);
-				answers.add(ans);
-			}
-			testForm.setQuestion(question);
-			testForm.setAnswers(answers);
-			testForm.setTestId(testId); 
-		} else {
-			question = questionService.getQuestionById(questionId);
-			answers = answerService.getAnswersByQuestion(questionId);
-			testForm.setAnswers(answers);
-			testForm.setQuestion(question);
-		}
-		model.addAttribute("questionForm", testForm);
-		model.addAttribute("testName", test.getName());
-		return "editQuestion";		
-	}
+//	@RequestMapping(value="/editQuestion", method = RequestMethod.GET)
+//	public String addQuestionRender(@RequestParam(value = "testId", required = true) Integer testId,
+//									@RequestParam(value = "questionId", required = false) Integer questionId,
+//									Model model) {
+//		QuestionForm testForm = new QuestionForm();
+//		Question question;
+//		List<Answer> answers;
+//		Test test = testService.getTestById(testId);
+//		if (questionId == null) {
+//			question = new Question();
+//			question.setQuestion("Input question here");
+//			question.setTest(test);
+//			question.setAnswersCount(1);
+//			answers = new ArrayList<>();
+//			for(int i=0; i < 4; i++) {
+//				Answer ans = new Answer();
+//				ans.setQuestion(question);
+//				ans.setAnswer("Bla bla");
+//				ans.setIsDeleted(false);
+//				ans.setIsRight(false);
+//				answers.add(ans);
+//			}
+//			testForm.setQuestion(question);
+//			testForm.setAnswers(answers);
+//			testForm.setTestId(testId);
+//		} else {
+//			question = questionService.getQuestionById(questionId);
+//			answers = answerService.getAnswersByQuestion(questionId);
+//			testForm.setAnswers(answers);
+//			testForm.setQuestion(question);
+//		}
+//		model.addAttribute("questionForm", testForm);
+//		model.addAttribute("testName", test.getName());
+//		return "editQuestion";
+//	}
 	/**
 	 * Validate and insert/update question
 	 * @param form form with question and answers
@@ -209,38 +209,38 @@ public class AddTestController {
 	 * @param model data for view
 	 * @return logical name for view
 	 */
-	@RequestMapping(value="/saveQuestion", method = RequestMethod.POST)
-	public String processSubmitaddQuestion(@ModelAttribute QuestionForm form, BindingResult result,Model model) {
-		int testId = form.getQuestion().getTest().getId();
-		int questionId = form.getQuestion().getId();
-		questionFormValidator.validate(form, result);
-		if (result.hasErrors()) {
-			return "editQuestion?testId="+testId+"&questionId="+questionId;
-		}
-		Test test = testService.getTestById(form.getTestId()); 
-		form.getQuestion().setTest(test);
-		Question question = questionService.addQuestion(form.getQuestion());
-		double answerMark = question.getMark()/question.getAnswersCount();
-		for(Answer answer : form.getAnswers()) {
-			answer.setMark((answer.getIsRight()) ? answerMark: 0.0); // for right question mark equals answerMark
-			answer.setQuestion(question);
-			answer.setMark(answerMark);
-			answerService.addAnswer(answer);
-		}
-		return "redirect:testInfo?testId="+testId;		
-	}
+//	@RequestMapping(value="/saveQuestion", method = RequestMethod.POST)
+//	public String processSubmitaddQuestion(@ModelAttribute QuestionForm form, BindingResult result,Model model) {
+//		int testId = form.getQuestion().getTest().getId();
+//		int questionId = form.getQuestion().getId();
+//		questionFormValidator.validate(form, result);
+//		if (result.hasErrors()) {
+//			return "editQuestion?testId="+testId+"&questionId="+questionId;
+//		}
+//		Test test = testService.getTestById(form.getTestId());
+//		form.getQuestion().setTest(test);
+//		Question question = questionService.addQuestion(form.getQuestion());
+//		double answerMark = question.getMark()/question.getAnswersCount();
+//		for(Answer answer : form.getAnswers()) {
+//			answer.setMark((answer.getIsRight()) ? answerMark: 0.0); // for right question mark equals answerMark
+//			answer.setQuestion(question);
+//			answer.setMark(answerMark);
+//			answerService.addAnswer(answer);
+//		}
+//		return "redirect:testInfo?testId="+testId;
+//	}
 	/**
 	 * Render test info page
 	 * @param testId unique test identifier
 	 * @param model data for view
 	 * @return logical name of view
 	 */
-	@RequestMapping(value = "/testInfo", method = RequestMethod.GET)
-	public String printTestInfo(@RequestParam(value = "testId", required = true) Integer testId, Model model) {
-		Test test = testService.getTestById(testId);
-		List<Question> questions = questionService.getAllQuestionsByTest(testId);
-		model.addAttribute("test", test);
-		model.addAttribute("questions", questions);
-		return "testInfo";
-	}
+//	@RequestMapping(value = "/testInfo", method = RequestMethod.GET)
+//	public String printTestInfo(@RequestParam(value = "testId", required = true) Integer testId, Model model) {
+//		Test test = testService.getTestById(testId);
+//		List<Question> questions = questionService.getAllQuestionsByTest(testId);
+//		model.addAttribute("test", test);
+//		model.addAttribute("questions", questions);
+//		return "testInfo";
+//	}
 }

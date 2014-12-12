@@ -389,7 +389,7 @@
 			</column>
 		</createTable>
 	</changeSet>
-	
+
 	<!-- table for tests -->
 	<changeSet id="2014-11-27-create-table-test" author="Anatoliy">
 		<comment>Create table test</comment>
@@ -413,7 +413,7 @@
 			</column>
 		</createTable>
 	</changeSet>
-	
+
 	<changeSet id="2014-11-27-foreign-key-table-test-1"
 		author="Anatoliy">
 		<comment>Create foreign key block</comment>
@@ -424,6 +424,7 @@
 	</changeSet>
 
 	<!--Table for question -->
+	<!--
 	<changeSet id="2014-11-27-create-table-questions" author="Anatoliy">
 		<comment>Create table questions</comment>
 		<createTable tableName="questions">
@@ -446,19 +447,48 @@
 			</column>
 		</createTable>
 	</changeSet>
-	
+	-->
+	<changeSet id="2014-11-27-create-table-questions" author="Ivan">
+		<comment>Create table questions</comment>
+		<createTable tableName="questions">
+			<column name="id" type="int" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="id_Test" type="int">
+				<constraints nullable="false" />
+			</column>
+			<column name="questionText" type="Blob">
+			</column>
+			<column name="mark" type="double">
+				<constraints nullable="false" />
+			</column>
+			<column name="deleted" type="boolean">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+<!--
 	<changeSet id="2014-11-27-foreign-key-question-test-1"
 		author="Anatoliy">
 		<comment>Create foreign key to test</comment>
 		<addForeignKeyConstraint constraintName="fk_question_test"
 			referencedTableName="tests" baseColumnNames="id_test"
-			baseTableName="questions" referencedColumnNames="id_test" onDelete="CASCADE"
+			baseTableName="questions" referencedColumnNames="id_Test" onDelete="CASCADE"
 			onUpdate="CASCADE" />
 	</changeSet>
-	
+ -->
+ <changeSet id="2014-11-27-foreign-key-question-test-1"
+		author="Ivan">
+		<comment>Create foreign key to tests</comment>
+		<addForeignKeyConstraint constraintName="fk_question_test"
+			referencedTableName="tests" baseColumnNames="id_test"
+			baseTableName="questions" referencedColumnNames="id_Test" onDelete="CASCADE"
+			onUpdate="CASCADE" />
+	</changeSet>
+
 	<!--Table for answers -->
 	<changeSet id="2014-11-27-create-table-answers" author="Anatoliy">
-		<comment>Create table questions</comment>
+		<comment>Create table answers</comment>
 		<createTable tableName="answers">
 			<column name="id_answer" type="int" autoIncrement="true">
 				<constraints primaryKey="true" nullable="false" />
@@ -480,7 +510,8 @@
 			</column>
 		</createTable>
 	</changeSet>
-	
+
+<!--
 	<changeSet id="2014-11-27-foreign-key-answer-test-1"
 		author="Anatoliy">
 		<comment>Create foreign key to question</comment>
@@ -489,7 +520,8 @@
 			baseTableName="answers" referencedColumnNames="id_question" onDelete="CASCADE"
 			onUpdate="CASCADE" />
 	</changeSet>
-	
+ -->
+
 	<!-- Table for properties -->
 	<changeSet id="2014-11-23-create-table-config" author="Anatoliy">
 	<comment>Create table configuration properties</comment>

@@ -3,11 +3,15 @@ package com.softserve.entity;
 import java.io.StringReader;
 import java.io.StringWriter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -31,8 +35,9 @@ public class Question {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column(name = "id_Test")
-	private int test;
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@JoinColumn(name = "id_Test", nullable = false)
+	private Test test;
 
 	@Column(name = "questionText", columnDefinition = "BLOB")
 	private String questionText;
@@ -53,7 +58,7 @@ public class Question {
 		return id;
 	}
 
-	public int getTest() {
+	public Test getTest() {
 		return test;
 	}
 
@@ -61,12 +66,20 @@ public class Question {
 		this.id = id;
 	}
 
-	public void setTest(int test) {
+	public void setTest(Test test) {
 		this.test = test;
 	}
 
 	public String getQuestionText() {
-		return questionText;
+		//return questionText;
+		StringBuilder sb = new StringBuilder();
+	    for (int i=0; i<questionText.length(); i++)
+	        switch (questionText.charAt(i)){
+	            case '\n': sb.append("\\n"); break;
+	            case '\t': sb.append("\\t"); break;
+	            default: sb.append(questionText.charAt(i));
+	        }
+	    return sb.toString();
 	}
 
 	public QuestionText getQuestion() {
