@@ -36,7 +36,7 @@
 						<tr>
 							<td>
 								<a href="editQuestion?testId=${question.test.id}&questionId=${question.id}">
-										<h4 >${question.question}</h4>
+										${question.questionText}
 								</a>
 							</td>
 								<td>

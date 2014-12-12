@@ -7,7 +7,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import com.softserve.entity.Answer;
+import com.softserve.entity.Option;
 import com.softserve.form.QuestionForm;
 
 @Component
@@ -26,16 +26,13 @@ public class QuestionFormValidator implements Validator {
 		if (qf.getQuestion().getMark() == 0) {
 			errors.reject("question.mark", "question.mark");
 		}
-//		if (qf.getQuestion().getAnswersCount() <= 0) {
-//			errors.reject("question.answersCount", "question.answers_count");
-//		}
 		answersValidation(qf.getAnswers(), errors);
 	}
 
-	private void answersValidation(List<Answer> answers, Errors errors) {
+	private void answersValidation(List<Option> answers, Errors errors) {
 		for (int i = 0; i < answers.size(); i++) {
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors,
-					"answers[i].answer", "answer.required");
+					"answers[i].value", "answer.required");
 		}
 	}
 

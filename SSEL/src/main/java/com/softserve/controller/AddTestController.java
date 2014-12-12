@@ -1,7 +1,6 @@
 package com.softserve.controller;
 
 import java.beans.PropertyEditorSupport;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,11 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.softserve.entity.Answer;
 import com.softserve.entity.Block;
 import com.softserve.entity.Question;
 import com.softserve.entity.Test;
-import com.softserve.form.QuestionForm;
 import com.softserve.service.AnswerService;
 import com.softserve.service.BlockService;
 import com.softserve.service.QuestionService;
@@ -235,12 +232,12 @@ public class AddTestController {
 	 * @param model data for view
 	 * @return logical name of view
 	 */
-//	@RequestMapping(value = "/testInfo", method = RequestMethod.GET)
-//	public String printTestInfo(@RequestParam(value = "testId", required = true) Integer testId, Model model) {
-//		Test test = testService.getTestById(testId);
-//		List<Question> questions = questionService.getAllQuestionsByTest(testId);
-//		model.addAttribute("test", test);
-//		model.addAttribute("questions", questions);
-//		return "testInfo";
-//	}
+	@RequestMapping(value = "/testInfo", method = RequestMethod.GET)
+	public String printTestInfo(@RequestParam(value = "testId", required = true) Integer testId, Model model) {
+		Test test = testService.getTestById(testId);
+		List<Question> questions = questionService.getQuestionsByTestId(testId);
+		model.addAttribute("test", test);
+		model.addAttribute("questions", questions);
+		return "testInfo";
+	}
 }
