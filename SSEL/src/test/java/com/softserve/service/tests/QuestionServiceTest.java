@@ -43,7 +43,7 @@ public class QuestionServiceTest {
 
 	@Before
 	public void initialize() {
-		question.setTest(11);
+		//question.setTest(11);
 		question.setMark(5);
 		for (int i = 1; i < 6; i++) {
 			option = new Option();
@@ -106,7 +106,7 @@ public class QuestionServiceTest {
 	 public void testUpdateQuestion() {
 	 assertEquals(1, questionService.getQuestionById(1).getTest());
 	 Question question = questionService.getQuestionById(1);
-	 question.setTest(10);
+	// question.setTest(10);
 	 questionService.updateQuestion(question);
 	 assertEquals(10, questionService.getQuestionById(1).getTest());
 	 }
