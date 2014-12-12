@@ -16,7 +16,6 @@ import com.softserve.entity.Category;
 import com.softserve.entity.ConfigurationProperty;
 import com.softserve.service.AdministratorService;
 import com.softserve.service.CategoryService;
-import com.softserve.service.SubjectService;
 import com.softserve.service.UserService;
 
 @Service
@@ -30,9 +29,6 @@ public class AdministratorServiceImpl implements AdministratorService {
 
 	@Autowired
 	private CategoryService categoryService;
-
-	@Autowired
-	private SubjectService subjectService;
 
 	@Autowired
 	private UserService userService;

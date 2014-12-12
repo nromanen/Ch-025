@@ -109,7 +109,7 @@ public class AdministratorController {
 
 
 		Question question = new Question();
-		question.setTest(33);
+		question.setTest(53);
 
 		Option o1 = new Option();
 		o1.setCorrect(true);
@@ -153,7 +153,6 @@ public class AdministratorController {
 			lastRegUsers.add(count);
 		}
 
-//		List<Long> lastRegUsers = administratorService.getCountOfLastRegistredUsers(DEFAULT_LAST_REGISTRED_DAYS);
 		model.addAttribute("lastRegDates", lastRegDates);
 		model.addAttribute("lastRegUsers", lastRegUsers);
 

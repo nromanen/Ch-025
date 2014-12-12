@@ -18,9 +18,9 @@ import javax.xml.bind.Unmarshaller;
 @Table(name = "questions")
 public class Question {
 
-	static JAXBContext jaxbContext;
-	static Marshaller jaxbMarshaller;
-	static Unmarshaller jaxbUnmarshaller;
+	private static JAXBContext jaxbContext;
+	private static Marshaller jaxbMarshaller;
+	private static Unmarshaller jaxbUnmarshaller;
 
 	@Id
 	@Column(name = "id")
@@ -94,6 +94,10 @@ public class Question {
 		}
 	}
 
+//	public void setQuestionText(String questionText) {
+//		this.questionText = questionText;
+//	}
+
 	public double getMark() {
 		return mark;
 	}
@@ -113,7 +117,7 @@ public class Question {
 	@Override
 	public String toString() {
 		return "Question [id=" + id + ", test=" + test + ", questionText="
-				+ questionText + "]";
+				+ questionText + ", mark=" + mark + ", isDeleted=" + isDeleted
+				+ "]";
 	}
-
 }
