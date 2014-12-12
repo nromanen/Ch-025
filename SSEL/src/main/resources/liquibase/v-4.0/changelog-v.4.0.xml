@@ -252,9 +252,7 @@
 	<changeSet id="2014-11-27-insert-into-questions" author="Ivan">
 		<comment>Insert some questions</comment>
 		<sql splitStatements="true">
-			INSERT INTO `questions` VALUES (1,1,'aaa',5,0);
-			INSERT INTO `questions` VALUES (2,1,'aaa',5,0);
-			INSERT INTO `questions` VALUES (3,1,'aaa',5,0);
+			INSERT INTO `questions` VALUES (1,1,'PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/Pgo8cXVlc3Rpb24+CiAgICA8dmFsdWU+SG93IG9sZCBhcmUgeW91PzwvdmFsdWU+CiAgICA8b3B0aW9ucyBjb3JyZWN0PSJ0cnVlIj4KICAgICAgICA8dmFsdWU+QmlnZ2VyIHRoYW4gMDwvdmFsdWU+CiAgICA8L29wdGlvbnM+CiAgICA8b3B0aW9ucyBjb3JyZWN0PSJmYWxzZSI+CiAgICAgICAgPHZhbHVlPkkgZG9uJ3Qga25vdzwvdmFsdWU+CiAgICA8L29wdGlvbnM+CjwvcXVlc3Rpb24+Cg==',5,0);
 		</sql>
 	</changeSet>
 
