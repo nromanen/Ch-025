@@ -45,7 +45,7 @@ public class TestStatisticController {
 		testStatistic01.setGroup(groupService.getGroupById(3));
 		testStatistic01.setQuestionId(1);
 		testStatistic01.setUserResult(3);
-		testStatistic01.setMaxResult(5);
+		testStatistic01.setMaxResult(4);
 		
 		ArrayList<Integer> resultList = new ArrayList<Integer>();
 		resultList.add(1);
@@ -61,7 +61,7 @@ public class TestStatisticController {
 		testStatistic02.setUser(userService.getUserById(7));
 		testStatistic02.setGroup(groupService.getGroupById(3));
 		testStatistic02.setQuestionId(2);
-		testStatistic02.setUserResult(4);
+		testStatistic02.setUserResult(3);
 		testStatistic02.setMaxResult(5);
 		
 		ArrayList<Integer> resultList1 = new ArrayList<Integer>();
@@ -80,10 +80,10 @@ public class TestStatisticController {
 		
 	
 		
-		List<TestStatistic> theList = testStatisticService.getTestStatisticByUserByTest(2, 1);
+		List<TestStatistic> theList = testStatisticService.getTestStatisticByUserByTest(7, 1);
 		
 		float userRes1 = (float) testStatisticService.getUserResultByTest(1, 1);
-//		float userRes2 = (float) testStatisticService.getUserResultByTest(7, 1);
+		float userRes2 = (float) testStatisticService.getUserResultByTest(7, 1);
 //		float userRes3 = (float) testStatisticService.getUserResultByTest(3, 1);
 //		float userRes4 = (float) testStatisticService.getUserResultByTest(1, 2);
 		
@@ -93,7 +93,7 @@ public class TestStatisticController {
 		
 		model.addAttribute("group100Statistic", group100Statistic);
 		model.addAttribute("userRes1", userRes1);
-//		model.addAttribute("userRes2", userRes2);
+		model.addAttribute("userRes2", userRes2);
 //		model.addAttribute("userRes3", userRes3);
 //		model.addAttribute("userRes4", userRes4);
 		
@@ -113,6 +113,9 @@ public class TestStatisticController {
 		
 		
 		model.addAttribute("testStatWithQList", testStatWithQList);
+		model.addAttribute("user", userService.getUserById(userId));
+		model.addAttribute("test", testService.getTestById(testId));
+		
 		return "userTestStatistic";		
 	}
 	

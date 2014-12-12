@@ -22,7 +22,7 @@ public class TestStatistic {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	 @ManyToOne (fetch = FetchType.EAGER)
+	 @ManyToOne (fetch = FetchType.LAZY)
 	 @JoinColumn (name = "id_test")
 	 private Test test;
 //	@Column(name = "id_test")

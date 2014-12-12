@@ -27,8 +27,9 @@
 					alert(xhr.statusText);
 				},
 				success : function(str) {
-					str = str.substring(31,str.length-6);
+					str = str.substring(14,str.length-6);
 					str = str.replace(/\\r\\n\\tat/g, "");
+					str = str.replace(/\\r\\n\\t/g, "");
 					$("#logEx").text(str);
 					$('#myModal2').modal('show');
 				}
