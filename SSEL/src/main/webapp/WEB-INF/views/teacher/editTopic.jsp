@@ -10,7 +10,7 @@
 	<div class="col-lg-12">
 		<h1 class="page-header">
 		
-		                	<!-- <button type="button" class="btn btn-outline btn-primary" data-toggle="modal" 
+		                	<!-- <button type="button" class="btn btn-info btn-primary" data-toggle="modal" 
                 			data-target="#modal_load_photo" style="margin-bottom: 15px">
 							<i class="glyphicon glyphicon-eye-open"></i>
 						</button> -->

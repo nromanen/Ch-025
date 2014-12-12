@@ -77,4 +77,6 @@ public interface UserService {
 	long getCountOfUsersByText(String searchText);
 
 	long getCountOfUsersByLastName(String searchText);
+
+	long getCountOfUsersByRegistrationDate(Date startDate, Date endDate);
 }

@@ -1,5 +1,7 @@
 package com.softserve.service;
 
+import java.util.Map;
+
 import com.softserve.entity.ConfigurationProperty;
 
 public interface AdministratorService {
@@ -10,4 +12,5 @@ public interface AdministratorService {
 
 	public ConfigurationProperty setSupportEmail(String email);
 
+	public Map<String, Long> getCountRegistredUsersByLastDays(int lastDays);
 }
