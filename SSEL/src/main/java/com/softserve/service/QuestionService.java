@@ -5,6 +5,11 @@ import java.util.List;
 import com.softserve.entity.Option;
 import com.softserve.entity.Question;
 
+/**
+ * Implements QuestionDao
+ * @author Ivan
+ *
+ */
 public interface QuestionService {
 
 	/**
@@ -58,8 +63,19 @@ public interface QuestionService {
 	 */
 	void restoreQuestion(Question question);
 
-	double[] getUserMarkByQuestion(int questionId, List<Option> option);
+	/**
+	 * Return array[2] where [0] mark for user, [1] - mark for question
+	 * @param questionId unique question identifier
+	 * @param options list of user answers fo question
+	 */
+	double[] getUserMarkByQuestion(int questionId, List<Option> options);
 
+	/**
+	 * Check answer is right
+	 * @param question question to check
+	 * @param answer answer to question
+	 * @return  true if answer is right or false - answer wrong
+	 */
 	boolean checkAnswer(Question question, String answer);
 
 }
