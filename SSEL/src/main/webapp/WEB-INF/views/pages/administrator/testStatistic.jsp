@@ -9,16 +9,34 @@
 
 
 <h1 align="center">Hello</h1>
-TestStatistic by user 7 size: ${fn:length(statisticList)} <br>
-Test name ${statisticList[0].test.name }<br>
-User name ${statisticList[0].user.firstName }
-<p>
-User1 testResult 1 : ${userRes1} <br>
-User2 testResult 1 : ${userRes2} <br>
-<%-- User3 test 2 : ${userRes3} <br>
-User1 test 2 : ${userRes4} <br> --%>
-</p>
+tsByUserByTest: <br>
+lenght - ${fn:length(tsByUserByTest)} <br>
+UserName - ${tsByUserByTest[0].user.firstName}<br>
+TestName - ${tsByUserByTest[0].test.name}<br>
+UserResult - ${tsByUserByTest[0].userResult}<br>
 
+<br><br>
+
+tsByGroupByTest:<br>
+lenght - ${fn:length(tsByGroupByTest)} <br>
+UserName - ${tsByGroupByTest[4].user.firstName}<br>
+TestName - ${tsByGroupByTest[4].test.name}<br>
+UserResult - ${tsByGroupByTest[4].userResult}<br>
+
+<br><br>
+
+firstUserResultByTest: ${firstUserResultByTest} <br>
+
+<br><br>
+
+GroupResultByTest: <br>
+lenght - ${fn:length(GroupResultByTest)} <br>
+firstUserResult - ${GroupResultByTest[0]} <br>
 <br>
-group100Statistic size: ${fn:length(group100Statistic)} <br>
-group100Statistic.get(0) (result) : ${group100Statistic[1]}
+
+<h2>The End </h2>
+
+<a href="${pageContext.request.contextPath}/userTestStatistic?userId=1&testId=1">Show user1 statistic</a>
+
+
+

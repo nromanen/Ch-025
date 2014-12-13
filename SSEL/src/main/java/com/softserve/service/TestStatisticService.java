@@ -17,6 +17,6 @@ public interface TestStatisticService {
 	
 	List<Float> getGroupResultByTest(int groupId, int testId);
 	
-	List<TestStatisticWithQuestion> getTestStatisticByUserByTestForController (int userId, int testId);
+//	List<TestStatisticWithQuestion> getTestStatisticByUserByTestForController (int userId, int testId);
 
 }

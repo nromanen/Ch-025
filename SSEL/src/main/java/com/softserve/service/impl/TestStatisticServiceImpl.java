@@ -22,7 +22,7 @@ public class TestStatisticServiceImpl implements TestStatisticService {
 	private TestStatisticDao testStatisticDao;
 
 	@Autowired
-	private QuestionService questionService; // REDOOOOO!!!!!!
+	private QuestionService questionService;
 
 	@Override
 	@Transactional
@@ -66,7 +66,7 @@ public class TestStatisticServiceImpl implements TestStatisticService {
 		Collections.sort(userResults);
 		return userResults;
 	}
-
+/*
 	@Override
 	public List<TestStatisticWithQuestion> getTestStatisticByUserByTestForController(
 			int userId, int testId) {
@@ -85,5 +85,5 @@ public class TestStatisticServiceImpl implements TestStatisticService {
 		}
 		return tStatWithQArray;
 	}
-
+*/
 }

@@ -33,8 +33,8 @@ public class TestStatisticDaoImpl implements TestStatisticDao {
 	@SuppressWarnings("unchecked")
 	public List<TestStatistic> getTestStatisticByUserByTest(int userId,
 			int testId) {
-		LOG.debug("Get TestStatistic by user and by test"); //JOIN FETCH ts.test test
-		String stringQuery = "FROM TestStatistic ts INNER JOIN FETCH ts.test WHERE ts.user.id = :userId AND ts.test.id = :testId";
+		LOG.debug("Get TestStatistic by user and by test"); //JOIN FETCH ts.test
+		String stringQuery = "FROM TestStatistic ts WHERE ts.user.id = :userId AND ts.test.id = :testId";
 		Query query = entityManager.createQuery(stringQuery);
 		query.setParameter("userId", userId);
 		query.setParameter("testId", testId);
@@ -64,9 +64,9 @@ public class TestStatisticDaoImpl implements TestStatisticDao {
 				userId, testId);
 		if (tsList.size() != 0) {
 			int totalMaxResult = 0;
-			int totalUserResult = 0;
+			float totalUserResult = 0;
 			for (TestStatistic testStat : tsList) {
-				totalUserResult += testStat.getUserResult();
+				totalUserResult += (float)testStat.getUserResult();
 				totalMaxResult += testStat.getMaxResult();
 			}
 			if (totalMaxResult != 0) {

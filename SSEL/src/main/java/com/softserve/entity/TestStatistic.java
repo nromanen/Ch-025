@@ -22,32 +22,26 @@ public class TestStatistic {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	 @ManyToOne (fetch = FetchType.LAZY)
+	 @ManyToOne (fetch = FetchType.EAGER)
 	 @JoinColumn (name = "id_test")
 	 private Test test;
-//	@Column(name = "id_test")
-//	private int testId;
 
 	 @ManyToOne (fetch = FetchType.EAGER)
 	 @JoinColumn (name = "id_user")
 	 private User user;
-//	@Column(name = "id_user")
-//	private int userId;
 
 	 @ManyToOne (fetch = FetchType.EAGER)
 	 @JoinColumn(name = "id_group")
 	 private Group group;
-//	@Column(name = "id_group")
-//	private int groupId;
 
-	// @ManyToOne (fetch = FetchType.LAZY)
-	// @JoinColumn(name = "id_question")
-	// private Question question;  АХТУНГ!!!
-	@Column(name = "id_question")
-	private int questionId;
+	 @ManyToOne (fetch = FetchType.EAGER)
+	 @JoinColumn(name = "id_question")
+	 private Question question; 
+//	@Column(name = "id_question")
+//	private int questionId;
 
 	@Column(name = "user_result")
-	private int userResult;
+	private float userResult;
 
 	@Column(name = "max_result")
 	private int maxResult;
@@ -87,16 +81,20 @@ public class TestStatistic {
 		this.group = group;
 	}
 
-	public int getQuestionId() {
-		return questionId;
+	public Question getQuestion() {
+		return question;
 	}
 
-	public void setQuestionId(int questionId) {
-		this.questionId = questionId;
+	public void setQuestion(Question question) {
+		this.question = question;
 	}
 
-	public int getUserResult() {
+	public float getUserResult() {
 		return userResult;
+	}
+
+	public void setUserResult(float userResult) {
+		this.userResult = userResult;
 	}
 
 	public void setUserResult(int userResult) {
@@ -118,8 +116,5 @@ public class TestStatistic {
 	public void setUserAnswers(ArrayList<Integer> userAnswers) {
 		this.userAnswers = userAnswers;
 	}
-
-
-
 
 }

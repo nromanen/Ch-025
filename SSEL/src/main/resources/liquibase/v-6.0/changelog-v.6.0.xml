@@ -22,7 +22,7 @@
 			<column name="id_question" type="int">
 				<constraints nullable="false" />
 			</column>
-			<column name="user_result" type="int">
+			<column name="user_result" type="float">
 			</column>
 			<column name="max_result" type="int">
 			</column>
@@ -46,6 +46,10 @@
 			ALTER TABLE `test_statistic` ADD
 			CONSTRAINT fk_test_statistic_group FOREIGN KEY (id_group)
 			REFERENCES ssel.groups (id) ON DELETE CASCADE ON UPDATE CASCADE;
+			
+			ALTER TABLE `test_statistic` ADD
+			CONSTRAINT fk_test_statistic_question FOREIGN KEY (id_question)
+			REFERENCES ssel.questions (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 		</sql>
  
