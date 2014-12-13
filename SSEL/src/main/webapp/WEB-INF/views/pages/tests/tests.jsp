@@ -7,7 +7,7 @@
 <div class="row">
 	<div class="panel-default">
 	<div class="panel-header">
-	<h1 class="page-header">${blockName}</h1>
+	<h1 class="page-header">${currentBlock.name}</h1>
 	</div>
 	<form action="editTest" method="GET">
 		<button type="submit" 
@@ -32,7 +32,10 @@
 						Block
 					</td>
 					<td>
-						Action
+						Edit
+					</td>
+					<td>
+						Delete
 					</td>
 				</tr>
 			</thead>
@@ -47,6 +50,15 @@
 						</td>
 						<td>
 							${test.block.name}
+						</td>
+						<td>
+							<form action="editTest"
+							 method="GET">
+							 <input type="hidden" name="subjectId" value="${param.subjectId}" />
+							 <input type="hidden" name="testId" value="${test.id}" />
+								<button type="submit" class="btn btn-outline btn-primary btn-xs">
+									edit</button>
+							</form>
 						</td>
 						<td>
 							<form action="deleteTest?testId=${test.id}&blockId=${param.blockId}&subjectId=${param.subjectId}"

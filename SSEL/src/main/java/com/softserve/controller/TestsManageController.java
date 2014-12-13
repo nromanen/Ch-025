@@ -30,7 +30,7 @@ import com.softserve.validator.QuestionFormValidator;
 import com.softserve.validator.TestValidator;
 
 @Controller
-public class AddTestController {
+public class TestsManageController {
 	@Autowired
 	private TestService testService;
 

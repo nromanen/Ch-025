@@ -122,12 +122,10 @@ public class TestStatisticController {
 
 	@RequestMapping(value = "/userTestStatistic", method = RequestMethod.GET)
 	public String viewLogs(Model model,
-			@RequestParam(value = "userId", required = true) Integer userId,
 			@RequestParam(value = "testId", required = true) Integer testId) {
-
+		Integer userId = userService.getUserByEmail(userService.getCurrentUser()).getId();
 		ArrayList<TestStatistic> tsByUserByTestList = (ArrayList<TestStatistic>) testStatisticService
 				.getTestStatisticByUserByTest(userId, testId);
-
 		model.addAttribute("tsByUserByTestList", tsByUserByTestList);
 		model.addAttribute("user", userService.getUserById(userId));
 		model.addAttribute("test", testService.getTestById(testId));

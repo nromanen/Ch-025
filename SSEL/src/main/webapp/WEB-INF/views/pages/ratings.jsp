@@ -47,7 +47,7 @@
                    		<c:forEach items="${ratings}" var="rating">
                    		<tr>
                    			<td >
-                   				${rating.test.name}
+                   				<a href="userTestStatistic?testId=${test.id}" >${rating.test.name}</a>
                    			</td>
                    			<td>
                    				${rating.mark}

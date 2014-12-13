@@ -18,6 +18,7 @@
 		<div class="page-header">
 			<h3>${testName}</h3>
 		</div>
+		<form:hidden path="question.id" />
 		<div class="form-group">
         	<form:label path="name"><h4><spring:message code="label.test.question" /> </h4></form:label>
         	<form:errors path="name" cssClass="alert alert-warning" cssStyle="position:float" />
@@ -50,7 +51,6 @@
 		</c:forEach>
 		</div>
 		<form:hidden path="question.test.id"/>
-		
 		<input type="submit"  class="btn btn-primary btn-lg" value="Submit"/>
 	</form:form>
 	</div>

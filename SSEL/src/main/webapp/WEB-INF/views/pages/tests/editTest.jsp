@@ -20,6 +20,7 @@
 		</c:choose>
 		</h1>
    		<form:form method="POST" action="saveTest?op=${op}" cssClass="form-horizontal" commandName="test">
+        <form:hidden path="id" />
         <div class="form-group">
         	<form:label path="name">Test name</form:label>
         	<form:errors path="name" cssClass="control-label" />		
