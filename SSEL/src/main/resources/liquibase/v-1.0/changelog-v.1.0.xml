@@ -339,58 +339,7 @@
 			baseTableName="groups" referencedColumnNames="id" onDelete="CASCADE"
 			onUpdate="CASCADE" />
 	</changeSet>
-
-	<changeSet id="2014-11-11-create-table-rating" author="Roma">
-		<comment>Create table rating</comment>
-		<createTable tableName="rating">
-			<column name="id" type="int" autoIncrement="true">
-				<constraints primaryKey="true" nullable="false" />
-			</column>
-			<column name="mark" type="double">
-				<constraints nullable="false" />
-			</column>
-			<column name="id_block" type="int">
-				<constraints nullable="false" />
-			</column>
-			<column name="id_group" type="int">
-				<constraints nullable="false" />
-			</column>
-			<column name="id_user" type="int">
-				<constraints nullable="false" />
-			</column>
-		</createTable>
-	</changeSet>
-
-	<changeSet id="2014-11-11-foreign-key-table-rating-2" author="Roma">
-		<comment>Create foreign key rating</comment>
-		<addForeignKeyConstraint constraintName="fk_rating_block"
-			referencedTableName="block" baseColumnNames="id_block" baseTableName="rating"
-			referencedColumnNames="id" onDelete="CASCADE" onUpdate="CASCADE" />
-		<addForeignKeyConstraint constraintName="fk_rating_group"
-			referencedTableName="groups" baseColumnNames="id_group"
-			baseTableName="rating" referencedColumnNames="id" onDelete="CASCADE"
-			onUpdate="CASCADE" />
-		<addForeignKeyConstraint constraintName="fk_rating_user"
-			referencedTableName="user" baseColumnNames="id_user" baseTableName="rating"
-			referencedColumnNames="id" onDelete="CASCADE" onUpdate="CASCADE" />
-	</changeSet>
-
-	<changeSet id="2014-11-11-create-table-student_group" author="Roma">
-		<comment>Create table student_group</comment>
-		<createTable tableName="student_group">
-			<column name="id" type="int" autoIncrement="true">
-				<constraints primaryKey="true" nullable="false" />
-			</column>
-			<column name="id_group" type="int">
-				<constraints nullable="false" />
-			</column>
-			<column name="id_user" type="int">
-				<constraints nullable="false" />
-			</column>
-		</createTable>
-	</changeSet>
-
-	<!-- table for tests -->
+<!-- table for tests -->
 	<changeSet id="2014-11-27-create-table-test" author="Anatoliy">
 		<comment>Create table test</comment>
 		<createTable tableName="tests">
@@ -423,31 +372,57 @@
 			onUpdate="CASCADE" />
 	</changeSet>
 
-	<!--Table for question -->
-	<!--
-	<changeSet id="2014-11-27-create-table-questions" author="Anatoliy">
-		<comment>Create table questions</comment>
-		<createTable tableName="questions">
-			<column name="id_question" type="int" autoIncrement="true">
+	<changeSet id="2014-11-11-create-table-rating" author="Roma">
+		<comment>Create table rating</comment>
+		<createTable tableName="rating">
+			<column name="id" type="int" autoIncrement="true">
 				<constraints primaryKey="true" nullable="false" />
-			</column>
-			<column name="id_test" type="int">
-				<constraints nullable="false" />
-			</column>
-			<column name="question" type="varchar(255)">
 			</column>
 			<column name="mark" type="double">
 				<constraints nullable="false" />
 			</column>
-			<column name="answer_count" type="int">
+			<column name="id_test" type="int">
 				<constraints nullable="false" />
 			</column>
-			<column name="deleted" type="boolean">
+			<column name="id_group" type="int">
+				<constraints nullable="false" />
+			</column>
+			<column name="id_user" type="int">
 				<constraints nullable="false" />
 			</column>
 		</createTable>
 	</changeSet>
-	-->
+
+	<changeSet id="2014-11-11-foreign-key-table-rating-2" author="Roma">
+		<comment>Create foreign key rating</comment>
+		<addForeignKeyConstraint constraintName="fk_rating_test"
+			referencedTableName="tests" baseColumnNames="id_test" baseTableName="rating"
+			referencedColumnNames="id_test" onDelete="CASCADE" onUpdate="CASCADE" />
+		<addForeignKeyConstraint constraintName="fk_rating_group"
+			referencedTableName="groups" baseColumnNames="id_group"
+			baseTableName="rating" referencedColumnNames="id" onDelete="CASCADE"
+			onUpdate="CASCADE" />
+		<addForeignKeyConstraint constraintName="fk_rating_user"
+			referencedTableName="user" baseColumnNames="id_user" baseTableName="rating"
+			referencedColumnNames="id" onDelete="CASCADE" onUpdate="CASCADE" />
+	</changeSet>
+
+	<changeSet id="2014-11-11-create-table-student_group" author="Roma">
+		<comment>Create table student_group</comment>
+		<createTable tableName="student_group">
+			<column name="id" type="int" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="id_group" type="int">
+				<constraints nullable="false" />
+			</column>
+			<column name="id_user" type="int">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	
 	<changeSet id="2014-11-27-create-table-questions" author="Ivan">
 		<comment>Create table questions</comment>
 		<createTable tableName="questions">
@@ -467,60 +442,15 @@
 			</column>
 		</createTable>
 	</changeSet>
-<!--
-	<changeSet id="2014-11-27-foreign-key-question-test-1"
-		author="Anatoliy">
-		<comment>Create foreign key to test</comment>
-		<addForeignKeyConstraint constraintName="fk_question_test"
-			referencedTableName="tests" baseColumnNames="id_test"
-			baseTableName="questions" referencedColumnNames="id_Test" onDelete="CASCADE"
-			onUpdate="CASCADE" />
-	</changeSet>
- -->
+
  <changeSet id="2014-11-27-foreign-key-question-test-1"
 		author="Ivan">
 		<comment>Create foreign key to tests</comment>
 		<addForeignKeyConstraint constraintName="fk_question_test"
-			referencedTableName="tests" baseColumnNames="id_test"
-			baseTableName="questions" referencedColumnNames="id_Test" onDelete="CASCADE"
+			referencedTableName="tests" baseColumnNames="id_Test"
+			baseTableName="questions" referencedColumnNames="id_test" onDelete="CASCADE"
 			onUpdate="CASCADE" />
 	</changeSet>
-
-	<!--Table for answers -->
-	<changeSet id="2014-11-27-create-table-answers" author="Anatoliy">
-		<comment>Create table answers</comment>
-		<createTable tableName="answers">
-			<column name="id_answer" type="int" autoIncrement="true">
-				<constraints primaryKey="true" nullable="false" />
-			</column>
-			<column name="id_question" type="int">
-				<constraints nullable="false" />
-			</column>
-			<column name="answer" type="varchar(255)">
-				<constraints nullable="false" />
-			</column>
-			<column name="is_right" type="boolean">
-				<constraints nullable="false" />
-			</column>
-			<column name="mark" type="double">
-				<constraints nullable="false" />
-			</column>
-			<column name="deleted" type="boolean">
-				<constraints nullable="false" />
-			</column>
-		</createTable>
-	</changeSet>
-
-<!--
-	<changeSet id="2014-11-27-foreign-key-answer-test-1"
-		author="Anatoliy">
-		<comment>Create foreign key to question</comment>
-		<addForeignKeyConstraint constraintName="fk_answer_question"
-			referencedTableName="questions" baseColumnNames="id_question"
-			baseTableName="answers" referencedColumnNames="id_question" onDelete="CASCADE"
-			onUpdate="CASCADE" />
-	</changeSet>
- -->
 
 	<!-- Table for properties -->
 	<changeSet id="2014-11-23-create-table-config" author="Anatoliy">
