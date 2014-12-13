@@ -43,29 +43,27 @@ public class QuestionServiceTest {
 	@Autowired
 	TestService testService;
 
-	private Question question = new Question();
+	private Question question;
 	private QuestionText questionText = new QuestionText();
 	private Option option = new Option();
 	private List<Option> options = new ArrayList<Option>();
 
 	@Before
 	public void initialize() {
+		question = new Question();
 		question.setTest(testService.getTestById(1));
 		question.setMark(5);
 		for (int i = 1; i < 6; i++) {
 			option = new Option();
 			option.setCorrect(false);
-			if (i == 3) {
+			if (i == 3 || i == 4) {
 				option.setCorrect(true);
 			}
 			option.setValue("option " + i);
 			options.add(option);
 		}
-		// System.out.println(options);
 		questionText.setValue("Some question");
 		questionText.setOptions(options);
-		// System.out.println();
-		// System.out.println(questionText.toString());
 		question.setQuestionText(questionText);
 	}
 
@@ -150,14 +148,18 @@ public class QuestionServiceTest {
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:questions.xml")
 	public void getUserMarkByQuestion() {
 		Question myQuestion = questionService.addQuestion(question);
-		// assertEquals(questionService.getUserMarkByQuestion(myQuestion.getId(),
-		// options)[0],
-		// questionService.getUserMarkByQuestion(myQuestion.getId(),
-		// options)[1], 0.0);
 		assertEquals(question.getMark(), questionService.getUserMarkByQuestion(
 				myQuestion.getId(), options)[1], 0.0);
 		options.get(0).setCorrect(true);
 		assertNotNull(questionService.getUserMarkByQuestion(myQuestion.getId(),
 				options));
+	}
+
+	@Test
+//	@DatabaseSetup("classpath:questions.xml")
+//	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:questions.xml")
+	public void testGetRightAnswers() {
+		assertNotNull(questionService.getRightAnswers(question));
+//		assertNotNull(questionService.getRightAnswers(questionService.getQuestionById(1)));
 	}
 }

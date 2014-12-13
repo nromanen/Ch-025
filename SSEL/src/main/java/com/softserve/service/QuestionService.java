@@ -66,7 +66,7 @@ public interface QuestionService {
 	/**
 	 * Return array[2] where [0] mark for user, [1] - mark for question
 	 * @param questionId unique question identifier
-	 * @param options list of user answers fo question
+	 * @param options list of user answers for question
 	 */
 	double[] getUserMarkByQuestion(int questionId, List<Option> options);
 
@@ -78,4 +78,10 @@ public interface QuestionService {
 	 */
 	boolean checkAnswer(Question question, String answer);
 
+	/**
+	 * Return right answers for question
+	 * @param question question to check
+	 * @return list with answers
+	 */
+	List<String> getRightAnswers(Question question);
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
 
-<category id="1" name="Programming" deleted="false" />
+	<category id="1" name="Programming" deleted="false" />
 
 	<role id="1" name="TEACHER" />
 
@@ -9,7 +9,8 @@
 		firstName="Ivan" lastName="Khotynskyi"
 		password="$2a$10$vg4zM/lxJTit54JYefcr3uz5PRZrOFqCvMB/KX5KFoEhprrZ86ed2"
 		registration="2014-11-24 17:00:03" role="1" social="FACEBOOK"
-		verificationkey="$2a$10$dEDCNJbD9vOU0HTMAxqbo.mygQOPuFWJQZDgrOIk1g4f/hooby6g6" account_non_expired="true" />
+		verificationkey="$2a$10$dEDCNJbD9vOU0HTMAxqbo.mygQOPuFWJQZDgrOIk1g4f/hooby6g6"
+		account_non_expired="true" />
 
 	<subject id="1" name="Java SE" description="Java2" id_category="1"
 		id_user="1" deleted="false" />
@@ -17,13 +18,18 @@
 	<block id="1" block_order="1" start_time="2014-11-01" end_time="2014-11-07"
 		name="Why java?" deleted="false" id_subject="1" />
 
-<tests id_test="1" name="Test1" description="fsdf" id_block="1" alive="0" deleted="0" />
-<tests id_test="2" name="Test2" description="tt2" id_block="1" alive="0" deleted="0" />
+	<tests id_test="1" name="Test1" description="fsdf" id_block="1"
+		alive="0" deleted="0" />
+	<tests id_test="2" name="Test2" description="tt2" id_block="1"
+		alive="0" deleted="0" />
 
-	<questions id="1" id_Test="1" questionText="lalala" mark="5"
-		deleted="false" />
-	<questions id="2" id_Test="2" questionText="lalala" mark="5"
-		deleted="false" />
-		<questions id="3" id_Test="2" questionText="lalala" mark="5"
-		deleted="false" />
+	<questions id="1" id_Test="1"
+		questionText="PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/Pgo8cXVlc3Rpb24+CiAgICA8dmFsdWU+SG93IG9sZCBhcmUgeW91PzwvdmFsdWU+CiAgICA8b3B0aW9ucyBjb3JyZWN0PSJ0cnVlIj4KICAgICAgICA8dmFsdWU+QmlnZ2VyIHRoYW4gMDwvdmFsdWU+CiAgICA8L29wdGlvbnM+CiAgICA8b3B0aW9ucyBjb3JyZWN0PSJmYWxzZSI+CiAgICAgICAgPHZhbHVlPkkgZG9uJ3Qga25vdzwvdmFsdWU+CiAgICA8L29wdGlvbnM+CjwvcXVlc3Rpb24+Cg=="
+		mark="5" deleted="false" />
+	<questions id="2" id_Test="2"
+		questionText="PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/Pgo8cXVlc3Rpb24+CiAgICA8dmFsdWU+SG93IG9sZCBhcmUgeW91PzwvdmFsdWU+CiAgICA8b3B0aW9ucyBjb3JyZWN0PSJ0cnVlIj4KICAgICAgICA8dmFsdWU+QmlnZ2VyIHRoYW4gMDwvdmFsdWU+CiAgICA8L29wdGlvbnM+CiAgICA8b3B0aW9ucyBjb3JyZWN0PSJmYWxzZSI+CiAgICAgICAgPHZhbHVlPkkgZG9uJ3Qga25vdzwvdmFsdWU+CiAgICA8L29wdGlvbnM+CjwvcXVlc3Rpb24+Cg=="
+		mark="5" deleted="false" />
+	<questions id="3" id_Test="2"
+		questionText="PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/Pgo8cXVlc3Rpb24+CiAgICA8dmFsdWU+SG93IG9sZCBhcmUgeW91PzwvdmFsdWU+CiAgICA8b3B0aW9ucyBjb3JyZWN0PSJ0cnVlIj4KICAgICAgICA8dmFsdWU+QmlnZ2VyIHRoYW4gMDwvdmFsdWU+CiAgICA8L29wdGlvbnM+CiAgICA8b3B0aW9ucyBjb3JyZWN0PSJmYWxzZSI+CiAgICAgICAgPHZhbHVlPkkgZG9uJ3Qga25vdzwvdmFsdWU+CiAgICA8L29wdGlvbnM+CjwvcXVlc3Rpb24+Cg=="
+		mark="5" deleted="false" />
 </dataset>
