@@ -75,7 +75,7 @@ public class QuestionServiceImpl implements QuestionService {
 		List<Option> options = question.getQuestion().getOptions();
 		answerMark = question.getMark() / options.size();
 		for (int i = 0; i < userOptions.size(); i++) {
-			if ((userOptions.get(i).isCorrect() ^ options.get(i).isCorrect())) {
+			if ((userOptions.get(i).getIsCorrect() ^ options.get(i).getIsCorrect())) {
 				mark -= answerMark;
 			} else {
 				mark += answerMark;
@@ -90,7 +90,7 @@ public class QuestionServiceImpl implements QuestionService {
 	public boolean checkAnswer(Question question, String answer) {
 		List<Option> options = question.getQuestion().getOptions();
 		for (Option option : options) {
-			if (option.isCorrect()) {
+			if (option.getIsCorrect()) {
 				if (answer.equals(option.getValue())) {
 					return true;
 				}

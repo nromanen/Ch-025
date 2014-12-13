@@ -20,7 +20,7 @@ public class QuestionFormValidator implements Validator {
 
 	@Override
 	public void validate(Object arg0, Errors errors) {
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "question.question",
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name",
 				"question.required");
 		QuestionForm qf = (QuestionForm) arg0;
 		if (qf.getQuestion().getMark() == 0) {
@@ -32,7 +32,7 @@ public class QuestionFormValidator implements Validator {
 	private void answersValidation(List<Option> answers, Errors errors) {
 		for (int i = 0; i < answers.size(); i++) {
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors,
-					"answers[i].value", "answer.required");
+					"answers["+i+"].value", "answer.required");
 		}
 	}
 

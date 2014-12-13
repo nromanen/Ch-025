@@ -19,9 +19,9 @@
 			<h3>${testName}</h3>
 		</div>
 		<div class="form-group">
-        	<form:label path="question.question"><h4><spring:message code="label.test.question" /> </h4></form:label>
-        	<form:errors path="question.question" cssClass="alert alert-warning" cssStyle="position:float" />
-        	<form:textarea id="question" path="question.question" rows="15" cols="80"/>
+        	<form:label path="name"><h4><spring:message code="label.test.question" /> </h4></form:label>
+        	<form:errors path="name" cssClass="alert alert-warning" cssStyle="position:float" />
+        	<form:textarea id="question" path="name" rows="15" cols="80"/>
 				<script>
 					CKEDITOR.replace('question');
 				</script>
@@ -41,7 +41,7 @@
 						<div class="input-group" >
 						<form:input path="answers[${status.index}].value" cssClass="form-control" />
 						<span class="input-group-addon" style="horizontal-align:left">	
-							<form:checkbox path="answers[${status.index}].isRight" />
+							<form:checkbox path="answers[${status.index}].isCorrect" />
 						</span>
 						
 						</div>
@@ -49,8 +49,7 @@
 				</div>
 		</c:forEach>
 		</div>
-		<form:hidden path="testId"/>
-		<form:hidden path="question.answersCount" />
+		<form:hidden path="question.test.id"/>
 		
 		<input type="submit"  class="btn btn-primary btn-lg" value="Submit"/>
 	</form:form>

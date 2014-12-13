@@ -8,13 +8,9 @@ import com.softserve.entity.Question;
 public class QuestionForm {
 	private Question question;
 	
+	private String name;
+	
 	private List<Option> answers;
-	
-	private int testId;
-	
-	public QuestionForm() {
-
-	}
 
 	public Question getQuestion() {
 		return question;
@@ -24,7 +20,6 @@ public class QuestionForm {
 		this.question = question;
 	}
 
-
 	public List<Option> getAnswers() {
 		return answers;
 	}
@@ -33,12 +28,13 @@ public class QuestionForm {
 		this.answers = answers;
 	}
 
-	public int getTestId() {
-		return testId;
+	public String getName() {
+		return name;
 	}
 
-	public void setTestId(int testId) {
-		this.testId = testId;
+	public void setName(String name) {
+		this.name = name;
 	}
-
+	
+	
 }

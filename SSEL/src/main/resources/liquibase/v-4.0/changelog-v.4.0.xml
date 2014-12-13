@@ -188,16 +188,6 @@
 		</sql>
 	</changeSet>
 
-	<changeSet id="2014-11-27-insert-into-answers" author="Anatoliy">
-		<comment>Insert some answers</comment>
-		<sql splitStatements="true">
-			INSERT INTO `answers` VALUES (1,1,'Anatoliy',1,0,0);
-			INSERT INTO `answers` VALUES (2,1,'Peter',0,1,0);
-			INSERT INTO `answers` VALUES (3,2,'Bla',1,0.5,0);
-			INSERT INTO `answers` VALUES (4,2,'Non-bla',1,0.5,0);
-			INSERT INTO `answers` VALUES (5,2,'None',0,0,0);
-		</sql>
-	</changeSet>
 
 	<changeSet id="2014-11-08-create-trigger-table-topic-1" author="Roma">
 		<comment>Create trigger table topic</comment>

@@ -1,6 +1,7 @@
 package com.softserve.controller;
 
 import java.beans.PropertyEditorSupport;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,9 +18,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.softserve.entity.Block;
+import com.softserve.entity.Option;
 import com.softserve.entity.Question;
+import com.softserve.entity.QuestionText;
 import com.softserve.entity.Test;
-import com.softserve.service.AnswerService;
+import com.softserve.form.QuestionForm;
 import com.softserve.service.BlockService;
 import com.softserve.service.QuestionService;
 import com.softserve.service.TestService;
@@ -39,9 +42,6 @@ public class AddTestController {
 
 	@Autowired
 	private QuestionService questionService;
-
-	@Autowired
-	private AnswerService answerService;
 
 	@Autowired
 	private QuestionFormValidator questionFormValidator;
@@ -164,41 +164,38 @@ public class AddTestController {
 	 * @param model data for view
 	 * @return logical name for view
 	 */
-//	@RequestMapping(value="/editQuestion", method = RequestMethod.GET)
-//	public String addQuestionRender(@RequestParam(value = "testId", required = true) Integer testId,
-//									@RequestParam(value = "questionId", required = false) Integer questionId,
-//									Model model) {
-//		QuestionForm testForm = new QuestionForm();
-//		Question question;
-//		List<Answer> answers;
-//		Test test = testService.getTestById(testId);
-//		if (questionId == null) {
-//			question = new Question();
-//			question.setQuestion("Input question here");
-//			question.setTest(test);
-//			question.setAnswersCount(1);
-//			answers = new ArrayList<>();
-//			for(int i=0; i < 4; i++) {
-//				Answer ans = new Answer();
-//				ans.setQuestion(question);
-//				ans.setAnswer("Bla bla");
-//				ans.setIsDeleted(false);
-//				ans.setIsRight(false);
-//				answers.add(ans);
-//			}
-//			testForm.setQuestion(question);
-//			testForm.setAnswers(answers);
-//			testForm.setTestId(testId);
-//		} else {
-//			question = questionService.getQuestionById(questionId);
-//			answers = answerService.getAnswersByQuestion(questionId);
-//			testForm.setAnswers(answers);
-//			testForm.setQuestion(question);
-//		}
-//		model.addAttribute("questionForm", testForm);
-//		model.addAttribute("testName", test.getName());
-//		return "editQuestion";
-//	}
+	@RequestMapping(value="/editQuestion", method = RequestMethod.GET)
+	public String addQuestionRender(@RequestParam(value = "testId", required = true) Integer testId,
+									@RequestParam(value = "questionId", required = false) Integer questionId,
+									Model model) {
+		Question question;
+		List<Option> answers;
+		QuestionForm questionForm = new QuestionForm();
+		Test test = testService.getTestById(testId);
+		if (questionId == null) {
+			question = new Question();
+			question.setTest(test);
+			question.setMark(0.0);
+			answers = new ArrayList<>();
+			for(int i=0; i < 4; i++) {
+				Option ans = new Option();
+				ans.setIsCorrect(false);
+				answers.add(ans);
+			}
+			questionForm.setQuestion(question);
+			questionForm.setName("");
+			questionForm.setAnswers(answers);
+		} else {
+			question = questionService.getQuestionById(questionId);
+			questionForm.setQuestion(question);
+			questionForm.setName(question.getQuestion().getValue());
+			answers = question.getQuestion().getOptions();
+			questionForm.setAnswers(answers);
+		}
+		model.addAttribute("questionForm", questionForm);
+		model.addAttribute("testName", test.getName());
+		return "editQuestion";
+	}
 	/**
 	 * Validate and insert/update question
 	 * @param form form with question and answers
@@ -206,26 +203,32 @@ public class AddTestController {
 	 * @param model data for view
 	 * @return logical name for view
 	 */
-//	@RequestMapping(value="/saveQuestion", method = RequestMethod.POST)
-//	public String processSubmitaddQuestion(@ModelAttribute QuestionForm form, BindingResult result,Model model) {
-//		int testId = form.getQuestion().getTest().getId();
-//		int questionId = form.getQuestion().getId();
-//		questionFormValidator.validate(form, result);
-//		if (result.hasErrors()) {
-//			return "editQuestion?testId="+testId+"&questionId="+questionId;
-//		}
-//		Test test = testService.getTestById(form.getTestId());
-//		form.getQuestion().setTest(test);
-//		Question question = questionService.addQuestion(form.getQuestion());
-//		double answerMark = question.getMark()/question.getAnswersCount();
-//		for(Answer answer : form.getAnswers()) {
-//			answer.setMark((answer.getIsRight()) ? answerMark: 0.0); // for right question mark equals answerMark
-//			answer.setQuestion(question);
-//			answer.setMark(answerMark);
-//			answerService.addAnswer(answer);
-//		}
-//		return "redirect:testInfo?testId="+testId;
-//	}
+	@RequestMapping(value="/saveQuestion", method = RequestMethod.POST)
+	public String processSubmitaddQuestion(@ModelAttribute QuestionForm form, BindingResult result,Model model) {
+		int testId = form.getQuestion().getTest().getId();
+		int questionId = form.getQuestion().getId();
+		questionFormValidator.validate(form, result);
+		if (result.hasErrors()) {
+			return "editQuestion?testId="+testId+"&questionId="+questionId;
+		}
+		Test test = testService.getTestById(testId);
+		form.getQuestion().setTest(test);
+		Question question = form.getQuestion();
+		/*for(Option answer : form.getAnswers()) {
+			//answer.setMark((answer.getIsRight()) ? answerMark: 0.0); // for right question mark equals answerMark
+			//answer.setQuestion(question);
+			//answer.setMark(answerMark);
+			//answerService.addAnswer(answer);
+			question.set
+		}*/
+		QuestionText questionText = new QuestionText();
+		questionText.setOptions(form.getAnswers());
+		questionText.setValue(form.getName());
+		question.setQuestionText(questionText);
+		question.setMark(question.getMark());
+		questionService.addQuestion(question);
+		return "redirect:testInfo?testId="+testId;
+	}
 	/**
 	 * Render test info page
 	 * @param testId unique test identifier

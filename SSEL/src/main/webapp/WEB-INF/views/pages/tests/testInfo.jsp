@@ -17,6 +17,13 @@
 				<h2 class="panel-title">
 				 <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Test questions</a>
 				</h2>
+				<form action="editQuestion" method="GET">
+					<button type="submit" 
+						class="btn btn-outline btn-primary btn-xs">Add new question</button>
+					<input type="hidden" name="testId" value="${param.testId}" />
+				</form>
+				</div>
+				
 				<div id="collapseOne" class="panel-collapse collapse">
 				<div class="panel-body">
 				<div class="panel panel-default">
