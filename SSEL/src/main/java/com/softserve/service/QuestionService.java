@@ -28,13 +28,21 @@ public interface QuestionService {
 	Question getQuestionById(int id);
 
 	/**
-	 * Return all questions for test
+	 * Return all questions for test with id
 	 * @return list of questions if exists, null - otherwise
 	 */
 	List<Question> getQuestionsByTestId(int id);
 
+	/**
+	 * Return all questions
+	 * @return list of questions if exists, null - otherwise
+	 */
 	List<Question> getAllQuestions();
 
+	/**
+	 * Return all deleted questions
+	 * @return list of deleted questions if exists, null - otherwise
+	 */
 	List<Question> getAllDeletedQuestions();
 
 	/**
