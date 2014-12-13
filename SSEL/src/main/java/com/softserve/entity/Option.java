@@ -22,6 +22,10 @@ public class Option {
 	public boolean isCorrect() {
 		return isCorrect;
 	}
+	
+	public boolean getIsCorrect() {
+		return isCorrect;
+	}
 
 	@XmlElement
 	public void setValue(String value) {

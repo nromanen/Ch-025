@@ -10,28 +10,35 @@
 <h1 align="center">Hello, this is your test statistic</h1>
 
 <c:forEach items="${tsByUserByTestList}" var="testStatistic">
-	<table class="table table-striped">
+<div class="col-md-12" align="center">
+	<table class="table table-striped table-bordered ">
 		<thead>
 			<tr>
-				<th colspan="2">${testStatistic.question.questionText}</th>  <!-- .value  -->
+				<th colspan="2">${testStatistic.question.getQuestion().value }</th>  <!-- .value  -->
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${testStatistic.question.questionText.options}" var="option">
+			<c:forEach items="${testStatistic.question.getQuestion().options}" var="option" varStatus="ind">
 				<tr> 
 					<th>${option.value}</th> <!-- [ $ {fn:indexOf(testStatistic.question.questionText.options, option) } ] -->
 					<th>
-							<%-- <c:when test="true"> --%>
-									<c:when test="${option.isCorrect} " >
-										<span class="glyphicon glyphicons-ok green"></span>
+					<c:choose>
+							<c:when test="${testStatistic.userAnswers[ind.index] != 0 }"> 
+								<c:choose>
+								<c:when test="${option.isCorrect}" >
+										<span class="fa fa-check green"></span>
 									</c:when>
 									<c:otherwise>
 										<span class="glyphicon glyphicon-remove red"></span>
-									</c:otherwise>
-							<%-- </c:when> --%>
+								</c:otherwise>
+								</c:choose>
+							 </c:when> 
+						</c:choose>
+						
 					</th>
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
+</div>
 </c:forEach>

@@ -14,6 +14,7 @@ lenght - ${fn:length(tsByUserByTest)} <br>
 UserName - ${tsByUserByTest[0].user.firstName}<br>
 TestName - ${tsByUserByTest[0].test.name}<br>
 UserResult - ${tsByUserByTest[0].userResult}<br>
+UserAnswer on first question - ${tsByUserByTest[0].userAnswers[0]}<br>
 
 <br><br>
 
@@ -35,8 +36,8 @@ firstUserResult - ${GroupResultByTest[0]} <br>
 <br>
 
 <h2>The End </h2>
-
+<font size =+2>
 <a href="${pageContext.request.contextPath}/userTestStatistic?userId=1&testId=1">Show user1 statistic</a>
-
+</font>
 
 
