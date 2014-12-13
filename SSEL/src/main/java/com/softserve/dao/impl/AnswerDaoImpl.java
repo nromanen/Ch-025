@@ -22,7 +22,7 @@ import com.softserve.entity.Answer;
 public class AnswerDaoImpl implements AnswerDao{
 
 	private static final Logger LOG = LoggerFactory
-			.getLogger(TestDaoImpl.class);
+			.getLogger(AnswerDaoImpl.class);
 	
 	@PersistenceContext(unitName = "entityManager")
 	private EntityManager entityManager;

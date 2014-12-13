@@ -2,7 +2,6 @@ package com.softserve.dao;
 
 import java.util.List;
 
-import com.softserve.entity.Category;
 import com.softserve.entity.Question;
 
 /**
