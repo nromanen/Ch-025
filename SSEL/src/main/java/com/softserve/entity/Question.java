@@ -18,6 +18,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+import org.apache.commons.codec.binary.Base64;
+
 /**
  * Entity implementation class for Entity: Question
  * @author Ivan
@@ -71,25 +73,19 @@ public class Question {
 	}
 
 	public String getQuestionText() {
-		//return questionText;
-		StringBuilder sb = new StringBuilder();
-	    for (int i=0; i<questionText.length(); i++)
-	        switch (questionText.charAt(i)){
-	            case '\n': sb.append("\\n"); break;
-	            case '\t': sb.append("\\t"); break;
-	            default: sb.append(questionText.charAt(i));
-	        }
-	    return sb.toString();
+	    return questionText;
 	}
 
 	public QuestionText getQuestion() {
 		QuestionText questionText = new QuestionText();
 		try {
+			byte[] decodedBytes;
 			jaxbContext = JAXBContext
 					.newInstance(QuestionText.class);
 			jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			decodedBytes = Base64.decodeBase64(this.questionText);
 			questionText = (QuestionText) jaxbUnmarshaller
-					.unmarshal(new StringReader(this.questionText));
+					.unmarshal(new StringReader(new String (decodedBytes)));
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
@@ -100,12 +96,14 @@ public class Question {
 	public void setQuestionText(QuestionText questionText) {
 		try {
 			StringWriter stringWriter = new StringWriter();
+			byte[] encodedBytes;
 			jaxbContext = JAXBContext
 					.newInstance(QuestionText.class);
 			jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			jaxbMarshaller.marshal(questionText, stringWriter);
-			this.questionText = stringWriter.toString();
+			encodedBytes = Base64.encodeBase64(stringWriter.toString().getBytes());
+			this.questionText = new String(encodedBytes);
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}

@@ -27,8 +27,9 @@
 					alert(xhr.statusText);
 				},
 				success : function(str) {
-					str = str.substring(31,str.length-6);
+					str = str.substring(14,str.length-6);
 					str = str.replace(/\\r\\n\\tat/g, "");
+					str = str.replace(/\\r\\n\\t/g, "");
 					$("#logEx").text(str);
 					$('#myModal2').modal('show');
 				}
@@ -353,7 +354,7 @@
 				</thead>
 				
 				<!-- Table content -->
-				<c:forEach items="${logs}" var="log" varStatus="ind">
+				<c:forEach items="${logs}" var="log">
 					<tr>
 						<td class="col-md-1"><fmt:formatDate
 								pattern="dd-MM-yyyy HH:mm:ss" value="${log.eventDate}" /></td>

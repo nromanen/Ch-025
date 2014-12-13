@@ -1,5 +1,6 @@
 package com.softserve.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -8,7 +9,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "question")
 @XmlType (propOrder={"value","options"})
-public class QuestionText {
+public class QuestionText implements Serializable {
 	private String value;
 	private List<Option> options;
 	/**

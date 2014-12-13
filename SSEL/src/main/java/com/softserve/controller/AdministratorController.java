@@ -26,7 +26,6 @@ import com.softserve.entity.QuestionText;
 import com.softserve.entity.Role;
 import com.softserve.entity.Subject;
 import com.softserve.entity.TeacherRequest;
-import com.softserve.entity.Test;
 import com.softserve.entity.User;
 import com.softserve.service.AdministratorService;
 import com.softserve.service.CategoryService;
@@ -36,6 +35,8 @@ import com.softserve.service.SubjectService;
 import com.softserve.service.TeacherRequestService;
 import com.softserve.service.TestService;
 import com.softserve.service.UserService;
+import com.softserve.service.impl.QuestionServiceImpl;
+import com.softserve.service.impl.TestServiceImpl;
 
 /**
  * The Class AdministratorController.
@@ -117,20 +118,20 @@ public class AdministratorController {
 //
 //		question.setTest(testService.getTestById(2));
 //
+//		QuestionText qt = new QuestionText();
+//		qt.setValue("How old are you?");
+//
 //		Option o1 = new Option();
 //		o1.setCorrect(true);
-//		o1.setValue("option1");
+//		o1.setValue("Bigger than 0");
 //
 //		Option o2 = new Option();
 //		o2.setCorrect(false);
-//		o2.setValue("option2");
+//		o2.setValue("I don't know");
 //
 //		List<Option> options = new ArrayList<Option>();
 //		options.add(o1);
 //		options.add(o2);
-//
-//		QuestionText qt = new QuestionText();
-//		qt.setValue("some value");
 //		qt.setOptions(options);
 //
 //		question.setMark(5);
@@ -139,9 +140,9 @@ public class AdministratorController {
 //
 //		questionService.addQuestion(question);
 
-//		System.out.println(questionService.getQuestionById(1).getQuestion().toString());
-//		System.out.println("--->" + questionService.getQuestionById(1).getQuestionText());
-//		System.out.println("--->" + questionService.getQuestionById(1).getQuestionText());
+
+//		System.out.println("--Base64->" + questionService.getQuestionById(1).getQuestionText());
+//		System.out.println("--Question->" + questionService.getQuestionById(1).getQuestion());
 
 
 		long subjectsCount = subjectService.getCountOfSubjects();

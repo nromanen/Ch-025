@@ -22,7 +22,7 @@ public class Option {
 	public boolean getIsCorrect() {
 		return isCorrect;
 	}
-
+	
 	@XmlElement
 	public void setValue(String value) {
 		this.value = value;
