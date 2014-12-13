@@ -1,6 +1,5 @@
 package com.softserve.entity;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -8,16 +7,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "question")
-@XmlType (propOrder={"value","options"})
-public class QuestionText implements Serializable {
+@XmlType(propOrder = { "value", "options" })
+public class QuestionText {
 	private String value;
 	private List<Option> options;
+
 	/**
 	 *
 	 */
 	public QuestionText() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public String getValue() {
@@ -42,6 +40,5 @@ public class QuestionText implements Serializable {
 	public String toString() {
 		return "QuestionText [value=" + value + ", options=" + options + "]";
 	}
-
 
 }
