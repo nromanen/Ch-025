@@ -132,7 +132,7 @@ public class Question {
 	@Override
 	public String toString() {
 		return "Question [id=" + id + ", test=" + test + ", questionText="
-				+ questionText + ", mark=" + mark + ", isDeleted=" + isDeleted
+				+ questionText.toString() + ", mark=" + mark + ", isDeleted=" + isDeleted
 				+ "]";
 	}
 }

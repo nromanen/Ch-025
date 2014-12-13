@@ -5,6 +5,11 @@ import java.util.List;
 import com.softserve.entity.Option;
 import com.softserve.entity.Question;
 
+/**
+ * Implements QuestionDao
+ * @author Ivan
+ *
+ */
 public interface QuestionService {
 
 	/**
@@ -28,13 +33,21 @@ public interface QuestionService {
 	Question getQuestionById(int id);
 
 	/**
-	 * Return all questions for test
+	 * Return all questions for test with id
 	 * @return list of questions if exists, null - otherwise
 	 */
 	List<Question> getQuestionsByTestId(int id);
 
+	/**
+	 * Return all questions
+	 * @return list of questions if exists, null - otherwise
+	 */
 	List<Question> getAllQuestions();
 
+	/**
+	 * Return all deleted questions
+	 * @return list of deleted questions if exists, null - otherwise
+	 */
 	List<Question> getAllDeletedQuestions();
 
 	/**
@@ -50,8 +63,25 @@ public interface QuestionService {
 	 */
 	void restoreQuestion(Question question);
 
-	double[] getUserMarkByQuestion(int questionId, List<Option> option);
+	/**
+	 * Return array[2] where [0] mark for user, [1] - mark for question
+	 * @param questionId unique question identifier
+	 * @param options list of user answers for question
+	 */
+	double[] getUserMarkByQuestion(int questionId, List<Option> options);
 
+	/**
+	 * Check answer is right
+	 * @param question question to check
+	 * @param answer answer to question
+	 * @return  true if answer is right or false - answer wrong
+	 */
 	boolean checkAnswer(Question question, String answer);
 
+	/**
+	 * Return right answers for question
+	 * @param question question to check
+	 * @return list with answers
+	 */
+	List<String> getRightAnswers(Question question);
 }

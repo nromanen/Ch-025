@@ -143,6 +143,7 @@ public class AdministratorController {
 
 //		System.out.println("--Base64->" + questionService.getQuestionById(1).getQuestionText());
 //		System.out.println("--Question->" + questionService.getQuestionById(1).getQuestion());
+//		System.out.println("--Option->" + questionService.getQuestionById(1).getQuestion().getOptions().get(1).getValue());
 
 
 		long subjectsCount = subjectService.getCountOfSubjects();
