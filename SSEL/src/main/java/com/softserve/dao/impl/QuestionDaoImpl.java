@@ -1,12 +1,10 @@
 package com.softserve.dao.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,7 +56,7 @@ public class QuestionDaoImpl implements QuestionDao {
 	public List<Question> getQuestionsByTestId(int id) {
 		LOG.debug("Get question with test id = {}", id);
 		Query query = entityManager
-				.createQuery("FROM Question q WHERE q.test = :val and q.isDeleted = :del");
+				.createQuery("FROM Question q WHERE q.test.id = :val and q.isDeleted = :del");
 		query.setParameter("val", id);
 		query.setParameter("del", false);
 		return query.getResultList().isEmpty() ? null : query.getResultList();

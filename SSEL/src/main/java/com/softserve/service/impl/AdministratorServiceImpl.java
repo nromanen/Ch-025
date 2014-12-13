@@ -18,6 +18,11 @@ import com.softserve.service.AdministratorService;
 import com.softserve.service.CategoryService;
 import com.softserve.service.UserService;
 
+/**
+ * Implements QuestionDao
+ * @author Ivan
+ *
+ */
 @Service
 public class AdministratorServiceImpl implements AdministratorService {
 
@@ -33,6 +38,9 @@ public class AdministratorServiceImpl implements AdministratorService {
 	@Autowired
 	private UserService userService;
 
+	/**
+	 * @see com.softserve.service.AdministratorService#addCategory(java.lang.String)
+	 */
 	@Override
 	public boolean addCategory(String name) {
 		boolean exist = false;
@@ -49,12 +57,18 @@ public class AdministratorServiceImpl implements AdministratorService {
 		return exist;
 	}
 
+	/**
+	 * @see com.softserve.service.AdministratorService#getSupportEmail()
+	 */
 	@Override
 	@Transactional
 	public String getSupportEmail() {
 		return configurationPropertiesDao.getPropertyByKey("supportEmail").getValue();
 	}
 
+	/**
+	 * @see com.softserve.service.AdministratorService#setSupportEmail(java.lang.String)
+	 */
 	@Override
 	@Transactional
 	public ConfigurationProperty setSupportEmail(String email) {
@@ -63,6 +77,9 @@ public class AdministratorServiceImpl implements AdministratorService {
 		return configurationPropertiesDao.updateProperty(emailProperty);
 	}
 
+	/**
+	 * @see com.softserve.service.AdministratorService#getCountRegistredUsersByLastDays(int)
+	 */
 	public Map<String, Long> getCountRegistredUsersByLastDays(int lastDays) {
 		Map<String, Long> list = new LinkedHashMap<String, Long>();
 		Date startDate;
