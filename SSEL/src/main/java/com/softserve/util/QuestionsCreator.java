@@ -9,11 +9,9 @@ import com.softserve.entity.Option;
 import com.softserve.entity.Question;
 import com.softserve.entity.QuestionText;
 import com.softserve.entity.Test;
-import com.softserve.entity.TestStatistic;
 import com.softserve.service.GroupService;
 import com.softserve.service.QuestionService;
 import com.softserve.service.TestService;
-import com.softserve.service.TestStatisticService;
 import com.softserve.service.UserService;
 
 public class QuestionsCreator {
@@ -23,9 +21,6 @@ public class QuestionsCreator {
 	
 	@Autowired
 	private TestService testService;
-	
-	@Autowired
-	private TestStatisticService testStatisticService;
 	
 	@Autowired
 	private UserService userService;
@@ -154,89 +149,6 @@ public class QuestionsCreator {
 		return qList;
 		
 	}
-	
-	public void createTestStatistic() {
-		
-		//User 1 Question 1
-		
-		TestStatistic testStatistic01 = new TestStatistic();
-		testStatistic01.setTest(testService.getTestById(1));
-		testStatistic01.setUser(userService.getUserById(1));
-		testStatistic01.setGroup(groupService.getGroupById(3));
-		testStatistic01.setQuestion(questionService.getQuestionById(1));
-		testStatistic01.setUserResult(1);
-		testStatistic01.setMaxResult(1);
-		
-		ArrayList<Integer> userAnswers01 = new ArrayList<Integer>();
-			userAnswers01.add(0);
-			userAnswers01.add(0);
-			userAnswers01.add(1);
-			userAnswers01.add(0);
-		
-		testStatistic01.setUserAnswers(userAnswers01);
-		
-		//User 1 Question 2
-		
-		TestStatistic testStatistic02 = new TestStatistic();
-		testStatistic02.setTest(testService.getTestById(1));
-		testStatistic02.setUser(userService.getUserById(1));
-		testStatistic02.setGroup(groupService.getGroupById(3));
-		testStatistic02.setQuestion(questionService.getQuestionById(2));
-		testStatistic02.setUserResult(1);
-		testStatistic02.setMaxResult(2);
-		
-		ArrayList<Integer> userAnswers02 = new ArrayList<Integer>();
-			userAnswers02.add(0);
-			userAnswers02.add(0);
-			userAnswers02.add(1);
-			userAnswers02.add(1);
-			userAnswers02.add(0);
-		
-		testStatistic02.setUserAnswers(userAnswers02);		
-		
-		//User 1 Question 3
-		
-		TestStatistic testStatistic03 = new TestStatistic();
-		testStatistic03.setTest(testService.getTestById(1));
-		testStatistic03.setUser(userService.getUserById(1));
-		testStatistic03.setGroup(groupService.getGroupById(3));
-		testStatistic03.setQuestion(questionService.getQuestionById(3));
-		testStatistic03.setUserResult(0.75f);
-		testStatistic03.setMaxResult(2);
-		
-		ArrayList<Integer> userAnswers03 = new ArrayList<Integer>();
-			userAnswers03.add(1);
-			userAnswers03.add(1);
-			userAnswers03.add(1);
-			userAnswers03.add(0);
-		
-		testStatistic03.setUserAnswers(userAnswers03);		
-		
-		testStatisticService.addTestStatistic(testStatistic01);
-		testStatisticService.addTestStatistic(testStatistic02);
-		testStatisticService.addTestStatistic(testStatistic03);
-		
-	}
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

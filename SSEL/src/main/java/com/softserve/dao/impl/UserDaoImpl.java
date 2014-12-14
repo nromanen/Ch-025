@@ -66,7 +66,7 @@ public class UserDaoImpl implements UserDao {
 		try {
 			return (User) query.getSingleResult();
 		} catch (NoResultException exception) {
-			LOG.error("Tried to get user(email = {})", email, exception);
+			LOG.info("Tried to get user(email = {})", email, exception);
 			return null;
 		}
 	}

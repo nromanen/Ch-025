@@ -20,6 +20,7 @@
 		<class>com.softserve.entity.ConfigurationProperty</class>
 		<class>com.softserve.entity.Question</class>
 		<class>com.softserve.entity.Test</class>
+		<class>com.softserve.entity.TestStatistic</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<validation-mode>NONE</validation-mode>
 		<properties>

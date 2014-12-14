@@ -9,11 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.dao.TestStatisticDao;
-import com.softserve.entity.Question;
 import com.softserve.entity.TestStatistic;
 import com.softserve.service.QuestionService;
 import com.softserve.service.TestStatisticService;
-import com.softserve.util.TestStatisticWithQuestion;
 
 @Service("TestStatisticService")
 public class TestStatisticServiceImpl implements TestStatisticService {
@@ -23,6 +21,12 @@ public class TestStatisticServiceImpl implements TestStatisticService {
 
 	@Autowired
 	private QuestionService questionService;
+	
+	
+	public void setTestStatisticDao(TestStatisticDao testStatisticDao) {
+		this.testStatisticDao = testStatisticDao;
+	}
+	
 
 	@Override
 	@Transactional
@@ -30,7 +34,6 @@ public class TestStatisticServiceImpl implements TestStatisticService {
 		testStatisticDao.addTestStatistic(testStatistic);
 
 	}
-
 	@Override
 	public List<TestStatistic> getTestStatisticByUserByTest(int userId,
 			int testId) {
@@ -66,24 +69,5 @@ public class TestStatisticServiceImpl implements TestStatisticService {
 		Collections.sort(userResults);
 		return userResults;
 	}
-/*
-	@Override
-	public List<TestStatisticWithQuestion> getTestStatisticByUserByTestForController(
-			int userId, int testId) {
-		List<TestStatistic> tStatList = testStatisticDao
-				.getTestStatisticByUserByTest(userId, testId);
 
-		List<TestStatisticWithQuestion> tStatWithQArray = new ArrayList<TestStatisticWithQuestion>();
-		Question question; // REDOOOOO!!!!!!!!
-		for (TestStatistic testStat : tStatList) {
-			question = questionService
-					.getQuestionById(testStat.getQuestionId());
-			TestStatisticWithQuestion tStatWithQ = new TestStatisticWithQuestion();
-			tStatWithQ.setTestStatistic(testStat);
-			tStatWithQ.setQuestion(question);
-			tStatWithQArray.add(tStatWithQ);
-		}
-		return tStatWithQArray;
-	}
-*/
 }
