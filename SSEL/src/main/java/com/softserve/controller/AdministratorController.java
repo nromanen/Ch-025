@@ -102,8 +102,7 @@ public class AdministratorController {
 	 * Administrator it's method that set parameters and redirect to start admin
 	 * page.
 	 *
-	 * @param model
-	 *            the model
+	 * @param model the model
 	 * @return the string
 	 */
 	@RequestMapping(value = "/administrator", method = RequestMethod.GET)
@@ -300,7 +299,7 @@ public class AdministratorController {
 				myCategory.setName(category);
 				categoryService.updateCategory(myCategory);
 				redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE,
-						getSpringMessage("label.category") + "<b>" + oldName
+						getSpringMessage("label.category") + " <b>" + oldName
 								+ "</b> "
 								+ getSpringMessage("message.admin.was_changed")
 								+ " <b>" + myCategory.getName() + "</b>");
@@ -458,7 +457,7 @@ public class AdministratorController {
 							.addFlashAttribute(
 									SUCCESS_MESSAGE,
 									getSpringMessage("label.user")
-											+ "<b>"
+											+ "<b> 	"
 											+ user.getEmail()
 											+ "</b> "
 											+ getSpringMessage("message.admin.change_role")
@@ -535,7 +534,7 @@ public class AdministratorController {
 								.updateTeacherRequest(teacherRequest);
 					}
 					redirectAttributes
-							.addAttribute(
+							.addFlashAttribute(
 									SUCCESS_MESSAGE,
 									getSpringMessage("label.user")
 											+ " <b>"
