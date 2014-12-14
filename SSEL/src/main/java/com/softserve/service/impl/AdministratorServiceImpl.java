@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +12,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.dao.ConfigurationPropertiesDao;
+import com.softserve.dao.StudyDocumentDao;
 import com.softserve.dao.SubjectDao;
 import com.softserve.entity.Category;
 import com.softserve.entity.ConfigurationProperty;
+import com.softserve.entity.StudyDocument;
 import com.softserve.service.AdministratorService;
 import com.softserve.service.CategoryService;
 import com.softserve.service.UserService;
@@ -37,6 +40,9 @@ public class AdministratorServiceImpl implements AdministratorService {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	StudyDocumentDao studyDocumentDao;
 
 	/**
 	 * @see com.softserve.service.AdministratorService#addCategory(java.lang.String)
@@ -99,4 +105,13 @@ public class AdministratorServiceImpl implements AdministratorService {
 		}
 		return list;
 	}
+
+	 public long getDocumentsForInactiveTopicsSize() {
+		 List<StudyDocument> documents = studyDocumentDao.getDocumentsForInactiveTopics();
+		 long size = 0;
+		 for (StudyDocument document : documents) {
+			 size += document.getSize();
+		 }
+		 return size;
+	 }
 }

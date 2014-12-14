@@ -1,8 +1,10 @@
 package com.softserve.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.softserve.entity.ConfigurationProperty;
+import com.softserve.entity.StudyDocument;
 
 /**
  * Implements QuestionDao
@@ -37,4 +39,6 @@ public interface AdministratorService {
 	 * @return
 	 */
 	public Map<String, Long> getCountRegistredUsersByLastDays(int lastDays);
+
+	public long getDocumentsForInactiveTopicsSize();
 }
