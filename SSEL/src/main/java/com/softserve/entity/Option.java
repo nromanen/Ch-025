@@ -20,10 +20,6 @@ public class Option {
 		return value;
 	}
 
-	public boolean isCorrect() {
-		return isCorrect;
-	}
-
 	public boolean getIsCorrect() {
 		return isCorrect;
 	}
@@ -34,7 +30,7 @@ public class Option {
 	}
 
 	@XmlAttribute
-	public void setCorrect(boolean isCorrect) {
+	public void setIsCorrect(boolean isCorrect) {
 		this.isCorrect = isCorrect;
 	}
 

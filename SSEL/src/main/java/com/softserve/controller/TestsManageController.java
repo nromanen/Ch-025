@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.softserve.entity.Answer;
 import com.softserve.entity.Block;
+import com.softserve.entity.Option;
 import com.softserve.entity.Question;
+import com.softserve.entity.QuestionText;
 import com.softserve.entity.Test;
 import com.softserve.form.QuestionForm;
-import com.softserve.service.AnswerService;
 import com.softserve.service.BlockService;
 import com.softserve.service.QuestionService;
 import com.softserve.service.TestService;
@@ -30,7 +30,7 @@ import com.softserve.validator.QuestionFormValidator;
 import com.softserve.validator.TestValidator;
 
 @Controller
-public class AddTestController {
+public class TestsManageController {
 	@Autowired
 	private TestService testService;
 
@@ -44,9 +44,6 @@ public class AddTestController {
 	private QuestionService questionService;
 
 	@Autowired
-	private AnswerService answerService;
-
-	@Autowired
 	private QuestionFormValidator questionFormValidator;
 
 	/**
@@ -56,10 +53,13 @@ public class AddTestController {
 	 * @return logical view name
 	 */
 	@RequestMapping(value = "/tests", method = RequestMethod.GET)
-	public String printTestList(@RequestParam(value = "subjectId", required=true) Integer subjectId, Model model) {
-		List<Test> tests = testService.getTestBySubject(subjectId);
+	public String printTestList(@RequestParam(value = "blockId", required = true) Integer blockId,
+								@RequestParam(value = "subjectId", required = true) Integer subjectId,
+								Model model) {
+		List<Test> tests = testService.getTestsByBlock(blockId);
 		List<Block> blocks = blockService.getBlocksBySubjectId(subjectId);
 		model.addAttribute("testList", tests);
+		model.addAttribute("currentBlock", blockService.getBlockById(blockId));
 		model.addAttribute("blocks", blocks);
 		return "tests";
 	}
@@ -143,7 +143,8 @@ public class AddTestController {
 									Model model,
 									BindingResult result) {
 		testValidator.validate(test, result);
-		Integer subjectId = test.getBlock().getSubject().getId();
+		Block block = blockService.getBlockById(test.getBlock().getId());
+		Integer subjectId = block.getSubject().getId();
 		Integer testId = test.getId();
 		if (result.hasErrors()) {
 			List<Block> blocks = blockService.getBlocksBySubjectId(subjectId);
@@ -152,12 +153,8 @@ public class AddTestController {
 			model.addAttribute("error", "has errors");
 			return "redirect:editTest?subjectId="+subjectId+"&testId="+testId;
 		}
-		if (op) {
-			testService.addTest(test);
-		} else {
-			testService.updateTest(test);
-		}
-		return "redirect:tests?subjectId="+subjectId;
+		test = (op) ? testService.addTest(test) : testService.updateTest(test);
+		return "redirect:tests?blockId="+block.getId()+"&subjectId="+subjectId;
 	}
 
 	/**
@@ -167,41 +164,40 @@ public class AddTestController {
 	 * @param model data for view
 	 * @return logical name for view
 	 */
-//	@RequestMapping(value="/editQuestion", method = RequestMethod.GET)
-//	public String addQuestionRender(@RequestParam(value = "testId", required = true) Integer testId,
-//									@RequestParam(value = "questionId", required = false) Integer questionId,
-//									Model model) {
-//		QuestionForm testForm = new QuestionForm();
-//		Question question;
-//		List<Answer> answers;
-//		Test test = testService.getTestById(testId);
-//		if (questionId == null) {
-//			question = new Question();
-//			question.setQuestion("Input question here");
-//			question.setTest(test);
-//			question.setAnswersCount(1);
-//			answers = new ArrayList<>();
-//			for(int i=0; i < 4; i++) {
-//				Answer ans = new Answer();
-//				ans.setQuestion(question);
-//				ans.setAnswer("Bla bla");
-//				ans.setIsDeleted(false);
-//				ans.setIsRight(false);
-//				answers.add(ans);
-//			}
-//			testForm.setQuestion(question);
-//			testForm.setAnswers(answers);
-//			testForm.setTestId(testId);
-//		} else {
-//			question = questionService.getQuestionById(questionId);
-//			answers = answerService.getAnswersByQuestion(questionId);
-//			testForm.setAnswers(answers);
-//			testForm.setQuestion(question);
-//		}
-//		model.addAttribute("questionForm", testForm);
-//		model.addAttribute("testName", test.getName());
-//		return "editQuestion";
-//	}
+	@RequestMapping(value="/editQuestion", method = RequestMethod.GET)
+	public String addQuestionRender(@RequestParam(value = "testId", required = true) Integer testId,
+									@RequestParam(value = "questionId", required = false) Integer questionId,
+									Model model) {
+		Question question;
+		List<Option> answers;
+		QuestionForm questionForm = new QuestionForm();
+		Test test = testService.getTestById(testId);
+		if (questionId == null) {
+			question = new Question();
+			question.setTest(test);
+			question.setMark(0.0);
+			answers = new ArrayList<>();
+			for(int i=0; i < 4; i++) {
+				Option ans = new Option();
+				ans.setIsCorrect(false);
+				answers.add(ans);
+			}
+			questionForm.setQuestion(question);
+			questionForm.setName("");
+			questionForm.setAnswers(answers);
+			model.addAttribute("op", true);
+		} else {
+			question = questionService.getQuestionById(questionId);
+			questionForm.setQuestion(question);
+			questionForm.setName(question.getQuestion().getValue());
+			answers = question.getQuestion().getOptions();
+			questionForm.setAnswers(answers);
+			model.addAttribute("op", false);
+		}
+		model.addAttribute("questionForm", questionForm);
+		model.addAttribute("testName", test.getName());
+		return "editQuestion";
+	}
 	/**
 	 * Validate and insert/update question
 	 * @param form form with question and answers
@@ -209,38 +205,65 @@ public class AddTestController {
 	 * @param model data for view
 	 * @return logical name for view
 	 */
-//	@RequestMapping(value="/saveQuestion", method = RequestMethod.POST)
-//	public String processSubmitaddQuestion(@ModelAttribute QuestionForm form, BindingResult result,Model model) {
-//		int testId = form.getQuestion().getTest().getId();
-//		int questionId = form.getQuestion().getId();
-//		questionFormValidator.validate(form, result);
-//		if (result.hasErrors()) {
-//			return "editQuestion?testId="+testId+"&questionId="+questionId;
-//		}
-//		Test test = testService.getTestById(form.getTestId());
-//		form.getQuestion().setTest(test);
-//		Question question = questionService.addQuestion(form.getQuestion());
-//		double answerMark = question.getMark()/question.getAnswersCount();
-//		for(Answer answer : form.getAnswers()) {
-//			answer.setMark((answer.getIsRight()) ? answerMark: 0.0); // for right question mark equals answerMark
-//			answer.setQuestion(question);
-//			answer.setMark(answerMark);
-//			answerService.addAnswer(answer);
-//		}
-//		return "redirect:testInfo?testId="+testId;
-//	}
+	@RequestMapping(value="/saveQuestion", method = RequestMethod.POST)
+	public String processSubmitaddQuestion(@ModelAttribute QuestionForm form,
+										   @RequestParam(value = "op", required = true) Boolean op,
+											BindingResult result,
+											Model model) {
+		int testId = form.getQuestion().getTest().getId();
+		int questionId = form.getQuestion().getId();
+		questionFormValidator.validate(form, result);
+		if (result.hasErrors()) {
+			return "editQuestion?testId="+testId+"&questionId="+questionId;
+		}
+		Test test = testService.getTestById(testId);
+		form.getQuestion().setTest(test);
+		Question question = form.getQuestion();
+		QuestionText questionText = new QuestionText();
+		questionText.setOptions(form.getAnswers());
+		questionText.setValue(form.getName());
+		question.setQuestionText(questionText);
+		question.setMark(question.getMark());
+		question = (op) ? questionService.addQuestion(question) : questionService.updateQuestion(question);
+		return "redirect:testInfo?testId="+testId;
+	}
 	/**
 	 * Render test info page
 	 * @param testId unique test identifier
 	 * @param model data for view
 	 * @return logical name of view
 	 */
-//	@RequestMapping(value = "/testInfo", method = RequestMethod.GET)
-//	public String printTestInfo(@RequestParam(value = "testId", required = true) Integer testId, Model model) {
-//		Test test = testService.getTestById(testId);
-//		List<Question> questions = questionService.getAllQuestionsByTest(testId);
-//		model.addAttribute("test", test);
-//		model.addAttribute("questions", questions);
-//		return "testInfo";
-//	}
+	@RequestMapping(value = "/testInfo", method = RequestMethod.GET)
+	public String printTestInfo(@RequestParam(value = "testId", required = true) Integer testId, Model model) {
+		Test test = testService.getTestById(testId);
+		List<Question> questions = questionService.getQuestionsByTestId(testId);
+		List<QuestionText> texts = new ArrayList<>();
+		if (questions != null) {
+			for (Question question : questions) {
+				texts.add(question.getQuestion());
+			}
+		}
+		model.addAttribute("texts", texts);
+		model.addAttribute("test", test);
+		model.addAttribute("questions", questions);
+		return "testInfo";
+	}
+	
+	@RequestMapping(value = "/deleteTest", method = RequestMethod.POST)
+	public String deleteTest(@RequestParam(value = "testId", required = true) Integer testId,
+							 @RequestParam(value = "subjectId", required = true) Integer subjectId,
+							 @RequestParam(value = "blockId", required = true) Integer blockId) {
+		testService.deleteTest(testId);
+		return "redirect:tests?blockId="+blockId+"&subjectId="+subjectId;
+	}
+	
+	@RequestMapping(value = "/deleteQuestion", method = RequestMethod.POST)
+	public String deleteQuestion(@RequestParam(value = "questionId", required = true) Integer questionId,
+								@RequestParam(value = "testId", required = true) Integer testId) {
+		Question question = new Question();
+		question.setId(questionId);
+		questionService.deleteQuestion(question);
+		return "redirect:testInfo?testId="+testId;
+	}
+	
 }

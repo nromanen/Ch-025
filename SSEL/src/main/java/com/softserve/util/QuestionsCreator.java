@@ -45,19 +45,19 @@ public class QuestionsCreator {
 			
 				Option option01 = new Option();
 				option01.setValue("Incorrect 01");
-				option01.setCorrect(false);
+				option01.setIsCorrect(false);
 				
 				Option option02 = new Option();
 				option02.setValue("Incorrect 02");
-				option02.setCorrect(false);
+				option02.setIsCorrect(false);
 				
 				Option option03 = new Option();
 				option03.setValue("Correct 03");
-				option03.setCorrect(true);
+				option03.setIsCorrect(true);
 				
 				Option option04 = new Option();
 				option04.setValue("Incorrect 04");
-				option04.setCorrect(false);
+				option04.setIsCorrect(false);
 			
 				ArrayList<Option> optionList01 = new ArrayList<Option>();
 					optionList01.add(option01);
@@ -81,23 +81,23 @@ public class QuestionsCreator {
 			
 				Option option05 = new Option();
 				option05.setValue("Incorrect 05");
-				option05.setCorrect(false);
+				option05.setIsCorrect(false);
 				
 				Option option06 = new Option();
 				option06.setValue("Incorrect 06");
-				option06.setCorrect(false);
+				option06.setIsCorrect(false);
 				
 				Option option07 = new Option();
 				option07.setValue("Correct 07");
-				option07.setCorrect(true);
+				option07.setIsCorrect(true);
 				
 				Option option08 = new Option();
 				option08.setValue("Incorrect 08");
-				option08.setCorrect(false);
+				option08.setIsCorrect(false);
 				
 				Option option09 = new Option();
 				option09.setValue("Correct 09");
-				option09.setCorrect(true);
+				option09.setIsCorrect(true);
 			
 				ArrayList<Option> optionList02 = new ArrayList<Option>();
 					optionList02.add(option05);
@@ -123,19 +123,19 @@ public class QuestionsCreator {
 			
 				Option option10 = new Option();
 				option10.setValue("Correct 10");
-				option10.setCorrect(true);
+				option10.setIsCorrect(true);
 				
 				Option option11 = new Option();
 				option11.setValue("Incorrect 11");
-				option11.setCorrect(false);
+				option11.setIsCorrect(false);
 				
 				Option option12 = new Option();
 				option12.setValue("Correct 12");
-				option12.setCorrect(true);
+				option12.setIsCorrect(true);
 				
 				Option option13 = new Option();
 				option13.setValue("Incorrect 13");
-				option13.setCorrect(false);
+				option13.setIsCorrect(false);
 			
 				ArrayList<Option> optionList03 = new ArrayList<Option>();
 					optionList03.add(option10);
