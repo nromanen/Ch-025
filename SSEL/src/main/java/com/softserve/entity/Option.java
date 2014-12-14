@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Option {
 	private String value;
 	private boolean isCorrect;
+
 	/**
 	 *
 	 */
@@ -22,7 +23,7 @@ public class Option {
 	public boolean getIsCorrect() {
 		return isCorrect;
 	}
-	
+
 	@XmlElement
 	public void setValue(String value) {
 		this.value = value;
@@ -37,6 +38,5 @@ public class Option {
 	public String toString() {
 		return "Option [value=" + value + ", isCorrect=" + isCorrect + "]";
 	}
-
 
 }
