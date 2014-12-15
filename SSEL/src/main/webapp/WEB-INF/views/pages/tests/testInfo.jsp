@@ -15,19 +15,18 @@
 		<div id="acordion" class="panel-group" style="width:60%">
 				<div class="panel panel-default">
 				<div class="panel-heading">
-				<h2 class="panel-title">
-				 <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Test questions</a>
-				</h2>
+				<div class="col-lg-7">
+					<p><strong style="font-size: 28px">Questions</strong></p>
+				</div>
 				<form action="editQuestion" method="GET">
+				<div class="col-lg-4">
 					<button type="submit" 
 						class="btn btn-outline btn-primary btn-xs">Add new question</button>
 					<input type="hidden" name="testId" value="${param.testId}" />
+				</div>
 				</form>
 				</div>
-				
-				<div id="collapseOne" class="panel-collapse collapse">
-				<div class="panel-body">
-				<div class="panel panel-default">
+				<div class="panel-body">				
 				<c:choose>
 				<c:when test="${fn:length(questions) gt 0}">
 				<table class="table table-hover">
@@ -72,10 +71,8 @@
 				</c:otherwise>
 				</c:choose>
 				</div>
-				</div>
-				</div>
-				</div>
 			</div>
 			</div>
-</div>
+		</div>
+	</div>
 </div>
