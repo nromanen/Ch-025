@@ -17,8 +17,8 @@
 	<changeSet id="2014-11-19-insert-data-into-table-user" author="Hash">
 		<comment>Insert sample data into table user</comment>
 		<sql splitStatements="true">
-			INSERT INTO `user` VALUES (7, 0, 'relyativus@gmail.com', '2015-11-13 00:22:41', 'Anatoliy',  'Vacaliuck', '$2a$10$PAWNZlJTfppldYkUfQ29rOjGEzFMzl/oBNoluegDMAdckIwomUK9m', '2014-11-13 00:22:41', 2, '', '', 'REGISTRATION');
-			INSERT INTO `user` VALUES (8, 0, 'hash.cv@gmail.com', '2015-11-13 00:24:28', 'Student', 'Studentovich', '$2a$10$U76KpoHpYRrfb17R/eNi5OM/ncgHDw8i.IBhO9BmSFweu1aNsN2UG', '2014-11-13 00:24:28', 3, '', '', 'REGISTRATION');
+			INSERT INTO `user` VALUES (7, 0, 'relyativus@gmail.com', '2015-11-13 00:22:41', 'Anatoliy',  'Vacaliuck', '$2a$10$zluygJkutKExo/ywKfiXnul9hUpUo1ZVb.juyEHPYDwOhdbR/Doge', '2014-11-13 00:22:41', 2, '', '', 'REGISTRATION');
+			INSERT INTO `user` VALUES (8, 0, 'hash.cv@gmail.com', '2015-11-13 00:24:28', 'Teacher', 'Teacherovich', '$2a$10$zluygJkutKExo/ywKfiXnul9hUpUo1ZVb.juyEHPYDwOhdbR/Doge', '2014-11-13 00:24:28', 3, '', '', 'REGISTRATION');
 		</sql>
 
 	</changeSet>
@@ -127,6 +127,7 @@
 			INSERT INTO `groups` VALUES (21, 1, 23, 0);
 			INSERT INTO `groups` VALUES (22, 1, 24, 0);
 			INSERT INTO `groups` VALUES (23, 1, 25, 0);
+			INSERT INTO `groups` VALUES (24, 1, 5, 0);
 		</sql>
 	</changeSet>
 	<changeSet id="2014-11-19-insert-data-into-table-student_group" author="Hash">

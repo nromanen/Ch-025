@@ -9,21 +9,20 @@
 <c:choose>
 	<c:when test="${empty tsByUserByTestList}">
 		<br />
-		<h2 align="center">We're sorry, but is seems that you hadn't
-			passed this test yet.</h2>
+		<h2 align="center"><spring:message code="label.userTS.you_did_not_pass_this_test" /></h2>
 	</c:when>
 	<c:otherwise>
 		<div class="row">
-			<div class="col-md-10" align="center">
+			<div class="col-md-12" align="center">
 				<h2 align="center">
-					Hello, this is your statistic on test: <strong>${tsByUserByTestList[0].test.name}</strong>
+					<spring:message code="label.userTS.your_test_statistic_on_test" /> <strong>${tsByUserByTestList[0].test.name}</strong>
 				</h2>
 				<h3 align="center">
-					Your total result is: <strong><fmt:formatNumber
+					<spring:message code="label.userTS.your_total_result_is" /> <strong><fmt:formatNumber
 							type="number" maxFractionDigits="1" value="${totalUserResult}" /></strong>%
 				</h3>
 
-				<div align="center">
+				<div class="col-md-10 col-md-offset-1" align="center">
 					<c:forEach items="${tsByUserByTestList}" var="testStatistic">
 						<table class="table table-bordered">
 							<thead>
@@ -63,8 +62,8 @@
 									</c:choose>
 								</c:forEach>
 								<tr>
-									<td colspan="2"><i>Earned ${testStatistic.userResult}
-											from ${testStatistic.maxResult}</i></td>
+									<td colspan="2"><i><spring:message code="label.userTS.earned" /> ${testStatistic.userResult}
+											<spring:message code="label.userTS.from" /> ${testStatistic.maxResult}</i></td>
 								</tr>
 							</tbody>
 						</table>
@@ -77,6 +76,6 @@
 </c:choose>
 
 <h3>
-	<a href="javascript: history.go(-1)">Go back</a>
+	<a href="javascript: history.go(-1)"><spring:message code="label.log_goBack" /></a>
 </h3>
 <br>
