@@ -14,7 +14,7 @@
 	</c:when>
 	<c:otherwise>
 		<div class="row">
-			<div class="col-md-10" align="center">
+			<div class="col-md-12" align="center">
 				<h2 align="center">
 					Hello, this is your statistic on test: <strong>${tsByUserByTestList[0].test.name}</strong>
 				</h2>
@@ -23,7 +23,7 @@
 							type="number" maxFractionDigits="1" value="${totalUserResult}" /></strong>%
 				</h3>
 
-				<div align="center">
+				<div class="col-md-10 col-md-offset-1" align="center">
 					<c:forEach items="${tsByUserByTestList}" var="testStatistic">
 						<table class="table table-bordered">
 							<thead>
