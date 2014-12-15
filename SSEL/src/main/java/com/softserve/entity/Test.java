@@ -23,26 +23,26 @@ public class Test {
 	@Column(name = "id_test")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@Column (name = "name")
 	private String name;
-	
+
 	@Column(name = "description")
 	private String description;
-	
+
 	@ManyToOne (fetch = FetchType.LAZY)
 	@JoinColumn (name = "id_block", nullable = false)
 	private Block block;
-	
+
 	@Column(name = "alive")
 	private boolean isAlive;
-	
+
 	@Column(name = "deleted")
 	private boolean isDeleted;
-	
-	
+
+
 	public Test() {
-		
+
 	}
 
 	public boolean getIsDeleted() {
@@ -92,6 +92,6 @@ public class Test {
 	public void setIsAlive(boolean isAlive) {
 		this.isAlive = isAlive;
 	}
-	
-	
+
+
 }

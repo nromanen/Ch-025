@@ -190,6 +190,9 @@ public class TeacherController {
 			model.addAttribute("blockList", blocks);
 			model.addAttribute("subject", subject);
 			model.addAttribute("blockSizesArray", blockSizesArray);
+			if (blocks.size()>0) {
+			model.addAttribute("minBlockOrder", blocks.get(0).getOrder());
+			}
 		} catch (NullPointerException e) {
 			return "teacher";
 		}
@@ -200,11 +203,16 @@ public class TeacherController {
 	public String editTopic(
 			@RequestParam(value = "topicId", required = false) Integer topicId,
 			@RequestParam(value = "subjectId", required = false) Integer subjectId,
+			@RequestParam(value = "blockId", required = false) Integer blockId,
 			Model model, HttpServletRequest request) {
 		Topic topic = topicId != null ? topicService.getTopicById(topicId)
 				: new Topic();
+		if (topic.getBlock() == null){
+		topic.setBlock(blockService.getBlockById(blockId));
+		}
 		model.addAttribute("topic", topic);
 		model.addAttribute("subjectId", subjectId);
+		model.addAttribute("blockId", blockId);
 		List<Block> blocks = blockService.getBlocksBySubjectId(subjectId);
 		model.addAttribute("blockList", blocks);
 		List<Category> categories = categoryService.getAllCategories();
@@ -215,6 +223,7 @@ public class TeacherController {
 		boolean isSupported = true;// isSupportedBrowserForPlugin(request.getHeader("User-Agent"));
 		List<StudyDocument> documents = studentCabinetService
 				.updateTopicFilesOnServer(dirname, topic.getId());
+		if (documents.size()>0) {
 		model.addAttribute("isSupported", isSupported);
 		model.addAttribute("docs", documents);
 		model.addAttribute("block_name", topic.getBlock().getName());
@@ -223,7 +232,7 @@ public class TeacherController {
 		model.addAttribute("content", topic.getContent());
 		model.addAttribute("table", "active");
 		model.addAttribute("path", dirname);
-
+		}
 		return "editTopic";
 	}
 

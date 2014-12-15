@@ -26,7 +26,8 @@ public class RatingDaoImpl implements RatingDao {
 	@Override
 	public Rating addRating(Rating newRating) {
 		LOG.debug("Add rating (number = {})", newRating.getRatingId());
-		return entityManager.merge(newRating);
+		entityManager.persist(newRating);
+		return entityManager.find(Rating.class, newRating.getRatingId());
 	}
 
 	@Override
@@ -59,50 +60,37 @@ public class RatingDaoImpl implements RatingDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Rating> getRatingsByGroupAndUser(int groupId, int userId) {
-		Query query = entityManager.createQuery("SELECT r FROM Rating r WHERE r.group.groupId = :gi AND r.user.id = :ui ");
+		Query query = entityManager.createQuery("SELECT r FROM Rating r INNER JOIN FETCH r.test "
+				+ "WHERE r.group.groupId = :gi AND r.user.id = :ui ");
 		query.setParameter("gi", groupId);
 		query.setParameter("ui", userId);
-		if (query.getResultList().size() == 0) {
-			return null;
-		} else {
-			return query.getResultList();
-		}
+		return  (query.getResultList().isEmpty()) ? null : query.getResultList();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public double getAverageRatingByGroupAndUser(int groupId, int userId) {
 		Query query = entityManager.createQuery("SELECT avg(r.mark) FROM Rating r WHERE r.group.groupId = :gi AND "
 				+ "r.user.id = :ui ");
 		query.setParameter("gi", groupId);
 		query.setParameter("ui", userId);
-		try { 
-			List<Double> resultList = query.getResultList();
-			return (resultList.isEmpty()) ? 0.0 : resultList.get(0); 
-		} catch (NullPointerException e) {
-			return 0.0;
-		}
+			Double result = (Double) query.getSingleResult();
+			return (result == null) ? 0.0 : result;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public double getProgressByGroupAndUser(int groupId, int userId) {
 		CourseScheduler cs = (CourseScheduler) entityManager.createQuery("SELECT gr.course FROM Group gr WHERE gr.groupId = :id")
 				.setParameter("id", groupId).getSingleResult();
-		Query query = entityManager.createQuery("SELECT count(bl.id) FROM Block bl WHERE bl.subject.id = :id")
+			Query query = entityManager.createQuery("SELECT count(t.id) FROM Test t WHERE t.block.subject.id = :id")
 				.setParameter("id", cs.getSubject().getId());
-		Long blocksCount = (Long) query.getSingleResult();
-		List<Long> ratings =  entityManager.createQuery("SELECT count(rt.id) FROM Rating rt WHERE "
-				+ "rt.group.groupId = :gid AND rt.user.id = :uid")
-		.setParameter("gid", groupId)
-		.setParameter("uid", userId).getResultList();
-		try{
-			Long ratingsCount = ratings.get(0);
-			ratingsCount *= 100L;
-			return (double)ratingsCount/blocksCount;
-		} catch(NullPointerException e) {
-			return 0.0;
-		}
+			Long testCount = (Long) query.getSingleResult();
+			System.out.println("Test count = "+testCount);
+			Long ratings = (Long) entityManager.createQuery("SELECT count(rt.id) FROM Rating rt WHERE "
+					+ "rt.group.groupId = :gid AND rt.user.id = :uid")
+					.setParameter("gid", groupId)
+					.setParameter("uid", userId).getSingleResult();
+			ratings = (ratings == null) ? 0 : ratings*100L;
+			return (testCount == 0) ? 100.0 : (double)ratings/testCount;
 	}
 	
 }

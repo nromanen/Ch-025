@@ -7,7 +7,6 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
-<script src="resources/js/student/donouts.js"></script>
 <div class="row">
 	
 		<div class="row">
@@ -104,6 +103,7 @@
 											</c:forEach>
 										</tbody>
 									</table>
+									<button class="btn btn-primary btn-lg"><spring:message code="label.pass_test" /></button>
 								</div>
 							</div>
 						</div>

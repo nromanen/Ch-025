@@ -63,7 +63,7 @@
 						</li>
 					<ul class="nav nav-second-level">
 						<c:forEach items="${blocks}" var="block">
-							<li><a href="testInfo?blockId=${block.id}">${block.name}</a></li>
+							<li><a href="tests?blockId=${block.id}&subjectId=${param.subjectId}">${block.name}</a></li>
 						</c:forEach>
 					</ul> <!-- /.nav-second-level -->
 			</ul>

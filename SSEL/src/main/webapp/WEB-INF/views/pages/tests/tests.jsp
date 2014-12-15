@@ -5,7 +5,18 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <div class="row">
-	<button><a href="editTest?subjectId=${param.subjectId}">Add new test</a></button>
+	<div class="panel-default">
+	<div class="panel-header">
+	<h1 class="page-header">${currentBlock.name}</h1>
+	</div>
+	<form action="editTest" method="GET">
+		<button type="submit" 
+		class="btn btn-outline btn-primary btn-xs">Add new test</button>
+		<input type="hidden" name="subjectId" value="${param.subjectId}" />
+	</form>
+	
+	<div class="panel-body">
+
 	<c:choose>
 	<c:when test="${fn:length(testList) ne 0}">
 		<table class="table table-striped table-bordered table-hover">
@@ -19,6 +30,12 @@
 					</td>
 					<td>
 						Block
+					</td>
+					<td>
+						Edit
+					</td>
+					<td>
+						Delete
 					</td>
 				</tr>
 			</thead>
@@ -34,6 +51,22 @@
 						<td>
 							${test.block.name}
 						</td>
+						<td>
+							<form action="editTest"
+							 method="GET">
+							 <input type="hidden" name="subjectId" value="${param.subjectId}" />
+							 <input type="hidden" name="testId" value="${test.id}" />
+								<button type="submit" class="btn btn-outline btn-primary btn-xs">
+									edit</button>
+							</form>
+						</td>
+						<td>
+							<form action="deleteTest?testId=${test.id}&blockId=${param.blockId}&subjectId=${param.subjectId}"
+							 method="POST">
+								<button type="submit" class="btn btn-outline btn-primary btn-xs">
+									Delete test</button>
+							</form>
+						</td>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -41,8 +74,10 @@
     </c:when>
     <c:otherwise>
     	<div class="alert alert-info" role="alert">
-    		No test for subject
+    		No test for block
     	</div>
     </c:otherwise>
 	</c:choose>
-</div>
+		</div>
+	</div>
+	</div>

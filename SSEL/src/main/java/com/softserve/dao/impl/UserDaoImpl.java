@@ -66,7 +66,7 @@ public class UserDaoImpl implements UserDao {
 		try {
 			return (User) query.getSingleResult();
 		} catch (NoResultException exception) {
-			LOG.error("Tried to get user(email = {})", email, exception);
+			LOG.info("Tried to get user(email = {})", email, exception);
 			return null;
 		}
 	}
@@ -147,7 +147,7 @@ public class UserDaoImpl implements UserDao {
 			int startPosition, int limitLength, String sortBy, String sortMethod) {
 		LOG.debug("Get all Users vs limit searchText = {}", searchText);
 
-		String textQuery = "FROM User u WHERE u.role.name LIKE '%" + searchText
+		String textQuery = "FROM User u WHERE u.role.role LIKE '%" + searchText
 				+ "%'";
 		Query query = setQueryParameters(textQuery, startPosition, limitLength,
 				sortBy, sortMethod);
@@ -273,4 +273,13 @@ public class UserDaoImpl implements UserDao {
 		return (Long) query.getSingleResult();
 	}
 
+	public long getCountOfUsersByRegistrationDate(Date startDate, Date endDate) {
+		LOG.debug("Get Users by registration day count");
+		Query query = entityManager
+				.createQuery("SELECT COUNT (*) FROM User u WHERE u.registration >= :startDate "
+						+ "AND u.registration < :endDate");
+		query.setParameter("startDate", startDate);
+		query.setParameter("endDate", endDate);
+		return (Long) query.getSingleResult();
+	}
 }

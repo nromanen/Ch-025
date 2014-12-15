@@ -50,4 +50,6 @@ public interface UserDao {
 
 	long getCountOfUsersByLastName(String searchText);
 
+	long getCountOfUsersByRegistrationDate(Date startDate, Date endDate);
+
 }

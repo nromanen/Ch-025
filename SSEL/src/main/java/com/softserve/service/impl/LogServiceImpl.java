@@ -20,7 +20,7 @@ import com.softserve.service.LogService;
 
 @Service("LogService")
 public class LogServiceImpl implements LogService {
-	
+
 	private static final Logger LOG = LoggerFactory
 			.getLogger(TopicDaoImpl.class);
 
@@ -31,10 +31,6 @@ public class LogServiceImpl implements LogService {
 		this.logDao = logDao;
 	}
 
-	/**
-	 * Deletes all logs older than inputed date. (Not including it)
-	 */
-
 	@Override
 	@Transactional
 	public void deleteLogsDueDate(GregorianCalendar calendar) {
@@ -44,18 +40,11 @@ public class LogServiceImpl implements LogService {
 		logDao.deleteLogsDueDate(date);
 	}
 
-	/**
-	 * Gets Log object by its id from database.
-	 */
 	@Override
 	public Log getLogById(int id) {
 		return logDao.getLogById(id);
 	}
 
-	/**
-	 * Converts inputed string in date field into GregorianCalendar object with
-	 * equal date in it. If data in string incorrect, returns null.
-	 */
 	@Override
 	public GregorianCalendar parseDate(String dateString) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -70,22 +59,6 @@ public class LogServiceImpl implements LogService {
 		return null;
 	}
 
-	/**
-	 * This method gets range of logs and it also implement pagination on
-	 * database level (for improving performance).
-	 * 
-	 * @param startCalendar
-	 *            - start date of query (in GregorianCalendar type)
-	 * @param endCalendar
-	 *            - end date of query (in GregorianCalendar type)
-	 * @param logsPerPage
-	 *            - quantity of logs per one query
-	 * @param pageNumb
-	 *            - number of page
-	 * @param orderBy
-	 *            - provides ability of sorting logs
-	 * @return List of Logs
-	 */
 	@Override
 	public List<Log> getRangeOfLogs(GregorianCalendar startCalendar,
 			GregorianCalendar endCalendar, int logsPerPage, int pageNumb,
@@ -97,16 +70,6 @@ public class LogServiceImpl implements LogService {
 				orderBy);
 	}
 
-	/**
-	 * Counts how many logs in certain query. Can be used in jsp-pages for
-	 * pagination.
-	 * 
-	 * @param startCalendar
-	 *            - start date of query (in GregorianCalendar type)
-	 * @param endCalendar
-	 *            - end date of query (in GregorianCalendar type)
-	 * @return number of logs between 2 dates.
-	 */
 	@Override
 	public Long countLogsInQuery(GregorianCalendar startCalendar,
 			GregorianCalendar endCalendar) {
@@ -116,12 +79,6 @@ public class LogServiceImpl implements LogService {
 		return logDao.countLogsInQuery(startDate, endDate);
 	}
 
-	/**
-	 * Depending on number logs per page counts how many pages will be needed to
-	 * show all logs from certain query.
-	 * 
-	 * @return number of pages.
-	 */
 	@Override
 	public int getNumberOfPages(Long logsInQuery, int logsPerPage) {
 		if (logsPerPage > 0) {
@@ -135,13 +92,6 @@ public class LogServiceImpl implements LogService {
 		return 1;
 	}
 
-	/**
-	 * Convert string with how-to-sort information into part of hql query.
-	 * 
-	 * @param orderByParameter
-	 *            - string that consist information about type of sorting data
-	 * @return string that can be appended to query.
-	 */
 	@Override
 	public String createOrderByPart(String orderByParameter) {
 		String resultString;
@@ -188,7 +138,8 @@ public class LogServiceImpl implements LogService {
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
 			upOrDown = "DESC";
-			LOG.debug(e.toString() + " Error in createOrderByPart method");
+			LOG.debug(e.toString());
+			LOG.debug("Error in createOrderByPart method");
 		}
 		String[] resultParts = { columnName, upOrDown };
 		return resultParts;

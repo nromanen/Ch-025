@@ -33,7 +33,7 @@ public interface TestDao {
 	 * @param blockId unique module identifier
 	 * @return list of test for block
 	 */
-	List<Test> getTestByBlockId(int blockId);
+	List<Test> getTestsByBlockId(int blockId);
 	/**
 	 * Return all test which isn't deleted
 	 * @return
