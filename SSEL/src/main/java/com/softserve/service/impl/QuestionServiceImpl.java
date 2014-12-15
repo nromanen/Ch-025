@@ -194,6 +194,11 @@ public class QuestionServiceImpl implements QuestionService {
 	@Override
 	@Transactional
 	public List<String> getRightAnswers(Question question) {
+		System.out.println();
+		//System.out.println("---"+question);
+		System.out.println("---"+question.getQuestionText());
+		System.out.println("---"+question.getQuestion());
+		System.out.println();
 		List<String> answers = new ArrayList<String>();
 		List<Option> options = question.getQuestion().getOptions();
 		for (Option option : options) {
