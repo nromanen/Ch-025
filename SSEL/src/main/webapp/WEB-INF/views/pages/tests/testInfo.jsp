@@ -19,8 +19,8 @@
 				 <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Test questions</a>
 				</h2>
 				<form action="editQuestion" method="GET">
-					<button type="submit" 
-						class="btn btn-outline btn-primary btn-xs">Add new question</button>
+					<button type="submit" style="margin-top:10px;" 
+						class="btn btn-primary btn-lj">Add new question</button>
 					<input type="hidden" name="testId" value="${param.testId}" />
 				</form>
 				</div>
@@ -58,8 +58,8 @@
 								</td>
 								<td>
 									<form action="deleteQuestion?questionId=${question.id}&testId=${param.testId}" method="POST">
-										<button type="submit" class="btn btn-outline btn-primary btn-xs">
-											delete question</button>
+										<button type="submit" class="btn btn-danger btn-lj">
+											Delete question</button>
 									</form>
 								</td>
 						</tr>

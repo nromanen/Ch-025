@@ -173,6 +173,13 @@
 			value="/WEB-INF/views/templates/tests_menu.jsp" />
 	</definition>
 
+<definition name="userTestStatistic" extends="base-template">
+		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/pages/userTestStatistic.jsp"></put-attribute>
+		<put-attribute name="menu"
+			value="/WEB-INF/views/templates/student_menu.jsp"></put-attribute>
+	</definition>
 	<!-- Course information -->
 	<definition name="courseInformation" extends="index">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
@@ -257,6 +264,14 @@
 		<put-attribute name="title" value="SSEL SoftServeAcademy Test" />
 		<put-attribute name="content"
 			value="/WEB-INF/views/pages/tests/takeTest.jsp"></put-attribute>
+		<put-attribute name="menu"
+			value="/WEB-INF/views/templates/student_menu.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="submitTest" extends="base-template">
+		<put-attribute name="title" value="SSEL SoftServeAcademy Test submit" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/pages/tests/submitTest.jsp"></put-attribute>
 		<put-attribute name="menu"
 			value="/WEB-INF/views/templates/student_menu.jsp"></put-attribute>
 	</definition>

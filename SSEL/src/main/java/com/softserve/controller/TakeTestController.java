@@ -4,6 +4,7 @@ import java.beans.PropertyEditorSupport;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +23,14 @@ import com.softserve.entity.Option;
 import com.softserve.entity.Question;
 import com.softserve.entity.QuestionText;
 import com.softserve.entity.Test;
+import com.softserve.entity.TestStatistic;
 import com.softserve.form.QuestionForm;
 import com.softserve.service.BlockService;
+import com.softserve.service.GroupService;
 import com.softserve.service.QuestionService;
 import com.softserve.service.TestService;
+import com.softserve.service.TestStatisticService;
+import com.softserve.service.UserService;
 import com.softserve.validator.QuestionFormValidator;
 import com.softserve.validator.TestValidator;
 
@@ -45,6 +50,15 @@ public class TakeTestController {
 
 	@Autowired
 	private QuestionFormValidator questionFormValidator;
+	
+	@Resource(name = "TestStatisticService")
+	private TestStatisticService testStatisticService;
+
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private GroupService groupService;
 
 	/**
 	 * Handle tests list for subject
@@ -57,12 +71,74 @@ public class TakeTestController {
 	 */
 	@RequestMapping(value = "/takeTest", method = RequestMethod.GET)
 	public String takeTest(@RequestParam(value = "testId", required = true) Integer testId, Model model) {
+		
+		Integer userId = userService.getUserByEmail(
+				userService.getCurrentUser()).getId();
+		List<TestStatistic> tsByUserByTestList = testStatisticService
+				.getTestStatisticByUserByTest(userId, testId);
+		float totalUserResult = ((float) testStatisticService
+				.getUserResultByTest(userId, testId) * 100);
+
+		model.addAttribute("totalUserResult", totalUserResult);
+		model.addAttribute("tsByUserByTestList", tsByUserByTestList);
+		model.addAttribute("user", userService.getUserById(userId));
+		
+		
+		
 		Test test = testService.getTestById(testId);
 		List<Question> questions = questionService.getQuestionsByTestId(test.getId());
 
 		model.addAttribute("test", test);
 		model.addAttribute("questions", questions);
 		return "takeTest";
+	}
+	
+	@RequestMapping(value = "/submitTest", method = RequestMethod.POST)
+	public String submitTest(
+			@RequestParam(value = "testId", required = true) Integer testId,
+			@RequestParam(value = "questionId", required = true) Integer questionId,
+			@RequestParam(value = "choices[]", required = false) ArrayList<Integer> choices,
+			Model model) {
+		
+		Integer userId = userService.getUserByEmail(
+				userService.getCurrentUser()).getId();
+		
+		 TestStatistic testStatistic = new TestStatistic();
+		 testStatistic.setTest(testService.getTestById(testId));
+		 testStatistic.setQuestion(questionService.getQuestionById(questionId));
+		 testStatistic.setUser(userService.getUserById(userId));
+		 testStatistic.setUserAnswers(choices);
+		 testStatistic.setGroup(groupService.getGroupsByStudent(userId).get(0));
+		 
+		 ArrayList<Option> options  = new ArrayList<Option>();
+		 for (Integer i:choices) {
+			 Option option = new Option();
+			 if (i == 0) option.setIsCorrect(false);
+			 if (i == 1) option.setIsCorrect(true);
+			 options.add(option);
+		 }
+		 
+		 testStatistic.setUserResult((float) questionService.getUserMarkByQuestion(questionId, options)[0]);
+		 testStatistic.setMaxResult((int) questionService.getUserMarkByQuestion(questionId, options)[1]);
+		 
+		 testStatisticService.addTestStatistic(testStatistic);
+		 
+		
+		
+		
+		
+
+		List<TestStatistic> tsByUserByTestList = testStatisticService
+				.getTestStatisticByUserByTest(userId, testId);
+		float totalUserResult = ((float) testStatisticService
+				.getUserResultByTest(userId, testId) * 100);
+
+		model.addAttribute("totalUserResult", totalUserResult);
+		model.addAttribute("tsByUserByTestList", tsByUserByTestList);
+		model.addAttribute("user", userService.getUserById(userId));
+		
+		return "ok";
+	
 	}
 
 	/**

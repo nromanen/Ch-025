@@ -54,6 +54,14 @@ public class Topic {
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "topic")
 	private Set<StudyDocument> studyDocuments = new TreeSet<>();
 
+	public Set<StudyDocument> getStudyDocuments() {
+		return studyDocuments;
+	}
+
+	public void setStudyDocuments(Set<StudyDocument> studyDocuments) {
+		this.studyDocuments = studyDocuments;
+	}
+
 	public int getId() {
 		return id;
 	}

@@ -3,7 +3,6 @@ package com.softserve.dao.impl;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -74,33 +73,23 @@ public class RatingDaoImpl implements RatingDao {
 				+ "r.user.id = :ui ");
 		query.setParameter("gi", groupId);
 		query.setParameter("ui", userId);
-		try { 
 			Double result = (Double) query.getSingleResult();
-			return result;
-		} catch (NoResultException e) {
-			return 0.0;
-		}
+			return (result == null) ? 0.0 : result;
 	}
 
 	@Override
 	public double getProgressByGroupAndUser(int groupId, int userId) {
 		CourseScheduler cs = (CourseScheduler) entityManager.createQuery("SELECT gr.course FROM Group gr WHERE gr.groupId = :id")
 				.setParameter("id", groupId).getSingleResult();
-		try {
 			Query query = entityManager.createQuery("SELECT count(t.id) FROM Test t WHERE t.block.subject.id = :id")
 				.setParameter("id", cs.getSubject().getId());
 			Long testCount = (Long) query.getSingleResult();
-			System.out.println("Test count = "+testCount);
 			Long ratings = (Long) entityManager.createQuery("SELECT count(rt.id) FROM Rating rt WHERE "
 					+ "rt.group.groupId = :gid AND rt.user.id = :uid")
 					.setParameter("gid", groupId)
 					.setParameter("uid", userId).getSingleResult();
-			System.out.println("Ratings count = "+ratings);
-			ratings *= 100L;
+			ratings = (ratings == null) ? 0 : ratings*100L;
 			return (testCount == 0) ? 100.0 : (double)ratings/testCount;
-		} catch(NoResultException e) {
-			return 0.0;
-		}
 	}
 	
 }

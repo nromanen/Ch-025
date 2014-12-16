@@ -7,60 +7,40 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <c:choose>
-	<c:when test="${empty tsByUserByTestList}">
+	<c:when test="${!empty tsByUserByTestList}">
 		<br />
-		<h2 align="center">We're sorry, but is seems that you hadn't
+		<h2 align="center">We're sorry, but is seems that you already
 			passed this test yet.</h2>
 	</c:when>
 	<c:otherwise>
 		<div class="row">
 			<div class="col-md-10" align="center">
 				<h2 align="center">
-					Hello, this is your statistic on test: <strong>${tsByUserByTestList[0].test.name}</strong>
+					Test: <strong>${test.name}</strong>
 				</h2>
-				<h3 align="center">
-					Your total result is: <strong><fmt:formatNumber
-							type="number" maxFractionDigits="1" value="${totalUserResult}" /></strong>%
-				</h3>
 
 				<div align="center">
-					<c:forEach items="${tsByUserByTestList}" var="testStatistic">
-						<table class="table table-bordered">
+					<c:forEach items="${questions}" var="questionList">
+						<table class="table table-bordered" id="${questionList.getId()}">
 							<thead>
 								<tr class="info">
-									<th colspan="2">${testStatistic.question.getQuestion().value }</th>
+									<th colspan="2">${questionList.getQuestion().getValue() }</th>
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach
-									items="${testStatistic.question.getQuestion().options}"
+								<c:forEach items="${questionList.getQuestion().getOptions()}"
 									var="option" varStatus="ind">
-									<c:choose>
-										<c:when test="${testStatistic.userAnswers[ind.index] != 0 }">
-											<c:choose>
-												<c:when test="${option.isCorrect }">
-													<tr class="success">
-														<td class="col-md-11">${option.value}</td>
-														<td class="col-md-1" align="center"><span
-															class="fa fa-check green"></span></td>
-													</tr>
-												</c:when>
-												<c:otherwise>
-													<tr class="danger">
-														<td class="col-md-11">${option.value}</td>
-														<td class="col-md-1" align="center"><span
-															class="glyphicon glyphicon-remove red"></span></td>
-													</tr>
-												</c:otherwise>
-											</c:choose>
-										</c:when>
-										<c:otherwise>
-											<tr>
-												<td class="col-md-11">${option.value}</td>
-												<td class="col-md-1"></td>
-											</tr>
-										</c:otherwise>
-									</c:choose>
+
+
+
+									<tr class="success">
+										<td class="col-md-11">${option.value}</td>
+										<td class="col-md-1" align="center"><input
+											type="checkbox" id="selecta" /></td>
+									</tr>
+
+
+
 								</c:forEach>
 								<tr>
 									<td colspan="2"><i>Earned ${testStatistic.userResult}
@@ -70,6 +50,9 @@
 						</table>
 						<br />
 					</c:forEach>
+					<button type="button" class="btn btn-info" id="submitTest">
+						<spring:message code="label.teacher.save" />
+					</button>
 				</div>
 			</div>
 		</div>
@@ -80,3 +63,41 @@
 	<a href="javascript: history.go(-1)">Go back</a>
 </h3>
 <br>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#submitTest").click(function() {
+		//	if (confirm('Are you sure?')) {
+				
+				$('table').each(function(j,ele){
+					testId0 = '${test.id}';
+					str = "";
+					var choises = new Array();
+					
+					$(this).find(':checkbox').each(function(i,el){
+				        if( $(el).prop('checked') ){
+				        	str = str + '1';
+				        	choises.push(1);
+				        } else {
+				        	str = str + '0';
+				        	choises.push(0);
+				        }
+				    });
+					//alert($(ele).attr('id') + ": " + str);
+					$.ajax({
+						type : "POST",
+						url : "submitTest",
+						data : { testId: testId0, questionId: $(ele).attr('id'), 'choices[]': choises },
+						success : function(msg) {
+							
+						}
+					});
+					
+					});
+
+				window.location.href = "userTestStatistic?testId=" + testId0;	
+			
+		});
+	});
+	
+</script>

@@ -150,7 +150,6 @@ public class TestsManageController {
 			List<Block> blocks = blockService.getBlocksBySubjectId(subjectId);
 			model.addAttribute("test", test);
 			model.addAttribute("blocks", blocks);
-			model.addAttribute("error", "has errors");
 			return "redirect:editTest?subjectId="+subjectId+"&testId="+testId;
 		}
 		test = (op) ? testService.addTest(test) : testService.updateTest(test);
@@ -214,6 +213,8 @@ public class TestsManageController {
 		int questionId = form.getQuestion().getId();
 		questionFormValidator.validate(form, result);
 		if (result.hasErrors()) {
+			model.addAttribute("questionForm", form);
+			model.addAttribute("testName", form.getQuestion().getTest().getName());
 			return "editQuestion?testId="+testId+"&questionId="+questionId;
 		}
 		Test test = testService.getTestById(testId);
@@ -248,7 +249,13 @@ public class TestsManageController {
 		model.addAttribute("questions", questions);
 		return "testInfo";
 	}
-	
+	/**
+	 * Perform test delete
+	 * @param testId unique test identifier
+	 * @param subjectId unique subject identifier
+	 * @param blockId unique block identifier
+	 * @return logical name of view
+	 */
 	@RequestMapping(value = "/deleteTest", method = RequestMethod.POST)
 	public String deleteTest(@RequestParam(value = "testId", required = true) Integer testId,
 							 @RequestParam(value = "subjectId", required = true) Integer subjectId,
@@ -256,7 +263,12 @@ public class TestsManageController {
 		testService.deleteTest(testId);
 		return "redirect:tests?blockId="+blockId+"&subjectId="+subjectId;
 	}
-	
+	/**
+	 * Perform question delete
+	 * @param questionId unique question identifier
+	 * @param testId unique test identifier
+	 * @return logical name of view
+	 */
 	@RequestMapping(value = "/deleteQuestion", method = RequestMethod.POST)
 	public String deleteQuestion(@RequestParam(value = "questionId", required = true) Integer questionId,
 								@RequestParam(value = "testId", required = true) Integer testId) {

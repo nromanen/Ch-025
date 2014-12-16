@@ -7,13 +7,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import com.softserve.dao.StudyDocumentDao;
-import com.softserve.entity.StudyDocument;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.softserve.dao.StudyDocumentDao;
+import com.softserve.entity.StudyDocument;
 
 /**
  *
@@ -42,7 +42,7 @@ public class StudyDocumentDaoImpl implements StudyDocumentDao {
 		return studyDocumet;
 	}
 	/**
-	 * @see com.softserve.dao.StudyDocumentDao#listByTopicId(int) 
+	 * @see com.softserve.dao.StudyDocumentDao#listByTopicId(int)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -110,7 +110,7 @@ public class StudyDocumentDaoImpl implements StudyDocumentDao {
 			log.debug("Deleted subject(id = {})", id);
 		} else {
 			log.warn("Tried to delete subject(id = {})", id);
-		}		
+		}
 	}
 	/**
 	 * @see com.softserve.dao.StudyDocumentDao#getDocumentsForInactiveTopics()
@@ -122,6 +122,20 @@ public class StudyDocumentDaoImpl implements StudyDocumentDao {
 		return entityManager.createQuery("FROM StudyDocument sd WHERE sd.topic.alive = :val")
 				.setParameter("val", true)
 				.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public StudyDocument getDocumentByName(String name, long size) {
+		log.debug("Get file");
+		List<StudyDocument> studyDocumet = new ArrayList<StudyDocument>();
+		Query query = entityManager.createQuery("FROM StudyDocument sd WHERE sd.name LIKE :name and sd.size = :size"
+				+ " ORDER BY sd.id");
+		query.setParameter("name", name);
+		query.setParameter("size",size);
+		studyDocumet.addAll(query.getResultList());
+		return studyDocumet.isEmpty() ? null : studyDocumet.get(0);
+
 	}
 
 }
