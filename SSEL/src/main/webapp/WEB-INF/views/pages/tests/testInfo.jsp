@@ -6,41 +6,39 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <div class="row">
-<div class="panel panel-info">
+<div class="panel panel-info" style="width:60%;">
 	<div class="panel-body">
 			<div class="list-group">
   		  		<h2 class="list-group-item-heading">${test.name}</h2>
     			<p class="list-group-item-text">${test.description}</p>
 			</div>
-		<div id="acordion" class="panel-group" style="width:60%">
 				<div class="panel panel-default">
-				<div class="panel-heading">
-				<h2 class="panel-title">
-				 <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Test questions</a>
-				</h2>
+				<div class="panel-heading" style="height:10%">
+				<div class="panel-title col-lg-8">
+					<p><strong style="font-size: 28px"><spring:message code="label.test.questions" /></strong></p>
+				</div>
 				<form action="editQuestion" method="GET">
-					<button type="submit" style="margin-top:10px;" 
-						class="btn btn-primary btn-lj">Add new question</button>
+				<div class="col-lg-2">
+					<button type="submit" 
+						class="btn btn-primary"><spring:message code="label.tests.add_test" /></button>
 					<input type="hidden" name="testId" value="${param.testId}" />
+				</div>
 				</form>
 				</div>
-				
-				<div id="collapseOne" class="panel-collapse collapse">
-				<div class="panel-body">
-				<div class="panel panel-default">
+				<div class="panel-body">				
 				<c:choose>
 				<c:when test="${fn:length(questions) gt 0}">
 				<table class="table table-hover">
 					<thead>
 						<tr>
 							<td>
-								Question
+								<spring:message code="label.test.questions" />
 							</td>
 							<td>
-								Mark
+								<spring:message code="label.test.mark" />
 							</td>
 							<td>
-								Delete
+								<spring:message code="label.teacher.delete" /> <spring:message code="label.test.questions" />
 							</td>
 						</tr>
 					</thead>
@@ -58,8 +56,8 @@
 								</td>
 								<td>
 									<form action="deleteQuestion?questionId=${question.id}&testId=${param.testId}" method="POST">
-										<button type="submit" class="btn btn-danger btn-lj">
-											Delete question</button>
+										<button type="submit" class="btn btn-primary">
+											<spring:message code="label.teacher.delete" /></button>
 									</form>
 								</td>
 						</tr>
@@ -68,14 +66,13 @@
 				</table>
 				</c:when>
 				<c:otherwise>
-					<h1>Test has no questions</h1>
+					<div class="alert alert-info" role="alert">
+    					<spring:message code="label.test.no_question" />
+    				</div>
 				</c:otherwise>
 				</c:choose>
 				</div>
-				</div>
-				</div>
-				</div>
 			</div>
 			</div>
-</div>
-</div>
+		</div>
+	</div>

@@ -250,6 +250,7 @@ public class TestsManageController {
 	public String printTestInfo(@RequestParam(value = "testId", required = true) Integer testId, Model model) {
 		Test test = testService.getTestById(testId);
 		List<Question> questions = questionService.getQuestionsByTestId(testId);
+		List<Block> blocks = blockService.getBlocksBySubjectId(test.getBlock().getSubject().getId());
 		List<QuestionText> texts = new ArrayList<>();
 		if (questions != null) {
 			for (Question question : questions) {
@@ -258,6 +259,7 @@ public class TestsManageController {
 		}
 		model.addAttribute("texts", texts);
 		model.addAttribute("test", test);
+		model.addAttribute("blocks", blocks);
 		model.addAttribute("questions", questions);
 		return "testInfo";
 	}

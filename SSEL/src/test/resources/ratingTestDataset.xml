@@ -14,10 +14,10 @@
 		id_category="1" id_user="1" deleted="0" />
 	<subject id="3" name="subject3" description="some description"
 		id_category="1" id_user="1" deleted="0" />
-	<block id="1" end_time="2014-11-24" start_time="2014-10-09"
-		deleted="0" name="SomeBlock1" block_order="1" id_subject="1" />
 	<block id="2" end_time="2014-12-24" start_time="2014-11-09"
 		deleted="0" name="SomeBlock2" block_order="2" id_subject="1" />
+	<tests id_test="1" name="Test1" description="Some description" id_block="2" alive="0" deleted="0"/>
+	
 	<course_scheduler id="1" end="2014-10-11" start="2014-09-14"
 		id_subject="1" deleted="0" />
 	<course_scheduler id="2" end="2014-12-11" start="2014-09-19"
@@ -29,6 +29,5 @@
 	<groups id="3" isActive="1" deleted="0" id_course_scheduler="3" />
 	<student_group id="1" id_group="1" id_user="1" />
 	<student_group id="2" id_group="1" id_user="2" />
-	<rating id="1" mark="75" id_block="1" id_group="1" id_user="1" />
-	<rating id="2" mark="95" id_block="2" id_group="1" id_user="1" />
+	<rating id="1" mark="75" id_test="1" id_group="1" id_user="1" />
 </dataset>

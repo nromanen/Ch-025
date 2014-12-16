@@ -5,20 +5,15 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <script src="resources/ckeditor/ckeditor.js"></script>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-
-<div class="row">
-	<div class="col-lg-12">
-		<h1 class="page-header">
+	
+<div class="panel panel-default" style="border:none;">
+	<h1 class="page-header">
 			<spring:message code="label.test.add_question" /> 
 		</h1>
-	</div>
-</div>
-<div class="panel panel-default" style="border:none;">
+</div>	
 	<div class="panel-body">
 	<form:form action="saveQuestion?op=${op}" method="POST" commandName="questionForm">
-		<div class="page-header">
 			<h3>${testName}</h3>
-		</div>
 		<form:hidden path="question.id" />
 		<div class="form-group">
         	<form:label path="name"><h4><spring:message code="label.test.question" /> </h4></form:label>
@@ -36,8 +31,8 @@
 		<div class="list-group" id="answers">
 		<h3><spring:message code="label.test.answers" /> </h3>
 		<div style="margin-bottom: 10px;">
-			<button onClick = "showElement()" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign" ></span></button>
-			<button onClick = "removeElement()" class="btn btn-danger"><span class="glyphicon glyphicon-minus-sign" ></span></button>
+			<button type="button" onClick="showElement()" class="btn btn-success"><div class="glyphicon glyphicon-plus-sign" ></div></button>
+	<button type="button" onClick="removeElement()" class="btn btn-danger"><div class="glyphicon glyphicon-minus-sign" ></div></button>
 		</div>
 		<c:forEach  var="i" begin="0" 	end="${questionsCount}">
 				<div id="div${i}" class="list-group-item" style="width:40%">
@@ -60,8 +55,9 @@
 	</form:form>
 	</div>
 	<input id="size" type="hidden" value="${questionsCount}" />
+	<button type="button" onClick="window.history.back()" class="btn btn-default"><div class="glyphicon glyphicon-backward">
+		</div></button>
 	
- </div>   
  
  <script>
     var count = document.getElementById('size').value;
@@ -105,8 +101,6 @@
  			hiddenCheck.setAttribute('value', 'on');
  			span.appendChild(checkbox);
  			span.appendChild(hiddenCheck);
- 			elements.push(lgi);
- 			
  		}
  	}
  	
