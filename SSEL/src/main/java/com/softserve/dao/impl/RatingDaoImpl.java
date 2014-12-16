@@ -81,7 +81,7 @@ public class RatingDaoImpl implements RatingDao {
 	public double getProgressByGroupAndUser(int groupId, int userId) {
 		CourseScheduler cs = (CourseScheduler) entityManager.createQuery("SELECT gr.course FROM Group gr WHERE gr.groupId = :id")
 				.setParameter("id", groupId).getSingleResult();
-			Query query = entityManager.createQuery("SELECT count(t.id) FROM Test t WHERE t.block.subject.id = :id")
+			Query query = entityManager.createQuery("SELECT count(b.id) FROM Block b WHERE b.subject.id = :id")
 				.setParameter("id", cs.getSubject().getId());
 			Long testCount = (Long) query.getSingleResult();
 			Long ratings = (Long) entityManager.createQuery("SELECT count(rt.id) FROM Rating rt WHERE "
