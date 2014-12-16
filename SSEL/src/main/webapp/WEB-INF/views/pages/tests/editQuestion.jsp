@@ -51,7 +51,7 @@
 		</c:forEach>
 		</div>
 		<form:hidden path="question.test.id"/>
-		<input type="submit"  class="btn btn-primary btn-lg" value="Submit"/>
+		<input type="submit"  class="btn btn-primary btn-lg" value="<spring:message code="label.teacher.save"/>"/>
 	</form:form>
 	</div>
  </div>   

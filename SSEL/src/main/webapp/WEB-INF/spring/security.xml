@@ -30,6 +30,10 @@
 			access="hasRole('TEACHER')" />
 		<intercept-url pattern="/teacher/categories/**" access="hasRole('TEACHER')" />
 		<intercept-url pattern="/teacher/**" access="hasRole('TEACHER')" />
+		<intercept-url pattern="/tests/**" access="hasRole('TEACHER')" />
+		<intercept-url pattern="/editTest/**" access="hasRole('TEACHER')" />
+		<intercept-url pattern="/editQuestion/**" access="hasRole('TEACHER')" />
+		<intercept-url pattern="/testInfo/**" access="hasRole('TEACHER')" />
 
 		<intercept-url pattern="/administrator/**" access="hasRole('ADMIN')" />
 		<intercept-url pattern="/viewAllCategories/**" access="hasRole('ADMIN')" />

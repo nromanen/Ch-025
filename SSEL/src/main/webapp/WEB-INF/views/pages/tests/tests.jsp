@@ -11,7 +11,7 @@
 	</div>
 	<form action="editTest" method="GET">
 		<button type="submit" 
-		class="btn btn-outline btn-primary btn-xs">Add new test</button>
+		class="btn btn-outline btn-primary btn-xs"><spring:message code="label.tests.add_test" /></button>
 		<input type="hidden" name="subjectId" value="${param.subjectId}" />
 	</form>
 	
@@ -23,19 +23,16 @@
 			<thead>
 				<tr>
 					<td>
-						Name
+						<spring:message code="label.tests.test_name" />
 					</td>
 					<td>
-						Description
+						<spring:message code="label.tests.test_description" />
 					</td>
 					<td>
-						Block
+						<spring:message code="label.tests.test_edit" />
 					</td>
 					<td>
-						Edit
-					</td>
-					<td>
-						Delete
+						<spring:message code="label.tests.test_delete" />
 					</td>
 				</tr>
 			</thead>
@@ -47,9 +44,6 @@
 						</td>
 						<td>
 							${test.description}
-						</td>
-						<td>
-							${test.block.name}
 						</td>
 						<td>
 							<form action="editTest"
@@ -64,7 +58,7 @@
 							<form action="deleteTest?testId=${test.id}&blockId=${param.blockId}&subjectId=${param.subjectId}"
 							 method="POST">
 								<button type="submit" class="btn btn-outline btn-primary btn-xs">
-									Delete test</button>
+									<spring:message code="label.teacher.delete" /></button>
 							</form>
 						</td>
 					</tr>
@@ -74,7 +68,7 @@
     </c:when>
     <c:otherwise>
     	<div class="alert alert-info" role="alert">
-    		No test for block
+    		<spring:message code="label.tests.no_test" />
     	</div>
     </c:otherwise>
 	</c:choose>

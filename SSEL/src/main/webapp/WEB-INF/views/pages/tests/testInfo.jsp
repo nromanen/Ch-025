@@ -16,12 +16,12 @@
 				<div class="panel panel-default">
 				<div class="panel-heading">
 				<div class="col-lg-7">
-					<p><strong style="font-size: 28px">Questions</strong></p>
+					<p><strong style="font-size: 28px"><spring:message code="label.test.questions" /></strong></p>
 				</div>
 				<form action="editQuestion" method="GET">
 				<div class="col-lg-4">
 					<button type="submit" 
-						class="btn btn-outline btn-primary btn-xs">Add new question</button>
+						class="btn btn-outline btn-primary btn-xs"><spring:message code="label.test.add_test" /></button>
 					<input type="hidden" name="testId" value="${param.testId}" />
 				</div>
 				</form>
@@ -33,13 +33,13 @@
 					<thead>
 						<tr>
 							<td>
-								Question
+								<spring:message code="label.test.question" />
 							</td>
 							<td>
-								Mark
+								<spring:message code="label.test.mark" />
 							</td>
 							<td>
-								Delete
+								<spring:message code="label.teacher.delete" /> <spring:message code="label.test.question" />
 							</td>
 						</tr>
 					</thead>
@@ -58,7 +58,7 @@
 								<td>
 									<form action="deleteQuestion?questionId=${question.id}&testId=${param.testId}" method="POST">
 										<button type="submit" class="btn btn-outline btn-primary btn-xs">
-											delete question</button>
+											<spring:message code="label.teacher.delete" /></button>
 									</form>
 								</td>
 						</tr>
@@ -67,7 +67,9 @@
 				</table>
 				</c:when>
 				<c:otherwise>
-					<h1>Test has no questions</h1>
+					<div class="alert alert-info" role="alert">
+    					<spring:message code="label.test.no_question" />
+    				</div>
 				</c:otherwise>
 				</c:choose>
 				</div>
