@@ -17,7 +17,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-//import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**

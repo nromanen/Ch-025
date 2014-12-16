@@ -49,18 +49,26 @@ public class Role {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (!(obj instanceof Role))
+		}
+		if (!(obj instanceof Role)) {
 			return false;
+		}
 		Role other = (Role) obj;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
+		if (id != other.id) {
 			return false;
+		}
+		if (name == null) {
+			if (other.name != null) {
+				return false;
+			}
+		} else if (!name.equals(other.name)) {
+			return false;
+		}
 		return true;
 	}
 

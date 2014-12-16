@@ -6,6 +6,7 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.softserve.entity.Test;
+import com.softserve.util.Patterns;
 /**
  * Validate test
  * @author Anatoliy
@@ -23,6 +24,13 @@ public class TestValidator implements Validator {
 	public void validate(Object toValidate, Errors errors) {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "test.name.required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "test.description.required");
+		Test test = (Test) toValidate;
+		if (!test.getName().matches(Patterns.TEST_PATTERN)) {
+			errors.rejectValue("name", "test.name.required");
+		}
+		if (!test.getDescription().matches(Patterns.TEST_PATTERN)) {
+			errors.reject("description", "test.description.required");
+		}
 	}
 
 }
