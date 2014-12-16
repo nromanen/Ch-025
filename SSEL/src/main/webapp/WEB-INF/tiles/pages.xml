@@ -164,6 +164,14 @@
 		<put-attribute name="menu"  value="/WEB-INF/views/templates/tests_menu.jsp"/>
 	</definition>
 	
+	<definition name="userTestStatistic" extends="base-template">
+		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/pages/userTestStatistic.jsp"></put-attribute>
+		<put-attribute name="menu"
+			value="/WEB-INF/views/templates/student_menu.jsp"></put-attribute>
+	</definition>
+	
 	<!-- Course information -->
 	<definition name="courseInformation" extends="index">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
@@ -227,20 +235,5 @@
 		<put-attribute name="menu"
 			value="/WEB-INF/views/templates/administrator_menu.jsp"></put-attribute>
 	</definition>
-
-	<definition name="testStatistic" extends="base-template">
-		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
-		<put-attribute name="content"
-			value="/WEB-INF/views/pages/administrator/testStatistic.jsp"></put-attribute>
-		<put-attribute name="menu"
-			value="/WEB-INF/views/templates/student_menu.jsp"></put-attribute>
-	</definition>
 	
-	<definition name="userTestStatistic" extends="base-template">
-		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
-		<put-attribute name="content"
-			value="/WEB-INF/views/pages/userTestStatistic.jsp"></put-attribute>
-		<put-attribute name="menu"
-			value="/WEB-INF/views/templates/student_menu.jsp"></put-attribute>
-	</definition>
 </tiles-definitions>

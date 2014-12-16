@@ -156,10 +156,7 @@ public class QuestionServiceTest {
 	}
 
 	@Test
-//	@DatabaseSetup("classpath:questions.xml")
-//	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:questions.xml")
 	public void testGetRightAnswers() {
 		assertNotNull(questionService.getRightAnswers(question));
-//		assertNotNull(questionService.getRightAnswers(questionService.getQuestionById(1)));
 	}
 }

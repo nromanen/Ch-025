@@ -11,7 +11,7 @@
 	</div>
 	<form action="editTest" method="GET">
 		<button type="submit" 
-		class="btn btn-outline btn-primary btn-xs"><spring:message code="label.tests.add_test" /></button>
+		class="btn btn-primary btn-lj" style="margin-left:15px;">Add new test</button>
 		<input type="hidden" name="subjectId" value="${param.subjectId}" />
 	</form>
 	
@@ -23,16 +23,19 @@
 			<thead>
 				<tr>
 					<td>
-						<spring:message code="label.tests.test_name" />
+						Name
 					</td>
 					<td>
-						<spring:message code="label.tests.test_description" />
+						Description
 					</td>
 					<td>
-						<spring:message code="label.tests.test_edit" />
+						Block
 					</td>
 					<td>
-						<spring:message code="label.tests.test_delete" />
+						Edit
+					</td>
+					<td>
+						Delete
 					</td>
 				</tr>
 			</thead>
@@ -46,19 +49,22 @@
 							${test.description}
 						</td>
 						<td>
+							${test.block.name}
+						</td>
+						<td>
 							<form action="editTest"
 							 method="GET">
 							 <input type="hidden" name="subjectId" value="${param.subjectId}" />
 							 <input type="hidden" name="testId" value="${test.id}" />
-								<button type="submit" class="btn btn-outline btn-primary btn-xs">
-									<spring:message code="label.teacher.edit" /></button>
+								<button type="submit" class="btn btn-primary btn-lj">
+									edit</button>
 							</form>
 						</td>
 						<td>
 							<form action="deleteTest?testId=${test.id}&blockId=${param.blockId}&subjectId=${param.subjectId}"
 							 method="POST">
-								<button type="submit" class="btn btn-outline btn-primary btn-xs">
-									<spring:message code="label.teacher.delete" /></button>
+								<button type="submit" class="btn btn-danger btn-lj">
+									Delete test</button>
 							</form>
 						</td>
 					</tr>
@@ -68,7 +74,7 @@
     </c:when>
     <c:otherwise>
     	<div class="alert alert-info" role="alert">
-    		<spring:message code="label.tests.no_test" />
+    		No test for block
     	</div>
     </c:otherwise>
 	</c:choose>

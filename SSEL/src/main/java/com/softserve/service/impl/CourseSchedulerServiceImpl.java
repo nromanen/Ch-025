@@ -131,4 +131,8 @@ public class CourseSchedulerServiceImpl implements CourseSchedulerService {
 		return courseSchedulerDao.getCourseSchedulersByStartDate(date);
 	}
 
+	@Override
+	public int getFutureCoursesCount() {
+		return courseSchedulerDao.getFutureCoursesCount();
+	}
 }

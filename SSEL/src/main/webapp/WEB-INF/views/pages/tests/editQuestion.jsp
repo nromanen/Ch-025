@@ -13,7 +13,7 @@
 		</h1>
 	</div>
 </div>
-<div class="panel panel-default">
+<div class="panel panel-default" style="border:none;">
 	<div class="panel-body">
 	<form:form action="saveQuestion?op=${op}" method="POST" commandName="questionForm">
 		<div class="page-header">
@@ -56,7 +56,7 @@
 		</c:forEach>
 		</div>
 		<form:hidden path="question.test.id"/>
-		<input type="submit"  class="btn btn-primary btn-lg" value="<spring:message code="label.teacher.save"/>"/>
+		<button type="submit" class="btn btn-primary btn-lg"> <spring:message code="label.teacher.save"/> </button>
 	</form:form>
 	</div>
 	<input id="size" type="hidden" value="${questionsCount}" />

@@ -172,15 +172,11 @@ function changeCategoryName(categoryId){
 						<table class="table table-condensed">
 							<tr>
 								<td class="col-md-10"><b><spring:message code="label.admin.course_available" />:</b></td>
-								<td>${subjectsCount}</td>
-							</tr>
-							<tr>
-								<td><b><spring:message code="label.admin.groups_available" />:</b></td>
-								<td>${categoriesCount}</td>
+								<td>${futureCourceCount}</td>
 							</tr>
 							<tr>
 								<td><b><spring:message code="label.admin.teachers_registered" />:</b></td>
-								<td>${usersCount}</td>
+								<td>${teachersCount}</td>
 							</tr>
 						</table>
 					</div>
@@ -189,8 +185,7 @@ function changeCategoryName(categoryId){
 
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title" align="center">User registration
-						activity</h3>
+					<h3 class="panel-title" align="center"><spring:message code="label.admin.user_reg_activity" /></h3>
 				</div>
 				<div class="panel-body">
 
@@ -230,9 +225,24 @@ function changeCategoryName(categoryId){
 				<div class="panel-body">
 					<table>
 						<tr>
-							<td class="col-md-10"><b>15 068 Mb</b></td>
-							<td class="col-md-2" align="center"><a
-								class="btn btn-primary" href="#">Delete files</a></td>
+							<td class="col-md-10"><b>
+							<fmt:formatNumber type="number"
+            pattern="###.##" value="${tempFilesSize/1000}" />
+							<c:choose>
+							<c:when test="${tempFilesSize le 1024}">bytes</c:when>
+							<c:when test="${tempFilesSize le 1024*1024}">KB</c:when>
+							<c:when test="${tempFilesSize le 1024*1024*1024}">MB</c:when>
+							</c:choose>
+
+							</b></td>
+							<td class="col-md-2" align="center">
+							<c:if test="${tempFilesSize eq 0}">
+							<a class="btn btn-primary disabled" href="deleteTemporaryFiles"><spring:message code="label.delete" /></a>
+							</c:if>
+							<c:if test="${tempFilesSize ne 0}">
+							<a class="btn btn-primary" href="deleteTemporaryFiles"><spring:message code="label.delete" /></a>
+							</c:if>
+							</td>
 						</tr>
 					</table>
 				</div>
