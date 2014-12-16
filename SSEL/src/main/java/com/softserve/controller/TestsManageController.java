@@ -150,7 +150,7 @@ public class TestsManageController {
 			List<Block> blocks = blockService.getBlocksBySubjectId(subjectId);
 			model.addAttribute("test", test);
 			model.addAttribute("blocks", blocks);
-			return "redirect:editTest?subjectId="+subjectId+"&testId="+testId;
+			return "redirect:editTest?subjectId="+subjectId;
 		}
 		test = (op) ? testService.addTest(test) : testService.updateTest(test);
 		return "redirect:tests?blockId="+block.getId()+"&subjectId="+subjectId;

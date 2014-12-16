@@ -1,33 +1,29 @@
 package com.softserve.controller;
 
-import java.beans.PropertyEditorSupport;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.ServletRequestDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.softserve.entity.Block;
+import com.softserve.entity.CourseScheduler;
 import com.softserve.entity.Option;
 import com.softserve.entity.Question;
-import com.softserve.entity.QuestionText;
+import com.softserve.entity.Rating;
 import com.softserve.entity.Test;
 import com.softserve.entity.TestStatistic;
-import com.softserve.form.QuestionForm;
 import com.softserve.service.BlockService;
+import com.softserve.service.CourseSchedulerService;
 import com.softserve.service.GroupService;
 import com.softserve.service.QuestionService;
+import com.softserve.service.RatingService;
 import com.softserve.service.TestService;
 import com.softserve.service.TestStatisticService;
 import com.softserve.service.UserService;
@@ -59,6 +55,12 @@ public class TakeTestController {
 	
 	@Autowired
 	private GroupService groupService;
+	
+	@Autowired
+	private CourseSchedulerService courseSchedulerService;
+	
+	@Autowired
+	private RatingService ratingService;
 
 	/**
 	 * Handle tests list for subject
@@ -109,7 +111,7 @@ public class TakeTestController {
 		 testStatistic.setUser(userService.getUserById(userId));
 		 testStatistic.setUserAnswers(choices);
 		 testStatistic.setGroup(groupService.getGroupsByStudent(userId).get(0));
-		 
+		 		 
 		 ArrayList<Option> options  = new ArrayList<Option>();
 		 for (Integer i:choices) {
 			 Option option = new Option();
@@ -132,7 +134,16 @@ public class TakeTestController {
 				.getTestStatisticByUserByTest(userId, testId);
 		float totalUserResult = ((float) testStatisticService
 				.getUserResultByTest(userId, testId) * 100);
-
+		Rating newRating = new Rating();
+		newRating.setMark(totalUserResult);
+		newRating.setUser(userService.getUserByEmail(
+				userService.getCurrentUser()));
+		Test test = testService.getTestById(testId);
+		Block block = blockService.getBlockById(test.getBlock().getId());
+		CourseScheduler cs = courseSchedulerService.getCourseScheduleresBySubjectId(block.getSubject().getId()).get(0);
+		newRating.setGroup(groupService.getGroupByScheduler(cs.getId()));
+		newRating.setTest(test);
+		ratingService.addRating(newRating);
 		model.addAttribute("totalUserResult", totalUserResult);
 		model.addAttribute("tsByUserByTestList", tsByUserByTestList);
 		model.addAttribute("user", userService.getUserById(userId));

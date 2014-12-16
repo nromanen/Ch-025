@@ -26,7 +26,8 @@ public class RatingDaoImpl implements RatingDao {
 	@Override
 	public Rating addRating(Rating newRating) {
 		LOG.debug("Add rating (number = {})", newRating.getRatingId());
-		return entityManager.merge(newRating);
+		entityManager.persist(newRating);
+		return newRating;
 	}
 
 	@Override
