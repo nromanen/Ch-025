@@ -39,6 +39,16 @@ public class TestStatisticController {
 
 	@Autowired
 	private QuestionService questionService;
+	
+/*	@RequestMapping(value = "/takeTest", method = RequestMethod.GET)
+	public String takeTest(@RequestParam(value = "testId", required = false) Integer testId, Model model) {
+		Test test = testService.getTestById(testId);
+		List<Question> questions = questionService.getQuestionsByTestId(test.getId());
+
+		model.addAttribute("test", test);
+		model.addAttribute("questions", questions);
+		return "takeTest";
+	}*/
 
 	@RequestMapping(value = "/testStatistic", method = RequestMethod.GET)
 	public String testStatistic(Model model) {
