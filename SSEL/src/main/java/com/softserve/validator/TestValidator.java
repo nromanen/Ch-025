@@ -28,9 +28,6 @@ public class TestValidator implements Validator {
 		if (!test.getName().matches(Patterns.TEST_PATTERN)) {
 			errors.rejectValue("name", "test.name.required");
 		}
-		if (!test.getDescription().matches(Patterns.TEST_PATTERN)) {
-			errors.reject("description", "test.description.required");
-		}
 	}
 
 }

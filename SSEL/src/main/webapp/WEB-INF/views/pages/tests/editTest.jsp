@@ -5,6 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <script src="resources/ckeditor/ckeditor.js"></script>
+<script src="resources/js/validate.js"></script>
 
 <div class="row">
 	<div class="panel panel-default" style="border:none;">

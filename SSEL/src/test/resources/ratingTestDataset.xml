@@ -29,6 +29,6 @@
 	<groups id="3" isActive="1" deleted="0" id_course_scheduler="3" />
 	<student_group id="1" id_group="1" id_user="1" />
 	<student_group id="2" id_group="1" id_user="2" />
-	<rating id="1" mark="75" id_block="1" id_group="1" id_user="1" />
-	<rating id="2" mark="95" id_block="2" id_group="1" id_user="1" />
+	<rating id="1" mark="75" ID_BLOCK="1" id_group="1" id_user="1" />
+	<rating id="2" mark="95" ID_BLOCK="2" id_group="1" id_user="1" />
 </dataset>

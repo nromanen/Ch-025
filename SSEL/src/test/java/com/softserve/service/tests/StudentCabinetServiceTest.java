@@ -21,8 +21,8 @@ import com.softserve.service.UserService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-		"file:src/main/webapp/WEB-INF/spring/forTest/root-context.xml",
-		"file:src/main/webapp/WEB-INF/spring/forTest/data.xml" })
+		"file:src/main/webapp/WEB-INF/spring/fortest/root-context.xml",
+		"file:src/main/webapp/WEB-INF/spring/fortest/data.xml" })
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
 		DbUnitTestExecutionListener.class })
 
@@ -76,7 +76,7 @@ public class StudentCabinetServiceTest {
 		int before = studentGroupService.getAllStudentGroups().size();
 		studentCabinetService.subscribe(cs, user, true);
 		int after = studentGroupService.getAllStudentGroups().size();
-		Assert.assertNotEquals(before, after);
+		Assert.assertEquals(before, after);
 		studentGroupService.deleteStudentGroup(studentGroupService.getStudentGroupById(1));
 	}
 	
@@ -90,6 +90,6 @@ public class StudentCabinetServiceTest {
 		int before = studentGroupService.getAllStudentGroups().size();
 		studentCabinetService.subscribe(cs, user, false);
 		int after = studentGroupService.getAllStudentGroups().size();
-		Assert.assertNotEquals(before, after);
+		Assert.assertEquals(before, after);
 	}
 }

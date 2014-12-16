@@ -53,8 +53,7 @@ public class AdministratorServiceTest {
 	@DatabaseSetup("classpath:users.xml")
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:users.xml")
 	public void TestGetCountRegistredUsersByLastDays() {
-		int i = anyInt() + 2;
-		assertNotNull(administratorService.getCountRegistredUsersByLastDays(i).size());
+		assertNotNull(administratorService.getCountRegistredUsersByLastDays(5).size());
 	}
 
 	@Test
@@ -62,7 +61,6 @@ public class AdministratorServiceTest {
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:config.xml")
 	public void TestSetSupportEmail() {
 		assertEquals("sselcourse@gmail.com", administratorService.getSupportEmail());
-		assertEquals(anyString(), administratorService.setSupportEmail(anyString()).getValue());
 	}
 
 }
