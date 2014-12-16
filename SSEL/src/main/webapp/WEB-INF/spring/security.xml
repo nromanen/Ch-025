@@ -20,6 +20,7 @@
 		<intercept-url pattern="/ratings/**" access="hasRole('STUDENT')" />
 		<intercept-url pattern="/topicView/**" access="hasRole('STUDENT')" />
 		<intercept-url pattern="/modules/**" access="hasRole('STUDENT')" />
+		<intercept-url pattern="/takeTest/**" access="hasRole('STUDENT')" />
 
 		<intercept-url pattern="/teacher/teacher/**" access="hasRole('TEACHER')" />
 		<intercept-url pattern="/teacher/teacherCourse" access="hasRole('TEACHER')" />
