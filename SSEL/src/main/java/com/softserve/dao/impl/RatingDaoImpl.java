@@ -84,7 +84,6 @@ public class RatingDaoImpl implements RatingDao {
 			Query query = entityManager.createQuery("SELECT count(t.id) FROM Test t WHERE t.block.subject.id = :id")
 				.setParameter("id", cs.getSubject().getId());
 			Long testCount = (Long) query.getSingleResult();
-			System.out.println("Test count = "+testCount);
 			Long ratings = (Long) entityManager.createQuery("SELECT count(rt.id) FROM Rating rt WHERE "
 					+ "rt.group.groupId = :gid AND rt.user.id = :uid")
 					.setParameter("gid", groupId)

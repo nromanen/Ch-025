@@ -75,6 +75,12 @@
 											onclick="location.href='editTopic?subjectId=${subject.id}&blockId=${block.id}'">
 											<spring:message code="label.teacher.addTopic" />
 										</button>
+										
+										<button type="button"
+											class="btn btn-info btn-primary btn-xs"
+											onclick="location.href='tests?blockId=${block.id}&subjectId=${param.subjectId}'">
+											<spring:message code="label.test.tests" />
+										</button>
 
 									</div>
 									<table class="table table-hover">
@@ -158,6 +164,7 @@
 															</button>
 														</td>
 													</tr>
+													
 												</c:if>
 											</c:forEach>
 										</tbody>
