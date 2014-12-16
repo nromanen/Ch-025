@@ -1,10 +1,12 @@
 package com.softserve.service.impl;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,7 @@ import com.softserve.service.UserService;
 
 /**
  * Implements QuestionDao
+ *
  * @author Ivan
  *
  */
@@ -56,9 +59,9 @@ public class AdministratorServiceImpl implements AdministratorService {
 			}
 		}
 		if (!exist) {
-		Category newCategory = new Category();
-		newCategory.setName(name);
-		categoryService.addCategory(newCategory);
+			Category newCategory = new Category();
+			newCategory.setName(name);
+			categoryService.addCategory(newCategory);
 		}
 		return exist;
 	}
@@ -69,7 +72,8 @@ public class AdministratorServiceImpl implements AdministratorService {
 	@Override
 	@Transactional
 	public String getSupportEmail() {
-		return configurationPropertiesDao.getPropertyByKey("supportEmail").getValue();
+		return configurationPropertiesDao.getPropertyByKey("supportEmail")
+				.getValue();
 	}
 
 	/**
@@ -78,7 +82,8 @@ public class AdministratorServiceImpl implements AdministratorService {
 	@Override
 	@Transactional
 	public ConfigurationProperty setSupportEmail(String email) {
-		ConfigurationProperty emailProperty = configurationPropertiesDao.getPropertyByKey("supportEmail");
+		ConfigurationProperty emailProperty = configurationPropertiesDao
+				.getPropertyByKey("supportEmail");
 		emailProperty.setValue(email);
 		return configurationPropertiesDao.updateProperty(emailProperty);
 	}
@@ -93,27 +98,62 @@ public class AdministratorServiceImpl implements AdministratorService {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.HOUR_OF_DAY, 0);
-		calendar.set(Calendar.MINUTE,0);
-		calendar.set(Calendar.SECOND,0);
-		calendar.set(Calendar.MILLISECOND,0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
 
 		for (int i = 1; i <= lastDays; i++) {
 			endDate = calendar.getTime();
-		calendar.add(Calendar.DAY_OF_MONTH, -1);
-		startDate = calendar.getTime();
-		list.put(sdf.format(startDate), userService.getCountOfUsersByRegistrationDate(startDate, endDate));
+			calendar.add(Calendar.DAY_OF_MONTH, -1);
+			startDate = calendar.getTime();
+			list.put(sdf.format(startDate), userService
+					.getCountOfUsersByRegistrationDate(startDate, endDate));
 		}
 		return list;
 	}
 
-	 public long getDocumentsForInactiveTopicsSize() {
-		 List<StudyDocument> documents = studyDocumentDao.getDocumentsForInactiveTopics();
-		 documents.get(0).getName();
-//		 File file = new File(c/..../name);
-		 long size = 0;
-		 for (StudyDocument document : documents) {
-			 size += document.getSize();
-		 }
-		 return size;
-	 }
+	public long getDocumentsForInactiveTopicsSize() {
+		String rootPath = getClass().getResource("/").getFile();
+		File earDir = new File(rootPath).getParentFile();
+		earDir = new File(earDir.getParentFile() + "/resources/tmp");
+		ArrayList<File> files = new ArrayList<File>(Arrays.asList(earDir
+				.listFiles()));
+		StudyDocument document;
+		long size = 0;
+		for (File docFile : files) {
+			document = studyDocumentDao.getDocumentByName(new String(docFile
+					.getName().toString()), docFile.length());
+			if (document != null) {
+				if (document.getTopic().isAlive()) {
+					continue;
+				}
+			}
+			size += docFile.length();
+		}
+		return size;
+	}
+
+	public void deleteTemporaryFiles() {
+		String rootPath = getClass().getResource("/").getFile();
+		File earDir = new File(rootPath).getParentFile();
+		earDir = new File(earDir.getParentFile() + "/resources/tmp");
+		ArrayList<File> files = new ArrayList<File>(Arrays.asList(earDir
+				.listFiles()));
+		StudyDocument document;
+
+		for (File docFile : files) {
+			document = studyDocumentDao.getDocumentByName(docFile.getName(),
+					docFile.length());
+			if (document != null) {
+				if (document.getTopic().isAlive()) {
+					continue;
+				}
+			}
+			try {
+				docFile.delete();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

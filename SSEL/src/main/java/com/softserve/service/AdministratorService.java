@@ -41,4 +41,6 @@ public interface AdministratorService {
 	public Map<String, Long> getCountRegistredUsersByLastDays(int lastDays);
 
 	public long getDocumentsForInactiveTopicsSize();
+
+	void deleteTemporaryFiles();
 }

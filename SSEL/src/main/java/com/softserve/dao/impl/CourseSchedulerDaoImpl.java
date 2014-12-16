@@ -156,16 +156,15 @@ public class CourseSchedulerDaoImpl implements CourseSchedulerDao {
 	}
 
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public List<CourseScheduler> getFutureCourses() {
+	public int getFutureCoursesCount() {
 		LOG.debug("Get all course schedulers by user");
 		Query query = entityManager
 				.createQuery("select c from CourseScheduler c "
 						+ "where "
 						+ "(current_timestamp() < c.start ) and c.isDeleted = :val");
 		query.setParameter("val",false);
-		return query.getResultList();
+		return query.getResultList().size();
 	}
 
 	/**

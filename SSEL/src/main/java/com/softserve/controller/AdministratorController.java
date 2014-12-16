@@ -26,6 +26,7 @@ import com.softserve.entity.TeacherRequest;
 import com.softserve.entity.User;
 import com.softserve.service.AdministratorService;
 import com.softserve.service.CategoryService;
+import com.softserve.service.CourseSchedulerService;
 import com.softserve.service.QuestionService;
 import com.softserve.service.RoleService;
 import com.softserve.service.StudentCabinetService;
@@ -97,6 +98,9 @@ public class AdministratorController {
 	@Autowired
 	private StudentCabinetService studentCabinetService;
 
+	@Autowired
+	private CourseSchedulerService courseSchedulerService;
+
 	/**
 	 * Set parameters and redirect to main administrator page
 	 * page.
@@ -160,8 +164,11 @@ public class AdministratorController {
 		for (Long count : listMap.values()) {
 			lastRegUsers.add(count);
 		}
-		
-		courceScheduli
+
+		administratorService.getDocumentsForInactiveTopicsSize();
+
+		int futureCourceCount = courseSchedulerService.getFutureCoursesCount();
+		model.addAttribute("futureCourceCount", futureCourceCount);
 
 		long teachersCount = userService.getCountOfUsersByRole("teacher");
 		model.addAttribute("teachersCount", teachersCount);
@@ -878,7 +885,9 @@ public class AdministratorController {
 	public String deleteTemporaryFiles(
 			RedirectAttributes redirectAttributes) {
 		LOG.debug("Visit deleteTemporaryFiles page");
-		studentCabinetService.rescheduleDeleteInactive();
+//		studentCabinetService.rescheduleDeleteInactive();
+		administratorService.deleteTemporaryFiles();
+
 		redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE,
 					getSpringMessage("message.admin.files_deleted"));
 		return "redirect:/administrator";

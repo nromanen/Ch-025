@@ -111,7 +111,7 @@ public interface CourseSchedulerDao {
 
 	List<CourseScheduler> getCourseSchedulersByStartDate(Date date);
 
-	List<CourseScheduler> getFutureCourses();
+	int getFutureCoursesCount();
 
 	List<CourseScheduler> getActiveCourses();
 
