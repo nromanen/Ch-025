@@ -15,32 +15,31 @@
 		<div id="acordion" class="panel-group" style="width:60%">
 				<div class="panel panel-default">
 				<div class="panel-heading">
-				<h2 class="panel-title">
-				 <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Test questions</a>
-				</h2>
+				<div class="col-lg-7">
+					<p><strong style="font-size: 28px"><spring:message code="label.test.questions" /></strong></p>
+				</div>
 				<form action="editQuestion" method="GET">
+				<div class="col-lg-4">
 					<button type="submit" 
-						class="btn btn-outline btn-primary btn-xs">Add new question</button>
+						class="btn btn-outline btn-primary btn-xs"><spring:message code="label.tests.add_test" /></button>
 					<input type="hidden" name="testId" value="${param.testId}" />
+				</div>
 				</form>
 				</div>
-				
-				<div id="collapseOne" class="panel-collapse collapse">
-				<div class="panel-body">
-				<div class="panel panel-default">
+				<div class="panel-body">				
 				<c:choose>
 				<c:when test="${fn:length(questions) gt 0}">
 				<table class="table table-hover">
 					<thead>
 						<tr>
 							<td>
-								Question
+								<spring:message code="label.test.question" />
 							</td>
 							<td>
-								Mark
+								<spring:message code="label.test.mark" />
 							</td>
 							<td>
-								Delete
+								<spring:message code="label.teacher.delete" /> <spring:message code="label.test.question" />
 							</td>
 						</tr>
 					</thead>
@@ -59,7 +58,7 @@
 								<td>
 									<form action="deleteQuestion?questionId=${question.id}&testId=${param.testId}" method="POST">
 										<button type="submit" class="btn btn-outline btn-primary btn-xs">
-											delete question</button>
+											<spring:message code="label.teacher.delete" /></button>
 									</form>
 								</td>
 						</tr>
@@ -68,14 +67,14 @@
 				</table>
 				</c:when>
 				<c:otherwise>
-					<h1>Test has no questions</h1>
+					<div class="alert alert-info" role="alert">
+    					<spring:message code="label.test.no_question" />
+    				</div>
 				</c:otherwise>
 				</c:choose>
 				</div>
-				</div>
-				</div>
-				</div>
 			</div>
 			</div>
-</div>
+		</div>
+	</div>
 </div>

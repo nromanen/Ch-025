@@ -12,23 +12,23 @@
 		<h1 class="page-header">
 		<c:choose>
 			<c:when test="${op}">
-				<spring:message code="label.test.add_test" />
+				<spring:message code="label.tests.add_test" />
 			</c:when>
 			<c:otherwise>
-				<spring:message code="label.test.edit_test" />
+				<spring:message code="label.tests.test_edition" />
 			</c:otherwise>
 		</c:choose>
 		</h1>
    		<form:form method="POST" action="saveTest?op=${op}" cssClass="form-horizontal" commandName="test">
         <form:hidden path="id" />
         <div class="form-group">
-        	<form:label path="name">Test name</form:label>
+        	<form:label path="name"><spring:message code="label.tests.test_name" /></form:label>
         	<form:errors path="name" cssClass="control-label" />		
         	<form:input path="name" cssClass="form-control" cssStyle="width:30%"/>
         			
         </div>
     	<div class="form-group">
-    		<form:label path="block" >Block</form:label>
+    		<form:label path="block" ><spring:message code="label.teacher.module" /></form:label>
     		<form:select path="block" items="${blocks}" itemValue="id" itemLabel="name" 
     		cssClass="form-control" cssStyle="width:30%" />
     	</div>
