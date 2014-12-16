@@ -17,8 +17,12 @@
 	<changeSet id="2014-11-19-insert-data-into-table-user" author="Hash">
 		<comment>Insert sample data into table user</comment>
 		<sql splitStatements="true">
-			INSERT INTO `user` VALUES (7, 0, 'relyativus@gmail.com', '2015-11-13 00:22:41', 'Anatoliy',  'Vacaliuck', '$2a$10$zluygJkutKExo/ywKfiXnul9hUpUo1ZVb.juyEHPYDwOhdbR/Doge', '2014-11-13 00:22:41', 2, '', '', 'REGISTRATION');
-			INSERT INTO `user` VALUES (8, 0, 'hash.cv@gmail.com', '2015-11-13 00:24:28', 'Teacher', 'Teacherovich', '$2a$10$zluygJkutKExo/ywKfiXnul9hUpUo1ZVb.juyEHPYDwOhdbR/Doge', '2014-11-13 00:24:28', 3, '', '', 'REGISTRATION');
+			INSERT INTO `user` VALUES (7, 0, 'relyativus@gmail.com', '2015-11-13 00:22:41', 'Anatoliy',  'Vacaliuck', '$2a$10$zluygJkutKExo/ywKfiXnul9hUpUo1ZVb.juyEHPYDwOhdbR/Doge', '2014-12-12 00:22:41', 2, '', '', 'REGISTRATION');
+			INSERT INTO `user` VALUES (8, 0, 'hash.cv@gmail.com', '2015-11-13 00:24:28', 'Teacher', 'Teacherovich', '$2a$10$zluygJkutKExo/ywKfiXnul9hUpUo1ZVb.juyEHPYDwOhdbR/Doge', '2014-12-13 00:24:28', 3, '', '', 'REGISTRATION');
+			INSERT INTO `user` VALUES (9, 0, 'relyativus1@gmail.com', '2015-11-13 00:22:41', 'Relyativus',  'Relyativus', '$2a$10$zluygJkutKExo/ywKfiXnul9hUpUo1ZVb.juyEHPYDwOhdbR/Doge', '2014-12-14 00:22:41', 2, '', '', 'REGISTRATION');
+			INSERT INTO `user` VALUES (10, 0, 'hash1@gmail.com', '2015-11-13 00:24:28', 'Teacher', 'Teacher', '$2a$10$zluygJkutKExo/ywKfiXnul9hUpUo1ZVb.juyEHPYDwOhdbR/Doge', '2014-12-14 00:24:28', 3, '', '', 'REGISTRATION');
+			INSERT INTO `user` VALUES (11, 0, 'relyativus2@gmail.com', '2015-11-13 00:22:41', 'Anatoliy',  'Relyativus', '$2a$10$zluygJkutKExo/ywKfiXnul9hUpUo1ZVb.juyEHPYDwOhdbR/Doge', '2014-12-14 00:22:41', 2, '', '', 'REGISTRATION');
+			INSERT INTO `user` VALUES (12, 0, 'admin@ssel.com', '2015-11-13 00:24:28', 'Admin', 'Admin', '$2a$10$zluygJkutKExo/ywKfiXnul9hUpUo1ZVb.juyEHPYDwOhdbR/Doge', '2014-11-14 00:24:28', 1, '', '', 'REGISTRATION');
 		</sql>
 
 	</changeSet>
@@ -173,7 +177,7 @@
 			INSERT INTO `tests` VALUES (2,'The second test of greatestnes','This one do not',24, 0, 0);
 		</sql>
 	</changeSet>
-	
+
 	<changeSet id="2014-11-19-insert-data-into-table-rating" author="Hash">
 		<comment>Insert sample data into table rating</comment>
 		<sql splitStatements="true">
