@@ -26,8 +26,8 @@ UserResult - ${tsByGroupByTest[4].userResult}<br>
 
 <br><br>
 
-firstUserResultByTest: ${firstUserResultByTest} <br>
-
+UserResultByTest1: ${firstUserResultByTest1} <br>
+UserResultByTest2: ${firstUserResultByTest2} <br>
 <br><br>
 
 GroupResultByTest: <br>
