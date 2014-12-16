@@ -22,23 +22,21 @@ public class TestStatistic {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	 @ManyToOne (fetch = FetchType.EAGER)
-	 @JoinColumn (name = "id_test")
-	 private Test test;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_test")
+	private Test test;
 
-	 @ManyToOne (fetch = FetchType.EAGER)
-	 @JoinColumn (name = "id_user")
-	 private User user;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_user")
+	private User user;
 
-	 @ManyToOne (fetch = FetchType.EAGER)
-	 @JoinColumn(name = "id_group")
-	 private Group group;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_group")
+	private Group group;
 
-	 @ManyToOne (fetch = FetchType.EAGER)
-	 @JoinColumn(name = "id_question")
-	 private Question question; 
-//	@Column(name = "id_question")
-//	private int questionId;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_question")
+	private Question question;
 
 	@Column(name = "user_result")
 	private float userResult;
