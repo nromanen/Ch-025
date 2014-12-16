@@ -11,7 +11,7 @@
 	</div>
 	<form action="editTest" method="GET">
 		<button type="submit" 
-		class="btn btn-outline btn-primary btn-xs">Add new test</button>
+		class="btn btn-primary btn-lj" style="margin-left:15px;">Add new test</button>
 		<input type="hidden" name="subjectId" value="${param.subjectId}" />
 	</form>
 	
@@ -56,14 +56,14 @@
 							 method="GET">
 							 <input type="hidden" name="subjectId" value="${param.subjectId}" />
 							 <input type="hidden" name="testId" value="${test.id}" />
-								<button type="submit" class="btn btn-outline btn-primary btn-xs">
+								<button type="submit" class="btn btn-primary btn-lj">
 									edit</button>
 							</form>
 						</td>
 						<td>
 							<form action="deleteTest?testId=${test.id}&blockId=${param.blockId}&subjectId=${param.subjectId}"
 							 method="POST">
-								<button type="submit" class="btn btn-outline btn-primary btn-xs">
+								<button type="submit" class="btn btn-danger btn-lj">
 									Delete test</button>
 							</form>
 						</td>
