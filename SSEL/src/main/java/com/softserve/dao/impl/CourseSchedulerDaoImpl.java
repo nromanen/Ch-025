@@ -26,7 +26,7 @@ public class CourseSchedulerDaoImpl implements CourseSchedulerDao {
 	/**
 	 * @see com.softserve.dao.CourseSchedulerDao#addCourseScheduler(CourseScheduler)
 	 */
-	
+
 	@Override
 	public CourseScheduler addCourseScheduler(CourseScheduler courseScheduler) {
 		LOG.debug("Add CourseScheduler");
@@ -36,7 +36,7 @@ public class CourseSchedulerDaoImpl implements CourseSchedulerDao {
 	/**
 	 * @see com.softserve.dao.CourseSchedulerDao#setCourseSchedulerDeleted(CourseScheduler, boolean)
 	 */
-	
+
 	@Override
 	public void setCourseSchedulerDeleted(CourseScheduler courseScheduler, boolean deleted) {
 		Query query = entityManager
@@ -54,7 +54,7 @@ public class CourseSchedulerDaoImpl implements CourseSchedulerDao {
 	/**
 	 * @see com.softserve.dao.CourseSchedulerDao#updateCourseScheduler(CourseScheduler)
 	 */
-	
+
 	@Override
 	public CourseScheduler updateCourseScheduler(CourseScheduler courseScheduler) {
 		LOG.debug("Update category");
@@ -64,7 +64,7 @@ public class CourseSchedulerDaoImpl implements CourseSchedulerDao {
 	/**
 	 * @see com.softserve.dao.CourseSchedulerDao#getCourseSchedulerById(int)
 	 */
-	
+
 	@Override
 	public CourseScheduler getCourseSchedulerById(int id) {
 		LOG.debug("Get courseScheduler with id = {}", id);
@@ -73,7 +73,7 @@ public class CourseSchedulerDaoImpl implements CourseSchedulerDao {
 	/**
 	 * @see com.softserve.dao.CourseSchedulerDao#getAllCourseScheduleres()
 	 */
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<CourseScheduler> getAllCourseScheduleres() {
@@ -85,7 +85,7 @@ public class CourseSchedulerDaoImpl implements CourseSchedulerDao {
 	/**
 	 * @see com.softserve.dao.CourseSchedulerDao#getCourseScheduleresBySubjectId(int)
 	 */
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<CourseScheduler> getCourseScheduleresBySubjectId(int id) {
@@ -96,10 +96,10 @@ public class CourseSchedulerDaoImpl implements CourseSchedulerDao {
 		LOG.debug("Get all topics by block id = {}", id);
 		return query.getResultList();
 	}
-	/**
+	/**add
 	 * @see com.softserve.dao.CourseSchedulerDao#getActiveSubscribedCoursesByUserId(int)
 	 */
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<CourseScheduler> getActiveSubscribedCoursesByUserId(int id) {
@@ -112,6 +112,19 @@ public class CourseSchedulerDaoImpl implements CourseSchedulerDao {
 		query.setParameter("val",false);
 		return query.getResultList();
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<CourseScheduler> getActiveCourses() {
+		LOG.debug("Get all course schedulers by user");
+		Query query = entityManager
+				.createQuery("select c from CourseScheduler c "
+						+ "where "
+						+ "(current_timestamp() between c.start and c.end) and c.isDeleted = :val");
+		query.setParameter("val",false);
+		return query.getResultList();
+	}
+
 	/**
 	 * @see com.softserve.dao.CourseSchedulerDao#getCourseSchedulersBySubjectUserId(int)
 	 */
@@ -125,10 +138,10 @@ public class CourseSchedulerDaoImpl implements CourseSchedulerDao {
 		query.setParameter("val",false);
 		return query.getResultList();
 	}
-	/**
+	/**add
 	 * @see com.softserve.dao.CourseSchedulerDao#getFutureSubscribedCoursesByUserId(int)
 	 */
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<CourseScheduler> getFutureSubscribedCoursesByUserId(int id) {
@@ -141,6 +154,20 @@ public class CourseSchedulerDaoImpl implements CourseSchedulerDao {
 		query.setParameter("val",false);
 		return query.getResultList();
 	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<CourseScheduler> getFutureCourses() {
+		LOG.debug("Get all course schedulers by user");
+		Query query = entityManager
+				.createQuery("select c from CourseScheduler c "
+						+ "where "
+						+ "(current_timestamp() < c.start ) and c.isDeleted = :val");
+		query.setParameter("val",false);
+		return query.getResultList();
+	}
+
 	/**
 	 * @see com.softserve.dao.CourseSchedulerDao#getFinishedSubscribedCoursesByUserId(int)
 	 */

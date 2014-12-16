@@ -160,6 +160,8 @@ public class AdministratorController {
 		for (Long count : listMap.values()) {
 			lastRegUsers.add(count);
 		}
+		
+		courceScheduli
 
 		long teachersCount = userService.getCountOfUsersByRole("teacher");
 		model.addAttribute("teachersCount", teachersCount);

@@ -108,6 +108,8 @@ public class AdministratorServiceImpl implements AdministratorService {
 
 	 public long getDocumentsForInactiveTopicsSize() {
 		 List<StudyDocument> documents = studyDocumentDao.getDocumentsForInactiveTopics();
+		 documents.get(0).getName();
+//		 File file = new File(c/..../name);
 		 long size = 0;
 		 for (StudyDocument document : documents) {
 			 size += document.getSize();
