@@ -176,11 +176,12 @@ public class TestsManageController {
 			question.setTest(test);
 			question.setMark(0.0);
 			answers = new ArrayList<>();
-			for(int i=0; i < 4; i++) {
+			for(int i=0; i < 6; i++) {
 				Option ans = new Option();
 				ans.setIsCorrect(false);
 				answers.add(ans);
 			}
+			model.addAttribute("questionsCount", 1);
 			questionForm.setQuestion(question);
 			questionForm.setName("");
 			questionForm.setAnswers(answers);
@@ -190,7 +191,12 @@ public class TestsManageController {
 			questionForm.setQuestion(question);
 			questionForm.setName(question.getQuestion().getValue());
 			answers = question.getQuestion().getOptions();
+			for (Option ans : answers) {
+				System.out.println(ans);
+			}
 			questionForm.setAnswers(answers);
+			model.addAttribute("questionsCount", answers.size()-1);
+			System.out.println(answers.size());
 			model.addAttribute("op", false);
 		}
 		model.addAttribute("questionForm", questionForm);
@@ -211,7 +217,7 @@ public class TestsManageController {
 											Model model) {
 		int testId = form.getQuestion().getTest().getId();
 		int questionId = form.getQuestion().getId();
-		questionFormValidator.validate(form, result);
+		//questionFormValidator.validate(form, result);
 		if (result.hasErrors()) {
 			model.addAttribute("questionForm", form);
 			model.addAttribute("testName", form.getQuestion().getTest().getName());
@@ -219,9 +225,15 @@ public class TestsManageController {
 		}
 		Test test = testService.getTestById(testId);
 		form.getQuestion().setTest(test);
+		List<Option> formAnswers = new ArrayList<>();
+		for (Option answer : form.getAnswers()) {
+			if (answer != null) {
+				formAnswers.add(answer);
+			}
+		}
 		Question question = form.getQuestion();
 		QuestionText questionText = new QuestionText();
-		questionText.setOptions(form.getAnswers());
+		questionText.setOptions(formAnswers);
 		questionText.setValue(form.getName());
 		question.setQuestionText(questionText);
 		question.setMark(question.getMark());

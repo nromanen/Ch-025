@@ -4,6 +4,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <script src="resources/ckeditor/ckeditor.js"></script>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <div class="row">
 	<div class="col-lg-12">
@@ -32,17 +33,21 @@
 			<form:label path="question.mark" ><h4><spring:message code="label.test.mark" /> </h4></form:label>
 			<form:input path="question.mark" cssClass="form-control" style="width:30%" />
 		</div>
-		<div class="list-group">
+		<div class="list-group" id="answers">
 		<h3><spring:message code="label.test.answers" /> </h3>
-		<c:forEach items="${questionForm.answers}" var="answer" varStatus="status">
-				<div class="list-group-item" style="width:40%">
-					<h4 class="list-group-item-heading" >Answer${status.index}</h4>
+		<div style="margin-bottom: 10px;">
+			<button onClick = "showElement()" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign" ></span></button>
+			<button onClick = "removeElement()" class="btn btn-danger"><span class="glyphicon glyphicon-minus-sign" ></span></button>
+		</div>
+		<c:forEach  var="i" begin="0" 	end="${questionsCount}">
+				<div id="div${i}" class="list-group-item" style="width:40%">
+					<h4 class="list-group-item-heading" >Answer${i}</h4>
 					<div class="list-group-item-text">
-						<form:label path="answers[${status.index}].value" itemValue="id" itemLabel="name"/>
+						<!--<form:hidden path="answers[${i}].value" itemValue="id" itemLabel="name"/>-->
 						<div class="input-group" >
-						<form:input path="answers[${status.index}].value" cssClass="form-control" />
+						<form:input path="answers[${i}].value" cssClass="form-control" />
 						<span class="input-group-addon" style="horizontal-align:left">	
-							<form:checkbox path="answers[${status.index}].isCorrect" />
+							<form:checkbox path="answers[${i}].isCorrect" />
 						</span>
 						
 						</div>
@@ -54,4 +59,62 @@
 		<input type="submit"  class="btn btn-primary btn-lg" value="<spring:message code="label.teacher.save"/>"/>
 	</form:form>
 	</div>
+	<input id="size" type="hidden" value="${questionsCount}" />
+	
  </div>   
+ 
+ <script>
+    var count = document.getElementById('size').value;
+    var root = document.getElementById('answers');
+ 	function showElement() {
+ 		if (count < 6) {
+ 			count++;
+ 			var parent = root;
+ 			var lgi = document.createElement('div');
+ 			lgi.setAttribute('id', 'div'+count);
+ 			lgi.setAttribute('class', 'list-group-item');
+ 			lgi.setAttribute('style', 'width:40%');
+ 			parent.appendChild(lgi);
+ 			var h4 = document.createElement('h4');
+ 			h4.setAttribute('class', 'list-group-item-heading');
+ 			h4.innerHTML = 'Answer'+count;
+ 			lgi.appendChild(h4);
+ 			var div = document.createElement('div');
+ 			div.setAttribute('class', 'list-group-item-text');
+ 			lgi.appendChild(div);
+ 			var innerDiv = document.createElement('div');
+ 			innerDiv.setAttribute('class', 'input-group');
+ 			div.appendChild(innerDiv);
+ 			var formInput = document.createElement('input');
+ 			formInput.setAttribute('name', 'answers['+count+'].value');
+ 			formInput.setAttribute('id', 'answers'+count+'.value');
+ 			formInput.setAttribute('class', 'form-control');
+ 			formInput.setAttribute('type', 'text');
+ 			innerDiv.appendChild(formInput);
+ 			var span = document.createElement('span');
+ 			span.setAttribute('class', 'input-group-addon');
+ 			span.setAttribute('style', 'horizontal-align:left');
+ 			innerDiv.appendChild(span);
+ 			var checkbox = document.createElement('input');
+ 			checkbox.setAttribute('type', 'checkbox');
+ 			checkbox.setAttribute('name', 'answers['+count+'].isCorrect');
+ 			checkbox.setAttribute('id', 'answers'+count+'.isCorrect');
+ 			var hiddenCheck = document.createElement('input');
+ 			hiddenCheck.setAttribute('type', 'hidden');
+ 			hiddenCheck.setAttribute('name', '_answers['+count+'].isCorrect');
+ 			hiddenCheck.setAttribute('value', 'on');
+ 			span.appendChild(checkbox);
+ 			span.appendChild(hiddenCheck);
+ 			elements.push(lgi);
+ 			
+ 		}
+ 	}
+ 	
+ 	function removeElement() {
+ 		if (count >= 2) {
+ 			var element = document.getElementById('div'+count);
+			root.removeChild(element);
+			count--;
+ 		}
+ 	}
+ </script>

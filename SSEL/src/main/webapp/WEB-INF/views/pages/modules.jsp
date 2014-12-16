@@ -103,7 +103,8 @@
 											</c:forEach>
 										</tbody>
 									</table>
-									<button class="btn btn-primary btn-lg"><spring:message code="label.pass_test" /></button>
+									<button class="btn btn-primary btn-lg" onClick="location.href='takeTest?testId=${test.id}'">
+									<spring:message code="label.pass_test" /></button>
 								</div>
 							</div>
 						</div>
