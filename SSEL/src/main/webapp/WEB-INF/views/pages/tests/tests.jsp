@@ -51,7 +51,7 @@
 							 <input type="hidden" name="subjectId" value="${param.subjectId}" />
 							 <input type="hidden" name="testId" value="${test.id}" />
 								<button type="submit" class="btn btn-outline btn-primary btn-xs">
-									edit</button>
+									<spring:message code="label.teacher.edit" /></button>
 							</form>
 						</td>
 						<td>

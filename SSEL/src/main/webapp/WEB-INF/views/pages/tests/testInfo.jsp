@@ -21,7 +21,7 @@
 				<form action="editQuestion" method="GET">
 				<div class="col-lg-4">
 					<button type="submit" 
-						class="btn btn-outline btn-primary btn-xs"><spring:message code="label.test.add_test" /></button>
+						class="btn btn-outline btn-primary btn-xs"><spring:message code="label.tests.add_test" /></button>
 					<input type="hidden" name="testId" value="${param.testId}" />
 				</div>
 				</form>

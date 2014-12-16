@@ -12,10 +12,10 @@
 		<h1 class="page-header">
 		<c:choose>
 			<c:when test="${op}">
-				<spring:message code="label.test.add_test" />
+				<spring:message code="label.tests.add_test" />
 			</c:when>
 			<c:otherwise>
-				<spring:message code="label.test.edit_test" />
+				<spring:message code="label.tests.test_edition" />
 			</c:otherwise>
 		</c:choose>
 		</h1>
