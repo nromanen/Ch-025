@@ -99,14 +99,7 @@
 
 			});
 
-			$.ajax({
-				type : "POST",
-				url : "nesu",
-				data : {
-					testId : '${test.id}',
-					total : '${totalUserResult}'
-				}
-			});
+			
 			
 			$.ajax({
 				type : "POST",
