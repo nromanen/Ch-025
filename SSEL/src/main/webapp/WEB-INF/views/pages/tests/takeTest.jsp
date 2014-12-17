@@ -62,37 +62,38 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$("#submitTest").click(function() {
-			//	if (confirm('Are you sure?')) {
+			if (confirm('Are you sure?')) {
 
-			$('table').each(function(j, ele) {
-				testId0 = '${test.id}';
-				str = "";
-				var choises = new Array();
+				$('table').each(function(j, ele) {
+					//testId0 = '${test.id}';
+					str = "";
+					var choises = new Array();
 
-				$(this).find(':checkbox').each(function(i, el) {
-					if ($(el).prop('checked')) {
-						str = str + '1';
-						choises.push(1);
-					} else {
-						str = str + '0';
-						choises.push(0);
-					}
+					$(this).find(':checkbox').each(function(i, el) {
+						if ($(el).prop('checked')) {
+							str = str + '1';
+							choises.push(1);
+						} else {
+							str = str + '0';
+							choises.push(0);
+						}
+					});
+
+					$.ajax({
+						type : "POST",
+						url : "submitTest",
+						data : {
+							testId : '${test.id}',
+							questionId : $(ele).attr('id'),
+							'choices[]' : choises
+						}
+					});
+
 				});
-				
-				$.ajax({
-					type : "POST",
-					url : "submitTest",
-					data : {
-						testId : testId0,
-						questionId : $(ele).attr('id'),
-						'choices[]' : choises
-					}
-				});
 
-			});
-
-			window.location.href = "userTestStatistic?testId=" + testId0;
-
+				window.location.href = "submitTest?testId=" + ${test.id};
+			}
 		});
+
 	});
 </script>
