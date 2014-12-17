@@ -19,6 +19,7 @@ import com.softserve.entity.Question;
 import com.softserve.entity.Rating;
 import com.softserve.entity.Test;
 import com.softserve.entity.TestStatistic;
+import com.softserve.entity.User;
 import com.softserve.service.BlockService;
 import com.softserve.service.CourseSchedulerService;
 import com.softserve.service.GroupService;
@@ -121,16 +122,8 @@ public class TakeTestController {
 
 		List<TestStatistic> tsByUserByTestList = testStatisticService.getTestStatisticByUserByTest(userId, testId);
 		float totalUserResult = ((float) testStatisticService.getUserResultByTest(userId, testId) * 100);
-		Rating newRating = new Rating();
-		newRating.setMark(totalUserResult);
-		newRating.setUser(userService.getUserByEmail(userService.getCurrentUser()));
-		Test test = testService.getTestById(testId);
-		Block block = blockService.getBlockById(test.getBlock().getId());
-		CourseScheduler cs = courseSchedulerService.getCourseScheduleresBySubjectId(block.getSubject().getId()).get(0);
-		newRating.setGroup(groupService.getGroupByScheduler(cs.getId()));
-		newRating.setTest(test);
-		ratingService.addRating(newRating);
-		model.addAttribute("totalUserResult", totalUserResult);
+		
+				model.addAttribute("totalUserResult", totalUserResult);
 		model.addAttribute("tsByUserByTestList", tsByUserByTestList);
 		model.addAttribute("user", userService.getUserById(userId));
 
@@ -138,6 +131,21 @@ public class TakeTestController {
 
 	}
 
+	@RequestMapping(value = "submitRating", method = RequestMethod.POST)
+	public String submitRating(@RequestParam(value = "testId", required = true) Integer testId, 
+							   @RequestParam(value ="total", required = true) Double total) {
+		User user = userService.getUserByEmail(userService.getCurrentUser());
+		Rating newRating = new Rating();
+		newRating.setMark(testStatisticService.getUserResultByTest(user.getId(), testId)*100.0);
+		newRating.setUser(user);
+		Test test = testService.getTestById(testId);
+		Block block = blockService.getBlockById(test.getBlock().getId());
+		CourseScheduler cs = courseSchedulerService.getCourseScheduleresBySubjectId(block.getSubject().getId()).get(0);
+		newRating.setGroup(groupService.getGroupByScheduler(cs.getId()));
+		newRating.setTest(test);
+		ratingService.addRating(newRating);
+		return "ok";
+	}
 	@RequestMapping(value = "/submitTest", method = RequestMethod.GET)
 	public String submitTest(@RequestParam(value = "testId", required = true) Integer testId, Model model) {
 		Integer userId = userService.getUserByEmail(userService.getCurrentUser()).getId();

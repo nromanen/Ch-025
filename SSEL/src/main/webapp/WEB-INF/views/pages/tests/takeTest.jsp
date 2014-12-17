@@ -99,6 +99,25 @@
 
 			});
 
+			$.ajax({
+				type : "POST",
+				url : "nesu",
+				data : {
+					testId : '${test.id}',
+					total : '${totalUserResult}'
+				}
+			});
+			
+			$.ajax({
+				type : "POST",
+				url : "submitRating",
+				data : {
+					testId : '${test.id}',
+					total : '${totalUserResult}'
+				}
+			});
+
+
 			window.location.href = "submitTest?testId=" + ${test.id};
 			//}
 		});
