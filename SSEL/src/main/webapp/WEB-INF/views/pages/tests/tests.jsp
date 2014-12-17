@@ -5,20 +5,34 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <div class="row">
-	<button><a href="editTest?subjectId=${param.subjectId}">Add new test</a></button>
+	<div class="panel-default">
+	<div class="panel-header">
+	<h1 class="page-header">${currentBlock.name}</h1>
+	</div>
+	<form action="editTest" method="GET">
+		<button type="submit" 
+		class="btn btn-primary btn-lj" style="margin-left:15px;"><spring:message code="label.tests.add_test" /></button>
+		<input type="hidden" name="subjectId" value="${param.subjectId}" />
+	</form>
+	
+	<div class="panel-body">
+
 	<c:choose>
 	<c:when test="${fn:length(testList) ne 0}">
 		<table class="table table-striped table-bordered table-hover">
 			<thead>
 				<tr>
 					<td>
-						Name
+						<spring:message code="label.tests.test_name" />
 					</td>
 					<td>
-						Description
+						<spring:message code="label.description" />
 					</td>
 					<td>
-						Block
+						<spring:message code="label.tests.test_edit" />
+					</td>
+					<td>
+						<spring:message  code="label.teacher.delete" />
 					</td>
 				</tr>
 			</thead>
@@ -32,7 +46,20 @@
 							${test.description}
 						</td>
 						<td>
-							${test.block.name}
+							<form action="editTest"
+							 method="GET">
+							 <input type="hidden" name="subjectId" value="${param.subjectId}" />
+							 <input type="hidden" name="testId" value="${test.id}" />
+								<button type="submit" class="btn btn-primary btn-lj">
+									<spring:message code="label.tests.test_edit" /></button>
+							</form>
+						</td>
+						<td>
+							<form action="deleteTest?testId=${test.id}&blockId=${param.blockId}&subjectId=${param.subjectId}"
+							 method="POST">
+								<button type="submit" class="btn btn-danger btn-lj">
+									<spring:message code="label.tests.test_delete" /></button>
+							</form>
 						</td>
 					</tr>
 				</c:forEach>
@@ -41,8 +68,10 @@
     </c:when>
     <c:otherwise>
     	<div class="alert alert-info" role="alert">
-    		No test for subject
+    		<spring:message code="label.tests.no_test" />
     	</div>
     </c:otherwise>
 	</c:choose>
-</div>
+		</div>
+	</div>
+	</div>

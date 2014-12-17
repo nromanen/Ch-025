@@ -7,7 +7,6 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
-<script src="resources/js/student/donouts.js"></script>
 <div class="row">
 	
 		<div class="row">
@@ -70,14 +69,14 @@
 						<div class="panel-heading">
 							<h4 class="panel-title">
 								<a data-toggle="collapse" data-parent="#accordion"
-									href="#s-${subject.id}-${block.order}">Module
-									${block.order}. ${block.name} 
-									(<fmt:formatDate pattern='dd-MM-yyyy' value='${block.startTime}' /> -
-									<fmt:formatDate pattern='dd-MM-yyyy' value='${block.endTime}' />)
+									href="#s-${subject.id}-${block.key.order}">Module
+									${block.key.order}. ${block.key.name} 
+									(<fmt:formatDate pattern='dd-MM-yyyy' value='${block.key.startTime}' /> -
+									<fmt:formatDate pattern='dd-MM-yyyy' value='${block.key.endTime}' />)
 									</a>
 							</h4>
 						</div>
-						<div id="s-${subject.id}-${block.order}"
+						<div id="s-${subject.id}-${block.key.order}"
 							class="panel-collapse collapse">
 							<div class="panel-body">
 								<div class="table-responsive">
@@ -88,7 +87,7 @@
 											</tr>
 										</thead>
 										<tbody>
-											<c:forEach items="${block.topics}" var="topic">
+											<c:forEach items="${block.key.topics}" var="topic">
 												<tr class="odd gradeA">
 													<td>
 														<c:choose>
@@ -104,6 +103,9 @@
 											</c:forEach>
 										</tbody>
 									</table>
+									<button class="btn btn-primary btn-lg" <c:if test="${block.value eq null}">disabled="disabled"</c:if>
+										onClick="location.href='takeTest?testId=${block.value.id}'">
+									<spring:message code="label.pass_test" /></button>
 								</div>
 							</div>
 						</div>

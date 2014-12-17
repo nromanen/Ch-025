@@ -20,26 +20,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.softserve.entity.Category;
-import com.softserve.entity.Option;
-import com.softserve.entity.Question;
-import com.softserve.entity.QuestionText;
 import com.softserve.entity.Role;
 import com.softserve.entity.Subject;
 import com.softserve.entity.TeacherRequest;
 import com.softserve.entity.User;
 import com.softserve.service.AdministratorService;
 import com.softserve.service.CategoryService;
+import com.softserve.service.CourseSchedulerService;
 import com.softserve.service.QuestionService;
 import com.softserve.service.RoleService;
+import com.softserve.service.StudentCabinetService;
 import com.softserve.service.SubjectService;
 import com.softserve.service.TeacherRequestService;
 import com.softserve.service.TestService;
 import com.softserve.service.UserService;
-import com.softserve.service.impl.QuestionServiceImpl;
-import com.softserve.service.impl.TestServiceImpl;
 
 /**
- * The Class AdministratorController.
+ * Handle administrator requests
  *
  * @author Ivan Khotynskyi
  */
@@ -98,13 +95,18 @@ public class AdministratorController {
 	@Autowired
 	private TestService testService;
 
+	@Autowired
+	private StudentCabinetService studentCabinetService;
+
+	@Autowired
+	private CourseSchedulerService courseSchedulerService;
+
 	/**
-	 * Administrator it's method that set parameters and redirect to start admin
-	 * page.
+	 * Handle view administrator main page request
 	 *
 	 * @param model
 	 *            the model
-	 * @return the string
+	 * @return administrator URL
 	 */
 	@RequestMapping(value = "/administrator", method = RequestMethod.GET)
 	public String administrator(
@@ -113,44 +115,16 @@ public class AdministratorController {
 			Model model) {
 		LOG.debug("Visit administrator page");
 
-
-//		Question question = new Question();
-//
-//		question.setTest(testService.getTestById(2));
-//
-//		QuestionText qt = new QuestionText();
-//		qt.setValue("How old are you?");
-//
-//		Option o1 = new Option();
-//		o1.setCorrect(true);
-//		o1.setValue("Bigger than 0");
-//
-//		Option o2 = new Option();
-//		o2.setCorrect(false);
-//		o2.setValue("I don't know");
-//
-//		List<Option> options = new ArrayList<Option>();
-//		options.add(o1);
-//		options.add(o2);
-//		qt.setOptions(options);
-//
-//		question.setMark(5);
-//
-//		question.setQuestionText(qt);
-//
-//		questionService.addQuestion(question);
-
-
-//		System.out.println("--Base64->" + questionService.getQuestionById(1).getQuestionText());
-//		System.out.println("--Question->" + questionService.getQuestionById(1).getQuestion());
-//		System.out.println("--Option->" + questionService.getQuestionById(1).getQuestion().getOptions().get(1).getValue());
-
-
 		long subjectsCount = subjectService.getCountOfSubjects();
 		int categoriesCount = categoryService.getAllCategories().size();
 		long usersCount = userService.getCountOfUsers();
+		int futureCourceCount = courseSchedulerService.getFutureCoursesCount();
+		long teachersCount = userService.getCountOfUsersByRole("teacher");
+		long tempFilesSize = administratorService
+				.getDocumentsForInactiveTopicsSize();
 		String supportEmail = administratorService.getSupportEmail();
-		Map<String, Long> listMap = administratorService.getCountRegistredUsersByLastDays(DEFAULT_LAST_REGISTRED_DAYS);
+		Map<String, Long> listMap = administratorService
+				.getCountRegistredUsersByLastDays(DEFAULT_LAST_REGISTRED_DAYS);
 		List<String> lastRegDates = new ArrayList<String>();
 		List<Long> lastRegUsers = new ArrayList<Long>();
 
@@ -163,12 +137,14 @@ public class AdministratorController {
 			lastRegUsers.add(count);
 		}
 
-		model.addAttribute("lastRegDates", lastRegDates);
-		model.addAttribute("lastRegUsers", lastRegUsers);
-
 		setMessage(model, successMessage, errorMessage);
 		setAactiveTeacherRequests(model);
 
+		model.addAttribute("futureCourceCount", futureCourceCount);
+		model.addAttribute("teachersCount", teachersCount);
+		model.addAttribute("tempFilesSize", tempFilesSize);
+		model.addAttribute("lastRegDates", lastRegDates);
+		model.addAttribute("lastRegUsers", lastRegUsers);
 		model.addAttribute("subjectsCount", subjectsCount);
 		model.addAttribute("categoriesCount", categoriesCount);
 		model.addAttribute("usersCount", usersCount);
@@ -178,16 +154,13 @@ public class AdministratorController {
 	}
 
 	/**
-	 * View all categories it's method that set parameters and redirect to page
-	 * with all categories.
+	 * Handle view all categories request.
 	 *
 	 * @param successMessage
 	 *            the success message
 	 * @param errorMessage
 	 *            the error message
-	 * @param model
-	 *            the model
-	 * @return the string
+	 * @return viewAllCategories URL
 	 */
 	@RequestMapping(value = "/viewAllCategories", method = RequestMethod.GET)
 	public String viewAllCategories(
@@ -206,15 +179,13 @@ public class AdministratorController {
 	}
 
 	/**
-	 * deleteCategory delete category and redirect to page with categories.
+	 * Handle delete category request
 	 *
 	 * @param categoryId
 	 *            the category id
-	 * @param model
-	 *            the model
 	 * @param redirectAttributes
 	 *            the redirect attributes
-	 * @return the string
+	 * @return viewAllCategories
 	 */
 	@RequestMapping(value = "/deleteCategory", method = RequestMethod.GET)
 	public String deleteCategory(
@@ -244,16 +215,13 @@ public class AdministratorController {
 	}
 
 	/**
-	 * Add category it's method create new category and redirect to page with
-	 * categories.
+	 * Handle create new category request
 	 *
 	 * @param categoryName
 	 *            the category name
-	 * @param model
-	 *            the model
 	 * @param redirectAttributes
 	 *            the redirect attributes
-	 * @return the string
+	 * @return viewAllCategories
 	 */
 	@RequestMapping(value = "/addCategory")
 	public String addCategory(
@@ -287,6 +255,15 @@ public class AdministratorController {
 		return "redirect:/viewAllCategories";
 	}
 
+	/**
+	 * Handle change category name request
+	 *
+	 * @param categoryId
+	 *            the category id
+	 * @param category
+	 *            the category new name
+	 * @return viewAllCategories
+	 */
 	@RequestMapping(value = "/changeCategory", method = RequestMethod.POST)
 	public String changeCategory(
 			@RequestParam(value = "categoryId", required = false) Integer categoryId,
@@ -300,7 +277,7 @@ public class AdministratorController {
 				myCategory.setName(category);
 				categoryService.updateCategory(myCategory);
 				redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE,
-						getSpringMessage("label.category") + "<b>" + oldName
+						getSpringMessage("label.category") + " <b>" + oldName
 								+ "</b> "
 								+ getSpringMessage("message.admin.was_changed")
 								+ " <b>" + myCategory.getName() + "</b>");
@@ -317,8 +294,7 @@ public class AdministratorController {
 	}
 
 	/**
-	 * View all users it's method set parameters and redirect to page with
-	 * users.
+	 * Handle view all users request
 	 *
 	 * @param successMessage
 	 *            the success message
@@ -338,7 +314,7 @@ public class AdministratorController {
 	 *            the sort method
 	 * @param model
 	 *            the model
-	 * @return the string
+	 * @return viewAllUsers URL
 	 */
 	@RequestMapping(value = "/viewAllUsers", method = RequestMethod.GET)
 	public String viewAllUsers(
@@ -410,8 +386,7 @@ public class AdministratorController {
 	}
 
 	/**
-	 * Change user role it's method change user role and redirect to page with
-	 * users.
+	 * Handle change user role request
 	 *
 	 * @param userId
 	 *            the user id
@@ -429,11 +404,9 @@ public class AdministratorController {
 	 *            the sort by
 	 * @param sortMethod
 	 *            the sort method
-	 * @param model
-	 *            the model
 	 * @param redirectAttributes
 	 *            the redirect attributes
-	 * @return the string
+	 * @return viewAllUsers
 	 */
 	@RequestMapping(value = "/changeUserRole", method = RequestMethod.GET)
 	public String changeUserRole(
@@ -458,7 +431,7 @@ public class AdministratorController {
 							.addFlashAttribute(
 									SUCCESS_MESSAGE,
 									getSpringMessage("label.user")
-											+ "<b>"
+											+ "<b> 	"
 											+ user.getEmail()
 											+ "</b> "
 											+ getSpringMessage("message.admin.change_role")
@@ -488,8 +461,7 @@ public class AdministratorController {
 	}
 
 	/**
-	 * Change user status it's method change user status and redirect to page
-	 * with users.
+	 * Handle change user status request
 	 *
 	 * @param userId
 	 *            the user id
@@ -505,11 +477,9 @@ public class AdministratorController {
 	 *            the sort by
 	 * @param sortMethod
 	 *            the sort method
-	 * @param model
-	 *            the model
 	 * @param redirectAttributes
 	 *            the redirect attributes
-	 * @return the string
+	 * @return viewAllUsers
 	 */
 	@RequestMapping(value = "/changeUserStatus", method = RequestMethod.GET)
 	public String changeUserStatus(
@@ -535,7 +505,7 @@ public class AdministratorController {
 								.updateTeacherRequest(teacherRequest);
 					}
 					redirectAttributes
-							.addAttribute(
+							.addFlashAttribute(
 									SUCCESS_MESSAGE,
 									getSpringMessage("label.user")
 											+ " <b>"
@@ -573,7 +543,7 @@ public class AdministratorController {
 	}
 
 	/**
-	 * View all subjects this method set parameters and shows subjects/
+	 * Handle view all subjects request
 	 *
 	 * @param successMessage
 	 *            the success message
@@ -593,7 +563,7 @@ public class AdministratorController {
 	 *            the sort method
 	 * @param model
 	 *            the model
-	 * @return the string
+	 * @return viewAllSubjects URL
 	 */
 	@RequestMapping(value = "/viewAllSubjects")
 	public String viewAllSubjects(
@@ -657,7 +627,7 @@ public class AdministratorController {
 	}
 
 	/**
-	 * Change subject category its method change subject category/
+	 * Handle change subject category request
 	 *
 	 * @param subjectId
 	 *            the subject id
@@ -675,11 +645,9 @@ public class AdministratorController {
 	 *            the sort by
 	 * @param sortMethod
 	 *            the sort method
-	 * @param model
-	 *            the model
 	 * @param redirectAttributes
 	 *            the redirect attributes
-	 * @return the string
+	 * @return viewAllSubjects
 	 */
 	@RequestMapping(value = "/changeSubjectCategory", method = RequestMethod.GET)
 	public String changeSubjectCategory(
@@ -734,8 +702,7 @@ public class AdministratorController {
 	}
 
 	/**
-	 * View all requests it's method shows requests and redirect to page with
-	 * requests.
+	 * Handle view all requests request
 	 *
 	 * @param successMessage
 	 *            the success message
@@ -743,7 +710,7 @@ public class AdministratorController {
 	 *            the error message
 	 * @param model
 	 *            the model
-	 * @return the string
+	 * @return viewAllRequests URL
 	 */
 	@RequestMapping(value = "/viewAllRequests")
 	public String viewAllRequests(
@@ -761,16 +728,13 @@ public class AdministratorController {
 	}
 
 	/**
-	 * Change user role to admin it's method change role to teacher and redirect
-	 * to page with requests .
+	 * Handle change role to teacher request
 	 *
 	 * @param userId
 	 *            the user id
-	 * @param model
-	 *            the model
 	 * @param redirectAttributes
 	 *            the redirect attributes
-	 * @return the string
+	 * @return viewAllRequests
 	 */
 	@RequestMapping(value = "/changeUserRoleToTeacher")
 	public String changeUserRoleToTeacher(
@@ -805,15 +769,13 @@ public class AdministratorController {
 	}
 
 	/**
-	 * Delete teacher request it's method hide teacher request.
+	 * Handle delete teacher request
 	 *
 	 * @param userId
 	 *            the user id
-	 * @param model
-	 *            the model
 	 * @param redirectAttributes
 	 *            the redirect attributes
-	 * @return the string
+	 * @return viewAllRequests
 	 */
 	@RequestMapping(value = "/deleteTeacherRequest")
 	public String deleteTeacherRequest(
@@ -840,6 +802,15 @@ public class AdministratorController {
 		return "redirect:/viewAllRequests";
 	}
 
+	/**
+	 * Handle change support email request
+	 *
+	 * @param email
+	 *            the new email
+	 * @param redirectAttributes
+	 *            the redirect attributes
+	 * @return administrator
+	 */
 	@RequestMapping(value = "/changeSupportEmail")
 	public String changeSupportEmail(
 			@RequestParam(value = "email", required = false) String email,
@@ -859,11 +830,29 @@ public class AdministratorController {
 	}
 
 	/**
-	 * Check category it's method check if category connected with subject.
+	 * Handle Delete temporary files request
+	 *
+	 * @param redirectAttributes
+	 *            the redirect attributes
+	 * @return administrator
+	 */
+	@RequestMapping(value = "/deleteTemporaryFiles")
+	public String deleteTemporaryFiles(RedirectAttributes redirectAttributes) {
+		LOG.debug("Visit deleteTemporaryFiles page");
+		// studentCabinetService.rescheduleDeleteInactive();
+		administratorService.deleteTemporaryFiles();
+
+		redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE,
+				getSpringMessage("message.admin.files_deleted"));
+		return "redirect:/administrator";
+	}
+
+	/**
+	 * Check if category connected with subject.
 	 *
 	 * @param categoryId
 	 *            the category id
-	 * @return the string
+	 * @return information about checked category
 	 */
 	@RequestMapping(value = "/checkCategory", method = RequestMethod.POST)
 	public @ResponseBody String checkCategory(
@@ -878,11 +867,11 @@ public class AdministratorController {
 	}
 
 	/**
-	 * Get category it's method get all categories without one.
+	 * Get all categories without current.
 	 *
 	 * @param categoryId
-	 *            the category id
-	 * @return the string
+	 *            the current category id
+	 * @return string with categories
 	 */
 	@RequestMapping(value = "/getCategory", method = RequestMethod.POST)
 	public @ResponseBody String getCategory(
@@ -903,11 +892,11 @@ public class AdministratorController {
 	}
 
 	/**
-	 * Get roles it's method get all roles without one.
+	 * Get all roles without current.
 	 *
 	 * @param roleId
-	 *            the role id
-	 * @return the string
+	 *            the current role id
+	 * @return string with roles
 	 */
 	@RequestMapping(value = "/getRole", method = RequestMethod.POST)
 	public @ResponseBody String getRole(
@@ -927,6 +916,16 @@ public class AdministratorController {
 		return jsonObject.toString();
 	}
 
+	/**
+	 * Check messages and set it into model.
+	 *
+	 * @param model
+	 *            the model
+	 * @param successMessage
+	 *            the success message
+	 * @param errorMessage
+	 *            the message with error
+	 */
 	private void setMessage(Model model, String successMessage,
 			String errorMessage) {
 		if (successMessage != null) {
@@ -937,6 +936,16 @@ public class AdministratorController {
 		}
 	}
 
+	/**
+	 * Set pagination properties for pages.
+	 *
+	 * @param model
+	 *            the model
+	 * @param elementsOnPage
+	 *            the elements on page
+	 * @param errorMessage
+	 *            the message with error
+	 */
 	private void setPaginationProperties(Model model, Integer elementsOnPage,
 			Integer currentPage) {
 		if (elementsOnPage == null || elementsOnPage < MIN_ELEMENTS_ON_PAGE
@@ -957,6 +966,16 @@ public class AdministratorController {
 		model.addAttribute("currentPage", this.currentPage);
 	}
 
+	/**
+	 * Set sort parameters for pages.
+	 *
+	 * @param model
+	 *            the model
+	 * @param sortBy
+	 *            the field to sort
+	 * @param sortMethod
+	 *            the sort order
+	 */
 	private void setSortParameters(Model model, String sortBy, String sortMethod) {
 		if (sortBy == null && sortMethod == null) {
 			this.sortBy = "registration";
@@ -969,6 +988,14 @@ public class AdministratorController {
 		model.addAttribute("sortMethod", sortMethod);
 	}
 
+	/**
+	 * Set count of pagination.
+	 *
+	 * @param model
+	 *            the model
+	 * @param count
+	 *            the count of elements
+	 */
 	private void setPagesCount(Model model, long count) {
 		int pages = (int) count / this.elementsOnPage;
 		if ((count % this.elementsOnPage) != 0) {
@@ -977,13 +1004,25 @@ public class AdministratorController {
 		model.addAttribute("pagesCount", pages);
 	}
 
+	/**
+	 * Set count of teaher requests.
+	 *
+	 * @param model
+	 *            the model
+	 */
 	private void setAactiveTeacherRequests(Model model) {
 		activeTeacherRequests = (int) teacherRequestService
 				.getAllActiveTeacherRequestsCount();
 		model.addAttribute("activeTeacherRequests", activeTeacherRequests);
 	}
 
-	// change try catch bla bla foreach...
+	/**
+	 * Check string for special chars
+	 *
+	 * @param str
+	 *            the string to check
+	 * @return String
+	 */
 	private String beforeSearch(String str) {
 		str = str.trim();
 		str = str.replaceAll("\\<.*?>", "");
@@ -991,12 +1030,26 @@ public class AdministratorController {
 		return str;
 	}
 
+	/**
+	 * Set quotes and other special chars into string
+	 *
+	 * @param str
+	 *            the string
+	 * @return String
+	 */
 	private String afterSearch(String str) {
 		str = str.replaceAll("\"", "\u201D");
 		str = str.replaceAll("\'\'", "\'");
 		return str;
 	}
 
+	/**
+	 * Get text that depends from page language
+	 *
+	 * @param key
+	 *            the key of message
+	 * @return string
+	 */
 	private String getSpringMessage(String key) {
 		return messageSource.getMessage(key, new Object[] {},
 				LocaleContextHolder.getLocale());

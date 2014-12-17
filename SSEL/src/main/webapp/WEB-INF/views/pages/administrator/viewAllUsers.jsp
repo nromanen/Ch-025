@@ -479,7 +479,7 @@ if (('${searchText}' == "") || ('${searchText}' != $("#searchText").val())) {
 				<div class="col-md-12" align="left">
 					<c:if test="${not empty users}">
 						<label><spring:message code="label.records_per_page" />
-							<c:set var="onPage">1,3,5,10,25,50,100</c:set> <select
+							<c:set var="onPage">10,25,50,100</c:set> <select
 							id="elementsOnPage"
 							onchange="changeElementsPerPageFunction(this)">
 								<c:forTokens items="${onPage}" delims="," var="element">

@@ -22,6 +22,7 @@ import org.apache.commons.codec.binary.Base64;
 
 /**
  * Entity implementation class for Entity: Question
+ *
  * @author Ivan
  */
 @Entity
@@ -73,19 +74,18 @@ public class Question {
 	}
 
 	public String getQuestionText() {
-	    return questionText;
+		return questionText;
 	}
 
 	public QuestionText getQuestion() {
 		QuestionText questionText = new QuestionText();
 		try {
 			byte[] decodedBytes;
-			jaxbContext = JAXBContext
-					.newInstance(QuestionText.class);
+			jaxbContext = JAXBContext.newInstance(QuestionText.class);
 			jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			decodedBytes = Base64.decodeBase64(this.questionText);
 			questionText = (QuestionText) jaxbUnmarshaller
-					.unmarshal(new StringReader(new String (decodedBytes)));
+					.unmarshal(new StringReader(new String(decodedBytes)));
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
@@ -97,21 +97,17 @@ public class Question {
 		try {
 			StringWriter stringWriter = new StringWriter();
 			byte[] encodedBytes;
-			jaxbContext = JAXBContext
-					.newInstance(QuestionText.class);
+			jaxbContext = JAXBContext.newInstance(QuestionText.class);
 			jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			jaxbMarshaller.marshal(questionText, stringWriter);
-			encodedBytes = Base64.encodeBase64(stringWriter.toString().getBytes());
+			encodedBytes = Base64.encodeBase64(stringWriter.toString()
+					.getBytes());
 			this.questionText = new String(encodedBytes);
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
 	}
-
-//	public void setQuestionText(String questionText) {
-//		this.questionText = questionText;
-//	}
 
 	public double getMark() {
 		return mark;
@@ -132,7 +128,8 @@ public class Question {
 	@Override
 	public String toString() {
 		return "Question [id=" + id + ", test=" + test + ", questionText="
-				+ questionText.toString() + ", mark=" + mark + ", isDeleted=" + isDeleted
+				+ questionText + ", mark=" + mark + ", isDeleted=" + isDeleted
 				+ "]";
 	}
+
 }

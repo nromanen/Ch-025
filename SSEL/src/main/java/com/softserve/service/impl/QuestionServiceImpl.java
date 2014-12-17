@@ -1,7 +1,6 @@
 package com.softserve.service.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,25 +12,18 @@ import com.softserve.entity.Option;
 import com.softserve.entity.Question;
 import com.softserve.service.QuestionService;
 
-// TODO: Auto-generated Javadoc
 /**
- * Implements QuestionDao.
+ * Implements QuestionService.
  *
  * @author Ivan
  */
 @Service
 public class QuestionServiceImpl implements QuestionService {
 
-	/** The question dao. */
 	@Autowired
 	private QuestionDao questionDao;
 
 	/**
-	 * Adds the question.
-	 *
-	 * @param question
-	 *            the question
-	 * @return the question
 	 * @see com.softserve.service.QuestionService#addQuestion(com.softserve.entity.Question)
 	 */
 	@Override
@@ -55,10 +47,6 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	/**
-	 * Delete question.
-	 *
-	 * @param question
-	 *            the question
 	 * @see com.softserve.service.QuestionService#deleteQuestion(com.softserve.entity.Question)
 	 */
 	@Override
@@ -83,9 +71,6 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	/**
-	 * Gets the all questions.
-	 *
-	 * @return the all questions
 	 * @see com.softserve.service.QuestionService#getAllQuestions()
 	 */
 	@Override
@@ -95,9 +80,6 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	/**
-	 * Gets the all deleted questions.
-	 *
-	 * @return the all deleted questions
 	 * @see com.softserve.service.QuestionService#getAllDeletedQuestions()
 	 */
 	@Override
@@ -107,11 +89,6 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	/**
-	 * Update question.
-	 *
-	 * @param question
-	 *            the question
-	 * @return the question
 	 * @see com.softserve.service.QuestionService#updateQuestion(com.softserve.entity.Question)
 	 */
 	@Transactional
@@ -121,10 +98,6 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	/**
-	 * Restore question.
-	 *
-	 * @param question
-	 *            the question
 	 * @see com.softserve.service.QuestionService#restoreQuestion(com.softserve.entity.Question)
 	 */
 	@Override
@@ -134,13 +107,6 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	/**
-	 * Gets the user mark by question.
-	 *
-	 * @param questionId
-	 *            the question id
-	 * @param userOptions
-	 *            the user options
-	 * @return the user mark by question
 	 * @see com.softserve.service.QuestionService#getUserMarkByQuestion(int,
 	 *      java.util.List)
 	 */
@@ -153,7 +119,8 @@ public class QuestionServiceImpl implements QuestionService {
 		List<Option> options = question.getQuestion().getOptions();
 		answerMark = question.getMark() / options.size();
 		for (int i = 0; i < userOptions.size(); i++) {
-			if ((userOptions.get(i).isCorrect() ^ options.get(i).isCorrect())) {
+			if ((userOptions.get(i).getIsCorrect() ^ options.get(i)
+					.getIsCorrect())) {
 				mark -= answerMark;
 			} else {
 				mark += answerMark;
@@ -179,7 +146,7 @@ public class QuestionServiceImpl implements QuestionService {
 	public boolean checkAnswer(Question question, String answer) {
 		List<Option> options = question.getQuestion().getOptions();
 		for (Option option : options) {
-			if (option.isCorrect()) {
+			if (option.getIsCorrect()) {
 				if (answer.equals(option.getValue())) {
 					return true;
 				}
@@ -190,6 +157,11 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	/**
+	 * Gets the right answers.
+	 *
+	 * @param question
+	 *            the question
+	 * @return the right answers
 	 * @see com.softserve.service.QuestionService#getRightAnswers(com.softserve.entity.Question)
 	 */
 	@Override
@@ -198,7 +170,7 @@ public class QuestionServiceImpl implements QuestionService {
 		List<String> answers = new ArrayList<String>();
 		List<Option> options = question.getQuestion().getOptions();
 		for (Option option : options) {
-			if (option.isCorrect()) {
+			if (option.getIsCorrect()) {
 				answers.add(option.getValue());
 			}
 

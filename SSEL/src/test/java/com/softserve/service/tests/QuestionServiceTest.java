@@ -55,9 +55,9 @@ public class QuestionServiceTest {
 		question.setMark(5);
 		for (int i = 1; i < 6; i++) {
 			option = new Option();
-			option.setCorrect(false);
+			option.setIsCorrect(false);
 			if (i == 3 || i == 4) {
-				option.setCorrect(true);
+				option.setIsCorrect(true);
 			}
 			option.setValue("option " + i);
 			options.add(option);
@@ -150,16 +150,13 @@ public class QuestionServiceTest {
 		Question myQuestion = questionService.addQuestion(question);
 		assertEquals(question.getMark(), questionService.getUserMarkByQuestion(
 				myQuestion.getId(), options)[1], 0.0);
-		options.get(0).setCorrect(true);
+		options.get(0).setIsCorrect(true);
 		assertNotNull(questionService.getUserMarkByQuestion(myQuestion.getId(),
 				options));
 	}
 
 	@Test
-//	@DatabaseSetup("classpath:questions.xml")
-//	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:questions.xml")
 	public void testGetRightAnswers() {
 		assertNotNull(questionService.getRightAnswers(question));
-//		assertNotNull(questionService.getRightAnswers(questionService.getQuestionById(1)));
 	}
 }

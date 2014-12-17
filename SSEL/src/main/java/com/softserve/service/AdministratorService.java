@@ -1,11 +1,12 @@
 package com.softserve.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.softserve.entity.ConfigurationProperty;
+import com.softserve.entity.StudyDocument;
 
 /**
- * Implements QuestionDao
  * @author Ivan
  *
  */
@@ -34,7 +35,18 @@ public interface AdministratorService {
 	/**
 	 * Get count of registered users
 	 * @param lastDays - count of last days for statistic
-	 * @return
+	 * @return updated ConfigurationProperty
 	 */
 	public Map<String, Long> getCountRegistredUsersByLastDays(int lastDays);
+
+	/**
+	 * Get size of temporary files
+	 * @return size of files
+	 */
+	public long getDocumentsForInactiveTopicsSize();
+
+	/**
+	 * Delete temporary files
+	 */
+	void deleteTemporaryFiles();
 }

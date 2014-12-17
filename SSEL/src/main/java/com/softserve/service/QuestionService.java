@@ -6,7 +6,7 @@ import com.softserve.entity.Option;
 import com.softserve.entity.Question;
 
 /**
- * Implements QuestionDao
+ * Specify question service funtionality
  * @author Ivan
  *
  */
@@ -15,7 +15,7 @@ public interface QuestionService {
 	/**
 	 * Add question
 	 * @param question it's question to add
-	 * @return added question
+	 * @return updated question
 	 */
 	Question addQuestion(Question question);
 

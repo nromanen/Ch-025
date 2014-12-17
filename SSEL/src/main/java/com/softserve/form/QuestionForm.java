@@ -2,19 +2,15 @@ package com.softserve.form;
 
 import java.util.List;
 
-import com.softserve.entity.Answer;
+import com.softserve.entity.Option;
 import com.softserve.entity.Question;
 
 public class QuestionForm {
 	private Question question;
 	
-	private List<Answer> answers;
+	private String name;
 	
-	private int testId;
-	
-	public QuestionForm() {
-
-	}
+	private List<Option> answers;
 
 	public Question getQuestion() {
 		return question;
@@ -24,20 +20,21 @@ public class QuestionForm {
 		this.question = question;
 	}
 
-	public List<Answer> getAnswers() {
+	public List<Option> getAnswers() {
 		return answers;
 	}
 
-	public void setAnswers(List<Answer> answers) {
+	public void setAnswers(List<Option> answers) {
 		this.answers = answers;
 	}
 
-	public int getTestId() {
-		return testId;
+	public String getName() {
+		return name;
 	}
 
-	public void setTestId(int testId) {
-		this.testId = testId;
+	public void setName(String name) {
+		this.name = name;
 	}
-
+	
+	
 }

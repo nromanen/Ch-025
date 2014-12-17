@@ -1,7 +1,9 @@
 package com.softserve.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,6 +22,7 @@ import com.softserve.entity.Group;
 import com.softserve.entity.Rating;
 import com.softserve.entity.StudyDocument;
 import com.softserve.entity.Subject;
+import com.softserve.entity.Test;
 import com.softserve.entity.Topic;
 import com.softserve.entity.User;
 import com.softserve.service.BlockService;
@@ -28,6 +31,7 @@ import com.softserve.service.GroupService;
 import com.softserve.service.RatingService;
 import com.softserve.service.StudentCabinetService;
 import com.softserve.service.SubjectService;
+import com.softserve.service.TestService;
 import com.softserve.service.TopicService;
 import com.softserve.service.UserService;
 /**
@@ -55,7 +59,8 @@ public class StudentCabinetController {
 	private MessageSource messageSource; 
 	@Autowired
 	private StudentCabinetService studentCabinetService;
-	
+	@Autowired
+	private TestService testService;
 	/**
 	 * Handle subscribe requests
 	 * @param subjectId subject id to subscribe/unsubscribe
@@ -131,16 +136,21 @@ public class StudentCabinetController {
 	@RequestMapping(value = "/modules", method = RequestMethod.GET)
 	public String printModules(
 			@RequestParam(value = "courseId", required = true) Integer courseId, Model model) {
-		User user = userService.getUserByEmail(userService.getCurrentUser());//(User) session.getAttribute("user");
+		User user = userService.getUserByEmail(userService.getCurrentUser());
 		int userId = user.getId();
 		List<Block> blocks = blockService.getBlocksBySubjectId(courseId);
 		Subject subject = subjectService.getSubjectById(courseId);
 		int courseSchedulerId = courseService.getCourseScheduleresBySubjectId(courseId).get(0).getId();
 		int groupId = groupService.getGroupByScheduler(courseSchedulerId).getGroupId();
 		Block nearest = blockService.getNearestInactiveBlockBySubject(subject.getId());
+		Map<Block,Test> bind = new HashMap<>();
+		for (Block block: blocks) {
+			List<Test> tests = testService.getTestsByBlock(block.getId());
+				bind.put(block, (tests.isEmpty()) ? null: tests.get(0));
+		}
 		model.addAttribute("rating", ratingService.getAverageRatingByUserAndGroup(userId, groupId));
 		model.addAttribute("progress", ratingService.getProgressByGroupAndUser(groupId, userId));
-		model.addAttribute("blockList", blocks);
+		model.addAttribute("blockList", bind);
 		model.addAttribute("subject", subject);
 		model.addAttribute("table", "active");
 		model.addAttribute("nearest", nearest);

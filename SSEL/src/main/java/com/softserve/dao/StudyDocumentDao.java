@@ -25,7 +25,7 @@ public interface StudyDocumentDao {
      */
     List<StudyDocument> deletedList();
     /**
-     * Add file into files list 
+     * Add file into files list
      * @param sfile new file
      * @return added file
      */
@@ -52,5 +52,7 @@ public interface StudyDocumentDao {
      * @return list of files
      */
     List<StudyDocument> getDocumentsForInactiveTopics();
-    
+
+    StudyDocument getDocumentByName(String name, long size);
+
 }

@@ -366,10 +366,7 @@
 						<td class="col-md-1">
 						<c:choose>
 							<c:when test="${not empty log.exception}">
-								<%-- <a href="${pageContext.request.contextPath}/logDetails?LogId=${log.id}">Details</a>
-									<button type="button" class="btn btn-primary"
-										onclick="openModal(${log.id});">Details</button>--%>
-									<center><a href="#" onclick="openModal(${log.id});" >Details </a></center>
+								<center><a href="#" onclick="openModal(${log.id});" >Details </a></center>
 							</c:when>
 							<c:otherwise>
 								<center>No exception</center> 

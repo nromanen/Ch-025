@@ -71,10 +71,7 @@ public class GuestController {
 	
 	@Autowired
 	private SearchService searchService;
-	
 	private List<Subject> subjects;
-	private List<Category> categories;
-	private List<CourseScheduler> schedulers;
 
 	@RequestMapping(value = "/enter")
 	public String enter(Model model, Principal principal,
@@ -101,8 +98,8 @@ public class GuestController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index(Model model) {
 		LOG.debug("Visit index page as guest");
-		subjects = subjectService.getAllSubjectsWithSchedulers();
-		categories = categoryService.getAllCategories();
+		List<Subject> subjects = subjectService.getAllSubjectsWithSchedulers();
+		List<Category> categories = categoryService.getAllCategories();
 		model.addAttribute("subList", subjects);
 		model.addAttribute("catList", categories);
 		return "index";
@@ -114,7 +111,7 @@ public class GuestController {
 			Model model, HttpSession httpSession) {
 		LOG.debug("Visit course page as guest");
 		subjects = subjectService.getAllSubjects();
-		categories = categoryService.getAllCategories();
+		List<Category> categories = categoryService.getAllCategories();
 		model.addAttribute("subList", subjects);
 		model.addAttribute("catList", categories);
 		model.addAttribute("isSubscribed", isSubscribed);
@@ -134,15 +131,14 @@ public class GuestController {
 	public String courseInformation(@RequestParam Integer subjectId, Model model, HttpSession httpSession) {
 		LOG.debug("Visit courseInformation page as guest");
 		subjects = subjectService.getAllSubjects();
-		categories = categoryService.getAllCategories();
+		List<Category> categories = categoryService.getAllCategories();
 		model.addAttribute("subList", subjects);
 		model.addAttribute("catList", categories);
 		Subject subject = subjectService.getSubjectById(subjectId);
 		Category category = categoryService.getCategoryById(subject.getCategory().getId());
 		List<Block> blocks = blockService.getBlocksBySubjectId(subject.getId());
 		List<Topic> topics = topicService.getAllTopics();
-		schedulers = 
-				cSchedulerService.getCourseScheduleresBySubjectId(subject.getId());
+		List<CourseScheduler> schedulers = cSchedulerService.getCourseScheduleresBySubjectId(subject.getId());
 		User user = (User) httpSession.getAttribute("user");
 		if (user != null) {
 			StudentGroup row = studentGroupService.getStudentGroupByUserAndGroupId(user.getId(), 
@@ -165,9 +161,9 @@ public class GuestController {
 			@RequestParam (value = "sortBy", required = false, defaultValue = "id") String sortBy,
 			@RequestParam (value = "isReverse", required = false, defaultValue = "false") Boolean isReverse) {
 		LOG.debug("Search by subjects with {0} query", search);
-		pageNumber = pageNumber > 0 ? pageNumber : START_PAGE;
-		pageSize = pageSize > 0 ? pageSize : PAGE_SIZE;
-		Long numberOfPages = 0l;
+		int pageNumb = pageNumber > 0 ? pageNumber : START_PAGE;
+		int pageSz = pageSize > 0 ? pageSize : PAGE_SIZE;
+		Long numberOfPages = 0L;
 		List<Category> categories = searchService.getCategoriesByNamePart(search);
 		List<Subject> subjects = searchService.getSubjectsByNamePart(search, pageNumber, 
 				pageSize, sortBy, isReverse);
@@ -177,8 +173,8 @@ public class GuestController {
 		model.addAttribute("catList", categories);
 		model.addAttribute("subjList", subjects);
 		model.addAttribute("search", search);
-		model.addAttribute("pageSize", pageSize);
-		model.addAttribute("pageNumber", pageNumber);
+		model.addAttribute("pageSize", pageSz);
+		model.addAttribute("pageNumber", pageNumb);
 		model.addAttribute("isReverse", isReverse);
 		model.addAttribute("sortBy", sortBy);
 
@@ -191,9 +187,9 @@ public class GuestController {
 			@RequestParam (value = "pageSize", required = false, defaultValue = PAGE_SIZE + "") Integer pageSize,
 			@RequestParam (value = "sortBy", required = false, defaultValue = "id") String sortBy,
 			@RequestParam (value = "isReverse", required = false, defaultValue = "false") Boolean isReverse) {
-		pageNumber = pageNumber > 0 ? pageNumber : START_PAGE;
-		pageSize = pageSize > 0 ? pageSize : PAGE_SIZE;
-		Long numberOfPages = 0l;
+		int pageNumb = pageNumber > 0 ? pageNumber : START_PAGE;
+		int pageSz = pageSize > 0 ? pageSize : PAGE_SIZE;
+		Long numberOfPages = 0L;
 		List<Subject> subjects = 
 				searchService.getSubjectsByCategoryIdWithLimit(categoryId, pageNumber, 
 						pageSize, sortBy, isReverse);
@@ -203,8 +199,8 @@ public class GuestController {
 		numberOfPages = (count % pageSize > 0) ? count / pageSize + 1 : count / pageSize;
 		model.addAttribute("numberOfPages", numberOfPages);
 		model.addAttribute("subjList", subjects);
-		model.addAttribute("pageSize", pageSize);
-		model.addAttribute("pageNumber", pageNumber);
+		model.addAttribute("pageSize", pageSz);
+		model.addAttribute("pageNumber", pageNumb);
 		model.addAttribute("categoryId", categoryId);
 		model.addAttribute("isReverse", isReverse);
 		model.addAttribute("sortBy", sortBy);

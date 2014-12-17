@@ -1,6 +1,9 @@
 package com.softserve.service.tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -24,12 +27,13 @@ import com.softserve.service.BlockService;
 import com.softserve.service.GroupService;
 import com.softserve.service.RatingService;
 import com.softserve.service.StudentGroupService;
+import com.softserve.service.TestService;
 import com.softserve.service.UserService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-		"file:src/main/webapp/WEB-INF/spring/forTest/root-context.xml",
-		"file:src/main/webapp/WEB-INF/spring/forTest/data.xml" })
+		"file:src/main/webapp/WEB-INF/spring/fortest/root-context.xml",
+		"file:src/main/webapp/WEB-INF/spring/fortest/data.xml" })
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
 		DbUnitTestExecutionListener.class })
 
@@ -49,19 +53,20 @@ public class RatingServiceTest {
 	@Autowired
 	private BlockService blockService;
 	
+	@Autowired
+	private TestService testService;
+	
 	@Test
 	@DatabaseSetup("classpath:ratingTestDataset.xml")
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:ratingTestDataset.xml")
 	public void testAddRating() {
 		Rating newRecord = new Rating();
-		newRecord.setRatingId(3);
-		newRecord.setMark(95.0);
+		newRecord.setMark(67.0);
 		User user = userService.getUserById(2);
 		Group group = studentGroupService.getStudentGroupById(2).getGroupNumber();
-		Block block = blockService.getBlockById(1);
+		newRecord.setTest(testService.getTestById(1));
 		newRecord.setGroup(group);
 		newRecord.setUser(user);
-		newRecord.setBlock(block);
 		Rating rating = ratingService.addRating(newRecord);
 		assertNotNull(rating);		
 	}
@@ -74,10 +79,9 @@ public class RatingServiceTest {
 		newRecord.setMark(64);
 		User user = userService.getUserById(2);
 		Group group = studentGroupService.getStudentGroupById(2).getGroupNumber();
-		Block block = blockService.getBlockById(1);
+		newRecord.setTest(testService.getTestById(1));
 		newRecord.setGroup(group);
 		newRecord.setUser(user);
-		newRecord.setBlock(block);
 		Rating rating = ratingService.updateRating(newRecord);
 		assertEquals(rating, newRecord);		
 	}
