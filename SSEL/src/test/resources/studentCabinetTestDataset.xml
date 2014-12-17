@@ -13,9 +13,9 @@
 		id_category="1" id_user="1" deleted="0" />
 	<course_scheduler id="1" end="2014-10-11" start="2014-09-14"
 		id_subject="1" deleted="0" />
-	<course_scheduler id="2" end="2014-12-11" start="2014-09-19"
+	<course_scheduler id="2" end="2014-12-20" start="2014-09-19"
 		id_subject="2" deleted="0" />
-	<course_scheduler id="3" end="2014-12-11" start="2014-12-01"
+	<course_scheduler id="3" end="2015-02-11" start="2014-12-31"
 		id_subject="3" deleted="0" />
 	<groups id="1" isActive="1" deleted="0" id_course_scheduler="1" />
 	<groups id="2" isActive="1" deleted="0" id_course_scheduler="2" />

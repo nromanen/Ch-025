@@ -173,8 +173,8 @@
 	<changeSet id="2014-11-27-insert-into-test" author="Anatoliy">
 		<comment>Insert some tests</comment>
 		<sql splitStatements="true">
-			INSERT INTO `tests` VALUES (1,'The greatest test ever!','This test tests =)',16, 1, 0);
-			INSERT INTO `tests` VALUES (2,'The second test of greatestnes','This one do not',24, 0, 0);
+			INSERT INTO `tests` VALUES (1,'The greatest test ever!','This test tests =)',22, 1, 0);
+			INSERT INTO `tests` VALUES (2,'The second test of greatestnes','This one do not',23, 0, 0);
 		</sql>
 	</changeSet>
 

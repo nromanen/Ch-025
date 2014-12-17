@@ -27,7 +27,7 @@ public class RatingDaoImpl implements RatingDao {
 	public Rating addRating(Rating newRating) {
 		LOG.debug("Add rating (number = {})", newRating.getRatingId());
 		entityManager.persist(newRating);
-		return entityManager.find(Rating.class, newRating.getRatingId());
+		return newRating;
 	}
 
 	@Override
@@ -64,7 +64,8 @@ public class RatingDaoImpl implements RatingDao {
 				+ "WHERE r.group.groupId = :gi AND r.user.id = :ui ");
 		query.setParameter("gi", groupId);
 		query.setParameter("ui", userId);
-		return  (query.getResultList().isEmpty()) ? null : query.getResultList();
+		List<Rating> results = query.getResultList();
+		return  (results.isEmpty()) ? null : results;
 	}
 
 	@Override
@@ -81,7 +82,7 @@ public class RatingDaoImpl implements RatingDao {
 	public double getProgressByGroupAndUser(int groupId, int userId) {
 		CourseScheduler cs = (CourseScheduler) entityManager.createQuery("SELECT gr.course FROM Group gr WHERE gr.groupId = :id")
 				.setParameter("id", groupId).getSingleResult();
-			Query query = entityManager.createQuery("SELECT count(t.id) FROM Test t WHERE t.block.subject.id = :id")
+			Query query = entityManager.createQuery("SELECT count(b.id) FROM Block b WHERE b.subject.id = :id")
 				.setParameter("id", cs.getSubject().getId());
 			Long testCount = (Long) query.getSingleResult();
 			Long ratings = (Long) entityManager.createQuery("SELECT count(rt.id) FROM Rating rt WHERE "
