@@ -60,8 +60,10 @@ public class SubjectServiceImpl implements SubjectService {
 
 	@Override
 	@Transactional
-	public List<Subject> getSubjectsByPage(int startPosition, int limitLength, String sortBy, String sortMethod) {
-		return subjectDao.getSubjectsByPage(startPosition, limitLength, sortBy, sortMethod);
+	public List<Subject> getSubjectsByPage(int startPosition, int limitLength,
+			String sortBy, String sortMethod) {
+		return subjectDao.getSubjectsByPage(startPosition, limitLength, sortBy,
+				sortMethod);
 	}
 
 	@Override
@@ -84,7 +86,8 @@ public class SubjectServiceImpl implements SubjectService {
 	@Transactional
 	public List<Subject> getSubjectsByTextByPage(String searchText,
 			int startPosition, int limitLength, String sortBy, String sortMethod) {
-		return subjectDao.getSubjectsByTextByPage(searchText, startPosition, limitLength, sortBy, sortMethod);
+		return subjectDao.getSubjectsByTextByPage(searchText, startPosition,
+				limitLength, sortBy, sortMethod);
 	}
 
 	@Override

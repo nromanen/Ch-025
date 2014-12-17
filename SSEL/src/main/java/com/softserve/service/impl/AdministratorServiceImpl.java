@@ -24,10 +24,9 @@ import com.softserve.service.CategoryService;
 import com.softserve.service.UserService;
 
 /**
- * Implements QuestionDao
+ * Implements AdministratorService.
  *
  * @author Ivan
- *
  */
 @Service
 public class AdministratorServiceImpl implements AdministratorService {
@@ -112,6 +111,9 @@ public class AdministratorServiceImpl implements AdministratorService {
 		return list;
 	}
 
+	/**
+	 * @see com.softserve.service.AdministratorService#getDocumentsForInactiveTopicsSize()
+	 */
 	public long getDocumentsForInactiveTopicsSize() {
 		String rootPath = getClass().getResource("/").getFile();
 		File earDir = new File(rootPath).getParentFile();
@@ -136,26 +138,31 @@ public class AdministratorServiceImpl implements AdministratorService {
 		return 0;
 	}
 
+	/**
+	 * @see com.softserve.service.AdministratorService#deleteTemporaryFiles()
+	 */
 	public void deleteTemporaryFiles() {
 		String rootPath = getClass().getResource("/").getFile();
 		File earDir = new File(rootPath).getParentFile();
 		earDir = new File(earDir.getParentFile() + "/resources/tmp");
-		ArrayList<File> files = new ArrayList<File>(Arrays.asList(earDir
-				.listFiles()));
-		StudyDocument document;
+		if (earDir.list() != null) {
+			ArrayList<File> files = new ArrayList<File>(Arrays.asList(earDir
+					.listFiles()));
+			StudyDocument document;
 
-		for (File docFile : files) {
-			document = studyDocumentDao.getDocumentByName(docFile.getName(),
-					docFile.length());
-			if (document != null) {
-				if (document.getTopic().isAlive()) {
-					continue;
+			for (File docFile : files) {
+				document = studyDocumentDao.getDocumentByName(
+						docFile.getName(), docFile.length());
+				if (document != null) {
+					if (document.getTopic().isAlive()) {
+						continue;
+					}
 				}
-			}
-			try {
-				docFile.delete();
-			} catch (Exception e) {
-				e.printStackTrace();
+				try {
+					docFile.delete();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
