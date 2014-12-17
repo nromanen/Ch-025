@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
+<<<<<<< HEAD
+=======
 
+>>>>>>> d86f504450cc3c402bd58c295025c80c3180a4ca
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,11 +15,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+<<<<<<< HEAD
+import com.softserve.entity.Option;
+import com.softserve.entity.Question;
+=======
 import com.softserve.entity.Block;
 import com.softserve.entity.CourseScheduler;
 import com.softserve.entity.Option;
 import com.softserve.entity.Question;
 import com.softserve.entity.Rating;
+>>>>>>> d86f504450cc3c402bd58c295025c80c3180a4ca
 import com.softserve.entity.Test;
 import com.softserve.entity.TestStatistic;
 import com.softserve.service.BlockService;
@@ -93,6 +101,37 @@ public class TakeTestController {
 	@RequestMapping(value = "/submitTest", method = RequestMethod.POST)
 	public String submitTest(@RequestParam(value = "testId", required = true) Integer testId,
 			@RequestParam(value = "questionId", required = true) Integer questionId,
+<<<<<<< HEAD
+			@RequestParam(value = "choices[]", required = false) ArrayList<Integer> choices, Model model) {
+
+		Integer userId = userService.getUserByEmail(userService.getCurrentUser()).getId();
+
+		TestStatistic testStatistic = new TestStatistic();
+		testStatistic.setTest(testService.getTestById(testId));
+		testStatistic.setQuestion(questionService.getQuestionById(questionId));
+		testStatistic.setUser(userService.getUserById(userId));
+		testStatistic.setUserAnswers(choices);
+		testStatistic.setGroup(groupService.getGroupsByStudent(userId).get(0));
+
+		ArrayList<Option> options = new ArrayList<Option>();
+		for (Integer i : choices) {
+			Option option = new Option();
+			if (i == 0)
+				option.setIsCorrect(false);
+			if (i == 1)
+				option.setIsCorrect(true);
+			options.add(option);
+		}
+
+		testStatistic.setUserResult((float) questionService.getUserMarkByQuestion(questionId, options)[0]);
+		testStatistic.setMaxResult((int) questionService.getUserMarkByQuestion(questionId, options)[1]);
+
+		testStatisticService.addTestStatistic(testStatistic);
+
+		List<TestStatistic> tsByUserByTestList = testStatisticService.getTestStatisticByUserByTest(userId, testId);
+		float totalUserResult = ((float) testStatisticService.getUserResultByTest(userId, testId) * 100);
+
+=======
 			@RequestParam(value = "choices[]", required = false) ArrayList<Integer> choices,
 			Model model) {
 		
@@ -138,6 +177,7 @@ public class TakeTestController {
 		newRating.setGroup(groupService.getGroupByScheduler(cs.getId()));
 		newRating.setTest(test);
 		ratingService.addRating(newRating);
+>>>>>>> d86f504450cc3c402bd58c295025c80c3180a4ca
 		model.addAttribute("totalUserResult", totalUserResult);
 		model.addAttribute("tsByUserByTestList", tsByUserByTestList);
 		model.addAttribute("user", userService.getUserById(userId));

@@ -28,25 +28,21 @@ public class RatingServiceImpl implements RatingService{
 		return ratingDao.getRatingById(id);
 	}
 
-	@Transactional
 	@Override
 	public List<Rating> getRatingByGroupAndUser(int groupId, int userId) {
 		return ratingDao.getRatingsByGroupAndUser(groupId, userId);
 	}
 	
-	@Transactional
 	@Override
 	public double getAverageRatingByUserAndGroup(int userId, int groupId) {
 		return ratingDao.getAverageRatingByGroupAndUser(groupId, userId);
 	}
 
-	@Transactional
 	@Override
 	public double getProgressByGroupAndUser(int groupId, int userId) {
 		return ratingDao.getProgressByGroupAndUser(groupId, userId);
 	}
 
-	@Transactional
 	@Override
 	public Rating updateRating(Rating rating) {
 		return ratingDao.updateRating(rating);
