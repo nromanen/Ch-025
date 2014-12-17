@@ -21,55 +21,10 @@
 					<spring:message code="label.userTS.your_total_result_is" /> <strong><fmt:formatNumber
 							type="number" maxFractionDigits="1" value="${totalUserResult}" /></strong>%
 				</h3>
+					<button type="button" class="btn btn-info" onclick="location.href='userTestStatistic?testId=${test.id}'">
+						<spring:message code="label.details" />
+					</button>
 
-				<div class="col-md-10 col-md-offset-1" align="center">
-					<c:forEach items="${tsByUserByTestList}" var="testStatistic">
-						<table class="table table-bordered">
-							<thead>
-								<tr class="info">
-									<th colspan="2">${testStatistic.question.getQuestion().value }</th>
-								</tr>
-							</thead>
-							<tbody>
-								<c:forEach
-									items="${testStatistic.question.getQuestion().options}"
-									var="option" varStatus="ind">
-									<c:choose>
-										<c:when test="${testStatistic.userAnswers[ind.index] != 0 }">
-											<c:choose>
-												<c:when test="${option.isCorrect }">
-													<tr class="success">
-														<td class="col-md-11">${option.value}</td>
-														<td class="col-md-1" align="center"><span
-															class="fa fa-check green"></span></td>
-													</tr>
-												</c:when>
-												<c:otherwise>
-													<tr class="danger">
-														<td class="col-md-11">${option.value}</td>
-														<td class="col-md-1" align="center"><span
-															class="glyphicon glyphicon-remove red"></span></td>
-													</tr>
-												</c:otherwise>
-											</c:choose>
-										</c:when>
-										<c:otherwise>
-											<tr>
-												<td class="col-md-11">${option.value}</td>
-												<td class="col-md-1"></td>
-											</tr>
-										</c:otherwise>
-									</c:choose>
-								</c:forEach>
-								<tr>
-									<td colspan="2"><i><spring:message code="label.userTS.earned" /> ${testStatistic.userResult}
-											<spring:message code="label.userTS.from" /> ${testStatistic.maxResult}</i></td>
-								</tr>
-							</tbody>
-						</table>
-						<br />
-					</c:forEach>
-				</div>
 			</div>
 		</div>
 	</c:otherwise>

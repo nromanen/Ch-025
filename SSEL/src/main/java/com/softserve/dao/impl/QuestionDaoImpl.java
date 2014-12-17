@@ -15,6 +15,7 @@ import com.softserve.entity.Question;
 
 /**
  * Implements QuestionDao
+ *
  * @author Ivan
  *
  */
@@ -69,7 +70,8 @@ public class QuestionDaoImpl implements QuestionDao {
 	@Override
 	public List<Question> getAllQuestions() {
 		LOG.debug("Get all questions");
-		Query query = entityManager.createQuery("FROM Question q WHERE q.isDeleted = :val");
+		Query query = entityManager
+				.createQuery("FROM Question q WHERE q.isDeleted = :val");
 		query.setParameter("val", false);
 		return query.getResultList().isEmpty() ? null : query.getResultList();
 	}

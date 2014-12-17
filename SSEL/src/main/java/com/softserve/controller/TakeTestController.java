@@ -55,10 +55,10 @@ public class TakeTestController {
 
 	@Autowired
 	private GroupService groupService;
-	
+
 	@Autowired
 	private CourseSchedulerService courseSchedulerService;
-	
+
 	@Autowired
 	private RatingService ratingService;
 
@@ -93,45 +93,37 @@ public class TakeTestController {
 	@RequestMapping(value = "/submitTest", method = RequestMethod.POST)
 	public String submitTest(@RequestParam(value = "testId", required = true) Integer testId,
 			@RequestParam(value = "questionId", required = true) Integer questionId,
-			@RequestParam(value = "choices[]", required = false) ArrayList<Integer> choices,
-			Model model) {
-		
-		Integer userId = userService.getUserByEmail(
-				userService.getCurrentUser()).getId();
-		
-		 TestStatistic testStatistic = new TestStatistic();
-		 testStatistic.setTest(testService.getTestById(testId));
-		 testStatistic.setQuestion(questionService.getQuestionById(questionId));
-		 testStatistic.setUser(userService.getUserById(userId));
-		 testStatistic.setUserAnswers(choices);
-		 testStatistic.setGroup(groupService.getGroupsByStudent(userId).get(0));
-		 		 
-		 ArrayList<Option> options  = new ArrayList<Option>();
-		 for (Integer i:choices) {
-			 Option option = new Option();
-			 if (i == 0) option.setIsCorrect(false);
-			 if (i == 1) option.setIsCorrect(true);
-			 options.add(option);
-		 }
-		 
-		 testStatistic.setUserResult((float) questionService.getUserMarkByQuestion(questionId, options)[0]);
-		 testStatistic.setMaxResult((int) questionService.getUserMarkByQuestion(questionId, options)[1]);
-		 
-		 testStatisticService.addTestStatistic(testStatistic);
-		 
-		
-		
-		
-		
+			@RequestParam(value = "choices[]", required = false) ArrayList<Integer> choices, Model model) {
 
-		List<TestStatistic> tsByUserByTestList = testStatisticService
-				.getTestStatisticByUserByTest(userId, testId);
-		float totalUserResult = ((float) testStatisticService
-				.getUserResultByTest(userId, testId) * 100);
+		Integer userId = userService.getUserByEmail(userService.getCurrentUser()).getId();
+
+		TestStatistic testStatistic = new TestStatistic();
+		testStatistic.setTest(testService.getTestById(testId));
+		testStatistic.setQuestion(questionService.getQuestionById(questionId));
+		testStatistic.setUser(userService.getUserById(userId));
+		testStatistic.setUserAnswers(choices);
+		testStatistic.setGroup(groupService.getGroupsByStudent(userId).get(0));
+
+		ArrayList<Option> options = new ArrayList<Option>();
+		for (Integer i : choices) {
+			Option option = new Option();
+			if (i == 0)
+				option.setIsCorrect(false);
+			if (i == 1)
+				option.setIsCorrect(true);
+			options.add(option);
+		}
+
+		testStatistic.setUserResult((float) questionService.getUserMarkByQuestion(questionId, options)[0]);
+		testStatistic.setMaxResult((int) questionService.getUserMarkByQuestion(questionId, options)[1]);
+
+		testStatisticService.addTestStatistic(testStatistic);
+
+		List<TestStatistic> tsByUserByTestList = testStatisticService.getTestStatisticByUserByTest(userId, testId);
+		float totalUserResult = ((float) testStatisticService.getUserResultByTest(userId, testId) * 100);
 		Rating newRating = new Rating();
 		newRating.setMark(totalUserResult);
-		newRating.setUser(userService.getUserByEmail(
-				userService.getCurrentUser()));
+		newRating.setUser(userService.getUserByEmail(userService.getCurrentUser()));
 		Test test = testService.getTestById(testId);
 		Block block = blockService.getBlockById(test.getBlock().getId());
 		CourseScheduler cs = courseSchedulerService.getCourseScheduleresBySubjectId(block.getSubject().getId()).get(0);
@@ -144,5 +136,18 @@ public class TakeTestController {
 
 		return "ok";
 
+	}
+
+	@RequestMapping(value = "/submitTest", method = RequestMethod.GET)
+	public String submitTest(@RequestParam(value = "testId", required = true) Integer testId, Model model) {
+		Integer userId = userService.getUserByEmail(userService.getCurrentUser()).getId();
+		List<TestStatistic> tsByUserByTestList = testStatisticService.getTestStatisticByUserByTest(userId, testId);
+		float totalUserResult = ((float) testStatisticService.getUserResultByTest(userId, testId) * 100);
+		
+		model.addAttribute("test", testService.getTestById(testId));
+		model.addAttribute("totalUserResult", totalUserResult);
+		model.addAttribute("tsByUserByTestList", tsByUserByTestList);
+		model.addAttribute("user", userService.getUserById(userId));
+		return "submitTest";
 	}
 }

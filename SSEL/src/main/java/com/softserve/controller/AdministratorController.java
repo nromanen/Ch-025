@@ -102,10 +102,10 @@ public class AdministratorController {
 	private CourseSchedulerService courseSchedulerService;
 
 	/**
-	 * Set parameters and redirect to main administrator page
-	 * page.
+	 * Handle view administrator main page request
 	 *
-	 * @param model the model
+	 * @param model
+	 *            the model
 	 * @return administrator URL
 	 */
 	@RequestMapping(value = "/administrator", method = RequestMethod.GET)
@@ -115,44 +115,16 @@ public class AdministratorController {
 			Model model) {
 		LOG.debug("Visit administrator page");
 
-
-//		Question question = new Question();
-//
-//		question.setTest(testService.getTestById(2));
-//
-//		QuestionText qt = new QuestionText();
-//		qt.setValue("How old are you?");
-//
-//		Option o1 = new Option();
-//		o1.setCorrect(true);
-//		o1.setValue("Bigger than 0");
-//
-//		Option o2 = new Option();
-//		o2.setCorrect(false);
-//		o2.setValue("I don't know");
-//
-//		List<Option> options = new ArrayList<Option>();
-//		options.add(o1);
-//		options.add(o2);
-//		qt.setOptions(options);
-//
-//		question.setMark(5);
-//
-//		question.setQuestionText(qt);
-//
-//		questionService.addQuestion(question);
-
-
-//		System.out.println("--Base64->" + questionService.getQuestionById(1).getQuestionText());
-//		System.out.println("--Question->" + questionService.getQuestionById(1).getQuestion());
-//		System.out.println("--Option->" + questionService.getQuestionById(1).getQuestion().getOptions().get(1).getValue());
-
-
 		long subjectsCount = subjectService.getCountOfSubjects();
 		int categoriesCount = categoryService.getAllCategories().size();
 		long usersCount = userService.getCountOfUsers();
+		int futureCourceCount = courseSchedulerService.getFutureCoursesCount();
+		long teachersCount = userService.getCountOfUsersByRole("teacher");
+		long tempFilesSize = administratorService
+				.getDocumentsForInactiveTopicsSize();
 		String supportEmail = administratorService.getSupportEmail();
-		Map<String, Long> listMap = administratorService.getCountRegistredUsersByLastDays(DEFAULT_LAST_REGISTRED_DAYS);
+		Map<String, Long> listMap = administratorService
+				.getCountRegistredUsersByLastDays(DEFAULT_LAST_REGISTRED_DAYS);
 		List<String> lastRegDates = new ArrayList<String>();
 		List<Long> lastRegUsers = new ArrayList<Long>();
 
@@ -165,23 +137,14 @@ public class AdministratorController {
 			lastRegUsers.add(count);
 		}
 
-		administratorService.getDocumentsForInactiveTopicsSize();
-
-		int futureCourceCount = courseSchedulerService.getFutureCoursesCount();
-		model.addAttribute("futureCourceCount", futureCourceCount);
-
-		long teachersCount = userService.getCountOfUsersByRole("teacher");
-		model.addAttribute("teachersCount", teachersCount);
-
-		long tempFilesSize = administratorService.getDocumentsForInactiveTopicsSize();
-		model.addAttribute("tempFilesSize", tempFilesSize);
-
-		model.addAttribute("lastRegDates", lastRegDates);
-		model.addAttribute("lastRegUsers", lastRegUsers);
-
 		setMessage(model, successMessage, errorMessage);
 		setAactiveTeacherRequests(model);
 
+		model.addAttribute("futureCourceCount", futureCourceCount);
+		model.addAttribute("teachersCount", teachersCount);
+		model.addAttribute("tempFilesSize", tempFilesSize);
+		model.addAttribute("lastRegDates", lastRegDates);
+		model.addAttribute("lastRegUsers", lastRegUsers);
 		model.addAttribute("subjectsCount", subjectsCount);
 		model.addAttribute("categoriesCount", categoriesCount);
 		model.addAttribute("usersCount", usersCount);
@@ -191,7 +154,7 @@ public class AdministratorController {
 	}
 
 	/**
-	 * Set parameters and redirect to page with categories.
+	 * Handle view all categories request.
 	 *
 	 * @param successMessage
 	 *            the success message
@@ -216,13 +179,13 @@ public class AdministratorController {
 	}
 
 	/**
-	 * Delete category and redirect to page with categories.
+	 * Handle delete category request
 	 *
 	 * @param categoryId
 	 *            the category id
 	 * @param redirectAttributes
 	 *            the redirect attributes
-	 * @return viewAllCategories URL
+	 * @return viewAllCategories
 	 */
 	@RequestMapping(value = "/deleteCategory", method = RequestMethod.GET)
 	public String deleteCategory(
@@ -252,14 +215,13 @@ public class AdministratorController {
 	}
 
 	/**
-	 * Create new category and redirect to page with
-	 * categories.
+	 * Handle create new category request
 	 *
 	 * @param categoryName
 	 *            the category name
 	 * @param redirectAttributes
 	 *            the redirect attributes
-	 * @return viewAllCategories URL
+	 * @return viewAllCategories
 	 */
 	@RequestMapping(value = "/addCategory")
 	public String addCategory(
@@ -294,13 +256,13 @@ public class AdministratorController {
 	}
 
 	/**
-	 * Change category name
+	 * Handle change category name request
 	 *
 	 * @param categoryId
 	 *            the category id
 	 * @param category
 	 *            the category new name
-	 * @return viewAllCategories URL
+	 * @return viewAllCategories
 	 */
 	@RequestMapping(value = "/changeCategory", method = RequestMethod.POST)
 	public String changeCategory(
@@ -332,8 +294,7 @@ public class AdministratorController {
 	}
 
 	/**
-	 * Set parameters and redirect to page with
-	 * users.
+	 * Handle view all users request
 	 *
 	 * @param successMessage
 	 *            the success message
@@ -425,8 +386,7 @@ public class AdministratorController {
 	}
 
 	/**
-	 * Change user role and redirect to page with
-	 * users.
+	 * Handle change user role request
 	 *
 	 * @param userId
 	 *            the user id
@@ -446,7 +406,7 @@ public class AdministratorController {
 	 *            the sort method
 	 * @param redirectAttributes
 	 *            the redirect attributes
-	 * @return viewAllUsers URL
+	 * @return viewAllUsers
 	 */
 	@RequestMapping(value = "/changeUserRole", method = RequestMethod.GET)
 	public String changeUserRole(
@@ -501,8 +461,7 @@ public class AdministratorController {
 	}
 
 	/**
-	 * Change user status and redirect to page
-	 * with users.
+	 * Handle change user status request
 	 *
 	 * @param userId
 	 *            the user id
@@ -584,7 +543,7 @@ public class AdministratorController {
 	}
 
 	/**
-	 * Set parameters and shows subjects
+	 * Handle view all subjects request
 	 *
 	 * @param successMessage
 	 *            the success message
@@ -604,7 +563,7 @@ public class AdministratorController {
 	 *            the sort method
 	 * @param model
 	 *            the model
-	 * @return viewAllSubjects
+	 * @return viewAllSubjects URL
 	 */
 	@RequestMapping(value = "/viewAllSubjects")
 	public String viewAllSubjects(
@@ -668,7 +627,7 @@ public class AdministratorController {
 	}
 
 	/**
-	 * Change subject category
+	 * Handle change subject category request
 	 *
 	 * @param subjectId
 	 *            the subject id
@@ -686,8 +645,6 @@ public class AdministratorController {
 	 *            the sort by
 	 * @param sortMethod
 	 *            the sort method
-	 * @param model
-	 *            the model
 	 * @param redirectAttributes
 	 *            the redirect attributes
 	 * @return viewAllSubjects
@@ -745,8 +702,7 @@ public class AdministratorController {
 	}
 
 	/**
-	 * Shows requests and redirect to page with
-	 * requests.
+	 * Handle view all requests request
 	 *
 	 * @param successMessage
 	 *            the success message
@@ -772,8 +728,7 @@ public class AdministratorController {
 	}
 
 	/**
-	 * Change role to teacher and redirect
-	 * to page with requests.
+	 * Handle change role to teacher request
 	 *
 	 * @param userId
 	 *            the user id
@@ -814,7 +769,7 @@ public class AdministratorController {
 	}
 
 	/**
-	 * Hide teacher request.
+	 * Handle delete teacher request
 	 *
 	 * @param userId
 	 *            the user id
@@ -848,7 +803,7 @@ public class AdministratorController {
 	}
 
 	/**
-	 * Change support email
+	 * Handle change support email request
 	 *
 	 * @param email
 	 *            the new email
@@ -875,21 +830,20 @@ public class AdministratorController {
 	}
 
 	/**
-	 * Delete temporary files from disk
+	 * Handle Delete temporary files request
 	 *
 	 * @param redirectAttributes
 	 *            the redirect attributes
 	 * @return administrator
 	 */
 	@RequestMapping(value = "/deleteTemporaryFiles")
-	public String deleteTemporaryFiles(
-			RedirectAttributes redirectAttributes) {
+	public String deleteTemporaryFiles(RedirectAttributes redirectAttributes) {
 		LOG.debug("Visit deleteTemporaryFiles page");
-//		studentCabinetService.rescheduleDeleteInactive();
+		// studentCabinetService.rescheduleDeleteInactive();
 		administratorService.deleteTemporaryFiles();
 
 		redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE,
-					getSpringMessage("message.admin.files_deleted"));
+				getSpringMessage("message.admin.files_deleted"));
 		return "redirect:/administrator";
 	}
 
@@ -898,7 +852,7 @@ public class AdministratorController {
 	 *
 	 * @param categoryId
 	 *            the category id
-	 * @return the string
+	 * @return information about checked category
 	 */
 	@RequestMapping(value = "/checkCategory", method = RequestMethod.POST)
 	public @ResponseBody String checkCategory(
@@ -917,7 +871,7 @@ public class AdministratorController {
 	 *
 	 * @param categoryId
 	 *            the current category id
-	 * @return the string
+	 * @return string with categories
 	 */
 	@RequestMapping(value = "/getCategory", method = RequestMethod.POST)
 	public @ResponseBody String getCategory(
@@ -938,11 +892,11 @@ public class AdministratorController {
 	}
 
 	/**
-	 * Get roles it's method get all roles without current.
+	 * Get all roles without current.
 	 *
 	 * @param roleId
 	 *            the current role id
-	 * @return the string
+	 * @return string with roles
 	 */
 	@RequestMapping(value = "/getRole", method = RequestMethod.POST)
 	public @ResponseBody String getRole(
@@ -965,9 +919,12 @@ public class AdministratorController {
 	/**
 	 * Check messages and set it into model.
 	 *
-	 * @param model the model
-	 * @param successMessage the success message
-	 * @param errorMessage the message with error
+	 * @param model
+	 *            the model
+	 * @param successMessage
+	 *            the success message
+	 * @param errorMessage
+	 *            the message with error
 	 */
 	private void setMessage(Model model, String successMessage,
 			String errorMessage) {
@@ -982,9 +939,12 @@ public class AdministratorController {
 	/**
 	 * Set pagination properties for pages.
 	 *
-	 * @param model the model
-	 * @param elementsOnPage the elements on page
-	 * @param errorMessage the message with error
+	 * @param model
+	 *            the model
+	 * @param elementsOnPage
+	 *            the elements on page
+	 * @param errorMessage
+	 *            the message with error
 	 */
 	private void setPaginationProperties(Model model, Integer elementsOnPage,
 			Integer currentPage) {
@@ -1009,9 +969,12 @@ public class AdministratorController {
 	/**
 	 * Set sort parameters for pages.
 	 *
-	 * @param model the model
-	 * @param sortBy the field to sort
-	 * @param sortMethod the sort order
+	 * @param model
+	 *            the model
+	 * @param sortBy
+	 *            the field to sort
+	 * @param sortMethod
+	 *            the sort order
 	 */
 	private void setSortParameters(Model model, String sortBy, String sortMethod) {
 		if (sortBy == null && sortMethod == null) {
@@ -1026,10 +989,12 @@ public class AdministratorController {
 	}
 
 	/**
-	 * Set count of pagination count.
+	 * Set count of pagination.
 	 *
-	 * @param model the model
-	 * @param count the count of elements
+	 * @param model
+	 *            the model
+	 * @param count
+	 *            the count of elements
 	 */
 	private void setPagesCount(Model model, long count) {
 		int pages = (int) count / this.elementsOnPage;
@@ -1042,7 +1007,8 @@ public class AdministratorController {
 	/**
 	 * Set count of teaher requests.
 	 *
-	 * @param model the model
+	 * @param model
+	 *            the model
 	 */
 	private void setAactiveTeacherRequests(Model model) {
 		activeTeacherRequests = (int) teacherRequestService
@@ -1050,11 +1016,11 @@ public class AdministratorController {
 		model.addAttribute("activeTeacherRequests", activeTeacherRequests);
 	}
 
-	// change try catch bla bla foreach...
 	/**
 	 * Check string for special chars
 	 *
-	 * @param str the string to check
+	 * @param str
+	 *            the string to check
 	 * @return String
 	 */
 	private String beforeSearch(String str) {
@@ -1066,7 +1032,9 @@ public class AdministratorController {
 
 	/**
 	 * Set quotes and other special chars into string
-	 * @param str the string
+	 *
+	 * @param str
+	 *            the string
 	 * @return String
 	 */
 	private String afterSearch(String str) {
@@ -1076,8 +1044,10 @@ public class AdministratorController {
 	}
 
 	/**
-	 * Get text that depends from location
-	 * @param key the key of message
+	 * Get text that depends from page language
+	 *
+	 * @param key
+	 *            the key of message
 	 * @return string
 	 */
 	private String getSpringMessage(String key) {

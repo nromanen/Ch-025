@@ -45,9 +45,16 @@
 						</table>
 						<br />
 					</c:forEach>
-					<button type="button" class="btn btn-info" id="submitTest">
+
+					<button type="button" class="btn btn-primary btn-lg"
+						data-toggle="modal" data-target="#myModal"
+						onClick="prepereModal('','')">
 						<spring:message code="label.teacher.save" />
 					</button>
+
+					<%-- <button type="button" class="btn btn-info" id="submitTest">
+						<spring:message code="label.teacher.save" />
+					</button> --%>
 				</div>
 			</div>
 		</div>
@@ -62,10 +69,11 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$("#submitTest").click(function() {
-			//	if (confirm('Are you sure?')) {
+			
+			//if (confirm(prepereModal('',''))) {
 
 			$('table').each(function(j, ele) {
-				testId0 = '${test.id}';
+				//testId0 = '${test.id}';
 				str = "";
 				var choises = new Array();
 
@@ -78,12 +86,12 @@
 						choises.push(0);
 					}
 				});
-				
+
 				$.ajax({
 					type : "POST",
 					url : "submitTest",
 					data : {
-						testId : testId0,
+						testId : '${test.id}',
 						questionId : $(ele).attr('id'),
 						'choices[]' : choises
 					}
@@ -91,8 +99,39 @@
 
 			});
 
-			window.location.href = "userTestStatistic?testId=" + testId0;
-
+			window.location.href = "submitTest?testId=" + ${test.id};
+			//}
 		});
+
 	});
 </script>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+	aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+				</button>
+				<h2 class="modal-title" id="myModalLabel">
+					Ви впевнені?
+				</h2>
+			</div>
+			<div class="modal-body">
+			Точно?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-info" id="submitTest">
+						<spring:message code="label.teacher.save" />
+					</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">
+					<spring:message code="label.student.close_modal" />
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+

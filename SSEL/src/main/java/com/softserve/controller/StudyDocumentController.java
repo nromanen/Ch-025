@@ -120,7 +120,7 @@ public class StudyDocumentController {
 
 	@RequestMapping(value = "delete/{id}", method = RequestMethod.DELETE)
 	@ResponseBody
-	public List delete(@PathVariable Long id) {
+	public List<Map<String, Object>> delete(@PathVariable Long id) {
 		studyDocumentDao.delete(id);
 		List<Map<String, Object>> results = new ArrayList<>();
 		Map<String, Object> success = new HashMap<>();

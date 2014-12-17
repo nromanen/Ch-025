@@ -6,15 +6,15 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+/**
+ * @author Ivan
+ */
 @XmlRootElement(name = "question")
 @XmlType(propOrder = { "value", "options" })
 public class QuestionText {
 	private String value;
 	private List<Option> options;
 
-	/**
-	 *
-	 */
 	public QuestionText() {
 	}
 
