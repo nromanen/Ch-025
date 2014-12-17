@@ -9,7 +9,7 @@ import com.softserve.entity.Test;
 import com.softserve.util.Patterns;
 /**
  * Validate test
- * @author Anatoliy
+ * @author Anatoliy & andriy
  *
  */
 @Component

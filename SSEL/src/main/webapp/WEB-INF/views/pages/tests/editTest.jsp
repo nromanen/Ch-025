@@ -44,8 +44,8 @@
     	</div>
      	<form:hidden path="isAlive" />
      	<form:hidden path="isDeleted" />
-            <input type="submit" value="<spring:message code="label.teacher.save"/>"
-             class="btn btn-primary btn-lg" style="margin-left: -15px;"/>
+            <input type="submit" disabled="disabled" value="<spring:message code="label.teacher.save"/>"
+             class="btn btn-primary btn-lg" style="margin-left: -15px;" id="subm"/>
 		</form:form>
 		</div>
 		</div>
