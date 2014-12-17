@@ -5,6 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <script src="resources/ckeditor/ckeditor.js"></script>
+<script src="resources/js/validate.js"></script>
 
 <div class="row">
 	<div class="panel panel-default" style="border:none;">
@@ -43,8 +44,8 @@
     	</div>
      	<form:hidden path="isAlive" />
      	<form:hidden path="isDeleted" />
-            <input type="submit" value="<spring:message code="label.teacher.save"/>"
-             class="btn btn-primary btn-lg" style="margin-left: -15px;"/>
+            <input type="submit" disabled="disabled" value="<spring:message code="label.teacher.save"/>"
+             class="btn btn-primary btn-lg" style="margin-left: -15px;" id="subm"/>
 		</form:form>
 		</div>
 		</div>

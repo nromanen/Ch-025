@@ -22,8 +22,8 @@ import com.softserve.service.GroupService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-		"file:src/main/webapp/WEB-INF/spring/forTest/root-context.xml",
-		"file:src/main/webapp/WEB-INF/spring/forTest/data.xml" })
+		"file:src/main/webapp/WEB-INF/spring/fortest/root-context.xml",
+		"file:src/main/webapp/WEB-INF/spring/fortest/data.xml" })
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
 		DbUnitTestExecutionListener.class })
 

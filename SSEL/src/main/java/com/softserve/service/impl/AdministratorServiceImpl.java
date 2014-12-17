@@ -100,6 +100,7 @@ public class AdministratorServiceImpl implements AdministratorService {
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
+		calendar.add(Calendar.DATE, 1);
 
 		for (int i = 1; i <= lastDays; i++) {
 			endDate = calendar.getTime();
