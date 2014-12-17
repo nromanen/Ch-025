@@ -76,7 +76,7 @@ public class StudentCabinetServiceTest {
 		int before = studentGroupService.getAllStudentGroups().size();
 		studentCabinetService.subscribe(cs, user, true);
 		int after = studentGroupService.getAllStudentGroups().size();
-		Assert.assertEquals(before, after);
+		Assert.assertNotEquals(before, after);
 		studentGroupService.deleteStudentGroup(studentGroupService.getStudentGroupById(1));
 	}
 	
@@ -90,6 +90,5 @@ public class StudentCabinetServiceTest {
 		int before = studentGroupService.getAllStudentGroups().size();
 		studentCabinetService.subscribe(cs, user, false);
 		int after = studentGroupService.getAllStudentGroups().size();
-		Assert.assertEquals(before, after);
-	}
+		Assert.assertNotEquals(before, after);	}
 }

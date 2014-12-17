@@ -116,21 +116,24 @@ public class AdministratorServiceImpl implements AdministratorService {
 		String rootPath = getClass().getResource("/").getFile();
 		File earDir = new File(rootPath).getParentFile();
 		earDir = new File(earDir.getParentFile() + "/resources/tmp");
-		ArrayList<File> files = new ArrayList<File>(Arrays.asList(earDir
-				.listFiles()));
-		StudyDocument document;
-		long size = 0;
-		for (File docFile : files) {
-			document = studyDocumentDao.getDocumentByName(new String(docFile
-					.getName().toString()), docFile.length());
-			if (document != null) {
-				if (document.getTopic().isAlive()) {
-					continue;
+		if (earDir.list() != null) {
+			ArrayList<File> files = new ArrayList<File>(Arrays.asList(earDir
+					.listFiles()));
+			StudyDocument document;
+			long size = 0;
+			for (File docFile : files) {
+				document = studyDocumentDao.getDocumentByName(new String(
+						docFile.getName().toString()), docFile.length());
+				if (document != null) {
+					if (document.getTopic().isAlive()) {
+						continue;
+					}
 				}
+				size += docFile.length();
 			}
-			size += docFile.length();
+			return size;
 		}
-		return size;
+		return 0;
 	}
 
 	public void deleteTemporaryFiles() {

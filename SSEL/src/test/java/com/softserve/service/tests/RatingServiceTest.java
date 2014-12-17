@@ -27,6 +27,7 @@ import com.softserve.service.BlockService;
 import com.softserve.service.GroupService;
 import com.softserve.service.RatingService;
 import com.softserve.service.StudentGroupService;
+import com.softserve.service.TestService;
 import com.softserve.service.UserService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -52,15 +53,18 @@ public class RatingServiceTest {
 	@Autowired
 	private BlockService blockService;
 	
+	@Autowired
+	private TestService testService;
+	
 	@Test
 	@DatabaseSetup("classpath:ratingTestDataset.xml")
 	@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = "classpath:ratingTestDataset.xml")
 	public void testAddRating() {
 		Rating newRecord = new Rating();
-		newRecord.setRatingId(3);
-		newRecord.setMark(95.0);
+		newRecord.setMark(67.0);
 		User user = userService.getUserById(2);
 		Group group = studentGroupService.getStudentGroupById(2).getGroupNumber();
+		newRecord.setTest(testService.getTestById(1));
 		newRecord.setGroup(group);
 		newRecord.setUser(user);
 		Rating rating = ratingService.addRating(newRecord);
@@ -75,7 +79,7 @@ public class RatingServiceTest {
 		newRecord.setMark(64);
 		User user = userService.getUserById(2);
 		Group group = studentGroupService.getStudentGroupById(2).getGroupNumber();
-		Block block = blockService.getBlockById(1);
+		newRecord.setTest(testService.getTestById(1));
 		newRecord.setGroup(group);
 		newRecord.setUser(user);
 		Rating rating = ratingService.updateRating(newRecord);

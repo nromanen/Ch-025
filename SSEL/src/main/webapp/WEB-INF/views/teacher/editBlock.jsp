@@ -76,16 +76,35 @@
 
 <script type="text/javascript">
 
+function parseDate(input) {
+	  var parts = input.match(/(\d+)/g);
+	  return new Date(parts[2], parts[1]-1, parts[0]);
+	}
 
 jQuery.validator.addMethod("greaterThan", 
 		function(value, element, params) {
+	myTime = $("#startTime").val();
+	myTime = parseDate(myTime);
+	endTime = new Date(value);
+	//t = new Date(getYear(), getMonth(), getDay());
+	
+	s = value.split("-");
+	//alert(value +"   "+new Date(s[1]+"-"+s[0]+"-"+s[2]));
 
-		    if (!/Invalid|NaN/.test(new Date(value))) {
+	//alert(new Date("12-5-2014"));
+	
+	//myTime = myTime.toString('dd.MM.yyyy')
+	//alert(myTime);
+	//myTime.format.date(new Date, 'dd-mm-yyyy')
+	//alert(new Date(value) +"    "+ myTime);
+return new Date(s[1]+"-"+s[0]+"-"+s[2]) > myTime;
+		   /* if (!/Invalid|NaN/.test(new Date(value))) {
+		    	alert("1"+value);
 		        return new Date(value) > new Date($(params).val());
 		    }
-
+alert("2"+value);
 		    return isNaN(value) && isNaN($(params).val()) 
-		        || (Number(value) > Number($(params).val())); 
+		        || (Number(value) > Number($(params).val())); */
 		},'Must be greater than {0}.');
 
 
@@ -125,7 +144,7 @@ jQuery.validator.addMethod("greaterThan",
 				endTime : {
 					required : true,
 					regexp : "^[0-9]{2}\-[0-9]{2}\-[0-9]{4}",
-					greaterThan: "#startTime"
+					greaterThan: '$("#startTime")'
 				},
 			}
 

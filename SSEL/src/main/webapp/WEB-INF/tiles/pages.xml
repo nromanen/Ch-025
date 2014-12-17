@@ -142,36 +142,44 @@
 	<!-- Tests -->
 	<definition name="tests" extends="base-template">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Tests" />
-		<put-attribute name="content" value="/WEB-INF/views/pages/tests/tests.jsp" />
-		<put-attribute name="menu"  value="/WEB-INF/views/templates/tests_menu.jsp"/>
+		<put-attribute name="content"
+			value="/WEB-INF/views/pages/tests/tests.jsp" />
+		<put-attribute name="menu"
+			value="/WEB-INF/views/templates/tests_menu.jsp" />
 	</definition>
-	
+
 	<definition name="editTest" extends="base-template">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Edit test" />
-		<put-attribute name="content" value="/WEB-INF/views/pages/tests/editTest.jsp" />
-		<put-attribute name="menu"  value="/WEB-INF/views/templates/tests_menu.jsp"/>
+		<put-attribute name="content"
+			value="/WEB-INF/views/pages/tests/editTest.jsp" />
+		<put-attribute name="menu"
+			value="/WEB-INF/views/templates/tests_menu.jsp" />
 	</definition>
-	
+
 	<definition name="editQuestion" extends="base-template">
-		<put-attribute name="title" value="SSEL SoftServeAcademy Edit question" />
-		<put-attribute name="content" value="/WEB-INF/views/pages/tests/editQuestion.jsp" />
-		<put-attribute name="menu"  value="/WEB-INF/views/templates/tests_menu.jsp"/>
+		<put-attribute name="title"
+			value="SSEL SoftServeAcademy Edit question" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/pages/tests/editQuestion.jsp" />
+		<put-attribute name="menu"
+			value="/WEB-INF/views/templates/tests_menu.jsp" />
 	</definition>
-	
+
 	<definition name="testInfo" extends="base-template">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Test info" />
-		<put-attribute name="content" value="/WEB-INF/views/pages/tests/testInfo.jsp" />
-		<put-attribute name="menu"  value="/WEB-INF/views/templates/tests_menu.jsp"/>
+		<put-attribute name="content"
+			value="/WEB-INF/views/pages/tests/testInfo.jsp" />
+		<put-attribute name="menu"
+			value="/WEB-INF/views/templates/tests_menu.jsp" />
 	</definition>
-	
-	<definition name="userTestStatistic" extends="base-template">
+
+<definition name="userTestStatistic" extends="base-template">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
 		<put-attribute name="content"
 			value="/WEB-INF/views/pages/userTestStatistic.jsp"></put-attribute>
 		<put-attribute name="menu"
 			value="/WEB-INF/views/templates/student_menu.jsp"></put-attribute>
 	</definition>
-	
 	<!-- Course information -->
 	<definition name="courseInformation" extends="index">
 		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
@@ -235,5 +243,36 @@
 		<put-attribute name="menu"
 			value="/WEB-INF/views/templates/administrator_menu.jsp"></put-attribute>
 	</definition>
+
+	<definition name="testStatistic" extends="base-template">
+		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/pages/administrator/testStatistic.jsp"></put-attribute>
+		<put-attribute name="menu"
+			value="/WEB-INF/views/templates/student_menu.jsp"></put-attribute>
+	</definition>
+
+	<definition name="userTestStatistic" extends="base-template">
+		<put-attribute name="title" value="SSEL SoftServeAcademy Course" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/pages/userTestStatistic.jsp"></put-attribute>
+		<put-attribute name="menu"
+			value="/WEB-INF/views/templates/student_menu.jsp"></put-attribute>
+	</definition>
+
+	<definition name="takeTest" extends="base-template">
+		<put-attribute name="title" value="SSEL SoftServeAcademy Test" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/pages/tests/takeTest.jsp"></put-attribute>
+		<put-attribute name="menu"
+			value="/WEB-INF/views/templates/student_menu.jsp"></put-attribute>
+	</definition>
 	
+	<definition name="submitTest" extends="base-template">
+		<put-attribute name="title" value="SSEL SoftServeAcademy Test submit" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/pages/tests/submitTest.jsp"></put-attribute>
+		<put-attribute name="menu"
+			value="/WEB-INF/views/templates/student_menu.jsp"></put-attribute>
+	</definition>
 </tiles-definitions>
